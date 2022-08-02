@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2745c046a214c284fa96c9b3f0d53d52, type: 3}
+  m_Name: PatternTasks
+  m_EditorClassIdentifier: 
+  tasks:
+  - name: "\u0421\u043E\u0431\u0440\u0430\u0442\u044C \u0446\u0432\u0435\u0442\u043E\u0447\u043A\u0438"
+    ID: 101
+    rating: 1
+    heroes: []
+    requireHour: 2
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u041D\u0430\u0440\u0443\u0431\u0438\u0442\u044C \u0434\u0440\u043E\u0432\u0430"
+    ID: 102
+    rating: 1
+    heroes: []
+    requireHour: 1
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u041F\u0435\u0440\u0435\u0440\u0430\u0441\u0447\u0451\u0442 \u043F\u0440\u0438\u043F\u0430\u0441\u043E\u0432"
+    ID: 201
+    rating: 2
+    heroes: []
+    requireHour: 3
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u043F\u0440\u0438\u043D\u0446\u0435\u0441\u0441\u0443"
+    ID: 601
+    rating: 6
+    heroes: []
+    requireHour: 8
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0421\u043E\u0431\u0440\u0430\u0442\u044C \u0434\u0430\u043D\u044C"
+    ID: 301
+    rating: 3
+    heroes: []
+    requireHour: 5
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u041F\u043E\u0439\u043C\u0430\u0442\u044C \u043D\u0435\u0433\u043E\u0434\u044F\u0435\u0432"
+    ID: 202
+    rating: 2
+    heroes: []
+    requireHour: 4
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0421\u0434\u0430\u0442\u044C \u0415\u0413\u042D"
+    ID: 103
+    rating: 1
+    heroes: []
+    requireHour: 4
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u043C\u0438\u0440"
+    ID: 701
+    rating: 7
+    heroes: []
+    requireHour: 16
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C \u043C\u0435\u0447
+      \u043A\u043E\u0440\u043E\u043B\u044F \u041B\u0438\u0447\u0430"
+    ID: 702
+    rating: 7
+    heroes: []
+    requireHour: 16
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u044C \u043A\u0440\u044B\u0441
+      \u0432 \u0430\u043C\u0431\u0430\u0440\u0435"
+    ID: 402
+    rating: 4
+    heroes: []
+    requireHour: 2
+    strTimeStartTask: 0
+    status: 0
+  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u0440\u044F\u0434\u043E\u0432\u043E\u0433\u043E"
+    ID: 501
+    rating: 5
+    heroes: []
+    requireHour: 8
+    strTimeStartTask: 0
+    status: 0
+  rewardForTaskFromRating:
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 0
+      amount:
+        count: 10
+        e10: 3
+    delta: 0.25
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 12
+        e10: 0
+    delta: 0.25
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 12
+        e10: 0
+    delta: 0.25
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 3
+      amount:
+        count: 3
+        e10: 0
+    delta: 0.5
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 2
+      amount:
+        count: 800
+        e10: 0
+    delta: 0.25
+  - rating: 1
+    res:
+      sprite: {fileID: 0}
+      Name: 10
+      amount:
+        count: 400
+        e10: 0
+    delta: 0.25
+  - rating: 2
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 20
+        e10: 0
+    delta: 0.25
+  - rating: 3
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 40
+        e10: 0
+    delta: 0.25
+  - rating: 4
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 65
+        e10: 0
+    delta: 0.25
+  - rating: 5
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 100
+        e10: 0
+    delta: 0.25
+  - rating: 6
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 220
+        e10: 0
+    delta: 0.12
+  - rating: 7
+    res:
+      sprite: {fileID: 0}
+      Name: 1
+      amount:
+        count: 310
+        e10: 0
+    delta: 0.1
+  - rating: 7
+    res:
+      sprite: {fileID: 0}
+      Name: 7
+      amount:
+        count: 50
+        e10: 0
+    delta: 0.1
