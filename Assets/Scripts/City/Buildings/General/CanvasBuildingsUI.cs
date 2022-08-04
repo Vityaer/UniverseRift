@@ -11,8 +11,8 @@ public class CanvasBuildingsUI : MonoBehaviour{
 			listOpenBuilding.Peek().SetActive(false);
 		}else{
 			canvas.enabled = true;
-			MenuControllerScript.Instance.CloseMainPage();
-			MenuControllerScript.Instance.canvasCity.Close();
+			// MenuControllerScript.Instance.CloseMainPage();
+			// MenuControllerScript.Instance.canvasCity.Close();
 		}
 		newBuilding.SetActive(true);
 		listOpenBuilding.Push(newBuilding);
@@ -25,8 +25,8 @@ public class CanvasBuildingsUI : MonoBehaviour{
 
 		countOpenBuildng = listOpenBuilding.Count;
 		if(listOpenBuilding.Count == 0){
-			MenuControllerScript.Instance.OpenMainPage();
-			MenuControllerScript.Instance.canvasCity.Open();
+			// MenuControllerScript.Instance.OpenMainPage();
+			// MenuControllerScript.Instance.canvasCity.Open();
 			canvas.enabled = false;
 		}else{
 			listOpenBuilding.Peek().SetActive(true);

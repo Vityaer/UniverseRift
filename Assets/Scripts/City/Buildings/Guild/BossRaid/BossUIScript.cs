@@ -10,9 +10,9 @@ public class BossUIScript : MonoBehaviour, IWorkWithWarTable{
 	[SerializeField] private Text textHPBoss;
 
 	public void UpdateUI(){
-		MissionEnemy boss = bossController.GetBoss();
-		textHPBoss.text =  boss.CurrentHP.ToString();
-		sliderHP.ChangeValue(boss.CurrentHP/boss.HP);
+		// MissionEnemy boss = bossController.GetBoss();
+		// textHPBoss.text =  boss.CurrentHP.ToString();
+		// sliderHP.ChangeValue(boss.CurrentHP/boss.HP);
 	}
 	public void Change(bool isOpen){
 		if(!isOpen){ Open(); }else{ Close(); }

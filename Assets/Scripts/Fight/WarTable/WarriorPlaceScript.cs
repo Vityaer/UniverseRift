@@ -40,9 +40,8 @@ public class WarriorPlaceScript : MonoBehaviour{
         textLevel.text = "";
 	}
     public void SetEnemy(MissionEnemy enemy){
-        hero = new InfoHero(enemy.enemyPrefab);
+        hero = (InfoHero) enemy.enemyPrefab.Clone();
         hero.PrepareHeroWithLevel(enemy.level);
-        hero.characts.HP = Math.Max(enemy.GetHP, hero.characts.HP);
         UpdateUI();
     }
     public bool IsEmpty(){ return (card == null) ? true : false; }

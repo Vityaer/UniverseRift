@@ -25,7 +25,7 @@ public class MagicCircleScript : Building{
 			}else{
 				workList = workList.FindAll(x => ((x.generalInfo.ratingHero == 5) && (x.generalInfo.race == selectedRace)));
 			}
-			hero = new InfoHero(workList[ UnityEngine.Random.Range(0, workList.Count) ]);
+			hero = (InfoHero) workList[ UnityEngine.Random.Range(0, workList.Count) ].Clone();
 
 			if(hero != null){
 				hero.generalInfo.Name = hero.generalInfo.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();

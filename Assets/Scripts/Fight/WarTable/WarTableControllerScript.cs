@@ -124,8 +124,10 @@ public class WarTableControllerScript : MonoBehaviour{
 		List<MissionEnemy> listEnemy = mission.listEnemy;
 		InfoHero[] heroes = new InfoHero[listEnemy.Count];
 		for (int i = 0; i < listEnemy.Count; i++) {
-			rightTeam[i].SetEnemy(listEnemy[i]);
-			heroes[i] = listEnemy[i].enemyPrefab;
+			if(listEnemy[i].enemyPrefab != null){
+				rightTeam[i].SetEnemy(listEnemy[i]);
+				heroes[i] = listEnemy[i].enemyPrefab;
+			}
 		}
 		UpdateStrengthTeam(isLeft: false);
 		FillListHeroes(listHeroes);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using ObjectSave;
-public class ChallengeTowerScript : Building{
+public class ChallengeTowerScript : BuildingWithFight{
 	public int countShowMission = 8;
 	public ListMissions listMissions;
 	public List<TowerMissionCotrollerScript> missionsUI = new List<TowerMissionCotrollerScript>();
@@ -20,9 +20,7 @@ public class ChallengeTowerScript : Building{
 		currentMission = challengeTower.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
 		LoadMissions();
 	}
-	protected override void OpenPage(){
-		WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
-	}
+
 	int skipStart = 2;
 	private void LoadMissions(){
 		skipStart = currentMission > bottomMissionsUI.Count ? bottomMissionsUI.Count : 0;
@@ -46,36 +44,15 @@ public class ChallengeTowerScript : Building{
 
 
 //After fight
-    public void OpenMission(Mission mission){
-    	FightControllerScript.Instance.RegisterOnFightResult(OnResultFight);
-		WarTableControllerScript.Instance.OpenMission(mission, OnAfterFight);
-    }
-	public void OnAfterFight(bool isOpen){
-		if(!isOpen){ Open(); }else{ Close(); }
-	} 
 
-	public void OnResultFight(FightResult result){
+	protected override void OnResultFight(FightResult result){
 		if(result == FightResult.Win){
-			OnWinMission(currentMission);
+			OnWinFight(currentMission);
 			currentMission += 1;
 			challengeTower.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
 			LoadMissions();
 			SaveGame();
 		}
-		OnTryCompleteMission();
+		OnTryFight();
 	}
-	private Action<BigDigit> observerTryCompleteMission, observerCompleteMission;
-	public void RegisterOnTryCompleteMision(Action<BigDigit> d){observerTryCompleteMission += d;}
-	public void UnregisterOnTryCompleteMision(Action<BigDigit> d){observerTryCompleteMission -= d;}
-	private void OnTryCompleteMission(){
-		if(observerTryCompleteMission != null)
-			observerTryCompleteMission(new BigDigit(1));
-	}
-	public void RegisterOnCompleteMision(Action<BigDigit> d){observerCompleteMission += d;}
-	public void UnregisterOnCompleteMision(Action<BigDigit> d){observerCompleteMission -= d;}
-	private void OnWinMission(int num){
-		if(observerCompleteMission != null)
-			observerCompleteMission(new BigDigit(num));
-	}
-
 }

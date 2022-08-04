@@ -73,6 +73,7 @@ namespace ObjectSave{
 		public BuildingWithFightTeams challengeTowerBuilding = new BuildingWithFightTeams();
 		public BuildingWithFightTeams mainCampaignBuilding = new BuildingWithFightTeams();
 		public BuildingWithFightTeams travelCircleBuilding = new BuildingWithFightTeams();
+		public ArenaBuildingSave arenaBuilding = new ArenaBuildingSave();
 		public SimpleBuildingSave tutorial = new SimpleBuildingSave();
 	}	
 //Mines
@@ -229,6 +230,9 @@ namespace ObjectSave{
 		public void SetRecordTeam(string name, TeamFight newTeam){
 
 		} 
+	}
+	[System.Serializable]
+	public class ArenaBuildingSave : BuildingWithFightTeams{
 	}
 //BaseRecord
 	[System.Serializable]

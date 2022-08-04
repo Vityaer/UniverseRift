@@ -21,7 +21,7 @@ public class NewHeroScript : MonoBehaviour{
 	public void GetNewHero(){
 		PlayerScript.Instance.SubtractResource(DiamondCost);
 		
-		InfoHero hero = new InfoHero(listNewHero[ Random.Range(0, listNewHero.Count) ]);
+		InfoHero hero = (InfoHero) (listNewHero[ Random.Range(0, listNewHero.Count) ].Clone());
 		hero.generalInfo.Name = hero.generalInfo.Name + " №" + Random.Range(0, 1000).ToString();
 		GetNewHero(hero);
 		MessageControllerScript.Instance.AddMessage("Новый герой! Это - " + hero.generalInfo.Name);

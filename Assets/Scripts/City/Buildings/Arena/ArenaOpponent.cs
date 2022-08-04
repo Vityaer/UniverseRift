@@ -16,6 +16,5 @@ public class ArenaOpponent{
 	public int LoseCount{get => loseCount;}
 	[Header("Squad")]
 	[SerializeField]
-	private Mission mission;
-	public Mission GetMission(){return mission;}
+	public Mission mission;
 }

@@ -9,7 +9,7 @@ public class CityControllerScript : MonoBehaviour{
 	[Header("UI")]
 	private Canvas canvasCity;
 	public FooterButtonScript btnOpenClose;
-	public GameObject background;
+	public GameObject background, cityParent;
 	[Header("UI Button")]
 	[SerializeField] GameObject canvasButtonsUI; 
 	void Awake(){
@@ -24,11 +24,13 @@ public class CityControllerScript : MonoBehaviour{
 		canvasCity.enabled = true;
 		sliderCity.enabled = true;
 		canvasButtonsUI.SetActive(true);
+		cityParent.SetActive(true);
 		BackGroundControllerScript.Instance.OpenBackground(background);
 	}
 	public void Close(){
 		canvasCity.enabled = false;
 		sliderCity.enabled = false;	
+		cityParent.SetActive(false);
 		canvasButtonsUI.SetActive(false);
 	}
 }

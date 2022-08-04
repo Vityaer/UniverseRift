@@ -4,12 +4,14 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine.UI;
+
 public class Building : SerializedMonoBehaviour{
 
 	[SerializeField] protected GameObject building;
 	[SerializeField] protected Button buttonOpenBuilding, buttonCloseBuilding;  
 	[Header("Main settings")]
-	[SerializeField] private int levelOpen = 0; 
+	[SerializeField] private int levelForAvailableBuilding = 0; 
+	
 	protected virtual void Start(){
 		OnStart();	
 		if(building != null){

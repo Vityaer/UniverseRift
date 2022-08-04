@@ -9,7 +9,7 @@ public class TravelCircleMissionControllerScript : BaseMissionController{
 	public RewardUIControllerScript rewardController;
 	public TextMeshProUGUI textNumMission, textOnButtonSelect;
 	public GameObject buttonSelect, imageCloseMission;
-	public Image backgoundMission, enemyImage;
+	public Image backgoundMission;
 	private StatusMission status = StatusMission.NotOpen;
 	int numMission = 0;
 	public void SetData(MissionWithSmashReward mission, int numMission){

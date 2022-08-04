@@ -6,5 +6,6 @@ using UnityEngine.UI;
 using Sirenix.Serialization;
 public class RaceUIScript : MonoBehaviour{
 	[SerializeField] private Image imageRace; 
-	public void SetData(Race newRace){ imageRace.sprite = SystemSprites.Instance.GetSprite(newRace); }
+	public void SetData(Race newRace){ imageRace.sprite = SystemSprites.Instance.GetSprite(newRace); currentRace = newRace; }
+	private Race currentRace;
 }

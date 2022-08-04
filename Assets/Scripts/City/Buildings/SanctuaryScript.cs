@@ -27,7 +27,7 @@ public class SanctuaryScript : BuildingWithHeroesList{
 			if(PlayerScript.Instance.CheckResource(resCost)){
 				heroes  = heroes.FindAll(x => ((x.generalInfo.ratingHero == selectedHero.hero.generalInfo.ratingHero) && (x.generalInfo.race == selectedHero.hero.generalInfo.race)&&(x.generalInfo.idHero != selectedHero.hero.generalInfo.idHero) ));
 				if(heroes.Count > 0){
-					newHero = new InfoHero(heroes[ Random.Range(0, heroes.Count) ]);
+					newHero = (InfoHero) heroes[ Random.Range(0, heroes.Count) ].Clone();
 					btnSave.gameObject.SetActive(true);
 				}
 			}

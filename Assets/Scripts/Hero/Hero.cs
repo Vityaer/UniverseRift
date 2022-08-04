@@ -38,7 +38,12 @@ public partial class Hero{
 		characts.HP         = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.HP) );
 		this.MaxHP          = this.characts.HP;
 		this.skills         = hero.skills;
-		currentBreakthrough = hero.Evolutions.currentBreakthrough;
+		if(hero.Evolutions != null){
+			currentBreakthrough = hero.Evolutions.currentBreakthrough;
+		}else{
+			Debug.Log("hero.Evolutions not exist, id-hero: " + hero.generalInfo.idHero.ToString());
+			currentBreakthrough = 0;
+		}
 	}
 	public void PrepareSkills(HeroControllerScript master){
 		foreach (Skill skill in skills){

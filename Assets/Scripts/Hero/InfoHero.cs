@@ -32,9 +32,6 @@ public class InfoHero : ScriptableObject, ICloneable{
 	
 	[Header("Breakthroughs")]
 	public BreakthroughHero Evolutions;
-	public InfoHero(InfoHero hero){
-		CopyData(hero);
-	}
 	private void CopyData(InfoHero Data){
 		this.generalInfo     = (GeneralInfoHero)Data.generalInfo.Clone();
 		this.incCharacts     = (IncreaseCharacteristics)Data.IncCharacts.Clone();

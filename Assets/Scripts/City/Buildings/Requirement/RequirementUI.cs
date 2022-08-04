@@ -71,10 +71,10 @@ public class RequirementUI : MonoBehaviour{
             case TypeRequirement.CountPointsOnTournament:
                 break;
             case TypeRequirement.TryCompleteChallangeTower:
-                  ChallengeTowerScript.Instance.RegisterOnTryCompleteMision(ChangeProgress);
+                  ChallengeTowerScript.Instance.RegisterOnTryFight(ChangeProgress);
                   break;
             case TypeRequirement.CompleteChallengeTower:
-                  ChallengeTowerScript.Instance.RegisterOnCompleteMision(ChangeProgress);
+                  ChallengeTowerScript.Instance.RegisterOnWinFight(ChangeProgress);
                   break;            
             // case TypeRequirement.GetHeroes:
             //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);
