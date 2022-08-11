@@ -37,10 +37,12 @@ public class GoldHeapScript : MonoBehaviour{
 	public void OnCloseSheet(){ Timer.StopTimer(timerChangeSprite); }
 	private void CheckSprite(){
     	int tact = FunctionHelp.CalculateCountTact(previousDateTime);
-    	if((tact >= 2) && (imageHeap.enabled == false)) imageHeap.enabled = true;
+    	if((tact >= 2) && (imageHeap.enabled == false)){
+    		imageHeap.enabled = true;
+			imageGoldRectTransform.DOScale(Vector2.one, 0.25f);
+		}
     	Debug.Log("previousDateTime: " + previousDateTime.ToString() + " and tact = " + tact.ToString());
     	imageHeap.sprite = listSpriteGoldHeap.GetSprite(tact);
-		imageGoldRectTransform.DOScale(Vector2.one, 0.25f);
     	timerChangeSprite = Timer.StartTimer(5f, CheckSprite);
 	}
 	void OffGoldHeap(){ imageGoldRectTransform.DOScale(Vector2.zero, 0.25f).OnComplete(OffSprite); }

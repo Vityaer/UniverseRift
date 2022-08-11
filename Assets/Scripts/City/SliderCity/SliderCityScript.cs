@@ -5,7 +5,10 @@ using DG.Tweening;
 using IdleGame.Touch;
 public class SliderCityScript : MonoBehaviour{
 
+	Vector2 leftPos, rightPos;
 	void Start(){
+		leftPos = new Vector2(-ScreenSize.X, 0);
+		rightPos = new Vector2(ScreenSize.X, 0);
 		curSheet = ListCitySheet.Count / 2;
 		SetStartPosition();
 		MainTouchControllerScript.Instance?.RegisterOnObserverSwipe(OnSwipe);
@@ -28,23 +31,23 @@ public class SliderCityScript : MonoBehaviour{
     }
 	public int curSheet;
 	public float scaleX = 3f, timeAnimMove = 0.25f;
-	public List<RectTransform> ListCitySheet = new List<RectTransform>();
+	public List<Transform> ListCitySheet = new List<Transform>();
 	public void SwipeLeft(){
-			ListCitySheet[curSheet].DOAnchorPos(new Vector2(Screen.width * scaleX, 0f), timeAnimMove);
+			ListCitySheet[curSheet].DOMove(rightPos, timeAnimMove);
 			if(curSheet > 0) curSheet--;
-			ListCitySheet[curSheet].DOAnchorPos(Vector2.zero, timeAnimMove);
+			ListCitySheet[curSheet].DOMove(Vector2.zero, timeAnimMove);
 	}
 	public void SwipeRight(){
-			ListCitySheet[curSheet].DOAnchorPos(new Vector2(-Screen.width * scaleX, 0f), timeAnimMove);
+			ListCitySheet[curSheet].DOMove(leftPos, timeAnimMove);
 			if(curSheet < ListCitySheet.Count - 1) curSheet++;
-			ListCitySheet[curSheet].DOAnchorPos(Vector2.zero, timeAnimMove);
+			ListCitySheet[curSheet].DOMove(Vector2.zero, timeAnimMove);
 	}
 	private void SetStartPosition(){
 		for(int i=0; i < curSheet; i++){
-			ListCitySheet[i].DOAnchorPos(new Vector2(-Screen.width * scaleX, 0f), 0f);
+			ListCitySheet[i].DOMove(leftPos, 0f);
 		}
 		for(int i=curSheet + 1; i < ListCitySheet.Count; i++){
-			ListCitySheet[i].DOAnchorPos(new Vector2(Screen.width * scaleX, 0f), 0f);
+			ListCitySheet[i].DOMove(rightPos, 0f);
 		}
 	}
 

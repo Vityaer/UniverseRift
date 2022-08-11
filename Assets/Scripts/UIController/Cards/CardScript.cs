@@ -19,7 +19,7 @@ public class CardScript : MonoBehaviour{
 
 	private void UpdateUI(){
 		if(hero != null){
-			imageUI.sprite       = hero.generalInfo.Prefab?.GetComponent<SpriteRenderer>().sprite;
+			imageUI.sprite       = hero.generalInfo.ImageHero;
 			levelUI.text         = hero.generalInfo.Level.ToString();
 			ratingController.ShowRating(hero.generalInfo.ratingHero); 
 		}else{

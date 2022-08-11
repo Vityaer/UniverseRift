@@ -7,29 +7,37 @@ public class RequireCardScript : MonoBehaviour{
 	[SerializeField] private CardScript card;
 	[SerializeField] private TextMeshProUGUI textCountRequirement;
 	private int requireSelectCount = 0;
+	[Header("Panel select heroes")]
 	public OpenClosePanel panelListHeroes;
 	public ListCardOnWarTableScript listCard;
+	public RequireCardScript requireCardInfo;
 	RequirementHero requirementHero;
 	public void SetData(RequirementHero requirementHero){
-		gameObject.SetActive(true);
 		ClearData();
 		this.requirementHero = requirementHero;
 		requireSelectCount = requirementHero.count;
+		Debug.Log("requirementHero");
 		card.SetData(requirementHero);
 		UpdateUI();
 	}
 	List<InfoHero> selectedHeroes = new List<InfoHero>();
 	public void AddHero(CardScript card){
-		card.Selected();
-		selectedHeroes.Add(card.hero);
-		UpdateUI();
+		if(selectedHeroes.Count < requireSelectCount){
+			card.Selected();
+			selectedHeroes.Add(card.hero);
+			UpdateUI();
+			requireCardInfo.UpdateUI();
+		}
 	}
 	public void RemoveHero(CardScript card){
-		card.UnSelected();
-		selectedHeroes.Remove(card.hero);
-		UpdateUI();
+		if(selectedHeroes.Count > 0){
+			card.UnSelected();
+			selectedHeroes.Remove(card.hero);
+			UpdateUI();
+			requireCardInfo.UpdateUI();
+		}
 	}
-	private void UpdateUI(){
+	public void UpdateUI(){
 		textCountRequirement.text = string.Concat(
 			selectedHeroes.Count.ToString(),
 			"/",
@@ -49,6 +57,7 @@ public class RequireCardScript : MonoBehaviour{
 		listCard.SetList(currentHeroes);
 		listCard.SelectCards(selectedHeroes);
 		panelListHeroes.Open();
+		requireCardInfo.ShowData(this.requirementHero, selectedHeroes);
 		panelListHeroes.RegisterOnClose(OnClosePanelHeroes);
 	}
 	void OnClosePanelHeroes(){
@@ -67,6 +76,14 @@ public class RequireCardScript : MonoBehaviour{
 			PlayerScript.Instance.RemoveHero(selectedHeroes[i]);
 		}
 		ClearData();
+	}
+
+	public void ShowData(RequirementHero requirementHero,List<InfoHero> selectedHeroes){
+		this.selectedHeroes = selectedHeroes;
+		this.requirementHero = requirementHero;
+		requireSelectCount = requirementHero.count;
+		card.SetData(requirementHero);
+		UpdateUI();
 	}
 
 }

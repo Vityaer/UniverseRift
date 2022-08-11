@@ -6,7 +6,7 @@ using TMPro;
 public class PanelNewPlayerName : BasePanelScript{
 	public TMP_InputField inputFieldNewNamePlayer;
 	public ButtonCostScript buttonPayNewName;
-	public PanelPlayerScript mainPlayerController;
+	[SerializeField] private PanelPlayerScript mainPlayerController;
 	private string currentName;
 	void Start(){
 		buttonPayNewName.RegisterOnBuy(SaveNewName);
@@ -25,9 +25,10 @@ public class PanelNewPlayerName : BasePanelScript{
 	public void SaveNewName(){
 		currentName = inputFieldNewNamePlayer.text;
 		mainPlayerController.SaveNewName(inputFieldNewNamePlayer.text);
+		Close();
 	}
 	protected override void OnOpen(){
-		currentName = mainPlayerController.GetName;
+		currentName = PlayerScript.Instance.player.GetPlayerInfo.Name;
 		inputFieldNewNamePlayer.text = currentName;
 		inputFieldNewNamePlayer.Select();
 	}

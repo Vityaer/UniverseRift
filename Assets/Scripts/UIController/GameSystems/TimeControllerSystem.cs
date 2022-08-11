@@ -2,45 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ObjectSave;
 public class TimeControllerSystem : MonoBehaviour{
 	private TimeSpan day = new TimeSpan(24, 0, 0);
 	private TimeSpan week = new TimeSpan(7, 0, 0, 0);
 	private TimeSpan month = new TimeSpan(30, 0, 0, 0);
-    private DateTime dayRecover, weekRecover, monthRecover;
+    private DateTime dayCycle, weekCycle, monthCycle;
     private DateTime currentTime;
     [SerializeField] private bool flagNewDay = false, flagNewWeek = false, flagNewMonth = false;
+
+	private const string NAME_RECORD_DAY   = "CurrentDay"; 
+	private const string NAME_RECORD_WEEK  = "CurrentWeek"; 
+	private const string NAME_RECORD_MONTH = "CurrentMonth"; 
     void Start(){
+    	PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
+    }
+    TimeManagement timeControllerSave = null;
+    void OnLoadGame(){
     	currentTime = Client.Instance.GetServerTime();
+    	timeControllerSave = PlayerScript.GetCitySave.timeManagement;
+    	dayCycle   = timeControllerSave.GetRecordDate(NAME_RECORD_DAY);
+    	weekCycle  = timeControllerSave.GetRecordDate(NAME_RECORD_WEEK);
+    	monthCycle = timeControllerSave.GetRecordDate(NAME_RECORD_MONTH);
     	UpdateDay(currentTime);
     	UpdateWeek(currentTime);
     	UpdateMonth(currentTime);
     }
     public void UpdateDay(DateTime newDay){
-    	TimeSpan deltaTime = newDay - dayRecover;
+    	TimeSpan deltaTime = newDay - dayCycle;
     	if(deltaTime > day){
-    		dayRecover = newDay.Date;
+    		dayCycle = newDay.Date;
     		flagNewDay = true;
+    		timeControllerSave.SetRecordDate(NAME_RECORD_DAY, dayCycle);
     		OnNewDay();
     	}else{
     		Debug.Log("this equals day");
     	}
     }
     public void UpdateWeek(DateTime newWeek){
-    	TimeSpan deltaTime = newWeek - weekRecover;
+    	TimeSpan deltaTime = newWeek - weekCycle;
     	if(deltaTime > week){
-    		weekRecover = newWeek.Date;
+    		weekCycle = newWeek.Date;
     		flagNewWeek = true;
     		OnNewWeek();
+    		timeControllerSave.SetRecordDate(NAME_RECORD_WEEK, weekCycle);
     	}else{
     		Debug.Log("this equals week");
     	}
     }
     public void UpdateMonth(DateTime newMonth){
-    	TimeSpan deltaTime = newMonth - monthRecover;
+    	TimeSpan deltaTime = newMonth - monthCycle;
     	if(deltaTime > month){
-    		monthRecover = newMonth.Date;
+    		monthCycle = newMonth.Date;
     		flagNewMonth = true;
     		OnNewMonth();
+    		timeControllerSave.SetRecordDate(NAME_RECORD_MONTH, monthCycle);
     	}else{
     		Debug.Log("this equals month");
     	}

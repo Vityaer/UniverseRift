@@ -13,39 +13,56 @@ public class MessageControllerScript : MonoBehaviour{
 		instance = this;
 	}
 //	Result fight
-	[Header("Fight result")]
-	public RewardPanelScript rewardPanel;
-	public ResultPanelWithRewardScript winPanelScript, losePanelScript;
-	[Header("Auto reward panel")]
-	public AutoRewardPanelScript autoRewardPanel;
-	[Header("Other panels")]
-	public PanelNewLevelPlayer panelNewLevelPlayer; 
-	public void OpenWin(Reward reward = null){
-		winPanelScript.Open();
-		OpenRewardPanel(reward);
+	[SerializeField] private RewardPanelScript rewardPanel, winPanel, losePanel;
+	[SerializeField] private AutoRewardPanelScript autoRewardPanel;
+	[SerializeField] private PanelNewLevelPlayer panelNewLevelPlayer; 
+	public void OpenWin(Reward reward, Action delOnClose){
+		AddQueue(winPanel, () => winPanel.Open(reward), delOnClose );
 	}
-	public void OpenDefeat(Reward reward = null){
-		losePanelScript.Open();
-		OpenRewardPanel(reward);
-	}
+	public void OpenDefeat(Reward reward, Action delOnClose){ 
+		AddQueue(losePanel, () => losePanel.Open(reward) , delOnClose);
+	}	
 	public void OpenAutoReward(AutoReward autoReward, Reward calculatedReward, DateTime previousDateTime){
-		autoRewardPanel.Open(autoReward, previousDateTime);
-		OpenRewardPanel(calculatedReward);
+		AddQueue(autoRewardPanel, () => autoRewardPanel.Open(autoReward, calculatedReward, previousDateTime) );
 	}
-	private void OpenRewardPanel(Reward reward){
-		rewardPanel.SetReward(reward);
+	public void OpenPanelNewLevel(Reward reward){
+		AddQueue(panelNewLevelPlayer, () => panelNewLevelPlayer.Open(reward) );
 	}
-	public void Close(){
-		if(observerClose != null){
-			observerClose();
-			observerClose = null;
-		}
+	private void OpenSimpleRewardPanel(Reward reward){
+		AddQueue(rewardPanel, () => rewardPanel.Open(reward) );
 	}
-	private Action observerClose;
-	public void RegisterOnClose(Action d){observerClose += d;}
 
 	public void AddMessage(string newMessage, bool isLong = false){
 		Debug.Log(newMessage);
 		AndroidPlugin.PluginControllerScript.ToastPlugin.Show(newMessage, isLong: isLong);
+	}
+//Queue panel reward
+	private Queue<PanelRecord> queuePanels = new Queue<PanelRecord>();
+	PanelRecord currentPanel = null;
+	private void AddQueue(RewardPanelScript panel, Action delOnpen, Action delOnClose = null){
+		queuePanels.Enqueue(new PanelRecord(panel, delOnpen, delOnClose));
+		if(queuePanels.Count == 1) OpenNextPanel();
+	}
+	public void OpenNextPanel(){
+		if(currentPanel != null) currentPanel.OnClose(); 
+		if(queuePanels.Count > 0){
+			currentPanel = queuePanels.Dequeue();
+			currentPanel.Open();
+		}
+	}
+	[System.Serializable]
+	public class PanelRecord{
+		private RewardPanelScript panel;
+		private Action delOnpen, delOnClose;
+		public PanelRecord(RewardPanelScript panel, Action delOnpen, Action delOnClose = null){
+			this.panel      = panel;
+			this.delOnpen   = delOnpen;
+			this.delOnClose = delOnClose;
+		}
+		public void Open(){ delOnpen(); }
+		public void OnClose(){
+			if(delOnClose != null)
+				delOnClose();
+		}
 	}
 }

@@ -64,10 +64,11 @@ public class PlayerScript : MonoBehaviour{
 	}
 //API resources	
 	public void AddReward(Reward reward){
-		Debug.Log("add reward");
-		PlayerScript.Instance.AddResource(reward.GetListResource);
-		InventoryControllerScript.Instance.AddItems(reward.GetItems);
-		InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
+		if(reward != null){
+			PlayerScript.Instance.AddResource(reward.GetListResource);
+			InventoryControllerScript.Instance.AddItems(reward.GetItems);
+			InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
+		}
 	}
 	public bool CheckResource(Resource res){
 		return CheckResource(new ListResource(res));
@@ -152,10 +153,32 @@ public class PlayerScript : MonoBehaviour{
 	public static CitySaveObject GetCitySave{ get => instance.player.PlayerGame.citySaveObject;}
 	public static PlayerSaveObject GetPlayerSave{ get => instance.player.PlayerGame.playerSaveObject;}
 	public static Game GetPlayerGame{ get => instance.player.PlayerGame;}
+	public static PlayerInfo GetPlayerInfo{get => GetPlayerGame.playerInfo;}
 
 //LoadGame
 	private Action onLoadedGame;
-	public void RegisterOnLoadGame(Action d){if(flagLoadedGame){d();}else{ onLoadedGame += d;} }
+	private Action<Vector2Int> onRegisterOnRegisterOnLoading;
+	private Vector2Int countObjectWaitLoadingGame = new Vector2Int(0, 0);
+	public void RegiterOnRegisterOnLoadGame(Action<Vector2Int> d){onRegisterOnRegisterOnLoading += d; OnRegisterOnLoadGame();}
+	public void UnregiterOnRegisterOnLoadGame(Action<Vector2Int> d){onRegisterOnRegisterOnLoading -= d;}
+	public void RegisterOnLoadGame(Action d){
+		countObjectWaitLoadingGame.y += 1;
+		OnRegisterOnLoadGame();
+		if(flagLoadedGame){
+			d(); OnLoadStage();
+		}else{
+			onLoadedGame += d;
+			onLoadedGame += OnLoadStage;
+		}
+	}
+	private void OnLoadStage(){
+		countObjectWaitLoadingGame.x += 1;
+		OnRegisterOnLoadGame();
+	}
+	private void OnRegisterOnLoadGame(){
+		if(onRegisterOnRegisterOnLoading != null)
+			onRegisterOnRegisterOnLoading(countObjectWaitLoadingGame);
+	}
 	private void OnLoadedGame(){if(onLoadedGame != null) onLoadedGame(); onLoadedGame = null;}
 //Level
 

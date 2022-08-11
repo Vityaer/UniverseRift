@@ -10,6 +10,7 @@ public class CornerScript : MonoBehaviour{
 	void Awake(){
 		CalculatePosition();
 	}
+	[ContextMenu("Calculate position")]
     void CalculatePosition(){
 		float camHalfHeight = Camera.main.orthographicSize;
 	    float camHalfWidth = Camera.main.aspect * camHalfHeight;
@@ -24,4 +25,5 @@ public class CornerScript : MonoBehaviour{
 	    } 
 	    transform.position = new Vector3(Position.x, Position.y, 0);
 	}
+	public Vector3 Position{get => transform.position;}
 }

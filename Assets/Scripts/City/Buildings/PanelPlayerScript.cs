@@ -7,7 +7,7 @@ using ObjectSave;
 public class PanelPlayerScript : Building{
 	[SerializeField] private ItemSliderControllerScript sliderLevel;
 	[SerializeField] private TextMeshProUGUI nameText, levelText, IDGuildText, idText;
-	[SerializeField] private CostLevelUp playerLevelList;
+	[SerializeField] private CostLevelUp playerLevelList, rewardForLevelUp;
 	[SerializeField] private Image avatar, outlineAvatar;
 	private PlayerInfo playerInfo;
 	private Resource requireExpForLevel, currentExp;
@@ -24,7 +24,7 @@ public class PanelPlayerScript : Building{
 		nameText.text = playerInfo.Name;
 		levelText.text = playerInfo.Level.ToString();
 		IDGuildText.text = playerInfo.IDGuild.ToString();
-		avatar.sprite = playerInfo.avatar;
+		// avatar.sprite = playerInfo.avatar;
 		sliderLevel.SetAmount(currentExp, requireExpForLevel);
 	}
 //Exp
@@ -34,7 +34,8 @@ public class PanelPlayerScript : Building{
 			PlayerScript.Instance.SubtractResource(requireExpForLevel);
 			PlayerScript.Instance.player.LevelUP();
 			requireExpForLevel = GetRequireExpForLevel();
-			MessageControllerScript.Instance.panelNewLevelPlayer.Open();
+			Reward reward = new Reward(rewardForLevelUp.GetCostForLevelUp( playerInfo.Level ));
+			MessageControllerScript.Instance.OpenPanelNewLevel(reward);
 			PlayerScript.Instance.RegisterOnChangeResource(ChangeExp, TypeResource.Exp);
 			UpdateMainUI();
 		}

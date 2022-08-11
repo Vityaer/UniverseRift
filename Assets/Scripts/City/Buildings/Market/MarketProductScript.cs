@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 public class MarketProductScript : MonoBehaviour{
 	public ButtonCostScript buttonCost;
 	[OdinSerialize] private MarketProduct marketProduct;
 	public SubjectCellControllerScript cellProduct;
 	[SerializeField] private GameObject soldOutPanel;
-	public void SetData(MarketProduct<Resource> product){
+	Action<int, int> callback = null;
+	public void SetData(MarketProduct<Resource> product, Action<int, int> callback){
+		this.callback = callback;
 		marketProduct = product;
 		buttonCost.UpdateCost(product.cost, Buy);
 		cellProduct.SetItem(product.subject);
 		UpdateUI();
 	}
-	public void SetData(MarketProduct<Item> product){
+	public void SetData(MarketProduct<Item> product, Action<int, int> callback){
+		this.callback = callback;
 		marketProduct = product;
 		buttonCost.UpdateCost(product.cost, Buy);
 		cellProduct.SetItem(product.subject);
 		UpdateUI();
 	}
-	public void SetData(MarketProduct<Splinter> product){
+	public void SetData(MarketProduct<Splinter> product, Action<int, int> callback){
+		this.callback = callback;
 		marketProduct = product;
 		buttonCost.UpdateCost(product.cost, Buy);
 		cellProduct.SetItem(product.subject);
@@ -43,6 +48,7 @@ public class MarketProductScript : MonoBehaviour{
 		if((count + marketProduct.CountLeftProduct) > marketProduct.CountMaxProduct) count = marketProduct.CountMaxProduct - marketProduct.CountLeftProduct;
 		marketProduct.GetProduct(count);
 		UpdateUI();
+		if(callback != null) callback(marketProduct.ID, marketProduct.CountLeftProduct);
 	}
 	public void Hide(){
 		gameObject.SetActive(false);

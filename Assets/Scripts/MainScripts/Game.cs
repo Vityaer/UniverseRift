@@ -20,18 +20,6 @@ public class Game{
 //API mines
 	public void SaveMine(MineControllerScript mineController){ citySaveObject.industry.SaveMine(mineController);}
 	public List<MineSave> GetMines{ get => citySaveObject.industry.listMine; }
-//API timeManagement
-	public TimeManagement timeManagement{get => citySaveObject.timeManagement;}
-	public void NewTimeReward(TypeDateRecord type, DateTime date){
-		DateRecord record = timeManagement.records.Find(x => x.type == type);
-		if(record != null){
-			record.Date = date;
-		}else{
-			record = new DateRecord(type, date);
-			timeManagement.records.Add(record);
-		}
-		SaveLoadControllerScript.SaveGame(this);
-	}
 //API market
 	public MallSave mall{get => citySaveObject.mall;}
 	public void NewDataAboutSellProduct(TypeMarket typeMarket, int IDproduct, int countSell){

@@ -21,14 +21,12 @@ public class CityControllerScript : MonoBehaviour{
 	}
 	public void Open(){
 		Debug.Log("open city");
-		canvasCity.enabled = true;
 		sliderCity.enabled = true;
 		canvasButtonsUI.SetActive(true);
 		cityParent.SetActive(true);
 		BackGroundControllerScript.Instance.OpenBackground(background);
 	}
 	public void Close(){
-		canvasCity.enabled = false;
 		sliderCity.enabled = false;	
 		cityParent.SetActive(false);
 		canvasButtonsUI.SetActive(false);

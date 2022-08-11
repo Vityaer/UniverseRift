@@ -24,6 +24,10 @@ public class MarketScript : Building{
 		}
 		if(productFill) UpdateUIProducts();
 	}
+	private void OnBuyPoduct(int IDproduct, int coutSell){
+		Debug.Log("save product sell");
+		PlayerScript.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
+	}
 	private void UpdateUIProducts(){
 		foreach(MarketProductScript product in productControllers){ product.UpdateUI(); } 
 	}
@@ -32,13 +36,13 @@ public class MarketScript : Building{
 		for(int i=0; i < productsForSale.Count; i++){
 			switch(productsForSale[i]){
 				case MarketProduct<Resource> product:
-					productControllers[i].SetData(product);
+					productControllers[i].SetData(product, OnBuyPoduct);
 					break;
 				case MarketProduct<Item> product:
-					productControllers[i].SetData(product);
+					productControllers[i].SetData(product, OnBuyPoduct);
 					break;
 				case MarketProduct<Splinter> product:
-					productControllers[i].SetData(product);
+					productControllers[i].SetData(product, OnBuyPoduct);
 					break;		
 
 			}
@@ -59,6 +63,17 @@ public class MarketScript : Building{
 	[Button] public void AddResource(){ productsForSale.Add(new MarketProduct<Resource>()); }
 	[Button] public void AddSplinter(){ productsForSale.Add(new MarketProduct<Splinter>()); }
 	[Button] public void AddItem(){ productsForSale.Add(new MarketProduct<Item>()); }
+
+	[ContextMenu("Check products")]
+	private void CheckProducts(){
+		for(int i = 0; i < productsForSale.Count - 1; i++){
+			for(int j = i + 1; j < productsForSale.Count; j++){
+				if(productsForSale[i].ID == productsForSale[j].ID){
+					Debug.Log(string.Concat("product: ", i.ToString(), " and ", j.ToString(), " have equals ID"));
+				}
+			}
+		}
+	}
 }
 
 public enum TypeMarket{

@@ -140,7 +140,6 @@ public partial class FightControllerScript : MonoBehaviour{
     private void CloseFigthUI(){
  		HexagonGridScript.Instance.CloseGrid();
  		canvasFightUI.enabled = false;
- 		MessageControllerScript.Instance.RegisterOnClose(WarTableControllerScript.Instance.FinishMission);
     }
  	void ClearAll(){
  		Debug.Log("clear all");

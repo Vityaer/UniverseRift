@@ -75,6 +75,7 @@ namespace ObjectSave{
 		public BuildingWithFightTeams travelCircleBuilding = new BuildingWithFightTeams();
 		public ArenaBuildingSave arenaBuilding = new ArenaBuildingSave();
 		public SimpleBuildingSave tutorial = new SimpleBuildingSave();
+		public CycleEventsSave cycleEvents = new CycleEventsSave();
 	}	
 //Mines
 	[System.Serializable]
@@ -180,7 +181,13 @@ namespace ObjectSave{
 //Dates
 	[System.Serializable]
 	public class TimeManagement{
-		public List<DateRecord> records = new List<DateRecord>(); 
+		[SerializeField] private DateTimeRecords dateRecords = new DateTimeRecords(); 
+		public void SetRecordDate(string name, DateTime date){
+			dateRecords.SetRecord(name, date);
+		}
+		public DateTime GetRecordDate(string name){
+			return FunctionHelp.StringToDateTime(dateRecords.GetRecord(name).value);
+		}
 	}
 	[System.Serializable]
 	public class DateRecord{
@@ -346,11 +353,9 @@ namespace ObjectSave{
 //Player info
 	[System.Serializable]
 	public class PlayerInfo{
-		[SerializeField] private string name;
+		[SerializeField] private string name = string.Empty;
 		[SerializeField] private int level = 1;
-		public int IDGuild;
-		public Sprite avatar;
-		public int IDServer;
+		public int IDGuild, IDAvatar, IDServer;
 		[SerializeField] private int vipLevel;
 		public string Name{get => name;}
 		public int Level{get => level;}
@@ -358,8 +363,20 @@ namespace ObjectSave{
 		public void LevelUP(){
 			level += 1; 
 		}
-		public void SetNewName(string newName){
-			this.name = newName;
+		public void SetNewName(string newName){ this.name = newName; }
+		public void SetNewAvatar(int IDAvatar){this.IDAvatar = IDAvatar;}
+
+		public PlayerInfo(){}
+		public PlayerInfo(string name){
+			this.name = name;
+			level = 1;
+			IDGuild = -1;
+			vipLevel = 0;
 		}
+	}	
+//Cycle events
+	[System.Serializable]
+	public class CycleEventsSave{
+		[SerializeField] private DateTimeRecords dateRecords = new DateTimeRecords(); 
 	}	
 }
