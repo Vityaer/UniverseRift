@@ -187,5 +187,8 @@ public class PlayerScript : MonoBehaviour{
         SaveGame();
         #endif
     }
+	public void RegisterPlayer(string name){
+		GetPlayerInfo.Register(name);
+	}    
 }
 

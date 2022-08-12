@@ -5,7 +5,11 @@ using UnityEngine;
 public class EventPanel : MonoBehaviour{
 	public BasePanelScript panelEvent;
 	public void OpenEventPanel(){
-		panelEvent.Open();
+		if(panelEvent != null){
+			panelEvent.Open();
+		}else{
+			Debug.Log("Not panel", this.gameObject);
+		}
 	}
 	public void Show(){
 		gameObject.SetActive(true);

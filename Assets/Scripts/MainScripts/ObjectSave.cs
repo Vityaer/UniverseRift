@@ -367,10 +367,10 @@ namespace ObjectSave{
 		public void SetNewAvatar(int IDAvatar){this.IDAvatar = IDAvatar;}
 
 		public PlayerInfo(){}
-		public PlayerInfo(string name){
+		public void Register(string name){
 			this.name = name;
 			level = 1;
-			IDGuild = -1;
+			IDGuild = 0;
 			vipLevel = 0;
 		}
 	}	

@@ -16,9 +16,8 @@ public class FormRegisterController : Building{
 		}
 	}
 	private PlayerInfo playerInfo;
-	public void CreateAccount(string newName){
-		playerInfo = new PlayerInfo(newName);
-		PlayerScript.GetPlayerInfo = playerInfo;
+	public void CreateAccount(string name){
+		PlayerScript.Instance.RegisterPlayer(name);
 		SaveGame();
 	}
 }
