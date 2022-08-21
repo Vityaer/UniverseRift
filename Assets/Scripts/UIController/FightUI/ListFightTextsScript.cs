@@ -9,7 +9,7 @@ public class ListFightTextsScript : MonoBehaviour{
 		GetFightText().PlayDamage(damage, pos);
 	}
 	public void ShowHeal(float heal, Vector2 pos){
-		GetFightText().PlayDamage(heal, pos);
+		GetFightText().PlayHeal(heal, pos);
 	}
 	public void ShowMessage(string message, Vector2 pos){
 		// GetFightText()?.PlayMessage(message, pos);

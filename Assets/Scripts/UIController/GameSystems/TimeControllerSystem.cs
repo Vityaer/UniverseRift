@@ -14,6 +14,10 @@ public class TimeControllerSystem : MonoBehaviour{
 	private const string NAME_RECORD_DAY   = "CurrentDay"; 
 	private const string NAME_RECORD_WEEK  = "CurrentWeek"; 
 	private const string NAME_RECORD_MONTH = "CurrentMonth"; 
+
+    public DateTime GetDayCycle{get => dayCycle;}
+    public DateTime GetWeekCycle{get => weekCycle;}
+    public DateTime GetMonthCycle{get => monthCycle;}
     void Start(){
     	PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
     }

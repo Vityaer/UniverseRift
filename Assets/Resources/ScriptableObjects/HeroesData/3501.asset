@@ -16,21 +16,21 @@ MonoBehaviour:
     Name: "\u0420\u044B\u0446\u0430\u0440\u044C \u0441\u043C\u0435\u0440\u0442\u0438"
     race: 2
     ClassHero: 0
-    ratingHero: 5
+    ratingHero: 1
     rare: 2
     idHero: 3501
     Level: 1
     isAlive: 1
     IDCreate: 0
-    IDPrefab: 0
+    IDPrefab: 3501
   prefabArrow: {fileID: 0}
   characts:
     limitLevel: 40
-    Damage: 5
-    HP: 220
+    Damage: 40
+    HP: 100
     GeneralAttack: 0
     GeneralArmor: 0
-    Initiative: 18
+    Initiative: 8
     ProbabilityCriticalAttack: 0
     DamageCriticalAttack: 0
     Accuracy: 0
@@ -45,6 +45,8 @@ MonoBehaviour:
       typeMovement: 0
       Mellee: 1
       typeStrike: 0
+      CanRetaliation: 1
+      CountCouterAttack: 1
   resistances:
     MagicResistance: 0
     CritResistance: 0

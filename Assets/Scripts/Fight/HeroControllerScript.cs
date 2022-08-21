@@ -301,6 +301,7 @@ public class HeroControllerScript : MonoBehaviour{
 			FlipX();
 			rotateAttack = new Vector3(0, 0, GetSideFace() == Side.Left ? -45 : 45);
 		}
+		Debug.Log("start default attack");
 		sequenceAnimation = DOTween.Sequence()
 					.Append( tr.DORotate(rotateAttack, 0.25f))
 					.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => {GiveDamage(enemy); RemoveFightRecordActionMe(); if(needFlip) FlipX();} ));
@@ -328,7 +329,7 @@ public class HeroControllerScript : MonoBehaviour{
 	private void DefaultAnimDeath(){
 		if(sequenceAnimation != null) sequenceAnimation.Kill();
 		sequenceAnimation = DOTween.Sequence()
-			.Append(tr.DOScaleX(0f, 0.5f).OnComplete(Death));
+			.Append(tr.DOScaleY(0f, 0.5f).OnComplete(Death));
 	}
 	private void DefaultAnimIdle(){
 

@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using ObjectSave;
 [System.Serializable]
 public class Requirement{
 	[Header("Info")]
@@ -11,7 +10,7 @@ public class Requirement{
 	public string description;
 	[SerializeField]protected List<RequirementStage> stages = new List<RequirementStage>();
 	public ProgressType progressType;
-
+	[SerializeField] private IntRecords intRecords = new IntRecords(); 
 	[SerializeField]protected BigDigit progress = new BigDigit(0, 0);
 	[SerializeField]protected int currentStage = 0;
 
@@ -19,6 +18,7 @@ public class Requirement{
 	public int CountStage{get => stages.Count;}
 	public BigDigit Progress{get => progress;}
 	public int CurrentStage{get => currentStage;}
+	public IntRecords GetIntRecords{get => intRecords;}
 	bool isComplete = false;
 	public bool IsComplete{get => isComplete;}
 	public void AddProgress(BigDigit amount){
@@ -70,31 +70,32 @@ public class Requirement{
 	}
 }
 public enum TypeRequirement{
-	GetLevel,
-	DoneChapter,
-	DoneMission,
-	GetHeroes,
-	GetHeroesWithLevel,
-	GetHeroesWithRating,
-	GetHeroesCount,
-	SimpleSpin,
-	SpecialSpin,
-	SynthesItem,
-	SynthesCount,
-	BuyItem,
-	SpendResource,
-	BuyItemCount,
-	DestroyHeroCount,
-	CountWin,
-	CountDefeat,
-	CountPointsOnSimpleArena,
-	CountPointsOnTournament,
-	RaceHireCount,
-	SimpleHireCount,
-	SpecialHireCount,
-	TryCompleteChallangeTower,
-	CompleteChallengeTower,
-	SendFriendHeart
+	GetLevel = 0,
+	DoneChapter = 1,
+	DoneMission = 2,
+	GetHeroes = 3,
+	GetHeroesWithLevel = 4,
+	GetHeroesWithRating = 5,
+	GetHeroesCount = 6, 
+	SimpleSpin = 7,
+	SpecialSpin = 8,
+	SynthesItem = 9,
+	SynthesCount = 10,
+	BuyItem = 11,
+	SpendResource = 12,
+	BuyItemCount = 13, 
+	DestroyHeroCount = 14,
+	CountWin = 15,
+	CountDefeat = 16,
+	CountPointsOnSimpleArena = 17,
+	CountPointsOnTournament = 18,
+	RaceHireCount = 19,
+	SimpleHireCount = 20,
+	SpecialHireCount = 21,
+	TryCompleteChallangeTower = 22,
+	CompleteChallengeTower = 23,
+	SendFriendHeart = 24,
+	GetHeroesWithRatingAndID = 25
 }
 public enum TypeReward{
 	Resource,

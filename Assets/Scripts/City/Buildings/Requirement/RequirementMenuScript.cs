@@ -12,7 +12,7 @@ public class RequirementMenuScript : Building{
 	protected override void OnLoadGame(){
 		LoadData(PlayerScript.GetPlayerGame.saveMainRequirements);
 	}
-	protected void LoadData(List<RequirementSave> RequirementSaves){
+	public void LoadData(List<RequirementSave> RequirementSaves){
 		Requirement currentTask = null;
 		for(int i = 0; i < RequirementSaves.Count; i++){
 			currentTask = listRequirement.Find(x => x.ID == RequirementSaves[i].ID);
@@ -21,21 +21,30 @@ public class RequirementMenuScript : Building{
 			}
 		}
 		CreateRequrements();
+		OnAfterLoadData();
 	}
-	List<Requirement> mainRequirement = new List<Requirement>();
 	protected virtual void SaveData(){
-		PlayerScript.GetPlayerGame.SaveMainRequirements(mainRequirement);
+		PlayerScript.GetPlayerGame.SaveMainRequirements(listRequirement);
 		SaveGame();
 	}
-	private List<RequirementUI> requirementControllers = new List<RequirementUI>();
+	[SerializeField] protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
 	protected void CreateRequrements(){
 		RequirementUI currentTask = null;
 		foreach(Requirement task in listRequirement){
-			currentTask = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
+			currentTask = GetRequirementUI();
 			currentTask.SetData(task as Requirement);
 			currentTask.RegisterOnChange(SaveData);
 			listTaskUI.Add(currentTask);
 		}
+	}
+	protected virtual void OnAfterLoadData(){}
+	private RequirementUI GetRequirementUI(){
+		RequirementUI result = requirementControllers.Find(x => x.IsEmpty);
+		if(result == null){
+			result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
+			requirementControllers.Add(result);
+		}
+		return result;
 	}
 	[ContextMenu("Clear all task")]
 	public void ClearAllTask(){

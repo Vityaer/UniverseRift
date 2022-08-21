@@ -6,17 +6,20 @@ public class HexagonGridScript : MonoBehaviour{
 
 	public GameObject grid;
 	[SerializeField] private List<HexagonCellScript> cells = new List<HexagonCellScript>(); 
+	[SerializeField] private List<HexagonCellScript> startCellsLeftTeam, startCellsRightTeam;
+	public List<HexagonCellScript> GetLeftTeamPos{get => startCellsLeftTeam;}
+	public List<HexagonCellScript> GetRightTeamPos{get => startCellsRightTeam;}
 	private void FindAllCell(){
 		cells.Clear();
-		foreach(Transform child in base.transform){
+		foreach(Transform child in grid.transform){
 			if(child.GetComponent<HexagonCellScript>() != null){
 				cells.Add(child.GetComponent<HexagonCellScript>());
 			}
 		}
 	}
-	[ContextMenu("FindAllCell")]
+	[ContextMenu("FindNeighbours")]
 	public void FindNeighbours(){
-		if(cells.Count == 0) FindAllCell();
+		FindAllCell();
 		for(int i = 0; i < cells.Count; i++) cells[i].ClearNeighbours();
 		for(int i = 0; i < cells.Count - 1; i++){
 			for(int j = i + 1; j < cells.Count; j++){

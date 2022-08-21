@@ -8,9 +8,7 @@ using System;
 public partial class FightControllerScript : MonoBehaviour{
 	public Canvas canvasFightUI;
 	[Header("Place heros")]
-	public List<HexagonCellScript> leftTeamPos  = new List<HexagonCellScript>();
-	public List<HexagonCellScript> rightTeamPos = new List<HexagonCellScript>();
-
+	public HexagonGridScript hexagonGrid;
 	[SerializeField]private  List<Warrior> leftTeam  = new List<Warrior>(); 
 	[SerializeField]private  List<Warrior> rightTeam = new List<Warrior>(); 
 
@@ -33,8 +31,8 @@ public partial class FightControllerScript : MonoBehaviour{
     private void CreateTeams(List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace){
     	Screen.orientation = ScreenOrientation.LandscapeRight;
     	canvasFightUI.enabled = true;
-    	CreateTeam(leftTeamPos,  leftWarriorPlace,  Side.Left );
-    	CreateTeam(rightTeamPos, rightWarriorPlace, Side.Right );
+    	CreateTeam(hexagonGrid.GetLeftTeamPos,  leftWarriorPlace,  Side.Left );
+    	CreateTeam(hexagonGrid.GetRightTeamPos, rightWarriorPlace, Side.Right );
     	listInitiative.Sort(new HeroInitiativeComparer());
     	StartCoroutine(StartFightCountdown());
     }

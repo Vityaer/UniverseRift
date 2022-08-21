@@ -6,16 +6,21 @@ using System;
 using ObjectSave;
 public class RequirementUI : MonoBehaviour{
 	[SerializeField] private Text description;
-	public Requirement requirement;
+	private Requirement requirement;
 	public Button buttonGetReward;
 	public  ItemSliderControllerScript sliderAmount;
 	public RewardUIControllerScript rewardController;
+      public bool IsEmpty{ get => (requirement == null);}
+      public bool IsComplete{get => (!IsEmpty & requirement.IsComplete);}
 	public void ChangeProgress(BigDigit amount){
 		if(requirement.CurrentStage < requirement.CountStage){
 			requirement.AddProgress(amount);
 			UpdateUI();
                   OnChange();
 		}
+            if(requirement.IsComplete){
+                  OnComplete();      
+            } 
 	}
 	
 	public void GetReward(){
@@ -76,13 +81,16 @@ public class RequirementUI : MonoBehaviour{
             case TypeRequirement.CompleteChallengeTower:
                   ChallengeTowerScript.Instance.RegisterOnWinFight(ChangeProgress);
                   break;            
+            case TypeRequirement.GetHeroesWithRating:
+                  LevelUpRatingHeroScript.Instance.RegisterOnRatingUp(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value);
+                break;
+            case TypeRequirement.GetHeroesWithRatingAndID:
+                  LevelUpRatingHeroScript.Instance.RegisterOnRatingUp(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value, requirement.GetIntRecords.GetRecord("ID").value);
+                break; 
             // case TypeRequirement.GetHeroes:
             //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);
             //     break;
             // case TypeRequirement.GetHeroesWithLevel:
-            //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);
-            //     break;
-            // case TypeRequirement.GetHeroesWithRating:
             //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);
             //     break;
             // case TypeRequirement.GetHeroesCount:
@@ -106,8 +114,13 @@ public class RequirementUI : MonoBehaviour{
             requirement.ClearProgress();
             UpdateUI();
       }
-      private Action observerOnChange;
+      private Action observerOnChange, observerComplete;
       public void RegisterOnChange(Action d){observerOnChange += d;}
       public void UnRegisterOnChange(Action d){observerOnChange += d;}
-      private void OnChange(){Debug.Log(observerOnChange == null); if(observerOnChange != null) observerOnChange(); Debug.Log("OnChange");}
+      private void OnChange(){if(observerOnChange != null) observerOnChange(); Debug.Log("OnChange");}
+      
+      public void RegisterOnComplete(Action d){observerComplete += d;}
+      public void UnRegisterOnComplete(Action d){observerComplete += d;}
+      private void OnComplete(){if(observerComplete != null) observerComplete(); Debug.Log("observerComplete");}      
+
 }

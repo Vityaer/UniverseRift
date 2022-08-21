@@ -141,6 +141,14 @@ namespace ObjectSave{
 		public List<RequirementSave> saveMainRequirements = new List<RequirementSave>();
 		public List<RequirementSave> saveEveryTimeTasks = new List<RequirementSave>();
 		public SimpleBuildingSave eventAgentProgress;
+	}
+	[System.Serializable]
+	public class ListRequirementSave{
+		public int ID;
+		public List<RequirementSave> list = new List<RequirementSave>();
+		public ListRequirementSave(TypeMonthlyTasks type){
+			ID = (int) type;
+		}
 	}	
 	[System.Serializable]
 	public class RequirementSave{
@@ -377,6 +385,20 @@ namespace ObjectSave{
 //Cycle events
 	[System.Serializable]
 	public class CycleEventsSave{
-		[SerializeField] private DateTimeRecords dateRecords = new DateTimeRecords(); 
-	}	
+		public DateTimeRecords dateRecords = new DateTimeRecords();
+		public MonthlyRequirements monthlyRequirements = new MonthlyRequirements();  
+	}
+	[System.Serializable]
+	public class MonthlyRequirements{
+		[SerializeField] private List<ListRequirementSave> listGroupRequirements = new List<ListRequirementSave>();
+		public List<RequirementSave> GetTasks(TypeMonthlyTasks type){
+			List<RequirementSave> result = listGroupRequirements.Find(x => x.ID == ( (int) type ))?.list;
+			if (result == null){
+				ListRequirementSave work = new ListRequirementSave(type);
+				listGroupRequirements.Add(work);
+				result = work.list;
+			}
+			return result;	
+		}
+	}
 }

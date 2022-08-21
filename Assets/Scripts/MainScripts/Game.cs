@@ -47,7 +47,7 @@ public class Game{
 	public AllRequirement allRequirement{get => playerSaveObject.allRequirement;}
 	public void SaveMainRequirements(List<Requirement> mainRequirements){SaveRequirement(allRequirement.saveMainRequirements, mainRequirements);}
 	public void SaveEveryTimeTask(List<Requirement> everyTimeTasks){ SaveRequirement(allRequirement.saveEveryTimeTasks, everyTimeTasks); }
-	private void SaveRequirement(List<RequirementSave> listSave, List<Requirement> requirements){
+	public void SaveRequirement(List<RequirementSave> listSave, List<Requirement> requirements){
 		RequirementSave currentSave = null; 
 		foreach(Requirement task in requirements){
 			currentSave = listSave.Find(x => x.ID == task.ID);
