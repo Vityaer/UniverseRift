@@ -24,7 +24,9 @@ public enum TypeResource{
 	FriendHeart = 16,
 	MineStone = 17,
 	RedDust = 18,
-	EventAgentMonet = 19
+	EventAgentMonet = 19,
+	FeastCoint = 20,
+	VoyageToken = 21
 }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class MissionEnemy{
-	public HeroName heroName;
+	public HeroName heroName = HeroName.Peasant;
 	private InfoHero _enemyPrefab = null;
 	public InfoHero enemyPrefab{
 		get{

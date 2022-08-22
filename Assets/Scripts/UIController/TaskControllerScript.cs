@@ -63,6 +63,7 @@ public class TaskControllerScript : MonoBehaviour{
 	}
 	public void GetReward(){
 		task.GetReward();
+		TaskGiverScript.Instance.OnDoneTask(task.rating);
 	}
 
 }

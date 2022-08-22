@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
 using UnityEngine.UI;
+using System;
 public class TaskGiverScript : Building{
 
 	[HideInInspector] public List<Task> tasks = new List<Task>();
@@ -38,7 +39,7 @@ public class TaskGiverScript : Building{
 		newTaskController.SetData(newTask);
 	}
 	private static TaskGiverScript instance;
-	public static TaskGiverScript Istance{get => instance;}	
+	public static TaskGiverScript Instance{get => instance;}	
 	bool isLoadedTask = false;
 	void Start(){
 		if(instance == null){
@@ -60,5 +61,57 @@ public class TaskGiverScript : Building{
 	protected override void OnLoadGame(){
 		taskGiverBuilding = PlayerScript.GetCitySave.taskGiverBuilding;
 		tasks = taskGiverBuilding.tasks;
-	}	
+	}
+	private ObserverDoneTask observerDoneTasks = new ObserverDoneTask(); 
+	public void RegisterOnDoneTask(Action<BigDigit> d, int rating){observerDoneTasks.Add(d, rating);}	
+	public void UnregisterOnDoneTask(Action<BigDigit> d, int rating){observerDoneTasks.Remove(d, rating);}
+	public void OnDoneTask(int rating){
+		observerDoneTasks.OnDoneTask(rating);
+	}
+
+
+	public class ObserverDoneTask{
+	private List<Observer> observers = new List<Observer>();
+	public void Add(Action<BigDigit> del,int rating){
+		Observer work = GetObserver(rating);
+		if(work != null){
+			work.Add(del);
+		}else{
+			observers.Add(new Observer(del, rating));
+		}
+	}
+	public void Remove(Action<BigDigit> del, int rating){
+		Observer work = GetObserver(rating);
+		if(work != null){
+			work.Remove(del);
+			if(work.del == null){
+				observers.Remove(work);
+			}	
+		}
+	}
+	public void OnDoneTask(int rating){
+		Observer work = GetObserver(rating); 
+		if(work != null){
+			work.DoAction();
+		}
+	}
+	private Observer GetObserver(int rating){
+		return observers.Find(x => (x.rating == rating));
+	}
+
+	public class Observer{
+		public Action<BigDigit> del;
+		public int rating;
+		public Observer(Action<BigDigit> d, int rating){
+			del = d;
+			this.rating = rating;
+		}
+		public void Add(Action<BigDigit> d){ del += d; }
+		public void Remove(Action<BigDigit> d){ del -= d; }
+		public void DoAction(){
+			if(del != null) del(new BigDigit(1));
+		}
+	}
+}
+	
 }

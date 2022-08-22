@@ -5,7 +5,6 @@ using UnityEngine;
 public class MonthlyTasks : RequirementMenuScript{
 	public MonthlyEvents monthlyEventsParent;
 	public TypeMonthlyTasks type;
-	[Header("Last task")]
 	protected override void OnLoadGame(){}
 	protected override void SaveData(){
 		monthlyEventsParent.SaveData(type, listRequirement);
@@ -27,7 +26,7 @@ public class MonthlyTasks : RequirementMenuScript{
 			}
 		}
 		if(result && (requirementControllers[requirementControllers.Count - 1].IsComplete == false)){
-			requirementControllers[requirementControllers.Count - 1].SetProgress(new BigDigit(1));
+			requirementControllers[requirementControllers.Count - 1].ChangeProgress(new BigDigit(1));
 		}
 	}
 }

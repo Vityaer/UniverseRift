@@ -73,6 +73,7 @@ namespace ObjectSave{
 		public BuildingWithFightTeams challengeTowerBuilding = new BuildingWithFightTeams();
 		public BuildingWithFightTeams mainCampaignBuilding = new BuildingWithFightTeams();
 		public BuildingWithFightTeams travelCircleBuilding = new BuildingWithFightTeams();
+		public VoyageBuildingSave voyageBuildingSave = new VoyageBuildingSave();
 		public ArenaBuildingSave arenaBuilding = new ArenaBuildingSave();
 		public SimpleBuildingSave tutorial = new SimpleBuildingSave();
 		public CycleEventsSave cycleEvents = new CycleEventsSave();
@@ -401,4 +402,10 @@ namespace ObjectSave{
 			return result;	
 		}
 	}
+
+//Voyage
+	[System.Serializable]
+	public class VoyageBuildingSave : BuildingWithFightTeams{
+
+	}	
 }

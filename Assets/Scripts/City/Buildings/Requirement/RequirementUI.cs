@@ -86,7 +86,16 @@ public class RequirementUI : MonoBehaviour{
                 break;
             case TypeRequirement.GetHeroesWithRatingAndID:
                   LevelUpRatingHeroScript.Instance.RegisterOnRatingUp(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value, requirement.GetIntRecords.GetRecord("ID").value);
-                break; 
+                break;
+            case TypeRequirement.CountWinArenaFight:
+                  ArenaScript.Instance.RegisterOnWinFight(ChangeProgress); 
+                  break;
+            case TypeRequirement.CountDoneTasks:
+                  TaskGiverScript.Instance.RegisterOnDoneTask(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value); 
+                  break;
+            case TypeRequirement.CountDoneTravel:
+                  VoyageControllerSctipt.Instance.RegisterOnDoneTravel(ChangeProgress);
+                  break;       
             // case TypeRequirement.GetHeroes:
             //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);
             //     break;

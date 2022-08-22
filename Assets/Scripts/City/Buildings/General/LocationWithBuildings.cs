@@ -11,10 +11,12 @@ public class LocationWithBuildings : MonoBehaviour{
 		location.SetActive(true);
 		LocationControllerScript.Instance.OpenLocation(typeBackground);
 		buildingCanvas.Open();
+		OnOpenLocation();
 	}
 	public virtual void Close(){
 		Debug.Log("location close");
 		buildingCanvas.Close();
 		location.SetActive(false);
 	}
+	protected virtual void OnOpenLocation(){}
 }

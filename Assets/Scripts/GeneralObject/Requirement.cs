@@ -95,7 +95,10 @@ public enum TypeRequirement{
 	TryCompleteChallangeTower = 22,
 	CompleteChallengeTower = 23,
 	SendFriendHeart = 24,
-	GetHeroesWithRatingAndID = 25
+	GetHeroesWithRatingAndID = 25,
+	CountWinArenaFight = 26,
+	CountDoneTasks = 27,
+	CountDoneTravel = 28
 }
 public enum TypeReward{
 	Resource,
