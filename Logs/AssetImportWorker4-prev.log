@@ -15,7 +15,7 @@ C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 -logFile
 Logs/AssetImportWorker4.log
 -srvPort
-55433
+51570
 Successfully changed project path to: C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,7 +47,7 @@ C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 262.54 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 477.87 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.0f1 (6eacc8284459)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/Resources/UnitySubsystems
@@ -64,55 +64,56 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56348
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56532
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
-Registered in 0.012438 seconds.
+Registered in 0.013138 seconds.
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 230.09 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 261.96 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
 - Completed reload, in  1.767 seconds
 Domain Reload Profiling:
 	ReloadAssembly (1768ms)
-		BeginReloadAssembly (190ms)
+		BeginReloadAssembly (170ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (2ms)
-		EndReloadAssembly (1279ms)
-			LoadAssemblies (187ms)
+		EndReloadAssembly (1299ms)
+			LoadAssemblies (167ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (273ms)
+			SetupTypeCache (254ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (82ms)
-			SetupLoadedEditorAssemblies (781ms)
+			RebuildScriptCaches (69ms)
+			SetupLoadedEditorAssemblies (850ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (143ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (230ms)
-				BeforeProcessingInitializeOnLoad (3ms)
-				ProcessInitializeOnLoadAttributes (261ms)
-				ProcessInitializeOnLoadMethodAttributes (143ms)
+				InitializePlatformSupportModulesInManaged (145ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (262ms)
+				BeforeProcessingInitializeOnLoad (4ms)
+				ProcessInitializeOnLoadAttributes (275ms)
+				ProcessInitializeOnLoadMethodAttributes (163ms)
 				AfterProcessingInitializeOnLoad (0ms)
-				EditorAssembliesLoaded (1ms)
+				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.039941 seconds.
+Registered in 0.032072 seconds.
+Android Extension - Scanning For ADB Devices 4687 ms
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 252.46 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 231.18 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 SocketException: Системе не удается найти указанный параметр среды.
   at System.Net.Sockets.Socket..ctor (System.Net.Sockets.AddressFamily addressFamily, System.Net.Sockets.SocketType socketType, System.Net.Sockets.ProtocolType protocolType) [0x00068] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
@@ -138,43 +139,43 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])
 (Filename: Library/PackageCache/com.unity.addressables@1.19.19/Editor/HostingServices/HostingServicesManager.cs Line: 550)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  9.492 seconds
+- Completed reload, in  9.143 seconds
 Domain Reload Profiling:
-	ReloadAssembly (9494ms)
-		BeginReloadAssembly (355ms)
+	ReloadAssembly (9145ms)
+		BeginReloadAssembly (248ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (15ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (144ms)
-		EndReloadAssembly (8812ms)
-			LoadAssemblies (232ms)
+			CreateAndSetChildDomain (38ms)
+		EndReloadAssembly (8525ms)
+			LoadAssemblies (231ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (779ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (222ms)
-			SetupLoadedEditorAssemblies (7400ms)
+			SetupTypeCache (800ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (295ms)
+			SetupLoadedEditorAssemblies (7051ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (44ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (267ms)
-				BeforeProcessingInitializeOnLoad (304ms)
-				ProcessInitializeOnLoadAttributes (3820ms)
-				ProcessInitializeOnLoadMethodAttributes (2952ms)
+				InitializePlatformSupportModulesInManaged (38ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (231ms)
+				BeforeProcessingInitializeOnLoad (318ms)
+				ProcessInitializeOnLoadAttributes (3838ms)
+				ProcessInitializeOnLoadMethodAttributes (2612ms)
 				AfterProcessingInitializeOnLoad (12ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (13ms)
+			AwakeInstancesAfterBackupRestoration (12ms)
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.29 seconds
-Refreshing native plugins compatible for Editor in 2.63 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.10 seconds
+Refreshing native plugins compatible for Editor in 2.67 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4988 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.2 MB). Loaded Objects now: 5482.
-Memory consumption went from 201.4 MB to 200.2 MB.
-Total: 67.195224 ms (FindLiveObjects: 0.714436 ms CreateObjectMapping: 0.657418 ms MarkObjects: 64.754851 ms  DeleteObjects: 1.065668 ms)
+Unloading 4991 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.2 MB). Loaded Objects now: 5485.
+Memory consumption went from 201.5 MB to 200.3 MB.
+Total: 71.578203 ms (FindLiveObjects: 0.741235 ms CreateObjectMapping: 0.861543 ms MarkObjects: 68.799142 ms  DeleteObjects: 1.172862 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -188,368 +189,80 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 12738.664328 seconds.
-  path: Assets/Sprites/Buildings/building_7.png
-  artifactKey: Guid(84d317d9e9a81be498982039d52a5059) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_7.png using Guid(84d317d9e9a81be498982039d52a5059) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e2f11554c0c5d2224f468a0e1f978d1d') in 0.427741 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000048 seconds.
-  path: Assets/Gems and gold/Diamonds Glow/Chest/PNG 256/Chest YD.png
-  artifactKey: Guid(2b4c4cf284addc64baeba148fec06991) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds Glow/Chest/PNG 256/Chest YD.png using Guid(2b4c4cf284addc64baeba148fec06991) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '408330ce8f32460a9c60c66ccbb5b25f') in 0.120867 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000164 seconds.
-  path: Assets/Sprites/Buildings/building_6.png
-  artifactKey: Guid(fc36a7f762579c04fb331f4f062ef905) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_6.png using Guid(fc36a7f762579c04fb331f4f062ef905) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '639a696e0b8dd684605ac4c906dd9257') in 0.074580 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_10.png
-  artifactKey: Guid(7b694bfb616ccfc4c85ff22c02181f65) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_10.png using Guid(7b694bfb616ccfc4c85ff22c02181f65) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '37f9d04938a4c14aa3c99c7cd318f13a') in 0.348865 seconds 
+  Time since last request: 40633.497720 seconds.
+  path: Assets/Sprites/Icons/Hero/Info/301.png
+  artifactKey: Guid(734d3bd79683a2c44b74ad89a4e1361e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/301.png using Guid(734d3bd79683a2c44b74ad89a4e1361e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '256874203b4719cf7baf087878a8186f') in 0.399981 seconds 
 ========================================================================
 Received Import Request.
   Time since last request: 0.000051 seconds.
-  path: Assets/Gems and gold/Diamonds Glow/Chest/PSD/Chest YD.psd
-  artifactKey: Guid(2fb01b8a22251c94d99f5f4635899f99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds Glow/Chest/PSD/Chest YD.psd using Guid(2fb01b8a22251c94d99f5f4635899f99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43865e2de15201405fee37cf8a7d7e8a') in 0.356224 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000050 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_2.png
-  artifactKey: Guid(c4d79de250fafe845b04a612fd8dd550) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_2.png using Guid(c4d79de250fafe845b04a612fd8dd550) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4bf7e7646424547948f053e6ab558cc5') in 0.079713 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000043 seconds.
-  path: Assets/Gems and gold/Diamonds Glow/Chest/PNG 512/Chest YD.png
-  artifactKey: Guid(6711bfc7ece9840478c7eddc2c16bf25) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds Glow/Chest/PNG 512/Chest YD.png using Guid(6711bfc7ece9840478c7eddc2c16bf25) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1500610d5719c3728acbdfb819b8a2d1') in 0.177890 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000144 seconds.
-  path: Assets/Gems and gold/Coins/PNG 1024/Coins 6.png
-  artifactKey: Guid(a44362b4ab5a6d14ea00221a10901134) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 1024/Coins 6.png using Guid(a44362b4ab5a6d14ea00221a10901134) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7857a678e895f515da6e429d70f6abde') in 0.281587 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000047 seconds.
-  path: Assets/Gems and gold/Diamonds/Chest/PNG 256/Chest YD.png
-  artifactKey: Guid(e4576efaae6d93048b40b74b4e17bd4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds/Chest/PNG 256/Chest YD.png using Guid(e4576efaae6d93048b40b74b4e17bd4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '81b88c6038423c3ef77a97c0e79ae7d4') in 0.092122 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000036 seconds.
-  path: Assets/Sprites/Icons/UIController/city_v2_sky.png
-  artifactKey: Guid(33d583b520f7c984b852753d7f510838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Icons/UIController/city_v2_sky.png using Guid(33d583b520f7c984b852753d7f510838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '99566122b7837961b8bf4b6c4208bc7f') in 0.125619 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000095 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_12_skfz.png
-  artifactKey: Guid(3e612da2431f4924da88d5546f786125) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_12_skfz.png using Guid(3e612da2431f4924da88d5546f786125) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36fe0bf2ca2a69142b66edfa4cfee72f') in 0.132938 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000052 seconds.
-  path: Assets/Gems and gold/Coins/PNG 256/Coins 4.png
-  artifactKey: Guid(3cc08f6a5f18b164184b9854ffa642ba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 256/Coins 4.png using Guid(3cc08f6a5f18b164184b9854ffa642ba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9ea94a84973aa8d92364a9354223ace') in 0.111763 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000038 seconds.
-  path: Assets/Sprites/Icons/Race/demons.png
-  artifactKey: Guid(856ed6fa48599b0448bf47514b62a6f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Icons/Race/demons.png using Guid(856ed6fa48599b0448bf47514b62a6f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a3c04aea936b97a4f06fb8b93c3942a2') in 0.074454 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000052 seconds.
-  path: Assets/Sprites/Buildings/building_10.png
-  artifactKey: Guid(b7fd86c21411d054c8348b8d0673af86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_10.png using Guid(b7fd86c21411d054c8348b8d0673af86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff7987fa66d9ee32253d42e63be1b876') in 0.059434 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000072 seconds.
-  path: Assets/Sprites/Buildings/building_11.png
-  artifactKey: Guid(67cdbeb38dd81914a82d1f46d192701d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_11.png using Guid(67cdbeb38dd81914a82d1f46d192701d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '17b92a7f0b0c7f6668fb3a678887c58b') in 0.081604 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000046 seconds.
-  path: Assets/Gems and gold/Coins/PNG 512/Coins 6.png
-  artifactKey: Guid(bcd58c373a5afc744a72242541980538) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 512/Coins 6.png using Guid(bcd58c373a5afc744a72242541980538) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ce51d279ab3dcdd8e3ed9e699139257c') in 0.150968 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000049 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_3.png
-  artifactKey: Guid(87773100eff94ca40ac799bf0aa19caa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_3.png using Guid(87773100eff94ca40ac799bf0aa19caa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '641055fcb2ec0c6aebbc16db6bdbe0c8') in 0.107557 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000059 seconds.
-  path: Assets/Sprites/Buildings/building_12.png
-  artifactKey: Guid(3c006a35c51c8d240a6a4459235f2cc6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_12.png using Guid(3c006a35c51c8d240a6a4459235f2cc6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '34deb45ff348ccd0085d42f3bdc07676') in 0.129988 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000314 seconds.
-  path: Assets/Sprites/Buildings/city_ianzu_5.png
-  artifactKey: Guid(08c8437e88ebb884ab548884ae9dcdb8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_ianzu_5.png using Guid(08c8437e88ebb884ab548884ae9dcdb8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66eacb150c3f980e930fd3d887daf5c3') in 0.103023 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000052 seconds.
-  path: Assets/Sprites/Buildings/building_1.png
-  artifactKey: Guid(62d6cac98634cfd44860642cf1a69e4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_1.png using Guid(62d6cac98634cfd44860642cf1a69e4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b8ec74f64dd84ecb1d525f97a40e1452') in 0.087071 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000066 seconds.
-  path: Assets/Sprites/Buildings/building_8.png
-  artifactKey: Guid(214467048009efc439fcc73440800ec4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_8.png using Guid(214467048009efc439fcc73440800ec4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e54ede8ba5fd2f0f942b0ea09e316535') in 0.090325 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000045 seconds.
-  path: Assets/Sprites/Buildings/building_5.png
-  artifactKey: Guid(06680b2f502b45a41aa52e318063c1d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_5.png using Guid(06680b2f502b45a41aa52e318063c1d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d0906342f803859553f62ffff858e19') in 0.067893 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000042 seconds.
-  path: Assets/Sprites/Buildings/building_2.png
-  artifactKey: Guid(2d413f3f17ae61745ab8bfd076b27326) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_2.png using Guid(2d413f3f17ae61745ab8bfd076b27326) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '731b6ca9e973bbb9442fa240053562c1') in 0.076136 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000060 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 5.psd
-  artifactKey: Guid(07993ef27276ed74e90e5dc3254725d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 5.psd using Guid(07993ef27276ed74e90e5dc3254725d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ce7ccb2d8776996fe47f8f378eedc0d') in 0.356239 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.016027 seconds.
-  path: Assets/Gems and gold/Coins/PNG 1024/Coins 5.png
-  artifactKey: Guid(c14bad3e70d35ed46beb09cd93497761) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 1024/Coins 5.png using Guid(c14bad3e70d35ed46beb09cd93497761) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '85475b31948c17f024232bb8ecc99882') in 0.295993 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000042 seconds.
-  path: Assets/Sprites/Icons/UIController/city_v2_cheng_all_2.png
-  artifactKey: Guid(737a4e35d86dbd849a656cd6759e6c68) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Icons/UIController/city_v2_cheng_all_2.png using Guid(737a4e35d86dbd849a656cd6759e6c68) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '55bccb43daf976dba6c9e2c2e4f74184') in 0.185978 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000049 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_9.png
-  artifactKey: Guid(d0e64670992d1b54ca744e0ef16f6255) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_9.png using Guid(d0e64670992d1b54ca744e0ef16f6255) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40070c372b265b5164651fd8b5b08976') in 0.168072 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000038 seconds.
-  path: Assets/Gems and gold/Diamonds/Chest/PNG 512/Chest YD.png
-  artifactKey: Guid(546bb5b8197be5c419692d9197e17645) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds/Chest/PNG 512/Chest YD.png using Guid(546bb5b8197be5c419692d9197e17645) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9eee93d5ff6692529cf7cb10fdf296cb') in 0.161744 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Sprites/Icons/UIController/city_v2_san_L.png
-  artifactKey: Guid(665aca574d7ec1745a8eaae734510d7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Icons/UIController/city_v2_san_L.png using Guid(665aca574d7ec1745a8eaae734510d7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d2737e7ffd3300db43713827a764fc4') in 0.279058 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000070 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 1.psd
-  artifactKey: Guid(fcb9f26636f6222459c3f0da0b4d90df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 1.psd using Guid(fcb9f26636f6222459c3f0da0b4d90df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '897835a8eecd320d7cfe7485263544a9') in 0.355335 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000042 seconds.
-  path: Assets/Custom Fortune Wheel/Resources/Essentials/Circle.png
-  artifactKey: Guid(78e738747e26441bf837584a2ca40c29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Custom Fortune Wheel/Resources/Essentials/Circle.png using Guid(78e738747e26441bf837584a2ca40c29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c618e0065f52d2e24283989f0cd9375') in 0.123828 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000050 seconds.
-  path: Assets/Sprites/Buildings/building_13.png
-  artifactKey: Guid(e408b97291f186b47bbdfdc835325298) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_13.png using Guid(e408b97291f186b47bbdfdc835325298) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2f1d90fc9efe032125b2f9457fe15380') in 0.054492 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000036 seconds.
-  path: Assets/Sprites/Buildings/building_3.png
-  artifactKey: Guid(097a3f0c484f73b489663304ed47059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_3.png using Guid(097a3f0c484f73b489663304ed47059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3e5a90682e69a42046d2b00d6d55a569') in 0.058953 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000045 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_11_v2.png
-  artifactKey: Guid(3205b7bea2e4047439e54a94f65f413b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_11_v2.png using Guid(3205b7bea2e4047439e54a94f65f413b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8fe54f331ec75e2b4f77aab3e90f9c9d') in 0.176232 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000067 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_6.png
-  artifactKey: Guid(7fa183fc1acfab14b8a22d690a9f0f7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_6.png using Guid(7fa183fc1acfab14b8a22d690a9f0f7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6d2e8bfc128b7bad801a2aed03ef3551') in 0.140848 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000062 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 4.psd
-  artifactKey: Guid(10cbaab949e46b7479779fa9f0bb5acb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 4.psd using Guid(10cbaab949e46b7479779fa9f0bb5acb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c16b8a04c1dff0062086f63385f01661') in 0.267222 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000042 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_4.png
-  artifactKey: Guid(b20e7881a884e3747b86f182a5cc050e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_4.png using Guid(b20e7881a884e3747b86f182a5cc050e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f717c30b80241690cd7c6450b70d4ab2') in 0.179946 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000050 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 6.psd
-  artifactKey: Guid(186ed22afa9fa554184839209f7e818c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 6.psd using Guid(186ed22afa9fa554184839209f7e818c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ba7bc6d8bcafcefd0c84c2f51be6af4e') in 0.343644 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000070 seconds.
-  path: Assets/Gems and gold/Coins/PNG 256/Coins 5.png
-  artifactKey: Guid(c303a323048e00843bc7289e4c055843) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 256/Coins 5.png using Guid(c303a323048e00843bc7289e4c055843) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf9c0e39c86e68dd2f56e7060b5aa501') in 0.107355 seconds 
+  path: Assets/Sprites/Icons/Hero/Info/star1.png
+  artifactKey: Guid(da59c11741449b346a184065c0355bc9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/star1.png using Guid(da59c11741449b346a184065c0355bc9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '13bb9a30c519c316e3e97b6bdfde3cf5') in 0.104815 seconds 
 ========================================================================
 Received Import Request.
   Time since last request: 0.000055 seconds.
-  path: Assets/Gems and gold/Diamonds Glow/Chest/PNG 1024/Chest YD.png
-  artifactKey: Guid(8fe5074e4f1aaa5428b448311e243a4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds Glow/Chest/PNG 1024/Chest YD.png using Guid(8fe5074e4f1aaa5428b448311e243a4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b195a8f132396acf4984dcc72c80bf3f') in 0.294379 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_1.png
-  artifactKey: Guid(633b2d0dea49abb409cc85ed309b6018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_1.png using Guid(633b2d0dea49abb409cc85ed309b6018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '000def376901004679d994c11c1d0a5a') in 0.093268 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000058 seconds.
-  path: Assets/Sprites/Buildings/city_jianzu_8.png
-  artifactKey: Guid(031580b3804f9d94883c6a0f06d95a97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/city_jianzu_8.png using Guid(031580b3804f9d94883c6a0f06d95a97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84787fc20db827a2e9a751b4642eafe5') in 0.115210 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000048 seconds.
-  path: Assets/Gems and gold/Coins/PNG 256/Coins 6.png
-  artifactKey: Guid(e0f7d847defdb3444bbfe9684523f555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 256/Coins 6.png using Guid(e0f7d847defdb3444bbfe9684523f555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7a0c8a7fa3fe2339bf464697a128d3ea') in 0.237969 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000059 seconds.
-  path: Assets/Sprites/Icons/Hero/Info/damage.png
-  artifactKey: Guid(8d2c6b926d9c8be45a2202bc6358bcc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Icons/Hero/Info/damage.png using Guid(8d2c6b926d9c8be45a2202bc6358bcc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dc593cd587c639fedadb82202c59e3f6') in 0.080459 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000057 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 3.psd
-  artifactKey: Guid(3766c95c367293a458903da2a7a896ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 3.psd using Guid(3766c95c367293a458903da2a7a896ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e059f9554d6f6f86a0a01797f4bd1309') in 0.276736 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000052 seconds.
-  path: Assets/Gems and gold/Diamonds/Chest/PNG 1024/Chest YD.png
-  artifactKey: Guid(a1f410eba2576bd4f8c429f3aa16542d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds/Chest/PNG 1024/Chest YD.png using Guid(a1f410eba2576bd4f8c429f3aa16542d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c83b948442ed1b0e6d2e6ba8e28f3afa') in 0.360992 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000064 seconds.
-  path: Assets/Gems and gold/Coins/PNG 512/Coins 4.png
-  artifactKey: Guid(b41359dae2fcbaa4bb7986b5ccb52980) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 512/Coins 4.png using Guid(b41359dae2fcbaa4bb7986b5ccb52980) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1107ef91ac85bd3c646b96ecb3d5f37') in 0.164275 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000064 seconds.
-  path: Assets/Sprites/Buildings/building_9.png
-  artifactKey: Guid(32eef45603a67d84b9a91f6aa2f10f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_9.png using Guid(32eef45603a67d84b9a91f6aa2f10f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03748c5d6055a947905b266d47ae59a0') in 0.090763 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000053 seconds.
-  path: Assets/Resources/UI/GameImageResource/Resources.png
-  artifactKey: Guid(44a770af22df3dc41973cf95072ddb1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/UI/GameImageResource/Resources.png using Guid(44a770af22df3dc41973cf95072ddb1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '21f22ad6f0f2d102651914cc6cf581b6') in 0.363140 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000053 seconds.
-  path: Assets/Gems and gold/Coins/PNG 512/Coins 5.png
-  artifactKey: Guid(40fa8cba670e85d4e9eeea2deb93c704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 512/Coins 5.png using Guid(40fa8cba670e85d4e9eeea2deb93c704) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0793fa894a46e513a909620c73987ed') in 0.130028 seconds 
+  path: Assets/Sprites/Icons/Hero/Info/lvl.png
+  artifactKey: Guid(faaa440f014355148a05b4d1e9c0154c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/lvl.png using Guid(faaa440f014355148a05b4d1e9c0154c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '436897b577956cf117aaf1a43fe932b1') in 0.137800 seconds 
 ========================================================================
 Received Import Request.
   Time since last request: 0.000038 seconds.
-  path: Assets/Resources/Items/Items.png
-  artifactKey: Guid(721d078299dc3bd42a9fbe270dd18418) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Items/Items.png using Guid(721d078299dc3bd42a9fbe270dd18418) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e653086db1d72cc039b7198c9130dad') in 0.966135 seconds 
+  path: Assets/Sprites/Icons/Hero/Info/speed.png
+  artifactKey: Guid(cbba4453abdb11448902d341e36ba4ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/speed.png using Guid(cbba4453abdb11448902d341e36ba4ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8cdc3ed87ea0bc0adff29bb282c6feb0') in 0.111513 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000060 seconds.
-  path: Assets/Gems and gold/Coins/PSD/Coins 2.psd
-  artifactKey: Guid(d35320e8c09cf4f4a9e280717ff68b00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PSD/Coins 2.psd using Guid(d35320e8c09cf4f4a9e280717ff68b00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a8a86ede1b1e2da4f63fbdec80319f00') in 0.449577 seconds 
+  Time since last request: 0.000048 seconds.
+  path: Assets/Sprites/Icons/Hero/Info/armor.png
+  artifactKey: Guid(d2f53f83db4d59f4bb4e8ea6e0b76c2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/armor.png using Guid(d2f53f83db4d59f4bb4e8ea6e0b76c2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03e707ec380461beee3b1cb381400338') in 0.084820 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000086 seconds.
-  path: Assets/Sprites/Buildings/xly_icon_3_4.png
-  artifactKey: Guid(f8c4fc32b8b55f24ca691ff15544d19f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/xly_icon_3_4.png using Guid(f8c4fc32b8b55f24ca691ff15544d19f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '20c6c898ed46418f00de54c00060b999') in 0.067953 seconds 
+  Time since last request: 0.000057 seconds.
+  path: Assets/Sprites/Icons/Hero/Info/health.png
+  artifactKey: Guid(e9ed2f85f2a10634bb1879ac3a55de39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Icons/Hero/Info/health.png using Guid(e9ed2f85f2a10634bb1879ac3a55de39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd3b946b910e531bc8afac046ad3f5b68') in 0.077513 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000043 seconds.
-  path: Assets/Sprites/Buildings/building_4.png
-  artifactKey: Guid(0a83f61ef1baa0c4abd965b37de9b6d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/building_4.png using Guid(0a83f61ef1baa0c4abd965b37de9b6d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aead73b5320346eb253e9b94dbbb8f0f') in 0.079375 seconds 
+  Time since last request: 48.332624 seconds.
+  path: Assets/Prefabs/UI/ObserverResource.prefab
+  artifactKey: Guid(af3f986f82ae8ee459675dc594f9848c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/ObserverResource.prefab using Guid(af3f986f82ae8ee459675dc594f9848c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '270321e90b83f72c35181e0f676d8749') in 0.364728 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000195 seconds.
-  path: Assets/Gems and gold/Coins/PNG 1024/Coins 4.png
-  artifactKey: Guid(82b87637bd1384f41bcb48ddabd37ac2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Coins/PNG 1024/Coins 4.png using Guid(82b87637bd1384f41bcb48ddabd37ac2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '58976f70596a430fb3a1c838121616d6') in 0.271163 seconds 
+  Time since last request: 0.000055 seconds.
+  path: Assets/Prefabs/UI/Product.prefab
+  artifactKey: Guid(3a97751484930c44a878d0154044af39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Product.prefab using Guid(3a97751484930c44a878d0154044af39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f022a62bed3447c99b000702da11b9f0') in 0.151116 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.202668 seconds.
+  path: Assets/Prefabs/UI/OtherControllers/Avatar.prefab
+  artifactKey: Guid(7914d9fcd3b55f44d97d9d9189ea1a98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/OtherControllers/Avatar.prefab using Guid(7914d9fcd3b55f44d97d9d9189ea1a98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e3c5027610f797d9a7bda196d6140d6') in 0.036452 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000052 seconds.
+  path: Assets/Prefabs/UI/OtherControllers/EventPanelButton.prefab
+  artifactKey: Guid(79be27e18c74cbe4fb7d872b97ae4fdb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/OtherControllers/EventPanelButton.prefab using Guid(79be27e18c74cbe4fb7d872b97ae4fdb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d9e26b49b7f1f3438e2e0d51076b224') in 0.099556 seconds 
 ========================================================================
 Received Import Request.
   Time since last request: 0.000050 seconds.
-  path: Assets/Sprites/Buildings/xly_icon_3_5.png
-  artifactKey: Guid(91b1e47e19a22874ba3c8be8c7256572) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Buildings/xly_icon_3_5.png using Guid(91b1e47e19a22874ba3c8be8c7256572) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'abbca6cd08cd26c29ceae65cc7555671') in 0.074680 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000059 seconds.
-  path: Assets/Gems and gold/Diamonds/Chest/PSD/Chest YD.psd
-  artifactKey: Guid(25f0542023ad87543ba6b72917bae9d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Gems and gold/Diamonds/Chest/PSD/Chest YD.psd using Guid(25f0542023ad87543ba6b72917bae9d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ee3b2874f86a9a4fefefd3b6e7c3487a') in 0.308789 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 4.272393 seconds.
-  path: Assets/Scripts/City/Buildings/Voyage
-  artifactKey: Guid(773d983f5d7bd2e4ba90f2e7ae42bfa4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/City/Buildings/Voyage using Guid(773d983f5d7bd2e4ba90f2e7ae42bfa4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6333450a074bb8f83677a9db9e2441fb') in 0.020473 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 68.841573 seconds.
-  path: Assets/Scripts/City/Buildings/Voyage/VoyageControllerSctipt.cs
-  artifactKey: Guid(bb4f3ce3b3d1ffc46a3309ea860fc993) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/City/Buildings/Voyage/VoyageControllerSctipt.cs using Guid(bb4f3ce3b3d1ffc46a3309ea860fc993) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '088cca341da36de31bf76f8ebd968f1a') in 0.037955 seconds 
+  path: Assets/Prefabs/UI/OtherControllers/BuildingUI.prefab
+  artifactKey: Guid(2814049f3db208543b31cf8391f90f35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/OtherControllers/BuildingUI.prefab using Guid(2814049f3db208543b31cf8391f90f35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef01a1026de288526a8bad675771af24') in 0.154801 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.027744 seconds.
+Registered in 0.024050 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 2.37 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 4.14 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 SocketException: Системе не удается найти указанный параметр среды.
   at System.Net.Sockets.Socket..ctor (System.Net.Sockets.AddressFamily addressFamily, System.Net.Sockets.SocketType socketType, System.Net.Sockets.ProtocolType protocolType) [0x00068] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
@@ -567,40 +280,40 @@ SocketException: Системе не удается найти указанны�
 (Filename: Library/PackageCache/com.unity.addressables@1.19.19/Editor/HostingServices/HostingServicesManager.cs Line: 550)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  5.639 seconds
+- Completed reload, in  7.852 seconds
 Domain Reload Profiling:
-	ReloadAssembly (5640ms)
-		BeginReloadAssembly (331ms)
+	ReloadAssembly (7854ms)
+		BeginReloadAssembly (588ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (17ms)
+			DisableScriptedObjects (34ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (113ms)
-		EndReloadAssembly (5065ms)
-			LoadAssemblies (235ms)
+			CreateAndSetChildDomain (243ms)
+		EndReloadAssembly (6892ms)
+			LoadAssemblies (286ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (668ms)
+			SetupTypeCache (870ms)
 			ReleaseScriptCaches (4ms)
-			RebuildScriptCaches (125ms)
-			SetupLoadedEditorAssemblies (3758ms)
+			RebuildScriptCaches (160ms)
+			SetupLoadedEditorAssemblies (5110ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (53ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (226ms)
-				ProcessInitializeOnLoadAttributes (3013ms)
-				ProcessInitializeOnLoadMethodAttributes (451ms)
+				InitializePlatformSupportModulesInManaged (107ms)
+				SetLoadedEditorAssemblies (14ms)
+				RefreshPlugins (4ms)
+				BeforeProcessingInitializeOnLoad (265ms)
+				ProcessInitializeOnLoadAttributes (4152ms)
+				ProcessInitializeOnLoadMethodAttributes (555ms)
 				AfterProcessingInitializeOnLoad (12ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (157ms)
+			AwakeInstancesAfterBackupRestoration (159ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 8.98 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 9.29 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4879 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 54 unused Assets / (1.2 MB). Loaded Objects now: 5783.
-Memory consumption went from 200.8 MB to 199.6 MB.
-Total: 92.051111 ms (FindLiveObjects: 0.659129 ms CreateObjectMapping: 0.413381 ms MarkObjects: 89.986487 ms  DeleteObjects: 0.989834 ms)
+Unloading 4881 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 57 unused Assets / (1.2 MB). Loaded Objects now: 5501.
+Memory consumption went from 200.2 MB to 199.0 MB.
+Total: 98.816875 ms (FindLiveObjects: 0.620357 ms CreateObjectMapping: 0.459566 ms MarkObjects: 96.219132 ms  DeleteObjects: 1.514400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -614,7 +327,7 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 6554.419582 seconds.
-  path: Assets/Scripts/City/Buildings/Voyage/VoyageControllerSctipt.cs
-  artifactKey: Guid(bb4f3ce3b3d1ffc46a3309ea860fc993) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/City/Buildings/Voyage/VoyageControllerSctipt.cs using Guid(bb4f3ce3b3d1ffc46a3309ea860fc993) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '94ca629c7559f82c303ffff83e60a84a') in 9.294806 seconds 
+  Time since last request: 665.068241 seconds.
+  path: Assets/Prefabs/UI/Voyage/VoyageMission.prefab
+  artifactKey: Guid(ac416d28e260f4648bc5e3d133479011) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Voyage/VoyageMission.prefab using Guid(ac416d28e260f4648bc5e3d133479011) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '55830b312bac0bfd33c589ec37524381') in 0.907006 seconds 

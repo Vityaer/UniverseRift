@@ -24,6 +24,7 @@ public class Building : SerializedMonoBehaviour{
 		}
 	}
 	public virtual void Open(){
+		Debug.Log("open building");
 		if(building != null){ CanvasBuildingsUI.Instance.OpenBuilding(building); }
 		OpenPage();
 	}

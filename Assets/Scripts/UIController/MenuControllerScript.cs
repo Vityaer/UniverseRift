@@ -28,7 +28,10 @@ public class MenuControllerScript : MonoBehaviour{
 		}
 	}
 //API
-
+	public void OpenCity(){
+		canvasCity.Open();
+		OpenMainPage();
+	}
 	public void OpenMainPage(){
 		canvasMainMenu.SetActive(true);
 	}	   

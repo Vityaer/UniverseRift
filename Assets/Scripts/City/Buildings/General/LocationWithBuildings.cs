@@ -8,14 +8,22 @@ public class LocationWithBuildings : MonoBehaviour{
 	public Building buildingCanvas;
 	public virtual void Open(){
 		Debug.Log("location open");
-		location.SetActive(true);
-		LocationControllerScript.Instance.OpenLocation(typeBackground);
+		MenuControllerScript.Instance.CloseMainPage();
 		buildingCanvas.Open();
 		OnOpenLocation();
+		Show();
 	}
 	public virtual void Close(){
-		Debug.Log("location close");
+		LocationControllerScript.Instance.Close();
+		MenuControllerScript.Instance.OpenCity();
 		buildingCanvas.Close();
+		Hide();
+	}
+	public void Show(){
+		LocationControllerScript.Instance.OpenLocation(typeBackground);
+		location.SetActive(true);
+	}
+	public void Hide(){
 		location.SetActive(false);
 	}
 	protected virtual void OnOpenLocation(){}

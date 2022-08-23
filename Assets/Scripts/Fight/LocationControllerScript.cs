@@ -18,6 +18,9 @@ public class LocationControllerScript : MonoBehaviour{
 	public Sprite GetBackgroundForMission(TypeLocation typeLocation){
 		return locations.Find(x => x.type == typeLocation).backgroundForMission;
 	}
+	public void Close(){
+		if(curLocation != null) BackGroundControllerScript.Instance.OpenCityBackground();
+	}
 	private static LocationControllerScript instance;
 	public static LocationControllerScript Instance{get => instance;}
 }

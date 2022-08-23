@@ -8,6 +8,8 @@ public class BackGroundControllerScript : MonoBehaviour{
 	public  static BackGroundControllerScript Instance{get => instance;}
 	public GameObject currentBackground;
 
+	[Header("List background")]
+	public GameObject cityBackground;
 	void Awake(){
 		instance = this;
 	}
@@ -15,5 +17,8 @@ public class BackGroundControllerScript : MonoBehaviour{
 		if(currentBackground != null) currentBackground.SetActive(false);
 		currentBackground = newBackground;
 		currentBackground.SetActive(true);
+	}
+	public void OpenCityBackground(){
+		OpenBackground(cityBackground);
 	}
 }

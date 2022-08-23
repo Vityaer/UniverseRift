@@ -47,6 +47,15 @@ public class VoyageControllerSctipt : BuildingWithFight{
 		if(observerDoneTravel != null)
 			observerDoneTravel(new BigDigit(num));
 	}
+	public LocationWithBuildings locationController;
+	protected override void OpenPage(){
+		WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+		locationController.Show();
+	}
+	protected override void ClosePage(){
+		Debug.Log("close page");
+		locationController.Hide();
+	}
 	private static VoyageControllerSctipt instance;
 	public static VoyageControllerSctipt Instance{get => instance;}
 	void Awake(){ instance = this; }
