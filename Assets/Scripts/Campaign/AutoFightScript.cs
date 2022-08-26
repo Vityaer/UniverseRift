@@ -18,6 +18,9 @@ public class AutoFightScript : MonoBehaviour{
 		missionAutoFight.StartAutoFight();
 		heap.SetNewReward(missionAutoFight.mission.AutoFightReward);
 	}
+	public void SelectMissionAutoFight(CampaignMission mission){
+		heap.SetNewReward(mission.AutoFightReward);
+	}
 	public void Open(){
 		Debug.Log("auto fight open");
 		canvasAutoFight.enabled = true;

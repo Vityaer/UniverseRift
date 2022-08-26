@@ -72,7 +72,7 @@ public class Item : PlayerObject, VisualAPI{
 		UpdateUI();
 	}
 	public override void UpdateUI(){
-		UI?.UpdateUI(Image, rare, GetTextAmount());
+		UI?.UpdateUI(Image, rare, Amount);
 	}	
 
 //Constructors

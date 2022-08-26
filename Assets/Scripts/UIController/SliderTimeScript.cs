@@ -7,57 +7,59 @@ using TMPro;
 public class SliderTimeScript : MonoBehaviour{
     [SerializeField] private Slider slider;
 	[SerializeField] private Image fillImage;
-	private DateTime requireTime, startTime;
+	private DateTime finishTime, startTime;
 	public TextMeshProUGUI textTime;
 	public TypeSliderTime typeSlider = TypeSliderTime.Remainder; 
 	public Color lowValue, fillValue;
 	int waitSeconds = 0;
 	DateTime deltaTime;
 	TimeSpan interval, generalInterval;
+	float secondsInterval = 1f; 
 	float t = 0f;
 	public void ChangeValue(){
 		switch(typeSlider){
 			case TypeSliderTime.Remainder:
-				deltaTime = requireTime - (DateTime.Now - startTime);
-				interval  = new TimeSpan(deltaTime.Hour, deltaTime.Minute, deltaTime.Second);
-				generalInterval = new TimeSpan(requireTime.Hour, requireTime.Minute, requireTime.Second);  
+				interval = generalInterval - (DateTime.Now - startTime);
 				waitSeconds = (int) interval.TotalSeconds;
-				t =  1f - (float) (waitSeconds / generalInterval.TotalSeconds);
-				if(waitSeconds == 0) StopTimer();
+				t =  (float) (waitSeconds / secondsInterval);
+				if(waitSeconds <= 0) SetFinish();
 				break;
 			case TypeSliderTime.Accumulation:
 				interval = DateTime.Now - startTime;
-				generalInterval = new TimeSpan(requireTime.Hour, requireTime.Minute, requireTime.Second);  
 				waitSeconds = (int) interval.TotalSeconds;
-				t = (float) (waitSeconds / generalInterval.TotalSeconds);
+				t = (float) (waitSeconds / secondsInterval);
 				if(t >= 1){
 					interval = generalInterval;
-					StopTimer();
+					SetFinish();
 				}
 				break;	
 		}
-		fillImage.color = Color.Lerp(lowValue, fillValue, t);
-		slider.value = t;
-		textTime.text = FunctionHelp.TimeSpanConvertToSmallString(interval);
+		if(isFinish == false){
+			fillImage.color = Color.Lerp(lowValue, fillValue, t);
+			slider.value = t;
+			textTime.text = FunctionHelp.TimeSpanConvertToSmallString(interval);
+		}
 	}
-	public void SetMaxValue(DateTime requireTime){
-		this.requireTime = requireTime;
-		textTime.text = FunctionHelp.TimeSpanConvertToSmallString(interval); 
+	public void SetMaxValue(TimeSpan requireTime){
+		textTime.text = FunctionHelp.TimeSpanConvertToSmallString(requireTime); 
 	}
 	Coroutine coroutineTimer;
 	private bool isSetData = false;
-	public void SetData(DateTime startTime, DateTime requireTime){
+	public void SetData(DateTime startTime, TimeSpan requireTime){
 		this.startTime = startTime;
-		this.requireTime = requireTime;
+		this.finishTime = startTime + requireTime;
+		generalInterval = requireTime;
+		secondsInterval = (float) generalInterval.TotalSeconds;
 		ChangeValue();
 		isSetData = true;
-		if(gameObject.activeSelf){
-			StartTimer();
-		}
+
+		if(gameObject.activeInHierarchy){ StartTimer();}	
 	}
 	private void StartTimer(){
-		if(coroutineTimer == null)
-			coroutineTimer = StartCoroutine(CoroutineTimer());
+		if(isFinish == false){
+			if(coroutineTimer == null)
+				coroutineTimer = StartCoroutine(CoroutineTimer());
+		}
 	}
 	public void StopTimer(){
 		if(coroutineTimer != null){
@@ -68,9 +70,14 @@ public class SliderTimeScript : MonoBehaviour{
 	public void SetInfo(string str){
 		textTime.text = str;
 	}
+	bool isFinish = false;
 	public void SetFinish(){
-		StopTimer();
-		textTime.text = "Готово!";
+		if(isFinish == false){
+			isFinish = true;
+			StopTimer();
+			textTime.text = "Готово!";
+			OnFinish();
+		}
 	}
 	IEnumerator CoroutineTimer(){
 	 	while(true){
@@ -79,7 +86,7 @@ public class SliderTimeScript : MonoBehaviour{
 	 	}
     }
     void OnEnable(){
-    	if(isSetData) StartTimer();
+    	if(isSetData && gameObject.activeInHierarchy) StartTimer();
     }
     void OnDisable(){
     	StopTimer();
@@ -108,9 +115,13 @@ public class SliderTimeScript : MonoBehaviour{
 		    	}
 		    	break;
 		} 			
-    	Debug.Log("GetSecondForUpdateTimer: " + result.ToString());
     	return result;
     }
+
+    private Action observerFinish;
+    public void RegisterOnFinish(Action d){observerFinish += d;}
+    public void UnregisterOnFinish(Action d){observerFinish -= d;}
+    private void OnFinish(){if(observerFinish != null) {observerFinish(); observerFinish = null;}}
 }
 public enum TypeSliderTime{
 	Remainder,

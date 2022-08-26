@@ -10,9 +10,9 @@ public class Task : ICloneable{
 	public int rating;
 	public List<InfoHero> heroes = new List<InfoHero>();
 	public int requireHour;
-	private DateTime _requireTime = new DateTime();
-	public DateTime requireTime{get 
-						{if(_requireTime.Hour == 0){_requireTime = new DateTime().AddHours(requireHour);}
+	private TimeSpan _requireTime = new TimeSpan();
+	public TimeSpan requireTime{get 
+						{if(_requireTime.Hours == 0){_requireTime = new TimeSpan(requireHour, 0, 0);}
 							 return _requireTime;} set {_requireTime = value;}}
 	private DateTime _timeStartTask = new DateTime();
 	public DateTime timeStartTask{
@@ -40,10 +40,10 @@ public class Task : ICloneable{
 		status           = StatusTask.InWork;
 		timeStartTask    = DateTime.Now;
 	}
-//API
-	public TimeSpan GetRequireTime(){
-		return new TimeSpan(_requireTime.Hour, 0, 0);
+	public void Finish(){
+		status = StatusTask.Done;
 	}
+//API
 	public void GetReward(){
 		PlayerScript.Instance.AddResource( reward );
 	}

@@ -20,11 +20,17 @@ namespace HelpFuction{
 				isDone = true;
 			}
 		}
+		private float startTime = 0f;
 		private float time;
-		public float Time{get => time; set => time = value;}
+		public float Time{get => time;}
 		private bool isDone;
-		public GameTimer(float _time, Action function){
-			time = _time;
+		private bool isLoop;
+
+		public bool IsDone{get => isDone;}
+		public bool IsLoop{get => isLoop; set => isLoop = value;}
+		public GameTimer(float time, Action function){
+			startTime = time;
+			this.time = time;
 			isDone = false;
 			Register(function);
 		}
@@ -32,6 +38,10 @@ namespace HelpFuction{
 			time -= deltatime;
 			if(time < 0f){
 				PlayFunction();
+				if(isLoop){
+					this.time = startTime;
+					isDone = false;
+				}
 			}
 		}
 	}
@@ -51,10 +61,13 @@ namespace HelpFuction{
 	    	GameTimer timer = new GameTimer(time, function);
 	    	if(time > 0f){
 	    		listTimer.Add(timer);
-	    		if(coroutineTime == null){
-	    			coroutineTime = StartCoroutine(ITimer());
-	    		}
+	    		if(coroutineTime == null) coroutineTime = StartCoroutine(ITimer());
 	    	}
+	    	return timer;
+	    }
+	    public GameTimer StartLoopTimer(float time, Action function){
+	    	GameTimer timer = StartTimer(time, function);
+	    	timer.IsLoop = true;
 	    	return timer;
 	    }
 	    public void StopTimer(GameTimer timer){
@@ -65,7 +78,7 @@ namespace HelpFuction{
 	    		for(int i=0; i < listTimer.Count; i++){
 	    			listTimer[i].ChangeTime(Time.deltaTime);
 	    		}
-	    		foreach (GameTimer Item in listTimer.Where(x => x.Time < 0).ToList()){
+	    		foreach (GameTimer Item in listTimer.Where(x => ( x.IsDone && !x.IsLoop ) ).ToList()){
                     listTimer.Remove(Item);
                 }
                 yield return null;

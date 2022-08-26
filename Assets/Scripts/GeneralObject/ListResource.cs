@@ -54,13 +54,7 @@ public class ListResource : ICloneable{
 		resources.Add(selectResource);
 	}
 	public Resource GetResource(TypeResource name){
-		Resource result = null;
-		foreach (Resource res in resources){
-			if(res.Name == name){
-				result = res;
-				break;
-			}
-		}
+		Resource result = resources.Find(x => x.Name == name);
 		if(result == null){result = new Resource(name); resources.Add(result);}
 		return result;
 	}

@@ -36,6 +36,13 @@ public class ButtonCostScript : MonoBehaviour{
 		this.res      = res;
 		CheckResource( res );
 	}
+	public void UpdateLabel(Action d, string text){
+		delOnBuy = d;
+		this.res.Clear();
+		textCost.text = text;
+		disable = false;
+		btn.interactable = true;
+	}
 	private void UpdateInfo(){
 		if(disable == false){
 			if(res.Count > 0){
@@ -51,8 +58,8 @@ public class ButtonCostScript : MonoBehaviour{
 		}
 	}
 	public void Buy(){
-		if((delBuyMatter != null) && (disable == false)){
-			SubstractResource();
+		if(disable == false){
+			if(res.Count > 0f) SubstractResource();
 			if(delBuyMatter != null) delBuyMatter(countBuy);
 			if(delOnBuy != null) delOnBuy();
 		}
@@ -71,6 +78,13 @@ public class ButtonCostScript : MonoBehaviour{
 		PlayerScript.Instance.RegisterOnChangeResource( CheckResource, res.Name );
 	}
 	private void SubstractResource(){
+		Debug.Log("SubstractResource: " + res.ToString());
 		PlayerScript.Instance.SubtractResource(res);
+	}
+	public void Clear(){
+		delBuyMatter = null;
+		delOnBuy = null;
+		btn.interactable = true;
+		disable = false;
 	}
 }

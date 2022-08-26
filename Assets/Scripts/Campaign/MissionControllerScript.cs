@@ -26,14 +26,11 @@ public class MissionControllerScript : MonoBehaviour{
 		this.numMission = numMission; 
     	backgoundMission.sprite = LocationControllerScript.Instance.GetBackgroundForMission(this.mission.location);
     	textNameMission.text    = numMission.ToString();
-    	if( (int) statusMission < 1 ){
-    		blockPanel.SetActive(true);
-    		infoFotter.SetActive(false);
-    		btnGoFight.SetActive(false);
-    	}else{
-			UpdateUI();
-			UpdateAutoRewardUI();
-    	}
+    	statusMission = StatusMission.NotOpen;
+		UpdateUI();
+	}
+	public void SetAutoFight(){
+		AutoFightScript.Instance.SelectMissionAutoFight(this);
 	}
 	public void ClickOnMission(){
 		if(statusMission != StatusMission.Complete){
@@ -85,7 +82,10 @@ public class MissionControllerScript : MonoBehaviour{
 	}
     private void UpdateUI(){
     	switch(statusMission){
-			case StatusMission.NotOpen:
+			case StatusMission.NotOpen:    		
+				blockPanel.SetActive(true);
+	    		infoFotter.SetActive(false);
+	    		btnGoFight.SetActive(false);
 				rewardController.CloseReward();
 				break;
     		case StatusMission.Open:

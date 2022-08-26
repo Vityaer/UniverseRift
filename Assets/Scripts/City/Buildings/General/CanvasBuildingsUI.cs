@@ -19,9 +19,11 @@ public class CanvasBuildingsUI : MonoBehaviour{
 		countOpenBuildng = listOpenBuilding.Count;
 	}
 	public void CloseBuilding(GameObject building){
-		GameObject buildingFromStack = listOpenBuilding.Pop();
-		if(building != buildingFromStack) Debug.Log("close other building");
-		buildingFromStack.SetActive(false);
+		if(listOpenBuilding.Count > 0){
+			GameObject buildingFromStack = listOpenBuilding.Pop();
+			if(building != buildingFromStack) Debug.Log("close other building");
+			buildingFromStack.SetActive(false);
+		}
 
 		countOpenBuildng = listOpenBuilding.Count;
 		if(listOpenBuilding.Count == 0){

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using IdleGame.MultiplayerData;
 public class Client : MonoBehaviour{
 	public DateTime GetServerTime(){
 		return DateTime.Now;
@@ -19,6 +20,12 @@ public class Client : MonoBehaviour{
 		for(int i = 0; i < 3; i++){
 			opponents.Add( listOpponents[UnityEngine.Random.Range(0, listOpponents.Count)] );
 		}
+	}
+	public DataCycleEvent GetDataCurrentCycleEvent(){
+		DataCycleEvent result = new DataCycleEvent();
+		result.stage = 0;
+		result.startTime = (DateTime.Today).ToString();
+		return result;
 	}
 	void Awake(){ instance = this; }
 	private static Client instance;

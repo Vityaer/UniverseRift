@@ -26,11 +26,7 @@ public class Splinter : PlayerObject{
 			if(sprite == null){
 				switch(typeSplinter){
 					case TypeSplinter.Hero:
-						if(CountReward > 1){
-							sprite = SystemSprites.Instance.GetSprite( GetSpriteName() );
-						}else{
-							GetDefaultData();
-						}
+						sprite = SystemSprites.Instance.GetSprite( GetSpriteName() );
 						break;
 				}
 			}
@@ -92,7 +88,7 @@ public class Splinter : PlayerObject{
 		UpdateUI();
 	}
 	public override void UpdateUI(){
-		UI?.UpdateUI(Image, rare, GetTextAmount());
+		UI?.UpdateUI(Image, rare, Amount);
 	}
 	private void ClearData(){
 		UI?.Clear();

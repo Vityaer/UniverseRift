@@ -101,10 +101,12 @@ public class HeroControllerScript : MonoBehaviour{
 	IEnumerator IMelleeAttackOtherHero(HexagonCellScript targetCell, Action actionOnEndMove){
 		HexagonCellScript.UnregisterOnClick(SelectHexagonCell);
 		OnEndSelectCell();
+		Debug.Log("find way...");
 		way = HexagonGridScript.Instance.FindWay(myPlace, targetCell, typeMovement: hero.GetBaseCharacteristic.typeMovement);
 		Vector3 targetPos, startPos;
 		float t = 0f;
 		HexagonCellScript currentCell;
+		Debug.Log("start move///");
 		while(way.Count > 0){
 			myPlace.ClearSublject();
 			currentCell = way.Pop();
@@ -112,8 +114,8 @@ public class HeroControllerScript : MonoBehaviour{
 			targetPos = currentCell.Position;
 			t = 0f;
 	        while(t <= 1f){
-	        	tr.position = Vector2.Lerp(startPos, targetPos, t);
 	        	t += Time.deltaTime * speedMove;
+	        	tr.position = Vector2.Lerp(startPos, targetPos, t);
 				yield return null;
 	        }
 	        tr.position = targetPos;
@@ -297,11 +299,8 @@ public class HeroControllerScript : MonoBehaviour{
 		if(sequenceAnimation != null) sequenceAnimation.Kill();
 		bool needFlip = NeedFlip(enemy);
 		Vector3 rotateAttack = Vector3.zero;
-		if(needFlip){
-			FlipX();
-			rotateAttack = new Vector3(0, 0, GetSideFace() == Side.Left ? -45 : 45);
-		}
-		Debug.Log("start default attack");
+		if(needFlip){ FlipX(); }
+		rotateAttack = new Vector3(0, 0, GetSideFace() == Side.Left ? -45 : 45);
 		sequenceAnimation = DOTween.Sequence()
 					.Append( tr.DORotate(rotateAttack, 0.25f))
 					.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => {GiveDamage(enemy); RemoveFightRecordActionMe(); if(needFlip) FlipX();} ));

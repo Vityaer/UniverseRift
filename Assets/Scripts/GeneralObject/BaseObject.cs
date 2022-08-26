@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class BaseObject: VisualAPI{
-	[SerializeField] protected Sprite sprite;
+	protected Sprite sprite = null;
 	public virtual Sprite Image{ get => sprite; }
 //API
 	public bool IsNull(){ return (sprite == null); }

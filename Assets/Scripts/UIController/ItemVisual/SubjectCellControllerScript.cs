@@ -19,14 +19,12 @@ public class SubjectCellControllerScript : MonoBehaviour{
 		CheckCell();
 		this.visual = visual;
 		visual.SetUI(UIItem);
-		visual.UpdateUI();
 	}
 	public void SetItem(Resource res){
 		CheckCell();
 		SetVisual(res.GetVisual());
 		this.res = res;
  		res.SetUI(UIItem);
-		res.UpdateUI();
 	}
 	public void SetItem(ItemController item){
 		CheckCell();
@@ -34,7 +32,6 @@ public class SubjectCellControllerScript : MonoBehaviour{
 			SetVisual(item.GetVisual());
 			this.item = item;
 			item.SetUI(UIItem);
-			item.UpdateUI();
 		}
 	}
 	public void SetItem(SplinterController splinter){
@@ -43,22 +40,21 @@ public class SubjectCellControllerScript : MonoBehaviour{
 			SetVisual(splinter.GetVisual());
 			this.splinter = splinter;
 			splinter.SetUI(UIItem);
-			splinter.UpdateUI();
 		}
 	}
 	public void SetItem(Item item){
+		CheckCell();
 		if(item != null){
 			SetVisual(item.GetVisual());
 	 		item.SetUI(UIItem);
-			item.UpdateUI();
 		}
 	}
 	public void SetItem(PosibleRewardObject rewardObject){
 		CheckCell();
-		Debug.Log("set posible item");
+		// Debug.Log("set posible item");
 		switch(rewardObject){
 			case PosibleRewardResource reward:
-				Debug.Log("posible resource: " + reward.GetResource.GetName());
+				// Debug.Log("posible resource: " + reward.GetResource.GetName());
 				UIItem.UpdateUI(reward.GetResource.Image, Rare.R, string.Empty);
 				break;
 			case PosibleRewardItem reward:

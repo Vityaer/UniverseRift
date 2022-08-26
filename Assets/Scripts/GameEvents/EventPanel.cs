@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class EventPanel : MonoBehaviour{
 	public BasePanelScript panelEvent;
-	public void OpenEventPanel(){
-		if(panelEvent != null){
-			panelEvent.Open();
-		}else{
-			Debug.Log("Not panel", this.gameObject);
-		}
+	public SliderTimeScript timerToEnd;
+	public void Open(){
+		panelEvent.Open();
 	}
-	public void Show(){
+	public void Show(DateTime startTime, TimeSpan requireTime){
 		gameObject.SetActive(true);
+		timerToEnd.SetData(startTime, requireTime);
 	}
 	public void Hide(){
 		gameObject.SetActive(false);

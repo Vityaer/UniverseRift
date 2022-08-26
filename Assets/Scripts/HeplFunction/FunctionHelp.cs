@@ -135,4 +135,14 @@ internal class FunctionHelp : MonoBehaviour {
     	}
     	return result;
 	}
+	public static TimeSpan DeltaDateTimes(DateTime a, DateTime b){
+		return (DateTime.Compare(a, b) > 0) ? a - b : b - a;
+	}
+	public static TimeSpan GetLeftTimeToEnd(DateTime start, TimeSpan timeUp){
+		return (start + timeUp - DateTime.Now); 
+	}
+	public static float GetLeftSecondsToEnd(DateTime start, TimeSpan timeUp){
+		return (float) GetLeftTimeToEnd(start, timeUp).TotalSeconds;
+	}
+	
 }

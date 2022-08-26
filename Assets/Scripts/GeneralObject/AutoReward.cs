@@ -26,15 +26,16 @@ public class AutoReward{
 		Debug.Log("resources");
 		result = 0;
 		for(int i = 0; i < listPosibleResources.Count; i++){
-			currentPosible = listPosibleResources[i].Posibility / 1000f;
+			currentPosible = listPosibleResources[i].Posibility / 250f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;
+					Debug.Log("выпал ресурс, уже " + result.ToString() + " шт.");
 				}
 			}
 			Debug.Log(listPosibleResources[i].subject.ToString() + " count: "+result.ToString());
 			if(result > 0){
-				result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
+				// result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
 				workResource = listPosibleResources[i].GetResource;
 				workResource.AddResource(result);
 				reward.GetListResource.List.Add(workResource);
@@ -44,17 +45,19 @@ public class AutoReward{
 	Item workItem = null;
 	private void GetPosibleItem(Reward reward, int countTact){
 		Debug.Log("items");
+		result = 0;
 		for(int i = 0; i < listPosibleItems.Count; i++){
-			currentPosible = listPosibleItems[i].Posibility / 1000f;
+			currentPosible = listPosibleItems[i].Posibility / 400f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;
+					Debug.Log("выпал предмет, уже " + result.ToString() + " шт.");
 				}
 			}
 			Debug.Log(listPosibleItems[i].ID.ToString() + " count: "+result.ToString());
 
 			if(result > 0){
-				result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
+				// result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
 				workItem = listPosibleItems[i].GetItem;
 				workItem.Amount = result;
 				reward.AddItem(workItem);
@@ -64,16 +67,18 @@ public class AutoReward{
 	Splinter workSplinter = null;
 	private void GetPosibleSplinter(Reward reward, int countTact){
 		Debug.Log("splinters");
+		result = 0;
 		for(int i = 0; i < listPosibleSplinters.Count; i++){
-			currentPosible = listPosibleSplinters[i].Posibility / 3000f;
+			currentPosible = listPosibleSplinters[i].Posibility / 800f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;
+					Debug.Log("выпал сплинтер, уже " + result.ToString() + " шт.");
 				}
 			}
 			Debug.Log(listPosibleSplinters[i].ID.ToString() + " count: "+result.ToString());
 			if(result > 0){
-				result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
+				// result = Math.Min(result, Math.Max((int) listPosibleItems[i].Posibility / 3, 1));
 				workSplinter = listPosibleSplinters[i].GetSplinter;
 				workSplinter.Amount = result;
 				reward.AddSplinter(workSplinter);

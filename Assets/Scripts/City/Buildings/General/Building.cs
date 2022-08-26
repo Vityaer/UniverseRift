@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine.UI;
-
+using System;
 public class Building : SerializedMonoBehaviour{
 
 	[SerializeField] protected GameObject building;
@@ -24,9 +24,17 @@ public class Building : SerializedMonoBehaviour{
 		}
 	}
 	public virtual void Open(){
-		Debug.Log("open building");
-		if(building != null){ CanvasBuildingsUI.Instance.OpenBuilding(building); }
-		OpenPage();
+		if(AvailableFromLevel()){
+			if(building != null){ CanvasBuildingsUI.Instance.OpenBuilding(building); }
+			OpenPage();
+		}
+	}
+	protected bool AvailableFromLevel(){
+		bool result = (PlayerScript.GetPlayerInfo.Level >= levelForAvailableBuilding);
+		if(result == false)  
+ 			MessageControllerScript.Instance.ShowErrorMessage(String.Format("Откроется на {0} уровне", levelForAvailableBuilding));
+		
+		return result;
 	}
 	public virtual void Close(){
 		ClosePage();

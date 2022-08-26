@@ -82,11 +82,11 @@ public class PlayerScript : MonoBehaviour{
 	}
 	public void AddResource(ListResource listResource){
 		player.PlayerGame.StoreResources.AddResource(listResource);
-		UpdateAllResource();
+		UpdateResource(listResource);
 	}
 	public void AddResource(List<Resource> listResource){
 		player.PlayerGame.StoreResources.AddResource(listResource);
-		UpdateAllResource();
+		UpdateResource(new ListResource(listResource));
 	}
 	public void SubtractResource(params Resource[] resources){
 		for(int i = 0; i < resources.Length; i++)
@@ -94,11 +94,11 @@ public class PlayerScript : MonoBehaviour{
 	}
 	public void SubtractResource(ListResource listResource){
 		player.PlayerGame.StoreResources.SubtractResource(listResource);
-		UpdateAllResource();
+		UpdateResource(listResource);
 	}
 	public void SubtractResource(List<Resource> listResource){
 		player.PlayerGame.StoreResources.SubtractResource(listResource);
-		UpdateAllResource();
+		UpdateResource(new ListResource(listResource));
 	}
 	public Resource GetResource(TypeResource name){
 		return player.PlayerGame.StoreResources.GetResource(name);
@@ -114,13 +114,10 @@ public class PlayerScript : MonoBehaviour{
 		UpdateResource(player.PlayerGame.StoreResources);
 	}
 	public void UpdateResource(ListResource listResources){
+		ObserverResource workObserver = null;
 		foreach(Resource res in listResources.List){
-			foreach(ObserverResource obs in observersResource){
-				if(res.Name == obs.typeResource){
-					obs.ChangeResource(res);
-					break;					
-				}
-			}
+			workObserver = observersResource.Find(x => x.typeResource == res.Name);
+			workObserver?.ChangeResource(player.PlayerGame.StoreResources.GetResource(res.Name));
 		}
 	}
 

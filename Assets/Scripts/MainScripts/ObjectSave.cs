@@ -233,12 +233,14 @@ namespace ObjectSave{
 		public void SetRecordDate(string name, DateTime date){
 			dateRecords.SetRecord(name, date);
 		}
-		public int GetRecordInt(string name){
-			return intRecords.GetRecord(name).value;
+		public int GetRecordInt(string name, int defaultNum = 0){
+			return intRecords.GetRecord(name, defaultNum).value;
 		}
 		public DateTime GetRecordDate(string name){
 			return FunctionHelp.StringToDateTime(dateRecords.GetRecord(name).value);
 		}
+		public bool CheckRecordInt(string name){ return intRecords.CheckRecord(name);}
+		public bool CheckRecordDate(string name){ return dateRecords.CheckRecord(name);}
 	}
 	[System.Serializable]
 	public class BuildingWithFightTeams : SimpleBuildingSave{
@@ -260,15 +262,16 @@ namespace ObjectSave{
 	[System.Serializable]
 	public class IntRecords{
 		[SerializeField] private List<IntRecord> list = new List<IntRecord>();
-		public IntRecord GetRecord(string key){
+		public IntRecord GetRecord(string key, int defaultNum = 0){
 			IntRecord result = list.Find(x => x.Key.Equals(key));
 			if(result == null){
-				result = new IntRecord(key, 0);
+				result = new IntRecord(key, defaultNum);
 				list.Add(result);
 			}
 			return result;
 		}
 		public void SetRecord(string key, int value){ GetRecord(key).value = value; }
+		public bool CheckRecord(string key){return (list.Find(x => x.Key.Equals(key)) != null);}
 	}
 	[System.Serializable]
 	public class IntRecord : BaseRecord{
@@ -291,6 +294,7 @@ namespace ObjectSave{
 			return result;
 		}
 		public void SetRecord(string key, DateTime value){ GetRecord(key).SetNewData(value);}
+		public bool CheckRecord(string key){return (list.Find(x => x.Key.Equals(key)) != null);}
 	}
 	[System.Serializable]
 	public class DateTimeRecord : BaseRecord{
@@ -385,8 +389,7 @@ namespace ObjectSave{
 	}	
 //Cycle events
 	[System.Serializable]
-	public class CycleEventsSave{
-		public DateTimeRecords dateRecords = new DateTimeRecords();
+	public class CycleEventsSave : SimpleBuildingSave{
 		public MonthlyRequirements monthlyRequirements = new MonthlyRequirements();  
 	}
 	[System.Serializable]
@@ -407,5 +410,5 @@ namespace ObjectSave{
 	[System.Serializable]
 	public class VoyageBuildingSave : BuildingWithFightTeams{
 
-	}	
+	}		
 }

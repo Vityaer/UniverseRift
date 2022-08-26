@@ -12,6 +12,10 @@ public class MessageControllerScript : MonoBehaviour{
 		canvas = GetComponent<Canvas>();
 		instance = this;
 	}
+
+//	Messages
+	[SerializeField] private ErrorMessageController errorMessageController;
+	public void ShowErrorMessage(string errorText){ errorMessageController.ShowMessage(errorText); }	
 //	Result fight
 	[SerializeField] private RewardPanelScript rewardPanel, winPanel, losePanel;
 	[SerializeField] private AutoRewardPanelScript autoRewardPanel;

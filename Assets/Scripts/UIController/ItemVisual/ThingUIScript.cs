@@ -17,17 +17,19 @@ public class ThingUIScript : MonoBehaviour{
 	[Header("controller")]
 	public bool OnlyMainData = false;
 	public void UpdateUI(Sprite image, Rare rare, string text, int rating = 0){
-		Clear();
+		if(imageThing.sprite != null) Clear();
 		imageThing.sprite  = image;
-		if(ratingThing != null) ratingThing.ShowRating(rating);
+		Debug.Log(string.Concat("subject text count: ", text));
+		ratingThing?.ShowRating(rating);
 		textAmount.text    = text;
 		imageThing.enabled = true;
 	}
 	public void UpdateUI(Sprite image, Rare rare, int amount = 0, int rating = 0){
 		Clear();
 		imageThing.sprite  = image;
+		Debug.Log(string.Concat("subject int count: ", amount.ToString()));
 		textAmount.text = (amount > 0) ? amount.ToString() : string.Empty;
-		if(ratingThing != null) ratingThing.ShowRating(rating);
+		ratingThing?.ShowRating(rating);
 		imageThing.enabled = true;
 	}
 	public void UpdateUI(Resource res){
@@ -39,6 +41,7 @@ public class ThingUIScript : MonoBehaviour{
 	}
 	public void UpdateUI(SplinterController splinterController){
 		Clear();
+		Debug.Log(string.Concat("splinter count: ", splinterController.splinter.Amount.ToString()));
 		imageThing.sprite = splinterController.splinter.Image;
 		if(sliderAmount != null){
 			if(OnlyMainData == false){
@@ -64,8 +67,8 @@ public class ThingUIScript : MonoBehaviour{
 	}
 	public void Clear(){
 		imageThing.sprite = null;
-		if(ratingThing != null) ratingThing.ShowRating(0);
-		if(sliderAmount != null) sliderAmount.Hide();
+		ratingThing?.ShowRating(0);
+		sliderAmount?.Hide();
 		imageThing.enabled = false;
 		textAmount.text = "";
 		Diselect();

@@ -7,9 +7,9 @@ using TMPro;
 public class AutoRewardPanelScript : RewardPanelScript{
 	public SliderTimeScript sliderAccumulation;
 	public TextMeshProUGUI textAutoRewardGold, textAutoRewardStone, textAutoRewardExperience;
-	private DateTime maxTime; 
+	private TimeSpan maxTime; 
 	void Start(){
-		maxTime = new DateTime().AddHours(12);
+		maxTime = new TimeSpan(12, 0, 0);
 	}
 	public void Open(AutoReward autoReward, Reward calculatedReward, DateTime previousDateTime){
 		textAutoRewardGold.text       = string.Concat(autoReward.resources.List.Find(x => x.Name == TypeResource.Gold).ToString(), "/ 5sec");

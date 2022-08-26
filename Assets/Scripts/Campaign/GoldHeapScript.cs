@@ -21,7 +21,8 @@ public class GoldHeapScript : MonoBehaviour{
 	public void OnClickHeap(){
 		previousDateTime = CampaignScript.Instance.GetAutoFightPreviousDate;
 		CalculateReward();
- 		MessageControllerScript.Instance.OpenAutoReward(autoReward, calculatedReward, previousDateTime);
+		if(autoReward != null)
+ 			MessageControllerScript.Instance.OpenAutoReward(autoReward, calculatedReward, previousDateTime);
 	}
 	public void GetReward(){
 		CalculateReward();
@@ -29,10 +30,15 @@ public class GoldHeapScript : MonoBehaviour{
 		CampaignScript.Instance.SaveAutoFight(previousDateTime);
 		OffGoldHeap();
 	}
-	private void CalculateReward(){ calculatedReward = autoReward.GetCaculateReward(FunctionHelp.CalculateCountTact(previousDateTime)); }
+	private void CalculateReward(){
+		if(autoReward != null)
+			calculatedReward = autoReward.GetCaculateReward(FunctionHelp.CalculateCountTact(previousDateTime)); 
+	}
 	public void OnOpenSheet(){
-		previousDateTime = CampaignScript.Instance.GetAutoFightPreviousDate;
-		CheckSprite();
+		if(autoReward != null){
+			previousDateTime = CampaignScript.Instance.GetAutoFightPreviousDate;
+			CheckSprite();
+		}
 	}
 	public void OnCloseSheet(){ Timer.StopTimer(timerChangeSprite); }
 	private void CheckSprite(){
