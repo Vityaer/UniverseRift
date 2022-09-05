@@ -11,7 +11,7 @@ public class Effect{
 	
 
 	[Header("Data")]
-	public TypePerformance performance    = TypePerformance.All;
+	public TypePerformance performance    = TypePerformance.Select;
 	public TypeEvent  typeEvent           = TypeEvent.OnStartFight;
 	public int        countExecutions     = -1;
 	private HeroControllerScript master; 
@@ -110,11 +110,10 @@ public enum TypeEvent{
 	OnDeathFriend,
 	OnDeathEnemy}
 
-public enum TypeNumber{
-	Percent,
-	Num}
+
 
 public enum TypePerformance{
 	All,
-	Random
+	Random,
+	Select
 }

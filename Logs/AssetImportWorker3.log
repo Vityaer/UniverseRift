@@ -1,10 +1,10 @@
 Using pre-set license
-Built from '2021.3/staging' branch; Version is '2021.3.0f1 (6eacc8284459) revision 7253192'; Using compiler version '192829333'; Build Type 'Release'
+Built from '2021.3/staging' branch; Version is '2021.3.5f1 (40eb3a945986) revision 4254522'; Using compiler version '192829333'; Build Type 'Release'
 OS: 'Windows 8.1  (6.3.0) 64bit CoreSingleLanguage' Language: 'ru' Physical Memory: 3960 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
 
 COMMAND LINE ARGUMENTS:
-C:\Program Files\Unity\Hub\Editor\2021.3.0f1\Editor\Unity.exe
+C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Unity.exe
 -adb2
 -batchMode
 -noUpm
@@ -15,7 +15,7 @@ C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 -logFile
 Logs/AssetImportWorker3.log
 -srvPort
-57353
+55179
 Successfully changed project path to: C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,10 +47,10 @@ C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 241.77 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 276.46 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Initialize engine version: 2021.3.0f1 (6eacc8284459)
-[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/Resources/UnitySubsystems
+Initialize engine version: 2021.3.5f1 (40eb3a945986)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path C:/Users/admin/Documents/Unity projects/Universe Rift/UniverseRift/Assets
 GfxDevice: creating device client; threaded=0; jobified=0
 d3d11: QueryInterface(IDXGIFactory5) failed (80004002).
@@ -61,80 +61,48 @@ Direct3D:
     VRAM:     1760 MB
     Driver:   10.18.10.4276
 Initialize mono
-Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/Managed'
-Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
-Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56932
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56648
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
-Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
-Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.0f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
-Registered in 0.012351 seconds.
-Native extension for UWP target not found
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.010344 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 230.03 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 253.66 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.675 seconds
+- Completed reload, in  2.148 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1676ms)
-		BeginReloadAssembly (170ms)
+	ReloadAssembly (2150ms)
+		BeginReloadAssembly (179ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (2ms)
-		EndReloadAssembly (1241ms)
-			LoadAssemblies (167ms)
+		EndReloadAssembly (1703ms)
+			LoadAssemblies (175ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (260ms)
+			SetupTypeCache (460ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (71ms)
-			SetupLoadedEditorAssemblies (772ms)
+			RebuildScriptCaches (98ms)
+			SetupLoadedEditorAssemblies (895ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (142ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (230ms)
+				InitializePlatformSupportModulesInManaged (154ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (254ms)
 				BeforeProcessingInitializeOnLoad (3ms)
-				ProcessInitializeOnLoadAttributes (259ms)
-				ProcessInitializeOnLoadMethodAttributes (137ms)
+				ProcessInitializeOnLoadAttributes (303ms)
+				ProcessInitializeOnLoadMethodAttributes (180ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.034802 seconds.
-Android Extension - Scanning For ADB Devices 4758 ms
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 234.71 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-SocketException: Системе не удается найти указанный параметр среды.
-  at System.Net.Sockets.Socket..ctor (System.Net.Sockets.AddressFamily addressFamily, System.Net.Sockets.SocketType socketType, System.Net.Sockets.ProtocolType protocolType) [0x00068] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at System.Net.NetworkInformation.Ping.SendPrivileged (System.Net.IPAddress address, System.Int32 timeout, System.Byte[] buffer, System.Net.NetworkInformation.PingOptions options) [0x00008] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at System.Net.NetworkInformation.Ping.Send (System.Net.IPAddress address, System.Int32 timeout, System.Byte[] buffer, System.Net.NetworkInformation.PingOptions options) [0x0004c] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at System.Net.NetworkInformation.Ping.Send (System.String hostNameOrAddress, System.Int32 timeout, System.Byte[] buffer, System.Net.NetworkInformation.PingOptions options) [0x00007] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at System.Net.NetworkInformation.Ping.Send (System.String hostNameOrAddress, System.Int32 timeout, System.Byte[] buffer) [0x00009] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at System.Net.NetworkInformation.Ping.Send (System.String hostNameOrAddress, System.Int32 timeout) [0x00000] in <6d7c4c8dd3624dc596686fb7270ae1e6>:0 
-  at (wrapper remoting-invoke-with-check) System.Net.NetworkInformation.Ping.Send(string,int)
-  at UnityEditor.AddressableAssets.HostingServices.HostingServicesManager.FilterValidIPAddresses (System.Collections.Generic.List`1[T] ipAddresses) [0x0001c] in C:\Users\admin\Documents\Unity projects\Universe Rift\UniverseRift\Library\PackageCache\com.unity.addressables@1.19.19\Editor\HostingServices\HostingServicesManager.cs:550 
-  at UnityEditor.AddressableAssets.HostingServices.HostingServicesManager.RefreshGlobalProfileVariables () [0x0000d] in C:\Users\admin\Documents\Unity projects\Universe Rift\UniverseRift\Library\PackageCache\com.unity.addressables@1.19.19\Editor\HostingServices\HostingServicesManager.cs:421 
-  at UnityEditor.AddressableAssets.HostingServices.HostingServicesManager.OnEnable () [0x0010e] in C:\Users\admin\Documents\Unity projects\Universe Rift\UniverseRift\Library\PackageCache\com.unity.addressables@1.19.19\Editor\HostingServices\HostingServicesManager.cs:297 
-  at UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.OnEnable () [0x00000] in C:\Users\admin\Documents\Unity projects\Universe Rift\UniverseRift\Library\PackageCache\com.unity.addressables@1.19.19\Editor\Settings\AddressableAssetSettings.cs:1326 
-UnityEditor.AssetDatabase:LoadAssetAtPath(String, Type)
-UnityEditor.AssetDatabase:LoadAssetAtPath(String)
-UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject:LoadSettingsObject() (at Library\PackageCache\com.unity.addressables@1.19.19\Editor\AddressableAssetSettingsDefaultObject.cs:62)
-UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject:get_Settings() (at Library\PackageCache\com.unity.addressables@1.19.19\Editor\AddressableAssetSettingsDefaultObject.cs:114)
-UnityEditor.AddressableAssets.AddressableEditorInitialization:.cctor() (at Library\PackageCache\com.unity.addressables@1.19.19\Editor\AddressableEditorInitialization.cs:20)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(IntPtr)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])
-
-(Filename: Library/PackageCache/com.unity.addressables@1.19.19/Editor/HostingServices/HostingServicesManager.cs Line: 550)
-
+Registered in 0.023485 seconds.
+Android Extension - Scanning For ADB Devices 4719 ms

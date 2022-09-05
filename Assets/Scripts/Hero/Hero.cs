@@ -8,15 +8,13 @@ public partial class Hero{
 	[Header("Current")]
 	public GeneralInfoHero generalInfo;
 
-	[SerializeField]
-	private GameObject prefabArrow;
+	[SerializeField] private GameObject prefabArrow;
 	public  GameObject PrefabArrow{get => prefabArrow;}
 
 
-	public Characteristics characts;
+	public FightCharacteristics characts;
 	public Resistance resistances = new Resistance();  
 
-	public int MaxHP;
 
 	public List<Skill> skills = new List<Skill>();
 
@@ -29,14 +27,8 @@ public partial class Hero{
 	public void SetHero(InfoHero hero){
 		this.generalInfo    = (GeneralInfoHero)hero.generalInfo.Clone(); 
 		this.prefabArrow    = hero.PrefabArrow;
-		this.characts       = (Characteristics)hero.characts.Clone();
 		this.resistances    = (Resistance)hero.resistances.Clone();
-		characts.Damage     = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.Damage) );
-		characts.GeneralArmor      = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.Defense) );
-		characts.GeneralAttack      = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.Attack) );
-		characts.Initiative = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.Initiative) );
-		characts.HP         = (int) Mathf.Floor(hero.GetCharacteristic(TypeCharacteristic.HP) );
-		this.MaxHP          = this.characts.HP;
+		PrepareCharacts(hero);
 		this.skills         = hero.skills;
 		if(hero.Evolutions != null){
 			currentBreakthrough = hero.Evolutions.currentBreakthrough;
@@ -45,9 +37,36 @@ public partial class Hero{
 			currentBreakthrough = 0;
 		}
 	}
+	private void PrepareCharacts(InfoHero hero){
+		this.characts       = new FightCharacteristics(hero.characts.Clone());
+		characts.Damage     = hero.GetCharacteristic(TypeCharacteristic.Damage);
+		this.characts.GeneralArmor  = (int) hero.GetCharacteristic(TypeCharacteristic.Defense);
+		this.characts.GeneralAttack = (int) hero.GetCharacteristic(TypeCharacteristic.Attack);
+		this.characts.Initiative    = hero.GetCharacteristic(TypeCharacteristic.Initiative);
+		this.characts.HP            = Mathf.Round(hero.GetCharacteristic(TypeCharacteristic.HP));
+		this.characts.MaxHP         = this.characts.HP;
+	}
 	public void PrepareSkills(HeroControllerScript master){
 		foreach (Skill skill in skills){
 			skill.CreateSkill(master, currentBreakthrough);
 		}
+	}
+	public float MaxHP{get => this.characts.MaxHP; set => this.characts.MaxHP = value;}
+}
+[System.Serializable]
+public class FightCharacteristics : Characteristics{
+	public int GeneralAttack = 0, GeneralArmor = 0;
+	public float MaxHP;
+	public FightCharacteristics(Characteristics heroCharacts){
+		this.baseCharacteristic = heroCharacts.baseCharacteristic;
+		this.limitLevel = heroCharacts.limitLevel;
+		this.ProbabilityCriticalAttack = heroCharacts.ProbabilityCriticalAttack;
+	 	this.DamageCriticalAttack = heroCharacts.DamageCriticalAttack;
+	 	this.Accuracy = heroCharacts.Accuracy;
+	 	this.CleanDamage = heroCharacts.CleanDamage;
+	 	this.Dodge = heroCharacts.Dodge;
+	 	this.CountTargetForSimpleAttack = heroCharacts.CountTargetForSimpleAttack;
+	 	this.CountTargetForSpell = heroCharacts.CountTargetForSpell;
+
 	}
 }

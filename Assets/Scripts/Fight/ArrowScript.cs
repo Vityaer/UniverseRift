@@ -4,38 +4,41 @@ using UnityEngine;
 
 public class ArrowScript : MonoBehaviour{
 
-	private Rigidbody2D rb;
-	private Transform tr;
+	protected Rigidbody2D rb;
+	protected Transform tr;
 	void Awake(){
 		tr = GetComponent<Transform>();
 		rb = GetComponent<Rigidbody2D>();
 	}
+	bool isDone = false;
    	void OnTriggerEnter2D(Collider2D other){
 		if(other.gameObject.GetComponent<HeroControllerScript>() == target){
-			CollisionTarget();
+			if(isDone == false){
+				isDone = true;
+				CollisionTarget();
+			}
 		}	
 	}
 
-	private void CollisionTarget(){
-		target.GetDamage(strike);
+	protected void CollisionTarget(){
+		if(strike != null)
+			target.GetDamage(strike);
 		if(delsCollision != null)
 			delsCollision();
 		OffArrow();		
 	}
 	public void OffArrow(){
-		tr.position = new Vector3(1000f, 1000f, 0f);
-		rb.velocity = new Vector2();
-		delsCollision = null;
 		Destroy(gameObject);
 	}
-	private HeroControllerScript target;
-	private Strike strike;
+	protected HeroControllerScript target;
+	protected Strike strike = null;
 	public float speed = 10f;
 
 	public void SetTarget(HeroControllerScript target, Strike strike){
+		Debug.Log("set target");
 		this.target = target;
 		this.strike = strike;
-		Vector3 dir = target.GetPosition() - tr.position;
+		Vector3 dir = target.GetPosition - tr.position;
 		dir.Normalize();
 		rb.velocity = dir * speed;
 	}

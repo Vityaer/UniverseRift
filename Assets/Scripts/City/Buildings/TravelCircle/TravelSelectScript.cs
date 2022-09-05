@@ -11,13 +11,12 @@ public class TravelSelectScript : MonoBehaviour{
 		raceUI.SetData(race);
 	}
 	public void Open(){
-		TravelCircleScript.Instance.OpenTravel(race);
+		TravelCircleScript.Instance.ChangeTravel(race);
 	}
 	public void Select(){
-		if(selectedRace != null){
-			selectedRace.Diselect();
-		}
-		this.selectBorder.SetActive(false);
+		if(selectedRace != null) selectedRace.Diselect();
+		selectedRace = this;
+		this.selectBorder.SetActive(true);
 	}
 	public void Diselect(){
 		selectBorder.SetActive(false);

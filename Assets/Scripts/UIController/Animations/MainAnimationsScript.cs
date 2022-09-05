@@ -12,6 +12,7 @@ public class MainAnimationsScript : MonoBehaviour{
 	}
 	Tween sequenceScalePulse;
 	public void ScalePulse(){
+		if(sequenceScalePulse != null) sequenceScalePulse.Kill();
 		sequenceScalePulse = DOTween.Sequence()
 						.Append(rect.DOScale(startSize * minSize, time))
 						.Append(rect.DOScale(startSize, time));

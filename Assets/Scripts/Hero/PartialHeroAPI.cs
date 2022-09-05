@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class Hero{
-
+	public HeroStatusScript statusState;
 	public void GetDamage(Strike strike){
 		float calcDamage = CalculateDamage(strike);
  		characts.HP      = (characts.HP > calcDamage) ? characts.HP - (int) calcDamage : 0;
@@ -92,7 +92,9 @@ public partial class Hero{
 		float result = 0;
 		switch (strike.type){
 			case TypeStrike.Physical:
-				result = strike.GetDamage(characts.GeneralArmor);
+				int allArmor = characts.GeneralArmor;
+				allArmor += statusState.GetAllBuffArmor();
+				result = strike.GetDamage(allArmor);
 				break;
 			case TypeStrike.Critical:
 				result = strike.GetDamage();

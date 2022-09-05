@@ -77,6 +77,7 @@ namespace ObjectSave{
 		public ArenaBuildingSave arenaBuilding = new ArenaBuildingSave();
 		public SimpleBuildingSave tutorial = new SimpleBuildingSave();
 		public CycleEventsSave cycleEvents = new CycleEventsSave();
+		public SimpleBuildingSave dailyReward = new SimpleBuildingSave(); 
 	}	
 //Mines
 	[System.Serializable]

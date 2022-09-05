@@ -22,7 +22,7 @@ public class PanelNewPlayerName : BasePanelScript{
 			buttonPayNewName.Disable();
 		}
 	}
-	public void SaveNewName(){
+	public void SaveNewName(int count){
 		currentName = inputFieldNewNamePlayer.text;
 		mainPlayerController.SaveNewName(inputFieldNewNamePlayer.text);
 		Close();

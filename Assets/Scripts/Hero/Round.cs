@@ -11,10 +11,18 @@ public class Round : ICloneable{
 		this.amount     = amount;
 		this.typeNumber = typeNumber; 
 	}
+	public Round(float amount, TypeNumber typeNumber){
+		this.amount = amount;
+		this.typeNumber = typeNumber;
+	}
+	public void Add(float other){ amount += other; }
+	public bool AmountEqualsZero(){return Mathf.Abs(amount) < 0.01f;}
 	public bool IsPercent{ get => (typeNumber == TypeNumber.Percent) ? true : false;}
 	public object Clone(){
-        return new Round  { amount = this.amount,
-        					typeNumber = this.typeNumber
-							};	
+        return new Round  (this.amount, this.typeNumber);
 	}						
+}
+public enum TypeNumber{
+	Percent,
+	Num
 }

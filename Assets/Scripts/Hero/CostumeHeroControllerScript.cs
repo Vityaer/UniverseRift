@@ -50,5 +50,13 @@ public class CostumeHeroControllerScript{
             items.Add(itemsList.GetItem(ID));
         }
     }
-
+    public CostumeHeroControllerScript Clone(){
+        return new CostumeHeroControllerScript(this.items);
+    }
+    public CostumeHeroControllerScript(List<Item> newItems){
+        for(int i = 0; i < newItems.Count; i++){
+            this.items.Add((Item) newItems[i].Clone());
+        }
+    }
+    public CostumeHeroControllerScript(){}
 }

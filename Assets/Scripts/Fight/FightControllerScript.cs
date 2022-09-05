@@ -12,7 +12,7 @@ public partial class FightControllerScript : MonoBehaviour{
 	[SerializeField]private  List<Warrior> leftTeam  = new List<Warrior>(); 
 	[SerializeField]private  List<Warrior> rightTeam = new List<Warrior>(); 
 
-	private List<HeroControllerScript> listInitiative  = new List<HeroControllerScript>();
+	[SerializeField] private List<HeroControllerScript> listInitiative  = new List<HeroControllerScript>();
 
 	[Header("Location")]
 	public LocationControllerScript locationController;
@@ -51,17 +51,17 @@ public partial class FightControllerScript : MonoBehaviour{
     }
     private void CreateTeam(List<HexagonCellScript> teamPos, List<WarriorPlaceScript> team, Side side){
     	HeroControllerScript heroScript;
-    	GameObject hero;
+    	GameObject currentHeroPrefab;
     	for(int i=0; i < team.Count; i++){
-    			hero = null;
+    			currentHeroPrefab = null;
     			heroScript = null;
-    			if((side == Side.Left && (team[i].card != null)) || (team[i].hero != null))
-		    		hero = Instantiate(team[i].hero.generalInfo.Prefab, teamPos[i].Position, Quaternion.identity);
-    			if(hero != null){
-	    			heroScript = hero.GetComponent<HeroControllerScript>(); 
+    			if((side == Side.Left && (team[i].card != null)) || (team[i].Hero != null))
+		    		currentHeroPrefab = Instantiate(team[i].Hero.generalInfo.Prefab, teamPos[i].Position, Quaternion.identity);
+    			if(currentHeroPrefab != null){
+	    			heroScript = currentHeroPrefab.GetComponent<HeroControllerScript>(); 
 	    			List<Warrior> workTeam = (side == Side.Left) ? leftTeam : rightTeam;
 	    			workTeam.Add(new Warrior(heroScript));
-	    			heroScript.SetHero(team[i].hero, teamPos[i], side);
+	    			heroScript.SetHero(team[i].Hero, teamPos[i], side);
 	    			listInitiative.Add(heroScript);
     			}
 
@@ -74,10 +74,14 @@ public partial class FightControllerScript : MonoBehaviour{
  	private  int round = 1;
  	public TextMeshProUGUI textNumRound;
  	public int MaxCountRound = 3;
- 	private List<HeroControllerScript> listHeroesWithAction = new List<HeroControllerScript>(); 
+ 	[SerializeField] private List<HeroControllerScript> listHeroesWithAction = new List<HeroControllerScript>(); 
  	public void AddHeroWithAction(HeroControllerScript newHero){listHeroesWithAction.Add(newHero);}
  	public void RemoveHeroWithAction(HeroControllerScript removeHero){
  		listHeroesWithAction.Remove(removeHero);
+ 		if(listHeroesWithAction.Count == 0) NextHero();
+ 	}
+ 	public void RemoveHeroWithActionAll(HeroControllerScript removeHero){
+ 		listHeroesWithAction.RemoveAll(x => x == removeHero);
  		if(listHeroesWithAction.Count == 0) NextHero();
  	}
  	private void NextHero(){
@@ -91,6 +95,7 @@ public partial class FightControllerScript : MonoBehaviour{
  		}
  	}
  	private void NewRound(){
+ 		UpdateListInitiative();
  		currentHero = 0;
 		round++;
 		textNumRound.text = string.Concat("Round ",round.ToString()); 
@@ -99,12 +104,30 @@ public partial class FightControllerScript : MonoBehaviour{
 			Win(Side.Right);
 		}
  	}
+ 	private void UpdateListInitiative(){
+ 		listInitiative.Clear();
+ 		for(int i = 0; i < leftTeam.Count; i++){
+ 			if(leftTeam[i].heroController != null){
+	 			listInitiative.Add(leftTeam[i].heroController);
+ 			}else{
+ 				Debug.Log("left team hero null");
+ 			}
+ 		}
+ 		for(int i = 0; i < rightTeam.Count; i++){
+ 			if(rightTeam[i].heroController != null){
+	 			listInitiative.Add(rightTeam[i].heroController);
+ 			}else{
+ 				Debug.Log("Right team hero null");
+ 			}
+ 		}
+ 		listInitiative.Sort(new HeroInitiativeComparer());
+ 	}
  	public void WaitTurn(){
  		HeroControllerScript hero = GetCurrentHero();
  		listInitiative.Remove(hero);
  		currentHero -= 1;
  		listInitiative.Add(hero);
- 		hero.EndTurn(); 
+ 		hero.StartWait(); 
  	}
 //Result fight
  	private void CheckFinishFight(){
@@ -176,6 +199,7 @@ public partial class FightControllerScript : MonoBehaviour{
 	 		warrior = rightTeam.Find(x => x.heroController == heroForDelete);
  			rightTeam.Remove(warrior);
  		}
+ 		listInitiative.Remove(heroForDelete);
  		CheckFinishFight();
  	}
  	public HeroControllerScript GetCurrentHero(){ return listInitiative[currentHero]; }

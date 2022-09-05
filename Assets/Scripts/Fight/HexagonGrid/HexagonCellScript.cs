@@ -38,11 +38,13 @@ public class HexagonCellScript : MonoBehaviour{
 		if(available && availableMove){
 			if((achievableMove == false) || (this.step < step)){
 				this.step = step;
-				OnAchivableMove();
-				if(achievableMove == false) HeroControllerScript.RegisterOnEndSelectCell(ClearCanMove);
+				if(achievableMove == false){
+					HeroControllerScript.RegisterOnEndSelectCell(ClearCanMove);
+					OnAchivableMove();
+				}
 				achievableMove = true;
 				
-				if((showAchievable == false) && HexagonGridScript.PlayerCanController){
+				if((showAchievable == false)/* && HexagonGridScript.PlayerCanController*/){
 					showAchievable = true;
 					spriteAvailable.enabled = true;
 				}
@@ -51,6 +53,10 @@ public class HexagonCellScript : MonoBehaviour{
 		}
 	}
 	public HexagonCellScript GetAchivableNeighbourCell(){
+		Debug.Log("achievableMove count: " + neighbours.FindAll(x => x.achievableMove == true).Count);
+		foreach(NeighbourCell neighbour in neighbours.FindAll(x => x.achievableMove == true)){
+			Debug.Log(neighbour.Cell.gameObject.name + " with achievableMove = " + neighbour.Cell.achievableMove.ToString(), neighbour.Cell.gameObject);
+		}
 		return neighbours.Find(x => x.achievableMove).Cell;
 	}
 	public bool GetCanAttackCell{ get => (neighbours.Find(x => (x.achievableMove == true)) != null); }

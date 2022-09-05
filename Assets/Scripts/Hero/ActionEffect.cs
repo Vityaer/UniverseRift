@@ -7,6 +7,7 @@ public partial class ActionEffect{
 	public TypeEffect typeAction;
 	public EffectSimpleAction simpleAction;
 	public EffectBuff effectBuff;
+	public EffectDebuff effectDebuff;
 	public EffectDots effectDots;
 	public EffectChangeCharacteristic effectChangeCharacteristic;
 	public EffectStatus effectStatus;
@@ -61,6 +62,9 @@ public partial class ActionEffect{
 			case TypeEffect.Buff:
 				ExecuteBuff();
 				break;
+			case TypeEffect.Debuff:
+				ExecuteDebuff();
+				break;	
 			case TypeEffect.Dots:
 				ExecuteDots();
 				break;
@@ -101,6 +105,7 @@ public enum TypeEffect{
 	ChangeCharacteristic = 4,
 	StatusHero = 5,
 	Special = 6,
+	Debuff = 7,
 	Other = 20	
 }
 
@@ -134,7 +139,8 @@ public enum TypeSelect{
 	Pastor = 24,
 	Slayer = 25,
 	Tank = 26,
-	Support = 27
+	Support = 27,
+	Select = 100
 	}
 
     public enum SideTarget{

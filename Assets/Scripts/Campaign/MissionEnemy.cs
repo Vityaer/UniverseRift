@@ -5,11 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class MissionEnemy{
 	public HeroName heroName = HeroName.Peasant;
-	private InfoHero _enemyPrefab = null;
 	public InfoHero enemyPrefab{
 		get{
-			if(_enemyPrefab == null) _enemyPrefab = TavernScript.Instance.GetInfoHero((int) heroName);
-			return _enemyPrefab;	
+			return TavernScript.Instance.GetInfoHero((int) heroName);
 		}
 	}
 	
@@ -17,6 +15,7 @@ public class MissionEnemy{
 }
 public enum HeroName{
 	Peasant = 1101,
+	Robin   = 1102,
 	Militia = 1201,
 	Raccoon = 2101,
 	Pegasus = 2401,

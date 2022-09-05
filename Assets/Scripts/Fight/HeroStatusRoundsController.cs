@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class HeroStatusScript : MonoBehaviour{
-
 //Debuff
 	private Debuff debuff = new Debuff();
 	private void SaveDebuff(State state, int round){
@@ -38,6 +37,7 @@ public partial class HeroStatusScript : MonoBehaviour{
 				dots.RemoveAt(i);
 			}
 		}
+		CheckBuffs();
 	}
 }
 
@@ -71,7 +71,7 @@ public class Debuff{
 				find = false;
 				for(int i = 0; i < this.rounds.Count; i++){
 					if((this.rounds[i].typeNumber == curRound.typeNumber) &&(flags[i] == false)){
-						this.rounds[i].amount += curRound.amount;
+						this.rounds[i].Add(curRound.amount);
 						find = true;
 						flags[i] = true;
 						break;

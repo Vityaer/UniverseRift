@@ -28,30 +28,34 @@ public class TaskControllerScript : MonoBehaviour{
 		switch(task.status){
 			case StatusTask.NotStart:
 				sliderTime.SetMaxValue(task.requireTime);
-				buttonCostScript.UpdateLabel( () => StartTask(), "Начать" );  
+				buttonCostScript.UpdateLabel( StartTask, "Начать" );  
 				break;
 			case StatusTask.InWork:
-				sliderTime.RegisterOnFinish(FinishTask);
+				Debug.Log("set func in work");
+				sliderTime.RegisterOnFinish(FinishFromSlider);
 				buttonCostScript.UpdateCost(new Resource(TypeResource.Diamond, task.rating * 10, 0), BuyProgress );  
 				sliderTime.SetData(task.timeStartTask, task.requireTime);
 				break;
 			case StatusTask.Done:
-				sliderTime.UnregisterOnFinish(FinishTask);
-				buttonCostScript.Clear();
-				buttonCostScript.UpdateLabel( () => GetReward(), "Завершить" );  
+				Debug.Log("set func for done");
+				sliderTime.SetData(task.timeStartTask, task.requireTime);
+				sliderTime.UnregisterOnFinish(FinishFromSlider);
+				buttonCostScript.UpdateLabel( GetReward, "Завершить" );  
 				break;
 		}
 	}
 	public void StopTimer(){
 		sliderTime.StopTimer();
 	}
-	private void FinishTask(){
+	private void FinishFromSlider(){ FinishTask(1);}
+	private void FinishTask(int count){
+		sliderTime.UnregisterOnFinish(FinishFromSlider);
 		task.Finish();
 		UpdateStatus();
 	}
 
 //Action button
-	public void StartTask(){
+	public void StartTask(int count){
 				Debug.Log("start");
 		task.Start();
 		objectCurrentTime.SetActive(true);
@@ -61,13 +65,12 @@ public class TaskControllerScript : MonoBehaviour{
 	}
 
 	public void BuyProgress(int count = 1){
-				Debug.Log("BuyProgress");
-		sliderTime.UnregisterOnFinish(FinishTask);
+		Debug.Log("BuyProgress");
+		buttonCostScript.Clear();
 		sliderTime.SetFinish();
-		FinishTask();
 	}
-	public void GetReward(){
-				Debug.Log("GetReward");
+	public void GetReward(int count){
+		Debug.Log("GetReward");
 		TaskGiverScript.Instance.FinishTask(this);
 	}
 

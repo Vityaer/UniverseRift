@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 [System.Serializable]
 public class BigDigit{
 	[SerializeField] protected float count = 0;
@@ -50,6 +49,7 @@ public class BigDigit{
 			NormalizeDigit();
 		}
 	}
+	public bool EqualsZero(){ return ((count == 0) && (e10 == 0)); }
 	public void Clear(){
 		this.count = 0;
 		this.e10   = 0;
@@ -67,6 +67,8 @@ public class BigDigit{
 		}
 		if(e10 == 0){
 			this.count =  Mathf.Round(this.count);
+		}else{
+			this.count = System.MathF.Round(this.count, 3);
 		}
 	}
 	public float ToFloat(){
@@ -83,6 +85,7 @@ public class BigDigit{
 		result.NormalizeDigit();
 		return result;
 	}
+
 	public static BigDigit operator/ (BigDigit a, BigDigit b){
 		BigDigit result = new BigDigit(0, 0);
 		if(b.Count != 0){

@@ -72,13 +72,11 @@ public class IncreaseCharacteristics : ICloneable{
 }
 
 [System.Serializable]
-public class Characteristics : ICloneable{
+public class Characteristics{
 	public int   limitLevel;
-	public int   Damage;
-	public int   HP;
-	public int 	 GeneralAttack;
-	public int   GeneralArmor;
-	public int   Initiative;
+	public float Damage;
+	public float HP;
+	public float Initiative;
 	public float ProbabilityCriticalAttack;
 	public float DamageCriticalAttack;
 	public float Accuracy;
@@ -90,12 +88,10 @@ public class Characteristics : ICloneable{
 
 
 	//API
-	public object Clone(){
+	public Characteristics Clone(){
         return new Characteristics  { 	limitLevel = this.limitLevel,
         							 	Damage = this.Damage,
         							 	HP     = this.HP,
-        							 	GeneralAttack = this.GeneralAttack,
-        							 	GeneralArmor = this.GeneralArmor,
         							 	Initiative = this.Initiative,
         							 	ProbabilityCriticalAttack = this.ProbabilityCriticalAttack,
         							 	DamageCriticalAttack = this.DamageCriticalAttack,
@@ -151,7 +147,8 @@ public class GeneralInfoHero{
 	public  bool isAlive = true;
 	private GameObject prefab;
 	public  GameObject Prefab{get {if(IDPrefab == 0) IDPrefab = idHero; if (prefab == null) prefab = Resources.Load<GameObject>( string.Concat("Heroes/", this.IDPrefab.ToString()) ); return prefab;} set => prefab = value;}
-	[HideInInspector]public  int IDCreate, IDPrefab = 0;
+	[HideInInspector]public int IDCreate = 0;
+	[SerializeField] private int IDPrefab = 0;
 	
 	public object Clone(){
         return new GeneralInfoHero  { 	Name = this.Name,
@@ -178,6 +175,17 @@ public class BaseCharacteristic{
 	public TypeStrike typeStrike;
 	public bool CanRetaliation = true;
 	public int CountCouterAttack = 1;
+	public BaseCharacteristic Clone(){
+        return new BaseCharacteristic  { Attack = this.Attack,
+        							 	Defense = this.Defense,
+        							 	Speed     = this.Speed,
+        							 	typeMovement  = this.typeMovement,
+        							 	Mellee = this.Mellee,
+        							 	typeStrike = this.typeStrike,
+        							 	CanRetaliation = this.CanRetaliation,
+        							 	CountCouterAttack = this.CountCouterAttack
+        							};				
+    }
 }
 public enum TypeMovement{
 	Ground,

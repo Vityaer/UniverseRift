@@ -53,7 +53,7 @@ public class EventAgentControllerScript : Building{
 		string binaryCode = Convert.ToString(sum, 2);
 		for(int i = 0; i < binaryCode.Length; i++)
 			if(binaryCode[i].Equals(SYMBOL_1))
-				idReceivedReward.Add(binaryCode.Length - i);
+				idReceivedReward.Add(i);
 	}
 	private int GetOpenLevel(){return count / 100;}
 	float GetNewValueSlider(int count){return (float)(count /(float) (listRewards.Count * 100));}

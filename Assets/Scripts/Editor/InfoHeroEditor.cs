@@ -9,20 +9,20 @@ using UnityEditor;
 public class InfoHeroEditor:Editor{
 	InfoHero InfoHeroScript;
 
+	Sprite image = null; 
     public override void OnInspectorGUI(){
         // serializedObject.Update();
 
 		if(InfoHeroScript == null) InfoHeroScript = (InfoHero)target;
+		serializedObject.Update();
 //Main
-		Sprite image = null; 
 		GUILayout.Label("General info", EditorStyles.boldLabel);
 		InfoHeroScript.generalInfo.Name = EditorGUILayout.TextField("Name hero:", InfoHeroScript.generalInfo.Name);
         InfoHeroScript.generalInfo.race = (Race)EditorGUILayout.EnumPopup("Rare:", InfoHeroScript.generalInfo.race);
         InfoHeroScript.generalInfo.rare = (Rare)EditorGUILayout.EnumPopup("Race:", InfoHeroScript.generalInfo.rare);
         InfoHeroScript.generalInfo.ClassHero = (Vocation)EditorGUILayout.EnumPopup("ClassHero:", InfoHeroScript.generalInfo.ClassHero);
         InfoHeroScript.generalInfo.idHero = EditorGUILayout.IntField("ID Prefab:", InfoHeroScript.generalInfo.idHero);
-		if(InfoHeroScript.generalInfo.idHero > 0) {image = InfoHeroScript.generalInfo.ImageHero; }else{image = null;}
-		EditorGUILayout.ObjectField("Sprite", image ,typeof(Sprite));
+		EditorGUILayout.ObjectField("Sprite", InfoHeroScript?.generalInfo?.ImageHero, typeof(Sprite));
         InfoHeroScript.generalInfo.Level = EditorGUILayout.IntField("Level:", InfoHeroScript.generalInfo.Level);
         InfoHeroScript.generalInfo.ratingHero = EditorGUILayout.IntSlider("Rating:", InfoHeroScript.generalInfo.ratingHero, 1, 18);
         InfoHeroScript.characts.baseCharacteristic.Mellee = EditorGUILayout.Toggle("Mellee ?", InfoHeroScript.characts.baseCharacteristic.Mellee);
@@ -52,9 +52,9 @@ public class InfoHeroEditor:Editor{
         serializedObject.ApplyModifiedProperties();
         // DrawDefaultInspector ();
     }
-   public static void ShowSkills (SerializedProperty list) {
-   	GUILayout.Label("skill", EditorStyles.boldLabel);
-	   	EditorGUILayout.PropertyField(list, false);
+    public static void ShowSkills (SerializedProperty list) {
+	   	GUILayout.Label("skill", EditorStyles.boldLabel);
+	   	// EditorGUILayout.PropertyField(list);
 		EditorGUI.indentLevel += 1;
 		if (list.isExpanded) {
 			EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));
@@ -74,7 +74,7 @@ public class InfoHeroEditor:Editor{
 		EditorGUI.indentLevel -= 1;
 	}
 	public static void ShowLevelSkill(SerializedProperty list){
-		EditorGUILayout.PropertyField(list, false);
+		// EditorGUILayout.PropertyField(list);
 		EditorGUI.indentLevel += 1;
 		if (list.isExpanded) {
 			EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));
@@ -91,7 +91,7 @@ public class InfoHeroEditor:Editor{
 		EditorGUI.indentLevel -= 1;
 	}
 	public static void ShowEffectLevelSkill(SerializedProperty list){
-		EditorGUILayout.PropertyField(list, false);
+		// EditorGUILayout.PropertyField(list);
 		EditorGUI.indentLevel += 1;
 		if (list.isExpanded) {
 			EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));
@@ -108,7 +108,7 @@ public class InfoHeroEditor:Editor{
 		EditorGUI.indentLevel -= 1;
 	} 
 	public static void ShowActionEffectLevelSkill(SerializedProperty list){
-		EditorGUILayout.PropertyField(list, false);
+		// EditorGUILayout.PropertyField(list, false);
 		EditorGUI.indentLevel += 1;
 		if (list.isExpanded) {
 			EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));
@@ -116,30 +116,32 @@ public class InfoHeroEditor:Editor{
 				EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), false);
 				if (list.GetArrayElementAtIndex(i).isExpanded) {
 					EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("typeAction"));
-
-					switch(list.GetArrayElementAtIndex(i).FindPropertyRelative("typeAction").enumValueIndex){
-						case 0:
+					switch((TypeEffect) list.GetArrayElementAtIndex(i).FindPropertyRelative("typeAction").enumValueIndex){
+						case TypeEffect.SimpleAction:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("simpleAction"));
 						 	break;
-						case 1:
+						case TypeEffect.Buff:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectBuff"));
 						 	break;
-						case 2:
+						case TypeEffect.Debuff:
+							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectDebuff"));
+						 	break; 	
+						case TypeEffect.Dots:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectDots"));
 						 	break;
-						case 3:
+						case TypeEffect.Mark:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectMark"));
 						 	break;
-						case 4:
+						case TypeEffect.ChangeCharacteristic:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectChangeCharacteristic"));
 						 	break;
-						case 5:
+						case TypeEffect.StatusHero:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectStatus"));
 						 	break;
-						case 6:
+						case TypeEffect.Other:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectOther"));
 						 	break;
-						case 7:
+						case TypeEffect.Special:
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("effectSpecial"));
 						 	break;
 					}
@@ -171,7 +173,7 @@ public class InfoHeroEditor:Editor{
 
 
 	public static void ShowRoundActionEffectLevelSkill(SerializedProperty list){
-		EditorGUILayout.PropertyField(list, false);
+		// EditorGUILayout.PropertyField(list);
 		EditorGUI.indentLevel += 1;
 		if (list.isExpanded) {
 			EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));

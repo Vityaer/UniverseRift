@@ -16,7 +16,8 @@ public class TravelCircleScript : Building{
 		travelCircleSave = PlayerScript.GetCitySave.travelCircleBuilding;
 		foreach(TravelCircleOnRace travel in travels)
 			travel.CurrentMission = travelCircleSave.GetRecordInt(travel.GetNameRecord);
-		Race race = travels[UnityEngine.Random.Range(0, travels.Count)].race;
+
+		ChangeTravel(travels[UnityEngine.Random.Range(0, travels.Count)].race);
 	}
 	protected override void OpenPage(){
 		LoadMissions(currentTravel.missions, currentTravel.CurrentMission);
@@ -33,17 +34,18 @@ public class TravelCircleScript : Building{
 			Close();
 		}
 	} 
-	private void LoadMissions(List<MissionWithSmashReward> missions, int startMission){
-		for(int i = 0; i < startMission - 1; i++){
-			missionsUI[i].Hide();
+	private void LoadMissions(List<MissionWithSmashReward> missions, int currentMission){
+		for(int i = 0; i < currentMission - 1; i++){
+			missionsUI[i].SetData(missions[i], i + 1);
+			missionsUI[i].SetCanSmash();
 		}
-		for(int i = startMission; ( i < missions.Count )&&( i < missionsUI.Count ); i++){
+		for(int i = currentMission; ( i < missions.Count )&&( i < missionsUI.Count ); i++){
 			missionsUI[i].SetData(missions[i], i + 1);
 		}
 		for(int i = missions.Count; i < missionsUI.Count; i++){
 			missionsUI[i].Hide();
 		}
-		missionsUI[startMission].SetCanSmash();
+		missionsUI[currentMission].OpenForFight();
 	}
 	public void OnResultFight(FightResult result){
 		if(result == FightResult.Win){
@@ -53,18 +55,16 @@ public class TravelCircleScript : Building{
 			LoadMissions(currentTravel.missions, currentTravel.CurrentMission);
 		}
 	}
-	public void OpenTravel(Race newRace){
-		if(currentTravel.race != newRace){
+	public void ChangeTravel(Race newRace){
+		if((currentTravel == null) || currentTravel.race != newRace){
 			currentTravel = travels.Find(x => x.race == newRace);
-			if(currentTravel != null){
-				currentTravel.controllerUI.Select();
-				LoadMissions(currentTravel.missions, currentTravel.CurrentMission);
-			}
+			currentTravel.controllerUI.Select();
+			LoadMissions(currentTravel.missions, currentTravel.CurrentMission);
 		}
-		panelListMissions.Open();
 	}
-	public void LoadTravel(){
-		
+	public void OpenTravel(){
+		Debug.Log("open travel");
+		panelListMissions.Open();
 	}
 	void Awake(){ instance = this; }
 	public static TravelCircleScript Instance{get => instance;} 

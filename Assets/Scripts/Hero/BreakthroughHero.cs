@@ -12,10 +12,8 @@ using UnityEngine;
 			bool result = false;
 			if((currentBreakthrough + 1) < listBreakthrough.Count){
 				if(listBreakthrough[currentBreakthrough + 1].requireLevel == level){
-					if(listBreakthrough[currentBreakthrough + 1].heroes.Count == 0){
-						currentBreakthrough++;
-						result = true;
-					}
+					currentBreakthrough++;
+					result = true;
 				}
 			} 
 			return result;
@@ -42,11 +40,9 @@ using UnityEngine;
 
 		[Header("Require")]
 		public uint requireLevel;
-		public List<RequireHero> heroes;
 		
 		[Header("Reward")]
 		public uint newLimitLevel;
-		public uint newRatingHero = 0;
 		public IncreaseCharacteristics incCharacts;
 
 		[Header("Serious changes")]
@@ -56,12 +52,4 @@ using UnityEngine;
 		public Vocation newClassHero;
 		public int IDnewPrefab;
 
-	}
-	[System.Serializable]
-	public class RequireHero{
-		public InfoHero hero; 
-		public Race race;
-		public uint rating;
-		public uint RequireLevel = 1;
-		public uint amountHero = 1;
 	}

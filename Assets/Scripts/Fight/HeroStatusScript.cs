@@ -41,8 +41,10 @@ public partial class HeroStatusScript : MonoBehaviour{
 	private float stamina = 25;
 	public float Stamina{get => stamina;}
 	public void ChangeStamina(float addStamina){
+		Debug.Log("change stamina: " + addStamina.ToString());
 		stamina += addStamina;
 		if(stamina > 100f) stamina = 100f;
+		if(stamina < 0f) stamina = 0f;
 		sliderStamina.ChangeValue(stamina);
 	}
 }

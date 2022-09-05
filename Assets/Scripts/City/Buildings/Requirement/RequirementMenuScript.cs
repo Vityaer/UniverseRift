@@ -9,6 +9,7 @@ public class RequirementMenuScript : Building{
 
 	protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
 	List<RequirementSave> RequirementSaves = new List<RequirementSave>();
+	public MyScrollRect scrollRectController;
 	protected override void OnLoadGame(){
 		LoadData(PlayerScript.GetPlayerGame.saveMainRequirements);
 	}
@@ -34,6 +35,7 @@ public class RequirementMenuScript : Building{
 			currentTask = GetRequirementUI();
 			currentTask.SetData(task as Requirement);
 			currentTask.RegisterOnChange(SaveData);
+			currentTask.SetScroll(scrollRectController);
 			listTaskUI.Add(currentTask);
 		}
 	}

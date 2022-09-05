@@ -22,7 +22,7 @@ public class DamageHealTextScript : MonoBehaviour{
 		if(inWork == false){
 			inWork = true;
 			textComponent.color = colorDamage;  
-			textComponent.text  = amount.ToString();
+			textComponent.text  =((System.UInt64) Mathf.Round(amount)).ToString();
 			gameObject.SetActive(true); 
 			textComponent.DOFade(1f, 0.05f);
 			rectTransform.anchoredPosition = pos;
@@ -31,10 +31,10 @@ public class DamageHealTextScript : MonoBehaviour{
 	}
 	public void Disable(){
 		textComponent.DOFade(0f, 0.25f).OnComplete(ClearText);
-		inWork = false;
 	} 
 	public void ClearText(){
 		gameObject.SetActive(false); 
 		textComponent.text = string.Empty;
+		inWork = false;
 	}
 }

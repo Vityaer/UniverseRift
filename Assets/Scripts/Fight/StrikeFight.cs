@@ -5,7 +5,7 @@ using UnityEngine;
 public class Strike{
 	public TypeStrike type = TypeStrike.Physical;
 	public float bonusNum = 0f;
-	public float bonusPercent = 100f;
+	public float bonusPercent = 0f;
 	public TypeNumber typeNumber;
 	public float baseAttack;
 	public int skillAttack; 
@@ -19,7 +19,8 @@ public class Strike{
 	}
 	public float GetDamage(int skillDefense = 0){
 		float result = 0f;
-		result = (baseAttack * bonusPercent/100f) + bonusNum;
+		result = (baseAttack * (1 + bonusPercent/100f));
+		result += bonusNum;
 		if(type == TypeStrike.Physical){
 			int skillFactor = skillAttack - skillDefense;
 			if(skillFactor >= -19)

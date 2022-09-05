@@ -16,8 +16,7 @@ public class ListFightTextsScript : MonoBehaviour{
 	}
 	private DamageHealTextScript GetFightText(){
 		DamageHealTextScript result = listFightTextChangeHP.Find(x => x.InWork == false);
-		if(result == null)
-			result = Instantiate(prefabTextFight).GetComponent<DamageHealTextScript>();
+		if(result == null) result = Instantiate(prefabTextFight).GetComponent<DamageHealTextScript>();
 		return result;
 	}
 

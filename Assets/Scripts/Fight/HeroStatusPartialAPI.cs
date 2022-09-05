@@ -16,6 +16,7 @@ public partial class HeroStatusScript : MonoBehaviour{
 		}
 		return result;
 	}
+
 	public void SetDebuff(State debuff, int rounds){
 		if(currentState != State.Clear) 
 			FightEffectControllerScript.Instance.ClearEffectStateOnHero(gameObject, currentState);
@@ -24,7 +25,7 @@ public partial class HeroStatusScript : MonoBehaviour{
 	
 	public void SetDot(TypeDot dot, float amount, TypeNumber typeNumber, List<Round> rounds){
 		for(int i = 0; i < rounds.Count; i++) 
-			if(rounds[i].amount == 0) rounds[i].SetData(amount, typeNumber);
+			if(rounds[i].AmountEqualsZero()) rounds[i].SetData(amount, typeNumber);
 		SaveDot(dot, rounds);
 	}
 

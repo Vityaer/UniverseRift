@@ -31,8 +31,11 @@ public class GoldHeapScript : MonoBehaviour{
 		OffGoldHeap();
 	}
 	private void CalculateReward(){
-		if(autoReward != null)
-			calculatedReward = autoReward.GetCaculateReward(FunctionHelp.CalculateCountTact(previousDateTime)); 
+		if(autoReward != null){
+			int tact = FunctionHelp.CalculateCountTact(previousDateTime);
+			calculatedReward = autoReward.GetCaculateReward(tact);
+			OnGetReward(new BigDigit(tact / 720f)); 
+		}
 	}
 	public void OnOpenSheet(){
 		if(autoReward != null){
@@ -56,4 +59,11 @@ public class GoldHeapScript : MonoBehaviour{
 	GameTimer timerChangeSprite;
     TimerScript Timer;
     [SerializeField] private ListSpriteDependFromCount listSpriteGoldHeap = new ListSpriteDependFromCount();
+    private static Action<BigDigit> observerGetHour;
+    public static void RegisterOnGetReward(Action<BigDigit> d){observerGetHour += d;}
+    public static void UnregisterOnGetReward(Action<BigDigit> d){observerGetHour -= d;}
+    private void OnGetReward(BigDigit amount){
+    	if(observerGetHour != null)
+    		observerGetHour(amount);
+    }
 }

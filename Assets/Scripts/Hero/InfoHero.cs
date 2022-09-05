@@ -38,7 +38,7 @@ public class InfoHero : ScriptableObject, ICloneable{
 		this.characts        = (Characteristics) Data.characts.Clone();
 		this.resistances     = (Resistance) Data.resistances.Clone();
 		this.generalInfo.Prefab = Resources.Load<GameObject>( string.Concat("Heroes/", this.generalInfo.idHero.ToString()) ); 
-		if(this.characts.baseCharacteristic.Mellee == false) this.prefabArrow = Resources.Load<GameObject>("CreateObjects/Bullet"); 
+		this.prefabArrow = Data.PrefabArrow; 
 		this.skills     = Data.skills;
 		this.Evolutions = Data.Evolutions;
 		this.CostumeHero = new CostumeHeroControllerScript();
@@ -116,12 +116,14 @@ public class InfoHero : ScriptableObject, ICloneable{
 	}
 	public object Clone(){
 		return new InfoHero{
-			generalInfo = this.generalInfo,
-			characts = this.characts,
-			IncCharacts = this.IncCharacts,
-			resistances = this.resistances,
-			CostumeHero  = this.CostumeHero,
-			skills = this.skills
+			generalInfo = (GeneralInfoHero) this.generalInfo.Clone(),
+			characts = (Characteristics)this.characts.Clone(),
+			IncCharacts =(IncreaseCharacteristics) this.IncCharacts.Clone(),
+			prefabArrow = this.prefabArrow,
+			resistances = (Resistance) this.resistances.Clone(),
+			CostumeHero  = this.CostumeHero.Clone(),
+			skills = this.skills,
+			Evolutions = this.Evolutions
 		};
 	}
 }

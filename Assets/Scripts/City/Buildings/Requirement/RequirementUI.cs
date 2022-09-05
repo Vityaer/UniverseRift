@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using ObjectSave;
-public class RequirementUI : MonoBehaviour{
+using UnityEngine.EventSystems;
+public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	[SerializeField] private Text description;
 	private Requirement requirement;
 	public Button buttonGetReward;
@@ -22,7 +23,7 @@ public class RequirementUI : MonoBehaviour{
                   OnComplete();      
             } 
 	}
-	
+
 	public void GetReward(){
 		requirement.GetReward();
 		UpdateUI();
@@ -90,6 +91,9 @@ public class RequirementUI : MonoBehaviour{
             case TypeRequirement.CountWinArenaFight:
                   ArenaScript.Instance.RegisterOnWinFight(ChangeProgress); 
                   break;
+            case TypeRequirement.CountTryArenaFight:
+                  ArenaScript.Instance.RegisterOnTryFight(ChangeProgress); 
+                  break;
             case TypeRequirement.CountDoneTasks:
                   TaskGiverScript.Instance.RegisterOnDoneTask(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value); 
                   break;
@@ -132,4 +136,9 @@ public class RequirementUI : MonoBehaviour{
       public void UnRegisterOnComplete(Action d){observerComplete += d;}
       private void OnComplete(){if(observerComplete != null) observerComplete(); Debug.Log("observerComplete");}      
 
+      private MyScrollRect scrollParent;
+      public void SetScroll(MyScrollRect scrollParent){ this.scrollParent = scrollParent; if(scrollParent == null) Debug.Log("Check please"); }
+      public void OnBeginDrag(PointerEventData eventData){ scrollParent?.OnBeginDrag(eventData); }
+      public void OnDrag(PointerEventData eventData){ scrollParent?.OnDrag(eventData); }
+      public void OnEndDrag(PointerEventData eventData){ scrollParent?.OnEndDrag(eventData); }
 }

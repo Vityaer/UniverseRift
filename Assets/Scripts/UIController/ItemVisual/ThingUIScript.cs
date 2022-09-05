@@ -19,7 +19,6 @@ public class ThingUIScript : MonoBehaviour{
 	public void UpdateUI(Sprite image, Rare rare, string text, int rating = 0){
 		if(imageThing.sprite != null) Clear();
 		imageThing.sprite  = image;
-		Debug.Log(string.Concat("subject text count: ", text));
 		ratingThing?.ShowRating(rating);
 		textAmount.text    = text;
 		imageThing.enabled = true;
@@ -27,7 +26,6 @@ public class ThingUIScript : MonoBehaviour{
 	public void UpdateUI(Sprite image, Rare rare, int amount = 0, int rating = 0){
 		Clear();
 		imageThing.sprite  = image;
-		Debug.Log(string.Concat("subject int count: ", amount.ToString()));
 		textAmount.text = (amount > 0) ? amount.ToString() : string.Empty;
 		ratingThing?.ShowRating(rating);
 		imageThing.enabled = true;
@@ -41,7 +39,6 @@ public class ThingUIScript : MonoBehaviour{
 	}
 	public void UpdateUI(SplinterController splinterController){
 		Clear();
-		Debug.Log(string.Concat("splinter count: ", splinterController.splinter.Amount.ToString()));
 		imageThing.sprite = splinterController.splinter.Image;
 		if(sliderAmount != null){
 			if(OnlyMainData == false){

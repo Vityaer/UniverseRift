@@ -42,6 +42,7 @@ public class BaseAI : MonoBehaviour{
 					SelectCellForMove(achievableMoveCells, workTeam).AITurn();				
 				}
 			}else{
+				Debug.Log("attack on distance");
 				enemy = workTeam[UnityEngine.Random.Range(0, workTeam.Count)]; 
 				heroConroller.StartDistanceAttackOtherHero(enemy.heroController);
 			}
@@ -60,19 +61,15 @@ public class BaseAI : MonoBehaviour{
 		Warrior selectEnemy = null;
 		for(int i = 0; i < enemies.Count; i++){
 			way = HexagonGridScript.Instance.FindWay(currentHero.Cell, enemies[i].Cell);
-			Debug.Log("way: " + way.Count.ToString());
 			if(way.Count < min){
 				min = way.Count;
 				selectEnemy = enemies[i];
-				Debug.Log("new minWay");
 				minWay = way;
 			}
 		}
 		HexagonCellScript workCell = null;
-			Debug.Log("min way: " + minWay.Count.ToString());
 		for(int i = 0; i < minWay.Count; i++){
 			workCell = minWay.Pop();
-			Debug.Log(workCell.gameObject.name);
 
 			if(achievableMoveCells.Contains(workCell)){
 				result = workCell;

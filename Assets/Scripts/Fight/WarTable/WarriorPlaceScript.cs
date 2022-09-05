@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 public class WarriorPlaceScript : MonoBehaviour{
     public int ID;
     public  CardScript card;
-    public  InfoHero hero;
+    private  InfoHero hero;
     public WarTableControllerScript WarTable;
-    private Image ImageHero;
-    private Text textLevel;
+    [SerializeField] private Image ImageHero;
+    [SerializeField] private TextMeshProUGUI textLevel;
+    public InfoHero Hero{get => hero;}
 	void Start(){
-        ImageHero = transform.Find("ImageHero").GetComponent<Image>();
-		textLevel = transform.Find("TextLevel").GetComponent<Text>();
         WarTable   = WarTableControllerScript.Instance;
-        if(hero?.generalInfo.Prefab != null) UpdateUI();
 	}
 	public void SetHero(CardScript card, InfoHero hero){
 		if(card != null) this.card = card;
@@ -24,8 +23,10 @@ public class WarriorPlaceScript : MonoBehaviour{
 	}
 	public void OnClickPlace(){ if(card != null) WarTable.UnSelectCard(card);}
     public void ClearPlace(){
-        card.UnSelected();
-        card = null;
+        if(card != null){
+            card.UnSelected();
+            card = null;
+        }
         hero = null;
         ClearUI();
     }
@@ -34,13 +35,14 @@ public class WarriorPlaceScript : MonoBehaviour{
         ImageHero.enabled = true; 
         textLevel.text = hero.generalInfo.Level.ToString();
 	}
-	public void ClearUI(){
+	private void ClearUI(){
         ImageHero.enabled = false; 
 		ImageHero.sprite = null;
         textLevel.text = "";
 	}
     public void SetEnemy(MissionEnemy enemy){
-        hero = (InfoHero) enemy.enemyPrefab.Clone();
+        hero = enemy.enemyPrefab;
+        Debug.Log(enemy.enemyPrefab.PrefabArrow == null, gameObject);
         hero.PrepareHeroWithLevel(enemy.level);
         UpdateUI();
     }

@@ -26,7 +26,8 @@ public enum TypeResource{
 	RedDust = 18,
 	EventAgentMonet = 19,
 	FeastCoint = 20,
-	VoyageToken = 21
+	VoyageToken = 21,
+	AdvancedDarkStone = 22
 }
 
 

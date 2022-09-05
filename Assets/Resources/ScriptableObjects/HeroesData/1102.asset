@@ -1,0 +1,251 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7289d0c677a1046439d9323023a9ebe7, type: 3}
+  m_Name: 1102
+  m_EditorClassIdentifier: 
+  generalInfo:
+    Name: "\u0420\u043E\u0431\u0438\u043D"
+    race: 0
+    ClassHero: 2
+    ratingHero: 1
+    rare: 1
+    idHero: 1102
+    Level: 1
+    isAlive: 1
+    IDCreate: 0
+    IDPrefab: 1102
+  prefabArrow: {fileID: 4305927702775538037, guid: b1f98fff22154664289275e5c58f5cb5, type: 3}
+  characts:
+    limitLevel: 40
+    Damage: 12
+    HP: 80
+    Initiative: 30
+    ProbabilityCriticalAttack: 0
+    DamageCriticalAttack: 0
+    Accuracy: 0
+    CleanDamage: 0
+    Dodge: 0
+    CountTargetForSimpleAttack: 1
+    CountTargetForSpell: 1
+    baseCharacteristic:
+      Attack: 12
+      Defense: 3
+      Speed: 3
+      typeMovement: 0
+      Mellee: 0
+      typeStrike: 0
+      CanRetaliation: 1
+      CountCouterAttack: 1
+  resistances:
+    MagicResistance: 0
+    CritResistance: 0
+    PoisonResistance: 0
+    StunResistance: 0
+    PetrificationResistance: 0
+    FreezingResistance: 0
+    AstralResistance: 0
+    DumbResistance: 0
+    silinceResistance: 0
+    EfficiencyHeal: 1
+  incCharacts:
+    increaseDamage: 10
+    increaseHP: 2
+    increaseInitiative: 5
+    increaseProbabilityCriticalAttack: 0
+    increaseDamageCriticalAttack: 0
+    increaseDodge: 0
+    increaseAccuracy: 0
+    increaseCleanDamage: 0
+    increaseMagicResistance: 0
+    increaseCritResistance: 0
+    increasePoisonResistance: 0
+  CostumeHero:
+    items: []
+  skills:
+  - name: "\u041C\u0435\u0442\u043A\u0438\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
+    ID: 1102_1
+    image: {fileID: 21300000, guid: ad7dfc94b1bfad24bbe18e400de4f6a8, type: 3}
+    description: "\u041D\u0430\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u0442 \u0441\u0442\u0440\u0435\u043B\u0443
+      \u043F\u0440\u044F\u043C\u043E \u0432 \u0441\u0435\u0440\u0434\u0446\u0435
+      \u0432\u0440\u0430\u0433\u0430! \u041D\u0430\u043D\u043E\u0441\u0438\u0442
+      200% \u0443\u0440\u043E\u043D\u0430"
+    isActive: 1
+    Skill_Level:
+    - requireNumBreakthrough: 0
+      effects:
+      - performance: 2
+        typeEvent: 6
+        countExecutions: -1
+        conditions: []
+        listAction:
+        - typeAction: 0
+          simpleAction: 0
+          effectBuff: 0
+          effectDebuff: 0
+          effectDots: 0
+          effectChangeCharacteristic: 0
+          effectStatus: 0
+          effectMark: 0
+          effectOther: 0
+          effectSpecial: 0
+          sideTarget: 0
+          typeSelect: 100
+          countTarget: 1
+          recalculateTarget: 0
+          chance: 0
+          amount: 200
+          typeNumber: 0
+          RepeatCall: 0
+          rounds: []
+  Evolutions:
+    currentBreakthrough: 0
+    listBreakthrough:
+    - numBreakthrough: 0
+      requireLevel: 1
+      newLimitLevel: 30
+      incCharacts:
+        increaseDamage: 10
+        increaseHP: 5
+        increaseInitiative: 3
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 50
+      newLimitLevel: 70
+      incCharacts:
+        increaseDamage: 10
+        increaseHP: 5
+        increaseInitiative: 3
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 70
+      newLimitLevel: 0
+      incCharacts:
+        increaseDamage: 0
+        increaseHP: 0
+        increaseInitiative: 0
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 0
+      newLimitLevel: 0
+      incCharacts:
+        increaseDamage: 0
+        increaseHP: 0
+        increaseInitiative: 0
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 0
+      newLimitLevel: 0
+      incCharacts:
+        increaseDamage: 0
+        increaseHP: 0
+        increaseInitiative: 0
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 0
+      newLimitLevel: 0
+      incCharacts:
+        increaseDamage: 0
+        increaseHP: 0
+        increaseInitiative: 0
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0
+    - numBreakthrough: 0
+      requireLevel: 0
+      newLimitLevel: 0
+      incCharacts:
+        increaseDamage: 0
+        increaseHP: 0
+        increaseInitiative: 0
+        increaseProbabilityCriticalAttack: 0
+        increaseDamageCriticalAttack: 0
+        increaseDodge: 0
+        increaseAccuracy: 0
+        increaseCleanDamage: 0
+        increaseMagicResistance: 0
+        increaseCritResistance: 0
+        increasePoisonResistance: 0
+      isSeriousChange: 0
+      newName: 
+      newRace: 0
+      newClassHero: 0
+      IDnewPrefab: 0

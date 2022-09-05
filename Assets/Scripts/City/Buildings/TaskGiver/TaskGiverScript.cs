@@ -26,6 +26,21 @@ public class TaskGiverScript : Building{
 			taskControllers[i].SetData(tasks[i]);
 		}
 	}
+	public int countFreeTaskOnDay = 6;
+	private void GetDailyTask(){
+		Task newTask = null;
+		TaskControllerScript newTaskController = null;
+		for(int i=0; i < countFreeTaskOnDay; i++){
+			newTask = patternTasks.GetSimpleTask();
+			tasks.Add(newTask);
+			newTaskController = Instantiate(prefabTask, taskboard).gameObject.GetComponent<TaskControllerScript>();
+			taskControllers.Add(newTaskController);
+			newTaskController.SetData(newTask);
+			taskGiverBuilding.tasks = tasks;
+		}
+		SetCostReplacement();
+		SaveGame();
+	}
 	public void CreateSimpleTask(int count = 1){ CreateTask(patternTasks.GetSimpleTask()); }
 	public void CreateSprecialTask(int count = 1){ CreateTask(patternTasks.GetSpecialTask()); }
 	private void CreateTask(Task newTask){
@@ -34,6 +49,7 @@ public class TaskGiverScript : Building{
 		taskControllers.Add(newTaskController);
 		newTaskController.SetData(newTask);
 		taskGiverBuilding.tasks = tasks;
+		SetCostReplacement();
 		SaveGame();
 	}
 	private static TaskGiverScript instance;
@@ -51,10 +67,12 @@ public class TaskGiverScript : Building{
 		taskGiverBuilding = PlayerScript.GetCitySave.taskGiverBuilding;
 		tasks = taskGiverBuilding.tasks;
 		FirstCreateTasks();
+		TimeControllerSystem.Instance.RegisterOnNewCycle(GetDailyTask, CycleRecover.Day);
 		SetCostReplacement();
 	}
 	public void UpdateSave(){
 		SaveGame();
+		SetCostReplacement();
 	}
 	public void FinishTask(TaskControllerScript taskController){
 		Task workTask = taskController.GetTask;

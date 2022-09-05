@@ -41,6 +41,10 @@ public class TravelCircleMissionControllerScript : BaseMissionController{
 				break;
 		}			
 	}
+	public void OpenForFight(){
+		status = StatusMission.Open;
+		UpdateUI();
+	}
 	public void Hide(){
 		status = StatusMission.Complete;
 		gameObject.SetActive(false);

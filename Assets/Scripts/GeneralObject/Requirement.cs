@@ -98,7 +98,9 @@ public enum TypeRequirement{
 	GetHeroesWithRatingAndID = 25,
 	CountWinArenaFight = 26,
 	CountDoneTasks = 27,
-	CountDoneTravel = 28
+	CountDoneTravel = 28,
+	CountTryArenaFight = 29,
+	CountHourAutoFightReward = 30
 }
 public enum TypeReward{
 	Resource,

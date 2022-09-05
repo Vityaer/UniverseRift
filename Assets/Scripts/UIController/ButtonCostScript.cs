@@ -10,7 +10,6 @@ public class ButtonCostScript : MonoBehaviour{
 	public Image imgRes;
 	public Resource res;
 	public Action<int> delBuyMatter;
-	public Action delOnBuy;
 	public int countBuy = 1;
 	private bool disable = false;
 	void Start(){
@@ -27,17 +26,13 @@ public class ButtonCostScript : MonoBehaviour{
 		delBuyMatter = d;
 		UpdateInfo();
 	}
-	public void RegisterOnBuy(Action d){
-		delOnBuy = d;
-		UpdateInfo();
-	}
 	public void UpdateCostWithoutInfo(Resource res, Action<int> d){
 		delBuyMatter  = d;
 		this.res      = res;
 		CheckResource( res );
 	}
-	public void UpdateLabel(Action d, string text){
-		delOnBuy = d;
+	public void UpdateLabel(Action<int> d, string text){
+		delBuyMatter = d;
 		this.res.Clear();
 		textCost.text = text;
 		disable = false;
@@ -51,8 +46,9 @@ public class ButtonCostScript : MonoBehaviour{
 				imgRes.sprite = res.Image;
 				PlayerScript.Instance.RegisterOnChangeResource( CheckResource, res.Name );
 			}else{
-				textCost.text = "Бесплатно";
-				imgRes.enabled = false;
+				textCost.text = DefaultEmpty();
+				if(typeDefaultMessage != TypeDefaultMessage.Number)
+					imgRes.enabled = false;
 			}
 			CheckResource( res );
 		}
@@ -61,7 +57,6 @@ public class ButtonCostScript : MonoBehaviour{
 		if(disable == false){
 			if(res.Count > 0f) SubstractResource();
 			if(delBuyMatter != null) delBuyMatter(countBuy);
-			if(delOnBuy != null) delOnBuy();
 		}
 	}
 
@@ -83,8 +78,30 @@ public class ButtonCostScript : MonoBehaviour{
 	}
 	public void Clear(){
 		delBuyMatter = null;
-		delOnBuy = null;
 		btn.interactable = true;
+		imgRes.enabled = false;
 		disable = false;
 	}
+	public TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
+	private string DefaultEmpty(){
+		string result = string.Empty;
+		switch(typeDefaultMessage){
+			case TypeDefaultMessage.Emtpy:
+				result = string.Empty;
+				break;
+			case TypeDefaultMessage.Number:
+				result = "0";
+				break;
+			case TypeDefaultMessage.Word:
+				result = "Бесплатно";	
+				break;	
+		}
+		return result;
+	}
+	public enum TypeDefaultMessage{
+		Emtpy,
+		Number,
+		Word
+	}
 }
+

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public partial class ActionEffect{
 	private void ExecuteSimpleAction(){
+		Debug.Log("simple action: " + simpleAction.ToString());
 		switch (simpleAction){
 			case EffectSimpleAction.Damage:
 				foreach (HeroControllerScript heroController in listTarget)
@@ -56,7 +57,8 @@ public partial class ActionEffect{
 				break;
 		}
 	}
-
+	private void ExecuteDebuff(){
+	}
 	private void ExecuteDots(){
 		switch(effectDots){
 			case EffectDots.Poison:
