@@ -17,4 +17,8 @@ public partial class HeroControllerScript : MonoBehaviour{
 			DoSpell();
 		}
 	}
+	public void SetDebuff(State debuff, int rounds){
+		Debug.Log("set debuff", gameObject);
+		this.statusState.SetDebuff(debuff, rounds);
+	}
 }	

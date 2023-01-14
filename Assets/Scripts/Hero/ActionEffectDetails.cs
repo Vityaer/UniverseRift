@@ -136,7 +136,7 @@ public partial class ActionEffect{
 		}
 	}
 	private void ExecuteStatusHero(){
-		Debug.Log("effectStatus: " + effectStatus.ToString());
+		Debug.Log("effectStatus: " + effectStatus.ToString() + " on listTarget.Count:" + listTarget.Count.ToString());
 		switch(effectStatus){
 			case EffectStatus.Stun:
 				foreach (HeroControllerScript heroController in listTarget)

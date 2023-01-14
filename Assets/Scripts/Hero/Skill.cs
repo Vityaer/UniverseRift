@@ -5,22 +5,26 @@ using UnityEngine;
 [System.Serializable]
 public class Skill{
 	[SerializeField]
-	private string name = "" ;
-	public  string Name{get => skillLocalization != null? skillLocalization.name : name; set => name = value;}
+	private string name = "empty name";
+	private int level = -1;
 	public  string     ID;
 	public  Sprite     image;
 	[SerializeField]
-	private string description = "";
-	public string Description{get => skillLocalization != null? GetDescription(skillLocalization.description) : description;}
+	private string description = "empty description";
 	public bool isActive = false;
 	private List<Effect> effects = new List<Effect>();
 	public List<SkillLevel> Skill_Level = new List<SkillLevel>();
+	SkillLevelLocalization skillLocalization = null;
+
+	public  string Name{get => skillLocalization != null? skillLocalization.name : name; set => name = value;}
+	public string Description{get => skillLocalization != null? GetDescription(skillLocalization.description) : description;}
+	
 	public Skill(){
 		image = null;
 		isActive = false;
 		effects = new List<Effect>();
 	}
-	private int level = -1;
+
 	public int Level{get => level;}
 	public void GetSkill(int currentBreakthrough){
 		for(int i = Skill_Level.Count - 1; i >= 0; i--){
@@ -31,6 +35,7 @@ public class Skill{
 			}
 		}
 	}
+
 	public void GetSkillInfo(int currentBreakthrough){
 		GetSkill(currentBreakthrough);
 		if(level == -1){
@@ -38,6 +43,7 @@ public class Skill{
 			level = 0;
 		}
 	}
+
 //API
 	public void CreateSkill(HeroControllerScript master, int currentBreakthrough = 0){
 		GetSkill(currentBreakthrough);
@@ -56,10 +62,10 @@ public class Skill{
 	}
 
 //Info API	
-	SkillLevelLocalization skillLocalization = null;
 	public void GetInfoAboutSkill(HeroLocalization localization){
 		skillLocalization = localization.GetDescriptionSkill(ID, level);
 	}
+
 	public string GetDescription(string description){
 		string strForReplace = ""; 
 		if(effects.Count == 0) Debug.Log(string.Concat(Name, " not founed effects"));

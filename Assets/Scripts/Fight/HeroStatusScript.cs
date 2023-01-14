@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 public partial class HeroStatusScript : MonoBehaviour{
 	public SliderScript sliderHP;
 	public SliderScript sliderStamina;
@@ -38,13 +40,18 @@ public partial class HeroStatusScript : MonoBehaviour{
 		sliderStamina.Death();
 	}
 //Stamina
-	private float stamina = 25;
-	public float Stamina{get => stamina;}
-	public void ChangeStamina(float addStamina){
+	private int stamina = 25;
+	public int Stamina{get => stamina;}
+	public void ChangeStamina(int addStamina){
 		Debug.Log("change stamina: " + addStamina.ToString());
 		stamina += addStamina;
-		if(stamina > 100f) stamina = 100f;
-		if(stamina < 0f) stamina = 0f;
+		if(stamina > 100) stamina = 100;
+		if(stamina < 0) stamina = 0;
 		sliderStamina.ChangeValue(stamina);
+		OnChangeStamina(stamina);
 	}
+	private Action<int> observerStamina;
+	public void RegisterOnChangeStamina(Action<int> d){observerStamina += d;}
+	public void UnregisterOnChangeStamina(Action<int> d){observerStamina -= d;}
+	private void OnChangeStamina(int num){if(observerStamina != null) observerStamina(num);}
 }

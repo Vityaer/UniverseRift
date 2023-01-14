@@ -20,6 +20,8 @@ public class WarTableControllerScript : MonoBehaviour{
 		warTableCanvas = GetComponent<Canvas>();
 		listCardPanel.RegisterOnSelect(SelectCard);
 		listCardPanel.RegisterOnUnSelect(UnSelectCard);
+		textStrengthLeftTeam.text = string.Empty;
+		textStrengthRightTeam.text = string.Empty;
 	}
 
 	public void SelectCard(CardScript card){ AddHero(card); }

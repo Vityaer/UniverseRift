@@ -7,6 +7,11 @@ using ObjectSave;
 using Sirenix.Serialization;
 using Sirenix.OdinInspector;
 public class DailyControllerScript : Building {
+
+	private const char SYMBOL_1 = '1';
+	
+	private List<int> idReceivedReward = new List<int>();
+
 	private SimpleBuildingSave dailyReward = null;
 	[OdinSerialize] private List<MarketProduct> listRewards = new List<MarketProduct>();
 	public List<DailyRewardScript> dailyRewardUI = new List<DailyRewardScript>();
@@ -18,9 +23,11 @@ public class DailyControllerScript : Building {
 	int sumReward = 0, IDCurReward = 0;
 	DateTime dateLastCheck;
 	TimeSpan timeForNextOpenReward = new TimeSpan(1, 0, 0, 0);
+
 	void Awake(){
 		instance = this;
 	}
+
 	protected override void OnLoadGame(){
 		dailyReward = PlayerScript.GetCitySave.dailyReward;
 		this.sumReward     = dailyReward.GetRecordInt(SUM_RECEIVIED_REWARD);
@@ -31,6 +38,7 @@ public class DailyControllerScript : Building {
 		sliderTime.SetData(dateLastCheck, timeForNextOpenReward);
 		SetAllRewardsAvailable();
 	}
+
 	private void SetAllRewardsAvailable(){
 		for(int i = 0; i <= IDCurReward; i++){
 			dailyRewardUI[i].SetStatus(EventAgentRewardStatus.Open);
@@ -39,6 +47,7 @@ public class DailyControllerScript : Building {
 			dailyRewardUI[idReceivedReward[i]].SetStatus(EventAgentRewardStatus.Received);
 		}
 	}
+
 	public void OpenNextReward(){
 		IDCurReward += 1;
 		dateLastCheck = TimeControllerSystem.Instance.GetDayCycle;
@@ -46,8 +55,8 @@ public class DailyControllerScript : Building {
 		dailyReward.SetRecordDate(DATA_LAST_CHECK, dateLastCheck);
 		SaveData();
 	}
-	private List<int> idReceivedReward = new List<int>();
-	private static char SYMBOL_1 = '1';
+
+
 	private void RepackReceivedReward(int sum){
 		string binaryCode = Convert.ToString(sum, 2);
 

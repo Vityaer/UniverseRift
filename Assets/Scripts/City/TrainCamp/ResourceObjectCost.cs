@@ -7,15 +7,24 @@ using TMPro;
 public class ResourceObjectCost : MonoBehaviour{
     public Image image;
     public TextMeshProUGUI textAmount;
-	private Resource costResource;
+	private Resource costResource = null;
 	private Resource storeResource; 
 
 	public void SetData(Resource res){
+		if(costResource != null)
+			PlayerScript.Instance.UnRegisterOnChangeResource( CheckResource, costResource.Name );
+
 		this.costResource = res;
 		CheckResource();
 		image.sprite = this.costResource.Image;
 		gameObject.SetActive(true);
+		PlayerScript.Instance.RegisterOnChangeResource( CheckResource, costResource.Name );
 	}
+
+	public void CheckResource(Resource res){
+		CheckResource();
+	}
+
 	public bool CheckResource(){
 		storeResource = PlayerScript.Instance.GetResource(costResource.Name);
 		bool flag     = PlayerScript.Instance.CheckResource(costResource); 

@@ -5,13 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class DailyRewardScript : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndDragHandler{
     public int ID;
-    public GameObject blockPanel;
+    public GameObject blockPanel, readyForGet;
+    [SerializeField] private MyScrollRect scrollParent;
 	public SubjectCellControllerScript rewardController;
 	private MarketProduct reward;
-	void Start(){
+	private EventAgentRewardStatus statusReward = EventAgentRewardStatus.Close;
+	
+	void Start()
+	{
 		ID = transform.GetSiblingIndex();
 	}
-	public void SetData(MarketProduct newProduct){
+
+	public void SetData(MarketProduct newProduct)
+	{
 		switch(newProduct){
 			case MarketProduct<Resource> product:
 				this.reward = product;
@@ -27,22 +33,29 @@ public class DailyRewardScript : MonoBehaviour,  IBeginDragHandler, IDragHandler
 				break;		
 		}
 	}
-	private EventAgentRewardStatus statusReward = EventAgentRewardStatus.Close;
+
 	public void SetStatus(EventAgentRewardStatus newStatusReward){
 		statusReward = newStatusReward;
 		UpdateUI();
 	}
+
 	private void UpdateUI(){
     	switch(statusReward){
 			case EventAgentRewardStatus.Received:
 				blockPanel.SetActive(true);
+				readyForGet.SetActive(false);
 				break;
 			case EventAgentRewardStatus.Close:
+				blockPanel.SetActive(false);
+				readyForGet.SetActive(false);
+				break;
 			case EventAgentRewardStatus.Open:
 				blockPanel.SetActive(false);
+				readyForGet.SetActive(true);
 				break;
 		}
     }
+
 	public void GetReward(){
 		switch(statusReward){
 			case EventAgentRewardStatus.Close:
@@ -59,7 +72,18 @@ public class DailyRewardScript : MonoBehaviour,  IBeginDragHandler, IDragHandler
 		}
 	}
 
-	public void OnBeginDrag(PointerEventData eventData){DailyControllerScript.Instance.scrollRectController.OnBeginDrag(eventData);}
-    public void OnDrag(PointerEventData eventData){ DailyControllerScript.Instance.scrollRectController.OnDrag(eventData); }
-    public void OnEndDrag(PointerEventData eventData){ DailyControllerScript.Instance.scrollRectController.OnEndDrag(eventData); }
+	public void OnBeginDrag(PointerEventData eventData)
+	{
+		scrollParent.OnBeginDrag(eventData);
+	}
+
+    public void OnDrag(PointerEventData eventData)
+    { 
+    	scrollParent.OnDrag(eventData); 
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    { 
+    	scrollParent.OnEndDrag(eventData); 
+    }
 }

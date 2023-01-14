@@ -32,7 +32,7 @@ public class MessageControllerScript : MonoBehaviour{
 	public void OpenPanelNewLevel(Reward reward){
 		AddQueue(panelNewLevelPlayer, () => panelNewLevelPlayer.Open(reward) );
 	}
-	private void OpenSimpleRewardPanel(Reward reward){
+	public void OpenSimpleRewardPanel(Reward reward){
 		AddQueue(rewardPanel, () => rewardPanel.Open(reward) );
 	}
 
@@ -67,6 +67,50 @@ public class MessageControllerScript : MonoBehaviour{
 		public void OnClose(){
 			if(delOnClose != null)
 				delOnClose();
+		}
+	}
+//Queue tiny reward
+	[Header("Tiny rewards")]
+	public TinyResourceRewardPanelScript tinyResourceReward;
+	public TinyItemRewardPanelScript tinyItemReward;
+	public TinySplinterRewardPanelScript tinySplinterReward;
+	public void OpenTinyRewards(Reward reward){
+		PlayerScript.Instance.AddReward(reward);
+		for(int i = 0; i < reward.GetListResource.List.Count; i++)
+			AddQueueTinyRewards(tinyResourceReward, () => tinyResourceReward.Open(reward.GetListResource.List[i]));
+		
+		List<Item> items = reward.GetItems;
+		for(int i = 0; i < items.Count; i++)
+			AddQueueTinyRewards(tinyItemReward, () => tinyItemReward.Open(items[i]));
+
+		List<Splinter> splinters = reward.GetSplinters;	
+		for(int i = 0; i < splinters.Count; i++)
+			AddQueueTinyRewards(tinySplinterReward, () => tinySplinterReward.Open(splinters[i]));		
+	}	
+	private Queue<PanelTinyRecord> queueTinyPanels = new Queue<PanelTinyRecord>();
+	PanelTinyRecord currentTinyPanel = null;
+	private void AddQueueTinyRewards(TinyRewardPanelScript panel, Action delOnpen){
+		queueTinyPanels.Enqueue(new PanelTinyRecord(panel, delOnpen));
+		if(queueTinyPanels.Count == 1) OpenNextPanel();
+	}
+	public void OpenNextTinyPanel(){
+		if(currentTinyPanel != null) currentTinyPanel.Close(); 
+		if(queueTinyPanels.Count > 0){
+			currentTinyPanel = queueTinyPanels.Dequeue();
+			currentTinyPanel.Open();
+		}
+	}
+	[System.Serializable]
+	public class PanelTinyRecord{
+		private TinyRewardPanelScript panel;
+		private Action delOnpen;
+		public PanelTinyRecord(TinyRewardPanelScript panel, Action delOnpen){
+			this.panel      = panel;
+			this.delOnpen = delOnpen;
+		}
+		public void Open(){ delOnpen(); }
+		public void Close(){
+			panel.Close();
 		}
 	}
 }

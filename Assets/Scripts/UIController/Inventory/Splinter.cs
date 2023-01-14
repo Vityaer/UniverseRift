@@ -24,12 +24,18 @@ public class Splinter : PlayerObject{
 	public override Sprite Image {
 		get{ 
 			if(sprite == null){
-				switch(typeSplinter){
-					case TypeSplinter.Hero:
-						sprite = SystemSprites.Instance.GetSprite( GetSpriteName() );
-						break;
+				Debug.Log("ID: " + ID.ToString() + " splinter is founding image...");
+				if(ID < 1000){
+					switch(typeSplinter){
+						case TypeSplinter.Hero:
+							sprite = SystemSprites.Instance.GetSprite( (SpriteName) ID );
+							break;
+					}
+				}else{
+					sprite = TavernScript.Instance.GetInfoHero(ID).GetMainImage;
 				}
 			}
+			// Debug.Log("splinter was founded: " + (sprite == null).ToString() );
 			return sprite;
 		}
 	}
@@ -106,16 +112,14 @@ public class Splinter : PlayerObject{
 //Rewards
 	private InfoHero GetRandomHero(){
 		int selectNumber = 0;
-		if(CountReward > 1){
-			float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
-			for(int i = 0; i < CountReward; i++){
-				rand -= reward.posibilityObjectRewards[i].posibility;
-				if(rand <= 0){
-					selectNumber = i;
-					break;
-				}
-			} 
-		}
+		float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
+		for(int i = 0; i < CountReward; i++){
+			rand -= reward.posibilityObjectRewards[i].posibility;
+			if(rand <= 0){
+				selectNumber = i;
+				break;
+			}
+		} 
 		Debug.Log("selectNumber: " + selectNumber);
 		InfoHero hero = TavernScript.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
 		return hero;

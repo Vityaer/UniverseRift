@@ -46,27 +46,28 @@ public class FightEffectControllerScript : MonoBehaviour{
 	}
 
 	public void CastEffectStateOnHero(GameObject hero, State state){
+		HeroControllerScript heroScript = hero.GetComponent<HeroControllerScript>();
 		switch (state) {
 			case State.Stun:
 				Instantiate(stateStun, hero.transform.position, Quaternion.identity, hero.transform);
 				break;
 			case State.Astral:
-				hero.GetComponent<SpriteRenderer>().color = stateAstral;
+				heroScript.GetSpriteRenderer.color = stateAstral;
 				break;
 			case State.Freezing:
-				hero.GetComponent<SpriteRenderer>().color = stateFreezing;
+				heroScript.GetSpriteRenderer.color = stateFreezing;
 				break;
 			case State.Silence:	
 				Instantiate(stateStun, hero.transform.position, Quaternion.identity, hero.transform);
 				break;
 			case State.Petrification:
-				hero.GetComponent<SpriteRenderer>().color = statePetrification;
+				heroScript.GetSpriteRenderer.color = statePetrification;
 				break;
 										
 		}
 	}
 	public void ClearEffectStateOnHero(GameObject hero, State state){
-		hero.GetComponent<SpriteRenderer>().color = stateClear;
+		hero.GetComponent<HeroControllerScript>().GetSpriteRenderer.color = stateClear;
 		switch (state){
 			case State.Silence:
 				Destroy(hero.transform.Find("SilencePrefab(Clone)").gameObject);

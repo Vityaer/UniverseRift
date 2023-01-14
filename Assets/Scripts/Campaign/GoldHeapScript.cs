@@ -7,61 +7,102 @@ using HelpFuction;
 using DG.Tweening;
 
 public class GoldHeapScript : MonoBehaviour{
-	[SerializeField] private AutoReward autoReward;
-	[SerializeField] private Reward calculatedReward;
+	private AutoReward autoReward = null;
+	private Reward calculatedReward;
 	public DateTime previousDateTime;
+	GameTimer timerChangeSprite;
+    TimerScript Timer;
+    private static Action<BigDigit> observerGetHour;
+
 	[SerializeField] private RectTransform imageGoldRectTransform;
 	[SerializeField] private Image imageHeap;
-	void Start(){ Timer = TimerScript.Timer; }
+    [SerializeField] private ListSpriteDependFromCount listSpriteGoldHeap = new ListSpriteDependFromCount();
 
-	public void SetNewReward(AutoReward newAutoReward){ 
+	void Start()
+	{
+		Timer = TimerScript.Timer;
+	}
+
+	public void SetNewReward(AutoReward newAutoReward)
+	{ 
 		if(newAutoReward != null)
+		{
 			this.autoReward = newAutoReward;
+			gameObject.SetActive(true);
+		}
 	} 
-	public void OnClickHeap(){
+
+	public void OnClickHeap()
+	{
 		previousDateTime = CampaignScript.Instance.GetAutoFightPreviousDate;
 		CalculateReward();
 		if(autoReward != null)
  			MessageControllerScript.Instance.OpenAutoReward(autoReward, calculatedReward, previousDateTime);
 	}
-	public void GetReward(){
+
+	public void GetReward()
+	{
 		CalculateReward();
+		PlayerScript.Instance.AddReward(calculatedReward);
 		previousDateTime = Client.Instance.GetServerTime();
 		CampaignScript.Instance.SaveAutoFight(previousDateTime);
 		OffGoldHeap();
 	}
-	private void CalculateReward(){
-		if(autoReward != null){
+
+	private void CalculateReward()
+	{
+		if(autoReward != null)
+		{
 			int tact = FunctionHelp.CalculateCountTact(previousDateTime);
 			calculatedReward = autoReward.GetCaculateReward(tact);
 			OnGetReward(new BigDigit(tact / 720f)); 
 		}
 	}
-	public void OnOpenSheet(){
-		if(autoReward != null){
+
+	public void OnOpenSheet()
+	{
+		if(autoReward != null)
+		{
 			previousDateTime = CampaignScript.Instance.GetAutoFightPreviousDate;
 			CheckSprite();
 		}
 	}
-	public void OnCloseSheet(){ Timer.StopTimer(timerChangeSprite); }
-	private void CheckSprite(){
-    	int tact = FunctionHelp.CalculateCountTact(previousDateTime);
-    	if((tact >= 2) && (imageHeap.enabled == false)){
-    		imageHeap.enabled = true;
-			imageGoldRectTransform.DOScale(Vector2.one, 0.25f);
+
+	public void OnCloseSheet()
+	{
+		Timer.StopTimer(timerChangeSprite);
+	}
+
+	private void CheckSprite()
+	{
+		if(autoReward != null){
+	    	int tact = FunctionHelp.CalculateCountTact(previousDateTime);
+	    	if((tact >= 2) && (imageHeap.enabled == false)){
+	    		imageHeap.enabled = true;
+				imageGoldRectTransform.DOScale(Vector2.one, 0.25f);
+			}
+	    	Debug.Log("previousDateTime: " + previousDateTime.ToString() + " and tact = " + tact.ToString());
+	    	imageHeap.sprite = listSpriteGoldHeap.GetSprite(tact);
+		}else{
+    		imageHeap.enabled = false;
 		}
-    	Debug.Log("previousDateTime: " + previousDateTime.ToString() + " and tact = " + tact.ToString());
-    	imageHeap.sprite = listSpriteGoldHeap.GetSprite(tact);
     	timerChangeSprite = Timer.StartTimer(5f, CheckSprite);
 	}
-	void OffGoldHeap(){ imageGoldRectTransform.DOScale(Vector2.zero, 0.25f).OnComplete(OffSprite); }
-	void OffSprite(){ imageHeap.enabled = false; }
-	GameTimer timerChangeSprite;
-    TimerScript Timer;
-    [SerializeField] private ListSpriteDependFromCount listSpriteGoldHeap = new ListSpriteDependFromCount();
-    private static Action<BigDigit> observerGetHour;
+
+	void OffGoldHeap()
+	{
+		imageGoldRectTransform.DOScale(Vector2.zero, 0.25f).OnComplete(OffSprite);
+	}
+
+	void OffSprite()
+	{
+		imageHeap.enabled = false;
+	}
+
     public static void RegisterOnGetReward(Action<BigDigit> d){observerGetHour += d;}
+
     public static void UnregisterOnGetReward(Action<BigDigit> d){observerGetHour -= d;}
+
     private void OnGetReward(BigDigit amount){
     	if(observerGetHour != null)
     		observerGetHour(amount);

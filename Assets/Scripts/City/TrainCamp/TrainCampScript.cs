@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using IdleGame.Touch;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class TrainCampScript : MonoBehaviour{
 
 	private Canvas trainCanvas;
@@ -17,30 +18,52 @@ public class TrainCampScript : MonoBehaviour{
 	public ListCardOnWarTableScript listCardPanel;
 	public ListMyHeroesControllerScript ListCard;
 	public CostLevelUp costLevelObject;
+	private bool isOpen = false;
+
+	private static TrainCampScript instance;
+	public static TrainCampScript Instance{get => instance;}
 
 	[Header("Information")]
 	public Image imageHero;
-	public Text textLevel;
-	public Text textNameHero;
-	public Text textHP;
-	public Text textAttack;
-	public Text textArmor;
-	public Text textInitiative;
-	public Text textStrengthHero;
+	public TextMeshProUGUI textLevel;
+	public TextMeshProUGUI textNameHero;
+	public TextMeshProUGUI textHP;
+	public TextMeshProUGUI textAttack;
+	public TextMeshProUGUI textArmor;
+	public TextMeshProUGUI textInitiative;
+	public TextMeshProUGUI textStrengthHero;
 
 	[Header("Items")]
 	public List<CellItemHeroScript> CellsForItem = new List<CellItemHeroScript>(); 
-	private void SelectHero(int num){
-		if(num < 0) num = 0;
-		if(num >= listHeroes.Count) num = listHeroes.Count - 1;
-		numSelectHero = num;
-		hero = listHeroes[numSelectHero];
-		UpdateInfoAbountHero();
-	}
 	[Header("Skills")]
 	public SkillUIControllerScript skillController;
 	[Header("Costs")]
 	public CostUIListScript costController;
+
+
+	private void SelectHero(int num){
+		if(num <= 0)
+		{
+			num = 0;
+			btnToLeftList.SetActive(false);
+		}else
+		{
+			btnToLeftList.SetActive(true);
+		}
+		if(num >= (listHeroes.Count - 1))
+		{
+			num = listHeroes.Count - 1;
+			btnToRightList.SetActive(false);
+		}else
+		{
+			btnToRightList.SetActive(true);
+		}
+
+		numSelectHero = num;
+		hero = listHeroes[numSelectHero];
+		UpdateInfoAbountHero();
+	}
+
 
 	public void UpdateInfoAbountHero(){
 		imageHero.sprite    = hero.generalInfo.ImageHero;
@@ -54,10 +77,10 @@ public class TrainCampScript : MonoBehaviour{
 	} 
 	public void UpdateTextAboutHero(){
 		textLevel.text      =  hero.generalInfo.Level.ToString();
-		textHP.text         = (hero.GetCharacteristic(TypeCharacteristic.HP)        ).ToString();
-		textAttack.text     = (hero.GetCharacteristic(TypeCharacteristic.Damage)    ).ToString();
-		textArmor.text      = (hero.GetCharacteristic(TypeCharacteristic.Defense)   ).ToString();
-		textInitiative.text = (hero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
+		textHP.text         = ((int) hero.GetCharacteristic(TypeCharacteristic.HP)        ).ToString();
+		textAttack.text     = ((int) hero.GetCharacteristic(TypeCharacteristic.Damage)    ).ToString();
+		textArmor.text      = ((int) hero.GetCharacteristic(TypeCharacteristic.Defense)   ).ToString();
+		textInitiative.text = ((int) hero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
 		textStrengthHero.text  = hero.GetStrength.ToString(); 
 		hero.PrepareSkillLocalization();
 		skillController.ShowSkills(hero.skills);
@@ -84,12 +107,15 @@ public class TrainCampScript : MonoBehaviour{
 		hero.LevelUP();
 		UpdateInfoAbountHero();
 	}
+
 	public void NextHero(){
 		SelectHero(numSelectHero + 1);
 	}
+
 	public void PreviousHero(){
 		SelectHero(numSelectHero - 1);
 	}
+
 	private void OpenTrainCamp(){
 		MainTouchControllerScript.Instance.RegisterOnObserverSwipe(OnSwipe);
 		isOpen = true;
@@ -105,12 +131,8 @@ public class TrainCampScript : MonoBehaviour{
 		isOpen = false;
 		trainCanvas.enabled = false;
 		MenuControllerScript.Instance.OpenMainPage();
-		PlayerScript.Instance.SaveGame();
 	} 
 
-	private bool isOpen = false;
-	private static TrainCampScript instance;
-	public static TrainCampScript Instance{get => instance;}
 	void Awake(){
 		instance = this;
 		trainCanvas = GetComponent<Canvas>();
@@ -120,7 +142,7 @@ public class TrainCampScript : MonoBehaviour{
 		}
 	} 
 	void Start(){
-		PlayerScript.Instance.GetListHeroesWithObserver(ref listHeroes, OnChangeListHeroes);
+		listHeroes = PlayerScript.Instance.GetListHeroes;
 		listCardPanel.RegisterOnSelect(SelectHero);
 	}
 	private void OnSwipe(TypeSwipe typeSwipe){
@@ -132,8 +154,5 @@ public class TrainCampScript : MonoBehaviour{
 				NextHero();
 				break;	
 		}
-	}
-	void OnChangeListHeroes(InfoHero hero){
-		listCardPanel.ChangeList(hero);
 	}
 }

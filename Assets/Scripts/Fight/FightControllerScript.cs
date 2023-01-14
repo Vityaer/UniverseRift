@@ -5,38 +5,54 @@ using HelpFuction;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Fight.Grid;
+
 public partial class FightControllerScript : MonoBehaviour{
+	
+	[Header("UI")]
 	public Canvas canvasFightUI;
-	[Header("Place heros")]
-	public HexagonGridScript hexagonGrid;
+ 	public TextMeshProUGUI textNumRound;
+	
+	[Header("Place heroes")]
+	public GridController Grid;
 	[SerializeField]private  List<Warrior> leftTeam  = new List<Warrior>(); 
 	[SerializeField]private  List<Warrior> rightTeam = new List<Warrior>(); 
-
 	[SerializeField] private List<HeroControllerScript> listInitiative  = new List<HeroControllerScript>();
+ 	[SerializeField] private List<HeroControllerScript> listHeroesWithAction = new List<HeroControllerScript>(); 
 
 	[Header("Location")]
 	public LocationControllerScript locationController;
 
+	private bool isFightFinish = false;
+ 	private int currentHero = -1;
+ 	private  int round = 1;
+ 	public int MaxCountRound = 3;
+ 	private Mission mission;
 
 	public List<Warrior> GetLeftTeam{get => leftTeam;}
 	public List<Warrior> GetRightTeam{get => rightTeam;}
+
 //Create Teams
-	public void SetMission(Mission mission, List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace){
+	public void SetMission(Mission mission, List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace)
+	{
 		this.mission = mission;
 		locationController.OpenLocation( mission.location );
-		HexagonGridScript.Instance.OpenGrid();
+		Grid.OpenGrid();
 		AIController.Instance.StartAIFight();
 		CreateTeams(leftWarriorPlace, rightWarriorPlace);
 	}
-    private void CreateTeams(List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace){
-    	Screen.orientation = ScreenOrientation.LandscapeRight;
+
+    private void CreateTeams(List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace)
+    {
     	canvasFightUI.enabled = true;
-    	CreateTeam(hexagonGrid.GetLeftTeamPos,  leftWarriorPlace,  Side.Left );
-    	CreateTeam(hexagonGrid.GetRightTeamPos, rightWarriorPlace, Side.Right );
+    	CreateTeam(GridController.Instance.GetLeftTeamPos,  leftWarriorPlace,  Side.Left );
+    	CreateTeam(GridController.Instance.GetRightTeamPos, rightWarriorPlace, Side.Right );
     	listInitiative.Sort(new HeroInitiativeComparer());
     	StartCoroutine(StartFightCountdown());
     }
-    IEnumerator StartFightCountdown(){
+
+    IEnumerator StartFightCountdown()
+    {
     	for (int i = 3; i>0; i--){
 	    	textNumRound.text = i.ToString();
 			yield return new WaitForSeconds(0.75f);
@@ -47,44 +63,54 @@ public partial class FightControllerScript : MonoBehaviour{
  		isFightFinish = false;
  		PlayDelegateOnStartFight();
 		StartFight();
-
     }
-    private void CreateTeam(List<HexagonCellScript> teamPos, List<WarriorPlaceScript> team, Side side){
+
+    private void CreateTeam(List<HexagonCellScript> teamPos, List<WarriorPlaceScript> team, Side side)
+    {
     	HeroControllerScript heroScript;
     	GameObject currentHeroPrefab;
-    	for(int i=0; i < team.Count; i++){
-    			currentHeroPrefab = null;
-    			heroScript = null;
-    			if((side == Side.Left && (team[i].card != null)) || (team[i].Hero != null))
-		    		currentHeroPrefab = Instantiate(team[i].Hero.generalInfo.Prefab, teamPos[i].Position, Quaternion.identity);
-    			if(currentHeroPrefab != null){
-	    			heroScript = currentHeroPrefab.GetComponent<HeroControllerScript>(); 
-	    			List<Warrior> workTeam = (side == Side.Left) ? leftTeam : rightTeam;
-	    			workTeam.Add(new Warrior(heroScript));
-	    			heroScript.SetHero(team[i].Hero, teamPos[i], side);
-	    			listInitiative.Add(heroScript);
-    			}
-
+    	for(int i=0; i < team.Count; i++)
+		{
+			currentHeroPrefab = null;
+			heroScript = null;
+			
+			if((side == Side.Left && (team[i].card != null)) || (team[i].Hero != null))
+				currentHeroPrefab = Instantiate(team[i].Hero.generalInfo.Prefab, teamPos[i].Position, Quaternion.identity, GridController.Instance.ParentTemplateObjects);
+			
+			if(currentHeroPrefab != null){
+				heroScript = currentHeroPrefab.GetComponent<HeroControllerScript>(); 
+				List<Warrior> workTeam = (side == Side.Left) ? leftTeam : rightTeam;
+				workTeam.Add(new Warrior(heroScript));
+				heroScript.SetHero(team[i].Hero, teamPos[i], side);
+				listInitiative.Add(heroScript);
+			}
     	}
     }
+
 //Fight loop    	
- 	public void StartFight(){ NextHero(); } 
- 	private bool isFightFinish = false;
- 	private int currentHero = -1;
- 	private  int round = 1;
- 	public TextMeshProUGUI textNumRound;
- 	public int MaxCountRound = 3;
- 	[SerializeField] private List<HeroControllerScript> listHeroesWithAction = new List<HeroControllerScript>(); 
- 	public void AddHeroWithAction(HeroControllerScript newHero){listHeroesWithAction.Add(newHero);}
- 	public void RemoveHeroWithAction(HeroControllerScript removeHero){
+ 	public void StartFight()
+ 	{
+ 		NextHero();
+ 	} 
+ 	
+ 	public void AddHeroWithAction(HeroControllerScript newHero)
+ 	{
+ 		listHeroesWithAction.Add(newHero);
+ 	}
+
+ 	public void RemoveHeroWithAction(HeroControllerScript removeHero)
+ 	{
  		listHeroesWithAction.Remove(removeHero);
  		if(listHeroesWithAction.Count == 0) NextHero();
  	}
- 	public void RemoveHeroWithActionAll(HeroControllerScript removeHero){
+
+ 	public void RemoveHeroWithActionAll(HeroControllerScript removeHero)
+ 	{
  		listHeroesWithAction.RemoveAll(x => x == removeHero);
  		if(listHeroesWithAction.Count == 0) NextHero();
  	}
- 	private void NextHero(){
+ 	private void NextHero()
+ 	{
  		if((currentHero + 1) < listInitiative.Count){
  			currentHero++;
  		}else{
@@ -94,17 +120,21 @@ public partial class FightControllerScript : MonoBehaviour{
 			listInitiative[currentHero].DoTurn();
  		}
  	}
- 	private void NewRound(){
+
+ 	private void NewRound()
+ 	{
  		UpdateListInitiative();
  		currentHero = 0;
 		round++;
-		textNumRound.text = string.Concat("Round ",round.ToString()); 
+		textNumRound.text = string.Concat("Round ", round.ToString()); 
 		PlayDelegateEndRound();
 		if(round == MaxCountRound){
 			Win(Side.Right);
 		}
  	}
- 	private void UpdateListInitiative(){
+
+ 	private void UpdateListInitiative()
+ 	{
  		listInitiative.Clear();
  		for(int i = 0; i < leftTeam.Count; i++){
  			if(leftTeam[i].heroController != null){
@@ -122,19 +152,25 @@ public partial class FightControllerScript : MonoBehaviour{
  		}
  		listInitiative.Sort(new HeroInitiativeComparer());
  	}
- 	public void WaitTurn(){
+
+ 	public void WaitTurn()
+ 	{
  		HeroControllerScript hero = GetCurrentHero();
  		listInitiative.Remove(hero);
  		currentHero -= 1;
  		listInitiative.Add(hero);
  		hero.StartWait(); 
  	}
+
 //Result fight
- 	private void CheckFinishFight(){
- 		if((leftTeam.Count == 0) || (rightTeam.Count == 0)) Win(leftTeam.Count > 0 ? Side.Left : Side.Right);
+ 	private void CheckFinishFight()
+ 	{
+ 		if((leftTeam.Count == 0) || (rightTeam.Count == 0))
+ 			Win(leftTeam.Count > 0 ? Side.Left : Side.Right);
  	}
- 	void Win(Side side){
-    	Screen.orientation = ScreenOrientation.Portrait;
+
+ 	void Win(Side side)
+ 	{
  		isFightFinish = true;
  		PlayDelegateOnFinishFight();
  		if(side == Side.Left){
@@ -146,8 +182,9 @@ public partial class FightControllerScript : MonoBehaviour{
     	StartCoroutine(FinishFightCountdown(side));
 
  	}
- 	Mission mission;
- 	IEnumerator FinishFightCountdown(Side side){
+
+ 	IEnumerator FinishFightCountdown(Side side)
+ 	{
 		textNumRound.text = "Конец боя!";
 		if(side == Side.Right) CheckSaveResult();
 		yield return new WaitForSeconds(2.5f);
@@ -158,31 +195,42 @@ public partial class FightControllerScript : MonoBehaviour{
     	CloseFigthUI();
  		ClearAll();
     }
-    private void CloseFigthUI(){
- 		HexagonGridScript.Instance.CloseGrid();
+
+    private void CloseFigthUI()
+    {
  		canvasFightUI.enabled = false;
     }
- 	void ClearAll(){
- 		Debug.Log("clear all");
+
+ 	void ClearAll()
+ 	{
  		DeleteTeam(rightTeam);
  		DeleteTeam(leftTeam);
 		listInitiative.Clear();
+		listHeroesWithAction.Clear();
 		currentHero = -1; 
 		round = 1;
  	}
- 	void DeleteTeam(List<Warrior> team){
- 		Debug.Log("delete team");
- 		for (int i = 0; i < team.Count;  i++){
- 			Debug.Log(i);
- 			Debug.Log(team[i].heroController == null);
+
+ 	void DeleteTeam(List<Warrior> team)
+ 	{
+ 		for (int i = 0; i < team.Count;  i++)
+ 		{
  			team[i].heroController.DeleteHero();
 		}
 		team.Clear();
  	}
- 	void CheckSaveResult(){ if((mission is BossMission)) (mission as BossMission).SaveResult(); }
+
+ 	void CheckSaveResult()
+ 	{ 
+ 		if((mission is BossMission)) 
+ 			(mission as BossMission).SaveResult(); 
+ 	}
+
  	private static FightControllerScript instance;
 	public  static FightControllerScript Instance{get => instance;}
-	void Awake(){
+
+	void Awake()
+	{
 		instance = this;
 	}
 
@@ -191,7 +239,6 @@ public partial class FightControllerScript : MonoBehaviour{
  		listInitiative[currentHero].MessageDamageAfterStrike(damage);
  	}
  	public void DeleteHero(HeroControllerScript heroForDelete){
- 		Debug.Log("delete hero");
  		Warrior warrior = leftTeam.Find(x => x.heroController == heroForDelete);
  		if(warrior != null){
  			leftTeam.Remove(warrior);
@@ -199,6 +246,7 @@ public partial class FightControllerScript : MonoBehaviour{
 	 		warrior = rightTeam.Find(x => x.heroController == heroForDelete);
  			rightTeam.Remove(warrior);
  		}
+		RemoveHeroWithActionAll(heroForDelete);
  		listInitiative.Remove(heroForDelete);
  		CheckFinishFight();
  	}

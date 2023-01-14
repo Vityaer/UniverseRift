@@ -71,7 +71,8 @@ MonoBehaviour:
   CostumeHero:
     items: []
   skills:
-  - name: "\u0421\u0432\u0438\u0441\u0442!"
+  - name: "\u0423\u0434\u0430\u0440 \u043F\u043E\u0434 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435
+      \"\u0425\u043E\u0431\u0430\"!"
     ID: 1201_1
     image: {fileID: 21300000, guid: 6139971791278cf42bb1d89c2cc5df9b, type: 3}
     description: "\u0421\u0432\u0438\u0441\u0442\u0438\u0442 \u0442\u0430\u043A,
@@ -86,22 +87,23 @@ MonoBehaviour:
         countExecutions: -1
         conditions: []
         listAction:
-        - typeAction: 5
+        - typeAction: 0
           simpleAction: 0
           effectBuff: 0
+          effectDebuff: 0
           effectDots: 0
-          effectChangeCharacteristic: 0
+          effectChangeCharacteristic: 16
           effectStatus: 0
           effectMark: 0
           effectOther: 0
           effectSpecial: 0
-          sideTarget: 0
-          typeSelect: 1
-          countTarget: 3
+          sideTarget: 4
+          typeSelect: 15
+          countTarget: 6
           recalculateTarget: 0
           chance: 0
-          amount: 2
-          typeNumber: 1
+          amount: 75
+          typeNumber: 0
           RepeatCall: 0
           rounds: []
   Evolutions:
@@ -109,9 +111,7 @@ MonoBehaviour:
     listBreakthrough:
     - numBreakthrough: 0
       requireLevel: 1
-      heroes: []
       newLimitLevel: 30
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 7.5
@@ -131,9 +131,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 1
       requireLevel: 31
-      heroes: []
       newLimitLevel: 50
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 7.5
@@ -153,9 +151,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 2
       requireLevel: 51
-      heroes: []
       newLimitLevel: 70
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 7
@@ -175,9 +171,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 3
       requireLevel: 71
-      heroes: []
       newLimitLevel: 90
-      newRatingHero: 0
       incCharacts:
         increaseDamage: 0
         increaseHP: 3.5
@@ -197,9 +191,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 4
       requireLevel: 91
-      heroes: []
       newLimitLevel: 120
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 3.5
@@ -219,9 +211,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 5
       requireLevel: 121
-      heroes: []
       newLimitLevel: 150
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 3.5
@@ -241,9 +231,7 @@ MonoBehaviour:
       IDnewPrefab: 0
     - numBreakthrough: 6
       requireLevel: 151
-      heroes: []
       newLimitLevel: 200
-      newRatingHero: 2
       incCharacts:
         increaseDamage: 0
         increaseHP: 2.5

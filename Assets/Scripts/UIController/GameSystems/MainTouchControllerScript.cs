@@ -8,8 +8,9 @@ namespace IdleGame.Touch{
 	    private Vector3 startPosition, endPosition;
 		private Vector2 swipeDistance;
 		private Action<TypeSwipe> observerSwipe;
+		public float widthPercent = 25f;
 		void Start(){
-			swipeDistance.x = Screen.width * 0.3f;
+			swipeDistance.x = Screen.width * widthPercent / 100f;
 		}
 	    RaycastHit2D hit;
 	    void Update(){

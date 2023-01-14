@@ -22,7 +22,7 @@ public  class SystemSprites : MonoBehaviour{
 [System.Serializable] public abstract class BaseItemSprite{ public Sprite image; }
 [System.Serializable] public class RaceSprite : BaseItemSprite{ public Race race; }
 [System.Serializable] public class VocationSprite : BaseItemSprite{ public Vocation vocation; }
-[System.Serializable] public class GeneralSprite : BaseItemSprite{ public SpriteName name; }
+[System.Serializable] public class GeneralSprite : BaseItemSprite{ public SpriteName name = SpriteName.OneStarHero; }
 
 
 public enum SpriteName{
@@ -32,5 +32,7 @@ public enum SpriteName{
 	FourStartHero = 4,
 	FiveStarHero = 5,
 	BaseSplinterHero = 6,
-	BaseSplinterArtifact = 7
+	BaseSplinterArtifact = 7,
+	OneStarPeople = 11,
+	OneStarElf = 12
 }

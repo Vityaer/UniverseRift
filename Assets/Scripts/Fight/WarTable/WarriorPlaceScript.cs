@@ -11,7 +11,7 @@ public class WarriorPlaceScript : MonoBehaviour{
     public WarTableControllerScript WarTable;
     [SerializeField] private Image ImageHero;
     [SerializeField] private TextMeshProUGUI textLevel;
-    public InfoHero Hero{get => hero;}
+    public InfoHero Hero => hero;
 	void Start(){
         WarTable   = WarTableControllerScript.Instance;
 	}
@@ -30,21 +30,23 @@ public class WarriorPlaceScript : MonoBehaviour{
         hero = null;
         ClearUI();
     }
-	public void UpdateUI(){
+	public void UpdateUI()
+    {
 		ImageHero.sprite = hero?.generalInfo.ImageHero;
         ImageHero.enabled = true; 
         textLevel.text = hero.generalInfo.Level.ToString();
 	}
-	private void ClearUI(){
+	private void ClearUI()
+    {
         ImageHero.enabled = false; 
 		ImageHero.sprite = null;
-        textLevel.text = "";
+        textLevel.text = string.Empty;
 	}
-    public void SetEnemy(MissionEnemy enemy){
+    public void SetEnemy(MissionEnemy enemy)
+    {
         hero = enemy.enemyPrefab;
-        Debug.Log(enemy.enemyPrefab.PrefabArrow == null, gameObject);
         hero.PrepareHeroWithLevel(enemy.level);
         UpdateUI();
     }
-    public bool IsEmpty(){ return (card == null) ? true : false; }
+    public bool IsEmpty() => (card == null);
 }

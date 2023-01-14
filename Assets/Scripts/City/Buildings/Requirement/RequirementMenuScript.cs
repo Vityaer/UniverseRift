@@ -6,6 +6,7 @@ public class RequirementMenuScript : Building{
 	[SerializeField] private Transform  taskboard;
 	[SerializeField] private GameObject prefabRequirement;
 	[SerializeField] protected List<Requirement> listRequirement = new List<Requirement>(); 
+	[SerializeField] protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
 
 	protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
 	List<RequirementSave> RequirementSaves = new List<RequirementSave>();
@@ -28,7 +29,6 @@ public class RequirementMenuScript : Building{
 		PlayerScript.GetPlayerGame.SaveMainRequirements(listRequirement);
 		SaveGame();
 	}
-	[SerializeField] protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
 	protected void CreateRequrements(){
 		RequirementUI currentTask = null;
 		foreach(Requirement task in listRequirement){

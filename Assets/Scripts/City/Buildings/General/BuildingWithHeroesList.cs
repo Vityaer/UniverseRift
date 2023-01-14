@@ -6,15 +6,19 @@ public class BuildingWithHeroesList : Building{
 	
 	[SerializeField] protected ListCardOnWarTableScript listHeroesController;
 	protected List<InfoHero> listHeroes = new List<InfoHero>();
+
     public virtual void SelectHero(CardScript cardHero){}
+
 	public virtual void UnselectHero(CardScript cardHero){}
+
+	protected virtual void FilterHeroes(List<InfoHero> heroes){}
+
 	protected void LoadListHeroes(){
+		FilterHeroes(listHeroes);
 		listHeroesController.SetList(listHeroes);
 		listHeroesController.RegisterOnSelect(SelectHero);
 	}
-	protected void OnChangeListHeroes(InfoHero hero){
-		listHeroesController.ChangeList(hero);
-	}
+
 	protected void OnDestroy(){
 		listHeroesController.UnRegisterOnSelect(SelectHero);
 	}

@@ -6,14 +6,17 @@ public class RewardPanelScript : MonoBehaviour{
 	protected Reward reward;
     public GameObject panel;
     public RewardUIControllerScript rewardController;
-	protected void SetReward(Reward reward){
+	protected virtual void SetReward(Reward reward){
 		if(reward != null){
 			this.reward = reward.Clone();
 			rewardController.ShowAllReward(reward);
 		}
 	}
-	public void GetReward(){
-		if(reward != null) PlayerScript.Instance.AddReward(reward);
+	private void GetReward(){
+		if(reward != null){
+			Debug.Log("Get reward");
+			PlayerScript.Instance.AddReward(reward);
+		}
 	}
 	public void Open(Reward reward){
 		if(reward != null) SetReward(reward);

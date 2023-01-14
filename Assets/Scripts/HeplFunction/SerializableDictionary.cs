@@ -3,42 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class SerializableDictionary<TK, TV> : MonoBehaviour, ISerializationCallbackReceiver
+public abstract class UnitySerializedDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
-    // private Dictionary<TK, TV> _Dictionary;
-    // [SerializeField] List<TK> _Keys;
-    // [SerializeField] List<TV> _Values;
- 
-    // wrapper methods, serialization, etc...
-    public List<int> _keys = new List<int> { 3, 4, 5 };
-    public List<string> _values = new List<string> { "I", "Love", "Unity" };
+	[SerializeField, HideInInspector]
+	private List<TKey> keyData = new List<TKey>();
+	
+	[SerializeField, HideInInspector]
+	private List<TValue> valueData = new List<TValue>();
 
-    //Unity doesn't know how to serialize a Dictionary
-    public Dictionary<int, string>  _myDictionary = new Dictionary<int, string>();
-
-    public void OnBeforeSerialize()
+    void ISerializationCallbackReceiver.OnAfterDeserialize()
     {
-        _keys.Clear();
-        _values.Clear();
-
-        foreach (var kvp in _myDictionary)
-        {
-            _keys.Add(kvp.Key);
-            _values.Add(kvp.Value);
-        }
+		this.Clear();
+		for (int i = 0; i < this.keyData.Count && i < this.valueData.Count; i++)
+		{
+			this[this.keyData[i]] = this.valueData[i];
+		}
     }
 
-    public void OnAfterDeserialize()
+    void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
-        _myDictionary = new Dictionary<int, string>();
+		this.keyData.Clear();
+		this.valueData.Clear();
 
-        for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
-            _myDictionary.Add(_keys[i], _values[i]);
-    }
-
-    void OnGUI()
-    {
-        foreach (var kvp in _myDictionary)
-            GUILayout.Label("Key: " + kvp.Key + " value: " + kvp.Value);
+		foreach (var item in this)
+		{
+			this.keyData.Add(item.Key);
+			this.valueData.Add(item.Value);
+		}
     }
 }

@@ -32,6 +32,11 @@ public class InfoHero : ScriptableObject, ICloneable{
 	
 	[Header("Breakthroughs")]
 	public BreakthroughHero Evolutions;
+
+	public HeroLocalization localization = null;
+
+	public Sprite GetMainImage{get => generalInfo.ImageHero;}
+
 	private void CopyData(InfoHero Data){
 		this.generalInfo     = (GeneralInfoHero)Data.generalInfo.Clone();
 		this.incCharacts     = (IncreaseCharacteristics)Data.IncCharacts.Clone();
@@ -53,6 +58,7 @@ public class InfoHero : ScriptableObject, ICloneable{
 		this.CostumeHero.SetData(heroSave.costume.listID);
 	}
 	public InfoHero(){}
+
 //API
 	public void LevelUP(int count = 1){
 		for(int i = 0; i < count; i++){
@@ -66,6 +72,7 @@ public class InfoHero : ScriptableObject, ICloneable{
 			}
 		}
 	}
+
 	public float GetCharacteristic(TypeCharacteristic typeBonus){
 		float result = 0;
 		switch (typeBonus){
@@ -85,25 +92,34 @@ public class InfoHero : ScriptableObject, ICloneable{
 		result += CostumeHero.GetBonus(typeBonus);
 		return result;
 	}
+
 	public void PrepareHeroWithLevel(int level){
 		this.generalInfo.Level = level;
 		Growth.GrowHero(this.characts, this.resistances, this.IncCharacts, generalInfo.Level);
 	}
+
 	private void GetSkills(){
 		foreach(Skill skill in skills){
 			skill.GetSkill(Evolutions.currentBreakthrough);
 		}
 	}
-	HeroLocalization localization = null;
+
 	public void PrepareLocalization(){
 		localization = LanguageControllerScript.Instance.GetLocalizationHero(generalInfo.idHero);
 	}
+
 	public void PrepareSkillLocalization(){
 		if(localization == null) PrepareLocalization();
-		foreach(Skill skill in skills){
-			skill.GetInfoAboutSkill(localization);
+		if(localization != null)
+		{
+			foreach(Skill skill in skills)
+				skill.GetInfoAboutSkill(localization);
+		}else
+		{
+			Debug.LogError("localization not found");
 		}
 	}
+
 	public bool CheckСonformity(RequirementHero requirementHero){
 		bool result = false;
 		if((generalInfo.ratingHero == requirementHero.rating) && (generalInfo.race == requirementHero.race)){
@@ -111,9 +127,11 @@ public class InfoHero : ScriptableObject, ICloneable{
 		}
 		return result;
 	}
+
 	public void UpRating(){
 		generalInfo.ratingHero += 1;
 	}
+
 	public object Clone(){
 		return new InfoHero{
 			generalInfo = (GeneralInfoHero) this.generalInfo.Clone(),
@@ -123,7 +141,8 @@ public class InfoHero : ScriptableObject, ICloneable{
 			resistances = (Resistance) this.resistances.Clone(),
 			CostumeHero  = this.CostumeHero.Clone(),
 			skills = this.skills,
-			Evolutions = this.Evolutions
+			Evolutions = this.Evolutions,
+			localization = this.localization
 		};
 	}
 }

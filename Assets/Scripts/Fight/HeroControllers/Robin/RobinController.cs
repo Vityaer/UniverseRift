@@ -20,13 +20,14 @@ public class RobinController : HeroControllerScript{
 	private void OnSpecialHit(){
 		hitSpecialCount++;
 		if(hitSpecialCount == listTarget.Count){
-			OnSpell();
+			RemoveFightRecordActionMe();
+			OnSpell(listTarget);
 			EndTurn();
 		}
 	}
 	protected override void DoSpell(){
 		hitSpecialCount = 0;
-		statusState.ChangeStamina(-100f);
+		statusState.ChangeStamina(-100);
 		anim.Play("Spell");
 	} 
 }

@@ -35,7 +35,6 @@ public class ArrowScript : MonoBehaviour{
 	public float speed = 10f;
 
 	public void SetTarget(HeroControllerScript target, Strike strike){
-		Debug.Log("set target");
 		this.target = target;
 		this.strike = strike;
 		Vector3 dir = target.GetPosition - tr.position;

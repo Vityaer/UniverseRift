@@ -159,6 +159,7 @@ public class InfoHeroEditor:Editor{
 							EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("countTarget"));
 							break;
 					}
+					GUILayout.Label("rounds", EditorStyles.boldLabel);
 					if(list.GetArrayElementAtIndex(i).FindPropertyRelative("rounds").arraySize == 0){
 						EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("amount"));
 						EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("typeNumber"));

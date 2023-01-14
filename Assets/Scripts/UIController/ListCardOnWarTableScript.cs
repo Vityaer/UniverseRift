@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System; 
 public class ListCardOnWarTableScript : MonoBehaviour{
 
 	public GameObject prefabCard;
@@ -70,6 +71,7 @@ public class ListCardOnWarTableScript : MonoBehaviour{
 	public void SetList(List<InfoHero> listHeroes){
 		this.listHeroes = listHeroes;
 		loadedListHeroes = true;
+		Clear();
 		CreateCards(listHeroes);
 	} 
 	public void EventOpen(){
@@ -78,6 +80,7 @@ public class ListCardOnWarTableScript : MonoBehaviour{
 	}
 	public void EventClose(){
 	} 
+
 	public void Clear(){
 		for(int i = listCard.Count - 1; i>=0; i--){
 			Destroy(listCard[i].gameObject);
@@ -87,37 +90,36 @@ public class ListCardOnWarTableScript : MonoBehaviour{
 //Delegate
 	public void SelectCard(CardScript card){ EventSelectCard(card); }
 	public void UnSelectCard(CardScript card){ EventUnSelectCard(card); }
-	public delegate void DelSelect(CardScript card);
-	private DelSelect delSelect, delUnSelect;
-	public void RegisterOnSelect(DelSelect d){ delSelect += d; }
-	public void UnRegisterOnSelect(DelSelect d){ delSelect -= d; }
-	public void RegisterOnUnSelect(DelSelect d){ delUnSelect += d; }
-	public void UnRegisterOnUnSelect(DelSelect d){ delUnSelect -= d; }
-	private void EventSelectCard(CardScript card){
+	private Action<CardScript> delSelect, delUnSelect;
+	public void RegisterOnSelect(Action<CardScript> d){ delSelect += d; }
+	public void UnRegisterOnSelect(Action<CardScript> d){ delSelect -= d; }
+	public void RegisterOnUnSelect(Action<CardScript> d){ delUnSelect += d; }
+	public void UnRegisterOnUnSelect(Action<CardScript> d){ delUnSelect -= d; }
+	
+	private void EventSelectCard(CardScript card)
+	{
 		if((delSelect != null) && (card != null)){ delSelect(card); }
 	}
-	private void EventUnSelectCard(CardScript card){
+
+	private void EventUnSelectCard(CardScript card)
+	{
 		if((delUnSelect != null) && (card != null)){ delUnSelect(card); }
 	}
-	private void UpdateAllCard(){
+
+	private void UpdateAllCard()
+	{
 		for(int i =0; i < listCard.Count; i++){
 			listCard[i].ChangeInfo(listHeroes[i]);
 		}
 	}
-	public void ChangeList(InfoHero hero){
-		if(hero != null){
-			bool flag = listHeroes.Find(x => x == hero);
-			if(flag == false){
-				CardScript card = listCard.Find(x => x.hero == hero);
-				if(card != null) RemoveCards(new List<CardScript>(){card});
-			}else{
-				CreateCards(new List<InfoHero>{hero});
-			}
-		}
-	}
-	public void RemoveCardFromList(CardScript card){ listCard.Remove(card); }
 
-	public void SelectCards(List<InfoHero> selectedCard){
+	public void RemoveCardFromList(CardScript card)
+	{
+		listCard.Remove(card);
+	}
+
+	public void SelectCards(List<InfoHero> selectedCard)
+	{
 		CardScript currentCard = null;
 		InfoHero currentHero = null;
 		for(int i= 0; i < selectedCard.Count; i++){

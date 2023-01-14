@@ -18,7 +18,8 @@ public enum EffectSimpleAction{
 		HateDarkGods = 7
 	}
 	public enum EffectDebuff{
-		Slow = 0
+		Slow = 0,
+		Stun = 1
 	}	
 	public enum EffectDots{
 		Poison = 0,

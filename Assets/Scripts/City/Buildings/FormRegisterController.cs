@@ -18,6 +18,12 @@ public class FormRegisterController : Building{
 	private PlayerInfo playerInfo;
 	public void CreateAccount(string name){
 		PlayerScript.Instance.RegisterPlayer(name);
+		GetStartPack();
 		SaveGame();
+	}
+	private void GetStartPack(){
+		PlayerScript.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 10));
+		PlayerScript.Instance.AddResource(new Resource(TypeResource.Diamond, 100));
+		PlayerScript.Instance.AddResource(new Resource(TypeResource.CoinFortune, 5));
 	}
 }

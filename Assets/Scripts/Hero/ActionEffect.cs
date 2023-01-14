@@ -32,11 +32,15 @@ public partial class ActionEffect{
 		this.listTarget.Clear();
 		if((listTarget.Count == 0) || (recalculateTarget != RecalculateMethodTarget.OldTargets)){
 			Side side = master.side;
-			if(sideTarget != SideTarget.I){
-				if(sideTarget == SideTarget.Friend) {if(side == Side.Left){side = Side.Right;}else{side = Side.Left;}}
-				FightControllerScript.Instance.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
+			if(sideTarget != SideTarget.Select){
+				if(sideTarget != SideTarget.I){
+					if(sideTarget == SideTarget.Friend) {if(side == Side.Left){side = Side.Right;}else{side = Side.Left;}}
+					FightControllerScript.Instance.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
+				}else{
+					this.listTarget.Add(master);		
+				}
 			}else{
-				this.listTarget.Add(master);		
+				this.listTarget = listTarget; 
 			}
 			switch (recalculateTarget){
 				case RecalculateMethodTarget.AddTargets:
@@ -144,10 +148,11 @@ public enum TypeSelect{
 	}
 
     public enum SideTarget{
-	Enemy,
-	Friend,
-	I,
-	All}
+	Enemy = 0,
+	Friend = 1,
+	I = 2,
+	All = 3,
+ 	Select = 4}
 
 	public enum RecalculateMethodTarget{
 		NewTargets,

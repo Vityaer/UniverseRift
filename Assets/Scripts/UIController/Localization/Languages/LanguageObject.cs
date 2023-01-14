@@ -43,7 +43,26 @@ public class HeroLocalization{
 	public string Description;
 	public List<SkillLocalization> Skills = new List<SkillLocalization>(); 
 	public SkillLevelLocalization GetDescriptionSkill(string ID, int numSkill){
-		SkillLevelLocalization result = Skills[ numSkill ].levels[0];
+		SkillLevelLocalization result = null;
+		if(Skills != null)
+		{
+			if(Skills.Count > 0)
+			{
+				if(Skills[numSkill].levels.Count > 0)
+				{
+					result = Skills[ numSkill ]?.levels[0];
+				}else
+				{
+					Debug.LogError("Skills[numSkill].levels.Count == 0");	
+				}
+			}else
+			{
+				Debug.LogError("Skills.Count == 0");	
+			}
+		}else
+		{
+			Debug.LogError("Skills == null");
+		}
 		return result;
 	}
 }

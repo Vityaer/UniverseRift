@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 [System.Serializable]
 public class BigDigit{
 	[SerializeField] protected float count = 0;
@@ -68,7 +69,7 @@ public class BigDigit{
 		if(e10 == 0){
 			this.count =  Mathf.Round(this.count);
 		}else{
-			this.count = System.MathF.Round(this.count, 3);
+			this.count = Mathf.Round(this.count * 1000f) * 0.001f;
 		}
 	}
 	public float ToFloat(){

@@ -83,13 +83,13 @@ public class Item : PlayerObject, VisualAPI{
 	}	
 	public Item(){base.id = 0;}
 
-	public override BaseObject Clone(){return new Item(this.ID);}
+	public override BaseObject Clone(){return new Item(this.ID, this.Amount);}
 
 
 //Operators
 	public static Item operator* (Item item, int k){
 		return new Item(item.ID, k);
-	}	
+	}
 }
 
 

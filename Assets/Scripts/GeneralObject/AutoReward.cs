@@ -26,7 +26,7 @@ public class AutoReward{
 		Debug.Log("resources");
 		result = 0;
 		for(int i = 0; i < listPosibleResources.Count; i++){
-			currentPosible = listPosibleResources[i].Posibility / 250f;
+			currentPosible = listPosibleResources[i].Posibility / 1000f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;
@@ -47,7 +47,7 @@ public class AutoReward{
 		Debug.Log("items");
 		result = 0;
 		for(int i = 0; i < listPosibleItems.Count; i++){
-			currentPosible = listPosibleItems[i].Posibility / 400f;
+			currentPosible = listPosibleItems[i].Posibility / 1000f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;
@@ -69,7 +69,7 @@ public class AutoReward{
 		Debug.Log("splinters");
 		result = 0;
 		for(int i = 0; i < listPosibleSplinters.Count; i++){
-			currentPosible = listPosibleSplinters[i].Posibility / 800f;
+			currentPosible = listPosibleSplinters[i].Posibility / 1500f;
 			for(int j = 0; j < countTact; j++){
 				if(UnityEngine.Random.Range(0f, 100f) < currentPosible){
 					result += 1;

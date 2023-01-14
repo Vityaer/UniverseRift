@@ -14,7 +14,8 @@ public class TaskControllerScript : MonoBehaviour{
 	public RatingHeroScript ratingController;
 	public SubjectCellControllerScript rewardUIController;
 
-	public Task GetTask{get => task;}
+	public Task GetTask => task;
+	
 	public void SetData(Task task){
 		this.task = task;
 		name.text = task.name;

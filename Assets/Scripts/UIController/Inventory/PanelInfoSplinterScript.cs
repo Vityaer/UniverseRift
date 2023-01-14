@@ -8,7 +8,6 @@ public class PanelInfoSplinterScript : MonoBehaviour{
 	public GameObject panelInfoItem;
 	public SubjectCellControllerScript imageInfoItem; 
 	public TextMeshProUGUI textNameItem, textTypeItem, textGeneralInfo;
-	private bool isOpenInfoPanel = false;
 	private Item selectItem = null;
 	[Header("Controllers")]
 	public Button btnAction;
@@ -49,7 +48,6 @@ public class PanelInfoSplinterScript : MonoBehaviour{
 	void OpenPanel(){
 		panelInfoItem.SetActive(true);
 		btnClose.SetActive(true);
-		isOpenInfoPanel = true;
 	}
 	public void Close(){
 		panelInfoItem.SetActive(false);

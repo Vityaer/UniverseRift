@@ -142,7 +142,7 @@ public class GeneralInfoHero{
 	public  Rare rare;
 	public  int idHero;
 	private Sprite _image;
-	public  Sprite ImageHero{get{ if(_image == null) {_image = Prefab?.GetComponent<SpriteRenderer>().sprite;} return _image;} set{_image = value;}}
+	public  Sprite ImageHero{get{ if(_image == null) {_image = Prefab?.GetComponent<HeroControllerScript>().GetSprite;} return _image;} set{_image = value;}}
 	public  int Level;
 	public  bool isAlive = true;
 	private GameObject prefab;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fight.Grid;
 
 public class BaseAI : MonoBehaviour{
 	public List<Warrior> leftTeam = new List<Warrior>();
@@ -60,7 +61,7 @@ public class BaseAI : MonoBehaviour{
 		Stack<HexagonCellScript> way = new Stack<HexagonCellScript>(), minWay = new Stack<HexagonCellScript>(0);
 		Warrior selectEnemy = null;
 		for(int i = 0; i < enemies.Count; i++){
-			way = HexagonGridScript.Instance.FindWay(currentHero.Cell, enemies[i].Cell);
+			way = GridController.Instance.FindWay(currentHero.Cell, enemies[i].Cell);
 			if(way.Count < min){
 				min = way.Count;
 				selectEnemy = enemies[i];

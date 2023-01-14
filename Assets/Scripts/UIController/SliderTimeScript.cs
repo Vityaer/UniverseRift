@@ -16,47 +16,66 @@ public class SliderTimeScript : MonoBehaviour{
 	TimeSpan interval, generalInterval;
 	float secondsInterval = 1f; 
 	float t = 0f;
-	public void ChangeValue(){
+	private Coroutine coroutineTimer;
+	private bool isSetData = false;
+	private bool _isFinish = false;
+	public void ChangeValue()
+	{
 		switch(typeSlider){
 			case TypeSliderTime.Remainder:
 				interval = generalInterval - (DateTime.Now - startTime);
 				waitSeconds = (int) interval.TotalSeconds;
 				t =  (float) (waitSeconds / secondsInterval);
-				if(waitSeconds <= 0) SetFinish();
+				if(waitSeconds <= 0) 
+					SetFinish();
 				break;
+
 			case TypeSliderTime.Accumulation:
 				interval = DateTime.Now - startTime;
 				waitSeconds = (int) interval.TotalSeconds;
 				t = (float) (waitSeconds / secondsInterval);
-				if(t >= 1){
+				Debug.Log($"accumulation: {waitSeconds}, all time: {secondsInterval}, t = {t}");
+				if(t >= 1)
+				{
 					interval = generalInterval;
 					SetFinish();
 				}
+				else
+				{
+					_isFinish = false;
+				}
 				break;	
 		}
-		if(isFinish == false){
+		if(!_isFinish)
+		{
 			fillImage.color = Color.Lerp(lowValue, fillValue, t);
 			slider.value = t;
 			textTime.text = FunctionHelp.TimeSpanConvertToSmallString(interval);
 		}
 	}
-	public void SetMaxValue(TimeSpan requireTime){
+	
+	public void SetMaxValue(TimeSpan requireTime)
+	{
 		textTime.text = FunctionHelp.TimeSpanConvertToSmallString(requireTime); 
 	}
-	Coroutine coroutineTimer;
-	private bool isSetData = false;
-	public void SetData(DateTime startTime, TimeSpan requireTime){
+
+	public void SetData(DateTime startTime, TimeSpan requireTime)
+	{
 		this.startTime = startTime;
 		this.finishTime = startTime + requireTime;
 		generalInterval = requireTime;
-		secondsInterval = (float) generalInterval.TotalSeconds;
+		secondsInterval = (float) requireTime.TotalSeconds;
 		ChangeValue();
 		isSetData = true;
 
-		if(gameObject.activeInHierarchy){ StartTimer();}	
+		if(gameObject.activeInHierarchy)
+			StartTimer();
 	}
-	private void StartTimer(){
-		if(isFinish == false){
+
+	private void StartTimer()
+	{
+		if(!_isFinish)
+		{
 			if(coroutineTimer == null)
 				coroutineTimer = StartCoroutine(CoroutineTimer());
 		}
@@ -70,10 +89,9 @@ public class SliderTimeScript : MonoBehaviour{
 	public void SetInfo(string str){
 		textTime.text = str;
 	}
-	bool isFinish = false;
 	public void SetFinish(){
-		if(isFinish == false){
-			isFinish = true;
+		if(!_isFinish){
+			_isFinish = true;
 			StopTimer();
 			textTime.text = "Готово!";
 			OnFinish();
@@ -121,7 +139,15 @@ public class SliderTimeScript : MonoBehaviour{
     private Action observerFinish;
     public void RegisterOnFinish(Action d){observerFinish += d;}
     public void UnregisterOnFinish(Action d){observerFinish -= d;}
-    private void OnFinish(){if(observerFinish != null) {observerFinish(); observerFinish = null;}}
+	
+    private void OnFinish()
+	{
+		if(observerFinish != null)
+		{
+			observerFinish(); 
+			observerFinish = null;
+		}
+	}
 }
 public enum TypeSliderTime{
 	Remainder,

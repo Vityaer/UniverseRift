@@ -19,11 +19,11 @@ public class ListMyHeroesControllerScript : MonoBehaviour{
 		if(isOpen){ Open(); }else{ Close(); }
 	}
 	void LoadListHeroes(){
-		PlayerScript.Instance.GetListHeroesWithObserver(ref listHeroes, OnChangeListHeroes);
+		listHeroes = PlayerScript.Instance.GetListHeroes;
 		listHeroesController.SetList(listHeroes);
 	}
 	public void Open(){
-		if(listHeroesController.LoadedListHeroes == false) LoadListHeroes();
+		LoadListHeroes();
 		canvas.enabled = true;
 		listHeroesController.EventOpen();
 		BackGroundControllerScript.Instance.OpenBackground(background);
@@ -31,8 +31,5 @@ public class ListMyHeroesControllerScript : MonoBehaviour{
 	public void Close(){
 		canvas.enabled = false;
 		listHeroesController.EventClose();
-	}
-	protected void OnChangeListHeroes(InfoHero hero){
-		listHeroesController.ChangeList(hero);
 	}
 }

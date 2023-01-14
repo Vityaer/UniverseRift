@@ -11,8 +11,12 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 	public Button buttonGetReward;
 	public  ItemSliderControllerScript sliderAmount;
 	public RewardUIControllerScript rewardController;
+      private MyScrollRect scrollParent;
+      private Action observerOnChange, observerComplete;
+      
       public bool IsEmpty{ get => (requirement == null);}
       public bool IsComplete{get => (!IsEmpty & requirement.IsComplete);}
+
 	public void ChangeProgress(BigDigit amount){
 		if(requirement.CurrentStage < requirement.CountStage){
 			requirement.AddProgress(amount);
@@ -29,6 +33,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 		UpdateUI();
             OnChange();
 	}
+
 	public void SetData(Requirement requirement){
 		this.requirement = requirement;
 		description.text = requirement.description;
@@ -37,10 +42,12 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 			SubscribeAction();
 		}
 	}
+
       public void SetProgress(RequirementSave requirementSave){
             requirement.SetProgress(requirementSave.currentStage, requirementSave.progress);
             UpdateUI();
       }
+
 	public void UpdateUI(){
 		rewardController.ShowReward(requirement.GetRewardInfo());
 		if(requirement.CurrentStage < requirement.CountStage){
@@ -52,6 +59,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 			sliderAmount.Hide();
 		}
 	}
+
 	private void SubscribeAction(){
 		switch(requirement.type){
             case TypeRequirement.SimpleSpin:
@@ -123,22 +131,45 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             //  break;  
 		}
 	}
+
       public void Restart(){
             requirement.ClearProgress();
             UpdateUI();
       }
-      private Action observerOnChange, observerComplete;
+
       public void RegisterOnChange(Action d){observerOnChange += d;}
       public void UnRegisterOnChange(Action d){observerOnChange += d;}
       private void OnChange(){if(observerOnChange != null) observerOnChange(); Debug.Log("OnChange");}
       
       public void RegisterOnComplete(Action d){observerComplete += d;}
       public void UnRegisterOnComplete(Action d){observerComplete += d;}
-      private void OnComplete(){if(observerComplete != null) observerComplete(); Debug.Log("observerComplete");}      
+      
+      private void OnComplete()
+      {
+            if(observerComplete != null)
+                  observerComplete();
+            Debug.Log("observerComplete");
+      }      
 
-      private MyScrollRect scrollParent;
-      public void SetScroll(MyScrollRect scrollParent){ this.scrollParent = scrollParent; if(scrollParent == null) Debug.Log("Check please"); }
-      public void OnBeginDrag(PointerEventData eventData){ scrollParent?.OnBeginDrag(eventData); }
-      public void OnDrag(PointerEventData eventData){ scrollParent?.OnDrag(eventData); }
-      public void OnEndDrag(PointerEventData eventData){ scrollParent?.OnEndDrag(eventData); }
+      public void SetScroll(MyScrollRect scrollParent)
+      {
+            this.scrollParent = scrollParent;
+            if(scrollParent == null)
+                  Debug.Log("Check please"); 
+      }
+
+      public void OnBeginDrag(PointerEventData eventData)
+      { 
+            scrollParent?.OnBeginDrag(eventData); 
+      }
+
+      public void OnDrag(PointerEventData eventData)
+      {
+            scrollParent?.OnDrag(eventData); 
+      }
+
+      public void OnEndDrag(PointerEventData eventData)
+      { 
+            scrollParent?.OnEndDrag(eventData); 
+      }
 }

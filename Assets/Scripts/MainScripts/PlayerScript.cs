@@ -6,22 +6,29 @@ using System;
 public class PlayerScript : MonoBehaviour{
 	[SerializeField] private List<InfoHero> listHeroes = new List<InfoHero>();
 	public Player player;
+	public bool flagLoadedGame = false;
+	public Action<InfoHero> observerChangeListHeroes;
+	public Action observerChangeCountHeroes;
+
 	private static PlayerScript instance;
 	public  static PlayerScript Instance{get => instance;}
+
+	public List<InfoHero> GetListHeroes{get => listHeroes;}
+	public int GetMaxCountHeroes{get => player.PlayerGame.maxCountHeroes;}
+	public int GetCurrentCountHeroes{get => listHeroes.Count;}
+
 	void Awake(){ 
 		instance = this;
 		SaveLoadControllerScript.LoadGame(player.PlayerGame);
 	}
+
 	void Start(){
 		SaveLoadControllerScript.LoadListHero(listHeroes);
 		UpdateAllResource();
 		flagLoadedGame = true;
 		OnLoadedGame();
 	}
-	void OnDestroy(){
-		SaveGame();
-	}
-	public bool flagLoadedGame = false;
+
 	public void SaveGame(){
 		Debug.Log("Save game");
 		if(flagLoadedGame){
@@ -31,37 +38,45 @@ public class PlayerScript : MonoBehaviour{
 	}
 	void OnApplicationPause(bool pauseStatus){
 		#if UNITY_ANDROID && !UNITY_EDITOR
-		SaveGame();
+		// SaveGame();
 		#endif
 	}
+
 //API List Heroes
-	public Action<InfoHero> observerChangeListHeroes;
-	public Action observerChangeCountHeroes;
+
 	public void RegisterOnChangeCountHeroes(Action d){observerChangeCountHeroes += d;}
+
 	public void AddMaxCountHeroes(int amount){
 		player.PlayerGame.maxCountHeroes += amount;
 		if(observerChangeCountHeroes != null) observerChangeCountHeroes();
 	}
-	public int GetMaxCountHeroes{get => player.PlayerGame.maxCountHeroes;}
-	public int GetCurrentCountHeroes{get => listHeroes.Count;}
+
+
+
 	public void GetListHeroesWithObserver(ref List<InfoHero> listHeroes, Action<InfoHero> d){
 		observerChangeListHeroes += d;
 		listHeroes = this.listHeroes;
 	}
-	public List<InfoHero> GetListHeroes{get => listHeroes;}
+
 	public void AddHero(InfoHero newHero){
+		newHero.PrepareLocalization();
 		listHeroes.Add(newHero);
 		OnChangeListHeroes(newHero);
+		SaveGame();
 	}
+
 	public void RemoveHero(InfoHero removeHero){
 		bool flag = listHeroes.Remove(removeHero);
 		if(flag) Debug.Log("герой успешно удалён!");
 		OnChangeListHeroes(removeHero);
+		SaveGame();
 	}	
+
 	private void OnChangeListHeroes(InfoHero hero){
 		if(observerChangeListHeroes != null) observerChangeListHeroes(hero);
 		if(observerChangeCountHeroes != null) observerChangeCountHeroes();
 	}
+
 //API resources	
 	public void AddReward(Reward reward){
 		if(reward != null){
@@ -70,36 +85,45 @@ public class PlayerScript : MonoBehaviour{
 			InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
 		}
 	}
+
 	public bool CheckResource(Resource res){
 		return CheckResource(new ListResource(res));
 	}
+
 	public bool CheckResource(ListResource listResource){
 		return player.PlayerGame.StoreResources.CheckResource(listResource);
 	}
+
 	public void AddResource(params Resource[] resources){
 		for(int i = 0; i < resources.Length; i++)
 			AddResource(new ListResource(resources[i]));
 	}
+
 	public void AddResource(ListResource listResource){
 		player.PlayerGame.StoreResources.AddResource(listResource);
 		UpdateResource(listResource);
 	}
+
 	public void AddResource(List<Resource> listResource){
 		player.PlayerGame.StoreResources.AddResource(listResource);
 		UpdateResource(new ListResource(listResource));
 	}
+
 	public void SubtractResource(params Resource[] resources){
 		for(int i = 0; i < resources.Length; i++)
 			SubtractResource(new ListResource(resources[i]));
 	}
+
 	public void SubtractResource(ListResource listResource){
 		player.PlayerGame.StoreResources.SubtractResource(listResource);
 		UpdateResource(listResource);
 	}
+
 	public void SubtractResource(List<Resource> listResource){
 		player.PlayerGame.StoreResources.SubtractResource(listResource);
 		UpdateResource(new ListResource(listResource));
 	}
+	
 	public Resource GetResource(TypeResource name){
 		return player.PlayerGame.StoreResources.GetResource(name);
 	}

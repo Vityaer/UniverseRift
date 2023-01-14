@@ -6,19 +6,27 @@ public class CanvasBuildingsUI : MonoBehaviour{
 	public Canvas canvas;
 	private Stack<GameObject> listOpenBuilding = new Stack<GameObject>();
 	public int countOpenBuildng;
-	public void OpenBuilding(GameObject newBuilding){
+
+	private static CanvasBuildingsUI instance;
+	public static CanvasBuildingsUI Instance{get => instance;}
+	
+	public void OpenBuilding(GameObject newBuilding)
+	{
 		if(listOpenBuilding.Count > 0){
 			listOpenBuilding.Peek().SetActive(false);
 		}else{
 			canvas.enabled = true;
-			// MenuControllerScript.Instance.CloseMainPage();
-			// MenuControllerScript.Instance.canvasCity.Close();
+			MenuControllerScript.Instance.CloseMainPage();
+			MenuControllerScript.Instance.canvasCity.Close();
 		}
+
 		newBuilding.SetActive(true);
 		listOpenBuilding.Push(newBuilding);
 		countOpenBuildng = listOpenBuilding.Count;
 	}
-	public void CloseBuilding(GameObject building){
+
+	public void CloseBuilding(GameObject building)
+	{
 		if(listOpenBuilding.Count > 0){
 			GameObject buildingFromStack = listOpenBuilding.Pop();
 			if(building != buildingFromStack) Debug.Log("close other building");
@@ -27,17 +35,16 @@ public class CanvasBuildingsUI : MonoBehaviour{
 
 		countOpenBuildng = listOpenBuilding.Count;
 		if(listOpenBuilding.Count == 0){
-			// MenuControllerScript.Instance.OpenMainPage();
-			// MenuControllerScript.Instance.canvasCity.Open();
+			MenuControllerScript.Instance.OpenMainPage();
+			MenuControllerScript.Instance.canvasCity.Open();
 			canvas.enabled = false;
 		}else{
 			listOpenBuilding.Peek().SetActive(true);
 		}
-
 	}
+
 	void Awake(){
 		instance = this;
 	}
-	private static CanvasBuildingsUI instance;
-	public static CanvasBuildingsUI Instance{get => instance;}
+
 }

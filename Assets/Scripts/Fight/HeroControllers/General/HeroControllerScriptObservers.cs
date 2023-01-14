@@ -37,7 +37,7 @@ public partial class HeroControllerScript : MonoBehaviour{
 		public void OnHPLess50(){if(delsOnHPLess50 != null) delsOnHPLess50();}
 		public void OnHPLess30(){if(delsOnHPLess30 != null) delsOnHPLess30();}
 		protected void OnFinishStrike(){if(delsOnStrikeFinish != null) delsOnStrikeFinish(damageFromStrike);}
-		protected void OnSpell(){if(delsOnSpell != null) delsOnSpell(listTarget);}
+		protected void OnSpell(List<HeroControllerScript> listTarget){if(delsOnSpell != null) delsOnSpell(listTarget);}
 
 
 	private static Action<HeroControllerScript> observerStartAction;
@@ -50,14 +50,14 @@ public partial class HeroControllerScript : MonoBehaviour{
 		public static void UnregisterOnEndAction(Action d){ observerEndAction -= d;}
 		protected void OnEndAction(){if(observerEndAction != null) observerEndAction();}
 
-		private static Action observerEndSelectCell;
-		public static void RegisterOnEndSelectCell(Action d){ observerEndSelectCell += d;}
-		public static void UnregisterOnEndSelectCell(Action d){ observerEndSelectCell -= d;}
-		protected void OnEndSelectCell(){if(observerEndSelectCell != null) observerEndSelectCell();}
-
-		
+		private Action observerEndSelectCell;
+		public void RegisterOnEndSelectCell(Action d){ observerEndSelectCell += d;}
+		public void UnregisterOnEndSelectCell(Action d){ observerEndSelectCell -= d;}
+		protected void OnEndSelectCell(){
+			HexagonCellScript.UnregisterOnClick(SelectHexagonCell);
+			if(observerEndSelectCell != null) observerEndSelectCell();
+		}
 	protected void DeleteAllDelegate(){
-			FightControllerScript.Instance.RemoveHeroWithActionAll(this);
 			Del delsOnStartFight = null;
 			Del delsOnStrike = null;
 			Del delsOnTakingDamage = null;
@@ -67,5 +67,6 @@ public partial class HeroControllerScript : MonoBehaviour{
 			Del delsOnHeal = null;
 			DelListTarget delsOnSpell = null;
 			DelListTarget delsOnListSpell = null;
+			FightControllerScript.Instance.RemoveHeroWithActionAll(this);
 		}	
 }

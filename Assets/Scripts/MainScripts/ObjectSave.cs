@@ -198,6 +198,7 @@ namespace ObjectSave{
 		public DateTime GetRecordDate(string name){
 			return FunctionHelp.StringToDateTime(dateRecords.GetRecord(name).value);
 		}
+		public bool CheckRecordDate(string name){ return dateRecords.CheckRecord(name);}
 	}
 	[System.Serializable]
 	public class DateRecord{

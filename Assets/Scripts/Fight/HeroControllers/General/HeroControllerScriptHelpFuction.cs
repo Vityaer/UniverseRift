@@ -4,8 +4,11 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 public partial class HeroControllerScript : MonoBehaviour{
-
-	protected void PrepareOnStartTurn(){
+	bool isFacingRight = true; 
+	private Transform body;
+	
+	protected void PrepareOnStartTurn()
+	{
 		if(this.side == Side.Left){
 			FightUI.Instance.OpenControllers(this);
 		}else{
@@ -15,8 +18,11 @@ public partial class HeroControllerScript : MonoBehaviour{
 		FindAvailableCells();
 		WaitingSelectTarget();
 		OnStartAction();
+		outlineController.SwitchOn();
 	}
-	private bool NeedFlip(HeroControllerScript enemy){
+	
+	private bool NeedFlip(HeroControllerScript enemy)
+	{
 		bool result = false;
 		NeighbourDirection direction = NeighbourCell.GetDirection(myPlace, enemy.Cell);
 		switch(direction){
@@ -33,43 +39,62 @@ public partial class HeroControllerScript : MonoBehaviour{
 		} 
 		return result;
 	}
-	protected Side GetSideFace(){
-		if(transform.localScale.x < 0){
-			return Side.Left;
-		}else{
-			return Side.Right;
-		}
-	} 
-	protected void FlipX(){
-		Vector3 locScale = transform.localScale;
+
+	protected void FlipX()
+	{
+		GetSpriteRenderer.flipX = true;
+		isFacingRight = !isFacingRight;
+		Vector3 locScale = body.localScale;
 		locScale.x *= -1;
-		transform.localScale = locScale; 
+		body.localScale = locScale;
 	} 
 //Fight helps
-	protected bool CanAttackHero(HeroControllerScript otherHero){
-		if(this.side != otherHero.side){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	protected bool CanAttackHero(HeroControllerScript otherHero) => (this.side != otherHero.side);
+
 	protected void RefreshOnEndRound(){
 		currentCountCounterAttack = hero.GetBaseCharacteristic.CountCouterAttack;
 	}
- 	protected void ShakeCamera(){ CameraShake.Shake(0.8f, 2f, CameraShake.ShakeMode.XY); }
+
+ 	protected void ShakeCamera()
+	{
+		CameraShake.Shake(0.8f, 2f, CameraShake.ShakeMode.XY);
+	}
 
 	protected void IsSide(Side side){
 		this.side = side;
 		delta = (side == Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
 		if(side == Side.Right) FlipX();
 	}
-	protected bool CanCounterAttack(Strike strike, HeroControllerScript heroForCounterAttack, HeroControllerScript heroWasAttack){
+	protected bool CanCounterAttack(HeroControllerScript heroForCounterAttack, HeroControllerScript heroWasAttack){
 		bool result = false;
-		if(strike.isMellee && (heroForCounterAttack != heroWasAttack) && heroWasAttack.CanRetaliation){
-			if(currentCountCounterAttack > 0){
-				result = true;
-			}
+		if((currentCountCounterAttack > 0) &&(statusState.PermissionAction() == true) && !isDeath){
+			result = true;
 		}
 		return result;
+	}
+
+	private void CreateSpell(){
+		listTarget.Clear();
+		OnSpell(listTarget);
+		EndTurn();
+	}
+	public bool SpellExist => CheckExistAnimation(ANIMATION_SPELL);
+	public Sprite GetSprite => GetSpriteRenderer.sprite;
+	private SpriteRenderer _spriteRenderer;	
+	public SpriteRenderer GetSpriteRenderer
+	{
+		get
+		{
+			if(_spriteRenderer == null)
+				_spriteRenderer = transform.Find("Body").GetComponent<SpriteRenderer>();
+			return _spriteRenderer;
+		}
+	}
+
+	public OutlineController outlineController;
+
+	[ContextMenu("Add 100 stamina")]
+	private void AddBonus100Stamina(){
+		statusState.ChangeStamina(100);
 	}
 }

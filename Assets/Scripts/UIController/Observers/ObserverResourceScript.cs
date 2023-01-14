@@ -9,10 +9,12 @@ public class ObserverResourceScript : MonoBehaviour{
 	private bool         isMyabeBuy;
 	public int          cost;
 	private Resource resource;
+	
 	[Header("UI")]
 	public GameObject btnAddResource;
 	public Image imageResource;
 	public TextMeshProUGUI countResource;
+
 	void Start(){
 		isMyabeBuy = MarketResourceScript.Instance.GetCanSellThisResource(typeResource);
 		resource             = new Resource(typeResource);
@@ -26,14 +28,16 @@ public class ObserverResourceScript : MonoBehaviour{
 		resource = res;
 		countResource.text = resource.ToString();
 	}
+
 	public void OpenPanelForBuyResource(){
 		MarketProduct<Resource> product = null;
 		product = MarketResourceScript.Instance.GetProductFromTypeResource(resource.Name);
 		if(product != null)
 			PanelBuyResourceScript.StandartPanelBuyResource.Open(
-				product.subject, product.cost
+				product.subject, product.Cost
 				);
 	}
+
 	void OnDestroy(){
 		PlayerScript.Instance.UnRegisterOnChangeResource(UpdateUI, typeResource);
 	}

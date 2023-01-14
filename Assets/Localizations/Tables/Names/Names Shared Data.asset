@@ -18,7 +18,9 @@ MonoBehaviour:
   - m_Id: 77786865664
     m_Key: ForgeName
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - id: 0
+      - id: 1
   - m_Id: 411656286199808
     m_Key: Tavern
     m_Metadata:
@@ -98,11 +100,18 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 4221920237308870680
+    id: 2
   references:
-    version: 2
-    RefIds:
-    - rid: 4221920237308870680
+    version: 1
+    00000000:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: Comment Text
+    00000001:
+      type: {class: PlatformOverride, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_PlatformOverrides: []
+    00000002:
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1659591304685
+        m_CustomEpoch: 1665517227710

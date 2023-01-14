@@ -23,12 +23,14 @@ public class Building : SerializedMonoBehaviour{
 			buttonCloseBuilding?.onClick.AddListener(() => Close());
 		}
 	}
+
 	public virtual void Open(){
 		if(AvailableFromLevel()){
 			if(building != null){ CanvasBuildingsUI.Instance.OpenBuilding(building); }
 			OpenPage();
 		}
 	}
+
 	protected bool AvailableFromLevel(){
 		bool result = (PlayerScript.GetPlayerInfo.Level >= levelForAvailableBuilding);
 		if(result == false)  
@@ -36,13 +38,20 @@ public class Building : SerializedMonoBehaviour{
 		
 		return result;
 	}
+
 	public virtual void Close(){
+		Debug.Log("close page");
 		ClosePage();
-		if(building != null){ CanvasBuildingsUI.Instance.CloseBuilding(building); }
+		if(building != null)
+		{
+			CanvasBuildingsUI.Instance.CloseBuilding(building);
+		}
 	}
+
 	virtual protected void OnStart(){}
 	virtual protected void OpenPage(){}
 	virtual protected void ClosePage(){}
 	virtual protected void OnLoadGame(){ Debug.Log("load game empty: " + gameObject.name);}
+
 	protected void SaveGame(){ PlayerScript.Instance.SaveGame(); }
 }

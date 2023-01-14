@@ -64,15 +64,30 @@ public class Reward{
         }
     }
     public void AddResources(ListResource newResources){resources.AddResource(newResources);}
-    public void AddItem(Item item){ items.Add(new RewardItem(item)); }
-    public void AddSplinter(Splinter splinter){ splinters.Add(new RewardSplinter(splinter)); }
+    public void AddItem(Item item){
+        RewardItem work = items.Find(x => ( ((int) x.ID) == item.ID) );  
+        if(work != null){
+            work.amount += 1;
+        }else{
+            items.Add(new RewardItem(item));
+        }
+    }
+    public void AddSplinter(Splinter splinter){
+        RewardSplinter work = splinters.Find(x => ( ((int) x.ID) == splinter.ID) );  
+        if(work != null){
+            work.amount += 1;
+        }else{
+            splinters.Add(new RewardSplinter(splinter));
+        }
+    }
+    public void AddResource(Resource res){resources.AddResource(res); }
 }
 [System.Serializable]
 public class RewardItem{
     public ItemName ID = ItemName.Stick;
-    public int amount;
+    public int amount = 1;
     private Item item = null;
-    public Item GetItem{ get{ if(item == null) item =  new Item(System.Convert.ToInt32(ID), 1);  return item; } }
+    public Item GetItem{ get{ if(item == null) item =  new Item(System.Convert.ToInt32(ID), amount);  return item; } }
     public RewardItem Clone(){ return new RewardItem(this.ID, this.amount); }
     public RewardItem(ItemName ID, int amount){
         this.ID = ID;
@@ -86,9 +101,9 @@ public class RewardItem{
 [System.Serializable]
 public class RewardSplinter{
     public SplinterName ID = SplinterName.OneStarPeople;
-    public int amount;
+    public int amount = 1;
     private Splinter splinter = null;
-    public Splinter GetSplinter{get{ if(splinter == null){splinter = new Splinter(System.Convert.ToInt32(ID), 1);} return splinter;}}
+    public Splinter GetSplinter{get{ if(splinter == null){splinter = new Splinter(System.Convert.ToInt32(ID), amount);} return splinter;}}
     public RewardSplinter Clone(){ return new RewardSplinter(this.ID, this.amount); }
     public RewardSplinter(SplinterName ID, int amount){
         this.ID = ID;

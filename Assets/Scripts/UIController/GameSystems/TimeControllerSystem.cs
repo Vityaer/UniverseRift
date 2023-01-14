@@ -25,9 +25,11 @@ public class TimeControllerSystem : MonoBehaviour{
     void OnLoadGame(){
     	currentTime = Client.Instance.GetServerTime();
     	timeControllerSave = PlayerScript.GetCitySave.timeManagement;
-    	dayCycle   = timeControllerSave.GetRecordDate(NAME_RECORD_DAY);
-    	weekCycle  = timeControllerSave.GetRecordDate(NAME_RECORD_WEEK);
-    	monthCycle = timeControllerSave.GetRecordDate(NAME_RECORD_MONTH);
+        if(timeControllerSave.CheckRecordDate(NAME_RECORD_DAY)){
+        	dayCycle   = timeControllerSave.GetRecordDate(NAME_RECORD_DAY);
+        	weekCycle  = timeControllerSave.GetRecordDate(NAME_RECORD_WEEK);
+        	monthCycle = timeControllerSave.GetRecordDate(NAME_RECORD_MONTH);
+        }
     	UpdateDay(currentTime);
     	UpdateWeek(currentTime);
     	UpdateMonth(currentTime);
@@ -35,6 +37,7 @@ public class TimeControllerSystem : MonoBehaviour{
     public void UpdateDay(DateTime newDay){
     	TimeSpan deltaTime = newDay - dayCycle;
     	if(deltaTime > day){
+            Debug.Log("this new day");
     		dayCycle = newDay.Date;
     		flagNewDay = true;
     		timeControllerSave.SetRecordDate(NAME_RECORD_DAY, dayCycle);

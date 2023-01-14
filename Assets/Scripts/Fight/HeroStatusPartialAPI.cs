@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public partial class HeroStatusScript : MonoBehaviour{
 
 	public State currentState = State.Clear;  
-	public bool GetCanAction(){ 
+	public bool PermissionAction(){ 
 		bool result = true;
 		switch(currentState){
 			case State.Stun:
@@ -33,11 +33,10 @@ public partial class HeroStatusScript : MonoBehaviour{
 
 	}	
 
-
-	public bool PermissionMakeStrike(Strike strike){ // разрешение на атаку
+	public bool PermissionMakeStrike(TypeStrike type){ // разрешение на атаку
 		bool result = true;
 		if(currentState == State.Astral){
-			if(strike.type == TypeStrike.Physical)
+			if(type == TypeStrike.Physical)
 				result = false;
 		}
 		return result;

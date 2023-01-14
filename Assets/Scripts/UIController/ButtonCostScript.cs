@@ -12,25 +12,31 @@ public class ButtonCostScript : MonoBehaviour{
 	public Action<int> delBuyMatter;
 	public int countBuy = 1;
 	private bool disable = false;
+	public TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
+
 	void Start(){
 		if(res.Count > 0){
 			UpdateInfo();
 		}
 	}
+
 	public void UpdateCost(Resource res, Action<int> d){
 		delBuyMatter  = d;
 		this.res      = res;
 	    UpdateInfo(); 
 	}
+
 	public void RegisterOnBuy(Action<int> d){
 		delBuyMatter = d;
 		UpdateInfo();
 	}
+
 	public void UpdateCostWithoutInfo(Resource res, Action<int> d){
 		delBuyMatter  = d;
 		this.res      = res;
 		CheckResource( res );
 	}
+
 	public void UpdateLabel(Action<int> d, string text){
 		delBuyMatter = d;
 		this.res.Clear();
@@ -38,6 +44,7 @@ public class ButtonCostScript : MonoBehaviour{
 		disable = false;
 		btn.interactable = true;
 	}
+
 	private void UpdateInfo(){
 		if(disable == false){
 			if(res.Count > 0){
@@ -53,36 +60,41 @@ public class ButtonCostScript : MonoBehaviour{
 			CheckResource( res );
 		}
 	}
+
 	public void Buy(){
-		if(disable == false){
+		if(disable == false && PlayerScript.Instance.CheckResource( this.res )){
 			if(res.Count > 0f) SubstractResource();
 			if(delBuyMatter != null) delBuyMatter(countBuy);
 		}
 	}
 
 	public void CheckResource(Resource res){
-		if(disable == false) btn.interactable = PlayerScript.Instance.CheckResource( this.res );
+		if(disable == false) 
+			btn.interactable = PlayerScript.Instance.CheckResource( this.res );
 	}
+
 	public void Disable(){
 		disable          = true;
 		PlayerScript.Instance.UnRegisterOnChangeResource( CheckResource, res.Name );
 		btn.interactable = false;	
 	}
+
 	public void EnableButton(){
 		disable          = false;
 		PlayerScript.Instance.RegisterOnChangeResource( CheckResource, res.Name );
 	}
+
 	private void SubstractResource(){
-		Debug.Log("SubstractResource: " + res.ToString());
 		PlayerScript.Instance.SubtractResource(res);
 	}
+
 	public void Clear(){
 		delBuyMatter = null;
 		btn.interactable = true;
 		imgRes.enabled = false;
 		disable = false;
 	}
-	public TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
+
 	private string DefaultEmpty(){
 		string result = string.Empty;
 		switch(typeDefaultMessage){
