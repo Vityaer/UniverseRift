@@ -12,7 +12,8 @@ public partial class HeroControllerScript : MonoBehaviour{
 		statusState.SetBuff(buffDefend);
 		EndTurn();
 	}
-	public void UseSpecialSpell(){
+	public void UseSpecialSpell()
+	{
 		if(statusState.Stamina == 100f){
 			DoSpell();
 		}

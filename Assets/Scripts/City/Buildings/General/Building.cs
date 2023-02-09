@@ -39,13 +39,10 @@ public class Building : SerializedMonoBehaviour{
 		return result;
 	}
 
-	public virtual void Close(){
-		Debug.Log("close page");
+	public virtual void Close()
+	{
 		ClosePage();
-		if(building != null)
-		{
-			CanvasBuildingsUI.Instance.CloseBuilding(building);
-		}
+		CanvasBuildingsUI.Instance.CloseBuilding(building);
 	}
 
 	virtual protected void OnStart(){}

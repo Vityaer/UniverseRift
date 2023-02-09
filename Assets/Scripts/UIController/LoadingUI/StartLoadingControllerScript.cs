@@ -28,6 +28,7 @@ public class StartLoadingControllerScript : MonoBehaviour{
 		#if UNITY_EDITOR_WIN
 			Close();
 		#else
+			panel.SetActive(true);
 			PlayerScript.Instance.RegiterOnRegisterOnLoadGame(ChangeLoadedStage);
 			sliderLoadingGame.RegisterOnFillSliderInMax(Close);
 		#endif	

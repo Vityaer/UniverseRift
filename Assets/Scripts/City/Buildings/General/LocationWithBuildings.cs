@@ -15,8 +15,8 @@ public class LocationWithBuildings : MonoBehaviour{
 	}
 	public virtual void Close(){
 		LocationControllerScript.Instance.Close();
-		MenuControllerScript.Instance.OpenCity();
 		buildingCanvas.Close();
+		MenuControllerScript.Instance.OpenMainPage();
 		Hide();
 	}
 	public void Show(){

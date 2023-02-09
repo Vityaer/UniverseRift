@@ -8,7 +8,6 @@ public class FooterButtonScript : MonoBehaviour{
 	private RectTransform btnSprite;
 	public Vector2 startSize;
     public Color colorSelected, colorUnSelected;
-
     
     void Awake(){
     	btnSprite = transform.Find("ButtonImage").GetComponent<RectTransform>();

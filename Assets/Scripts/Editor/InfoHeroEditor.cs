@@ -22,7 +22,7 @@ public class InfoHeroEditor:Editor{
         InfoHeroScript.generalInfo.rare = (Rare)EditorGUILayout.EnumPopup("Race:", InfoHeroScript.generalInfo.rare);
         InfoHeroScript.generalInfo.ClassHero = (Vocation)EditorGUILayout.EnumPopup("ClassHero:", InfoHeroScript.generalInfo.ClassHero);
         InfoHeroScript.generalInfo.idHero = EditorGUILayout.IntField("ID Prefab:", InfoHeroScript.generalInfo.idHero);
-		EditorGUILayout.ObjectField("Sprite", InfoHeroScript?.generalInfo?.ImageHero, typeof(Sprite));
+		InfoHeroScript.generalInfo.ImageHero = (Sprite) EditorGUILayout.ObjectField("Sprite", InfoHeroScript.generalInfo.ImageHero, typeof(Sprite), true);
         InfoHeroScript.generalInfo.Level = EditorGUILayout.IntField("Level:", InfoHeroScript.generalInfo.Level);
         InfoHeroScript.generalInfo.ratingHero = EditorGUILayout.IntSlider("Rating:", InfoHeroScript.generalInfo.ratingHero, 1, 18);
         InfoHeroScript.characts.baseCharacteristic.Mellee = EditorGUILayout.Toggle("Mellee ?", InfoHeroScript.characts.baseCharacteristic.Mellee);

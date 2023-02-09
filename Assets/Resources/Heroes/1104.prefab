@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3133973298993489102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6689066850660460105}
+  m_Layer: 0
+  m_Name: BodyParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6689066850660460105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3133973298993489102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3072174696242366517}
+  m_Father: {fileID: 493331033334845615}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6787323281451631100
 GameObject:
   m_ObjectHideFlags: 0
@@ -25,12 +56,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6787323281451631100}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 493331033334845615}
-  m_RootOrder: 1
+  m_Father: {fileID: 6689066850660460105}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1764201293608526860
 SpriteRenderer:
@@ -130,7 +161,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5409864006631673218}
-  - {fileID: 3072174696242366517}
+  - {fileID: 6689066850660460105}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -143,12 +174,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7045951639636079695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bedd7066d72d144589d891cb6556798, type: 3}
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagAnimFinish: 0
-  outlineController: {fileID: 859711235214188297}
-  statusState: {fileID: 0}
+  statusState: {fileID: -2355888584100946031}
   myPlace: {fileID: 0}
   listTarget: []
   speedMove: 2
@@ -161,11 +190,12 @@ MonoBehaviour:
       ratingHero: 0
       rare: 0
       idHero: 0
+      ImageHero: {fileID: 0}
       Level: 0
       isAlive: 1
       IDCreate: 0
       IDPrefab: 0
-    prefabArrow: {fileID: 4305927702775538037, guid: b1f98fff22154664289275e5c58f5cb5, type: 3}
+    prefabArrow: {fileID: 0}
     characts:
       limitLevel: 0
       Damage: 0
@@ -176,8 +206,8 @@ MonoBehaviour:
       Accuracy: 0
       CleanDamage: 0
       Dodge: 0
-      CountTargetForSimpleAttack: 1
-      CountTargetForSpell: 1
+      CountTargetForSimpleAttack: 0
+      CountTargetForSpell: 0
       baseCharacteristic:
         Attack: 0
         Defense: 0
@@ -205,6 +235,9 @@ MonoBehaviour:
     statusState: {fileID: 0}
   side: 0
   maxCountCounterAttack: 1
+  flagAnimFinish: 0
+  isFacingRight: 1
+  outlineController: {fileID: 859711235214188297}
 --- !u!50 &-4122122361025831086
 Rigidbody2D:
   serializedVersion: 4

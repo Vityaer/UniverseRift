@@ -5,16 +5,19 @@ using System;
 using System.IO;
 using System.Xml;
 
-internal class FunctionHelp : MonoBehaviour {
-
-	public static string BigDigit( float Num, int qENum, bool xFlag = false){
+public static class FunctionHelp 
+{
+	public static string BigDigit( float Num, int qENum, bool xFlag = false)
+	{
 		string    result  =  string.Empty;
 		if(xFlag) result = string.Concat(result, "x");
 		result = string.Concat(result, ((int) Mathf.Floor(Num)).ToString());
 		AddPowerE10(ref result, qENum);
 		return result;
 	}
-	private static void AddPowerE10(ref string result, int qENum){
+
+	private static void AddPowerE10(ref string result, int qENum)
+	{
 		string postFix = "";
 		switch (qENum) {
 			case 3:
@@ -29,13 +32,17 @@ internal class FunctionHelp : MonoBehaviour {
 		}
 		result = string.Concat(result, postFix);
 	}  
-	public static string TimerText(float time){
+
+	public static string TimerText(float time)
+	{
 		int Num1 = (int) Mathf.Floor(time);
 		int Num2 = (int) Mathf.Floor((time - Num1)*10f); 
 		string result = string.Concat( Num1.ToString(), ".", Num2.ToString(), " sec");
 		return result;
 	}
-	public static void ClearFile(string Name){
+
+	public static void ClearFile(string Name)
+	{
 		StreamWriter sw = new StreamWriter(Application.dataPath + Name);
 		sw.Close();
 	}

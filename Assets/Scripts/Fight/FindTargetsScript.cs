@@ -9,17 +9,20 @@ public partial class FightControllerScript : MonoBehaviour{
  		List<Warrior> workTeam = ((side == Side.Left) ? rightTeam : leftTeam).Where(x => x.heroController != null ).ToList();
  		workTeam = workTeam.Where(x => x?.heroController.IsDeath == false ).ToList();
  		if(countTarget > workTeam.Count) countTarget = workTeam.Count;
-		if(workTeam.Count == 0) { Win(side); }
+		countTarget = (int) Mathf.Clamp(countTarget, 0, workTeam.Count);
  		if(countTarget > 0){
 	 		switch(typeSelect){
 	 			case TypeSelect.FirstLine:
-	 				for(int i = 0; i < workTeam.Count; i++) listTarget.Add(workTeam[i].heroController);
+	 				for(int i = 0; i < workTeam.Count; i++)
+						listTarget.Add(workTeam[i].heroController);
 		 			break;
 			 	case TypeSelect.SecondLine:
-	 				for(int i = 0; i < workTeam.Count; i++) listTarget.Add(workTeam[i].heroController);
+	 				for(int i = 0; i < workTeam.Count; i++)
+						listTarget.Add(workTeam[i].heroController);
 		 			break;
 			 	case TypeSelect.All:
-	 				for(int i = 0; i < workTeam.Count; i++) listTarget.Add(workTeam[i].heroController);
+	 				for(int i = 0; i < workTeam.Count; i++)
+						listTarget.Add(workTeam[i].heroController);
 		 			break;
 			 	case TypeSelect.Random:
 			 		int rand = 0; 
@@ -89,8 +92,8 @@ public partial class FightControllerScript : MonoBehaviour{
 			    	workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.race == Race.God);	
 			    	for(int i= 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
 					break;
-				case TypeSelect.DarkGod:
-			    	workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.race == Race.DarkGod);	
+				case TypeSelect.Elemental:
+			    	workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.race == Race.Elemental);	
 			    	for(int i= 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
 					break;
 				case TypeSelect.Warrior:
@@ -128,6 +131,11 @@ public partial class FightControllerScript : MonoBehaviour{
 	 		}
  		}
  	}
+
+	public void ChooseEnemies(Side side, int countTarget, List<HeroControllerScript> listTarget, Race race)
+	{
+
+	}
 
 
 //Brain fight

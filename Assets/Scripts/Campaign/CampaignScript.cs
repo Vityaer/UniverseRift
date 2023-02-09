@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
 using System;
-public class CampaignScript : BuildingWithFight{
+public class CampaignScript : BuildingWithFight
+{
 	private MissionControllerScript infoMission;
 	[SerializeField] private List<MissionControllerScript> missionControllers = new List<MissionControllerScript>();
 	private CampaignMission mission;
@@ -11,9 +12,11 @@ public class CampaignScript : BuildingWithFight{
 	public CampaignChapter chapter;
 	[SerializeField] private List<CampaignChapter> chapters = new List<CampaignChapter>();
 	public BasePanelScript panelWorldCampaign;
+
 	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission",
 						 NAME_RECORD_NUM_MAX_MISSION = "MaxMission",
 						 NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight"; 
+
 	protected override void OnLoadGame(){
 		Debug.Log("campaing loading...");
 		campaingSaveObject = PlayerScript.GetCitySave.mainCampaignBuilding;
@@ -32,7 +35,6 @@ public class CampaignScript : BuildingWithFight{
 //API
 	int countMission = 20;
 	public void LoadMissions(CampaignChapter chapter){
-		Debug.Log("loading misiions");
 		int current = 0;
 		for(int i = 0; i < missionControllers.Count; i++){
 			missionControllers[i].SetMission(chapter.missions[i], (chapter.numChapter * countMission) + i + 1);
@@ -41,16 +43,12 @@ public class CampaignScript : BuildingWithFight{
 			for(int i = 0; ((chapter.numChapter * countMission + i) <= maxMission)&&(i < missionControllers.Count); i++){
 				missionControllers[i].CompletedMission();
 			}
-			Debug.Log("maxChapter:" + (maxMission / countMission).ToString());
 			if(chapter.numChapter == (maxMission / countMission)){
-				Debug.Log("this chapter open");
 				missionControllers[maxMission % countMission].OpenMission();
 			}
 		}
-		Debug.Log("currentChapterAutoFight:" + (currentMission / countMission).ToString());
 		if(currentMission >= 0){
 			if(chapter.numChapter == (currentMission / countMission)){
-				Debug.Log("this chapter open for autofight");
 				missionControllers[currentMission % countMission].SetAutoFight();
 			}else{
 				CampaignChapter chapterAutoFight = GetCampaignChapter(currentMission);
@@ -75,8 +73,6 @@ public class CampaignScript : BuildingWithFight{
 		maxMission = num + 1;
 		if(chapter.numChapter == (maxMission / 20)){
 			missionControllers[maxMission % 20].OpenMission();
-		}else{
-			Debug.Log("open next chapter");
 		}
 	}
 	public void OnResultFight(FightResult result){

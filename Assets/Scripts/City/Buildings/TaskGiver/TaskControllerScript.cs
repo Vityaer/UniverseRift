@@ -16,7 +16,8 @@ public class TaskControllerScript : MonoBehaviour{
 
 	public Task GetTask => task;
 	
-	public void SetData(Task task){
+	public void SetData(Task task)
+	{
 		this.task = task;
 		name.text = task.name;
 		ratingController.ShowRating(task.rating);
@@ -24,7 +25,8 @@ public class TaskControllerScript : MonoBehaviour{
 		UpdateStatus();
 	}
 
-	private void UpdateStatus(){
+	private void UpdateStatus()
+	{
 		buttonCostScript.Clear();
 		switch(task.status){
 			case StatusTask.NotStart:
@@ -32,32 +34,36 @@ public class TaskControllerScript : MonoBehaviour{
 				buttonCostScript.UpdateLabel( StartTask, "Начать" );  
 				break;
 			case StatusTask.InWork:
-				Debug.Log("set func in work");
 				sliderTime.RegisterOnFinish(FinishFromSlider);
 				buttonCostScript.UpdateCost(new Resource(TypeResource.Diamond, task.rating * 10, 0), BuyProgress );  
 				sliderTime.SetData(task.timeStartTask, task.requireTime);
 				break;
 			case StatusTask.Done:
-				Debug.Log("set func for done");
 				sliderTime.SetData(task.timeStartTask, task.requireTime);
 				sliderTime.UnregisterOnFinish(FinishFromSlider);
 				buttonCostScript.UpdateLabel( GetReward, "Завершить" );  
 				break;
 		}
 	}
-	public void StopTimer(){
+	public void StopTimer()
+	{
 		sliderTime.StopTimer();
 	}
-	private void FinishFromSlider(){ FinishTask(1);}
-	private void FinishTask(int count){
+	private void FinishFromSlider()
+	{
+		FinishTask();
+	}
+
+	private void FinishTask()
+	{
 		sliderTime.UnregisterOnFinish(FinishFromSlider);
 		task.Finish();
 		UpdateStatus();
 	}
 
 //Action button
-	public void StartTask(int count){
-				Debug.Log("start");
+	public void StartTask(int count)
+	{
 		task.Start();
 		objectCurrentTime.SetActive(true);
 		sliderTime?.SetData(task.timeStartTask, task.requireTime);
@@ -65,13 +71,14 @@ public class TaskControllerScript : MonoBehaviour{
 		TaskGiverScript.Instance.UpdateSave();
 	}
 
-	public void BuyProgress(int count = 1){
-		Debug.Log("BuyProgress");
+	public void BuyProgress(int count = 1)
+	{
 		buttonCostScript.Clear();
 		sliderTime.SetFinish();
 	}
-	public void GetReward(int count){
-		Debug.Log("GetReward");
+
+	public void GetReward(int count)
+	{
 		TaskGiverScript.Instance.FinishTask(this);
 	}
 

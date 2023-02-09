@@ -9,7 +9,7 @@ public class CanvasBuildingsUI : MonoBehaviour{
 
 	private static CanvasBuildingsUI instance;
 	public static CanvasBuildingsUI Instance{get => instance;}
-	
+
 	public void OpenBuilding(GameObject newBuilding)
 	{
 		if(listOpenBuilding.Count > 0){
@@ -17,7 +17,6 @@ public class CanvasBuildingsUI : MonoBehaviour{
 		}else{
 			canvas.enabled = true;
 			MenuControllerScript.Instance.CloseMainPage();
-			MenuControllerScript.Instance.canvasCity.Close();
 		}
 
 		newBuilding.SetActive(true);
@@ -36,7 +35,6 @@ public class CanvasBuildingsUI : MonoBehaviour{
 		countOpenBuildng = listOpenBuilding.Count;
 		if(listOpenBuilding.Count == 0){
 			MenuControllerScript.Instance.OpenMainPage();
-			MenuControllerScript.Instance.canvasCity.Open();
 			canvas.enabled = false;
 		}else{
 			listOpenBuilding.Peek().SetActive(true);

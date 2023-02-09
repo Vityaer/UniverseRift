@@ -25,6 +25,7 @@ public class HexagonCellScript : MonoBehaviour
 	public List<NeighbourCell> GetAvailableNeighbours{get => neighbours.FindAll(x => x.available == true);}
 	public bool CanStand{get => (availableMove && (heroScript == null));}
 	public HeroControllerScript Hero{get => heroScript;}
+	private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
 
 	void Awake()
 	{
@@ -184,7 +185,7 @@ public class HexagonCellScript : MonoBehaviour
 
 	
 //Potision controller	
-	private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
+#if UNITY_EDITOR_WIN
 	[ContextMenu("UpLeft")]
 	public void MoveUpLeft(){ Move( new Vector3(-deltaSize.x * transform.localScale.x/2, deltaSize.y * transform.localScale.y,0) ); }
 	
@@ -209,4 +210,6 @@ public class HexagonCellScript : MonoBehaviour
 		Undo.RecordObject(transform, "hexagon position");
 		tr.position = tr.position + dir;
 	}
+#endif
+
 }

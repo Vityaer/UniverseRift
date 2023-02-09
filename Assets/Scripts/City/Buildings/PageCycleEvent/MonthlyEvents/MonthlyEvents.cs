@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
-public class MonthlyEvents : Building{
+public class MonthlyEvents : Building
+{
 	[SerializeField] private MonthlyTasks arenaTasks, travelTasks, evolutionTasks, taskBoardsTasks;
 	MonthlyRequirements monthlyRequirements = null;
 	protected override void OnLoadGame(){

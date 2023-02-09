@@ -74,7 +74,7 @@ public class WarTableControllerScript : MonoBehaviour{
 		int raceUndead  = team.FindAll(x => x.Hero.generalInfo.race == Race.Undead ).Count;
 		int raceDaemon  = team.FindAll(x => x.Hero.generalInfo.race == Race.Daemon ).Count;
 		int raceGod     = team.FindAll(x => x.Hero.generalInfo.race == Race.God    ).Count;
-		int raceDarkGod = team.FindAll(x => x.Hero.generalInfo.race == Race.DarkGod).Count;
+		int raceDarkGod = team.FindAll(x => x.Hero.generalInfo.race == Race.Elemental).Count;
 		switch(team.Count){
 			case 1:
 				Debug.Log("one people");

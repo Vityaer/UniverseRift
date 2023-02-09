@@ -4,10 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelUPRaitingHeroes", menuName = "Custom ScriptableObject/LevelUpRatingHeroes", order = 61)]
 [System.Serializable]
-public class LevelUpRatingHeroes : ScriptableObject{
+public class LevelUpRatingHeroes : ScriptableObject
+{
 	[Header("Ratings")]
 	public List<LevelUpRaiting> ratings = new List<LevelUpRaiting>();
-	public LevelUpRaiting GetRequirements(InfoHero hero){
+
+	public LevelUpRaiting GetRequirements(InfoHero hero)
+	{
 		int currentRating = hero.generalInfo.ratingHero; 
 		LevelUpRaiting result = ratings.Find(x => x.level == (currentRating + 1) );
 		if(result != null){
@@ -20,7 +23,8 @@ public class LevelUpRatingHeroes : ScriptableObject{
 }
 
 [System.Serializable]
-public class LevelUpRaiting{
+public class LevelUpRaiting
+{
     public string Name;
 	public int level;
 	[Header("Requirements")]
@@ -31,14 +35,18 @@ public class LevelUpRaiting{
 
 	public void UpdateData(InfoHero hero){ requirementHeroes.ForEach(x => x.UpdateData(hero)); }
 }
+
 [System.Serializable]
-public class RequirementHero{
+public class RequirementHero
+{
 	public int ID, rating, count;
 	public RequireRaceUpRating requireRace;
 	public Race race;
 	private InfoHero dataHero;
 	public InfoHero GetData{get => dataHero;}
-	public void UpdateData(InfoHero hero){
+
+	public void UpdateData(InfoHero hero)
+	{
 		int IDHero = hero.generalInfo.idHero; 
 		race = hero.generalInfo.race;
 		dataHero = new InfoHero();
@@ -75,7 +83,9 @@ public class RequirementHero{
 		}
 	}	
 }
-public enum RequireRaceUpRating{
+
+public enum RequireRaceUpRating
+{
 	Equal,
 	Friend,
 	Enemy,

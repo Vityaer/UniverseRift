@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class CardScript : MonoBehaviour{
-
+public class CardScript : MonoBehaviour
+{
 	public InfoHero hero;
-
 	[SerializeField] private Image imageUI;
 	[SerializeField] private Text  levelUI;
 	[SerializeField] private Image panelSelect;
@@ -13,48 +12,68 @@ public class CardScript : MonoBehaviour{
 	[SerializeField] private RaceUIScript raceUI;
 	public RatingHeroScript ratingController;
 	private ListCardOnWarTableScript listCardController;
-	void Start(){
+	public bool selected = false;
+
+	void Start()
+	{
 		UpdateUI();
 	}
 
-	private void UpdateUI(){
-		if(hero != null){
+	private void UpdateUI()
+	{
+		if(hero != null)
+		{
+			Debug.Log(hero.generalInfo.ImageHero);
 			imageUI.sprite       = hero.generalInfo.ImageHero;
 			levelUI.text         = hero.generalInfo.Level.ToString();
 			ratingController.ShowRating(hero.generalInfo.ratingHero); 
-		}else{
+		}
+		else
+		{
 			listCardController?.RemoveCards(new List<CardScript>(){this});
 		}
 	}
-	private void SetImage(InfoHero data){
+
+	private void SetImage(InfoHero data)
+	{
 		imageUI.sprite = data.generalInfo.ImageHero;
 	}
-	public bool selected = false;
 
 //API
-	public void ClickOnCard(){
-		if(selected == false){
+	public void ClickOnCard()
+	{
+		if(selected == false)
+		{
 			listCardController.SelectCard(this);
-		}else{
+		}
+		else
+		{
 			listCardController.UnSelectCard(this);
 		}
 	}
-	public void Selected(){
+
+	public void Selected()
+	{
 		selected = true;
 		panelSelect.enabled = true;
 	}
-	public void UnSelected(){
+
+	public void UnSelected()
+	{
 		selected = false;
 		panelSelect.enabled = false;
 	} 
 
-	public void Clear(){
+	public void Clear()
+	{
 		imageUI.sprite = null;
 		levelUI.text = string.Empty;
 		ratingController.Hide();
 		gameObject.SetActive(false);
 	}
-	public void SetData(RequirementHero requirementHero){
+
+	public void SetData(RequirementHero requirementHero)
+	{
 		gameObject.SetActive(true);
 		levelUI.text = string.Empty;
 		ratingController.ShowRating(requirementHero.rating); 
@@ -62,16 +81,22 @@ public class CardScript : MonoBehaviour{
 		// raceUI.SetData(requirementHero.);
 		SetImage(requirementHero.GetData);
 	}
-	public void ChangeInfo(InfoHero hero, ListCardOnWarTableScript listCardController){
+
+	public void ChangeInfo(InfoHero hero, ListCardOnWarTableScript listCardController)
+	{
 		this.hero = hero;
 		this.listCardController = listCardController;
 		UpdateUI();
 	}
-	public void ChangeInfo(InfoHero hero){
+
+	public void ChangeInfo(InfoHero hero)
+	{
 		this.hero = hero;
 		UpdateUI();
 	}
-	public void DestroyCard(){
+
+	public void DestroyCard()
+	{
 		listCardController.RemoveCardFromList(this);
 		Destroy(gameObject);
 	}

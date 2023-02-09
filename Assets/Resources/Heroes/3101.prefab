@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3667940200496139987}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 570737105457527452}
-  m_RootOrder: 1
+  m_Father: {fileID: 6154787162302889726}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &163452002009296951
 SpriteRenderer:
@@ -130,7 +130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3135913952516744971}
-  - {fileID: 5376706866808695274}
+  - {fileID: 6154787162302889726}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -143,12 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6988245247312617084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bedd7066d72d144589d891cb6556798, type: 3}
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagAnimFinish: 0
-  outlineController: {fileID: 3401341908984524482}
-  statusState: {fileID: 0}
+  statusState: {fileID: 2813857627998446476}
   myPlace: {fileID: 0}
   listTarget: []
   speedMove: 2
@@ -161,6 +159,7 @@ MonoBehaviour:
       ratingHero: 0
       rare: 0
       idHero: 0
+      ImageHero: {fileID: 0}
       Level: 0
       isAlive: 1
       IDCreate: 0
@@ -176,8 +175,8 @@ MonoBehaviour:
       Accuracy: 0
       CleanDamage: 0
       Dodge: 0
-      CountTargetForSimpleAttack: 1
-      CountTargetForSpell: 1
+      CountTargetForSimpleAttack: 0
+      CountTargetForSpell: 0
       baseCharacteristic:
         Attack: 0
         Defense: 0
@@ -205,6 +204,9 @@ MonoBehaviour:
     statusState: {fileID: 0}
   side: 0
   maxCountCounterAttack: 1
+  flagAnimFinish: 0
+  isFacingRight: 1
+  outlineController: {fileID: 3401341908984524482}
 --- !u!50 &-910643360275472125
 Rigidbody2D:
   serializedVersion: 4
@@ -286,6 +288,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &8569084367011679121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6154787162302889726}
+  m_Layer: 0
+  m_Name: BodyParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6154787162302889726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8569084367011679121}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5376706866808695274}
+  m_Father: {fileID: 570737105457527452}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6203862028282469066
 PrefabInstance:
   m_ObjectHideFlags: 0

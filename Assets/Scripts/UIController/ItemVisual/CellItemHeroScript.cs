@@ -29,7 +29,7 @@ public class CellItemHeroScript : MonoBehaviour{
 	} 
 	private void SetBonus(){
 		TrainCampScript.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
-		TrainCampScript.Instance.UpdateTextAboutHero();
+		TrainCampScript.Instance.heroPanel.UpdateTextAboutHero();
 		UpdateUI();
 	}
 

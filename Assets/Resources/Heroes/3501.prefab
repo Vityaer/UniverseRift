@@ -33,7 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4265152764484443068}
-  - {fileID: 5569753682551368644}
+  - {fileID: 7705405368972927549}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,12 +46,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3818314269543377875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bedd7066d72d144589d891cb6556798, type: 3}
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagAnimFinish: 0
-  outlineController: {fileID: 6503976565526943964}
-  statusState: {fileID: 0}
+  statusState: {fileID: 7306091050278520562}
   myPlace: {fileID: 0}
   listTarget: []
   speedMove: 2
@@ -64,6 +62,7 @@ MonoBehaviour:
       ratingHero: 0
       rare: 0
       idHero: 0
+      ImageHero: {fileID: 0}
       Level: 0
       isAlive: 1
       IDCreate: 0
@@ -79,8 +78,8 @@ MonoBehaviour:
       Accuracy: 0
       CleanDamage: 0
       Dodge: 0
-      CountTargetForSimpleAttack: 1
-      CountTargetForSpell: 1
+      CountTargetForSimpleAttack: 0
+      CountTargetForSpell: 0
       baseCharacteristic:
         Attack: 0
         Defense: 0
@@ -108,6 +107,9 @@ MonoBehaviour:
     statusState: {fileID: 0}
   side: 0
   maxCountCounterAttack: 1
+  flagAnimFinish: 0
+  isFacingRight: 1
+  outlineController: {fileID: 6503976565526943964}
 --- !u!50 &-7752210056699772074
 Rigidbody2D:
   serializedVersion: 4
@@ -214,12 +216,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5787557799632655760}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.56109375, y: 0.56109375, z: 0.56109375}
   m_Children: []
-  m_Father: {fileID: 6047761180791885619}
-  m_RootOrder: 1
+  m_Father: {fileID: 7705405368972927549}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4188733095566771599
 SpriteRenderer:
@@ -286,6 +288,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: e6647b87f83465c41b6aff2ab6f57d10, type: 2}
+--- !u!1 &8910914092762456442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7705405368972927549}
+  m_Layer: 0
+  m_Name: BodyParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7705405368972927549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8910914092762456442}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5569753682551368644}
+  m_Father: {fileID: 6047761180791885619}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5092822764421834365
 PrefabInstance:
   m_ObjectHideFlags: 0

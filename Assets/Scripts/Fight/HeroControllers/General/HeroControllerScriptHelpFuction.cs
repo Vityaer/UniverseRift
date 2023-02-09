@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 public partial class HeroControllerScript : MonoBehaviour{
-	bool isFacingRight = true; 
-	private Transform body;
+	[SerializeField] bool isFacingRight = true; 
+	private Transform BodyParent;
 	
-	protected void PrepareOnStartTurn()
+	protected virtual void PrepareOnStartTurn()
 	{
 		if(this.side == Side.Left){
 			FightUI.Instance.OpenControllers(this);
@@ -42,14 +42,13 @@ public partial class HeroControllerScript : MonoBehaviour{
 
 	protected void FlipX()
 	{
-		GetSpriteRenderer.flipX = true;
 		isFacingRight = !isFacingRight;
-		Vector3 locScale = body.localScale;
+		Vector3 locScale = BodyParent.localScale;
 		locScale.x *= -1;
-		body.localScale = locScale;
+		BodyParent.localScale = locScale;
 	} 
 //Fight helps
-	protected bool CanAttackHero(HeroControllerScript otherHero) => (this.side != otherHero.side);
+	protected virtual bool CanAttackHero(HeroControllerScript otherHero) => (this.side != otherHero.side);
 
 	protected void RefreshOnEndRound(){
 		currentCountCounterAttack = hero.GetBaseCharacteristic.CountCouterAttack;
@@ -86,7 +85,7 @@ public partial class HeroControllerScript : MonoBehaviour{
 		get
 		{
 			if(_spriteRenderer == null)
-				_spriteRenderer = transform.Find("Body").GetComponent<SpriteRenderer>();
+				_spriteRenderer = transform.Find("BodyParent/Body").GetComponent<SpriteRenderer>();
 			return _spriteRenderer;
 		}
 	}

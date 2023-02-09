@@ -114,7 +114,8 @@ public enum TypeEffect{
 }
 
 
-public enum TypeSelect{
+public enum TypeSelect
+{
 	Random = 0,
 	Order = 1,
 	FirstLine = 2,
@@ -136,7 +137,7 @@ public enum TypeSelect{
     Undead = 18,
     Daemon = 19,
     God = 20,
-    DarkGod = 28,
+    Elemental = 28,
     Warrior = 21,
 	Wizard = 22,
 	Archer = 23,

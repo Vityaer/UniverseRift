@@ -2,31 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CityControllerScript : MonoBehaviour{
+public class CityControllerScript : MainPage{
 
 	public SliderCityScript sliderCity;
 
 	[Header("UI")]
 	private Canvas canvasCity;
-	public FooterButtonScript btnOpenClose;
 	public GameObject background, cityParent;
 	[Header("UI Button")]
 	[SerializeField] GameObject canvasButtonsUI; 
-	void Awake(){
+
+	protected override void Awake()
+	{
 		canvasCity = GetComponent<Canvas>();
-		btnOpenClose.RegisterOnChange(Change);
+		base.Awake();
 	}
-	void Change(bool isOpen){
-		if(isOpen){ Open(); }else{ Close(); }
-	}
-	public void Open(){
-		Debug.Log("open city");
+
+	public override void Open()
+	{
+		Debug.Log("city open");
+
+		base.Open();
 		sliderCity.enabled = true;
 		canvasButtonsUI.SetActive(true);
 		cityParent.SetActive(true);
 		BackGroundControllerScript.Instance.OpenBackground(background);
 	}
-	public void Close(){
+
+	public override void Close()
+	{
+		Debug.Log("city close");
 		sliderCity.enabled = false;	
 		cityParent.SetActive(false);
 		canvasButtonsUI.SetActive(false);

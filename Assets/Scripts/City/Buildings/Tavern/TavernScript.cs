@@ -8,17 +8,21 @@ public class TavernScript : Building{
 
 	[Header("All rating heroes")]
 	[SerializeField] private List<InfoHero> listHeroes = new List<InfoHero>();
-	public List<InfoHero> GetListHeroes{get => listHeroes;} 
 	public ButtonWithObserverResource btnCostOneHire, btnCostManyHire;
-
-//Simple hire
 	private Resource simpleHireCost = new Resource(TypeResource.SimpleHireCard, 1, 0);
-	public void SelectSimpleHire(){
+	private Resource specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
+
+	public List<InfoHero> GetListHeroes{get => listHeroes;} 
+//Simple hire
+
+	public void SelectSimpleHire()
+	{
 		btnCostOneHire.ChangeCost(simpleHireCost, SimpleHireHero);
-		btnCostManyHire.ChangeCost(simpleHireCost * 10f, SimpleHireHero);
+		btnCostManyHire.ChangeCost(simpleHireCost * 10f, _ => SimpleHireHero(10));
 	}
 
-	private void SimpleHireHero(int count = 1){
+	private void SimpleHireHero(int count = 1)
+	{
 		float rand = 0f;
 		InfoHero hero = null;
 		List<InfoHero> workList = new List<InfoHero>();
@@ -48,14 +52,16 @@ public class TavernScript : Building{
 		}
 		OnSimpleHire(count);
 	}
+
 //Special hire	
-	private Resource specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
 
 	
-	public void SelectSpecialHire(){
+	public void SelectSpecialHire()
+	{
 		btnCostOneHire.ChangeCost(specialHireCost, SpecialHireHero);
-		btnCostManyHire.ChangeCost(specialHireCost * 10f, SpecialHireHero);
+		btnCostManyHire.ChangeCost(specialHireCost * 10f, _ => SpecialHireHero(10));
 	}
+
 	public void SpecialHireHero(int count = 1){
 		float rand = 0f;
 		InfoHero hero = null;

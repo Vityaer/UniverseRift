@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ActionSheetScript : MonoBehaviour{
-	[SerializeField] private FooterButtonScript btnOpenClose;
+public class ActionSheetScript : MainPage
+{
 	[SerializeField] private Canvas canvasActionUI;
 	[SerializeField] private GameObject background;
-	void Awake(){
-		btnOpenClose.RegisterOnChange(Change);
-	}
-	void Change(bool isOpen){
-		if(isOpen){ Open(); }else{ Close(); }
-	}
-	public void Open(){
+
+	public override void Open()
+	{
+		base.Open();
 		canvasActionUI.enabled = true;
 		BackGroundControllerScript.Instance.OpenBackground(background);
 	}
-	public void Close(){
+
+	public override void Close()
+	{
 		canvasActionUI.enabled = false;
 	}
 }
