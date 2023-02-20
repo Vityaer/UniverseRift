@@ -11,7 +11,7 @@ namespace Fight.Grid
 	    private Coroutine _coroutineCheckClick;
         public Transform ParentTemplateObjects;
 	    private Stack<HexagonCellScript> way = new Stack<HexagonCellScript>();
-        HexagonCellScript PreviousCell = null;
+        private HexagonCellScript PreviousCell = null;
 	    public static bool PlayerCanController = false;
 	    protected Action observerFoundWay;
         public GridFactory GridSpawner;
@@ -71,12 +71,12 @@ namespace Fight.Grid
             FightControllerScript.Instance.UnregisterOnFinishFight(FinishFight);
         } 
 
-        void StartFight()
+        private void StartFight()
         {
 		    _coroutineCheckClick = StartCoroutine(ICheckClick());
         }
     
-        IEnumerator ICheckClick()
+        private IEnumerator ICheckClick()
         {
             RaycastHit2D hit;
             while(true)
@@ -100,7 +100,7 @@ namespace Fight.Grid
 
         }
 
-        void FinishFight()
+        private void FinishFight()
         {
             StopCoroutine(_coroutineCheckClick);
             _coroutineCheckClick = null;

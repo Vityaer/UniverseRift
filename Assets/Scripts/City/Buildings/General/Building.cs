@@ -12,21 +12,23 @@ public class Building : SerializedMonoBehaviour{
 	[Header("Main settings")]
 	[SerializeField] private int levelForAvailableBuilding = 0; 
 	
-	protected virtual void Start(){
+	protected virtual void Start()
+	{
 		OnStart();	
-		if(building != null){
-			PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
-			building.SetActive(false); 
-			buttonOpenBuilding?.onClick.RemoveAllListeners();
-			buttonCloseBuilding?.onClick.RemoveAllListeners();
-			buttonOpenBuilding?.onClick.AddListener(() => Open());
-			buttonCloseBuilding?.onClick.AddListener(() => Close());
-		}
+		PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
+		building.SetActive(false); 
+		buttonOpenBuilding?.onClick.RemoveAllListeners();
+		buttonCloseBuilding?.onClick.RemoveAllListeners();
+		buttonOpenBuilding?.onClick.AddListener(() => Open());
+		buttonCloseBuilding?.onClick.AddListener(() => Close());
 	}
 
-	public virtual void Open(){
-		if(AvailableFromLevel()){
-			if(building != null){ CanvasBuildingsUI.Instance.OpenBuilding(building); }
+	public virtual void Open()
+	{
+		Debug.Log("open");
+		if(AvailableFromLevel())
+		{
+			CanvasBuildingsUI.Instance.OpenBuilding(building);
 			OpenPage();
 		}
 	}
@@ -34,7 +36,7 @@ public class Building : SerializedMonoBehaviour{
 	protected bool AvailableFromLevel(){
 		bool result = (PlayerScript.GetPlayerInfo.Level >= levelForAvailableBuilding);
 		if(result == false)  
- 			MessageControllerScript.Instance.ShowErrorMessage(String.Format("Откроется на {0} уровне", levelForAvailableBuilding));
+ 			MessageControllerScript.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
 		
 		return result;
 	}
@@ -50,5 +52,8 @@ public class Building : SerializedMonoBehaviour{
 	virtual protected void ClosePage(){}
 	virtual protected void OnLoadGame(){ Debug.Log("load game empty: " + gameObject.name);}
 
-	protected void SaveGame(){ PlayerScript.Instance.SaveGame(); }
+	protected void SaveGame()
+	{
+		PlayerScript.Instance.SaveGame();
+	}
 }

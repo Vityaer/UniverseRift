@@ -8,11 +8,29 @@ public class TavernScript : Building{
 
 	[Header("All rating heroes")]
 	[SerializeField] private List<InfoHero> listHeroes = new List<InfoHero>();
+	public Button SpecialHire;
+	public Button SimpleHire;
+	public Button FriendHire;
 	public ButtonWithObserverResource btnCostOneHire, btnCostManyHire;
 	private Resource simpleHireCost = new Resource(TypeResource.SimpleHireCard, 1, 0);
 	private Resource specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
 
 	public List<InfoHero> GetListHeroes{get => listHeroes;} 
+	public static TavernScript Instance{get; private set;}
+
+	void Awake()
+	{
+		Instance = this;
+	}
+
+	protected override void OnStart()
+	{
+		CheckLoadedHeroes();
+		SelectSpecialHire();
+		SimpleHire.onClick.AddListener(SelectSimpleHire);
+		SpecialHire.onClick.AddListener(SelectSpecialHire);
+	}
+
 //Simple hire
 
 	public void SelectSimpleHire()
@@ -46,7 +64,7 @@ public class TavernScript : Building{
 			}
 			OnHireHeroes(hero);
 			if(hero != null){
-				hero.generalInfo.Name = hero.generalInfo.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();
+				hero.generalInfo.Name = $"{hero.generalInfo.Name} № {UnityEngine.Random.Range(0, 1000)}";
 				AddNewHero(hero);
 			}
 		}
@@ -79,7 +97,7 @@ public class TavernScript : Building{
 			}
 			hero = (InfoHero) (workList[ UnityEngine.Random.Range(0, workList.Count) ]).Clone();
 			if(hero != null){
-				hero.generalInfo.Name = hero.generalInfo.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();
+				hero.generalInfo.Name = $"{hero.generalInfo.Name} № {UnityEngine.Random.Range(0, 1000)}";
 				AddNewHero(hero);			
 			}
 			OnHireHeroes(hero);
@@ -95,19 +113,15 @@ public class TavernScript : Building{
 	}	
 
 	public void AddNewHero(InfoHero hero){
-		MessageControllerScript.Instance.AddMessage("Новый герой! Это - " + hero.generalInfo.Name);
+		MessageControllerScript.Instance.AddMessage($"Новый герой! Это - {hero.generalInfo.Name}");
 		PlayerScript.Instance.AddHero(hero);
 	}
 
-	private static TavernScript instance;
-	public static TavernScript Instance{get => instance;}
-	void Awake(){ instance = this; }
-	void Start(){
-		CheckLoadedHeroes();
-		SelectSpecialHire();
-	}
-	private void CheckLoadedHeroes(){
-		if(listHeroes.Count == 0){
+
+	private void CheckLoadedHeroes()
+	{
+		if(listHeroes.Count == 0)
+		{
 			listHeroes = new List<InfoHero>(Resources.LoadAll("ScriptableObjects/HeroesData", typeof(InfoHero)) as InfoHero[]);
 		}
 	}

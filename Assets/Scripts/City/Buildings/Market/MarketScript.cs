@@ -11,27 +11,40 @@ public class MarketScript : Building{
 	[OdinSerialize] private List<MarketProduct> productsForSale = new List<MarketProduct>();
 	[SerializeField] private List<MarketProductScript> productControllers = new List<MarketProductScript>(); 
 	public CycleRecover cycle;
-	protected override void OnStart(){
+	private bool productFill = false;
+
+	protected override void OnStart()
+	{
 		if(productControllers.Count == 0) GetCells();
 		TimeControllerSystem.Instance.RegisterOnNewCycle(RecoveryAllProducts, cycle);
 	}
-	protected override void OnLoadGame(){
+
+	protected override void OnLoadGame()
+	{
 		List<MarketProductSave> saveProducts = PlayerScript.GetPlayerGame.GetProductForMarket(typeMarket);
 		MarketProduct currentProduct = null;
-		foreach(MarketProductSave product in saveProducts){
+		foreach(MarketProductSave product in saveProducts)
+		{
 			currentProduct = productsForSale.Find(x => x.ID == product.ID);
 			if(currentProduct != null) currentProduct.UpdateData(product.countSell);
 		}
-		if(productFill) UpdateUIProducts();
+		if(productFill)
+			UpdateUIProducts();
 	}
-	private void OnBuyPoduct(int IDproduct, int coutSell){
-		Debug.Log("save product sell");
+
+	private void OnBuyPoduct(int IDproduct, int coutSell)
+	{
 		PlayerScript.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
 	}
-	private void UpdateUIProducts(){
-		foreach(MarketProductScript product in productControllers){ product.UpdateUI(); } 
+
+	private void UpdateUIProducts()
+	{
+		foreach(MarketProductScript product in productControllers)
+		{
+			product.UpdateUI();
+		} 
 	}
-	private bool productFill = false;
+
 	protected override void OpenPage(){
 		for(int i=0; i < productsForSale.Count; i++){
 			switch(productsForSale[i]){

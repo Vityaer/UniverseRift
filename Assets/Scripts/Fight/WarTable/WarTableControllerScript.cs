@@ -26,6 +26,7 @@ public class WarTableControllerScript : MonoBehaviour{
 
 	public void SelectCard(CardScript card){ AddHero(card); }
 	public void UnSelectCard(CardScript card){ RemoveHero(card);}
+
 	private bool AddHero(CardScript card){
 		bool success = false;
 		foreach (WarriorPlaceScript place in leftTeam){
@@ -35,10 +36,12 @@ public class WarTableControllerScript : MonoBehaviour{
 				break;
 			}
 		}
-		// CheckTeam(leftTeam);
+		CheckTeam(leftTeam);
 		return success;
 	}
-	private void RemoveHero(CardScript card){
+
+	private void RemoveHero(CardScript card)
+	{
 		foreach(WarriorPlaceScript place in leftTeam){
 			if(place.IsEmpty() == false){
 				if(place.card == card){
@@ -46,29 +49,36 @@ public class WarTableControllerScript : MonoBehaviour{
 				}
 			}
 		}
-		// CheckTeam(leftTeam);
+		CheckTeam(leftTeam);
 		UpdateStrengthTeam(leftTeam, textStrengthLeftTeam);
 	}
-	private void ClearRightTeam(){
+
+	private void ClearRightTeam()
+	{
 		for (int i = 0; i < rightTeam.Count; i++) {
 			rightTeam[i].ClearPlace();
 		}
 	}
-	private void ClearLeftTeam(){
+
+	private void ClearLeftTeam()
+	{
 		for (int i = 0; i < leftTeam.Count; i++) {
 			leftTeam[i].ClearPlace();
 		}
 	}
 
-	private void UpdateStrengthTeam(List<WarriorPlaceScript> team, TextMeshProUGUI textComponent){
+	private void UpdateStrengthTeam(List<WarriorPlaceScript> team, TextMeshProUGUI textComponent)
+	{
 		float strengthTeam = 0f;
 		for(int i = 0; i < team.Count; i++)
 			if(team[i].Hero != null)
 				strengthTeam  += team[i].Hero.GetStrength;
 		textComponent.text = strengthTeam.ToString();
 	}
-	private void CheckTeam(List<WarriorPlaceScript> team){
-		// team = team.FindAll(x => x.hero != null);
+
+	private void CheckTeam(List<WarriorPlaceScript> team)
+	{
+		team = team.FindAll(x => x.Hero != null);
 		int racePeople  = team.FindAll(x => x.Hero.generalInfo.race == Race.People ).Count;
 		int raceElf     = team.FindAll(x => x.Hero.generalInfo.race == Race.Elf    ).Count;
 		int raceUndead  = team.FindAll(x => x.Hero.generalInfo.race == Race.Undead ).Count;
@@ -110,7 +120,8 @@ public class WarTableControllerScript : MonoBehaviour{
 		btnStartFight.interactable = (leftTeam.Count > 0);
 	}	
 //API
-	public void OpenMission(Mission mission, List<InfoHero> listHeroes){
+	public void OpenMission(Mission mission, List<InfoHero> listHeroes)
+	{
 		ClearLeftTeam();
 		ClearRightTeam();
 		this.mission = mission;
@@ -118,15 +129,17 @@ public class WarTableControllerScript : MonoBehaviour{
 			rightTeam[i].SetEnemy(mission.listEnemy[i]);
 		}
 		UpdateStrengthTeam(rightTeam, textStrengthRightTeam);
-		// CheckTeam(rightTeam);
+		CheckTeam(rightTeam);
 		FillListHeroes(listHeroes);
 		Open();
 	}
-	public void OpenMission(Mission mission, Action<bool> del){
 
+	public void OpenMission(Mission mission, Action<bool> del)
+	{
 		RegisterOnOpenCloseMission(del);
 		OpenMission(mission, PlayerScript.Instance.GetListHeroes);
 	}
+	
 	public void OpenMission(Mission mission, Action<bool> actionOnCloseWarTable, Action<FightResult> actionOnResultFight){
 		RegisterOnOpenCloseMission(actionOnCloseWarTable);
 		FightControllerScript.Instance.RegisterOnFightResult(actionOnResultFight);

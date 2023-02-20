@@ -109,6 +109,7 @@ public partial class FightControllerScript : MonoBehaviour{
  		listHeroesWithAction.RemoveAll(x => x == removeHero);
  		if(listHeroesWithAction.Count == 0) NextHero();
  	}
+ 	
  	private void NextHero()
  	{
  		if((currentHero + 1) < listInitiative.Count){
@@ -238,7 +239,9 @@ public partial class FightControllerScript : MonoBehaviour{
  	public void MessageAboutDamageForAttacker(float damage){
  		listInitiative[currentHero].MessageDamageAfterStrike(damage);
  	}
- 	public void DeleteHero(HeroControllerScript heroForDelete){
+ 	public void DeleteHero(HeroControllerScript heroForDelete)
+ 	{
+		RemoveHeroWithActionAll(heroForDelete);
  		Warrior warrior = leftTeam.Find(x => x.heroController == heroForDelete);
  		if(warrior != null){
  			leftTeam.Remove(warrior);
@@ -246,10 +249,10 @@ public partial class FightControllerScript : MonoBehaviour{
 	 		warrior = rightTeam.Find(x => x.heroController == heroForDelete);
  			rightTeam.Remove(warrior);
  		}
-		RemoveHeroWithActionAll(heroForDelete);
  		listInitiative.Remove(heroForDelete);
  		CheckFinishFight();
  	}
+
  	public HeroControllerScript GetCurrentHero(){ return listInitiative[currentHero]; }
 
 //Listeners
@@ -269,9 +272,10 @@ public partial class FightControllerScript : MonoBehaviour{
 	private Action<FightResult> delsFightResult;
 	public void RegisterOnFightResult(Action<FightResult> d){Debug.Log("register on finish fight result"); delsFightResult += d;}
 	public void UnregisterOnFightResult(Action<FightResult> d){ delsFightResult -= d;}
-	public void OnFightResult(FightResult result){
+	
+	public void OnFightResult(FightResult result)
+	{
 		if(delsFightResult != null){
-			Debug.Log("finish fight subscribe exist");
 			delsFightResult(result);
 			delsFightResult = null;
 		}

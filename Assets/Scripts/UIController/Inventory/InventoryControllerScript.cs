@@ -19,14 +19,27 @@ public class InventoryControllerScript : MonoBehaviour{
 	public PanelInfoSplinterScript panelInfoSplinter;
 
 	private Inventory inventory = new Inventory();
+	private List<VisualAPI> listForVisual = new List<VisualAPI>();
+
 	[SerializeField]private List<SubjectCellControllerScript> cells = new List<SubjectCellControllerScript>();
-	private void GetCells(){
+	private static InventoryControllerScript instance;
+	public static InventoryControllerScript Instance{get => instance;}
+	
+	void Awake()
+	{
+		instance = this;
+		GetCells();
+	}
+
+	private void GetCells()
+	{
 		if(cells.Count == 0)
 			foreach(Transform cell in grid)
 				cells.Add(cell.GetComponent<SubjectCellControllerScript>());
 	}
-	private List<VisualAPI> listForVisual = new List<VisualAPI>();
-	private void FillGrid(List<VisualAPI> list){
+
+	private void FillGrid(List<VisualAPI> list)
+	{
 		for(int i = 0; i < list.Count; i++){
 			cells[i].SetItem(list[i]);
 		}
@@ -35,7 +48,8 @@ public class InventoryControllerScript : MonoBehaviour{
 		}
 	}
 
-	private void FillGrid(List<ItemController> filterItems){
+	private void FillGrid(List<ItemController> filterItems)
+	{
 		for(int i = 0; i < filterItems.Count; i++){
 			cells[i].SetItem(filterItems[i]);
 		}
@@ -43,27 +57,38 @@ public class InventoryControllerScript : MonoBehaviour{
 			cells[i].Clear();
 		}
 	}
+
 //API
 	//Invenotory
-	public int HowManyThisItems(Item item){
+	public int HowManyThisItems(Item item)
+	{
 		ItemController workItem = inventory.items.Find(x => (x.item.ID == item.ID));
 		return (workItem != null) ? workItem.Amount : 0;
 	}
-	public bool CheckItems(Item item, int count = 1){
+
+	public bool CheckItems(Item item, int count = 1)
+	{
 		bool result = false;
 		ItemController workItem = inventory.items.Find(x => (x.item.ID == item.ID));
 		if(workItem != null)
 			if(workItem.Amount >= count) result = true;
 		return result;
 	}
-	public void RemoveItems(Item item, int count = 1){
+
+	public void RemoveItems(Item item, int count = 1)
+	{
 		ItemController workItem = inventory.items.Find(x => (x?.item.ID == item.ID));
 		if(workItem != null){
 			workItem.DecreaseAmount(count);
 			if(workItem.Amount == 0) inventory.items.Remove(workItem);
 		}
 	}
-	public void AddItem(Item item){ inventory.Add(new ItemController(item, 1)); }
+
+	public void AddItem(Item item)
+	{
+		inventory.Add(new ItemController(item, 1));
+	}
+	
 	public void AddItem(ItemController itemController){ inventory.Add(itemController); }
 	public void AddItems(List<ItemController> Items){ inventory.Add(Items); }
 	public void AddItems(List<Item> Items){ 
@@ -161,14 +186,10 @@ public class InventoryControllerScript : MonoBehaviour{
 		isOpenInventory = false;
 		canvasInventory.enabled = false;
 	}
-	private static InventoryControllerScript instance;
-	public static InventoryControllerScript Instance{get => instance;}
-	void Awake(){
-		instance = this;
-		GetCells();
-	}
+
 	void Start(){
 		LoadInformation();
+		inventory.RegisterOnChange(Refresh);
 	}
 
 	void OnApplicationPause(bool pauseStatus){
@@ -178,6 +199,7 @@ public class InventoryControllerScript : MonoBehaviour{
 	}
 	void OnDestroy(){
 		SaveLoadControllerScript.SaveInventory(inventory);
+		inventory.UnregisterOnChange(Refresh);
 	}
 	void LoadInformation(){
 		inventory = SaveLoadControllerScript.LoadInventory();

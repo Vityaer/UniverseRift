@@ -23,7 +23,6 @@ public class CardScript : MonoBehaviour
 	{
 		if(hero != null)
 		{
-			Debug.Log(hero.generalInfo.ImageHero);
 			imageUI.sprite       = hero.generalInfo.ImageHero;
 			levelUI.text         = hero.generalInfo.Level.ToString();
 			ratingController.ShowRating(hero.generalInfo.ratingHero); 

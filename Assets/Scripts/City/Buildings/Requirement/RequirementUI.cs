@@ -154,8 +154,6 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
       public void SetScroll(MyScrollRect scrollParent)
       {
             this.scrollParent = scrollParent;
-            if(scrollParent == null)
-                  Debug.Log("Check please"); 
       }
 
       public void OnBeginDrag(PointerEventData eventData)

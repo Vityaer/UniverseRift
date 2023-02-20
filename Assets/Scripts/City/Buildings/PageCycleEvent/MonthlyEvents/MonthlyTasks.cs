@@ -6,6 +6,7 @@ public class MonthlyTasks : RequirementMenuScript
 {
 	public MonthlyEvents monthlyEventsParent;
 	public TypeMonthlyTasks type;
+	public GameObject MainPanel => building;
 
 	protected override void OnLoadGame(){}
 

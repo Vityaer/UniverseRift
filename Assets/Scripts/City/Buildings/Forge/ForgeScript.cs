@@ -13,19 +13,32 @@ public class ForgeScript : Building{
 	[SerializeField] private List<ForgeItemVisual> listPlace = new List<ForgeItemVisual>();
 	private List<ItemSynthesis> workList;
 	[Header("Data")]
-	[SerializeField] private List<ItemSynthesis> weapons, armors, necklace, shield, boots, helmets, mittens;
+	[SerializeField] private List<ItemSynthesis> weapons, armors, necklace, boots;
     private ItemsList itemsList;
     [Header("Costs")]
     [SerializeField] private List<Resource> listCostItems = new List<Resource>();
 
+    public Button WeaponPanelButton;
+    public Button ArmorPanelButton;
+    public Button BootsPanelButton;
+    public Button AmuletPanelButton;
 
-	protected override void OpenPage(){
-		OpenList(TypeSynthesis.Weapon);
+	private static ForgeScript instance;
+	public static ForgeScript Instance{get => instance;}
+
+	void Awake(){
+		instance = this;
 	}
-	public void OpenWeapons(){OpenList(TypeSynthesis.Weapon); }
-	public void OpenArmors(){OpenList(TypeSynthesis.Armor); }
-	public void OpenBoots(){OpenList(TypeSynthesis.Boots); }
-	public void OpenAmulets(){OpenList(TypeSynthesis.Amulet); }
+
+	protected override void OnStart()
+	{
+		WeaponPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Weapon));
+		ArmorPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Armor));
+		BootsPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Boots));
+		AmuletPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Amulet));
+		OpenList(TypeSynthesis.Armor);
+	}
+
 	public void OpenList(TypeSynthesis type){
 		switch(type){
 			case TypeSynthesis.Weapon:
@@ -37,18 +50,9 @@ public class ForgeScript : Building{
 			case TypeSynthesis.Amulet:
 				workList = necklace;
 				break;
-			case TypeSynthesis.Shield:
-				workList = shield;
-				break;
 			case TypeSynthesis.Boots:
 				workList = boots;
 				break;
-			case TypeSynthesis.Mittens:
-				workList = mittens;
-				break;
-			case TypeSynthesis.Helmet:
-				workList = helmets;
-				break;						
 		}
 		for(int i=0; i < workList.Count; i++){
 			listPlace[i].SetItem(workList[i]);
@@ -105,14 +109,6 @@ public class ForgeScript : Building{
 			listPlace[num].UIItem.SwitchDoneForUse( InventoryControllerScript.Instance.HowManyThisItems( workList[num].requireItem) >= workList[num].countRequireItem );
 	}
 
-	private static ForgeScript instance;
-	public static ForgeScript Instance{get => instance;}
-	void Awake(){
-		instance = this;
-	}
-
-
-
 //Observers
 	private Action<BigDigit> observerCraft;
 	public void RegisterOnCraft(Action<BigDigit> d){observerCraft += d;}	 
@@ -125,10 +121,7 @@ public class ForgeScript : Building{
 		SetCosts(weapons);
 		SetCosts(armors);
 		SetCosts(necklace);
-		SetCosts(shield);
 		SetCosts(boots);
-		SetCosts(helmets);
-		SetCosts(mittens);
 	}
 	void SetCosts(List<ItemSynthesis> listItems){
 		for(int i = 0; i < listItems.Count; i++){
@@ -161,7 +154,8 @@ public class ItemSynthesis{
     		return _requireItem;
     	}
     }
-    private Item GetItem(int ID){
+    private Item GetItem(int ID)
+    {
 		return Item.GetItem(ID);
     }
 

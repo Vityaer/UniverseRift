@@ -62,7 +62,9 @@ public class ButtonCostScript : MonoBehaviour{
 	}
 
 	public void Buy(){
-		if(disable == false && PlayerScript.Instance.CheckResource( this.res )){
+		if(disable == false && PlayerScript.Instance.CheckResource( this.res ))
+		{
+			Debug.Log("button buy");
 			if(res.Count > 0f) SubstractResource();
 			if(delBuyMatter != null) delBuyMatter(countBuy);
 		}

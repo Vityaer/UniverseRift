@@ -43,6 +43,11 @@ namespace Models.Grid
 
         public void CloseGrid()
         {
+            foreach(var cell in _cells)
+            {
+                cell.ClearCanMove();
+            }
+
             gameObject.SetActive(false);
         }
     }

@@ -11,10 +11,14 @@ public class RequirementMenuScript : Building{
 	protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
 	List<RequirementSave> RequirementSaves = new List<RequirementSave>();
 	public MyScrollRect scrollRectController;
-	protected override void OnLoadGame(){
+
+	protected override void OnLoadGame()
+	{
 		LoadData(PlayerScript.GetPlayerGame.saveMainRequirements);
 	}
-	public void LoadData(List<RequirementSave> RequirementSaves){
+
+	public void LoadData(List<RequirementSave> RequirementSaves)
+	{
 		Requirement currentTask = null;
 		for(int i = 0; i < RequirementSaves.Count; i++){
 			currentTask = listRequirement.Find(x => x.ID == RequirementSaves[i].ID);
@@ -25,11 +29,15 @@ public class RequirementMenuScript : Building{
 		CreateRequrements();
 		OnAfterLoadData();
 	}
-	protected virtual void SaveData(){
+
+	protected virtual void SaveData()
+	{
 		PlayerScript.GetPlayerGame.SaveMainRequirements(listRequirement);
 		SaveGame();
 	}
-	protected void CreateRequrements(){
+
+	protected void CreateRequrements()
+	{
 		RequirementUI currentTask = null;
 		foreach(Requirement task in listRequirement){
 			currentTask = GetRequirementUI();
@@ -40,23 +48,27 @@ public class RequirementMenuScript : Building{
 		}
 	}
 	protected virtual void OnAfterLoadData(){}
-	private RequirementUI GetRequirementUI(){
+
+	private RequirementUI GetRequirementUI()
+	{
 		RequirementUI result = requirementControllers.Find(x => x.IsEmpty);
-		if(result == null){
-			result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
-			requirementControllers.Add(result);
-		}
+		result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
+		requirementControllers.Add(result);
 		return result;
 	}
+
 	[ContextMenu("Clear all task")]
-	public void ClearAllTask(){
+	public void ClearAllTask()
+	{
 		for(int i = 0; i < listTaskUI.Count; i++){
 			listTaskUI[i].Restart();
 		}
 	}
+
 //Test and check
 	[ContextMenu("Check all")]
-	public void CheckAll(){
+	public void CheckAll()
+	{
 		for(int i = 0; i < listRequirement.Count - 1; i++){
 			for(int j = i + 1; j < listRequirement.Count; j++){
 				if(listRequirement[i].ID == listRequirement[j].ID){

@@ -79,11 +79,10 @@ public class PlayerScript : MonoBehaviour{
 
 //API resources	
 	public void AddReward(Reward reward){
-		if(reward != null){
-			PlayerScript.Instance.AddResource(reward.GetListResource);
-			InventoryControllerScript.Instance.AddItems(reward.GetItems);
-			InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
-		}
+		PlayerScript.Instance.AddResource(reward.GetListResource);
+		InventoryControllerScript.Instance.AddItems(reward.GetItems);
+		InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
+		UpdateAllResource();
 	}
 
 	public bool CheckResource(Resource res){

@@ -21,20 +21,22 @@ public class HexagonCellScript : MonoBehaviour
 	public bool achievableMove = false; 
 	public int step = 0;
 	private bool showAchievable = false;
+	private static HeroControllerScript requestHero = null;
+	private static Action<HexagonCellScript> observerClick, observerSelectDirection, observerAchivableMove;
 
 	public List<NeighbourCell> GetAvailableNeighbours{get => neighbours.FindAll(x => x.available == true);}
 	public bool CanStand{get => (availableMove && (heroScript == null));}
 	public HeroControllerScript Hero{get => heroScript;}
 	private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
+	public bool GetCanAttackCell{ get => (neighbours.Find(x => (x.achievableMove == true)) != null); }
 
 	void Awake()
 	{
 		tr = base.transform;
 	}
 
-	private static HeroControllerScript requestHero = null;
-	public void StartCheckMove(int step, HeroControllerScript newRequestHero, bool playerCanController){
-		Debug.Log("start check move");
+	public void StartCheckMove(int step, HeroControllerScript newRequestHero, bool playerCanController)
+	{
 		HexagonCellScript.requestHero = newRequestHero;
 		GridController.PlayerCanController = playerCanController;
 		this.step = step;
@@ -43,7 +45,8 @@ public class HexagonCellScript : MonoBehaviour
 		for(int i = 0; i < neighbours.Count; i++) neighbours[i].CheckMove(step - 1);
 	}
 
-	public void CheckMove(int step){
+	public void CheckMove(int step)
+	{
 		if(available && availableMove){
 			if((achievableMove == false) || (this.step < step)){
 				this.step = step;
@@ -61,35 +64,46 @@ public class HexagonCellScript : MonoBehaviour
 			}
 		}
 	}
+
 	public HexagonCellScript GetAchivableNeighbourCell()
 	{
 		return neighbours.Find(x => x.achievableMove).Cell;
 	}
 
-	public bool GetCanAttackCell{ get => (neighbours.Find(x => (x.achievableMove == true)) != null); }
-	public void RegisterOnSelectDirection(Action<HexagonCellScript> selectDirectionForHero, bool showUIDirection = true){
+	public void RegisterOnSelectDirection(Action<HexagonCellScript> selectDirectionForHero, bool showUIDirection = true)
+	{
 		Debug.Log("select sell name: "+ gameObject.name);
 		observerSelectDirection = selectDirectionForHero;
 		if(showUIDirection)
 			ShowDirectionsAttack();
 	}
-	private void ShowDirectionsAttack(){
+
+	private void ShowDirectionsAttack()
+	{
 		FightUI.Instance.melleeAttackController.RegisterOnSelectDirection(SelectDirection, this, GetAvailableNeighbours);
 	}
 
-	private void SelectDirection(NeighbourDirection direction){
+	private void SelectDirection(NeighbourDirection direction)
+	{
 		if(observerSelectDirection != null){
 			observerSelectDirection(GetNeighbourCellOnDirection(direction));
 			observerSelectDirection = null;
 		}
 	}
-	private HexagonCellScript GetNeighbourCellOnDirection(NeighbourDirection direction){
+	private HexagonCellScript GetNeighbourCellOnDirection(NeighbourDirection direction)
+	{
 		HexagonCellScript result = neighbours.Find(x => x.direction == direction).Cell;
 		return result;
 	}
-	private void OnSelectDirection(){if((observerClick != null) && (available == true)) observerClick(this);}
 
-	public void ClearCanMove(){
+	private void OnSelectDirection()
+	{
+		if((observerClick != null) && (available == true))
+			observerClick(this);
+	}
+
+	public void ClearCanMove()
+	{
 		showAchievable = false;
 		this.step = 0;
 		achievableMove = false;
@@ -97,29 +111,42 @@ public class HexagonCellScript : MonoBehaviour
 		dist = 100;
 		requestHero?.UnregisterOnEndSelectCell(ClearCanMove);
 	}
-	public void SetSubject(GameObject newSubject){
+
+	public void SetSubject(GameObject newSubject)
+	{
 		this.subject = newSubject;
 	}
-	public void SetHero(HeroControllerScript hero){
+
+	public void SetHero(HeroControllerScript hero)
+	{
 		heroScript = hero;
 		subject = hero.gameObject;
 		availableMove = false;
 	}
-	public void ClearSublject(){
+
+	public void ClearSublject()
+	{
 		this.subject = null;
 		heroScript = null;
 		availableMove = true;
 	}
 
-	public void ClickOnMe(){
-		if(GridController.PlayerCanController){
-			if(achievableMove || (heroScript != null)){
+	public void ClickOnMe()
+	{
+		if(GridController.PlayerCanController)
+		{
+			if(achievableMove || (heroScript != null))
+			{
 				OnClickCell();
 			}
 		}
 	}
-	public void AITurn(){ OnClickCell(); }
-	private static Action<HexagonCellScript> observerClick, observerSelectDirection, observerAchivableMove;
+
+	public void AITurn()
+	{
+		OnClickCell();
+	}
+	
 	public static void RegisterOnClick(Action<HexagonCellScript> d){ observerClick += d;}
 	public static void UnregisterOnClick(Action<HexagonCellScript> d){ observerClick -= d;}
 	private void OnClickCell(){if((observerClick != null) && (available == true)) observerClick(this);}

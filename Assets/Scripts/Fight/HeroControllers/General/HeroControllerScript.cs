@@ -14,10 +14,12 @@ public partial class HeroControllerScript : MonoBehaviour
 	[HideInInspector] public List<HeroControllerScript> listTarget = new List<HeroControllerScript>();
 	protected Rigidbody2D rb;
 	protected Animator anim;
+
 	[Header("Characteristics")]
 	public float speedMove = 2f;
 	public float speedAnimation = 1f;
 	public Hero hero;
+ 	protected bool onGround = true;
 	protected bool needFlip = false;
 	public Side side = Side.Left;
 	protected Vector3 delta = new Vector2(-0.6f, 0f);
@@ -28,6 +30,9 @@ public partial class HeroControllerScript : MonoBehaviour
 	private HeroControllerScript selectHero;
 	private float damageFromStrike;
 	private bool isDeath = false;
+	private Coroutine coroutineAttackEnemy;
+ 	private Stack<HexagonCellScript> way = new Stack<HexagonCellScript>();
+
 	public bool IsDeath{get => isDeath;}
 	public Vector3 GetPosition{get => tr.position;}
 	public bool CanRetaliation{get => hero.characts.baseCharacteristic.CanRetaliation;}
@@ -35,7 +40,9 @@ public partial class HeroControllerScript : MonoBehaviour
 	public bool Mellee{get => hero.characts.baseCharacteristic.Mellee;}
 	public TypeStrike typeStrike{get => hero.characts.baseCharacteristic.typeStrike;}
 	public int Stamina{get => statusState.Stamina;}
-	void Awake(){
+
+	void Awake()
+	{
 		statusState = GetComponent<HeroStatusScript>();
 		hero.statusState = statusState;
 		tr          = base.transform;
@@ -43,13 +50,17 @@ public partial class HeroControllerScript : MonoBehaviour
 		rb          = GetComponent<Rigidbody2D>();
         anim        = GetComponent<Animator>();
 	}
-	void Start(){
+
+	void Start()
+	{
 		hero.PrepareSkills(this);
 		OnStartFight();
 		FightControllerScript.Instance.RegisterOnEndRound(RefreshOnEndRound);
 	}
 
-	public void DoTurn(){
+	public void DoTurn()
+	{
+		Debug.Log($"Start turn{gameObject.name}", gameObject);
 		AddFightRecordActionMe();
 		if((isDeath == false) && statusState.PermissionAction()){
 			PrepareOnStartTurn();
@@ -57,7 +68,10 @@ public partial class HeroControllerScript : MonoBehaviour
 			EndTurn();
 		}
 	}
-	protected void EndTurn(){
+
+	protected void EndTurn()
+	{
+		Debug.Log($"End turn{gameObject.name}", gameObject);
 		if(isFacingRight ^ (side == Side.Left) ) FlipX();
 		ClearAction();
 		OnEndAction();
@@ -102,26 +116,33 @@ public partial class HeroControllerScript : MonoBehaviour
 			}
 		}
 	}
-	public void SelectDirectionAttack(HexagonCellScript targetCell){
+
+	public void SelectDirectionAttack(HexagonCellScript targetCell)
+	{
 		HexagonCellScript.UnregisterOnClick(SelectHexagonCell);		
 		StartMelleeAttackOtherHero(targetCell, selectHero);
 	}
-	public void SelectDirectionAttack(HexagonCellScript targetCell, HeroControllerScript otherHero){
+
+	public void SelectDirectionAttack(HexagonCellScript targetCell, HeroControllerScript otherHero)
+	{
 		HexagonCellScript.UnregisterOnClick(SelectHexagonCell);		
 		StartMelleeAttackOtherHero(targetCell, otherHero);
 	}
+
 //Attack
-	Coroutine coroutineAttackEnemy;
- 	protected void StartMelleeAttackOtherHero(HexagonCellScript targetCell, HeroControllerScript enemy){
+ 	protected void StartMelleeAttackOtherHero(HexagonCellScript targetCell, HeroControllerScript enemy)
+ 	{
 		OnEndSelectCell();
         coroutineAttackEnemy = null;
 		coroutineAttackEnemy = StartCoroutine(IMelleeAttackOtherHero(targetCell, enemy));
  	}
- 	public void StartDistanceAttackOtherHero(HeroControllerScript enemy){
+
+ 	public void StartDistanceAttackOtherHero(HeroControllerScript enemy)
+ 	{
 		OnEndSelectCell();
 		coroutineAttackEnemy = StartCoroutine(IDistanceAttackOtherHero(enemy, 20));
  	}
- 	protected bool onGround = true;
+
 	IEnumerator IMelleeAttackOtherHero(HexagonCellScript targetCell, HeroControllerScript heroForAttack)
 	{
 		if(targetCell != myPlace)
@@ -134,17 +155,18 @@ public partial class HeroControllerScript : MonoBehaviour
 			yield return heroForAttack.GetRetaliation(this);
 		}
 		yield return new WaitForSeconds(0.5f);
-		if(needFlip) FlipX();
+		SetFaceDefault();
         EndTurn();
  	} 
 
- 	Stack<HexagonCellScript> way = new Stack<HexagonCellScript>();
-	protected virtual IEnumerator IMoveToCellTarget(HexagonCellScript targetCell){
+	protected virtual IEnumerator IMoveToCellTarget(HexagonCellScript targetCell)
+	{
 		way = GridController.Instance.FindWay(myPlace, targetCell, typeMovement: hero.GetBaseCharacteristic.typeMovement);
 		Vector3 targetPos, startPos;
 		float t = 0f;
 		HexagonCellScript currentCell = way.Pop();
-		while(way.Count > 0){
+		while(way.Count > 0)
+		{
 			myPlace.ClearSublject();
 			currentCell = way.Pop();
 			startPos = tr.position;
@@ -161,56 +183,88 @@ public partial class HeroControllerScript : MonoBehaviour
 	        	tr.position = Vector2.Lerp(startPos, targetPos, t);
 				yield return null;
 	        }
+
 	        tr.position = targetPos;
 	        myPlace = currentCell;
 	        myPlace.SetHero(this);
 		}
 	}
-	protected virtual IEnumerator IAttack(HeroControllerScript otherHero, int bonusStamina = 30){
-		if(statusState.PermissionMakeStrike(TypeStrike.Physical)){
+
+	protected virtual IEnumerator IAttack(HeroControllerScript otherHero, int bonusStamina = 30)
+	{
+		if(statusState.PermissionMakeStrike(TypeStrike.Physical))
+		{
 			yield return StartCoroutine(CheckFlipX(otherHero));
 			statusState.ChangeStamina(bonusStamina);
 			PlayAnimation(ANIMATION_ATTACK, () => DefaultAnimAttack(otherHero));
-			while (flagAnimFinish == false){ yield return null;}
+
+			while (flagAnimFinish == false)
+				yield return null;
 		}
 	}
 
-	protected virtual IEnumerator IDistanceAttackOtherHero(HeroControllerScript otherHero, int bonusStamina = 20){
+	protected virtual IEnumerator IDistanceAttackOtherHero(HeroControllerScript otherHero, int bonusStamina = 20)
+	{
 		hitCount = 0;
 		yield return StartCoroutine(CheckFlipX(otherHero));
 		statusState.ChangeStamina(bonusStamina);
 		PlayAnimation(ANIMATION_DISTANCE_ATTACK, () => DefaultAnimDistanceAttack(new List<HeroControllerScript>(){otherHero}));
-		while(hitCount != 1) {yield return null;}
+		
+		while(hitCount != 1)
+			yield return null;
+
+		SetFaceDefault();
+
 		OnStrike();
-		if(needFlip) FlipX();
 		EndTurn();
+	}
+
+	protected void SetFaceDefault()
+	{
+		if(needFlip)
+		{
+			FlipX();
+			needFlip = false;
+		}
 	}
 
 	protected IEnumerator CheckFlipX(HeroControllerScript otherHero)
 	{
 		needFlip = NeedFlip(otherHero);
-		if(needFlip) FlipX();
+		if(needFlip)
+			FlipX();
 		yield return new WaitForSeconds(0.1f);
 	} 
 
 	public virtual Coroutine GetRetaliation(HeroControllerScript attackedHero)
 	{
+		if(IsDeath)
+			return null;
+
 		if(CanRetaliation)
 		{
 			return StartCoroutine(IGetRetaliation(attackedHero));
-		}else
+		}
+		else
 		{
 			return null;
 		}
 	}
 
-	protected virtual IEnumerator IGetRetaliation(HeroControllerScript attackedHero){
-		while (flagAnimFinish == false){yield return null; }
-		if(CanCounterAttack(this, attackedHero)){
+	protected virtual IEnumerator IGetRetaliation(HeroControllerScript attackedHero)
+	{
+		while (flagAnimFinish == false)
+			yield return null;
+
+		if(CanCounterAttack(this, attackedHero))
+		{
+			AddFightRecordActionMe();
 			currentCountCounterAttack -= 1;
 			yield return StartCoroutine(IAttack(attackedHero, 15));
-
+			SetFaceDefault();
+			RemoveFightRecordActionMe();
 		}
+
 	}
 
 	protected void HitCount(){
@@ -278,7 +332,8 @@ public partial class HeroControllerScript : MonoBehaviour
 		statusState.ChangeMaxHP(amountChange);
 	}
 
-	public void DeleteHero(){
+	public void DeleteHero()
+	{
 		myPlace.ClearSublject();
 		if(coroutineAttackEnemy != null) StopCoroutine(coroutineAttackEnemy);
 		if(sequenceAnimation != null) sequenceAnimation.Kill();
@@ -287,17 +342,21 @@ public partial class HeroControllerScript : MonoBehaviour
 		Destroy(gameObject);
 	}	
 	
-	public void ClickOnMe(){
+	public void ClickOnMe()
+	{
 		myPlace?.ClickOnMe();
 	}
 
-	private void Death(){
+	private void Death()
+	{
 		statusState.Death();
 		ClearAction();
 		FightControllerScript.Instance.DeleteHero(this);
 		DeleteHero();
 	}
-	public void MessageDamageAfterStrike(float damage){
+
+	public void MessageDamageAfterStrike(float damage)
+	{
 		damageFromStrike += damage;
 	}
 
@@ -306,7 +365,8 @@ public partial class HeroControllerScript : MonoBehaviour
 		enemy.GetDamage(new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike));
 	} 
 //Event
-		public void GetListForSpell(List<HeroControllerScript> listTarget){
+		public void GetListForSpell(List<HeroControllerScript> listTarget)
+		{
 			statusState.ChangeStamina(-100);
 			if(delsOnListSpell != null)
 				delsOnListSpell(listTarget);
@@ -314,11 +374,13 @@ public partial class HeroControllerScript : MonoBehaviour
 		
 	protected void AddFightRecordActionMe()
 	{
+		Debug.Log($"add record {gameObject.name}", gameObject);
 		FightControllerScript.Instance.AddHeroWithAction(this);
 	}
 
 	protected void RemoveFightRecordActionMe()
 	{
+		Debug.Log($"remove record {gameObject.name}", gameObject);
 		FightControllerScript.Instance.RemoveHeroWithAction(this);
 	}
 }

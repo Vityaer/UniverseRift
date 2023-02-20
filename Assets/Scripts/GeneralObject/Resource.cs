@@ -30,9 +30,9 @@ public enum TypeResource{
 	AdvancedDarkStone = 22
 }
 
-
 [System.Serializable]
-public class Resource : BaseObject, ICloneable, VisualAPI{
+public class Resource : BaseObject, ICloneable, VisualAPI
+{
 	public TypeResource Name;
 	[SerializeField] protected BigDigit amount;
 	public BigDigit Amount{get => amount; set => amount = value;}
