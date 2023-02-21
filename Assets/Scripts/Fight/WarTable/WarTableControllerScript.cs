@@ -117,7 +117,8 @@ public class WarTableControllerScript : MonoBehaviour{
 				}
 				break;
 		}
-		btnStartFight.interactable = (leftTeam.Count > 0);
+		btnStartFight.interactable = (leftTeam.FindAll(place => place.Hero != null).Count > 0);
+		Debug.Log(leftTeam.FindAll(place => place.Hero != null).Count);
 	}	
 //API
 	public void OpenMission(Mission mission, List<InfoHero> listHeroes)

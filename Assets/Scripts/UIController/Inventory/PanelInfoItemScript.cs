@@ -24,7 +24,6 @@ public class PanelInfoItemScript : MonoBehaviour
 	void Awake()
 	{
 		_instance = this;
-		Debug.Log(Instance == null);
 		GetComponents();
 	}
 
