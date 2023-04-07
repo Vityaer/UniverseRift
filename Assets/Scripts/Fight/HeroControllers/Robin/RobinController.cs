@@ -4,29 +4,39 @@ using UnityEngine;
 
 public class RobinController : HeroControllerScript{
 
-	private int hitSpecialCount = 0;
+	private int _hitSpecialCount = 0;
 	[Header("Spell Data")]
 	public GameObject robinArrow;
-	private void CreateRobinArrow(){
-		AddFightRecordActionMe();
-		GameObject arrow;
-		FightControllerScript.Instance.ChooseEnemies(side, 1, listTarget);
-		foreach (HeroControllerScript target in listTarget) {
-			arrow = Instantiate(robinArrow, tr.position, Quaternion.identity);
-			arrow.GetComponent<RobinArrow>().SetTarget(target);
-			arrow.GetComponent<RobinArrow>().RegisterOnCollision(OnSpecialHit);
+
+	private void CreateRobinArrow()
+	{
+		FightControllerScript.Instance.ChooseEnemies(side, 3, listTarget);
+		Debug.Log($"listTarget: {listTarget.Count}");
+		foreach (HeroControllerScript target in listTarget)
+		{
+			Debug.Log("CreateRobinArrow");
+			var arrow = Instantiate(robinArrow, tr.position, Quaternion.identity).GetComponent<RobinArrow>();
+			arrow.SetTarget(target, new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike, isMellee: false));
+			arrow.RegisterOnCollision(OnSpecialHit);
 		}
 	}
-	private void OnSpecialHit(){
-		hitSpecialCount++;
-		if(hitSpecialCount == listTarget.Count){
+
+	private void OnSpecialHit()
+	{
+		_hitSpecialCount++;
+		if(_hitSpecialCount == listTarget.Count)
+		{
+			Debug.Log("OnSpecialHit finish");
 			RemoveFightRecordActionMe();
 			OnSpell(listTarget);
 			EndTurn();
 		}
 	}
-	protected override void DoSpell(){
-		hitSpecialCount = 0;
+
+	protected override void DoSpell()
+	{
+		AddFightRecordActionMe();
+		_hitSpecialCount = 0;
 		statusState.ChangeStamina(-100);
 		anim.Play("Spell");
 	} 

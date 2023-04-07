@@ -28,7 +28,7 @@ public class ResourceObjectCost : MonoBehaviour{
 	public bool CheckResource(){
 		storeResource = PlayerScript.Instance.GetResource(costResource.Name);
 		bool flag     = PlayerScript.Instance.CheckResource(costResource); 
-		string result = flag ? "<color=black>" : "<color=red>";
+		string result = flag ? "<color=green>" : "<color=red>";
 		result = string.Concat(result, costResource.ToString(), "</color>/", storeResource.ToString());
 		textAmount.text = result;
 		OnCheckResource(flag);

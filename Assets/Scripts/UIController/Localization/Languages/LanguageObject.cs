@@ -42,13 +42,16 @@ public class HeroLocalization{
 
 	public string Description;
 	public List<SkillLocalization> Skills = new List<SkillLocalization>(); 
-	public SkillLevelLocalization GetDescriptionSkill(string ID, int numSkill){
+
+	public SkillLevelLocalization GetDescriptionSkill(string ID, int numSkill)
+	{
 		SkillLevelLocalization result = null;
+		Debug.Log($"Skills.Count: {Skills.Count} and numSkill: {numSkill}");
 		if(Skills != null)
 		{
 			if(Skills.Count > 0)
 			{
-				if(Skills[numSkill].levels.Count > 0)
+				if(Skills.Count > numSkill && Skills[numSkill].levels.Count > 0)
 				{
 					result = Skills[ numSkill ]?.levels[0];
 				}else
@@ -68,20 +71,23 @@ public class HeroLocalization{
 }
 
 [System.Serializable]
-public class SkillLocalization{
+public class SkillLocalization
+{
 	public string ID;
 	public List<SkillLevelLocalization> levels = new List<SkillLevelLocalization>();
 }
 
 [System.Serializable]
-public class SkillLevelLocalization{
+public class SkillLevelLocalization
+{
 	public string name;
 	public string description;
 	public Sprite image;
 }
 
 [System.Serializable]
-public class GeneralDefinition{
+public class GeneralDefinition
+{
 	public string settings;
 	public string avatar;
 	public string goFight;
@@ -89,13 +95,15 @@ public class GeneralDefinition{
 }
 
 [System.Serializable]
-public class BuildingLocalization{
+public class BuildingLocalization
+{
 	public string name;
 	public string description;	
 }
 
 [System.Serializable]
-public class MessageLocalization{
+public class MessageLocalization
+{
 	public string name;
 	public string containText;
 }

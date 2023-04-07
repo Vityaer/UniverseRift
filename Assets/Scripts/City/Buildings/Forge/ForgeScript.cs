@@ -22,6 +22,10 @@ public class ForgeScript : Building{
     public Button ArmorPanelButton;
     public Button BootsPanelButton;
     public Button AmuletPanelButton;
+	public Button btnSynthesis;
+
+	private ItemSynthesis currentItem;
+	private ForgeItemVisual currentCell = null;
 
 	private static ForgeScript instance;
 	public static ForgeScript Instance{get => instance;}
@@ -36,10 +40,12 @@ public class ForgeScript : Building{
 		ArmorPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Armor));
 		BootsPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Boots));
 		AmuletPanelButton.onClick.AddListener(() => OpenList(TypeSynthesis.Amulet));
-		OpenList(TypeSynthesis.Armor);
+		OpenList(TypeSynthesis.Weapon);
+		SelectItem(listPlace[0], listPlace[0].Thing);
 	}
 
-	public void OpenList(TypeSynthesis type){
+	public void OpenList(TypeSynthesis type)
+	{
 		switch(type){
 			case TypeSynthesis.Weapon:
 				workList = weapons;
@@ -54,37 +60,42 @@ public class ForgeScript : Building{
 				workList = boots;
 				break;
 		}
-		for(int i=0; i < workList.Count; i++){
+
+		for(int i=0; i < workList.Count; i++)
+		{
 			listPlace[i].SetItem(workList[i]);
 			// listPlace[i].UIItem.SwitchDoneForUse( InventoryControllerScript.Instance.HowManyThisItems( workList[i].requireItem) >= workList[i].countRequireItem );
 		}
-		if(currentCell != null) SelectItem(currentCell, currentCell.Thing);
+		if(currentCell != null)
+			SelectItem(currentCell, currentCell.Thing);
 	}
 
-	private ForgeItemVisual currentCell = null;
-	private ItemSynthesis currentItem;
+
 	public void SelectItem(ForgeItemVisual selectedCell, ItemSynthesis item){
+		if(currentCell != null)
+			currentCell.UIItem.Diselect();
+
 		currentItem = item;
-		if(currentCell != null) currentCell.UIItem.Diselect();
 		currentCell = selectedCell;
 		leftItem.SetItem(item.requireItem, item.countRequireItem);
 		rightItem.SetResource(item.requireResource);
 		CheckDemands();
 	}
 
-	public Button btnSynthesis;
-	public void CheckDemands(){
-		if(currentItem != null){
-			btnSynthesis.interactable =  PlayerScript.Instance.CheckResource(currentItem.requireResource) &&  InventoryControllerScript.Instance.CheckItems(currentItem.requireItem, currentItem.countRequireItem);
-			RecalculateDemands();
-		}
+	public void CheckDemands()
+	{
+		btnSynthesis.interactable =  PlayerScript.Instance.CheckResource(currentItem.requireResource) &&  InventoryControllerScript.Instance.CheckItems(currentItem.requireItem, currentItem.countRequireItem);
+		RecalculateDemands();
 	}
-	private void RecalculateDemands(){
+
+	private void RecalculateDemands()
+	{
 		leftItem.forgeItemCost.CheckItems();
 		rightItem.resourceCost.CheckResource();
 	}
 
-	public void MakeItem(){
+	public void MakeItem()
+	{
 		int createdCount = 0;
 		Reward reward = new Reward();
 		if(currentItem != null){
@@ -103,7 +114,9 @@ public class ForgeScript : Building{
 		CheckNextItem();
 		CheckDemands();
 	}
-	private void CheckNextItem(){
+
+	private void CheckNextItem()
+	{
 		int num = listPlace.FindIndex(x => x == currentCell) + 1;
 		if(num < workList.Count)
 			listPlace[num].UIItem.SwitchDoneForUse( InventoryControllerScript.Instance.HowManyThisItems( workList[num].requireItem) >= workList[num].countRequireItem );

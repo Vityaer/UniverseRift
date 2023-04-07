@@ -15,8 +15,8 @@ public partial class FightControllerScript : MonoBehaviour{
 	
 	[Header("Place heroes")]
 	public GridController Grid;
-	[SerializeField]private  List<Warrior> leftTeam  = new List<Warrior>(); 
-	[SerializeField]private  List<Warrior> rightTeam = new List<Warrior>(); 
+	[SerializeField] private  List<Warrior> leftTeam  = new List<Warrior>(); 
+	[SerializeField] private  List<Warrior> rightTeam = new List<Warrior>(); 
 	[SerializeField] private List<HeroControllerScript> listInitiative  = new List<HeroControllerScript>();
  	[SerializeField] private List<HeroControllerScript> listHeroesWithAction = new List<HeroControllerScript>(); 
 
@@ -29,8 +29,8 @@ public partial class FightControllerScript : MonoBehaviour{
  	public int MaxCountRound = 3;
  	private Mission mission;
 
-	public List<Warrior> GetLeftTeam{get => leftTeam;}
-	public List<Warrior> GetRightTeam{get => rightTeam;}
+	public List<Warrior> GetLeftTeam  => leftTeam;
+	public List<Warrior> GetRightTeam => rightTeam;
 
 //Create Teams
 	public void SetMission(Mission mission, List<WarriorPlaceScript> leftWarriorPlace, List<WarriorPlaceScript> rightWarriorPlace)
@@ -53,7 +53,8 @@ public partial class FightControllerScript : MonoBehaviour{
 
     IEnumerator StartFightCountdown()
     {
-    	for (int i = 3; i>0; i--){
+    	for (int i = 3; i > 0; i--)
+    	{
 	    	textNumRound.text = i.ToString();
 			yield return new WaitForSeconds(0.75f);
 		}
@@ -92,7 +93,7 @@ public partial class FightControllerScript : MonoBehaviour{
  	{
  		NextHero();
  	} 
- 	
+
  	public void AddHeroWithAction(HeroControllerScript newHero)
  	{
  		listHeroesWithAction.Add(newHero);

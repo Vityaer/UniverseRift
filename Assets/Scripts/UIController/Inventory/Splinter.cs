@@ -14,6 +14,9 @@ public class Splinter : PlayerObject{
 	public Rare rare = Rare.C;	
 
 	public Rare GetRare{get => rare;}
+	public bool IsCanUse{ get => (Amount >= RequireAmount);}
+	public string GetTextType{get => typeSplinter.ToString();}
+	public string GetTextDescription{get => string.Empty;}
 	public int RequireAmount{
 		get{ 
 			if(requireAmount <= 0) requireAmount = CalculateRequire();
@@ -59,10 +62,11 @@ public class Splinter : PlayerObject{
 		Amount = amount;
 		requireAmount = CalculateRequire();
 	}
-	public void AddAmount(int count){Debug.Log("Before: " + Amount.ToString()); Amount = Amount + count; Debug.Log("After: " + Amount.ToString()); }
-	public bool IsCanUse{ get => (Amount >= RequireAmount);}
-	public string GetTextType{get => typeSplinter.ToString();}
-	public string GetTextDescription{get => string.Empty;}
+	public void AddAmount(int count){
+		Amount = Amount + count;
+	}
+
+
 //Constructors
 	public Splinter(int ID, int count = 0){
 		this.id = ID;
@@ -111,6 +115,7 @@ public class Splinter : PlayerObject{
 	}
 //Rewards
 	private InfoHero GetRandomHero(){
+		InfoHero hero = null;
 		int selectNumber = 0;
 		float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
 		for(int i = 0; i < CountReward; i++){
@@ -121,7 +126,7 @@ public class Splinter : PlayerObject{
 			}
 		} 
 		Debug.Log("selectNumber: " + selectNumber);
-		InfoHero hero = TavernScript.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
+		hero = TavernScript.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
 		return hero;
 	}			
 	private void AddHero(InfoHero newHero){

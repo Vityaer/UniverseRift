@@ -3,23 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class TravelCircleMissionControllerScript : BaseMissionController{
-	private MissionWithSmashReward mission;
+
+public class TravelCircleMissionControllerScript : BaseMissionController
+{
 	[Header("UI")]
 	public RewardUIControllerScript rewardController;
 	public TextMeshProUGUI textNumMission, textOnButtonSelect;
 	public GameObject buttonSelect, imageCloseMission;
 	public Image backgoundMission;
+	[SerializeField] private Button mainButton;
+
+	private MissionWithSmashReward mission;
 	private StatusMission status = StatusMission.NotOpen;
-	int numMission = 0;
-	public void SetData(MissionWithSmashReward mission, int numMission){
+	private int numMission = 0;
+
+	private void Start()
+	{
+		mainButton.onClick.AddListener(OpenMission);
+	}
+
+	public void SetData(MissionWithSmashReward mission, int numMission)
+	{
 		gameObject.SetActive(true);
 		status = StatusMission.NotOpen;
 		this.mission        = mission;
 		this.numMission     = numMission;
 		UpdateUI();
 	}
-	private void UpdateUI(){
+
+	private void UpdateUI()
+	{
 		textNumMission.text = numMission.ToString();
 		switch(status){
 			case StatusMission.Open:
@@ -41,19 +54,27 @@ public class TravelCircleMissionControllerScript : BaseMissionController{
 				break;
 		}			
 	}
-	public void OpenForFight(){
+
+	public void OpenForFight()
+	{
 		status = StatusMission.Open;
 		UpdateUI();
 	}
-	public void Hide(){
+
+	public void Hide()
+	{
 		status = StatusMission.Complete;
 		gameObject.SetActive(false);
 	}
-	public void SetCanSmash(){
+
+	public void SetCanSmash()
+	{
 		status = StatusMission.InAutoFight;
 		UpdateUI();
 	}
-	public void OpenMission(){
+
+	public void OpenMission()
+	{
 		switch(status){
 			case StatusMission.Open:
 				TravelCircleScript.Instance.OpenMission(this.mission);
@@ -66,7 +87,8 @@ public class TravelCircleMissionControllerScript : BaseMissionController{
 		}
 	}
 
-	protected override MyScrollRect GetScrollParent(){
+	protected override MyScrollRect GetScrollParent()
+	{
 		return TravelCircleScript.Instance.scrollRectController;
 	} 
 }

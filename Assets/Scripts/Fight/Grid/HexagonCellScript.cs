@@ -10,29 +10,38 @@ using Fight.Grid;
 
 public class HexagonCellScript : MonoBehaviour
 {
-	private Transform tr;
-	public Vector3 Position{get => transform.position;} 
-	[SerializeField] private List<NeighbourCell> neighbours = new List<NeighbourCell>();
-	public SpriteRenderer spriteCell, spriteAvailable;
-	private GameObject subject;
-	[SerializeField] HeroControllerScript heroScript;
 	public bool available = true;
 	public bool availableMove = true;
 	public bool achievableMove = false; 
 	public int step = 0;
+	public SpriteRenderer spriteCell, spriteAvailable;
+
+	[SerializeField] private List<NeighbourCell> neighbours = new List<NeighbourCell>();
+	[SerializeField] HeroControllerScript heroScript;
+
+	private GameObject subject;
+	private Transform tr;
 	private bool showAchievable = false;
 	private static HeroControllerScript requestHero = null;
 	private static Action<HexagonCellScript> observerClick, observerSelectDirection, observerAchivableMove;
 
+	public Vector3 Position{get => transform.position;} 
 	public List<NeighbourCell> GetAvailableNeighbours{get => neighbours.FindAll(x => x.available == true);}
 	public bool CanStand{get => (availableMove && (heroScript == null));}
 	public HeroControllerScript Hero{get => heroScript;}
-	private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
 	public bool GetCanAttackCell{ get => (neighbours.Find(x => (x.achievableMove == true)) != null); }
+	private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
 
 	void Awake()
 	{
 		tr = base.transform;
+	}
+
+	void Start()
+	{
+		FightControllerScript.Instance.RegisterOnFinishFight(OnEndMatch);
+		spriteAvailable.color = Costants.Colors.ACHIEVABLE_CELL_COLOR;
+
 	}
 
 	public void StartCheckMove(int step, HeroControllerScript newRequestHero, bool playerCanController)
@@ -47,32 +56,44 @@ public class HexagonCellScript : MonoBehaviour
 
 	public void CheckMove(int step)
 	{
-		if(available && availableMove){
-			if((achievableMove == false) || (this.step < step)){
+		if(available && availableMove)
+		{
+			if((achievableMove == false) || (this.step < step))
+			{
 				this.step = step;
-				if(achievableMove == false){
+				if(achievableMove == false)
+				{
 					requestHero.RegisterOnEndSelectCell(ClearCanMove);
 					OnAchivableMove();
 				}
 				achievableMove = true;
 				
-				if((showAchievable == false)/* && GridController.PlayerCanController*/){
+				if((showAchievable == false)/* && GridController.PlayerCanController*/)
+				{
 					showAchievable = true;
 					spriteAvailable.enabled = true;
+					spriteAvailable.color = Costants.Colors.ACHIEVABLE_CELL_COLOR;
 				}
-				if(step > 0) for(int i = 0; i < neighbours.Count; i++) neighbours[i].CheckMove(step - 1);
+
+				if(step > 0)
+					for(int i = 0; i < neighbours.Count; i++)
+						neighbours[i].CheckMove(step - 1);
 			}
 		}
 	}
 
 	public HexagonCellScript GetAchivableNeighbourCell()
 	{
-		return neighbours.Find(x => x.achievableMove).Cell;
+		var achievableNeighbours = neighbours.FindAll(x => x.achievableMove);
+		
+		if(achievableNeighbours.Count == 0)
+		 	return null;
+
+		return achievableNeighbours[UnityEngine.Random.Range(0, achievableNeighbours.Count)]?.Cell;
 	}
 
 	public void RegisterOnSelectDirection(Action<HexagonCellScript> selectDirectionForHero, bool showUIDirection = true)
 	{
-		Debug.Log("select sell name: "+ gameObject.name);
 		observerSelectDirection = selectDirectionForHero;
 		if(showUIDirection)
 			ShowDirectionsAttack();
@@ -112,6 +133,13 @@ public class HexagonCellScript : MonoBehaviour
 		requestHero?.UnregisterOnEndSelectCell(ClearCanMove);
 	}
 
+	public bool MyEnemyNear(Side masterSide)
+	{
+		var neigboursCellWithHeroes = neighbours.FindAll(neighbour => (neighbour.GetHero != null));
+		var enemy = neigboursCellWithHeroes.Find(neighbourCell => neighbourCell.GetHero.side != masterSide);
+		return (enemy != null);
+	}
+
 	public void SetSubject(GameObject newSubject)
 	{
 		this.subject = newSubject;
@@ -124,11 +152,18 @@ public class HexagonCellScript : MonoBehaviour
 		availableMove = false;
 	}
 
+	public void SetColor(Color color)
+	{
+		spriteAvailable.enabled = true;
+		spriteAvailable.color = color;
+	}
+
 	public void ClearSublject()
 	{
 		this.subject = null;
 		heroScript = null;
 		availableMove = true;
+		spriteAvailable.enabled = false;
 	}
 
 	public void ClickOnMe()
@@ -208,6 +243,12 @@ public class HexagonCellScript : MonoBehaviour
 		dist = 100;
 		previousCell = null;
 		checkNext = false;
+	}
+
+	private void OnEndMatch()
+	{
+		observerClick = null;
+		observerAchivableMove = null;
 	}
 
 	

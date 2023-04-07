@@ -15,7 +15,7 @@ public class TavernScript : Building{
 	private Resource simpleHireCost = new Resource(TypeResource.SimpleHireCard, 1, 0);
 	private Resource specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
 
-	public List<InfoHero> GetListHeroes{get => listHeroes;} 
+	public List<InfoHero> GetListHeroes => listHeroes; 
 	public static TavernScript Instance{get; private set;}
 
 	void Awake()
@@ -144,7 +144,7 @@ public class TavernScript : Building{
 
 	private void OnSpecialHire(int amount)
 	{
-		if(observerSpecialHire != null) 
+		if(observerSpecialHire != null)
 			observerSpecialHire(new BigDigit(amount));
 	}	
 

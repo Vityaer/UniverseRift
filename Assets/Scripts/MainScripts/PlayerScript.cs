@@ -82,6 +82,7 @@ public class PlayerScript : MonoBehaviour{
 		PlayerScript.Instance.AddResource(reward.GetListResource);
 		InventoryControllerScript.Instance.AddItems(reward.GetItems);
 		InventoryControllerScript.Instance.AddSplinters(reward.GetSplinters);
+		Debug.Log("Add reward");
 		UpdateAllResource();
 	}
 
@@ -133,18 +134,24 @@ public class PlayerScript : MonoBehaviour{
 	}
 
 	List<ObserverResource> observersResource = new List<ObserverResource>();
-	public void UpdateAllResource(){
+
+	public void UpdateAllResource()
+	{
 		UpdateResource(player.PlayerGame.StoreResources);
 	}
-	public void UpdateResource(ListResource listResources){
+
+	public void UpdateResource(ListResource listResources)
+	{
 		ObserverResource workObserver = null;
-		foreach(Resource res in listResources.List){
+		foreach(Resource res in listResources.List)
+		{
 			workObserver = observersResource.Find(x => x.typeResource == res.Name);
 			workObserver?.ChangeResource(player.PlayerGame.StoreResources.GetResource(res.Name));
 		}
 	}
 
-	public void RegisterOnChangeResource(Action<Resource> d, TypeResource type){
+	public void RegisterOnChangeResource(Action<Resource> d, TypeResource type)
+	{
 		bool findObserver = false;
 		ObserverResource observer = new ObserverResource(TypeResource.Gold);
 		foreach(ObserverResource obs in observersResource){
@@ -160,6 +167,7 @@ public class PlayerScript : MonoBehaviour{
 		}	
 		observer.RegisterOnChangeResource(d);
 	}
+
 	public void UnRegisterOnChangeResource(Action<Resource> d, TypeResource type){
 		foreach(ObserverResource obs in observersResource){
 			if(obs.typeResource == type){

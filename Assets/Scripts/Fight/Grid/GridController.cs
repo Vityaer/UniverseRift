@@ -63,6 +63,7 @@ namespace Fight.Grid
             FightControllerScript.Instance.RegisterOnStartFight(StartFight);
             FightControllerScript.Instance.RegisterOnFinishFight(FinishFight);
             _grid = GridSpawner.CreateGrid();
+            CloseGrid();
         }
 
         private void OnDestroy()

@@ -103,10 +103,57 @@ public partial class HeroControllerScript : MonoBehaviour
 		EndTurn();
 	}
 
+	private void ShowHeroesPlaceInteractive()
+ 	{
+ 		foreach(var warrior in FightControllerScript.Instance.GetLeftTeam)
+ 		{
+ 			Color color;
+ 			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
+ 			{
+ 				color = Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
+ 			}
+ 			else
+ 			{
+				color = Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
+ 			}
+ 			warrior.Cell.SetColor(color);
+ 		}
 
+ 		foreach(var warrior in FightControllerScript.Instance.GetRightTeam)
+ 		{
+ 			Color color = Color.red;
+ 			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
+ 			{
+ 				color = Costants.Colors.ACHIEVABLE_ENEMY_CELL_COLOR;
+ 			}
+ 			else
+ 			{
+ 				color = Costants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR;
+ 			}
+ 			warrior.Cell.SetColor(color);
+ 		}
+ 	}
+
+ 	private void SetMyPlaceColor()
+ 	{
+ 		if(side == Side.Left)
+ 		{
+ 			myPlace.SetColor(Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR);
+ 		}
+ 		else
+ 		{
+ 			myPlace.SetColor(Costants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR);
+ 		}
+ 	}
+
+ 	private bool CanShoot()
+ 	{
+ 		return (hero.characts.baseCharacteristic.Mellee == true) || (!hero.characts.baseCharacteristic.Mellee && myPlace.MyEnemyNear(this.side) );
+ 	}
 
 	[ContextMenu("Add 100 stamina")]
-	private void AddBonus100Stamina(){
+	private void AddBonus100Stamina()
+	{
 		statusState.ChangeStamina(100);
 	}
 }

@@ -33,6 +33,11 @@ public class HeroPanel : Building
 	public CostUIListScript costController;
 	public CostLevelUp costLevelObject;
 
+	[Header("Details")]
+	[SerializeField] private HeroDetailsPanel _heroDetailsPanel;
+	public Button btnOpenHeroDetails;
+	public Button btnCloseHeroDetails;
+	
     public Action LeftButtonClick;
     public Action RightButtonClick;
 
@@ -43,6 +48,8 @@ public class HeroPanel : Building
         btnToLeft.onClick.AddListener(() => LeftButtonClick());
         btnToRight.onClick.AddListener(() => RightButtonClick());
         btnLevelUP.onClick.AddListener(() => LevelUp());
+        btnOpenHeroDetails.onClick.AddListener(() => _heroDetailsPanel.Open());
+        btnCloseHeroDetails.onClick.AddListener(() => _heroDetailsPanel.Close());
     }
 
     public void ShowHero(InfoHero hero)
@@ -75,6 +82,7 @@ public class HeroPanel : Building
 		_hero.PrepareSkillLocalization();
 		skillController.ShowSkills(_hero.skills);
 		costController.ShowCosts( costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level) );
+		// _heroDetailsPanel.ShowDetails(_hero);
 	}
 
 	private void CheckResourceForLevelUP()

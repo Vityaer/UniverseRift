@@ -8,34 +8,46 @@ public class ItemSliderControllerScript : MonoBehaviour{
 	public Slider slider;
 	public TextMeshProUGUI textSlider;
 
-    void Awake(){
+    void Awake()
+    {
     	if(slider == null) GetComponents();
     }
 
-    public void SetAmount(int currentAmount, int maxAmount){
+    public void SetAmount(int currentAmount, int maxAmount)
+    {
     	if(slider == null) GetComponents();
         slider.maxValue = maxAmount; 
         slider.value = currentAmount;
 		textSlider.text = FunctionHelp.AmountFromRequireCount(currentAmount, maxAmount);
     	Show();
     }
-    public void SetAmount(BigDigit currentAmount, BigDigit maxAmount){
+
+    public void SetAmount(BigDigit currentAmount, BigDigit maxAmount)
+    {
     	if(slider == null) GetComponents();
         slider.maxValue = 1f;
         slider.value = (currentAmount/maxAmount).ToFloat();
         textSlider.text = FunctionHelp.AmountFromRequireCount(currentAmount, maxAmount);
         Show();
     }
-    public void SetAmount(Resource currentResource, Resource maxResource){
+
+    public void SetAmount(Resource currentResource, Resource maxResource)
+    {
         SetAmount(currentResource.Amount, maxResource.Amount);
     }
-    void GetComponents(){
+
+    void GetComponents()
+    {
         slider = GetComponent<Slider>();
     }
-    public void Hide(){
+
+    public void Hide()
+    {
     	gameObject.SetActive(false);
     }
-    void Show(){
+
+    void Show()
+    {
     	gameObject.SetActive(true);
     } 
 }

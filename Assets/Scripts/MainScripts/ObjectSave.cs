@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace ObjectSave{
+namespace ObjectSave
+{
 	[System.Serializable]
-	public class HeroSave{
+	public class HeroSave
+	{
 		public int ID;
 		public int IDFromServer = 0; 
 		public string name;
 		public int level;
 		public CostumeSave costume = new CostumeSave();
-		public void NewData(InfoHero hero){
+
+		public void NewData(InfoHero hero)
+		{
 			name = hero.generalInfo.Name; 
 			ID = hero.generalInfo.idHero;
 			level = hero.generalInfo.Level;
 			costume.NewData(hero.CostumeHero);
 		}
 	}
+
 	[System.Serializable]
 	public class CostumeSave{
 		public List<int> listID = new List<int>();

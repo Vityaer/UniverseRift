@@ -14,51 +14,68 @@ public class CellItemHeroScript : MonoBehaviour{
 
 	private Item item;
 
-	void Awake(){
+	void Awake()
+	{
 		image = GetComponent<Image>();
 	} 
-	void Start(){
-		if(item?.Image != null) {SetBonus(); }else{ DefaulfView();}
+
+	void Start()
+	{
+		DefaulfView();
 	}
 
 
-	public void DefaulfView(){
-		item = null;
+	public void DefaulfView()
+	{
 		image.sprite = defaultSprite;
 		ratingController?.ShowRating(0);
 	} 
-	private void SetBonus(){
+
+	private void SetBonus()
+	{
 		TrainCampScript.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
 		TrainCampScript.Instance.heroPanel.UpdateTextAboutHero();
 		UpdateUI();
 	}
 
-	private void UpdateUI(){
+	private void UpdateUI()
+	{
 		image.sprite =  item.Image;
 		image.color  = new Color(255, 255, 255, 1); 
 		ratingController?.ShowRating(item.Rating);
 	}
 //API
-	public void Clear(){
+	public void Clear()
+	{
+		Debug.Log("clear");
 		item = null;
 		DefaulfView();
 	}
-	public void SetItem(Item newItem){
-		if(item != null) {
+
+	public void SetItem(Item newItem)
+	{
+		if(item != null) 
+		{
+		Debug.Log("set item");
 			InventoryControllerScript.Instance.AddItem(item);
 			TrainCampScript.Instance.TakeOff(item);
+			TrainCampScript.Instance.heroPanel.UpdateTextAboutHero();
 		}
-		if(newItem != null){
-			if(newItem.Type == typeCell){
-				item = newItem;
-			}
-		}else{
-			item = null;
+
+		item = newItem;
+
+		if(item != null)
+		{
+			SetBonus();
 		}
-		if(newItem != null) {SetBonus(); }else{ DefaulfView();}
+		else
+		{ 
+			DefaulfView();
+		}
 	}
 
-	public void ClickOnCell(){
+	public void ClickOnCell()
+	{
 		if(item != null) {
 			InventoryControllerScript.Instance.OpenInfoItem(item, typeCell, this);
 		}else{

@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
-public class MinesScript : Building{
+public class MinesScript : Building
+{
 	public List<PlaceForMineScript> minePlaces = new List<PlaceForMineScript>();
 	public List<MineControllerScript> buildings = new List<MineControllerScript>();
+
 	[Header("Panels")]
 	public PanelInfoMine panelMineInfo;
 	public PanelForCreateMine panelNewMineCreate;
+
 	[Header("Data")]
 	[SerializeField] private List<DataAboutMines> listDataMines = new List<DataAboutMines>();
 	
-	public DataAboutMines GetDataMineFromType(TypeMine type){ return listDataMines.Find(x => x.type == type); }
-	protected override void Start(){
-		PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
-	}
-	List<MineSave> saveMines = new List<MineSave>();
-	protected override void OnLoadGame(){
+	private List<MineSave> saveMines = new List<MineSave>();
+	
+	private static MinesScript instance;
+	public static MinesScript Instance{get => instance;}
+
+	void Awake(){ if(instance == null) {instance = this;}else{Debug.Log("instance twice");} }
+
+	protected override void OnLoadGame()
+	{
 		saveMines = PlayerScript.GetPlayerGame.GetMines;
 		PlaceForMineScript place = null;
 		MineControllerScript mineController = null;
@@ -35,19 +41,29 @@ public class MinesScript : Building{
 			}		
 		}
 	}
-	public void CreateNewMine(PlaceForMineScript place, DataAboutMines data){
+
+	public void CreateNewMine(PlaceForMineScript place, DataAboutMines data)
+	{
 		data.AddMine();
 		MineControllerScript mineController = Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineControllerScript>();
 		place.mineController = mineController;
 		MineSave mine = new MineSave(place.ID, data.type);
 		mineController.CreateMine(mine);
 	}
-	public CostLevelUp GetCostUpdateMine(TypeMine type){ return listDataMines.Find(x => x.type == type).ResourceOnLevelUP; }
-	private static MinesScript instance;
-	public static MinesScript Instance{get => instance;}
-	void Awake(){ if(instance == null) {instance = this;}else{Debug.Log("instance twice");} }
 
-	public static TypeMine GetTypeMineFromTypeResource(TypeResource typeResource){
+	public DataAboutMines GetDataMineFromType(TypeMine type)
+	{
+		return listDataMines.Find(x => x.type == type);
+	}
+
+	public CostLevelUp GetCostUpdateMine(TypeMine type)
+	{
+		return listDataMines.Find(x => x.type == type).ResourceOnLevelUP;
+	}
+
+
+	public static TypeMine GetTypeMineFromTypeResource(TypeResource typeResource)
+	{
 		TypeMine result = TypeMine.Gold;
 		switch(typeResource){
 			case TypeResource.Gold:
@@ -62,7 +78,9 @@ public class MinesScript : Building{
 		} 
 		return result; 
 	}
-	public static TypeResource GetTypeResourceFromTypeMine(TypeMine typeMine){
+
+	public static TypeResource GetTypeResourceFromTypeMine(TypeMine typeMine)
+	{
 		TypeResource result = TypeResource.Gold;
 		switch(typeMine){
 			case TypeMine.Gold:
@@ -76,9 +94,9 @@ public class MinesScript : Building{
 				break;		
 		} 
 		return result; 
-
 	}
 }
+
 [System.Serializable]
 public class DataAboutMines{
 	public TypeMine type;

@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
-public class RequirementMenuScript : Building{
+public class RequirementMenuScript : Building
+{
 	[SerializeField] private Transform  taskboard;
 	[SerializeField] private GameObject prefabRequirement;
 	[SerializeField] protected List<Requirement> listRequirement = new List<Requirement>(); 
-	[SerializeField] protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
+	public MyScrollRect scrollRectController;
+	protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
 
 	protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
-	List<RequirementSave> RequirementSaves = new List<RequirementSave>();
-	public MyScrollRect scrollRectController;
+	private List<RequirementSave> RequirementSaves = new List<RequirementSave>();
 
 	protected override void OnLoadGame()
 	{
@@ -39,7 +40,8 @@ public class RequirementMenuScript : Building{
 	protected void CreateRequrements()
 	{
 		RequirementUI currentTask = null;
-		foreach(Requirement task in listRequirement){
+		foreach(Requirement task in listRequirement)
+		{
 			currentTask = GetRequirementUI();
 			currentTask.SetData(task as Requirement);
 			currentTask.RegisterOnChange(SaveData);
@@ -51,8 +53,7 @@ public class RequirementMenuScript : Building{
 
 	private RequirementUI GetRequirementUI()
 	{
-		RequirementUI result = requirementControllers.Find(x => x.IsEmpty);
-		result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
+		RequirementUI result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
 		requirementControllers.Add(result);
 		return result;
 	}

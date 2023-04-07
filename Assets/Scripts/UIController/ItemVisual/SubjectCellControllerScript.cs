@@ -7,10 +7,22 @@ public class SubjectCellControllerScript : MonoBehaviour{
 
 	[Header("Info")]
 	public ThingUIScript UIItem;
+
 	private VisualAPI visual;
 	private Resource res;
 	private ItemController item;
 	private SplinterController splinter;
+	private BaseObject _subject;
+	
+	private void Start()
+	{
+		UIItem.SubjectButton?.onClick.AddListener(OpenDetail);
+	}
+
+	private void OpenDetail()
+	{
+		PanelInfoItemScript.Instance.OpenInfo(_subject);
+	}
 
 	private void SetVisual(VisualAPI visual)
 	{
@@ -30,27 +42,28 @@ public class SubjectCellControllerScript : MonoBehaviour{
 		CheckCell();
 		SetVisual(res.GetVisual());
 		this.res = res;
+		_subject = res;
  		res.SetUI(UIItem);
 	}
 
-	public void SetItem(ItemController item)
+	public void SetItem(ItemController itemController)
 	{
 		CheckCell();
-		if(item != null) 
-		{
-			SetVisual(item.GetVisual());
-			this.item = item;
-			item.SetUI(UIItem);
-		}
+		SetVisual(itemController.GetVisual());
+		this.item = itemController;
+		_subject = itemController.item;
+		itemController.SetUI(UIItem);
 	}
 
-	public void SetItem(SplinterController splinter)
+	public void SetItem(SplinterController splinterController)
 	{
 		CheckCell();
-		SetVisual(splinter.GetVisual());
-		this.splinter = splinter;
-		splinter.SetUI(UIItem);
+		SetVisual(splinterController.GetVisual());
+		this.splinter = splinterController;
+		_subject = splinterController.splinter;
+		splinterController.SetUI(UIItem);
 	}
+
 	public void SetItem(Item item)
 	{
 		CheckCell();

@@ -114,7 +114,7 @@ public class Resistance : ICloneable{
 	public float FreezingResistance;
 	public float AstralResistance;
 	public float DumbResistance;
-	public float silinceResistance;
+	public float SilinceResistance;
 	public float EfficiencyHeal = 1f;
 	public object Clone(){
         return new Resistance  { 	MagicResistance = this.MagicResistance,
@@ -125,7 +125,7 @@ public class Resistance : ICloneable{
         							 	PetrificationResistance = this.PetrificationResistance,
         							 	FreezingResistance = this.FreezingResistance,
         							 	AstralResistance = this.AstralResistance,
-        							 	silinceResistance = this.silinceResistance,
+        							 	SilinceResistance = this.SilinceResistance,
         							 	DumbResistance = this.DumbResistance
         							};				
     }
@@ -223,7 +223,7 @@ public enum TypeCharacteristic{
 	FreezingResistance,
 	AstralResistance,
 	DumbResistance,
-	silinceResistance,
+	SilinceResistance,
 	EfficiencyHeal,
 	Speed,
 	CountTargetForSimpleAttack,

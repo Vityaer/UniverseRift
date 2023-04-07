@@ -25,9 +25,7 @@ namespace IdleGame.AdvancedObservers{
 		}
 		public void OnAction(int ID, int rating){
 			Observer work = GetObserver(ID, rating); 
-			if(work != null){
-				work.DoAction();
-			}
+			work?.DoAction();
 		}
 		private Observer GetObserver(int ID, int rating){
 			return observers.Find(x => (x.rating == rating) && (x.ID == ID));

@@ -68,7 +68,7 @@ public class Item : PlayerObject, VisualAPI
 
 	private string GetText(float bonus, string who)
 	{
-		string result = "";
+		string result = string.Empty;
 		result = string.Concat(result, (bonus > 0) ? "<color=green>+" : "<color=red>", Math.Round(bonus, 1).ToString(), "</color> ", who,"\n");
 		return result;
 	}

@@ -18,14 +18,15 @@ public class Skill{
 
 	public  string Name{get => skillLocalization != null? skillLocalization.name : name; set => name = value;}
 	public string Description{get => skillLocalization != null? GetDescription(skillLocalization.description) : description;}
+	public int Level{get => level;}
 	
-	public Skill(){
+	public Skill()
+	{
 		image = null;
 		isActive = false;
 		effects = new List<Effect>();
 	}
 
-	public int Level{get => level;}
 	public void GetSkill(int currentBreakthrough){
 		for(int i = Skill_Level.Count - 1; i >= 0; i--){
 			if(Skill_Level[i].requireNumBreakthrough <= currentBreakthrough){
@@ -36,7 +37,8 @@ public class Skill{
 		}
 	}
 
-	public void GetSkillInfo(int currentBreakthrough){
+	public void GetSkillInfo(int currentBreakthrough)
+	{
 		GetSkill(currentBreakthrough);
 		if(level == -1){
 			effects = Skill_Level[ 0 ].effects;
@@ -45,7 +47,8 @@ public class Skill{
 	}
 
 //API
-	public void CreateSkill(HeroControllerScript master, int currentBreakthrough = 0){
+	public void CreateSkill(HeroControllerScript master, int currentBreakthrough = 0)
+	{
 		GetSkill(currentBreakthrough);
 		foreach (Effect effect in effects){
 			effect.CreateEffect(master);
@@ -55,22 +58,26 @@ public class Skill{
 		}
 	}
 
-	public void GetStartListForSpell(List<HeroControllerScript> listTarget){
+	public void GetStartListForSpell(List<HeroControllerScript> listTarget)
+	{
 		if(effects.Count > 0)
 			if(effects[0].listAction.Count > 0)
 				effects[0].listAction[0].GetListForSpell(listTarget);
 	}
 
 //Info API	
-	public void GetInfoAboutSkill(HeroLocalization localization){
+	public void GetInfoAboutSkill(HeroLocalization localization)
+	{
 		skillLocalization = localization.GetDescriptionSkill(ID, level);
 	}
 
-	public string GetDescription(string description){
+	public string GetDescription(string description)
+	{
 		string strForReplace = ""; 
 		if(effects.Count == 0) Debug.Log(string.Concat(Name, " not founed effects"));
 		if(effects.Count == 1){
-			for(int i=0; i < effects[0].listAction.Count; i++){
+			for(int i=0; i < effects[0].listAction.Count; i++)
+			{
 				strForReplace = string.Concat("{Action", (i+1).ToString());
 				description = description.Replace(string.Concat(strForReplace, ".Count}"), effects[0].listAction[i].countTarget.ToString());
 				description = description.Replace(string.Concat(strForReplace, ".Amount}"), effects[0].listAction[i].amount.ToString());

@@ -13,15 +13,9 @@ public class MarketProductScript : MonoBehaviour
 	
 	public ButtonCostScript buttonCost;
 	public SubjectCellControllerScript cellProduct;
-	public Button ProductButton;
 	private BaseObject _subject;
 
 	private Action<int, int> callback = null;
-
-	private void Awake()
-	{
-		ProductButton.onClick.AddListener(ShowDetails);
-	}
 
 	public void SetData(MarketProduct<Resource> product, Action<int, int> callback)
 	{
@@ -82,13 +76,6 @@ public class MarketProductScript : MonoBehaviour
 		UpdateUI();
 		if(callback != null)
 			callback(marketProduct.ID, marketProduct.CountLeftProduct);
-	}
-
-	public void ShowDetails()
-	{
-		Debug.Log(PanelInfoItemScript.Instance == null);
-		Debug.Log(_subject == null);
-		PanelInfoItemScript.Instance.OpenInfo(_subject);
 	}
 
 	public void Hide()

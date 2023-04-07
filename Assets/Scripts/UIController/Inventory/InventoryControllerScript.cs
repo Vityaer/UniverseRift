@@ -20,6 +20,7 @@ public class InventoryControllerScript : MonoBehaviour{
 
 	private Inventory inventory = new Inventory();
 	private List<VisualAPI> listForVisual = new List<VisualAPI>();
+	SplinterController selectSplinter;
 
 	[SerializeField]private List<SubjectCellControllerScript> cells = new List<SubjectCellControllerScript>();
 	private static InventoryControllerScript instance;
@@ -108,38 +109,52 @@ public class InventoryControllerScript : MonoBehaviour{
 		}
 		CloseAll();
 	}
-	public void DropItem(){
+
+	public void DropItem()
+	{
 		panelInfoItem.Close();
 		inventory.items.Remove(selectItem);
 		inventory.GetAll(listForVisual);
 		FillGrid(listForVisual);
 	}
-	public void DropSplinter(SplinterController splinter){
+
+	public void DropSplinter(SplinterController splinter)
+	{
 		panelInfoItem.Close();
 		inventory.splinters.Remove(splinter);
 		inventory.GetAll(listForVisual);
 		FillGrid(listForVisual);
 	}
-	public void Open(){
+
+	public void Open()
+	{
 		OpenAllItem();
 		canvasInventory.enabled = true;
 		panelInventory.SetActive(true);
 		isOpenInventory = true;
 	}
-	public void OpenAllItem(){
+
+	public void OpenAllItem()
+	{
 		inventory.GetAll(listForVisual);
 		FillGrid(listForVisual);
 		panelController.SetActive(true);
 	}
-	public void Refresh(){
+
+	public void Refresh()
+	{
 		inventory.GetAll(listForVisual);
 		FillGrid(listForVisual);
 	}
-	public void Open(string str){
+
+	public void Open(string str)
+	{
 		TypeItem curType = (TypeItem) Enum.Parse(typeof(TypeItem), str); 
 		Open(curType, cellItem: null);
 	}
-	public void Open(TypeItem typeItems, CellItemHeroScript cellItem = null){
+
+	public void Open(TypeItem typeItems, CellItemHeroScript cellItem = null)
+	{
 		this.cellItem = cellItem;
 		inventory.GetItemAtType(typeItems, listForVisual);
 		FillGrid(listForVisual);
@@ -148,27 +163,41 @@ public class InventoryControllerScript : MonoBehaviour{
 		panelInventory.SetActive(true);
 		isOpenInventory = true;
 	}
-	public void OpenInfoItem(ItemController itemController){
+
+	public void OpenInfoItem(ItemController itemController)
+	{
 		selectItem = itemController;
 		panelInfoItem.OpenInfoAboutItem(itemController.item, this.cellItem);
 	}
-	public void OpenInfoItem(Item item){
+
+	public void OpenInfoItem(Item item)
+	{
 		panelInfoItem.OpenInfoAboutItem(item, this.cellItem);
 	}
-	public void OpenInfoItem(Resource res){
+
+	public void OpenInfoItem(Resource res)
+	{
 		panelInfoItem.OpenInfoAboutItem(res);
 	}
-	public void OpenInfoItem(Item item, TypeItem typeItems, CellItemHeroScript cellItem){
+
+	public void OpenInfoItem(Item item, TypeItem typeItems, CellItemHeroScript cellItem)
+	{
 		// canvasInventory.enabled = true;
 		this.cellItem = cellItem;
 		panelInfoItem.OpenInfoAboutItem(item, this.cellItem, onHero: true);
 	}
-	SplinterController selectSplinter;
-	public void OpenInfoItem(Splinter splinter){ OpenInfoItem(new SplinterController(splinter), withControl : false); }
-	public void OpenInfoItem(SplinterController splinterController, bool withControl){
+
+	public void OpenInfoItem(Splinter splinter)
+	{
+		OpenInfoItem(new SplinterController(splinter), withControl : false);
+	}
+
+	public void OpenInfoItem(SplinterController splinterController, bool withControl)
+	{
 		selectSplinter = splinterController;
 		panelInfoSplinter.OpenInfoAboutSplinter(splinterController, withControl);
 	}
+
 	[ContextMenu("Close")]
 	public void Close(){
 		panelInfoItem.Close();
@@ -180,28 +209,36 @@ public class InventoryControllerScript : MonoBehaviour{
 		canvasInventory.enabled = false;
 		cellItem = null;
 	}
-	public void CloseAll(){
+
+	public void CloseAll()
+	{
 		panelInfoItem.Close();
 		panelInventory.SetActive(false);
 		isOpenInventory = false;
 		canvasInventory.enabled = false;
 	}
 
-	void Start(){
+	void Start()
+	{
 		LoadInformation();
 		inventory.RegisterOnChange(Refresh);
 	}
 
-	void OnApplicationPause(bool pauseStatus){
+	void OnApplicationPause(bool pauseStatus)
+	{
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		SaveLoadControllerScript.SaveInventory(inventory);
 		#endif
 	}
-	void OnDestroy(){
+
+	void OnDestroy()
+	{
 		SaveLoadControllerScript.SaveInventory(inventory);
 		inventory.UnregisterOnChange(Refresh);
 	}
-	void LoadInformation(){
+
+	void LoadInformation()
+	{
 		inventory = SaveLoadControllerScript.LoadInventory();
 	}
 }

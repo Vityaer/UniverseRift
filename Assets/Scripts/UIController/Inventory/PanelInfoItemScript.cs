@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class PanelInfoItemScript : MonoBehaviour
 {
-	private static PanelInfoItemScript _instance;
-	public static PanelInfoItemScript Instance => _instance;
+	public static PanelInfoItemScript Instance{get; private set;}
 
    	[Header("PanelInfo Item")]
 	public GameObject panelInfoItem;
@@ -14,16 +13,23 @@ public class PanelInfoItemScript : MonoBehaviour
 	public TextMeshProUGUI textNameItem, textTypeItem, textGeneralInfo, textAddactiveInfo;
 	private bool isOpenInfoPanel = false;
 	private Item selectItem = null;
+
 	[Header("Controllers")]
 	public GameObject btnAction;
 	public GameObject btnOpenInventory, btnDrop, btnClose; 
 	public TextMeshProUGUI textButtonAction, textButtonDrop;
+
+	[Header("Panels")]
+	public GameObject PanelCharacteristics;
+	public GameObject PanelCostume;
+	public GameObject PanelController;
+
 	private Button componentButtonAction, componentButtonDrop, buttonSwapItems;
 	private CellItemHeroScript cellItem; 
 
 	void Awake()
 	{
-		_instance = this;
+		Instance = this;
 		GetComponents();
 	}
 
@@ -42,6 +48,11 @@ public class PanelInfoItemScript : MonoBehaviour
 		this.cellItem = cellItem;
 		btnOpenInventory.SetActive(onHero);
 		btnAction.SetActive( cellItem != null );
+		btnDrop.SetActive(true);
+
+		PanelCharacteristics.SetActive(true);
+		PanelCostume.SetActive(true);
+		PanelController.SetActive(true);
 
 		if(onHero == false)
 		{
@@ -88,6 +99,10 @@ public class PanelInfoItemScript : MonoBehaviour
 	public void OpenInfo(BaseObject subject)
 	{
 		UpdateUIInfo(subject.Image, subject.GetName());
+		PanelCharacteristics.SetActive(false);
+		PanelCostume.SetActive(false);
+		PanelController.SetActive(false);
+		OpenPanel();
 	}
 
 	void UpdateUIInfo(Sprite image, string name, string type = "", string generalInfo = "", string addactInfo = "")

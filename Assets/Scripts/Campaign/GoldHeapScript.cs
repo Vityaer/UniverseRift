@@ -43,7 +43,6 @@ public class GoldHeapScript : MonoBehaviour{
 	public void GetReward()
 	{
 		CalculateReward();
-		PlayerScript.Instance.AddReward(calculatedReward);
 		previousDateTime = Client.Instance.GetServerTime();
 		CampaignScript.Instance.SaveAutoFight(previousDateTime);
 		OffGoldHeap();

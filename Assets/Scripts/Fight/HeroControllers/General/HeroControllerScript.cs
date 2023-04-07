@@ -87,6 +87,8 @@ public partial class HeroControllerScript : MonoBehaviour
 			this,
 			playerCanController: !AIController.Instance.CheckMeOnSubmission(side)
 		);
+		if(!AIController.Instance.CheckMeOnSubmission(side))
+			ShowHeroesPlaceInteractive();
 	}
 
 	protected virtual void WaitingSelectTarget()
@@ -94,14 +96,16 @@ public partial class HeroControllerScript : MonoBehaviour
 		HexagonCellScript.RegisterOnClick(SelectHexagonCell);
 	}
 	
-	public virtual void SelectHexagonCell(HexagonCellScript cell){
+	public virtual void SelectHexagonCell(HexagonCellScript cell)
+	{
 		if(cell.CanStand){
 			StartMelleeAttackOtherHero(cell, null);
 		}else{
 			if(cell.Hero != null){
 				if(CanAttackHero(cell.Hero) ){
 					selectHero = cell.Hero;
-					if((hero.characts.baseCharacteristic.Mellee == true)){
+					if(CanShoot()) 
+					{
 						if(cell.GetCanAttackCell){
 							cell.RegisterOnSelectDirection(SelectDirectionAttack);
 							HexagonCellScript.UnregisterOnClick(SelectHexagonCell);	
@@ -188,6 +192,7 @@ public partial class HeroControllerScript : MonoBehaviour
 	        myPlace = currentCell;
 	        myPlace.SetHero(this);
 		}
+		SetMyPlaceColor();
 	}
 
 	protected virtual IEnumerator IAttack(HeroControllerScript otherHero, int bonusStamina = 30)
@@ -267,28 +272,34 @@ public partial class HeroControllerScript : MonoBehaviour
 
 	}
 
-	protected void HitCount(){
+	protected void HitCount()
+	{
 		hitCount += 1;
 	}
 	
-	protected virtual void DoSpell(){
+	protected virtual void DoSpell()
+	{
 		statusState.ChangeStamina(-100);
 		OnSpell(listTarget);
 		EndTurn();
 	} 	
 //Brain hero 
 	
- 	protected virtual void ChooseEnemies(List<HeroControllerScript> listTarget, int countTarget){
+ 	protected virtual void ChooseEnemies(List<HeroControllerScript> listTarget, int countTarget)
+ 	{
  		listTarget.Clear();
- 		if(countTarget == 0){
+ 		if(countTarget == 0)
+ 		{
  			countTarget = 1;
  			hero.characts.CountTargetForSimpleAttack = 1;
  		}
  		FightControllerScript.Instance.ChooseEnemies(side, countTarget, listTarget);
 
  	}
+
 //End action 	
- 	protected void ClearAction(){
+ 	protected void ClearAction()
+ 	{
  		OnEndSelectCell();
 		outlineController.SwitchOff();
  	}
@@ -365,12 +376,12 @@ public partial class HeroControllerScript : MonoBehaviour
 		enemy.GetDamage(new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike));
 	} 
 //Event
-		public void GetListForSpell(List<HeroControllerScript> listTarget)
-		{
-			statusState.ChangeStamina(-100);
-			if(delsOnListSpell != null)
-				delsOnListSpell(listTarget);
-		}
+	public void GetListForSpell(List<HeroControllerScript> listTarget)
+	{
+		statusState.ChangeStamina(-100);
+		if(delsOnListSpell != null)
+			delsOnListSpell(listTarget);
+	}
 		
 	protected void AddFightRecordActionMe()
 	{

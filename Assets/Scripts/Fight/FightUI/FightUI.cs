@@ -42,12 +42,15 @@ public class FightUI : MonoBehaviour{
 			FightControllerScript.Instance.GetCurrentHero().StartDefend();
 		}
 	}
-	public void UseSpell(){
+
+	public void UseSpell()
+	{
 		FightControllerScript.Instance.GetCurrentHero().UseSpecialSpell();
 	}
 
 //API
-	public void OpenControllers(HeroControllerScript heroController){
+	public void OpenControllers(HeroControllerScript heroController)
+	{
 		this.heroController = heroController;
 		panelControllers.gameObject.SetActive(true);
 		HeroControllerScript.RegisterOnEndAction(ClearController);
@@ -57,20 +60,28 @@ public class FightUI : MonoBehaviour{
 		HeroChangeStamina(heroController.Stamina);
 
 	}
-	private void HeroChangeStamina(int stamina){
+
+	private void HeroChangeStamina(int stamina)
+	{
+		Debug.Log($"HeroChangeStamina: {stamina}");
 		btnSpell.interactable = (stamina == 100);
 	}
-	public void CloseControllers(){
+
+	public void CloseControllers()
+	{
 		panelControllers.gameObject.SetActive(false);
 	}	
 
-	private void ClearController(){
+	private void ClearController()
+	{
 		HeroControllerScript.UnregisterOnEndAction(ClearController);
 		heroController?.statusState?.UnregisterOnChangeStamina(HeroChangeStamina);
 		heroController = null;
 		btnSpell.interactable = false;
 	}
-	void ClearData(){
+
+	void ClearData()
+	{
 		listWaits.Clear();
 	}
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class MissionControllerScript : MonoBehaviour{
+public class MissionControllerScript : MonoBehaviour
+{
 	[Header("UI")]
 	public TextMeshProUGUI textNameMission;
 	public TextMeshProUGUI textAutoRewardGold, textAutoRewardExperience, textAutoRewardStone;
@@ -19,9 +20,9 @@ public class MissionControllerScript : MonoBehaviour{
 	public CampaignMission mission;
 	private int numMission;
 
-	
 //API
-	public void SetMission(CampaignMission mission, int numMission){
+	public void SetMission(CampaignMission mission, int numMission)
+	{
 		this.mission    = (CampaignMission) mission.Clone();
 		this.numMission = numMission; 
     	backgoundMission.sprite = LocationControllerScript.Instance.GetBackgroundForMission(this.mission.location);
@@ -29,10 +30,14 @@ public class MissionControllerScript : MonoBehaviour{
     	statusMission = StatusMission.NotOpen;
 		UpdateUI();
 	}
-	public void SetAutoFight(){
+
+	public void SetAutoFight()
+	{
 		AutoFightScript.Instance.SelectMissionAutoFight(this);
 	}
-	public void ClickOnMission(){
+
+	public void ClickOnMission()
+	{
 		if(statusMission != StatusMission.Complete){
 			if(statusMission == StatusMission.Open){
 				CampaignScript.Instance.SelectMission(this);
@@ -43,26 +48,33 @@ public class MissionControllerScript : MonoBehaviour{
 			}
 		}		
 	}
-	public void UpdateAutoRewardUI(){
+
+	public void UpdateAutoRewardUI()
+	{
 		if((statusMission == StatusMission.Complete) || (statusMission == StatusMission.InAutoFight)){
 			infoFotter.SetActive(true);
 			textAutoRewardGold.text       = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.Gold).ToString(), "/ 5sec");
 			textAutoRewardExperience.text = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.Exp).ToString(), "/ 5sec");
 			textAutoRewardStone.text      = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.ContinuumStone).ToString(), "/ 5sec");
 		}
-
 	}
-	public void StartAutoFight(){
+
+	public void StartAutoFight()
+	{
 		statusMission = StatusMission.InAutoFight;
 		imageAutoFight.SetActive(true);
 		btnGoFight.SetActive(false);
 	}
-	public void StopAutoFight(){
+
+	public void StopAutoFight()
+	{
 		statusMission = StatusMission.Complete;
 		imageAutoFight.SetActive(false);
 		btnGoFight.SetActive(true);
 	}
-	public void MissionWin(){
+
+	public void MissionWin()
+	{
 		statusMission = StatusMission.InAutoFight;
 		AutoFightScript.Instance.SelectMissionAutoFight(this);
 		UpdateAutoRewardUI();
@@ -70,17 +82,23 @@ public class MissionControllerScript : MonoBehaviour{
 		StartAutoFight();
 		CampaignScript.Instance.OpenNextMission();
 	}
-	public void CompletedMission(){
+
+	public void CompletedMission()
+	{
 		statusMission = StatusMission.Complete;
 		UpdateUI();
 		UpdateAutoRewardUI();
 	}
-	public void OpenMission(){
+
+	public void OpenMission()
+	{
 		statusMission = StatusMission.Open;
 		blockPanel.SetActive(false);
 		UpdateUI();
 	}
-    private void UpdateUI(){
+
+    private void UpdateUI()
+    {
     	switch(statusMission){
 			case StatusMission.NotOpen:    		
 				blockPanel.SetActive(true);

@@ -15,7 +15,8 @@ public class ObserverResourceScript : MonoBehaviour{
 	public Image imageResource;
 	public TextMeshProUGUI countResource;
 
-	void Start(){
+	void Start()
+	{
 		isMyabeBuy = MarketResourceScript.Instance.GetCanSellThisResource(typeResource);
 		resource             = new Resource(typeResource);
 		imageResource.sprite = resource.Image;
@@ -24,12 +25,14 @@ public class ObserverResourceScript : MonoBehaviour{
 		UpdateUI(PlayerScript.Instance.GetResource(typeResource));
 	}
 
-	public void UpdateUI(Resource res){
+	public void UpdateUI(Resource res)
+	{
 		resource = res;
 		countResource.text = resource.ToString();
 	}
 
-	public void OpenPanelForBuyResource(){
+	public void OpenPanelForBuyResource()
+	{
 		MarketProduct<Resource> product = null;
 		product = MarketResourceScript.Instance.GetProductFromTypeResource(resource.Name);
 		if(product != null)
@@ -38,7 +41,8 @@ public class ObserverResourceScript : MonoBehaviour{
 				);
 	}
 
-	void OnDestroy(){
+	void OnDestroy()
+	{
 		PlayerScript.Instance.UnRegisterOnChangeResource(UpdateUI, typeResource);
 	}
 }

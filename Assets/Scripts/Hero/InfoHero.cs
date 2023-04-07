@@ -37,6 +37,21 @@ public class InfoHero : ScriptableObject, ICloneable
 
 	public Sprite GetMainImage{get => generalInfo.ImageHero;}
 
+
+	public InfoHero()
+	{
+	}
+	
+	public InfoHero(HeroSave heroSave)
+	{
+		CopyData( TavernScript.Instance.GetListHeroes.Find(x => (x.generalInfo.idHero == heroSave.ID)) );
+		generalInfo.Name = heroSave.name;
+		LevelUP(heroSave.level - 1);
+		this.CostumeHero = new CostumeHeroControllerScript();
+		this.CostumeHero.SetData(heroSave.costume.listID);
+		Preparation();
+	}
+
 	private void CopyData(InfoHero Data){
 		this.generalInfo     = (GeneralInfoHero)Data.generalInfo.Clone();
 		this.incCharacts     = (IncreaseCharacteristics)Data.IncCharacts.Clone();
@@ -47,18 +62,14 @@ public class InfoHero : ScriptableObject, ICloneable
 		this.skills     = Data.skills;
 		this.Evolutions = Data.Evolutions;
 		this.CostumeHero = new CostumeHeroControllerScript();
+
+	}
+
+	public void Preparation()
+	{
 		GetSkills();
 		PrepareLocalization();
-	}
-	public InfoHero(HeroSave heroSave){
-		CopyData( TavernScript.Instance.GetListHeroes.Find(x => (x.generalInfo.idHero == heroSave.ID)) );
-		generalInfo.Name = heroSave.name;
-		LevelUP(heroSave.level - 1);
-		this.CostumeHero = new CostumeHeroControllerScript();
-		this.CostumeHero.SetData(heroSave.costume.listID);
-	}
-	public InfoHero(){}
-
+	} 
 //API
 	public void LevelUP(int count = 1){
 		for(int i = 0; i < count; i++){
@@ -109,7 +120,9 @@ public class InfoHero : ScriptableObject, ICloneable
 	}
 
 	public void PrepareSkillLocalization(){
-		if(localization == null) PrepareLocalization();
+		if(localization == null)
+			PrepareLocalization();
+			
 		if(localization != null)
 		{
 			foreach(Skill skill in skills)
@@ -133,7 +146,8 @@ public class InfoHero : ScriptableObject, ICloneable
 	}
 
 	public object Clone(){
-		return new InfoHero{
+
+		var copyHero = new InfoHero{
 			generalInfo = (GeneralInfoHero) this.generalInfo.Clone(),
 			characts = (Characteristics)this.characts.Clone(),
 			IncCharacts =(IncreaseCharacteristics) this.IncCharacts.Clone(),
@@ -144,5 +158,7 @@ public class InfoHero : ScriptableObject, ICloneable
 			Evolutions = this.Evolutions,
 			localization = this.localization
 		};
+		copyHero.Preparation();
+		return copyHero;
 	}
 }

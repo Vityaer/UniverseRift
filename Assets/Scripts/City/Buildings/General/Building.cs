@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine.UI;
 using System;
+
 public class Building : SerializedMonoBehaviour{
 
 	[SerializeField] protected GameObject building;

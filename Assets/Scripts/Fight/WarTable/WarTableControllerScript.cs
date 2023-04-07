@@ -4,19 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
-public class WarTableControllerScript : MonoBehaviour{
+public class WarTableControllerScript : MonoBehaviour
+{
+	public static WarTableControllerScript Instance{get; private set;}
+	
 	public List<WarriorPlaceScript>  leftTeam = new List<WarriorPlaceScript>();
 	public List<WarriorPlaceScript> rightTeam = new List<WarriorPlaceScript>();
 	public Canvas warTableCanvas;
 	public ListCardOnWarTableScript listCardPanel;
-	private Mission mission;
 
 	[Header("UI")]
 	public Button btnStartFight;
 	public TextMeshProUGUI textStrengthLeftTeam, textStrengthRightTeam;
-	
 
-	void Start(){
+	private Mission mission;
+	private Action<bool> observerOpenCloseMission;
+	
+	void Awake()
+	{
+		Instance = this;
+	}
+
+	void Start()
+	{
 		warTableCanvas = GetComponent<Canvas>();
 		listCardPanel.RegisterOnSelect(SelectCard);
 		listCardPanel.RegisterOnUnSelect(UnSelectCard);
@@ -24,10 +34,18 @@ public class WarTableControllerScript : MonoBehaviour{
 		textStrengthRightTeam.text = string.Empty;
 	}
 
-	public void SelectCard(CardScript card){ AddHero(card); }
-	public void UnSelectCard(CardScript card){ RemoveHero(card);}
+	public void SelectCard(CardScript card)
+	{
+		AddHero(card);
+	}
 
-	private bool AddHero(CardScript card){
+	public void UnSelectCard(CardScript card)
+	{
+		RemoveHero(card);
+	}
+
+	private bool AddHero(CardScript card)
+	{
 		bool success = false;
 		foreach (WarriorPlaceScript place in leftTeam){
 			if(place.IsEmpty()){
@@ -42,7 +60,8 @@ public class WarTableControllerScript : MonoBehaviour{
 
 	private void RemoveHero(CardScript card)
 	{
-		foreach(WarriorPlaceScript place in leftTeam){
+		foreach(WarriorPlaceScript place in leftTeam)
+		{
 			if(place.IsEmpty() == false){
 				if(place.card == card){
 					place.ClearPlace();
@@ -118,7 +137,6 @@ public class WarTableControllerScript : MonoBehaviour{
 				break;
 		}
 		btnStartFight.interactable = (leftTeam.FindAll(place => place.Hero != null).Count > 0);
-		Debug.Log(leftTeam.FindAll(place => place.Hero != null).Count);
 	}	
 //API
 	public void OpenMission(Mission mission, List<InfoHero> listHeroes)
@@ -130,6 +148,7 @@ public class WarTableControllerScript : MonoBehaviour{
 			rightTeam[i].SetEnemy(mission.listEnemy[i]);
 		}
 		UpdateStrengthTeam(rightTeam, textStrengthRightTeam);
+		UpdateStrengthTeam(leftTeam, textStrengthLeftTeam);
 		CheckTeam(rightTeam);
 		FillListHeroes(listHeroes);
 		Open();
@@ -146,42 +165,62 @@ public class WarTableControllerScript : MonoBehaviour{
 		FightControllerScript.Instance.RegisterOnFightResult(actionOnResultFight);
 		OpenMission(mission, PlayerScript.Instance.GetListHeroes);
 	}
-	public void ReturnBack(){
+
+	public void ReturnBack()
+	{
 		OnOpenMission(false);
 		ClearRightTeam();
 		ClearLeftTeam();
 		Close();
 	}
-	private void Close(){
+
+	private void Close()
+	{
 		listCardPanel.EventClose();
 		warTableCanvas.enabled = false;
 	}
-	public void Open(){
 
+	public void Open()
+	{
 		OnOpenMission(true);
 		MenuControllerScript.Instance.CloseMainPage();
 		warTableCanvas.enabled = true;
 		listCardPanel.EventOpen();
 	}
-	private void FillListHeroes(List<InfoHero> listHeroes){
+
+	private void FillListHeroes(List<InfoHero> listHeroes)
+	{
 		listCardPanel.Clear();
 		listCardPanel.SetList(listHeroes);
 	}
-	public void StartFight(){
+
+	public void StartFight()
+	{
 		Close();
 		FightControllerScript.Instance.SetMission(mission, leftTeam, rightTeam);
 	}
 
-	public void FinishMission(){Debug.Log("war table finish mission");OnOpenMission(isOpen: false);}
-	private Action<bool> observerOpenCloseMission;
-	public void RegisterOnOpenCloseMission(Action<bool> d){Debug.Log("war table register on close"); observerOpenCloseMission += d;}
-	public void UnregisterOnOpenCloseMission(Action<bool> d){ observerOpenCloseMission -= d;}
-	private void OnOpenMission(bool isOpen){
-		if(observerOpenCloseMission != null){
+	public void FinishMission()
+	{
+		OnOpenMission(isOpen: false);
+	}
+	public void RegisterOnOpenCloseMission(Action<bool> d)
+	{
+		observerOpenCloseMission += d;
+	}
+
+	public void UnregisterOnOpenCloseMission(Action<bool> d)
+	{
+		observerOpenCloseMission -= d;
+	}
+
+	private void OnOpenMission(bool isOpen)
+	{
+		if(observerOpenCloseMission != null)
+		{
 			observerOpenCloseMission(isOpen);
 		}
 	}
-	private static WarTableControllerScript instance;
-	public  static WarTableControllerScript Instance{get => instance;}
-	void Awake(){instance = this;}
+
+
 }

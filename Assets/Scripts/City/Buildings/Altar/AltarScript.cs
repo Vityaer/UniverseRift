@@ -2,32 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+
 namespace Altar
 {
 	public class AltarScript : BuildingWithHeroesList{
 
-		private List<CardScript> selectedHeroCards = new List<CardScript>();
 		[SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
+		[SerializeField] protected Button _musterOutButton;
 
-		void Start()
+		private List<CardScript> selectedHeroCards = new List<CardScript>();
+		
+		protected override void OnStart()
 		{
 			listHeroesController.RegisterOnSelect(SelectHero);
 			listHeroesController.RegisterOnUnSelect(UnselectHero);
+			_musterOutButton.onClick.AddListener(FiredHeroes);
 		}
 
-		protected override void OpenPage(){
+		protected override void OpenPage()
+		{
 			listHeroes = PlayerScript.Instance.GetListHeroes;
 			LoadListHeroes();
 			listHeroesController.EventOpen();
 		}
 
-		protected override void ClosePage(){
+		protected override void ClosePage()
+		{
 			for(int i=0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].UnSelected();
 			selectedHeroCards.Clear();
 			listHeroesController.EventClose();
 		}
 
-		public void FiredHeroes(){
+		public void FiredHeroes()
+		{
 			List<InfoHero> heroes = new List<InfoHero>();
 
 			OnDissamble(selectedHeroCards.Count);
@@ -46,7 +54,8 @@ namespace Altar
 			}
 		}
 
-		private void GetRewardFromHeroes(List<InfoHero> heroes){
+		private void GetRewardFromHeroes(List<InfoHero> heroes)
+		{
 			Reward reward = new Reward();
 			Resource currentResource = null;
 
@@ -65,12 +74,14 @@ namespace Altar
 			PlayerScript.Instance.AddReward(reward);
 		}
 
-		public override void SelectHero(CardScript cardHero){
+		public override void SelectHero(CardScript cardHero)
+		{
 			selectedHeroCards.Add(cardHero);
 			cardHero.Selected();
 		}
 
-		public override void UnselectHero(CardScript cardHero){
+		public override void UnselectHero(CardScript cardHero)
+		{
 			selectedHeroCards.Remove(cardHero);
 			cardHero.UnSelected();
 		}
