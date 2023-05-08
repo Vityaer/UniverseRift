@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuControllerScript : MonoBehaviour
+public class MenuController : MonoBehaviour
 {
 	[SerializeField] private GameObject canvasMainMenu;
 	[SerializeField] private Button btnTrainCamp;
 	[SerializeField] private Button btnCampaign;
 
 	private bool isInteractableButtons = false;
-	private static MenuControllerScript instance;
-	public  static MenuControllerScript Instance{get => instance;}
+	private static MenuController instance;
+	public  static MenuController Instance{get => instance;}
 	public MainPage CurrentPage;
-	private FooterButtonScript currentPageButton;
-	public FooterButtonScript startPageButton;
+	private FooterButton currentPageButton;
+	public FooterButton startPageButton;
 	public GameObject background;
 	private List<InfoHero> listHeroes = new List<InfoHero>();
 
@@ -25,7 +25,7 @@ public class MenuControllerScript : MonoBehaviour
 
 	void Start()
 	{
-		PlayerScript.Instance.GetListHeroesWithObserver(ref listHeroes, OnChangeListHeroes);
+		GameController.Instance.GetListHeroesWithObserver(ref listHeroes, OnChangeListHeroes);
 		OpenPage(startPageButton);
 	}
 
@@ -59,7 +59,7 @@ public class MenuControllerScript : MonoBehaviour
 		btnCampaign.interactable = flag;
 	}
 
-	public void OpenPage(FooterButtonScript newPageButton){
+	public void OpenPage(FooterButton newPageButton){
 		if(currentPageButton != newPageButton){
 			if(currentPageButton != null) currentPageButton.UnSelect();
 			newPageButton.Select();
