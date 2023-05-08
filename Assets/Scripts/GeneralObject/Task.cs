@@ -5,14 +5,14 @@ using System;
 
 [System.Serializable]
 public class Task : ICloneable{
-	public string name;
+	public string Name;
 	public int ID;
-	public int rating;
+	public int Rating;
 	public List<InfoHero> heroes = new List<InfoHero>();
-	public int requireHour;
+	public int RequireHour;
 	private TimeSpan _requireTime = new TimeSpan();
 	public TimeSpan requireTime{get 
-						{if(_requireTime.Hours == 0){_requireTime = new TimeSpan(requireHour, 0, 0);}
+						{if(_requireTime.Hours == 0){_requireTime = new TimeSpan(RequireHour, 0, 0);}
 							 return _requireTime;} set {_requireTime = value;}}
 	private DateTime _timeStartTask = new DateTime();
 	public DateTime timeStartTask{
@@ -45,15 +45,15 @@ public class Task : ICloneable{
 	}
 //API
 	public void GetReward(){
-		PlayerScript.Instance.AddResource( reward );
+		GameController.Instance.AddResource( reward );
 	}
 
 	public object Clone(){
 	    return new Task  { 	ID = this.ID,
-							name = this.name,
-						 	rating = this.rating,
+							Name = this.Name,
+						 	Rating = this.Rating,
 						 	heroes     = this.heroes,
-						 	requireHour  = this.requireHour,
+						 	RequireHour  = this.RequireHour,
 						 	strTimeStartTask = this.strTimeStartTask,
 						 	reward = this.reward,
 						 	status = this.status

@@ -9,7 +9,7 @@ public class TowerMissionCotrollerScript : MonoBehaviour, IBeginDragHandler, IDr
 	[Header("UI")]
 	public TextMeshProUGUI textNumMission;
 	public Image backgoundMission, enemyImage;
-	public RewardUIControllerScript rewardController;
+	public RewardUIController rewardController;
 	public GameObject blockPanel;
 
 	public bool canOpenMission = false;
@@ -30,7 +30,7 @@ public class TowerMissionCotrollerScript : MonoBehaviour, IBeginDragHandler, IDr
 		if(canOpenMission){
 			ChallengeTowerScript.Instance.OpenMission(this.mission);
 		}else{
-			MessageControllerScript.Instance.AddMessage("Миссия ещё не открыта");		
+			MessageController.Instance.AddMessage("Миссия ещё не открыта");		
 		}
 	}
 

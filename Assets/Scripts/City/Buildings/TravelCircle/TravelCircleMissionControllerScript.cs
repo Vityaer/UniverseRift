@@ -7,7 +7,7 @@ using TMPro;
 public class TravelCircleMissionControllerScript : BaseMissionController
 {
 	[Header("UI")]
-	public RewardUIControllerScript rewardController;
+	public RewardUIController rewardController;
 	public TextMeshProUGUI textNumMission, textOnButtonSelect;
 	public GameObject buttonSelect, imageCloseMission;
 	public Image backgoundMission;
@@ -82,7 +82,7 @@ public class TravelCircleMissionControllerScript : BaseMissionController
 			case StatusMission.InAutoFight:
 				break;	
 			case StatusMission.NotOpen:
-				MessageControllerScript.Instance.AddMessage("Миссия ещё не открыта");		
+				MessageController.Instance.AddMessage("Миссия ещё не открыта");		
 				break;
 		}
 	}

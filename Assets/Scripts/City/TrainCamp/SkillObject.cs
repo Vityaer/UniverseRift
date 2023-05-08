@@ -7,7 +7,7 @@ public class SkillObject : MonoBehaviour{
 
 	public Image image;
 	public Skill skill;
-	public SkillInfoControllerScript detailController;
+	public SkillInfoController detailController;
 
 	public void SetInfo(Skill skill){
 		this.skill = skill;

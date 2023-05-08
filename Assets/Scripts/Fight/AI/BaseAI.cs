@@ -7,25 +7,25 @@ public class BaseAI : MonoBehaviour
 {
 	public List<Warrior> leftTeam = new List<Warrior>();
 	public List<Warrior> rightTeam = new List<Warrior>();
-	public List<HexagonCellScript> achievableMoveCells = new List<HexagonCellScript>();
+	public List<HexagonCell> achievableMoveCells = new List<HexagonCell>();
 
 	private Side sideForAI = Side.Right;
-	private HeroControllerScript currentHero = null;
+	private HeroController currentHero = null;
 
 	public void StartAI()
 	{
-		FightControllerScript.Instance.RegisterOnStartFight(StartFight);
-		FightControllerScript.Instance.RegisterOnFinishFight(FinishFight);
-		HexagonCellScript.RegisterOnAchivableMove(AddAchivableMoveCell);
-		HeroControllerScript.RegisterOnStartAction(OnHeroStartAction);
-		HeroControllerScript.RegisterOnEndAction(ClearInfo);
+		FightController.Instance.RegisterOnStartFight(StartFight);
+		FightController.Instance.RegisterOnFinishFight(FinishFight);
+		HexagonCell.RegisterOnAchivableMove(AddAchivableMoveCell);
+		HeroController.RegisterOnStartAction(OnHeroStartAction);
+		HeroController.RegisterOnEndAction(ClearInfo);
 		ClearInfo();
 	}
 
 	void StartFight()
 	{
-		rightTeam = FightControllerScript.Instance.GetRightTeam;
-		leftTeam = FightControllerScript.Instance.GetLeftTeam;
+		rightTeam = FightController.Instance.GetRightTeam;
+		leftTeam = FightController.Instance.GetLeftTeam;
 	}
 
 	void ClearInfo()
@@ -35,20 +35,20 @@ public class BaseAI : MonoBehaviour
 
 	void FinishFight()
 	{
-		FightControllerScript.Instance.UnregisterOnStartFight(StartFight);
-		FightControllerScript.Instance.UnregisterOnFinishFight(FinishFight);
-		HeroControllerScript.UnregisterOnStartAction(OnHeroStartAction);
-		HeroControllerScript.UnregisterOnEndAction(ClearInfo);
-		HexagonCellScript.UnregisterOnAchivableMove(AddAchivableMoveCell);
+		FightController.Instance.UnregisterOnStartFight(StartFight);
+		FightController.Instance.UnregisterOnFinishFight(FinishFight);
+		HeroController.UnregisterOnStartAction(OnHeroStartAction);
+		HeroController.UnregisterOnEndAction(ClearInfo);
+		HexagonCell.UnregisterOnAchivableMove(AddAchivableMoveCell);
 	}
 
 
-	void OnHeroStartAction(HeroControllerScript heroConroller)
+	void OnHeroStartAction(HeroController heroConroller)
 	{
-		if((heroConroller.side == sideForAI) || (sideForAI == Side.All))
+		if((heroConroller.Side == sideForAI) || (sideForAI == Side.All))
 		{
 			currentHero = heroConroller;
-			var workTeam = (heroConroller.side == Side.Right) ? leftTeam : rightTeam;
+			var workTeam = (heroConroller.Side == Side.Right) ? leftTeam : rightTeam;
 			var availableEnemies = workTeam.FindAll(x => x.Cell.GetCanAttackCell == true);
 			Warrior enemy = null;
 			if (availableEnemies.Count > 0)
@@ -78,16 +78,16 @@ public class BaseAI : MonoBehaviour
 		return ((side == sideForAI) || (sideForAI == Side.All));
 	}
 
-	void AddAchivableMoveCell(HexagonCellScript newCell)
+	void AddAchivableMoveCell(HexagonCell newCell)
 	{
 		achievableMoveCells.Add(newCell);
 	}
 
-	HexagonCellScript SelectCellForMove(List<HexagonCellScript> achievableMoveCells, List<Warrior> enemies)
+	HexagonCell SelectCellForMove(List<HexagonCell> achievableMoveCells, List<Warrior> enemies)
 	{
-		HexagonCellScript result = achievableMoveCells[UnityEngine.Random.Range(0, achievableMoveCells.Count)];
+		HexagonCell result = achievableMoveCells[UnityEngine.Random.Range(0, achievableMoveCells.Count)];
 		int min = 1000;
-		Stack<HexagonCellScript> way = new Stack<HexagonCellScript>(), minWay = new Stack<HexagonCellScript>(0);
+		Stack<HexagonCell> way = new Stack<HexagonCell>(), minWay = new Stack<HexagonCell>(0);
 		Warrior selectEnemy = null;
 		for(int i = 0; i < enemies.Count; i++)
 		{
@@ -98,7 +98,7 @@ public class BaseAI : MonoBehaviour
 				minWay = way;
 			}
 		}
-		HexagonCellScript workCell = null;
+		HexagonCell workCell = null;
 		for(int i = 0; i < minWay.Count; i++){
 			workCell = minWay.Pop();
 

@@ -21,7 +21,7 @@ public class SubjectCellControllerScript : MonoBehaviour{
 
 	private void OpenDetail()
 	{
-		PanelInfoItemScript.Instance.OpenInfo(_subject);
+		PanelInfoItem.Instance.OpenInfo(_subject);
 	}
 
 	private void SetVisual(VisualAPI visual)

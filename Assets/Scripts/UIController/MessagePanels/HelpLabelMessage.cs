@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HelpLabelMessage : MonoBehaviour{
 	public void ShowMessage(){
-		MessageControllerScript.Instance.AddMessage(message);
+		MessageController.Instance.AddMessage(message);
 	}
 	[SerializeField] private string message;
 }

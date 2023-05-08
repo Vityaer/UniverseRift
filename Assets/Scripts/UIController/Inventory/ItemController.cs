@@ -15,7 +15,7 @@ public class ItemController : VisualAPI, ICloneable
 
 	public void ClickOnItem()
 	{
-		InventoryControllerScript.Instance.OpenInfoItem(this);
+		InventoryController.Instance.OpenInfoItem(this);
 	}
 
 	public ItemController(Item item)

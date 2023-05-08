@@ -25,7 +25,7 @@ public class PanelRegistration: BasePanelScript{
 		}
 	}
 	protected override void OnOpen(){
-		currentName = PlayerScript.Instance.player.GetPlayerInfo.Name;
+		currentName = GameController.Instance.player.GetPlayerInfo.Name;
 		inputFieldNewNamePlayer.text = currentName;
 		inputFieldNewNamePlayer.Select();
 	}

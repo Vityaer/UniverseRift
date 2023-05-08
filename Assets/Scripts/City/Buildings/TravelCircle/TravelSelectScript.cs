@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class TravelSelectScript : MonoBehaviour{
 	[SerializeField] private GameObject selectBorder; 
 	public Race race;
-	public RaceUIScript raceUI;
+	public RaceView raceUI;
 	private static TravelSelectScript selectedRace = null;
 	void Start(){
 		raceUI.SetData(race);

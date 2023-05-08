@@ -23,12 +23,12 @@ public class EventAgentControllerScript : Building{
 		miniSliderAmount.SetAmount(OverMonet(), 100);
 	}
 	protected override void OnStart(){
-		PlayerScript.Instance.RegisterOnChangeResource(OnGetMonet, TypeResource.EventAgentMonet);
+		GameController.Instance.RegisterOnChangeResource(OnGetMonet, TypeResource.EventAgentMonet);
 	}
 	SimpleBuildingSave progressObjectSave;
 	protected override void OnLoadGame(){
 		Debug.Log("onloadGame");
-		progressObjectSave = PlayerScript.GetPlayerSave.allRequirement.eventAgentProgress;
+		progressObjectSave = GameController.GetPlayerSave.allRequirement.eventAgentProgress;
 		this.sumReward = progressObjectSave.GetRecordInt(SUM_RECEIVIED_REWARD);
 		RepackReceivedReward(this.sumReward);
 		EventAgentRewardStatus statusReward = EventAgentRewardStatus.Close;
@@ -45,7 +45,7 @@ public class EventAgentControllerScript : Building{
 			}
 			listAgentRewardPanel[i].SetStatus(statusReward);
 		}
-		OnGetMonet(PlayerScript.Instance.GetResource(TypeResource.EventAgentMonet));
+		OnGetMonet(GameController.Instance.GetResource(TypeResource.EventAgentMonet));
 		mainSliderController.SetValue(GetNewValueSlider(this.count)); 
 	}
 	private static char SYMBOL_1 = '1';
@@ -91,7 +91,7 @@ public class EventAgentControllerScript : Building{
 //Save
 	public void SaveData(){
 		progressObjectSave.SetRecordInt(SUM_RECEIVIED_REWARD, sumReward);
-		PlayerScript.Instance.SaveGame();
+		GameController.Instance.SaveGame();
 	}	
 	void Awake(){
 		instance = this;

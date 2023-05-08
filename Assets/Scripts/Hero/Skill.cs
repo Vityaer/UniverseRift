@@ -47,7 +47,7 @@ public class Skill{
 	}
 
 //API
-	public void CreateSkill(HeroControllerScript master, int currentBreakthrough = 0)
+	public void CreateSkill(HeroController master, int currentBreakthrough = 0)
 	{
 		GetSkill(currentBreakthrough);
 		foreach (Effect effect in effects){
@@ -58,7 +58,7 @@ public class Skill{
 		}
 	}
 
-	public void GetStartListForSpell(List<HeroControllerScript> listTarget)
+	public void GetStartListForSpell(List<HeroController> listTarget)
 	{
 		if(effects.Count > 0)
 			if(effects[0].listAction.Count > 0)

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 public class BoxAllRewards : BasePanelScript
 {
-    public RewardUIControllerScript rewardController;
+    public RewardUIController rewardController;
     private static BoxAllRewards instance;
     public static BoxAllRewards Instance{ get => instance;}
     

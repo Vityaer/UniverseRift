@@ -6,7 +6,7 @@ using System;
 public class BossUIScript : MonoBehaviour, IWorkWithWarTable{
 	[SerializeField] private BossControllerScript bossController;
 	[SerializeField] private Canvas canvasBuild;
-	[SerializeField] private SliderScript sliderHP;
+	[SerializeField] private TimeSlider sliderHP;
 	[SerializeField] private Text textHPBoss;
 
 	public void UpdateUI(){
@@ -27,8 +27,8 @@ public class BossUIScript : MonoBehaviour, IWorkWithWarTable{
 	}
 	public void OpenFightWithBoss(){
 		RegisterOnOpenCloseWarTable();
-		WarTableControllerScript.Instance.OpenMission(bossController.mission, PlayerScript.Instance.GetListHeroes);
+		WarTableController.Instance.OpenMission(bossController.mission, GameController.Instance.GetListHeroes);
 	}
-	public void RegisterOnOpenCloseWarTable(){WarTableControllerScript.Instance.RegisterOnOpenCloseMission(this.Change);}
-	public void UnregisterOnOpenCloseWarTable(){WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(this.Change);}
+	public void RegisterOnOpenCloseWarTable(){WarTableController.Instance.RegisterOnOpenCloseMission(this.Change);}
+	public void UnregisterOnOpenCloseWarTable(){WarTableController.Instance.UnregisterOnOpenCloseMission(this.Change);}
 }

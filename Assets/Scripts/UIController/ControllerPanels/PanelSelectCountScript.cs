@@ -6,7 +6,7 @@ using System;
 public class PanelSelectCountScript : MonoBehaviour{
 
 	public SubjectCellControllerScript cellProduct;
-	public CountControllerScript countController;
+	public CountController countController;
 	public ItemSliderControllerScript slider;
 	public Button btnAction;
 	public GameObject panel;

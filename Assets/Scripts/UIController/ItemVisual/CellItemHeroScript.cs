@@ -10,7 +10,7 @@ public class CellItemHeroScript : MonoBehaviour{
 
 	[Header("Info")]
 	public Image image;
-	public RatingHeroScript ratingController;
+	public RatingHero ratingController;
 
 	private Item item;
 
@@ -33,8 +33,8 @@ public class CellItemHeroScript : MonoBehaviour{
 
 	private void SetBonus()
 	{
-		TrainCampScript.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
-		TrainCampScript.Instance.heroPanel.UpdateTextAboutHero();
+		TrainCamp.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
+		TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
 		UpdateUI();
 	}
 
@@ -47,7 +47,6 @@ public class CellItemHeroScript : MonoBehaviour{
 //API
 	public void Clear()
 	{
-		Debug.Log("clear");
 		item = null;
 		DefaulfView();
 	}
@@ -56,10 +55,9 @@ public class CellItemHeroScript : MonoBehaviour{
 	{
 		if(item != null) 
 		{
-		Debug.Log("set item");
-			InventoryControllerScript.Instance.AddItem(item);
-			TrainCampScript.Instance.TakeOff(item);
-			TrainCampScript.Instance.heroPanel.UpdateTextAboutHero();
+			InventoryController.Instance.AddItem(item);
+			TrainCamp.Instance.TakeOff(item);
+			TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
 		}
 
 		item = newItem;
@@ -77,9 +75,9 @@ public class CellItemHeroScript : MonoBehaviour{
 	public void ClickOnCell()
 	{
 		if(item != null) {
-			InventoryControllerScript.Instance.OpenInfoItem(item, typeCell, this);
+			InventoryController.Instance.OpenInfoItem(item, typeCell, this);
 		}else{
-			InventoryControllerScript.Instance.Open(typeCell, this);
+			InventoryController.Instance.Open(typeCell, this);
 		}
 	} 
 }

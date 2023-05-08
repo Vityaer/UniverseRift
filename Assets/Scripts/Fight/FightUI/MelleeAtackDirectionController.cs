@@ -18,7 +18,7 @@ public class MelleeAtackDirectionController : MonoBehaviour{
 		Close();	
 	}
 	List<NeighbourCell> currentNeighbours = new List<NeighbourCell>();
-	private void Open(HexagonCellScript cell, List<NeighbourCell> neighbours){
+	private void Open(HexagonCell cell, List<NeighbourCell> neighbours){
 		panelDirectionAttack.SetActive(true);
 		currentNeighbours = neighbours;
 		panelDirectionAttack.transform.position = cell.Position; 
@@ -33,6 +33,6 @@ public class MelleeAtackDirectionController : MonoBehaviour{
 			directionUI.Hide();
 		panelDirectionAttack.SetActive(false);
 	}
-	public void RegisterOnSelectDirection(Action<NeighbourDirection> d,HexagonCellScript cell, List<NeighbourCell> neighbours){Debug.Log("open directions"); actionOnSelectDirection += d; Open(cell, neighbours); }
+	public void RegisterOnSelectDirection(Action<NeighbourDirection> d,HexagonCell cell, List<NeighbourCell> neighbours){Debug.Log("open directions"); actionOnSelectDirection += d; Open(cell, neighbours); }
 	public void UnregisterOnSelectDirection(Action<NeighbourDirection> d){ actionOnSelectDirection -= d; Close(); }
 }

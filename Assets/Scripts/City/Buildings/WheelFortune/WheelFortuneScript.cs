@@ -6,7 +6,7 @@ using System;
 public class WheelFortuneScript : Building{
 
 	[Header("Controller")]
-	[SerializeField] private ButtonCostScript buttonOneRotate, buttonTenRotate;
+	[SerializeField] private ButtonCostController buttonOneRotate, buttonTenRotate;
  	[Header("Images reward")]
 	public List<SubjectCellControllerScript> places = new List<SubjectCellControllerScript>();
 
@@ -131,7 +131,7 @@ public class WheelFortuneScript : Building{
 				break;
 			}
 		}
-		MessageControllerScript.Instance.OpenSimpleRewardPanel(reward);
+		MessageController.Instance.OpenSimpleRewardPanel(reward);
 	}
 	private void OneRotate(int count){
 		PlaySimpleRoulette(1);

@@ -20,7 +20,8 @@ public class PanelPosibleHeroes : BasePanelScript{
 	}
 	private void FillData(PosibleReward rewardInfo){
 		for(int i = 0; i < rewardInfo.posibilityObjectRewards.Count; i++){
-			cardsWithPercent[i].SetData(rewardInfo.posibilityObjectRewards[i].ID, rewardInfo.PosibleNumObject(i));
+			var name = GameUtils.Utils.CastIdToName(rewardInfo.posibilityObjectRewards[i].ID);
+            cardsWithPercent[i].SetData(name, rewardInfo.PosibleNumObject(i));
 		}
 		for (int i = rewardInfo.posibilityObjectRewards.Count; i < cardsWithPercent.Count; i++){
 			cardsWithPercent[i].Hide();

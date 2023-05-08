@@ -16,7 +16,7 @@ public class CanvasBuildingsUI : MonoBehaviour{
 			listOpenBuilding.Peek().SetActive(false);
 		}else{
 			canvas.enabled = true;
-			MenuControllerScript.Instance.CloseMainPage();
+			MenuController.Instance.CloseMainPage();
 		}
 
 		newBuilding.SetActive(true);
@@ -34,7 +34,7 @@ public class CanvasBuildingsUI : MonoBehaviour{
 
 		countOpenBuildng = listOpenBuilding.Count;
 		if(listOpenBuilding.Count == 0){
-			MenuControllerScript.Instance.OpenMainPage();
+			MenuController.Instance.OpenMainPage();
 			canvas.enabled = false;
 		}else{
 			listOpenBuilding.Peek().SetActive(true);

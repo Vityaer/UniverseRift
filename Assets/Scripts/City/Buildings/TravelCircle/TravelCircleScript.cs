@@ -25,7 +25,7 @@ public class TravelCircleScript : Building{
 
     protected override void OnLoadGame()
     {
-		travelCircleSave = PlayerScript.GetCitySave.travelCircleBuilding;
+		travelCircleSave = GameController.GetCitySave.travelCircleBuilding;
 		foreach(TravelCircleOnRace travel in travels)
 			travel.CurrentMission = travelCircleSave.GetRecordInt(travel.GetNameRecord);
 
@@ -39,15 +39,15 @@ public class TravelCircleScript : Building{
 
 	public void OpenMission(Mission mission)
 	{
-    	FightControllerScript.Instance.RegisterOnFightResult(OnResultFight);
-		WarTableControllerScript.Instance.OpenMission(mission, OnAfterFight);
+    	FightController.Instance.RegisterOnFightResult(OnResultFight);
+		WarTableController.Instance.OpenMission(mission, OnAfterFight);
     }
 
 	public void OnAfterFight(bool isOpen)
 	{
 		if(!isOpen)
 		{
-			WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+			WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
 			Open();
 		}
 		else

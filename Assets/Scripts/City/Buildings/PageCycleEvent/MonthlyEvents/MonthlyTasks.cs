@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonthlyTasks : RequirementMenuScript
+public class MonthlyTasks : RequirementMenu
 {
 	public MonthlyEvents monthlyEventsParent;
 	public TypeMonthlyTasks type;

@@ -11,9 +11,9 @@ namespace Altar
 		{
 			Resource result = null;
 
-			if(hero.generalInfo.ratingHero >= _minRequireRating)
+			if(hero.generalInfo.RatingHero >= _minRequireRating)
 			{
-				float factor = hero.generalInfo.ratingHero * _factorRating + ((int) hero.generalInfo.rare) * _factorRare;
+				float factor = hero.generalInfo.RatingHero * _factorRating + ((int) hero.generalInfo.Rare) * _factorRare;
 				result = _reward * factor;
 			}
 

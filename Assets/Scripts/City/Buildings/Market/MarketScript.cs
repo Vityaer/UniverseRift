@@ -21,7 +21,7 @@ public class MarketScript : Building{
 
 	protected override void OnLoadGame()
 	{
-		List<MarketProductSave> saveProducts = PlayerScript.GetPlayerGame.GetProductForMarket(typeMarket);
+		List<MarketProductSave> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
 		MarketProduct currentProduct = null;
 		foreach(MarketProductSave product in saveProducts)
 		{
@@ -34,7 +34,7 @@ public class MarketScript : Building{
 
 	private void OnBuyPoduct(int IDproduct, int coutSell)
 	{
-		PlayerScript.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
+		GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
 	}
 
 	private void UpdateUIProducts()
@@ -71,7 +71,7 @@ public class MarketScript : Building{
 	}
 	private void RecoveryAllProducts(){if(productFill) foreach(MarketProductScript product in productControllers){ product.Recovery(); } }
 	
-	public void NewSellProduct(int IDproduct, int newCountSell){ PlayerScript.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell); }
+	public void NewSellProduct(int IDproduct, int newCountSell){ GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell); }
 
 	[Button] public void AddResource(){ productsForSale.Add(new MarketProduct<Resource>()); }
 	[Button] public void AddSplinter(){ productsForSale.Add(new MarketProduct<Splinter>()); }

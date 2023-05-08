@@ -10,7 +10,7 @@ public class ThingUIScript : MonoBehaviour
 	public Image background;
 	public Backlight backlight;
 	public Image imageThing;
-	public RatingHeroScript ratingThing;
+	public RatingHero ratingThing;
 	public ItemSliderControllerScript sliderAmount;
 	public TextMeshProUGUI textAmount;
 	public GameObject doneForUse;

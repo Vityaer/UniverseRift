@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 public class PanelNewPlayerName : BasePanelScript{
 	public TMP_InputField inputFieldNewNamePlayer;
-	public ButtonCostScript buttonPayNewName;
-	[SerializeField] private PanelPlayerScript mainPlayerController;
+	public ButtonCostController buttonPayNewName;
+	[SerializeField] private PlayerPanel mainPlayerController;
 	private string currentName;
 	void Start(){
 		buttonPayNewName.RegisterOnBuy(SaveNewName);
@@ -28,7 +28,7 @@ public class PanelNewPlayerName : BasePanelScript{
 		Close();
 	}
 	protected override void OnOpen(){
-		currentName = PlayerScript.Instance.player.GetPlayerInfo.Name;
+		currentName = GameController.Instance.player.GetPlayerInfo.Name;
 		inputFieldNewNamePlayer.text = currentName;
 		inputFieldNewNamePlayer.Select();
 	}

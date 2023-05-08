@@ -1,43 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
-using ObjectSave;
-using TMPro;
-using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class HeroPanel : Building
 {
     [Header("Controller")]
-	public Button btnToLeft;
-	public Button btnToRight;
-	public Button btnLevelUP;
+    public Button btnToLeft;
+    public Button btnToRight;
+    public Button btnLevelUP;
 
     [Header("Information")]
-	public Image imageHero;
-	public TextMeshProUGUI textLevel;
-	public TextMeshProUGUI textNameHero;
-	public TextMeshProUGUI textHP;
-	public TextMeshProUGUI textAttack;
-	public TextMeshProUGUI textArmor;
-	public TextMeshProUGUI textInitiative;
-	public TextMeshProUGUI textStrengthHero;
+    public Image imageHero;
+    public TextMeshProUGUI textLevel;
+    public TextMeshProUGUI textNameHero;
+    public TextMeshProUGUI textHP;
+    public TextMeshProUGUI textAttack;
+    public TextMeshProUGUI textArmor;
+    public TextMeshProUGUI textInitiative;
+    public TextMeshProUGUI textStrengthHero;
 
-	[Header("Items")]
-	public List<CellItemHeroScript> CellsForItem = new List<CellItemHeroScript>(); 
-	[Header("Skills")]
-	public SkillUIControllerScript skillController;
-	[Header("Costs")]
-	public CostUIListScript costController;
-	public CostLevelUp costLevelObject;
+    [Header("Items")]
+    public List<CellItemHeroScript> CellsForItem = new List<CellItemHeroScript>();
+    [Header("Skills")]
+    public SkillUIController skillController;
+    [Header("Costs")]
+    public CostUIList costController;
+    public CostLevelUp costLevelObject;
 
-	[Header("Details")]
-	[SerializeField] private HeroDetailsPanel _heroDetailsPanel;
-	public Button btnOpenHeroDetails;
-	public Button btnCloseHeroDetails;
-	
+    [Header("Details")]
+    [SerializeField] private HeroDetailsPanel _heroDetailsPanel;
+    public Button btnOpenHeroDetails;
+    public Button btnCloseHeroDetails;
+
     public Action LeftButtonClick;
     public Action RightButtonClick;
 
@@ -55,51 +51,51 @@ public class HeroPanel : Building
     public void ShowHero(InfoHero hero)
     {
         _hero = hero;
-		UpdateInfoAbountHero();
+        UpdateInfoAbountHero();
     }
 
     public void UpdateInfoAbountHero()
-	{
-		imageHero.sprite    = _hero.generalInfo.ImageHero;
-		textNameHero.text   = _hero.generalInfo.Name;
-		UpdateTextAboutHero();
-		foreach(CellItemHeroScript cell in CellsForItem)
+    {
+        imageHero.sprite = _hero.generalInfo.ImageHero;
+        textNameHero.text = _hero.generalInfo.Name;
+        UpdateTextAboutHero();
+        foreach (CellItemHeroScript cell in CellsForItem)
         {
-			cell.Clear();
-			cell.SetItem(_hero.CostumeHero.GetItem(cell.typeCell));
-		}
-		CheckResourceForLevelUP();
-	} 
+            cell.Clear();
+            cell.SetItem(_hero.CostumeHero.GetItem(cell.typeCell));
+        }
+        CheckResourceForLevelUP();
+    }
 
     public void UpdateTextAboutHero()
     {
-		textLevel.text      =  _hero.generalInfo.Level.ToString();
-		textHP.text         = ((int) _hero.GetCharacteristic(TypeCharacteristic.HP)        ).ToString();
-		textAttack.text     = ((int) _hero.GetCharacteristic(TypeCharacteristic.Damage)    ).ToString();
-		textArmor.text      = ((int) _hero.GetCharacteristic(TypeCharacteristic.Defense)   ).ToString();
-		textInitiative.text = ((int) _hero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
-		textStrengthHero.text  = _hero.GetStrength.ToString(); 
-		_hero.PrepareSkillLocalization();
-		skillController.ShowSkills(_hero.skills);
-		costController.ShowCosts( costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level) );
-		// _heroDetailsPanel.ShowDetails(_hero);
-	}
+        textLevel.text = _hero.generalInfo.Level.ToString();
+        textHP.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.HP)).ToString();
+        textAttack.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Damage)).ToString();
+        textArmor.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
+        textInitiative.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
+        textStrengthHero.text = _hero.GetStrength.ToString();
+        _hero.PrepareSkillLocalization();
+        skillController.ShowSkills(_hero.skills);
+        costController.ShowCosts(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
+        // _heroDetailsPanel.ShowDetails(_hero);
+    }
 
-	private void CheckResourceForLevelUP()
+    private void CheckResourceForLevelUP()
     {
-		btnLevelUP.interactable = PlayerScript.Instance.CheckResource( costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level) );
-	}
+        btnLevelUP.interactable = GameController.Instance.CheckResource(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
+    }
 
     public void TakeOff(Item item)
     {
         _hero.CostumeHero.TakeOff(item);
-		UpdateTextAboutHero();
+        UpdateTextAboutHero();
     }
 
     public void LevelUp()
     {
-		PlayerScript.Instance.SubtractResource( costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level) );
+        GameController.Instance.SubtractResource(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
         _hero.LevelUP();
-		UpdateInfoAbountHero();
+        UpdateInfoAbountHero();
     }
 }

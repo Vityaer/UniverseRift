@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class HeroStatusScript : MonoBehaviour{
+public partial class HeroStatus : MonoBehaviour{
 //Debuff
 	private Debuff debuff = new Debuff();
 	private void SaveDebuff(State state, int round){
 		currentState = state;
 		debuff.Update(state, round);
-		FightEffectControllerScript.Instance.CastEffectStateOnHero(gameObject, debuff.state);
+		FightEffectController.Instance.CastEffectStateOnHero(gameObject, debuff.state);
 	}
 
 //Dots	
@@ -23,15 +23,15 @@ public partial class HeroStatusScript : MonoBehaviour{
 	public void RoundFinish(){
 		debuff.RoundFinish();
 		if(debuff.IsFinish && debuff.state != State.Clear){
-			if(FightEffectControllerScript.Instance == null) Debug.Log("FightEffectControllerScript нету");
+			if(FightEffectController.Instance == null) Debug.Log("FightEffectControllerScript нету");
 			if(debuff == null) Debug.Log("debuff null");
 			if(gameObject == null) Debug.Log("gameObject null");
-			FightEffectControllerScript.Instance.ClearEffectStateOnHero(gameObject, debuff.state);
+			FightEffectController.Instance.ClearEffectStateOnHero(gameObject, debuff.state);
 			currentState = State.Clear;
 		}
 
 		for(int i = dots.Count - 1; i >= 0; i--){
-			FightEffectControllerScript.Instance.CreateDot(transform, dots[i].type);
+			FightEffectController.Instance.CreateDot(transform, dots[i].type);
 			dots[i].RoundFinish(heroController);
 			if(dots[i].IsFinish){
 				dots.RemoveAt(i);
@@ -80,7 +80,7 @@ public class Debuff{
 				if(find == false) this.rounds.Add((Round) curRound.Clone());
 			}
 		}
-		public void RoundFinish(HeroControllerScript heroController){
+		public void RoundFinish(HeroController heroController){
 			if(rounds.Count > 0){
 				heroController.GetDamage(new Strike(rounds[0].amount, 0, rounds[0].typeNumber, TypeStrike.Clean) );
 				rounds.RemoveAt(0);

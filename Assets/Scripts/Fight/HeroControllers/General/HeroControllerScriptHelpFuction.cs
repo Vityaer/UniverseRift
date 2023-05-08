@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-public partial class HeroControllerScript : MonoBehaviour
+public partial class HeroController : MonoBehaviour
 {
 	[SerializeField] bool isFacingRight = true; 
 
@@ -26,7 +26,7 @@ public partial class HeroControllerScript : MonoBehaviour
 	protected virtual void PrepareOnStartTurn()
 	{
 		needFlip = false;
-		if(this.side == Side.Left){
+		if(this.Side == Side.Left){
 			FightUI.Instance.OpenControllers(this);
 		}else{
 			FightUI.Instance.CloseControllers();
@@ -38,7 +38,7 @@ public partial class HeroControllerScript : MonoBehaviour
 		outlineController.SwitchOn();
 	}
 	
-	private bool NeedFlip(HeroControllerScript enemy)
+	private bool NeedFlip(HeroController enemy)
 	{
 		bool result = false;
 		NeighbourDirection direction = NeighbourCell.GetDirection(myPlace, enemy.Cell);
@@ -67,7 +67,7 @@ public partial class HeroControllerScript : MonoBehaviour
 	} 
 
 //Fight helps
-	protected virtual bool CanAttackHero(HeroControllerScript otherHero) => (this.side != otherHero.side);
+	protected virtual bool CanAttackHero(HeroController otherHero) => (this.Side != otherHero.Side);
 
 	protected void RefreshOnEndRound()
 	{
@@ -81,12 +81,12 @@ public partial class HeroControllerScript : MonoBehaviour
 
 	protected void IsSide(Side side)
 	{
-		this.side = side;
+		this.Side = side;
 		delta = (side == Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
 		if(side == Side.Right) FlipX();
 	}
 
-	protected bool CanCounterAttack(HeroControllerScript heroForCounterAttack, HeroControllerScript heroWasAttack)
+	protected bool CanCounterAttack(HeroController heroForCounterAttack, HeroController heroWasAttack)
 	{
 		bool result = false;
 		if((currentCountCounterAttack > 0) &&(statusState.PermissionAction() == true) && !isDeath)
@@ -105,7 +105,7 @@ public partial class HeroControllerScript : MonoBehaviour
 
 	private void ShowHeroesPlaceInteractive()
  	{
- 		foreach(var warrior in FightControllerScript.Instance.GetLeftTeam)
+ 		foreach(var warrior in FightController.Instance.GetLeftTeam)
  		{
  			Color color;
  			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
@@ -119,7 +119,7 @@ public partial class HeroControllerScript : MonoBehaviour
  			warrior.Cell.SetColor(color);
  		}
 
- 		foreach(var warrior in FightControllerScript.Instance.GetRightTeam)
+ 		foreach(var warrior in FightController.Instance.GetRightTeam)
  		{
  			Color color = Color.red;
  			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
@@ -136,7 +136,7 @@ public partial class HeroControllerScript : MonoBehaviour
 
  	private void SetMyPlaceColor()
  	{
- 		if(side == Side.Left)
+ 		if(Side == Side.Left)
  		{
  			myPlace.SetColor(Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR);
  		}
@@ -148,7 +148,7 @@ public partial class HeroControllerScript : MonoBehaviour
 
  	private bool CanShoot()
  	{
- 		return (hero.characts.baseCharacteristic.Mellee == true) || (!hero.characts.baseCharacteristic.Mellee && myPlace.MyEnemyNear(this.side) );
+ 		return (hero.characts.baseCharacteristic.Mellee == true) || (!hero.characts.baseCharacteristic.Mellee && myPlace.MyEnemyNear(this.Side) );
  	}
 
 	[ContextMenu("Add 100 stamina")]

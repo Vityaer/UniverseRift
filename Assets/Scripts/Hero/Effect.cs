@@ -14,18 +14,18 @@ public class Effect{
 	public TypePerformance performance    = TypePerformance.Select;
 	public TypeEvent  typeEvent           = TypeEvent.OnStartFight;
 	public int        countExecutions     = -1;
-	private HeroControllerScript master; 
+	private HeroController master; 
 
 	[Header("Conditions")]
 	public List<ConditionEffect> conditions = new List<ConditionEffect>();
 
 	[Header("Actions")]
 	public  List<ActionEffect> listAction = new List<ActionEffect>();
-	private List<HeroControllerScript> listTarget = new List<HeroControllerScript>();
+	private List<HeroController> listTarget = new List<HeroController>();
 
 
 //API
-	public void CreateEffect(HeroControllerScript master){
+	public void CreateEffect(HeroController master){
 		this.master = master;
 		foreach (ActionEffect action in listAction) {
 			action.Master = master;
@@ -46,7 +46,7 @@ public class Effect{
 		}
 	}
 
-	public void ExecuteSpell(List<HeroControllerScript> listTarget){
+	public void ExecuteSpell(List<HeroController> listTarget){
 		if(performance == TypePerformance.Random){
 			int rand = UnityEngine.Random.Range(0, listAction.Count);
 			listAction[ rand ].SetNewTarget(listTarget);
@@ -59,7 +59,7 @@ public class Effect{
 		}
 	}
 
-	public void RegisterOnEvent(HeroControllerScript master){
+	public void RegisterOnEvent(HeroController master){
 		this.master = master;
 		switch (typeEvent) {
 			case TypeEvent.OnStartFight:

@@ -40,10 +40,10 @@ public class MarketProduct<T>: MarketProduct where T: BaseObject{
 		AddCountLeftProduct(count);
 		switch(subject){
 			case Resource product:
-				PlayerScript.Instance.AddResource(product * count);
+				GameController.Instance.AddResource(product * count);
 				break;
 			case Item product:
-				InventoryControllerScript.Instance.AddItem(product);
+				InventoryController.Instance.AddItem(product);
 				break;
 			case Splinter product:
 				Debug.Log("write add splinter here");

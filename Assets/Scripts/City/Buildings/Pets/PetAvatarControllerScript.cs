@@ -9,7 +9,7 @@ public class PetAvatarControllerScript : MonoBehaviour{
 	[Header("UI")]
 	public Text textName;
 	public Text textLevel;
-	public RatingHeroScript rating;
+	public RatingHero rating;
 	public Image background;
 	public Image imagePet;
 

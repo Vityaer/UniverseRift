@@ -21,9 +21,9 @@ public class MagicCircleScript : Building{
 		for(int i = 0; i < count; i++){
 			rand = UnityEngine.Random.Range(0f, 100f);
 			if(rand < 96f){
-				workList = workList.FindAll(x => ((x.generalInfo.ratingHero == 4) && (x.generalInfo.race == selectedRace)));
+				workList = workList.FindAll(x => ((x.generalInfo.RatingHero == 4) && (x.generalInfo.Race == selectedRace)));
 			}else{
-				workList = workList.FindAll(x => ((x.generalInfo.ratingHero == 5) && (x.generalInfo.race == selectedRace)));
+				workList = workList.FindAll(x => ((x.generalInfo.RatingHero == 5) && (x.generalInfo.Race == selectedRace)));
 			}
 			hero = (InfoHero) workList[ UnityEngine.Random.Range(0, workList.Count) ].Clone();
 

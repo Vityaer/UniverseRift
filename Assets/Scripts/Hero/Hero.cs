@@ -33,7 +33,7 @@ public partial class Hero{
 		if(hero.Evolutions != null){
 			currentBreakthrough = hero.Evolutions.currentBreakthrough;
 		}else{
-			Debug.Log("hero.Evolutions not exist, id-hero: " + hero.generalInfo.idHero.ToString());
+			Debug.Log("hero.Evolutions not exist, id-hero: " + hero.generalInfo.ViewId.ToString());
 			currentBreakthrough = 0;
 		}
 	}
@@ -46,7 +46,7 @@ public partial class Hero{
 		this.characts.HP            = Mathf.Round(hero.GetCharacteristic(TypeCharacteristic.HP));
 		this.characts.MaxHP         = this.characts.HP;
 	}
-	public void PrepareSkills(HeroControllerScript master){
+	public void PrepareSkills(HeroController master){
 		foreach (Skill skill in skills){
 			skill.CreateSkill(master, currentBreakthrough);
 		}

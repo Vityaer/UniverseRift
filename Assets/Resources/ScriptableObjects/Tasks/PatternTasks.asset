@@ -13,89 +13,153 @@ MonoBehaviour:
   m_Name: PatternTasks
   m_EditorClassIdentifier: 
   tasks:
-  - name: "\u0421\u043E\u0431\u0440\u0430\u0442\u044C \u0446\u0432\u0435\u0442\u043E\u0447\u043A\u0438"
+  - Name: ' Collect roots'
     ID: 101
-    rating: 1
+    Rating: 1
     heroes: []
-    requireHour: 2
+    RequireHour: 1
     strTimeStartTask: 0
     status: 0
-  - name: "\u041D\u0430\u0440\u0443\u0431\u0438\u0442\u044C \u0434\u0440\u043E\u0432\u0430"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Chop wood
     ID: 102
-    rating: 1
+    Rating: 1
     heroes: []
-    requireHour: 1
+    RequireHour: 1
     strTimeStartTask: 0
     status: 0
-  - name: "\u041F\u0435\u0440\u0435\u0440\u0430\u0441\u0447\u0451\u0442 \u043F\u0440\u0438\u043F\u0430\u0441\u043E\u0432"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Supply check
     ID: 201
-    rating: 2
+    Rating: 2
     heroes: []
-    requireHour: 3
+    RequireHour: 2
     strTimeStartTask: 0
     status: 0
-  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u043F\u0440\u0438\u043D\u0446\u0435\u0441\u0441\u0443"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Kill dragon
     ID: 601
-    rating: 6
+    Rating: 6
     heroes: []
-    requireHour: 8
+    RequireHour: 10
     strTimeStartTask: 0
     status: 0
-  - name: "\u0421\u043E\u0431\u0440\u0430\u0442\u044C \u0434\u0430\u043D\u044C"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Defend village
     ID: 301
-    rating: 3
+    Rating: 3
     heroes: []
-    requireHour: 5
+    RequireHour: 4
     strTimeStartTask: 0
     status: 0
-  - name: "\u041F\u043E\u0439\u043C\u0430\u0442\u044C \u043D\u0435\u0433\u043E\u0434\u044F\u0435\u0432"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Find treasure
     ID: 202
-    rating: 2
+    Rating: 2
     heroes: []
-    requireHour: 4
+    RequireHour: 2
     strTimeStartTask: 0
     status: 0
-  - name: "\u0421\u0434\u0430\u0442\u044C \u0415\u0413\u042D"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Training warriors
     ID: 103
-    rating: 1
+    Rating: 1
     heroes: []
-    requireHour: 4
+    RequireHour: 1
     strTimeStartTask: 0
     status: 0
-  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u043C\u0438\u0440"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Destroy Death
     ID: 701
-    rating: 7
+    Rating: 7
     heroes: []
-    requireHour: 16
+    RequireHour: 12
     strTimeStartTask: 0
     status: 0
-  - name: "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C \u043C\u0435\u0447
-      \u043A\u043E\u0440\u043E\u043B\u044F \u041B\u0438\u0447\u0430"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Conquer the Mountain
     ID: 702
-    rating: 7
+    Rating: 7
     heroes: []
-    requireHour: 16
+    RequireHour: 12
     strTimeStartTask: 0
     status: 0
-  - name: "\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u044C \u043A\u0440\u044B\u0441
-      \u0432 \u0430\u043C\u0431\u0430\u0440\u0435"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Destroy the robbers
     ID: 402
-    rating: 4
+    Rating: 4
     heroes: []
-    requireHour: 2
+    RequireHour: 5
     strTimeStartTask: 0
     status: 0
-  - name: "\u0421\u043F\u0430\u0441\u0442\u0438 \u0440\u044F\u0434\u043E\u0432\u043E\u0433\u043E"
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
+  - Name: Build a fortress
     ID: 501
-    rating: 5
+    Rating: 5
     heroes: []
-    requireHour: 8
+    RequireHour: 8
     strTimeStartTask: 0
     status: 0
+    reward:
+      Description: 
+      Name: 0
+      amount:
+        count: 0
+        e10: 0
   rewardForTaskFromRating:
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 0
       amount:
         count: 10
@@ -103,7 +167,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 12
@@ -111,7 +175,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 12
@@ -119,7 +183,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 3
       amount:
         count: 3
@@ -127,7 +191,7 @@ MonoBehaviour:
     delta: 0.5
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 2
       amount:
         count: 800
@@ -135,7 +199,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 1
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 10
       amount:
         count: 400
@@ -143,7 +207,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 2
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 20
@@ -151,7 +215,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 3
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 40
@@ -159,7 +223,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 4
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 65
@@ -167,7 +231,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 5
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 100
@@ -175,7 +239,7 @@ MonoBehaviour:
     delta: 0.25
   - rating: 6
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 220
@@ -183,7 +247,7 @@ MonoBehaviour:
     delta: 0.12
   - rating: 7
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 1
       amount:
         count: 310
@@ -191,7 +255,7 @@ MonoBehaviour:
     delta: 0.1
   - rating: 7
     res:
-      sprite: {fileID: 0}
+      Description: 
       Name: 7
       amount:
         count: 50

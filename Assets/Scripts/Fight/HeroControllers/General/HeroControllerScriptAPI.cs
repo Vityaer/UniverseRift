@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-public partial class HeroControllerScript : MonoBehaviour
+public partial class HeroController : MonoBehaviour
 {
 
  	public void StartWait()

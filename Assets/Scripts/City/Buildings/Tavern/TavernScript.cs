@@ -47,15 +47,15 @@ public class TavernScript : Building{
 		for(int i = 1; i <= count; i++){
 			rand = UnityEngine.Random.Range(0f, 100f);
 			if(rand < 56f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.C));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.C));
 			} else if(rand < 90f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.UC));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.UC));
 			} else if(rand < 98.5f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.R));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.R));
 			} else if(rand < 99.95f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.SR));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SR));
 			} else if(rand <= 100f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.SSR));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SSR));
 			}
 			if(workList.Count > 0){
 				hero = (InfoHero) (workList[ UnityEngine.Random.Range(0, workList.Count) ]).Clone();
@@ -87,13 +87,13 @@ public class TavernScript : Building{
 		for(int i = 0; i < count; i++){
 			rand    = UnityEngine.Random.Range(0f, 100f);
 			if(rand < 60f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.R));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.R));
 			}else if(rand < 88.42f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.SR));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SR));
 			} else if(rand < 98.42f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.SSR));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SSR));
 			} else if(rand <= 100f){
-				workList = listHeroes.FindAll(x => (x.generalInfo.rare == Rare.UR));
+				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.UR));
 			}
 			hero = (InfoHero) (workList[ UnityEngine.Random.Range(0, workList.Count) ]).Clone();
 			if(hero != null){
@@ -112,9 +112,10 @@ public class TavernScript : Building{
 		btnCostManyHire.ChangeCost(simpleFriendCost * 10f, SimpleHireHero);
 	}	
 
-	public void AddNewHero(InfoHero hero){
-		MessageControllerScript.Instance.AddMessage($"Новый герой! Это - {hero.generalInfo.Name}");
-		PlayerScript.Instance.AddHero(hero);
+	public void AddNewHero(InfoHero hero)
+	{
+		MessageController.Instance.AddMessage($"Новый герой! Это - {hero.generalInfo.Name}");
+		GameController.Instance.AddHero(hero);
 	}
 
 
@@ -126,11 +127,15 @@ public class TavernScript : Building{
 		}
 	}
 //API
-	public InfoHero GetInfoHero(int ID){
-		InfoHero hero =  (InfoHero) listHeroes.Find(x => x.generalInfo.idHero == ID)?.Clone();
-		if(hero == null) Debug.Log(string.Concat("not exist hero with ID= ", ID.ToString()));
+
+	public InfoHero GetInfoHero(string ID)
+	{
+		InfoHero hero =  (InfoHero) listHeroes.Find(x => x.generalInfo.ViewId == ID)?.Clone();
+		if(hero == null)
+			Debug.Log(string.Concat("not exist hero with ID= ", ID.ToString()));
 		return hero;
 	}
+
 //Observers
 	private Action<BigDigit> observerSimpleHire, observerSpecialHire, observerFriendHire;
 	public void RegisterOnSimpleHire(Action<BigDigit> d){observerSimpleHire += d;}	 
@@ -155,14 +160,14 @@ public class TavernScript : Building{
 	}	 
 	
 	private ObserverActionWithHero observersHireRace = new ObserverActionWithHero();
-	public void RegisterOnHireHeroes(Action<BigDigit> d, Rare rare, int ID = 0)
+	public void RegisterOnHireHeroes(Action<BigDigit> d, Rare rare, string ID = "")
 	{
 		observersHireRace.Add(d, ID, (int) rare);
 	}
 	
 	private void OnHireHeroes(InfoHero hero){
-		observersHireRace.OnAction(0, (int) hero.generalInfo.rare);
-		observersHireRace.OnAction(hero.generalInfo.idHero, (int) hero.generalInfo.rare);
+		observersHireRace.OnAction(string.Empty, (int) hero.generalInfo.Rare);
+		observersHireRace.OnAction(hero.generalInfo.ViewId, (int) hero.generalInfo.Rare);
 	}
 
 }

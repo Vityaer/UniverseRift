@@ -14,7 +14,7 @@ public class CampaignChapterControllerScript : MonoBehaviour{
 		name.text = string.Concat(chapter.numChapter.ToString(), ". ", chapter.Name );
 	}
 	public void Select(){
-		CampaignScript.Instance.OpenChapter(this.chapter);
+		CampaignBuilding.Instance.OpenChapter(this.chapter);
 	}
 
 	public void Open(){

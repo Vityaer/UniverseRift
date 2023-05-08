@@ -26,7 +26,7 @@ public class MonthlyEvents : Building
 
 	protected override void OnLoadGame()
 	{
-		monthlyRequirements = PlayerScript.GetCitySave.cycleEvents.monthlyRequirements;
+		monthlyRequirements = GameController.GetCitySave.cycleEvents.monthlyRequirements;
 		LoadTasks();
 	}
 
@@ -42,7 +42,7 @@ public class MonthlyEvents : Building
 	public void SaveData(TypeMonthlyTasks type, List<Requirement> tasks)
 	{
 		List<RequirementSave> RequirementSaves = monthlyRequirements.GetTasks(type);
-		PlayerScript.GetPlayerGame.SaveRequirement(RequirementSaves, tasks);
+		GameController.GetPlayerGame.SaveRequirement(RequirementSaves, tasks);
 		SaveGame();
 	}
 

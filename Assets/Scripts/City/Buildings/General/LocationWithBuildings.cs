@@ -11,7 +11,7 @@ public class LocationWithBuildings : MonoBehaviour
 	public virtual void Open()
 	{
 		Debug.Log("location open");
-		MenuControllerScript.Instance.CloseMainPage();
+		MenuController.Instance.CloseMainPage();
 		buildingCanvas.Open();
 		OnOpenLocation();
 		Show();
@@ -19,15 +19,15 @@ public class LocationWithBuildings : MonoBehaviour
 
 	public virtual void Close()
 	{
-		LocationControllerScript.Instance.Close();
+		LocationController.Instance.Close();
 		buildingCanvas.Close();
-		MenuControllerScript.Instance.OpenMainPage();
+		MenuController.Instance.OpenMainPage();
 		Hide();
 	}
 
 	public void Show()
 	{
-		LocationControllerScript.Instance.OpenLocation(typeBackground);
+		LocationController.Instance.OpenLocation(typeBackground);
 		location.SetActive(true);
 	}
 

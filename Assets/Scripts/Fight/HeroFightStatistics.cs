@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroFightStatistics : MonoBehaviour{
-	public  List<HeroControllerScript> leftTeam  = new List<HeroControllerScript>(); 
-	public  List<HeroControllerScript> rightTeam = new List<HeroControllerScript>(); 
+	public  List<HeroController> leftTeam  = new List<HeroController>(); 
+	public  List<HeroController> rightTeam = new List<HeroController>(); 
 
 }
 public class HeroStatistic{
 
-	private HeroControllerScript hero;
-	public HeroControllerScript Hero{get => hero;}
+	private HeroController hero;
+	public HeroController Hero{get => hero;}
 
 	private float damageDone;
 	public float DamageDone{get => damageDone;}
@@ -18,7 +18,7 @@ public class HeroStatistic{
 	private float healDone;
 	public float HealDone{get => healDone;}
 
-	public HeroStatistic(HeroControllerScript hero){
+	public HeroStatistic(HeroController hero){
 		this.hero = hero;
 	}
 }

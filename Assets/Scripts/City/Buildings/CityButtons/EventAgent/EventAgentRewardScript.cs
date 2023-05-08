@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class EventAgentRewardScript : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndDragHandler{
 	[Header("Data")]
-	public RewardUIControllerScript rewardController;
+	public RewardUIController rewardController;
 
 	private Reward reward;
 	public int ID;
@@ -21,13 +21,13 @@ public class EventAgentRewardScript : MonoBehaviour,  IBeginDragHandler, IDragHa
 	public void GetReward(){
 		switch(statusReward){
 			case EventAgentRewardStatus.Close:
-				MessageControllerScript.Instance.AddMessage("Награду ещё нужно заслужить, приходите позже");		
+				MessageController.Instance.AddMessage("Награду ещё нужно заслужить, приходите позже");		
 				break;
 			case EventAgentRewardStatus.Received:
-				MessageControllerScript.Instance.AddMessage("Вы уже получали эту награду");		
+				MessageController.Instance.AddMessage("Вы уже получали эту награду");		
 				break;
 			case EventAgentRewardStatus.Open:
-				PlayerScript.Instance.AddReward(this.reward);
+				GameController.Instance.AddReward(this.reward);
 				EventAgentControllerScript.Instance.OnGetReward(ID);
 				SetStatus(EventAgentRewardStatus.Received);
 				break;

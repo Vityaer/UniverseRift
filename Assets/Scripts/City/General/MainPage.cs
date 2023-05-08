@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MainPage : MonoBehaviour
 {
-	[SerializeField] private FooterButtonScript btnOpenClose;
+	[SerializeField] private FooterButton btnOpenClose;
 
     protected virtual void Awake()
 	{
@@ -25,7 +25,7 @@ public abstract class MainPage : MonoBehaviour
 
     public virtual void Open()
     {
-        MenuControllerScript.Instance.CurrentPage = this;
+        MenuController.Instance.CurrentPage = this;
     }
 
     public abstract void Close();

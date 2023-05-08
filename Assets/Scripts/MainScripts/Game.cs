@@ -18,7 +18,7 @@ public class Game{
 		playerInfo = game.playerInfo;
 	}
 //API mines
-	public void SaveMine(MineControllerScript mineController){ citySaveObject.industry.SaveMine(mineController);}
+	public void SaveMine(MineController mineController){ citySaveObject.industry.SaveMine(mineController);}
 	public List<MineSave> GetMines{ get => citySaveObject.industry.listMine; }
 //API market
 	public MallSave mall{get => citySaveObject.mall;}
@@ -35,7 +35,7 @@ public class Game{
 		}else{
 			product.UpdateData(countSell);
 		}
-		SaveLoadControllerScript.SaveGame(this);
+		SaveLoadController.SaveGame(this);
 	}	
 	public List<MarketProductSave> GetProductForMarket(TypeMarket typeMarket){
 		List<MarketProductSave> result = new List<MarketProductSave>();

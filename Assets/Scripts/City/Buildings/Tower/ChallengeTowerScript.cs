@@ -16,7 +16,7 @@ public class ChallengeTowerScript : BuildingWithFight{
 	BuildingWithFightTeams challengeTower = null;
 	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission"; 
 	protected override void OnLoadGame(){
-		challengeTower = PlayerScript.GetCitySave.challengeTowerBuilding;
+		challengeTower = GameController.GetCitySave.challengeTowerBuilding;
 		currentMission = challengeTower.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
 		LoadMissions();
 	}

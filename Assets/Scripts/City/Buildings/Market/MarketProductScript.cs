@@ -11,7 +11,7 @@ public class MarketProductScript : MonoBehaviour
 	[OdinSerialize] private MarketProduct marketProduct;
 	[SerializeField] private GameObject soldOutPanel;
 	
-	public ButtonCostScript buttonCost;
+	public ButtonCostController buttonCost;
 	public SubjectCellControllerScript cellProduct;
 	private BaseObject _subject;
 

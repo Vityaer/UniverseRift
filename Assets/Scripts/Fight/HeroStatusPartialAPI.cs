@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public partial class HeroStatusScript : MonoBehaviour{
+public partial class HeroStatus : MonoBehaviour{
 
 	public State currentState = State.Clear;  
 	public bool PermissionAction(){ 
@@ -19,7 +19,7 @@ public partial class HeroStatusScript : MonoBehaviour{
 
 	public void SetDebuff(State debuff, int rounds){
 		if(currentState != State.Clear) 
-			FightEffectControllerScript.Instance.ClearEffectStateOnHero(gameObject, currentState);
+			FightEffectController.Instance.ClearEffectStateOnHero(gameObject, currentState);
 		SaveDebuff(debuff, rounds);
 	}
 	
@@ -54,7 +54,7 @@ public partial class HeroStatusScript : MonoBehaviour{
 		return result;
 	}
 	void OnDestroy(){
-		FightControllerScript.Instance.UnregisterOnEndRound(RoundFinish);
+		FightController.Instance.UnregisterOnEndRound(RoundFinish);
 	}
 }
 

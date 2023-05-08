@@ -16,7 +16,7 @@ public class Building : SerializedMonoBehaviour{
 	protected virtual void Start()
 	{
 		OnStart();	
-		PlayerScript.Instance.RegisterOnLoadGame(OnLoadGame);
+		GameController.Instance.RegisterOnLoadGame(OnLoadGame);
 		building.SetActive(false); 
 		buttonOpenBuilding?.onClick.RemoveAllListeners();
 		buttonCloseBuilding?.onClick.RemoveAllListeners();
@@ -26,7 +26,6 @@ public class Building : SerializedMonoBehaviour{
 
 	public virtual void Open()
 	{
-		Debug.Log("open");
 		if(AvailableFromLevel())
 		{
 			CanvasBuildingsUI.Instance.OpenBuilding(building);
@@ -35,9 +34,9 @@ public class Building : SerializedMonoBehaviour{
 	}
 
 	protected bool AvailableFromLevel(){
-		bool result = (PlayerScript.GetPlayerInfo.Level >= levelForAvailableBuilding);
+		bool result = (GameController.GetPlayerInfo.Level >= levelForAvailableBuilding);
 		if(result == false)  
- 			MessageControllerScript.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
+ 			MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
 		
 		return result;
 	}
@@ -51,10 +50,10 @@ public class Building : SerializedMonoBehaviour{
 	virtual protected void OnStart(){}
 	virtual protected void OpenPage(){}
 	virtual protected void ClosePage(){}
-	virtual protected void OnLoadGame(){ Debug.Log("load game empty: " + gameObject.name);}
+	virtual protected void OnLoadGame(){}
 
 	protected void SaveGame()
 	{
-		PlayerScript.Instance.SaveGame();
+		GameController.Instance.SaveGame();
 	}
 }

@@ -7,7 +7,7 @@ public class PanelVoyageMission : MonoBehaviour
 {
 	public GameObject panel; 
 	public TextMeshProUGUI textNameMission;
-	public RewardUIControllerScript rewardController;
+	public RewardUIController rewardController;
 
 	[SerializeField] private GameObject btnOpenMission, textNotOpenMission, textCompleteMission;
 

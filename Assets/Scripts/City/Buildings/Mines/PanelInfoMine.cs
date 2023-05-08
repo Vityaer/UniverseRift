@@ -9,11 +9,11 @@ public class PanelInfoMine : MonoBehaviour{
 	[SerializeField] private TextMeshProUGUI textNameMine, textLevelMine, textIncome, textStore;
 	public  ItemSliderControllerScript sliderAmount;
 	// public SubjectCellControllerScript product;
-	public CostUIListScript costController;
+	public CostUIList costController;
 	[SerializeField] private Button buttonLevelUp;
 	private Mine mine;
-	MineControllerScript mineController;
-	public void SetData(MineControllerScript mineController){
+	MineController mineController;
+	public void SetData(MineController mineController){
 		this.mineController = mineController;
 		this.mine = mineController.GetMine;
 		UpdateUI();
@@ -33,7 +33,7 @@ public class PanelInfoMine : MonoBehaviour{
 		sliderAmount.SetAmount(mine.GetStore.Amount, mine.GetMaxStore.Amount);
 		cost = mine.GetCostLevelUp();
 		costController.ShowCosts( cost );
-		buttonLevelUp.interactable = PlayerScript.Instance.CheckResource( cost );
+		buttonLevelUp.interactable = GameController.Instance.CheckResource( cost );
 	}
 	public void Open(){
 		panel.SetActive(true);

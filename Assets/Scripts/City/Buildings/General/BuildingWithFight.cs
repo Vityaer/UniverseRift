@@ -7,12 +7,12 @@ public class BuildingWithFight : Building{
 	private Action<BigDigit> observerTryFight, observerWinFight;
 
 	protected override void OpenPage(){
-		WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+		WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
 	}
 
 	public void OpenMission(Mission mission){
-    	FightControllerScript.Instance.RegisterOnFightResult(OnResultFight);
-		WarTableControllerScript.Instance.OpenMission(mission, OnAfterFight);
+    	FightController.Instance.RegisterOnFightResult(OnResultFight);
+		WarTableController.Instance.OpenMission(mission, OnAfterFight);
     }
 
 	public void OnAfterFight(bool isOpen){
@@ -34,8 +34,8 @@ public class BuildingWithFight : Building{
 
 	private void UnregisterFight()
 	{
-    	FightControllerScript.Instance.UnregisterOnFightResult(OnResultFight);
-    	WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+    	FightController.Instance.UnregisterOnFightResult(OnResultFight);
+    	WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
 	}
 
 	public void RegisterOnTryFight(Action<BigDigit> d){observerTryFight += d;}

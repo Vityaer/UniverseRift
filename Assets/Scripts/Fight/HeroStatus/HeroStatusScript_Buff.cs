@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class HeroStatusScript : MonoBehaviour{
+public partial class HeroStatus : MonoBehaviour{
 	private List<Buff> listBuff = new List<Buff>();
 	public void SetBuff(Buff buff){
 		listBuff.Add(buff);

@@ -24,9 +24,9 @@ public class Mission : ICloneable{
     }
     public virtual void OnFinishFight(FightResult fightResult){
     	if(fightResult == FightResult.Win){
-    		MessageControllerScript.Instance.OpenWin(winReward, WarTableControllerScript.Instance.FinishMission);
+    		MessageController.Instance.OpenWin(winReward, WarTableController.Instance.FinishMission);
     	}else{
-    		MessageControllerScript.Instance.OpenDefeat(null, WarTableControllerScript.Instance.FinishMission);
+    		MessageController.Instance.OpenDefeat(null, WarTableController.Instance.FinishMission);
     	}
     } 
 }

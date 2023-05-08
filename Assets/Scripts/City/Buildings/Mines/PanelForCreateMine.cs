@@ -6,10 +6,10 @@ public class PanelForCreateMine : MonoBehaviour{
 	
 	public GameObject panel, panelController;
 	public Button btnCreate;
-	public List<MineCardScript> mineCards = new List<MineCardScript>(); 
-	public CostUIListScript costController;
-	private PlaceForMineScript place;
-	public void Open(PlaceForMineScript placeMine){
+	public List<MineCard> mineCards = new List<MineCard>(); 
+	public CostUIList costController;
+	private PlaceForMine place;
+	public void Open(PlaceForMine placeMine){
 		place = placeMine;
 		for(int i = 0; i < placeMine.types.Count; i++){
 			mineCards[i].SetData(placeMine.types[i]);
@@ -17,7 +17,7 @@ public class PanelForCreateMine : MonoBehaviour{
 		for(int i = placeMine.types.Count; i < mineCards.Count; i++){
 			mineCards[i].Hide();
 		}
-		MineCardScript startSelectCard = mineCards.Find(x => (x.GetCanCreateFromCount == true));
+		MineCard startSelectCard = mineCards.Find(x => (x.GetCanCreateFromCount == true));
 		if(startSelectCard != null){
 			startSelectCard.Select();
 		}else{
@@ -31,13 +31,13 @@ public class PanelForCreateMine : MonoBehaviour{
 		this.data = newData;
 		panelController.SetActive(true);
 		costController.ShowCosts(data.costCreate);
-		btnCreate.interactable = PlayerScript.Instance.CheckResource( data.costCreate );
+		btnCreate.interactable = GameController.Instance.CheckResource( data.costCreate );
 	}
 	public void CreateMine(){
-		MineCardScript.DiselectAfterCreate();
-		PlayerScript.Instance.SubtractResource( data.costCreate );
+		MineCard.DiselectAfterCreate();
+		GameController.Instance.SubtractResource( data.costCreate );
 		Close();
-		MinesScript.Instance.CreateNewMine(place, data);
+		MinesController.Instance.CreateNewMine(place, data);
 	}
 	public void Close(){
 		panel.SetActive(false);

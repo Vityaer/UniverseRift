@@ -18,7 +18,7 @@ public class VoyageControllerSctipt : BuildingWithFight{
 	
 	protected override void OnLoadGame()
 	{
-		voyageBuildingSave = PlayerScript.GetCitySave.voyageBuildingSave;
+		voyageBuildingSave = GameController.GetCitySave.voyageBuildingSave;
 		currentMission = voyageBuildingSave.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
 		LoadMissions();
 	}
@@ -64,7 +64,7 @@ public class VoyageControllerSctipt : BuildingWithFight{
 	}
 
 	protected override void OpenPage(){
-		WarTableControllerScript.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+		WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
 		locationController.Show();
 	}
 	protected override void ClosePage(){

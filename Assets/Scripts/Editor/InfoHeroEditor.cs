@@ -18,18 +18,18 @@ public class InfoHeroEditor:Editor{
 //Main
 		GUILayout.Label("General info", EditorStyles.boldLabel);
 		InfoHeroScript.generalInfo.Name = EditorGUILayout.TextField("Name hero:", InfoHeroScript.generalInfo.Name);
-        InfoHeroScript.generalInfo.race = (Race)EditorGUILayout.EnumPopup("Rare:", InfoHeroScript.generalInfo.race);
-        InfoHeroScript.generalInfo.rare = (Rare)EditorGUILayout.EnumPopup("Race:", InfoHeroScript.generalInfo.rare);
+        InfoHeroScript.generalInfo.Race = (Race)EditorGUILayout.EnumPopup("Rare:", InfoHeroScript.generalInfo.Race);
+        InfoHeroScript.generalInfo.Rare = (Rare)EditorGUILayout.EnumPopup("Race:", InfoHeroScript.generalInfo.Rare);
         InfoHeroScript.generalInfo.ClassHero = (Vocation)EditorGUILayout.EnumPopup("ClassHero:", InfoHeroScript.generalInfo.ClassHero);
-        InfoHeroScript.generalInfo.idHero = EditorGUILayout.IntField("ID Prefab:", InfoHeroScript.generalInfo.idHero);
+        InfoHeroScript.generalInfo.ViewId = EditorGUILayout.TextField("ID Prefab:", InfoHeroScript.generalInfo.ViewId);
 		InfoHeroScript.generalInfo.ImageHero = (Sprite) EditorGUILayout.ObjectField("Sprite", InfoHeroScript.generalInfo.ImageHero, typeof(Sprite), true);
         InfoHeroScript.generalInfo.Level = EditorGUILayout.IntField("Level:", InfoHeroScript.generalInfo.Level);
-        InfoHeroScript.generalInfo.ratingHero = EditorGUILayout.IntSlider("Rating:", InfoHeroScript.generalInfo.ratingHero, 1, 18);
+        InfoHeroScript.generalInfo.RatingHero = EditorGUILayout.IntSlider("Rating:", InfoHeroScript.generalInfo.RatingHero, 1, 18);
         InfoHeroScript.characts.baseCharacteristic.Mellee = EditorGUILayout.Toggle("Mellee ?", InfoHeroScript.characts.baseCharacteristic.Mellee);
         if(InfoHeroScript.characts.baseCharacteristic.Mellee == false){
 	        InfoHeroScript.PrefabArrow = (GameObject) EditorGUILayout.ObjectField("PrefabArrow:",InfoHeroScript.PrefabArrow, typeof(GameObject), true);
 	    }else{InfoHeroScript.PrefabArrow = null;}
-        InfoHeroScript.generalInfo.isAlive = EditorGUILayout.Toggle("isAlive ?", InfoHeroScript.generalInfo.isAlive);
+        InfoHeroScript.generalInfo.IsAlive = EditorGUILayout.Toggle("isAlive ?", InfoHeroScript.generalInfo.IsAlive);
     	
 
     	EditorGUILayout.Space();

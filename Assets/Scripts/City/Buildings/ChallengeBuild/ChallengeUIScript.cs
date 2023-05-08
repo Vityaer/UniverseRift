@@ -8,15 +8,15 @@ public class ChallengeUIScript : MonoBehaviour{
 	[SerializeField] private GameObject btnOpen;
 	[SerializeField] private GameObject imageIsDone;
 	[SerializeField] private Challenge challenge;
-	[SerializeField] private ChallengeBuildScript challengeBuild;
-	public void SetData(Challenge challenge, ChallengeBuildScript challengeBuild){
+	[SerializeField] private ChallengeBuild challengeBuild;
+	public void SetData(Challenge challenge, ChallengeBuild challengeBuild){
 		this.challengeBuild = challengeBuild;
 		this.challenge = challenge;
 		UpdateUI();
 	}
 	public void UpdateUI(){
 		textName.text = challenge.Name;
-    	backgroundChallenge.sprite = LocationControllerScript.Instance.GetBackgroundForMission(challenge.mission.location);
+    	backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.location);
 		UpdateControllersUI();
 	}
 	public void UpdateControllersUI(){

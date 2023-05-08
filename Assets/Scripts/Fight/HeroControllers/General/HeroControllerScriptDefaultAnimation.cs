@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-public partial class HeroControllerScript : MonoBehaviour{
+public partial class HeroController : MonoBehaviour
+{
 	//Animations
 	private const string ANIMATION_ATTACK = "Attack",
 						 ANIMATION_GET_DAMAGE = "GetDamage",
@@ -13,31 +14,32 @@ public partial class HeroControllerScript : MonoBehaviour{
 						 ANIMATION_DISTANCE_ATTACK = "Shoot",
 						 ANIMATION_SPELL = "Spell";
 	[SerializeField] bool flagAnimFinish = false;
-	Dictionary<string, bool> animationsExist = new Dictionary<string, bool>(); 
+	Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
 	Tween sequenceAnimation;
 
 	protected void PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true)
 	{
-		if(withRecord == true)
+		if (withRecord == true)
 			AddFightRecordActionMe();
-		
+
 		flagAnimFinish = false;
-		if(CheckExistAnimation(nameAnimation))
+		if (CheckExistAnimation(nameAnimation))
 		{
 			anim.Play(nameAnimation);
 		}
 		else
 		{
-			if(defaultAnimation != null)
+			if (defaultAnimation != null)
 				defaultAnimation();
 		}
 	}
 
-	protected bool CheckExistAnimation(string nameAnimation){
+	protected bool CheckExistAnimation(string nameAnimation)
+	{
 		bool result = false;
-		if(animationsExist.ContainsKey(nameAnimation))
+		if (animationsExist.ContainsKey(nameAnimation))
 		{
-			result = animationsExist[nameAnimation]; 
+			result = animationsExist[nameAnimation];
 		}
 		else
 		{
@@ -49,33 +51,33 @@ public partial class HeroControllerScript : MonoBehaviour{
 		return result;
 	}
 
-	private void DefaultAnimDistanceAttack(List<HeroControllerScript> enemies)
+	private void DefaultAnimDistanceAttack(List<HeroController> enemies)
 	{
 		GameObject arrow;
 		hitCount = 0;
 		this.listTarget = enemies;
-		foreach (HeroControllerScript target in listTarget) 
+		foreach (HeroController target in listTarget)
 		{
 			arrow = Instantiate(hero.PrefabArrow, tr.position, Quaternion.identity);
-			arrow.GetComponent<ArrowScript>().SetTarget(target, new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike, isMellee: false));
-			arrow.GetComponent<ArrowScript>().RegisterOnCollision(HitCount);
+			arrow.GetComponent<Arrow>().SetTarget(target, new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike, isMellee: false));
+			arrow.GetComponent<Arrow>().RegisterOnCollision(HitCount);
 		}
 	}
 
-	protected void DefaultAnimAttack(HeroControllerScript enemy)
+	protected void DefaultAnimAttack(HeroController enemy)
 	{
 		Debug.Log("default anim attack");
 		sequenceAnimation?.Kill();
 		Vector3 rotateAttack = Vector3.zero;
 		rotateAttack = new Vector3(0, 0, isFacingRight ? 45 : -45);
 		sequenceAnimation = DOTween.Sequence()
-					.Append( tr.DORotate(rotateAttack, 0.25f))
-					.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => {GiveDamage(enemy); FinishAnimation();} ));
+					.Append(tr.DORotate(rotateAttack, 0.25f))
+					.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
 	}
 
 	private void DefaultAnimIdle()
 	{
-	}	
+	}
 
 	private void DefaultAnimMove()
 	{
@@ -84,17 +86,17 @@ public partial class HeroControllerScript : MonoBehaviour{
 	private void FinishAnimation()
 	{
 		RemoveFightRecordActionMe();
-		 flagAnimFinish = true;
+		flagAnimFinish = true;
 	}
 
 	private void DefaultAnimGetDamage(Strike strike)
 	{
 		sequenceAnimation?.Kill();
 
-		bool attackFromLeft = NeedFlip(FightControllerScript.Instance.GetCurrentHero());
+		bool attackFromLeft = NeedFlip(FightController.Instance.GetCurrentHero());
 		Vector3 rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
-		sequenceAnimation = DOTween.Sequence().Append( tr.DORotate(rotateGiveDamage, 0.25f) )
-				.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation();}));
+		sequenceAnimation = DOTween.Sequence().Append(tr.DORotate(rotateGiveDamage, 0.25f))
+				.Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
 	}
 
 	private void DefaultAnimDeath()
@@ -102,6 +104,6 @@ public partial class HeroControllerScript : MonoBehaviour{
 		isDeath = true;
 		sequenceAnimation?.Kill();
 		sequenceAnimation = DOTween.Sequence()
-			.Append(tr.DOScaleY(0f, 0.5f).OnComplete(() => {FinishAnimation(); Death();}));
+			.Append(tr.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
 	}
 }

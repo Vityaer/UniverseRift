@@ -7,7 +7,7 @@ public class SanctuaryScript : BuildingWithHeroesList{
 	
 	public Resource costReplacementFourRating, costReplacementFiveRating;
 	public TavernScript tavernController;
-	private CardScript selectedHero;
+	private Card selectedHero;
 	public Button btnSave, btnReplacement;
 	public InfoHero newHero;
 
@@ -16,16 +16,16 @@ public class SanctuaryScript : BuildingWithHeroesList{
 	public void ReplacementHero(){
 		Resource resCost = null;
 		if(selectedHero != null){
-			if(selectedHero.hero.generalInfo.ratingHero == 4){
+			if(selectedHero.hero.generalInfo.RatingHero == 4){
 				resCost = costReplacementFourRating;
-				heroes  = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.ratingHero == 4));
+				heroes  = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.RatingHero == 4));
 			}else{
 				resCost = costReplacementFiveRating;
-				heroes  = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.ratingHero == 5));
+				heroes  = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.RatingHero == 5));
 			}
 
-			if(PlayerScript.Instance.CheckResource(resCost)){
-				heroes  = heroes.FindAll(x => ((x.generalInfo.ratingHero == selectedHero.hero.generalInfo.ratingHero) && (x.generalInfo.race == selectedHero.hero.generalInfo.race)&&(x.generalInfo.idHero != selectedHero.hero.generalInfo.idHero) ));
+			if(GameController.Instance.CheckResource(resCost)){
+				heroes  = heroes.FindAll(x => ((x.generalInfo.RatingHero == selectedHero.hero.generalInfo.RatingHero) && (x.generalInfo.Race == selectedHero.hero.generalInfo.Race)&&(x.generalInfo.ViewId != selectedHero.hero.generalInfo.ViewId) ));
 				if(heroes.Count > 0){
 					newHero = (InfoHero) heroes[ Random.Range(0, heroes.Count) ].Clone();
 					btnSave.gameObject.SetActive(true);
@@ -36,21 +36,21 @@ public class SanctuaryScript : BuildingWithHeroesList{
 
 	public void SaveReplacement(){
 		if(newHero != null){
-			listHeroesController.RemoveCards( new List<CardScript>{selectedHero} );
-			PlayerScript.Instance.RemoveHero(selectedHero.hero);
-			PlayerScript.Instance.AddHero(newHero);
+			listHeroesController.RemoveCards( new List<Card>{selectedHero} );
+			GameController.Instance.RemoveHero(selectedHero.hero);
+			GameController.Instance.AddHero(newHero);
 			btnSave.gameObject.SetActive(false);
 		}
 	}
-	public override void SelectHero(CardScript newCardHero){
-		if(selectedHero != null) selectedHero.UnSelected();
+	public override void SelectHero(Card newCardHero){
+		if(selectedHero != null) selectedHero.Unselect();
 		selectedHero = newCardHero;
-		selectedHero.Selected();
+		selectedHero.Select();
 		btnReplacement.interactable = true;
 	}
 
 	protected override void OpenPage(){
-		listHeroes = PlayerScript.Instance.GetListHeroes;
+		listHeroes = GameController.Instance.GetListHeroes;
 		LoadListHeroes();
 		listHeroesController.EventOpen();
 		listHeroesController.RegisterOnSelect(SelectHero);

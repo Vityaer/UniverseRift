@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace IdleGame.Touch{
 	public class ScreenSize : MonoBehaviour{
-		public CornerScript cornerLeftTop, cornerBottomRight;
+		public Corner cornerLeftTop, cornerBottomRight;
 		private static Vector2 screenSize = Vector2.zero;
 		void Awake(){
 			CalculateSize();

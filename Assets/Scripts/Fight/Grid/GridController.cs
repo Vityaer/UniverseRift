@@ -1,46 +1,43 @@
+using Models.Grid;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Models.Grid;
 
 namespace Fight.Grid
 {
     public class GridController : MonoBehaviour
     {
-	    private Coroutine _coroutineCheckClick;
+        private Coroutine _coroutineCheckClick;
         public Transform ParentTemplateObjects;
-	    private Stack<HexagonCellScript> way = new Stack<HexagonCellScript>();
-        private HexagonCellScript PreviousCell = null;
-	    public static bool PlayerCanController = false;
-	    protected Action observerFoundWay;
+        private Stack<HexagonCell> way = new Stack<HexagonCell>();
+        private HexagonCell PreviousCell = null;
+        public static bool PlayerCanController = false;
+        protected Action observerFoundWay;
         public GridFactory GridSpawner;
         private BaseGrid _grid;
-        public List<HexagonCellScript> Cells => _grid.Cells;
-        public List<HexagonCellScript> GetLeftTeamPos => _grid.StartCellsLeftTeam;
-        public List<HexagonCellScript> GetRightTeamPos => _grid.StartCellsRightTeam;
-         
-        public virtual Stack<HexagonCellScript> FindWay(HexagonCellScript startCell, HexagonCellScript finishCell, TypeMovement typeMovement = TypeMovement.Ground){
+        public List<HexagonCell> Cells => _grid.Cells;
+        public List<HexagonCell> GetLeftTeamPos => _grid.StartCellsLeftTeam;
+        public List<HexagonCell> GetRightTeamPos => _grid.StartCellsRightTeam;
+
+        public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
+        {
             way.Clear();
             PreviousCell = null;
-            startCell.FindWay(previousCell: null, target: finishCell, typeMovement : typeMovement);
+            startCell.FindWay(previousCell: null, target: finishCell, typeMovement: typeMovement);
             way.Push(finishCell);
-            do{
-                if(finishCell != null){
+            do
+            {
+                if (finishCell != null)
+                {
                     PreviousCell = finishCell.PreviousCell;
-                    if(PreviousCell != null) way.Push(PreviousCell);
+                    if (PreviousCell != null) way.Push(PreviousCell);
                 }
                 finishCell = PreviousCell;
-            } while((finishCell != startCell) && (finishCell != null));
+            } while ((finishCell != startCell) && (finishCell != null));
             OnFoundWay();
-            Debug.Log($"founded way(count: {way.Count}) :");
-            for(int i = 0; i < way.Count; i++)
-            {
-                Debug.Log(way.ToArray()[i]);
-            }
-
             return way;
-	    }
+        }
 
         public void RegisterOnFoundWay(Action d)
         {
@@ -54,44 +51,49 @@ namespace Fight.Grid
 
         private void OnFoundWay()
         {
-            if(observerFoundWay != null)
+            if (observerFoundWay != null)
                 observerFoundWay();
         }
 
         private void Start()
         {
-            FightControllerScript.Instance.RegisterOnStartFight(StartFight);
-            FightControllerScript.Instance.RegisterOnFinishFight(FinishFight);
+            FightController.Instance.RegisterOnStartFight(StartFight);
+            FightController.Instance.RegisterOnFinishFight(FinishFight);
             _grid = GridSpawner.CreateGrid();
             CloseGrid();
         }
 
         private void OnDestroy()
         {
-            FightControllerScript.Instance.UnregisterOnStartFight(StartFight);
-            FightControllerScript.Instance.UnregisterOnFinishFight(FinishFight);
-        } 
+            FightController.Instance.UnregisterOnStartFight(StartFight);
+            FightController.Instance.UnregisterOnFinishFight(FinishFight);
+        }
 
         private void StartFight()
         {
-		    _coroutineCheckClick = StartCoroutine(ICheckClick());
+            _coroutineCheckClick = StartCoroutine(ICheckClick());
         }
-    
+
         private IEnumerator ICheckClick()
         {
             RaycastHit2D hit;
-            while(true)
+            while (true)
             {
-                if (Input.GetMouseButtonDown(0)){
+                if (Input.GetMouseButtonDown(0))
+                {
                     hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.down);
-                    if(hit != null){
-                        if(hit.transform != null){
-                            if (hit.transform.CompareTag("HexagonCell")){
-                                HexagonCellScript HexagonCell = hit.collider.transform.GetComponent<HexagonCellScript>();
+                    if (hit != null)
+                    {
+                        if (hit.transform != null)
+                        {
+                            if (hit.transform.CompareTag("HexagonCell"))
+                            {
+                                HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
                                 HexagonCell.ClickOnMe();
                             }
-                            if(hit.transform.CompareTag("Hero")){
-                                hit.collider.transform.GetComponent<HeroControllerScript>().ClickOnMe();
+                            if (hit.transform.CompareTag("Hero"))
+                            {
+                                hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
                             }
                         }
                     }

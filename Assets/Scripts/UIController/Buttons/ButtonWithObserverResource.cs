@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ButtonWithObserverResource : MonoBehaviour{
 	public ResourceObjectCost resourceObserver;
-	public ButtonCostScript buttonCostComponent;
+	public ButtonCostController buttonCostComponent;
 	public Resource cost;
 	public void ChangeCost(Resource cost){
 		resourceObserver.SetData(cost);		

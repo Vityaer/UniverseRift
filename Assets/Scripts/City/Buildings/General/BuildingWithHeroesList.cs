@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BuildingWithHeroesList : Building{
 	
-	[SerializeField] protected ListCardOnWarTableScript listHeroesController;
+	[SerializeField] protected ListCardOnWarTable listHeroesController;
 	protected List<InfoHero> listHeroes = new List<InfoHero>();
 
-    public virtual void SelectHero(CardScript cardHero){}
+    public virtual void SelectHero(Card cardHero){}
 
-	public virtual void UnselectHero(CardScript cardHero){}
+	public virtual void UnselectHero(Card cardHero){}
 
 	protected virtual void FilterHeroes(List<InfoHero> heroes){}
 

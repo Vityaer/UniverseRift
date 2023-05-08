@@ -12,13 +12,13 @@ public class ResourceObjectCost : MonoBehaviour{
 
 	public void SetData(Resource res){
 		if(costResource != null)
-			PlayerScript.Instance.UnRegisterOnChangeResource( CheckResource, costResource.Name );
+			GameController.Instance.UnregisterOnChangeResource( CheckResource, costResource.Name );
 
 		this.costResource = res;
 		CheckResource();
 		image.sprite = this.costResource.Image;
 		gameObject.SetActive(true);
-		PlayerScript.Instance.RegisterOnChangeResource( CheckResource, costResource.Name );
+		GameController.Instance.RegisterOnChangeResource( CheckResource, costResource.Name );
 	}
 
 	public void CheckResource(Resource res){
@@ -26,8 +26,8 @@ public class ResourceObjectCost : MonoBehaviour{
 	}
 
 	public bool CheckResource(){
-		storeResource = PlayerScript.Instance.GetResource(costResource.Name);
-		bool flag     = PlayerScript.Instance.CheckResource(costResource); 
+		storeResource = GameController.Instance.GetResource(costResource.Name);
+		bool flag     = GameController.Instance.CheckResource(costResource); 
 		string result = flag ? "<color=green>" : "<color=red>";
 		result = string.Concat(result, costResource.ToString(), "</color>/", storeResource.ToString());
 		textAmount.text = result;

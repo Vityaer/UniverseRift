@@ -23,14 +23,14 @@ public class Mine{
 		previousDateTime = DateTime.Now;
 	}
 	public void LevelUP(){
-		PlayerScript.Instance.SubtractResource(GetCostLevelUp());
+		GameController.Instance.SubtractResource(GetCostLevelUp());
 		level += 1;
 		OnLevelChange();
 	}
 	public void GetResources(){
 		if(level > 0){
 			CalculateReward();
-			PlayerScript.Instance.AddResource(store);
+			GameController.Instance.AddResource(store);
 			store.Clear();
 		}
 	}
@@ -63,8 +63,8 @@ public class Mine{
 		this.previousDateTime = mineSave.PreviousDateTime;
 		this.type = mineSave.typeMine;
 		store  = new Resource(mineSave.store.type, mineSave.store.amount);
-		TypeMine typeMine = MinesScript.GetTypeMineFromTypeResource(mineSave.store.type);
-		data = MinesScript.Instance.GetDataMineFromType(typeMine);
+		TypeMine typeMine = MinesController.GetTypeMineFromTypeResource(mineSave.store.type);
+		data = MinesController.Instance.GetDataMineFromType(typeMine);
 		income = data.ResourceOnLevelProduction.GetCostForLevelUp(level).List[0];
 		maxStoreResource = CalculateMaxStoreAmount();
 		if(income != null) CalculateReward();

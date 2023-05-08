@@ -6,15 +6,15 @@ namespace Models.Grid
 {
     public class BaseGrid : MonoBehaviour
     {
-        private List<HexagonCellScript> _cells = new List<HexagonCellScript>(); 
-        public List<HexagonCellScript> Cells => _cells;
+        private List<HexagonCell> _cells = new List<HexagonCell>(); 
+        public List<HexagonCell> Cells => _cells;
 
-        public List<HexagonCellScript> StartCellsLeftTeam, StartCellsRightTeam;
+        public List<HexagonCell> StartCellsLeftTeam, StartCellsRightTeam;
 
         private void FindAllCell()
         {
             _cells.Clear();
-		    var components = GetComponentsInChildren<HexagonCellScript>();
+		    var components = GetComponentsInChildren<HexagonCell>();
 		    for(int i = 0; i < components.Length; i++)
 			    _cells.Add(components[i]);
 	    }

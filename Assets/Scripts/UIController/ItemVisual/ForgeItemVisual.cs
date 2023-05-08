@@ -41,7 +41,7 @@ public class ForgeItemVisual : MonoBehaviour{
 	{
 		if(matter == TypeMatter.Synthesis)
 		{
-			ForgeScript.Instance.SelectItem(this, thing);
+			Forge.Instance.SelectItem(this, thing);
 			UIItem.Select();
 		}
 	}

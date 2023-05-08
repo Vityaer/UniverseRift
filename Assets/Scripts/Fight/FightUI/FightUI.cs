@@ -6,11 +6,11 @@ using Fight.Grid;
 
 public class FightUI : MonoBehaviour{
 
-	public FightDirectionsControllerScript SelectDirection;
-	private List<HeroControllerScript> listWaits = new List<HeroControllerScript>();
+	public FightDirectionsController SelectDirection;
+	private List<HeroController> listWaits = new List<HeroController>();
 	public Button btnSpell, btnWait;
 	public RectTransform panelControllers;
-	private HeroControllerScript heroController;
+	private HeroController heroController;
 	public MelleeAtackDirectionController melleeAttackController => SelectDirection.melleeAttackController;
 	private static FightUI instance;
 	public static FightUI Instance => instance;
@@ -22,16 +22,16 @@ public class FightUI : MonoBehaviour{
 
 	void Start()
 	{
-		FightControllerScript.Instance.RegisterOnFinishFight(CloseControllers);
-		FightControllerScript.Instance.RegisterOnEndRound(ClearData);
+		FightController.Instance.RegisterOnFinishFight(CloseControllers);
+		FightController.Instance.RegisterOnEndRound(ClearData);
 	}
 
 	public void WaitTurn()
 	{
 		if(GridController.PlayerCanController)
 		{
-			FightControllerScript.Instance.WaitTurn();
-			listWaits.Add(FightControllerScript.Instance.GetCurrentHero());
+			FightController.Instance.WaitTurn();
+			listWaits.Add(FightController.Instance.GetCurrentHero());
 		}
 	}
 
@@ -39,21 +39,21 @@ public class FightUI : MonoBehaviour{
 	{
 		if(GridController.PlayerCanController)
 		{
-			FightControllerScript.Instance.GetCurrentHero().StartDefend();
+			FightController.Instance.GetCurrentHero().StartDefend();
 		}
 	}
 
 	public void UseSpell()
 	{
-		FightControllerScript.Instance.GetCurrentHero().UseSpecialSpell();
+		FightController.Instance.GetCurrentHero().UseSpecialSpell();
 	}
 
 //API
-	public void OpenControllers(HeroControllerScript heroController)
+	public void OpenControllers(HeroController heroController)
 	{
 		this.heroController = heroController;
 		panelControllers.gameObject.SetActive(true);
-		HeroControllerScript.RegisterOnEndAction(ClearController);
+		HeroController.RegisterOnEndAction(ClearController);
 		btnWait.interactable = !listWaits.Contains(heroController);
 		btnSpell.gameObject.SetActive(heroController.SpellExist);
 		heroController.statusState.RegisterOnChangeStamina(HeroChangeStamina);
@@ -74,7 +74,7 @@ public class FightUI : MonoBehaviour{
 
 	private void ClearController()
 	{
-		HeroControllerScript.UnregisterOnEndAction(ClearController);
+		HeroController.UnregisterOnEndAction(ClearController);
 		heroController?.statusState?.UnregisterOnChangeStamina(HeroChangeStamina);
 		heroController = null;
 		btnSpell.interactable = false;

@@ -25,17 +25,17 @@ public partial class ActionEffect{
 	public DropOrSum RepeatCall;
 	public List<Round> rounds = new List<Round>();
 	[Space]
-	private List<HeroControllerScript> listTarget = new List<HeroControllerScript>();
-	private HeroControllerScript master;
-	public HeroControllerScript Master{get => master; set => master = value;}
-	public void SetNewTarget(List<HeroControllerScript> listTarget){
+	private List<HeroController> listTarget = new List<HeroController>();
+	private HeroController master;
+	public HeroController Master{get => master; set => master = value;}
+	public void SetNewTarget(List<HeroController> listTarget){
 		this.listTarget.Clear();
 		if((listTarget.Count == 0) || (recalculateTarget != RecalculateMethodTarget.OldTargets)){
-			Side side = master.side;
+			Side side = master.Side;
 			if(sideTarget != SideTarget.Select){
 				if(sideTarget != SideTarget.I){
 					if(sideTarget == SideTarget.Friend) {if(side == Side.Left){side = Side.Right;}else{side = Side.Left;}}
-					FightControllerScript.Instance.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
+					FightController.Instance.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
 				}else{
 					this.listTarget.Add(master);		
 				}
@@ -90,7 +90,7 @@ public partial class ActionEffect{
 		}
 	}
 
-	public void GetListForSpell(List<HeroControllerScript> listTarget){
+	public void GetListForSpell(List<HeroController> listTarget){
 		SetNewTarget(listTarget);
 		if(sideTarget != SideTarget.I){
 			master.listTarget = this.listTarget;

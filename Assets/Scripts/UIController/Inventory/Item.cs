@@ -84,7 +84,7 @@ public class Item : PlayerObject, VisualAPI
 //Visial API
 	public override void ClickOnItem()
 	{
-		InventoryControllerScript.Instance.OpenInfoItem(this);
+		InventoryController.Instance.OpenInfoItem(this);
 	}
 
 	public override void SetUI(ThingUIScript UI)
