@@ -1,3 +1,4 @@
+using Models.Requiremets;
 using ObjectSave;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,22 +7,22 @@ public class RequirementMenu : Building
 {
     [SerializeField] private Transform taskboard;
     [SerializeField] private GameObject prefabRequirement;
-    [SerializeField] protected List<Requirement> listRequirement = new List<Requirement>();
+    [SerializeField] protected List<Achievement> listRequirement = new List<Achievement>();
 
     public MyScrollRect scrollRectController;
     protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
 
     protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
-    private List<RequirementSave> RequirementSaves = new List<RequirementSave>();
+    private List<AchievementSave> RequirementSaves = new List<AchievementSave>();
 
     protected override void OnLoadGame()
     {
         LoadData(GameController.GetPlayerGame.saveMainRequirements);
     }
 
-    public void LoadData(List<RequirementSave> RequirementSaves)
+    public void LoadData(List<AchievementSave> RequirementSaves)
     {
-        Requirement currentTask = null;
+        Achievement currentTask = null;
         for (int i = 0; i < RequirementSaves.Count; i++)
         {
             currentTask = listRequirement.Find(x => x.ID == RequirementSaves[i].ID);
@@ -44,10 +45,10 @@ public class RequirementMenu : Building
     protected void CreateRequrements()
     {
         RequirementUI currentTask = null;
-        foreach (Requirement task in listRequirement)
+        foreach (Achievement task in listRequirement)
         {
             currentTask = GetRequirementUI();
-            currentTask.SetData(task as Requirement);
+            currentTask.SetData(task as Achievement);
             currentTask.RegisterOnChange(SaveData);
             currentTask.SetScroll(scrollRectController);
             listTaskUI.Add(currentTask);

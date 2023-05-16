@@ -49,7 +49,7 @@ public class Splinter : PlayerObject
                 }
                 else
                 {
-                    sprite = TavernScript.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(ID)).GetMainImage;
+                    sprite = Tavern.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(ID)).GetMainImage;
                 }
             }
             // Debug.Log("splinter was founded: " + (sprite == null).ToString() );
@@ -177,7 +177,7 @@ public class Splinter : PlayerObject
             }
         }
         Debug.Log("selectNumber: " + selectNumber);
-        hero = TavernScript.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(reward.posibilityObjectRewards[selectNumber].ID));
+        hero = Tavern.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(reward.posibilityObjectRewards[selectNumber].ID));
         return hero;
     }
     private void AddHero(InfoHero newHero)

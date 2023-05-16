@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Models.Requiremets;
+using Network.DataServer.Models;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,22 +9,35 @@ namespace ObjectSave
     [System.Serializable]
     public class HeroSave
     {
-        public string ID;
-        public int CreatedId = 0;
+        public int Id;
+        public string HeroId;
         public string Name;
-        public int Level = 1;
-        public int Rating = 1;
+        public int Level;
+        public int Rating;
         public CostumeSave Costume = new CostumeSave();
+
+        public HeroSave() { }
+
+        public HeroSave(DataHero dataHero)
+        {
+            Id = dataHero.Id;
+            HeroId = dataHero.HeroId;
+            Level = dataHero.Level;
+            Rating = dataHero.Rating;
+            Costume = new CostumeSave();
+        }
 
         public void NewData(InfoHero hero)
         {
+            Id = hero.generalInfo.Id;
             Name = hero.generalInfo.Name;
-            ID = hero.generalInfo.ViewId;
+            HeroId = hero.generalInfo.HeroId;
             Level = hero.generalInfo.Level;
             Rating = hero.generalInfo.RatingHero;
-
-            Costume.NewData(hero.CostumeHero);
+            Costume = new CostumeSave();
         }
+
+
     }
 
     [System.Serializable]
@@ -173,37 +188,21 @@ namespace ObjectSave
     [System.Serializable]
     public class AllRequirement
     {
-        public List<RequirementSave> saveMainRequirements = new List<RequirementSave>();
-        public List<RequirementSave> saveEveryTimeTasks = new List<RequirementSave>();
+        public List<AchievementSave> saveMainRequirements = new List<AchievementSave>();
+        public List<AchievementSave> saveEveryTimeTasks = new List<AchievementSave>();
         public SimpleBuildingSave eventAgentProgress;
     }
     [System.Serializable]
     public class ListRequirementSave
     {
         public int ID;
-        public List<RequirementSave> list = new List<RequirementSave>();
+        public List<AchievementSave> list = new List<AchievementSave>();
         public ListRequirementSave(TypeMonthlyTasks type)
         {
             ID = (int)type;
         }
     }
-    [System.Serializable]
-    public class RequirementSave
-    {
-        public int ID;
-        public int currentStage;
-        public BigDigit progress;
-        public RequirementSave(Requirement requirement)
-        {
-            ChangeData(requirement);
-        }
-        public void ChangeData(Requirement requirement)
-        {
-            this.ID = requirement.ID;
-            this.currentStage = requirement.CurrentStage;
-            this.progress = requirement.Progress;
-        }
-    }
+
     //Markets
     [System.Serializable]
     public class MallSave
@@ -486,11 +485,14 @@ namespace ObjectSave
     {
         [SerializeField] private string name = string.Empty;
         [SerializeField] private int level = 1;
-        public int IDGuild, IDAvatar, IDServer;
+        [SerializeField] private int _playerId = 1;
         [SerializeField] private int vipLevel;
-        public string Name { get => name; }
-        public int Level { get => level; }
-        public int VipLevel { get => vipLevel; }
+
+        public int IDGuild, IDAvatar, IDServer;
+        public string Name => name;
+        public int Level => level;
+        public int VipLevel => vipLevel;
+        public int PlayerId => _playerId;
         public void LevelUP()
         {
             level += 1;
@@ -499,9 +501,10 @@ namespace ObjectSave
         public void SetNewAvatar(int IDAvatar) { this.IDAvatar = IDAvatar; }
 
         public PlayerInfo() { }
-        public void Register(string name)
+        public void Register(string name, int playerId)
         {
             this.name = name;
+            _playerId = playerId;
             level = 1;
             IDGuild = 0;
             vipLevel = 0;
@@ -517,9 +520,9 @@ namespace ObjectSave
     public class MonthlyRequirements
     {
         [SerializeField] private List<ListRequirementSave> listGroupRequirements = new List<ListRequirementSave>();
-        public List<RequirementSave> GetTasks(TypeMonthlyTasks type)
+        public List<AchievementSave> GetTasks(TypeMonthlyTasks type)
         {
-            List<RequirementSave> result = listGroupRequirements.Find(x => x.ID == ((int)type))?.list;
+            List<AchievementSave> result = listGroupRequirements.Find(x => x.ID == ((int)type))?.list;
             if (result == null)
             {
                 ListRequirementSave work = new ListRequirementSave(type);

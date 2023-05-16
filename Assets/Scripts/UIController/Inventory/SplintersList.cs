@@ -21,7 +21,7 @@ public class SplintersList : SerializedScriptableObject
         }
         else
         {
-            InfoHero hero = TavernScript.Instance.GetInfoHero(ID);
+            InfoHero hero = Tavern.Instance.GetInfoHero(ID);
             result = new Splinter(hero);
         }
 

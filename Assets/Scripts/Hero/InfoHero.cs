@@ -44,8 +44,10 @@ public class InfoHero : ScriptableObject, ICloneable
 
     public InfoHero(HeroSave heroSave)
     {
-        var hero = TavernScript.Instance.GetListHeroes.Find(x => x.generalInfo.ViewId == heroSave.ID);
+        var hero = Tavern.Instance.GetListHeroes.Find(x => x.generalInfo.HeroId == heroSave.HeroId);
         CopyData(hero);
+        generalInfo.HeroId = heroSave.HeroId;
+        generalInfo.ViewId = heroSave.HeroId;
         generalInfo.Name = heroSave.Name;
         generalInfo.RatingHero = heroSave.Rating;
         LevelUP(heroSave.Level - 1);
@@ -140,7 +142,7 @@ public class InfoHero : ScriptableObject, ICloneable
         }
         else
         {
-            Debug.LogError("localization not found");
+            //Debug.LogError("localization not found");
         }
     }
 

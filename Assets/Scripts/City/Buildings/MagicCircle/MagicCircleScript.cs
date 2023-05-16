@@ -6,7 +6,7 @@ public class MagicCircleScript : Building{
 	private List<InfoHero> listHeroes = new List<InfoHero>();
 	protected override void OpenPage(){
 		if(listHeroes.Count == 0){
-			listHeroes = TavernScript.Instance.GetListHeroes;
+			listHeroes = Tavern.Instance.GetListHeroes;
 		}
 	}
 	[SerializeField] private Race selectedRace;
@@ -34,7 +34,7 @@ public class MagicCircleScript : Building{
 		}
 	}
 	private void AddNewHero(InfoHero hero){
-		TavernScript.Instance.AddNewHero(hero);
+		Tavern.Instance.AddNewHero(hero);
 	}
 	public ButtonWithObserverResource oneHire, tenHire;
 	protected override void OnStart(){

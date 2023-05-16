@@ -1,4 +1,5 @@
-﻿using ObjectSave;
+﻿using Models.Requiremets;
+using ObjectSave;
 using System;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private TextMeshProUGUI _description;
-    private Requirement requirement;
+    private Achievement requirement;
     public Button buttonGetReward;
     public ItemSliderControllerScript sliderAmount;
     public RewardUIController rewardController;
@@ -39,7 +40,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         OnChange();
     }
 
-    public void SetData(Requirement requirement)
+    public void SetData(Achievement requirement)
     {
         this.requirement = requirement;
         _description.text = requirement.description;
@@ -50,7 +51,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void SetProgress(RequirementSave requirementSave)
+    public void SetProgress(AchievementSave requirementSave)
     {
         requirement.SetProgress(requirementSave.currentStage, requirementSave.progress);
         UpdateUI();
@@ -80,7 +81,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 WheelFortuneScript.Instance.RegisterOnSimpleRotate(ChangeProgress);
                 break;
             case TypeRequirement.SpecialHireCount:
-                TavernScript.Instance.RegisterOnSpecialHire(ChangeProgress);
+                Tavern.Instance.RegisterOnSpecialHire(ChangeProgress);
                 break;
             case TypeRequirement.GetLevel:
                 GameController.Instance.RegisterOnLevelUP(ChangeProgress);

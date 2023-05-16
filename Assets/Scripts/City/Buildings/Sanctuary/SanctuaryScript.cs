@@ -6,7 +6,7 @@ public class SanctuaryScript : BuildingWithHeroesList{
 
 	
 	public Resource costReplacementFourRating, costReplacementFiveRating;
-	public TavernScript tavernController;
+	public Tavern tavernController;
 	private Card selectedHero;
 	public Button btnSave, btnReplacement;
 	public InfoHero newHero;
