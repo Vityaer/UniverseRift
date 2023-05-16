@@ -8,7 +8,7 @@ public class CardWithPercent : MonoBehaviour
 
     public void SetData(string ID, float percent)
     {
-        cardInfo.ChangeInfo(TavernScript.Instance.GetInfoHero(ID));
+        cardInfo.ChangeInfo(Tavern.Instance.GetInfoHero(ID));
         textPercent.text = $"{percent}%";
         gameObject.SetActive(true);
     }

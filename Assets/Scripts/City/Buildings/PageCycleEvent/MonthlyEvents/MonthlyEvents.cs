@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ObjectSave;
 using UnityEngine.UI;
+using Models.Requiremets;
 
 public class MonthlyEvents : Building
 {
@@ -39,9 +40,9 @@ public class MonthlyEvents : Building
 		taskBoardsTasks.LoadData(monthlyRequirements.GetTasks(TypeMonthlyTasks.TaskBoard));
 	}
 	
-	public void SaveData(TypeMonthlyTasks type, List<Requirement> tasks)
+	public void SaveData(TypeMonthlyTasks type, List<Achievement> tasks)
 	{
-		List<RequirementSave> RequirementSaves = monthlyRequirements.GetTasks(type);
+		List<AchievementSave> RequirementSaves = monthlyRequirements.GetTasks(type);
 		GameController.GetPlayerGame.SaveRequirement(RequirementSaves, tasks);
 		SaveGame();
 	}

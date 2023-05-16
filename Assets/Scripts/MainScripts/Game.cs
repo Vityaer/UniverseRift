@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using ObjectSave;
+using Models.Requiremets;
+
 [System.Serializable]
 public class Game{
 
@@ -45,21 +47,21 @@ public class Game{
 	}
 //API every time tasks and requrements
 	public AllRequirement allRequirement{get => playerSaveObject.allRequirement;}
-	public void SaveMainRequirements(List<Requirement> mainRequirements){SaveRequirement(allRequirement.saveMainRequirements, mainRequirements);}
-	public void SaveEveryTimeTask(List<Requirement> everyTimeTasks){ SaveRequirement(allRequirement.saveEveryTimeTasks, everyTimeTasks); }
-	public void SaveRequirement(List<RequirementSave> listSave, List<Requirement> requirements){
-		RequirementSave currentSave = null; 
-		foreach(Requirement task in requirements){
+	public void SaveMainRequirements(List<Achievement> mainRequirements){SaveRequirement(allRequirement.saveMainRequirements, mainRequirements);}
+	public void SaveEveryTimeTask(List<Achievement> everyTimeTasks){ SaveRequirement(allRequirement.saveEveryTimeTasks, everyTimeTasks); }
+	public void SaveRequirement(List<AchievementSave> listSave, List<Achievement> requirements){
+		AchievementSave currentSave = null; 
+		foreach(Achievement task in requirements){
 			currentSave = listSave.Find(x => x.ID == task.ID);
 			if(currentSave != null){
 				currentSave.ChangeData(task);
 			}else{
-				listSave.Add(new RequirementSave(task));
+				listSave.Add(new AchievementSave(task));
 			}
 		}
 		Debug.Log(listSave.Count);
 	}
-	public List<RequirementSave> saveMainRequirements{get => allRequirement.saveMainRequirements;}
-	public List<RequirementSave> saveEveryTimeTasks{get => allRequirement.saveEveryTimeTasks;}
+	public List<AchievementSave> saveMainRequirements{get => allRequirement.saveMainRequirements;}
+	public List<AchievementSave> saveEveryTimeTasks{get => allRequirement.saveEveryTimeTasks;}
 	public ListResource StoreResources{get => playerSaveObject.storeResources;}
 }

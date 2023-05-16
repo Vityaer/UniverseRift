@@ -260,9 +260,9 @@ public class GameController : MonoBehaviour
 #endif
     }
 
-    public void RegisterPlayer(string name)
+    public void RegisterPlayer(string name, int playerId)
     {
-        GetPlayerInfo.Register(name);
+        GetPlayerInfo.Register(name, playerId);
     }
 }
 

@@ -8,7 +8,7 @@ public class MissionEnemy
     {
         get
         {
-            return TavernScript.Instance.GetInfoHero(heroName.ToString());
+            return Tavern.Instance.GetInfoHero(heroName.ToString());
         }
     }
 

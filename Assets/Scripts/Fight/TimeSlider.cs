@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TimeSlider : MonoBehaviour
 {
-
     [SerializeField] private Slider slider;
     [SerializeField] private Image fillImage;
     public float maxValue = 1f;
     public Color lowValue;
     public Color fillValue;
     private Tween sequenceChangeValue;
+
     public void SetData(float curValue, float maxValue)
     {
         SetMaxValue(maxValue);

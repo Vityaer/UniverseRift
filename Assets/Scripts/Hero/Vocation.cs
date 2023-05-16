@@ -152,7 +152,9 @@ public class Resistance : ICloneable
 [System.Serializable]
 public class GeneralInfoHero
 {
+    public int Id;
     public string Name;
+    public string HeroId;
     public Race Race;
     public Vocation ClassHero;
     public int RatingHero = 1;

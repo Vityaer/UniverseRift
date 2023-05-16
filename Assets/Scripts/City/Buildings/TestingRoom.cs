@@ -18,7 +18,7 @@ public class TestingRoom : Building, IWorkWithWarTable
 
     public void OpenFight()
     {
-        WarTableController.Instance.OpenMission(mission, TavernScript.Instance.GetListHeroes);
+        WarTableController.Instance.OpenMission(mission, Tavern.Instance.GetListHeroes);
         RegisterOnOpenCloseWarTable();
     }
 
