@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New InfoHero", menuName = "Custom ScriptableObject/Info hero", order = 51)]
 [System.Serializable]
-public class InfoHero : ScriptableObject, ICloneable
+public class InfoHero : ICloneable
 {
     [Header("General")]
     public GeneralInfoHero generalInfo;

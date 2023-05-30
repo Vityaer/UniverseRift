@@ -78,7 +78,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         switch (requirement.type)
         {
             case TypeRequirement.SimpleSpin:
-                WheelFortuneScript.Instance.RegisterOnSimpleRotate(ChangeProgress);
+                WheelFortune.Instance.RegisterOnSimpleRotate(ChangeProgress);
                 break;
             case TypeRequirement.SpecialHireCount:
                 Tavern.Instance.RegisterOnSpecialHire(ChangeProgress);
