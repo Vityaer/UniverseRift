@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlaceForMine : MonoBehaviour
 {
-    public int ID;
+    public string ID;
     public Transform point;
     public List<TypeMine> types = new List<TypeMine>();
     public MineController mineController = null;

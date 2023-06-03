@@ -1,3 +1,4 @@
+using City.Buildings.Market;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +8,7 @@ public class DailyReward : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public GameObject blockPanel, readyForGet;
     [SerializeField] private MyScrollRect scrollParent;
     public SubjectCellControllerScript rewardController;
-    private MarketProduct reward;
+    private BaseMarketProduct reward;
     private EventAgentRewardStatus statusReward = EventAgentRewardStatus.Close;
 
     void Start()
@@ -15,7 +16,7 @@ public class DailyReward : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         ID = transform.GetSiblingIndex();
     }
 
-    public void SetData(MarketProduct newProduct)
+    public void SetData(BaseMarketProduct newProduct)
     {
         switch (newProduct)
         {

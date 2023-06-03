@@ -122,7 +122,7 @@ public class Resource : BaseObject, ICloneable, VisualAPI
     }
     public void UpdateUI()
     {
-        UI?.UpdateUI(Image, Rare.C, Amount.ToString());
+        UI?.UpdateUI(Image, Amount.ToString());
     }
     public int ConvertToInt()
     {

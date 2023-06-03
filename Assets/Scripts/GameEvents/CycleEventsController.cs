@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 using IdleGame.MultiplayerData;
 using HelpFuction;
 
@@ -13,7 +13,7 @@ public class CycleEventsController : MonoBehaviour
 	public List<MainEventController> listEvents = new List<MainEventController>();
 	public int cycleTimeDay = 7;
 	private DateTime dateMonthlyEvent, dateLastChangeCycle;
-	private CycleEventsSave сycleEventsSave = null;
+	private CycleEventsModel сycleEventsSave = null;
 
 	private StageCycleEvent currentStageCycle;
 	private MainEventController currentEventController = null;

@@ -1,4 +1,4 @@
-using ObjectSave;
+using Models;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +11,8 @@ public class Achievement
     public string description;
     [SerializeField] protected List<RequirementStage> stages = new List<RequirementStage>();
     public ProgressType progressType;
-    [SerializeField] private IntRecords intRecords = new IntRecords();
-    [SerializeField] private StringRecords stringRecords = new StringRecords();
+    [SerializeField] private IntRecordsModel intRecords = new IntRecordsModel();
+    [SerializeField] private StringRecordsModel stringRecords = new StringRecordsModel();
 
     [SerializeField] protected BigDigit progress = new BigDigit(0, 0);
     [SerializeField] protected int currentStage = 0;
@@ -23,8 +23,8 @@ public class Achievement
     public int CountStage => stages.Count;
     public BigDigit Progress => progress;
     public int CurrentStage => currentStage;
-    public IntRecords GetIntRecords => intRecords;
-    public StringRecords GetStringRecords => stringRecords;
+    public IntRecordsModel GetIntRecords => intRecords;
+    public StringRecordsModel GetStringRecords => stringRecords;
     public bool IsComplete => isComplete;
 
     public void AddProgress(BigDigit amount)

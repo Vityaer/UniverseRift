@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 public class ArenaScript : BuildingWithFight
 {
-	ArenaBuildingSave arenaBuildingSave = null;
+	ArenaBuildingModel arenaBuildingSave = null;
 	protected override void OnLoadGame()
 	{
 		arenaBuildingSave = GameController.GetCitySave.arenaBuilding;

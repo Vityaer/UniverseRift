@@ -21,12 +21,12 @@ public class PosibleRewardResource: PosibleRewardObject{
 [System.Serializable]
 public class PosibleRewardItem: PosibleRewardObject{
 	public ItemName ID = ItemName.Stick;
-	public Item GetItem{get{return new Item(Convert.ToInt32(ID), 1);}}
+	public Item GetItem{get{return new Item($"{ID}", 1);}}
 }
 [System.Serializable]
 public class PosibleRewardSplinter: PosibleRewardObject{
 	public SplinterName ID = SplinterName.OneStarPeople;
-	public Splinter GetSplinter{get{ return new Splinter(Convert.ToInt32(ID), 1); }}
+	public Splinter GetSplinter{get{ return new Splinter($"{ID}", 1); }}
 	public SplinterName GetID{get => ID;}
 
 }

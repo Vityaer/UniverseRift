@@ -1,4 +1,4 @@
-﻿using ObjectSave;
+﻿using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +10,7 @@ public class PlayerPanel : Building
     [SerializeField] private CostLevelUp playerLevelList, rewardForLevelUp;
     [SerializeField] private Image avatar, outlineAvatar;
 
-    private PlayerInfo playerInfo;
+    private PlayerInfoModel playerInfo;
     private Resource requireExpForLevel, currentExp;
 
     public string GetName => playerInfo.Name;

@@ -6,6 +6,7 @@ using UnityEngine;
 public class CostumeHeroController
 {
     public List<Item> items = new List<Item>();
+    private static ItemsList itemsList;
 
     //API
     public void TakeOn(Item newItem)
@@ -33,7 +34,7 @@ public class CostumeHeroController
     {
         items.Clear();
     }
-    public Item GetItem(TypeItem typeItem)
+    public Item GetItem(string typeItem)
     {
         Item result = null;
         for (int i = 0; i < items.Count; i++)
@@ -53,11 +54,10 @@ public class CostumeHeroController
             result += item.GetBonus(type);
         return result;
     }
-    private static ItemsList itemsList;
-    public void SetData(List<int> listIDItems)
+    public void SetData(List<string> listIDItems)
     {
         if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
-        foreach (int ID in listIDItems)
+        foreach (var ID in listIDItems)
         {
             items.Add(itemsList.GetItem(ID));
         }

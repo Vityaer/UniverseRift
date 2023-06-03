@@ -1,9 +1,10 @@
-using ObjectSave;
+using MainScripts;
+using Models;
 using System;
 using UnityEngine;
 public class TimeControllerSystem : MonoBehaviour
 {
-    TimeManagement timeControllerSave = null;
+    TimeManagementModel timeControllerSave = null;
 
     private TimeSpan day = new TimeSpan(24, 0, 0);
     private TimeSpan week = new TimeSpan(7, 0, 0, 0);

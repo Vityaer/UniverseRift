@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ObjectSave;
+using Models;
 using UnityEngine.UI;
 using Models.Requiremets;
 
@@ -15,7 +15,7 @@ public class MonthlyEvents : Building
 
 	private MonthlyTasks _currentPage;
 
-	MonthlyRequirements monthlyRequirements = null;
+	MonthlyRequirementsModel monthlyRequirements = null;
 
 	protected override void OnStart()
 	{

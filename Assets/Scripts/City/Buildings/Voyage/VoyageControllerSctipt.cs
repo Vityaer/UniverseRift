@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ObjectSave;
+using Models;
 using System;
 public class VoyageControllerSctipt : BuildingWithFight{
 	[SerializeField] private List<Mission> missions = new List<Mission>();
 	[SerializeField] private List<VoyageMissionController> missionsUI = new List<VoyageMissionController>(); 
 	[SerializeField] private PanelVoyageMission panelVoyageMission;
 	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission"; 
-	VoyageBuildingSave voyageBuildingSave = null;
+	VoyageBuildingModel voyageBuildingSave = null;
 	int currentMission = 0;
 	private Action<BigDigit> observerDoneTravel;
 	public LocationWithBuildings locationController;

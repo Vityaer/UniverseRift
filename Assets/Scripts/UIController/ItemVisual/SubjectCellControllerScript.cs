@@ -78,13 +78,13 @@ public class SubjectCellControllerScript : MonoBehaviour{
 		switch(rewardObject){
 			case PosibleRewardResource reward:
 				// Debug.Log("posible resource: " + reward.GetResource.GetName());
-				UIItem.UpdateUI(reward.GetResource.Image, Rare.R, string.Empty);
+				UIItem.UpdateUI(reward.GetResource.Image, string.Empty);
 				break;
 			case PosibleRewardItem reward:
-				UIItem.UpdateUI(reward.GetItem.Image, reward.GetItem.GetRare);
+				//UIItem.UpdateUI(reward.GetItem.Image/*, reward.GetItem.GetRare*/);
 				break;
 			case PosibleRewardSplinter reward:
-				UIItem.UpdateUI(reward.GetSplinter.Image, reward.GetSplinter.GetRare);
+				UIItem.UpdateUI(reward.GetSplinter.Image);
 				break;		
 		}
 	}

@@ -1,14 +1,14 @@
 using Cysharp.Threading.Tasks;
 using Network.DataServer.Messages;
 using Network.DataServer;
-using ObjectSave;
+using Models;
 using UnityEngine;
 using System;
 
 public class FormRegisterController : Building
 {
     [SerializeField] private PanelRegistration panelRegistration;
-    private PlayerInfo playerInfo;
+    private PlayerInfoModel playerInfo;
 
     protected override void Start()
     {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CellItemHeroScript : MonoBehaviour{
 
-	public TypeItem typeCell;
+	public string typeCell;
 	public Sprite defaultSprite;
 
 	[Header("Info")]
@@ -42,7 +42,7 @@ public class CellItemHeroScript : MonoBehaviour{
 	{
 		image.sprite =  item.Image;
 		image.color  = new Color(255, 255, 255, 1); 
-		ratingController?.ShowRating(item.Rating);
+		//ratingController?.ShowRating(item.Rating);
 	}
 //API
 	public void Clear()

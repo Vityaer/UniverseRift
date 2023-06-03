@@ -1,4 +1,4 @@
-﻿using ObjectSave;
+﻿using Models;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -206,10 +206,10 @@ public class GameController : MonoBehaviour
     }
     public void RegisterOnLevelUP(Action<BigDigit> d) { player.RegisterOnLevelUP(d); }
     //Geters
-    public static CitySaveObject GetCitySave { get => instance.player.PlayerGame.citySaveObject; }
-    public static PlayerSaveObject GetPlayerSave { get => instance.player.PlayerGame.playerSaveObject; }
+    public static CityModel GetCitySave { get => instance.player.PlayerGame.citySaveObject; }
+    public static PlayerModel GetPlayerSave { get => instance.player.PlayerGame.playerSaveObject; }
     public static Game GetPlayerGame { get => instance.player.PlayerGame; }
-    public static PlayerInfo GetPlayerInfo { get => GetPlayerGame.playerInfo; }
+    public static PlayerInfoModel GetPlayerInfo { get => GetPlayerGame.playerInfo; }
 
     //LoadGame
     private Action onLoadedGame;

@@ -1,4 +1,5 @@
-﻿using ObjectSave;
+﻿using MainScripts;
+using Models;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class TaskGiver : Building
     private static TaskGiver instance;
     public static TaskGiver Instance { get => instance; }
     bool isLoadedTask = false;
-    private TaskGiverBuilding taskGiverBuilding;
+    private TaskGiverModel taskGiverBuilding;
     private ObserverDoneTask observerDoneTasks = new ObserverDoneTask();
 
     protected override void ClosePage()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 public class ChallengeTowerScript : BuildingWithFight{
 	public int countShowMission = 8;
 	public ListMissions listMissions;
@@ -13,7 +13,7 @@ public class ChallengeTowerScript : BuildingWithFight{
 	List<InfoHero> listHeroes = new List<InfoHero>();
 	int currentMission = 0;
 	List<Mission> workMission = new List<Mission>();
-	BuildingWithFightTeams challengeTower = null;
+	BuildingWithFightTeamsModel challengeTower = null;
 	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission"; 
 	protected override void OnLoadGame(){
 		challengeTower = GameController.GetCitySave.challengeTowerBuilding;

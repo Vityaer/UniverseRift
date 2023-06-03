@@ -42,7 +42,7 @@ public class ItemController : VisualAPI, ICloneable
 
 	public void UpdateUI()
 	{
-		UI?.UpdateUI(item.Image, Rare.C, Amount);
+		UI?.UpdateUI(item.Image, Amount);
 	}
 
 	public VisualAPI GetVisual()

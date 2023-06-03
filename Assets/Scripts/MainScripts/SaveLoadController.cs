@@ -1,4 +1,4 @@
-﻿using ObjectSave;
+﻿using Models;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -16,10 +16,9 @@ internal class SaveLoadController : MonoBehaviour
     public static void SaveListHero(List<InfoHero> listHero)
     {
         StreamWriter sw = CreateStream(NameListHeroFile, false);
-        HeroSave heroSave = new HeroSave();
         foreach (InfoHero hero in listHero)
         {
-            heroSave.NewData(hero);
+            var heroSave = new HeroModel(hero);
             sw.WriteLine(JsonUtility.ToJson(heroSave));
         }
         sw.Close();
@@ -28,7 +27,7 @@ internal class SaveLoadController : MonoBehaviour
 
     public static void LoadListHero(List<InfoHero> ResultList)
     {
-        HeroSave heroSave = new HeroSave();
+        HeroModel heroSave = new HeroModel();
         List<string> rows = ReadFile(NameListHeroFile);
         if (rows.Count > 0)
         {

@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ObjectSave;
+using Models;
 using UnityEngine.UI;
 public class TravelCircleScript : Building{
     [SerializeField] private List<TravelCircleOnRace> travels = new List<TravelCircleOnRace>();
 	private TravelCircleOnRace currentTravel;
-	BuildingWithFightTeams travelCircleSave = null;
+	BuildingWithFightTeamsModel travelCircleSave = null;
 	[Header("UI")]
 	public List<TravelCircleMissionControllerScript> missionsUI = new List<TravelCircleMissionControllerScript>();
 	public RectTransform mainCircle;

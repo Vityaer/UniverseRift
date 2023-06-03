@@ -1,4 +1,4 @@
-using ObjectSave;
+using Models;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -135,7 +135,7 @@ public class CampaignBuilding : BuildingWithFight
         instance = this;
     }
 
-    private BuildingWithFightTeams campaingSaveObject;
+    private BuildingWithFightTeamsModel campaingSaveObject;
     public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.GetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME); }
 
 

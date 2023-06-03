@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using Network.DataServer.Messages;
 using Network.DataServer;
 using Network.DataServer.Models;
-using ObjectSave;
+using Models;
 using Misc.Json;
 using Misc.Json.Impl;
 
@@ -63,7 +63,7 @@ public class Tavern : Building
 
 		for (int i = 0; i < newHeroes.Length; i++)
 		{
-			var heroSave = new HeroSave(newHeroes[i]);
+			var heroSave = new HeroModel(newHeroes[i]);
 			hero = new InfoHero(heroSave);
 			OnHireHeroes(hero);
 			if (hero != null)
@@ -87,33 +87,7 @@ public class Tavern : Building
 		float rand = 0f;
 		InfoHero hero = null;
 		List<InfoHero> workList = new List<InfoHero>();
-		for (int i = 0; i < count; i++)
-		{
-			rand = UnityEngine.Random.Range(0f, 100f);
-			if (rand < 60f)
-			{
-				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.R));
-			}
-			else if (rand < 88.42f)
-			{
-				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SR));
-			}
-			else if (rand < 98.42f)
-			{
-				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.SSR));
-			}
-			else if (rand <= 100f)
-			{
-				workList = listHeroes.FindAll(x => (x.generalInfo.Rare == Rare.UR));
-			}
-			hero = (InfoHero)(workList[UnityEngine.Random.Range(0, workList.Count)]).Clone();
-			if (hero != null)
-			{
-				hero.generalInfo.Name = $"{hero.generalInfo.Name} № {UnityEngine.Random.Range(0, 1000)}";
-				AddNewHero(hero);
-			}
-			OnHireHeroes(hero);
-		}
+		
 		OnSpecialHire(count);
 	}
 
@@ -172,15 +146,16 @@ public class Tavern : Building
 			observerFriendHire(new BigDigit(amount));
 	}
 
-	public void RegisterOnHireHeroes(Action<BigDigit> d, Rare rare, string ID = "")
+	public void RegisterOnHireHeroes(Action<BigDigit> d, string ID = "")
 	{
-		observersHireRace.Add(d, ID, (int)rare);
+		observersHireRace.Add(d, ID, 1);
 	}
 
 	private void OnHireHeroes(InfoHero hero)
 	{
-		observersHireRace.OnAction(string.Empty, (int)hero.generalInfo.Rare);
-		observersHireRace.OnAction(hero.generalInfo.ViewId, (int)hero.generalInfo.Rare);
+		//and Rarity
+		observersHireRace.OnAction(string.Empty, 1);
+		observersHireRace.OnAction(hero.generalInfo.ViewId, 1);
 	}
 
 }

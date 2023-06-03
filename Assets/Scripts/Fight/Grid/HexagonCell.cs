@@ -28,7 +28,7 @@ public class HexagonCell : MonoBehaviour
     public bool CanStand { get => (availableMove && (heroScript == null)); }
     public HeroController Hero { get => heroScript; }
     public bool GetCanAttackCell { get => (neighbours.Find(x => (x.achievableMove == true)) != null); }
-    private Vector2 deltaSize => Costants.Fight.CellDeltaStep;
+    private Vector2 deltaSize => Constants.Fight.CellDeltaStep;
 
     void Awake()
     {
@@ -38,7 +38,7 @@ public class HexagonCell : MonoBehaviour
     void Start()
     {
         FightController.Instance.RegisterOnFinishFight(OnEndMatch);
-        spriteAvailable.color = Costants.Colors.ACHIEVABLE_CELL_COLOR;
+        spriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
 
     }
 
@@ -70,7 +70,7 @@ public class HexagonCell : MonoBehaviour
                 {
                     showAchievable = true;
                     spriteAvailable.enabled = true;
-                    spriteAvailable.color = Costants.Colors.ACHIEVABLE_CELL_COLOR;
+                    spriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
                 }
 
                 if (step > 0)

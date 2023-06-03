@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using UnityEngine;
 
 public enum Vocation
@@ -152,13 +153,13 @@ public class Resistance : ICloneable
 [System.Serializable]
 public class GeneralInfoHero
 {
-    public int Id;
+    public string Id;
     public string Name;
     public string HeroId;
     public Race Race;
     public Vocation ClassHero;
     public int RatingHero = 1;
-    public Rare Rare;
+    public string Rarity;
     public string ViewId;
     private Sprite Avatar;
     public Sprite ImageHero
@@ -200,7 +201,7 @@ public class GeneralInfoHero
             Race = this.Race,
             ClassHero = this.ClassHero,
             RatingHero = this.RatingHero,
-            Rare = this.Rare,
+            Rarity = this.Rarity,
             ViewId = this.ViewId,
             Level = this.Level,
             IsAlive = this.IsAlive,

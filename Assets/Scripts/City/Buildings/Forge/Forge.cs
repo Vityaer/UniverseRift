@@ -156,11 +156,12 @@ public class Forge : Building
 public class ItemSynthesis
 {
     [Header("Require")]
-    public int IDRequireItem;
+    public string IDRequireItem;
     public int countRequireItem;
     public Resource requireResource;
+
     [Header("Reward")]
-    public int IDReward;
+    public string IDReward;
 
     private Item _reward = null;
     public Item reward
@@ -180,7 +181,7 @@ public class ItemSynthesis
             return _requireItem;
         }
     }
-    private Item GetItem(int ID)
+    private Item GetItem(string ID)
     {
         return Item.GetItem(ID);
     }

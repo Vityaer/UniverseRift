@@ -13,7 +13,8 @@ namespace Altar
 
 			if(hero.generalInfo.RatingHero >= _minRequireRating)
 			{
-				float factor = hero.generalInfo.RatingHero * _factorRating + ((int) hero.generalInfo.Rare) * _factorRare;
+				//float factor = hero.generalInfo.RatingHero * _factorRating + ((int) hero.generalInfo.Rare) * _factorRare;
+				float factor = (hero.generalInfo.RatingHero * _factorRating + 1) * _factorRare;
 				result = _reward * factor;
 			}
 

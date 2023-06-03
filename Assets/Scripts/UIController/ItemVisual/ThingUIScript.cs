@@ -20,21 +20,21 @@ public class ThingUIScript : MonoBehaviour
 	[Header("controller")]
 	public bool OnlyMainData = false;
 
-	public void UpdateUI(Sprite image, Rare rare, string text, int rating = 0)
+	public void UpdateUI(Sprite image, string text)
 	{
 		if(imageThing.sprite != null) Clear();
 		imageThing.sprite  = image;
-		ratingThing?.ShowRating(rating);
+		//ratingThing?.ShowRating(rating);
 		textAmount.text    = text;
 		imageThing.enabled = true;
 	}
 
-	public void UpdateUI(Sprite image, Rare rare, int amount = 0, int rating = 0)
+	public void UpdateUI(Sprite image, int amount = 0)
 	{
 		Clear();
 		imageThing.sprite  = image;
 		textAmount.text = (amount > 0) ? amount.ToString() : string.Empty;
-		ratingThing?.ShowRating(rating);
+		//ratingThing?.ShowRating(rating);
 		imageThing.enabled = true;
 	}
 

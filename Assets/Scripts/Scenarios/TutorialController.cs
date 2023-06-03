@@ -1,9 +1,9 @@
-using ObjectSave;
+using Models;
 using UnityEngine;
 
 public class TutorialController : MonoBehaviour
 {
-    SimpleBuildingSave tutorial = null;
+    SimpleBuildingModel tutorial = null;
     private const string NAME_RECORD_STAGE = "Stage";
     private int stage = 0;
 

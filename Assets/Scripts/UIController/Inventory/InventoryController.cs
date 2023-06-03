@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryController : MonoBehaviour
 {
     [SerializeField] private Canvas canvasInventory;
-    private TypeItem typeItems;
+    private string typeItems;
     public Transform grid;
     private CellItemHeroScript cellItem = null;
     private ItemController selectItem = null;
@@ -66,14 +66,14 @@ public class InventoryController : MonoBehaviour
     //Invenotory
     public int HowManyThisItems(Item item)
     {
-        ItemController workItem = inventory.items.Find(x => (x.item.ID == item.ID));
+        ItemController workItem = inventory.items.Find(x => (x.item.Id == item.Id));
         return (workItem != null) ? workItem.Amount : 0;
     }
 
     public bool CheckItems(Item item, int count = 1)
     {
         bool result = false;
-        ItemController workItem = inventory.items.Find(x => (x.item.ID == item.ID));
+        ItemController workItem = inventory.items.Find(x => (x.item.Id == item.Id));
         if (workItem != null)
             if (workItem.Amount >= count) result = true;
         return result;
@@ -81,7 +81,7 @@ public class InventoryController : MonoBehaviour
 
     public void RemoveItems(Item item, int count = 1)
     {
-        ItemController workItem = inventory.items.Find(x => (x?.item.ID == item.ID));
+        ItemController workItem = inventory.items.Find(x => (x?.item.Id == item.Id));
         if (workItem != null)
         {
             workItem.DecreaseAmount(count);
@@ -157,13 +157,13 @@ public class InventoryController : MonoBehaviour
         FillGrid(listForVisual);
     }
 
-    public void Open(string str)
+    public void Open(string type)
     {
-        TypeItem curType = (TypeItem)Enum.Parse(typeof(TypeItem), str);
+        string curType = type;
         Open(curType, cellItem: null);
     }
 
-    public void Open(TypeItem typeItems, CellItemHeroScript cellItem = null)
+    public void Open(string typeItems, CellItemHeroScript cellItem = null)
     {
         this.cellItem = cellItem;
         inventory.GetItemAtType(typeItems, listForVisual);
@@ -190,7 +190,7 @@ public class InventoryController : MonoBehaviour
         panelInfoItem.OpenInfoAboutItem(res);
     }
 
-    public void OpenInfoItem(Item item, TypeItem typeItems, CellItemHeroScript cellItem)
+    public void OpenInfoItem(Item item, string typeItems, CellItemHeroScript cellItem)
     {
         // canvasInventory.enabled = true;
         this.cellItem = cellItem;

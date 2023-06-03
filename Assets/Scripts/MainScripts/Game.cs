@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 using Models.Requiremets;
+using City.Buildings.Market;
 
 [System.Serializable]
 public class Game{
 
 	public int maxCountHeroes = 100;
 
-	public CitySaveObject citySaveObject = new CitySaveObject();
-	public PlayerSaveObject playerSaveObject = new PlayerSaveObject();
-	public PlayerInfo playerInfo = new PlayerInfo();
+	public CityModel citySaveObject = new CityModel();
+	public PlayerModel playerSaveObject = new PlayerModel();
+	public PlayerInfoModel playerInfo = new PlayerInfoModel();
 	public Game(){}
 	public void CreateGame(Game game){
 		citySaveObject = game.citySaveObject;
@@ -21,32 +22,32 @@ public class Game{
 	}
 //API mines
 	public void SaveMine(MineController mineController){ citySaveObject.industry.SaveMine(mineController);}
-	public List<MineSave> GetMines{ get => citySaveObject.industry.listMine; }
+	public List<MineModel> GetMines{ get => citySaveObject.industry.listMine; }
 //API market
-	public MallSave mall{get => citySaveObject.mall;}
-	public void NewDataAboutSellProduct(TypeMarket typeMarket, int IDproduct, int countSell){
-		MarketSave market = mall.markets.Find(x => x.typeMarket == typeMarket);
+	public ShopModel mall{get => citySaveObject.mall;}
+	public void NewDataAboutSellProduct(TypeMarket typeMarket, string IDproduct, int countSell){
+		MarketModel market = mall.markets.Find(x => x.typeMarket == typeMarket);
 		if(market == null){
-			market = new MarketSave();
+			market = new MarketModel();
 			mall.markets.Add(market);
 		}
-		MarketProductSave product = market.products.Find(x => x.ID == IDproduct);
+		MarketProductModel product = market.products.Find(x => x.Id == IDproduct);
 		if(product == null){
-			product = new MarketProductSave(IDproduct, countSell);
+			product = new MarketProductModel(IDproduct, countSell);
 			market.products.Add(product);
 		}else{
 			product.UpdateData(countSell);
 		}
 		SaveLoadController.SaveGame(this);
 	}	
-	public List<MarketProductSave> GetProductForMarket(TypeMarket typeMarket){
-		List<MarketProductSave> result = new List<MarketProductSave>();
-		MarketSave market = mall.markets.Find(x => x.typeMarket == typeMarket);
+	public List<MarketProductModel> GetProductForMarket(TypeMarket typeMarket){
+		List<MarketProductModel> result = new List<MarketProductModel>();
+		MarketModel market = mall.markets.Find(x => x.typeMarket == typeMarket);
 		if(market != null) result = market.products;
 		return result;
 	}
 //API every time tasks and requrements
-	public AllRequirement allRequirement{get => playerSaveObject.allRequirement;}
+	public RequirementStorageModel allRequirement{get => playerSaveObject.allRequirement;}
 	public void SaveMainRequirements(List<Achievement> mainRequirements){SaveRequirement(allRequirement.saveMainRequirements, mainRequirements);}
 	public void SaveEveryTimeTask(List<Achievement> everyTimeTasks){ SaveRequirement(allRequirement.saveEveryTimeTasks, everyTimeTasks); }
 	public void SaveRequirement(List<AchievementSave> listSave, List<Achievement> requirements){

@@ -1,4 +1,4 @@
-using ObjectSave;
+using Models;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +18,7 @@ public class EventAgentControllerScript : Building
     public EventAgentMainSlider mainSliderController;
     public MyScrollRect scrollRectController;
     private static string SUM_RECEIVIED_REWARD = "SumReward";
-    private SimpleBuildingSave progressObjectSave;
+    private SimpleBuildingModel progressObjectSave;
     private bool isFillData = false;
 
     private static EventAgentControllerScript instance;

@@ -1,4 +1,4 @@
-﻿using ObjectSave;
+﻿using Models;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,7 +42,7 @@ public class InfoHero : ICloneable
     {
     }
 
-    public InfoHero(HeroSave heroSave)
+    public InfoHero(HeroModel heroSave)
     {
         var hero = Tavern.Instance.GetListHeroes.Find(x => x.generalInfo.HeroId == heroSave.HeroId);
         CopyData(hero);

@@ -1,53 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using ObjectSave;
-public class MarketScript : Building{
+using Models;
+using City.Buildings.Market;
+using MainScripts;
+
+public class MarketScript : Building
+{
 	public TypeMarket typeMarket;
 	public Transform showcase;
 	[Header("Products")]
-	[OdinSerialize] private List<MarketProduct> productsForSale = new List<MarketProduct>();
-	[SerializeField] private List<MarketProductScript> productControllers = new List<MarketProductScript>(); 
+	[OdinSerialize] private List<BaseMarketProduct> productsForSale = new List<BaseMarketProduct>();
+	[SerializeField] private List<MarketProductController> productControllers = new List<MarketProductController>();
 	public CycleRecover cycle;
 	private bool productFill = false;
 
 	protected override void OnStart()
 	{
-		if(productControllers.Count == 0) GetCells();
+		if (productControllers.Count == 0) GetCells();
 		TimeControllerSystem.Instance.RegisterOnNewCycle(RecoveryAllProducts, cycle);
 	}
 
 	protected override void OnLoadGame()
 	{
-		List<MarketProductSave> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
-		MarketProduct currentProduct = null;
-		foreach(MarketProductSave product in saveProducts)
+		List<MarketProductModel> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
+		BaseMarketProduct currentProduct = null;
+		foreach (MarketProductModel product in saveProducts)
 		{
-			currentProduct = productsForSale.Find(x => x.ID == product.ID);
-			if(currentProduct != null) currentProduct.UpdateData(product.countSell);
+			currentProduct = productsForSale.Find(x => x.Id == product.Id);
+			if (currentProduct != null) currentProduct.UpdateData(product.countSell);
 		}
-		if(productFill)
+		if (productFill)
 			UpdateUIProducts();
 	}
 
-	private void OnBuyPoduct(int IDproduct, int coutSell)
+	private void OnBuyPoduct(string IDproduct, int coutSell)
 	{
 		GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
 	}
 
 	private void UpdateUIProducts()
 	{
-		foreach(MarketProductScript product in productControllers)
+		foreach (MarketProductController product in productControllers)
 		{
 			product.UpdateUI();
-		} 
+		}
 	}
 
-	protected override void OpenPage(){
-		for(int i=0; i < productsForSale.Count; i++){
-			switch(productsForSale[i]){
+	protected override void OpenPage()
+	{
+		for (int i = 0; i < productsForSale.Count; i++)
+		{
+			switch (productsForSale[i])
+			{
 				case MarketProduct<Resource> product:
 					productControllers[i].SetData(product, OnBuyPoduct);
 					break;
@@ -56,32 +62,41 @@ public class MarketScript : Building{
 					break;
 				case MarketProduct<Splinter> product:
 					productControllers[i].SetData(product, OnBuyPoduct);
-					break;		
+					break;
 
 			}
 		}
-		for(int i = productsForSale.Count; i < productControllers.Count; i++){
+		for (int i = productsForSale.Count; i < productControllers.Count; i++)
+		{
 			productControllers[i].Hide();
 		}
 		productFill = true;
 	}
-	private void GetCells(){
-		foreach(Transform child in showcase)
-			productControllers.Add(child.GetComponent<MarketProductScript>());
+	private void GetCells()
+	{
+		foreach (Transform child in showcase)
+			productControllers.Add(child.GetComponent<MarketProductController>());
 	}
-	private void RecoveryAllProducts(){if(productFill) foreach(MarketProductScript product in productControllers){ product.Recovery(); } }
-	
-	public void NewSellProduct(int IDproduct, int newCountSell){ GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell); }
+	private void RecoveryAllProducts() { if (productFill) foreach (MarketProductController product in productControllers) { product.Recovery(); } }
 
-	[Button] public void AddResource(){ productsForSale.Add(new MarketProduct<Resource>()); }
-	[Button] public void AddSplinter(){ productsForSale.Add(new MarketProduct<Splinter>()); }
-	[Button] public void AddItem(){ productsForSale.Add(new MarketProduct<Item>()); }
+	public void NewSellProduct(string IDproduct, int newCountSell)
+	{
+		GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell);
+	}
+
+	[Button] public void AddResource() { productsForSale.Add(new MarketProduct<Resource>()); }
+	[Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<Splinter>()); }
+	[Button] public void AddItem() { productsForSale.Add(new MarketProduct<Item>()); }
 
 	[ContextMenu("Check products")]
-	private void CheckProducts(){
-		for(int i = 0; i < productsForSale.Count - 1; i++){
-			for(int j = i + 1; j < productsForSale.Count; j++){
-				if(productsForSale[i].ID == productsForSale[j].ID){
+	private void CheckProducts()
+	{
+		for (int i = 0; i < productsForSale.Count - 1; i++)
+		{
+			for (int j = i + 1; j < productsForSale.Count; j++)
+			{
+				if (productsForSale[i].Id == productsForSale[j].Id)
+				{
 					Debug.Log(string.Concat("product: ", i.ToString(), " and ", j.ToString(), " have equals ID"));
 				}
 			}
@@ -89,6 +104,4 @@ public class MarketScript : Building{
 	}
 }
 
-public enum TypeMarket{
-	MainMarket = 0
-}
+

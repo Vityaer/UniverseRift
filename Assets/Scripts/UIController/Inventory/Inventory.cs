@@ -1,4 +1,4 @@
-﻿using ObjectSave;
+﻿using Models;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +21,7 @@ public class Inventory
         foreach (SplinterController controller in splinters) list.Add(controller as VisualAPI);
     }
 
-    public void GetItemAtType(TypeItem typeItems, List<VisualAPI> list)
+    public void GetItemAtType(string typeItems, List<VisualAPI> list)
     {
         list.Clear();
         foreach (ItemController controller in items) if (controller.item.Type == typeItems) list.Add(controller as VisualAPI);
@@ -30,7 +30,7 @@ public class Inventory
     public void Add(ItemController itemController)
     {
         Debug.Log("add item");
-        ItemController workItem = items.Find(x => (x.item.ID == itemController.item.ID));
+        ItemController workItem = items.Find(x => (x.item.Id == itemController.item.Id));
         if (workItem != null)
         {
             workItem.IncreaseAmount(itemController.Amount);
@@ -44,7 +44,7 @@ public class Inventory
 
     public void Add(SplinterController splinterController)
     {
-        SplinterController workSplinter = splinters.Find(x => (x.splinter.ID == splinterController.splinter.ID));
+        SplinterController workSplinter = splinters.Find(x => (x.splinter.Id == splinterController.splinter.Id));
         if (workSplinter != null)
         {
             workSplinter.IncreaseAmount(splinterController.splinter.Amount);
@@ -82,18 +82,18 @@ public class Inventory
         Splinter _splinter;
         ItemsList itemsList = Resources.Load<ItemsList>("Items/ListItems");
 
-        foreach (ItemSave item in inventorySave.listItem)
+        foreach (var item in inventorySave.listItem)
         {
-            _item = itemsList?.GetItem(item.ID);
+            _item = itemsList?.GetItem(item.Id);
             if (_item != null)
             {
                 items.Add(new ItemController(_item, item.Amount));
             }
         }
 
-        foreach (SplinterSave item in inventorySave.listSplinter)
+        foreach (SplinterModel item in inventorySave.listSplinter)
         {
-            var name = GameUtils.Utils.CastIdToName(item.ID);
+            var name = item.Id;
             _splinter = SplinterSystem.Instance.GetSplinter(name);
             if (_splinter != null)
             {

@@ -1,4 +1,6 @@
-using ObjectSave;
+using City.Buildings.Market;
+using MainScripts;
+using Models;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
@@ -15,8 +17,8 @@ public class DailyController : Building
 
     private List<int> idReceivedReward = new List<int>();
 
-    private SimpleBuildingSave dailyReward = null;
-    [OdinSerialize] private List<MarketProduct> listRewards = new List<MarketProduct>();
+    private SimpleBuildingModel dailyReward = null;
+    [OdinSerialize] private List<BaseMarketProduct> listRewards = new List<BaseMarketProduct>();
     public List<DailyReward> dailyRewardUI = new List<DailyReward>();
     public SliderTimeScript sliderTime;
     public MyScrollRect scrollRectController;

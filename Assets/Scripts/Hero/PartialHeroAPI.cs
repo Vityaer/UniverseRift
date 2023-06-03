@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Hero
+public partial class GameHero
 {
     public HeroStatus statusState;
     public void GetDamage(Strike strike)

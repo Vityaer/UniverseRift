@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 
 [System.Serializable]
 public class Mine{
@@ -57,7 +57,7 @@ public class Mine{
 		}
 	return result;
 	}
-	public void SetData(MineSave mineSave){
+	public void SetData(MineModel mineSave){
 		this.level = mineSave.level;
 		OnLevelChange();
 		this.previousDateTime = mineSave.PreviousDateTime;

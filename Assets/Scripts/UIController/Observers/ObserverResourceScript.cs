@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using City.Buildings.Market;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class ObserverResourceScript : MonoBehaviour
 
     void Start()
     {
-        isMyabeBuy = MarketResourceScript.Instance.GetCanSellThisResource(typeResource);
+        isMyabeBuy = MarketResourceController.Instance.GetCanSellThisResource(typeResource);
         resource = new Resource(typeResource);
         imageResource.sprite = resource.Image;
         btnAddResource.SetActive(isMyabeBuy);
@@ -34,7 +35,7 @@ public class ObserverResourceScript : MonoBehaviour
     public void OpenPanelForBuyResource()
     {
         MarketProduct<Resource> product = null;
-        product = MarketResourceScript.Instance.GetProductFromTypeResource(resource.Name);
+        product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Name);
         if (product != null)
             PanelBuyResource.StandartPanelBuyResource.Open(
                 product.subject, product.Cost

@@ -110,11 +110,11 @@ public partial class HeroController : MonoBehaviour
  			Color color;
  			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
  			{
- 				color = Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
+ 				color = Constants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
  			}
  			else
  			{
-				color = Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
+				color = Constants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
  			}
  			warrior.Cell.SetColor(color);
  		}
@@ -124,11 +124,11 @@ public partial class HeroController : MonoBehaviour
  			Color color = Color.red;
  			if(warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
  			{
- 				color = Costants.Colors.ACHIEVABLE_ENEMY_CELL_COLOR;
+ 				color = Constants.Colors.ACHIEVABLE_ENEMY_CELL_COLOR;
  			}
  			else
  			{
- 				color = Costants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR;
+ 				color = Constants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR;
  			}
  			warrior.Cell.SetColor(color);
  		}
@@ -138,11 +138,11 @@ public partial class HeroController : MonoBehaviour
  	{
  		if(Side == Side.Left)
  		{
- 			myPlace.SetColor(Costants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR);
+ 			myPlace.SetColor(Constants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR);
  		}
  		else
  		{
- 			myPlace.SetColor(Costants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR);
+ 			myPlace.SetColor(Constants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR);
  		}
  	}
 

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ObjectSave;
+using Models;
 [System.Serializable]
 public class Player{
 	
 
 	[SerializeField] private Game playerGame;
-	public PlayerInfo GetPlayerInfo{get => playerGame.playerInfo;}
+	public PlayerInfoModel GetPlayerInfo{get => playerGame.playerInfo;}
 	public Game PlayerGame{get => playerGame;}
 	public void LevelUP(){
 		GetPlayerInfo.LevelUP();

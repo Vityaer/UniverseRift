@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class TabPanelCheats : EditorWindow
 {
+    Vector2 scrollPos;
+    string IDsplinter;
+    string IDItem;
+    Resource res = new Resource();
 
     [MenuItem("Tools/My develop/TabPanel Cheat")]
     static void Init()
@@ -14,10 +18,7 @@ public class TabPanelCheats : EditorWindow
         TabPanelCheats window = (TabPanelCheats)EditorWindow.GetWindow(typeof(TabPanelCheats));
         window.Show();
     }
-
-    Vector2 scrollPos;
-    int IDsplinter, IDItem;
-    Resource res = new Resource();
+    
     void OnGUI()
     {
         EditorGUILayout.BeginVertical();
@@ -45,12 +46,12 @@ public class TabPanelCheats : EditorWindow
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal("box");
-        IDsplinter = EditorGUILayout.IntField("ID:", IDsplinter);
+        IDsplinter = EditorGUILayout.TextField("ID:", IDsplinter);
         if (GUILayout.Button("+ Splinters")) { AddSplinters(); }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal("box");
-        IDItem = EditorGUILayout.IntField("ID:", IDItem);
+        IDItem = EditorGUILayout.TextField("ID:", IDItem);
         if (GUILayout.Button("+ Item")) { AddItem(); }
         GUILayout.EndHorizontal();
 
@@ -118,38 +119,32 @@ public class TabPanelCheats : EditorWindow
     SplintersList splintersList = null;
     void AddSplinters()
     {
-        if (IDsplinter != 0)
+        if (InventoryController.Instance != null)
         {
-            if (InventoryController.Instance != null)
-            {
-                if (splintersList == null)
-                    splintersList = Resources.Load<SplintersList>("Items/ListSplinters");
+            if (splintersList == null)
+                splintersList = Resources.Load<SplintersList>("Items/ListSplinters");
 
-                var name = GameUtils.Utils.CastIdToName(IDsplinter);
+            var name = IDsplinter;
 
-                Splinter splinter = splintersList.GetSplinter(name);
-                if (splinter != null)
-                    InventoryController.Instance.AddSplinter(new SplinterController(splinter, splinter.RequireAmount));
-            }
+            Splinter splinter = splintersList.GetSplinter(name);
+            if (splinter != null)
+                InventoryController.Instance.AddSplinter(new SplinterController(splinter, splinter.RequireAmount));
         }
     }
     private ItemsList itemsList = null;
     void AddItem()
     {
-        if (IDItem != 0)
+        if (InventoryController.Instance != null)
         {
-            if (InventoryController.Instance != null)
+            if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
+            Item item = itemsList?.GetItem(IDItem);
+            if (item != null)
             {
-                if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
-                Item item = itemsList?.GetItem(IDItem);
-                if (item != null)
-                {
-                    InventoryController.Instance.AddItem(new ItemController(item, 1));
-                }
-                else
-                {
-                    Debug.Log("хуйня");
-                }
+                InventoryController.Instance.AddItem(new ItemController(item, 1));
+            }
+            else
+            {
+                Debug.Log("хуйня");
             }
         }
     }

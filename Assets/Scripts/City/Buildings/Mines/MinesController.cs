@@ -1,4 +1,4 @@
-using ObjectSave;
+using Models;
 using System.Collections.Generic;
 using UnityEngine;
 public class MinesController : Building
@@ -13,7 +13,7 @@ public class MinesController : Building
     [Header("Data")]
     [SerializeField] private List<DataAboutMines> listDataMines = new List<DataAboutMines>();
 
-    private List<MineSave> saveMines = new List<MineSave>();
+    private List<MineModel> saveMines = new List<MineModel>();
 
     private static MinesController instance;
     public static MinesController Instance { get => instance; }
@@ -26,9 +26,9 @@ public class MinesController : Building
         PlaceForMine place = null;
         MineController mineController = null;
         DataAboutMines data = null;
-        foreach (MineSave mine in saveMines)
+        foreach (MineModel mine in saveMines)
         {
-            place = minePlaces.Find(x => x.ID == mine.ID);
+            place = minePlaces.Find(x => x.ID == mine.Id);
             if (place != null)
             {
                 data = listDataMines.Find(x => x.type == mine.typeMine);
@@ -40,7 +40,7 @@ public class MinesController : Building
             }
             else
             {
-                Debug.Log(string.Concat("place with ID = ", mine.ID.ToString(), " not found"));
+                Debug.Log(string.Concat("place with ID = ", mine.Id.ToString(), " not found"));
             }
         }
     }
@@ -50,7 +50,7 @@ public class MinesController : Building
         data.AddMine();
         MineController mineController = Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
         place.mineController = mineController;
-        MineSave mine = new MineSave(place.ID, data.type);
+        MineModel mine = new MineModel(place.ID, data.type);
         mineController.CreateMine(mine);
     }
 

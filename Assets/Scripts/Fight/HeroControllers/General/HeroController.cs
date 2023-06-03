@@ -17,7 +17,7 @@ public partial class HeroController : MonoBehaviour
     [Header("Characteristics")]
     public float speedMove = 2f;
     public float speedAnimation = 1f;
-    public Hero hero;
+    public GameHero hero;
     protected bool onGround = true;
     protected bool needFlip = false;
     public Side Side = Side.Left;

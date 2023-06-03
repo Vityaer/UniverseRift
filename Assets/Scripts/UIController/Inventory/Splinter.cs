@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -10,9 +11,8 @@ public class Splinter : PlayerObject
     [Header("rewards")]
     public PosibleReward reward = new PosibleReward();
     public int CountReward { get => reward.posibilityObjectRewards.Count; }
-    public Rare rare = Rare.C;
+    public string Rarity;
 
-    public Rare GetRare { get => rare; }
     public bool IsCanUse { get => (Amount >= RequireAmount); }
     public string GetTextType { get => typeSplinter.ToString(); }
     public string GetTextDescription { get => string.Empty; }
@@ -28,7 +28,8 @@ public class Splinter : PlayerObject
 
     private int CalculateRequire()
     {
-        return (20 + ((int)this.rare * 10));
+        //return (20 + ((int)this.rare * 10));
+        return 20;
     }
 
     public override Sprite Image
@@ -37,19 +38,12 @@ public class Splinter : PlayerObject
         {
             if (sprite == null)
             {
-                Debug.Log("ID: " + ID.ToString() + " splinter is founding image...");
-                if (ID < 1000)
+                Debug.Log("ID: " + Id.ToString() + " splinter is founding image...");
+                switch (typeSplinter)
                 {
-                    switch (typeSplinter)
-                    {
-                        case TypeSplinter.Hero:
-                            sprite = SystemSprites.Instance.GetSprite((SpriteName)ID);
-                            break;
-                    }
-                }
-                else
-                {
-                    sprite = Tavern.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(ID)).GetMainImage;
+                    case TypeSplinter.Hero:
+                        sprite = SystemSprites.Instance.GetSprite((SpriteName)Enum.Parse(typeof(SpriteName), Id));
+                        break;
                 }
             }
             // Debug.Log("splinter was founded: " + (sprite == null).ToString() );
@@ -93,9 +87,9 @@ public class Splinter : PlayerObject
 
 
     //Constructors
-    public Splinter(int ID, int count = 0)
+    public Splinter(string ID, int count = 0)
     {
-        this.id = ID;
+        this.Id = ID;
         GetDefaultData();
         Amount = count > 0 ? count : requireAmount;
     }
@@ -104,26 +98,26 @@ public class Splinter : PlayerObject
     {
         this.typeSplinter = TypeSplinter.Hero;
         this.sprite = hero.generalInfo.ImageHero;
-        this.rare = hero.generalInfo.Rare;
-        id = GameUtils.Utils.CastNameToId(hero.generalInfo.ViewId);
+        this.Rarity = hero.generalInfo.Rarity;
+        Id = hero.generalInfo.ViewId;
         reward = new PosibleReward();
-        reward.Add(ID);
+        reward.Add(Id);
         requireAmount = CalculateRequire();
     }
 
     private void GetDefaultData()
     {
-        Splinter data = SplinterSystem.Instance.GetSplinter(GameUtils.Utils.CastIdToName(ID));
+        Splinter data = SplinterSystem.Instance.GetSplinter(Id);
         this.typeSplinter = data.typeSplinter;
         this.sprite = data.Image;
         this.reward = data.reward;
-        this.rare = data.rare;
+        this.Rarity = data.Rarity;
         this.requireAmount = data.RequireAmount;
     }
 
     public override BaseObject Clone()
     {
-        return new Splinter(this.ID, Amount);
+        return new Splinter(this.Id, Amount);
     }
     //Visual API
 
@@ -140,7 +134,7 @@ public class Splinter : PlayerObject
 
     public override void UpdateUI()
     {
-        UI?.UpdateUI(Image, rare, Amount);
+        UI?.UpdateUI(Image, Amount);
     }
 
     private void ClearData()
@@ -177,14 +171,14 @@ public class Splinter : PlayerObject
             }
         }
         Debug.Log("selectNumber: " + selectNumber);
-        hero = Tavern.Instance.GetInfoHero(GameUtils.Utils.CastIdToName(reward.posibilityObjectRewards[selectNumber].ID));
+        hero = Tavern.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
         return hero;
     }
     private void AddHero(InfoHero newHero)
     {
         if (newHero != null)
         {
-            newHero.generalInfo.Name = newHero.generalInfo.Name + " №" + Random.Range(0, 1000).ToString();
+            newHero.generalInfo.Name = newHero.generalInfo.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();
             MessageController.Instance.AddMessage("Новый герой! Это - " + newHero.generalInfo.Name);
             GameController.Instance.AddHero(newHero);
         }
@@ -196,7 +190,7 @@ public class Splinter : PlayerObject
     //Operators
     public static Splinter operator *(Splinter item, int k)
     {
-        return new Splinter(item.ID, k);
+        return new Splinter(item.Id, k);
     }
 }
 
@@ -224,9 +218,9 @@ public enum RaceSpliter
 [System.Serializable]
 public class SplinerPosibilityObject
 {
-    public int ID;
+    public string ID;
     public float posibility = 1f;
-    public SplinerPosibilityObject(int ID, float percent = 1f)
+    public SplinerPosibilityObject(string ID, float percent = 1f)
     {
         this.ID = ID;
         this.posibility = percent;
@@ -255,7 +249,8 @@ public class PosibleReward
         if (sumAll <= 0f) sumAll = GetAllSum;
         return (posibilityObjectRewards[num].posibility / sumAll * 100f);
     }
-    public void Add(int ID, float percent = 1f)
+
+    public void Add(string ID, float percent = 1f)
     {
         posibilityObjectRewards.Add(new SplinerPosibilityObject(ID, percent));
     }

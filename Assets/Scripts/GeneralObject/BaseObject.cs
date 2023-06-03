@@ -1,7 +1,8 @@
+using Models;
 using UnityEngine;
 
 [System.Serializable]
-public class BaseObject : VisualAPI
+public class BaseObject : BaseModel, VisualAPI
 {
     protected Sprite sprite = null;
     public virtual Sprite Image { get => sprite; }
@@ -9,7 +10,6 @@ public class BaseObject : VisualAPI
     public bool IsNull() { return (sprite == null); }
     public virtual string GetTextAmount() { return string.Empty; }
     public virtual string GetName() { return "string.Empty"; }
-    public string Description;
     //Visial API
     public virtual void ClearUI() { this.UI = null; }
     public virtual VisualAPI GetVisual() { return (this as VisualAPI); }
