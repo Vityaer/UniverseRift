@@ -1,7 +1,5 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Editor.Pages.Rating;
-using Models;
 using Models.Heroes;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
