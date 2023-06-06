@@ -4,17 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CampaignBuilding : BuildingWithFight
 {
-    private MissionController infoMission;
-    [SerializeField] private List<MissionController> missionControllers = new List<MissionController>();
-    private CampaignMission mission;
-    private int currentMission, maxMission;
+    private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
+    private const string NAME_RECORD_NUM_MAX_MISSION = "MaxMission";
+    private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
+
     public CampaignChapter chapter;
-    [SerializeField] private List<CampaignChapter> chapters = new List<CampaignChapter>();
     public BasePanelScript panelWorldCampaign;
 
-    private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission",
-                         NAME_RECORD_NUM_MAX_MISSION = "MaxMission",
-                         NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
+    private MissionController infoMission;
+    private CampaignMission mission;
+    private int currentMission, maxMission;
+    private int countMission = 20;
+    private BuildingWithFightTeamsModel campaingSaveObject;
+
+    [SerializeField] private List<CampaignChapter> chapters = new List<CampaignChapter>();
+    [SerializeField] private List<MissionController> missionControllers = new List<MissionController>();
+
+    public static CampaignBuilding Instance { get; private set; }
+
+    public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.GetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME); }
 
     protected override void OnLoadGame()
     {
@@ -34,7 +42,6 @@ public class CampaignBuilding : BuildingWithFight
         return result;
     }
     //API
-    int countMission = 20;
     public void LoadMissions(CampaignChapter chapter)
     {
         int current = 0;
@@ -128,15 +135,11 @@ public class CampaignBuilding : BuildingWithFight
             Close();
         }
     }
-    private static CampaignBuilding instance;
-    public static CampaignBuilding Instance { get => instance; }
     void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
-    private BuildingWithFightTeamsModel campaingSaveObject;
-    public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.GetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME); }
 
 
     //Auto fight
