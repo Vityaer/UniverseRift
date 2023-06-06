@@ -31,6 +31,13 @@ public partial class FightController : MonoBehaviour
     public List<Warrior> GetLeftTeam => leftTeam;
     public List<Warrior> GetRightTeam => rightTeam;
 
+    public static FightController Instance { get; private set; }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
     //Create Teams
     public void SetMission(Mission mission, List<WarriorPlace> leftWarriorPlace, List<WarriorPlace> rightWarriorPlace)
     {
@@ -242,14 +249,6 @@ public partial class FightController : MonoBehaviour
     {
         if ((mission is BossMission))
             (mission as BossMission).SaveResult();
-    }
-
-    private static FightController instance;
-    public static FightController Instance { get => instance; }
-
-    void Awake()
-    {
-        instance = this;
     }
 
     //API
