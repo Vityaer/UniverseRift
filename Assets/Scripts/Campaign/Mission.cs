@@ -1,32 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Mission : ICloneable{
-	[SerializeField] protected string name;
-	public TypeLocation location;
-	[Header("Enemy")]
-	[SerializeField] protected List<MissionEnemy> _listEnemy = new List<MissionEnemy>();
+public class Mission : ICloneable
+{
+    [SerializeField] protected string name;
+    public TypeLocation Location;
 
-	public string Name{get => name; set => name = value;}
-	public List<MissionEnemy> listEnemy{get => _listEnemy;}
-	[Header("Win reward")]
-	[SerializeField] protected Reward winReward;
-	public Reward WinReward{get => winReward;}
-	
-	public object Clone(){
-        return new Mission  { 	Name = this.Name,
-        							 	_listEnemy = this.listEnemy,
-        								location = this.location,
-        								winReward = (Reward) this.WinReward.Clone()
-        							};				
+    [Header("Enemy")]
+    [SerializeField] protected List<MissionEnemy> ListEnemy = new List<MissionEnemy>();
+    [SerializeField] public Reward WinReward;
+
+    public string Name { get => name; set => name = value; }
+    public List<MissionEnemy> listEnemy => ListEnemy;
+
+    public virtual void OnFinishFight(FightResult fightResult)
+    {
+        if (fightResult == FightResult.Win)
+        {
+            MessageController.Instance.OpenWin(WinReward, WarTableController.Instance.FinishMission);
+        }
+        else
+        {
+            MessageController.Instance.OpenDefeat(null, WarTableController.Instance.FinishMission);
+        }
     }
-    public virtual void OnFinishFight(FightResult fightResult){
-    	if(fightResult == FightResult.Win){
-    		MessageController.Instance.OpenWin(winReward, WarTableController.Instance.FinishMission);
-    	}else{
-    		MessageController.Instance.OpenDefeat(null, WarTableController.Instance.FinishMission);
-    	}
-    } 
+
+    public object Clone()
+    {
+        return new Mission
+        {
+            Name = this.Name,
+            ListEnemy = this.listEnemy,
+            Location = this.Location,
+            WinReward = (Reward)this.WinReward.Clone()
+        };
+    }
 }

@@ -35,7 +35,7 @@ public partial class FightController : MonoBehaviour
     public void SetMission(Mission mission, List<WarriorPlace> leftWarriorPlace, List<WarriorPlace> rightWarriorPlace)
     {
         this.mission = mission;
-        locationController.OpenLocation(mission.location);
+        locationController.OpenLocation(mission.Location);
         Grid.OpenGrid();
         AIController.Instance.StartAIFight();
         CreateTeams(leftWarriorPlace, rightWarriorPlace);

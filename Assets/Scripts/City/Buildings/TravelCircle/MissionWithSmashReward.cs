@@ -8,10 +8,10 @@ public class MissionWithSmashReward : Mission{
 	public Reward SmashReward{get => smashReward;}
 	public MissionWithSmashReward Clone(){
 		 return new MissionWithSmashReward  { 	Name = this.Name,
-        							 	_listEnemy = this.listEnemy,
-        							 	winReward     = (Reward) this.WinReward.Clone(),
+        							 	ListEnemy = this.listEnemy,
+        							 	WinReward     = (Reward) this.WinReward.Clone(),
         							 	smashReward     = (Reward) this.smashReward.Clone(),
-        								location = this.location
+        								Location = this.Location
         							};
 	}
 }

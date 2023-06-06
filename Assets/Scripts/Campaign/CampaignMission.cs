@@ -13,10 +13,10 @@ public class CampaignMission : Mission, ICloneable
         return new CampaignMission
         {
             Name = this.Name,
-            _listEnemy = this.listEnemy,
-            winReward = (Reward)this.WinReward.Clone(),
+            ListEnemy = this.listEnemy,
+            WinReward = (Reward)this.WinReward.Clone(),
             _autoFightReward = this._autoFightReward,
-            location = this.location
+            Location = this.Location
         };
     }
 }

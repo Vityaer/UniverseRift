@@ -23,7 +23,7 @@ public class MissionController : MonoBehaviour
     {
         this.mission = (CampaignMission)mission.Clone();
         this.numMission = numMission;
-        backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.location);
+        backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.Location);
         textNameMission.text = numMission.ToString();
         statusMission = StatusMission.NotOpen;
         UpdateUI();

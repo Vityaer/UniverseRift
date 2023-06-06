@@ -18,7 +18,7 @@ public class ChallengeUI : MonoBehaviour
     public void UpdateUI()
     {
         textName.text = challenge.Name;
-        backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.location);
+        backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.Location);
         UpdateControllersUI();
     }
     public void UpdateControllersUI()
