@@ -85,7 +85,7 @@ public class Item : PlayerObject, VisualAPI
         InventoryController.Instance.OpenInfoItem(this);
     }
 
-    public override void SetUI(ThingUIScript UI)
+    public override void SetUI(ThingUI UI)
     {
         this.UI = UI;
         UpdateUI();

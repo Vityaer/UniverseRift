@@ -3,7 +3,7 @@ using UnityEngine;
 public class PanelBuyResource : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
-    public SubjectCellControllerScript cellProduct;
+    public SubjectCellController cellProduct;
     public CountController countController;
     public ButtonWithObserverResource buttonBuy;
     public bool standartPanel = true;

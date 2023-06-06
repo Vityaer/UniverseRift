@@ -4,7 +4,7 @@ using UnityEngine;
 public class ChallengeBuild : Building, IWorkWithWarTable
 {
     [Header("UI")]
-    private List<ChallengeUIScript> listChallengeUI = new List<ChallengeUIScript>();
+    private List<ChallengeUI> listChallengeUI = new List<ChallengeUI>();
     [SerializeField] private bool isFillList = false;
 
     [Header("Data")]
@@ -34,7 +34,7 @@ public class ChallengeBuild : Building, IWorkWithWarTable
         isFillList = true;
         for (int i = 0; i < challenges.Count; i++)
         {
-            ChallengeUIScript curChallengeUI = Instantiate(prefabChallengeUI, transformList).GetComponent<ChallengeUIScript>();
+            ChallengeUI curChallengeUI = Instantiate(prefabChallengeUI, transformList).GetComponent<ChallengeUI>();
             curChallengeUI.SetData(challenges[i], this);
             listChallengeUI.Add(curChallengeUI);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 public class BossUIScript : MonoBehaviour, IWorkWithWarTable{
-	[SerializeField] private BossControllerScript bossController;
+	[SerializeField] private BossController bossController;
 	[SerializeField] private Canvas canvasBuild;
 	[SerializeField] private TimeSlider sliderHP;
 	[SerializeField] private Text textHPBoss;

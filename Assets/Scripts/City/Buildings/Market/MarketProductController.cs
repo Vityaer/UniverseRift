@@ -9,7 +9,7 @@ public class MarketProductController : MonoBehaviour
     [SerializeField] private GameObject soldOutPanel;
 
     public ButtonCostController buttonCost;
-    public SubjectCellControllerScript cellProduct;
+    public SubjectCellController cellProduct;
     private BaseObject _subject;
 
     private Action<string, int> callback = null;

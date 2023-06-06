@@ -2,12 +2,14 @@ using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
 using Editor.Pages.Heroes;
+using Editor.Pages.Heroes.Race;
 using Editor.Pages.Items;
 using Editor.Pages.Items.Set;
 using Editor.Pages.Items.Type;
 using Editor.Pages.Rating;
 using Editor.Units;
 using Misc.Json.Impl;
+using Pages.Heroes.Vocation;
 using Sirenix.OdinInspector.Editor;
 using System.Collections.Generic;
 using UnityEditor;
@@ -23,6 +25,8 @@ namespace Editor.Windows
         
         private List<BasePageEditor> _allPages;
         private HeroPageEditor _heroPageEditor;
+        private RacePageEditor _racePageEditor;
+        private VocationPageEditor _vocationPageEditor;
         private ItemPageEditor _itemPageEditor;
         private ItemSetPageEditor _itemSetPageEditor;
         private ItemTypePageEditor _itemTypePageEditor;
@@ -68,6 +72,8 @@ namespace Editor.Windows
         {
             _tree.Selection.SupportsMultiSelect = false;
             _tree.Add("Heroes/Heroes Editor", _heroPageEditor);
+            _tree.Add("Heroes/Race Editor", _racePageEditor);
+            _tree.Add("Rating/Vocation Editor", _vocationPageEditor);
             _tree.Add("Items/Items Editor", _itemPageEditor);
             _tree.Add("Items/Set Editor", _itemSetPageEditor);
             _tree.Add("Items/Type Editor", _itemTypePageEditor);
@@ -108,8 +114,12 @@ namespace Editor.Windows
 
             _ratingPageEditor = new RatingPageEditor(_dictionaries);
             _allPages.Add(_ratingPageEditor);
-            
 
+            _racePageEditor = new RacePageEditor(_dictionaries);
+            _allPages.Add(_racePageEditor);
+
+            _vocationPageEditor =  new VocationPageEditor(_dictionaries);
+            _allPages.Add(_vocationPageEditor);
         }
 
         private void OnValueSaved()

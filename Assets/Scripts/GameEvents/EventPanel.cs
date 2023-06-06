@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 public class EventPanel : MonoBehaviour{
 	public BasePanelScript panelEvent;
-	public SliderTimeScript timerToEnd;
+	public SliderTime timerToEnd;
 	public void Open(){
 		panelEvent.Open();
 	}

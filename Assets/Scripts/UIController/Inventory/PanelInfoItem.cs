@@ -23,7 +23,7 @@ public class PanelInfoItem : MonoBehaviour
     public GameObject PanelController;
 
     private Button componentButtonAction, componentButtonDrop, buttonSwapItems;
-    private CellItemHeroScript cellItem;
+    private HeroItemCell cellItem;
 
     void Awake()
     {
@@ -38,7 +38,7 @@ public class PanelInfoItem : MonoBehaviour
     }
 
     //Panel InfoAboutItem  
-    public void OpenInfoAboutItem(Item item, CellItemHeroScript cellItem, bool onHero = false)
+    public void OpenInfoAboutItem(Item item, HeroItemCell cellItem, bool onHero = false)
     {
         RemoveAllListenersOnButtons();
         componentButtonAction.onClick.AddListener(Close);

@@ -3,7 +3,7 @@ using TMPro;
 
 public class AutoRewardPanel : RewardPanel
 {
-    public SliderTimeScript sliderAccumulation;
+    public SliderTime sliderAccumulation;
     public TextMeshProUGUI textAutoRewardGold, textAutoRewardStone, textAutoRewardExperience;
     private TimeSpan maxTime = new TimeSpan(12, 0, 0);
 

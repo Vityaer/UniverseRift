@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RewardUIController : MonoBehaviour
 {
-    public List<SubjectCellControllerScript> cells = new List<SubjectCellControllerScript>();
+    public List<SubjectCellController> cells = new List<SubjectCellController>();
     public Transform panelRewards;
     public GameObject btnAllReward;
     private Reward reward;
@@ -54,7 +54,7 @@ public class RewardUIController : MonoBehaviour
     {
         foreach (Transform cell in panelRewards)
         {
-            cells.Add(cell.GetComponent<SubjectCellControllerScript>());
+            cells.Add(cell.GetComponent<SubjectCellController>());
         }
     }
 

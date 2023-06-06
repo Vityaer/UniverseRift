@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ArtifactWithPercent : MonoBehaviour
 {
-    public SubjectCellControllerScript artifactInfo;
+    public SubjectCellController artifactInfo;
     public TextMeshProUGUI textPercent;
 
     public void SetData(string ID, float percent)

@@ -22,7 +22,7 @@ public class HeroPanel : Building
     public TextMeshProUGUI textStrengthHero;
 
     [Header("Items")]
-    public List<CellItemHeroScript> CellsForItem = new List<CellItemHeroScript>();
+    public List<HeroItemCell> CellsForItem = new List<HeroItemCell>();
     [Header("Skills")]
     public SkillUIController skillController;
     [Header("Costs")]
@@ -59,7 +59,7 @@ public class HeroPanel : Building
         imageHero.sprite = _hero.generalInfo.ImageHero;
         textNameHero.text = _hero.generalInfo.Name;
         UpdateTextAboutHero();
-        foreach (CellItemHeroScript cell in CellsForItem)
+        foreach (HeroItemCell cell in CellsForItem)
         {
             cell.Clear();
             cell.SetItem(_hero.CostumeHero.GetItem(cell.typeCell));

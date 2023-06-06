@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using System;
 public class PanelSelectCountScript : MonoBehaviour{
 
-	public SubjectCellControllerScript cellProduct;
+	public SubjectCellController cellProduct;
 	public CountController countController;
-	public ItemSliderControllerScript slider;
+	public ItemSliderController slider;
 	public Button btnAction;
 	public GameObject panel;
 

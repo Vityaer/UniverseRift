@@ -20,7 +20,7 @@ public class DailyController : Building
     private SimpleBuildingModel dailyReward = null;
     [OdinSerialize] private List<BaseMarketProduct> listRewards = new List<BaseMarketProduct>();
     public List<DailyReward> dailyRewardUI = new List<DailyReward>();
-    public SliderTimeScript sliderTime;
+    public SliderTime sliderTime;
     public MyScrollRect scrollRectController;
     private int sumReward = 0, IDCurReward = 0;
     private DateTime dateLastCheck;

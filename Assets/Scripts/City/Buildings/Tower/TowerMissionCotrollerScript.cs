@@ -28,19 +28,19 @@ public class TowerMissionCotrollerScript : MonoBehaviour, IBeginDragHandler, IDr
 	}
 	public void OpenMission(){
 		if(canOpenMission){
-			ChallengeTowerScript.Instance.OpenMission(this.mission);
+			ChallengeTower.Instance.OpenMission(this.mission);
 		}else{
 			MessageController.Instance.AddMessage("Миссия ещё не открыта");		
 		}
 	}
 
     public void OnBeginDrag(PointerEventData eventData){
-    	ChallengeTowerScript.Instance.scrollRectController.OnBeginDrag(eventData);
+    	ChallengeTower.Instance.scrollRectController.OnBeginDrag(eventData);
     }
     public void OnDrag(PointerEventData eventData){
-    	ChallengeTowerScript.Instance.scrollRectController.OnDrag(eventData);
+    	ChallengeTower.Instance.scrollRectController.OnDrag(eventData);
     }
     public void OnEndDrag(PointerEventData eventData){
-    	ChallengeTowerScript.Instance.scrollRectController.OnEndDrag(eventData);
+    	ChallengeTower.Instance.scrollRectController.OnEndDrag(eventData);
     }
 }

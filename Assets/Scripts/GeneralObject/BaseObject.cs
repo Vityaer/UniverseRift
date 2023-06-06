@@ -14,8 +14,8 @@ public class BaseObject : BaseModel, VisualAPI
     public virtual void ClearUI() { this.UI = null; }
     public virtual VisualAPI GetVisual() { return (this as VisualAPI); }
     public virtual void ClickOnItem() { Debug.Log("не переопредили ClickOnItem(BaseObject)"); }
-    protected ThingUIScript UI;
-    public virtual void SetUI(ThingUIScript UI) { Debug.Log("не переопредили SetUI(BaseObject)"); }
+    protected ThingUI UI;
+    public virtual void SetUI(ThingUI UI) { Debug.Log("не переопредили SetUI(BaseObject)"); }
     public virtual void UpdateUI() { Debug.Log("не переопредили UpdateUI(BaseObject)"); }
     public virtual BaseObject Clone() { Debug.Log("не переопредили Clone()"); return new BaseObject(); }
 }

@@ -7,7 +7,7 @@ public class DailyReward : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public int ID;
     public GameObject blockPanel, readyForGet;
     [SerializeField] private MyScrollRect scrollParent;
-    public SubjectCellControllerScript rewardController;
+    public SubjectCellController rewardController;
     private BaseMarketProduct reward;
     private EventAgentRewardStatus statusReward = EventAgentRewardStatus.Close;
 

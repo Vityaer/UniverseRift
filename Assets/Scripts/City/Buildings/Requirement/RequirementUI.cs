@@ -11,7 +11,7 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private TextMeshProUGUI _description;
     private Achievement requirement;
     public Button buttonGetReward;
-    public ItemSliderControllerScript sliderAmount;
+    public ItemSliderController sliderAmount;
     public RewardUIController rewardController;
     private MyScrollRect scrollParent;
     private Action observerOnChange, observerComplete;
@@ -100,10 +100,10 @@ public class RequirementUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             case TypeRequirement.CountPointsOnTournament:
                 break;
             case TypeRequirement.TryCompleteChallangeTower:
-                ChallengeTowerScript.Instance.RegisterOnTryFight(ChangeProgress);
+                ChallengeTower.Instance.RegisterOnTryFight(ChangeProgress);
                 break;
             case TypeRequirement.CompleteChallengeTower:
-                ChallengeTowerScript.Instance.RegisterOnWinFight(ChangeProgress);
+                ChallengeTower.Instance.RegisterOnWinFight(ChangeProgress);
                 break;
             case TypeRequirement.GetHeroesWithRating:
                 LevelUpRatingHero.Instance.RegisterOnRatingUp(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value);

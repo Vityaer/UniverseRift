@@ -7,7 +7,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private Canvas canvasInventory;
     private string typeItems;
     public Transform grid;
-    private CellItemHeroScript cellItem = null;
+    private HeroItemCell cellItem = null;
     private ItemController selectItem = null;
     [Header("Panel Inventory")]
     public GameObject panelInventory;
@@ -21,7 +21,7 @@ public class InventoryController : MonoBehaviour
     private List<VisualAPI> listForVisual = new List<VisualAPI>();
     SplinterController selectSplinter;
 
-    [SerializeField] private List<SubjectCellControllerScript> cells = new List<SubjectCellControllerScript>();
+    [SerializeField] private List<SubjectCellController> cells = new List<SubjectCellController>();
     private static InventoryController instance;
     public static InventoryController Instance { get => instance; }
 
@@ -35,7 +35,7 @@ public class InventoryController : MonoBehaviour
     {
         if (cells.Count == 0)
             foreach (Transform cell in grid)
-                cells.Add(cell.GetComponent<SubjectCellControllerScript>());
+                cells.Add(cell.GetComponent<SubjectCellController>());
     }
 
     private void FillGrid(List<VisualAPI> list)
@@ -163,7 +163,7 @@ public class InventoryController : MonoBehaviour
         Open(curType, cellItem: null);
     }
 
-    public void Open(string typeItems, CellItemHeroScript cellItem = null)
+    public void Open(string typeItems, HeroItemCell cellItem = null)
     {
         this.cellItem = cellItem;
         inventory.GetItemAtType(typeItems, listForVisual);
@@ -190,7 +190,7 @@ public class InventoryController : MonoBehaviour
         panelInfoItem.OpenInfoAboutItem(res);
     }
 
-    public void OpenInfoItem(Item item, string typeItems, CellItemHeroScript cellItem)
+    public void OpenInfoItem(Item item, string typeItems, HeroItemCell cellItem)
     {
         // canvasInventory.enabled = true;
         this.cellItem = cellItem;

@@ -96,9 +96,9 @@ public class MessageController : MonoBehaviour
 
     //Queue tiny reward
     [Header("Tiny rewards")]
-    public TinyResourceRewardPanelScript tinyResourceReward;
-    public TinyItemRewardPanelScript tinyItemReward;
-    public TinySplinterRewardPanelScript tinySplinterReward;
+    public TinyResourceRewardPanel tinyResourceReward;
+    public TinyItemRewardPanel tinyItemReward;
+    public TinySplinterRewardPanel tinySplinterReward;
     public void OpenTinyRewards(Reward reward)
     {
         GameController.Instance.AddReward(reward);

@@ -6,10 +6,10 @@ public class TaskController : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI name;
     public GameObject objectCurrentTime;
-    public SliderTimeScript sliderTime;
+    public SliderTime sliderTime;
     public ButtonCostController buttonCostScript;
     public RatingHero ratingController;
-    public SubjectCellControllerScript rewardUIController;
+    public SubjectCellController rewardUIController;
 
     public Task GetTask => task;
 

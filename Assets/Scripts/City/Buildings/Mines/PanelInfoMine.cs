@@ -7,7 +7,7 @@ public class PanelInfoMine : MonoBehaviour{
 	public GameObject panel, panelController;
 	[SerializeField] private Image image;
 	[SerializeField] private TextMeshProUGUI textNameMine, textLevelMine, textIncome, textStore;
-	public  ItemSliderControllerScript sliderAmount;
+	public  ItemSliderController sliderAmount;
 	// public SubjectCellControllerScript product;
 	public CostUIList costController;
 	[SerializeField] private Button buttonLevelUp;

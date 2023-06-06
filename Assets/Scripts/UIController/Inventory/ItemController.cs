@@ -9,9 +9,9 @@ public class ItemController : VisualAPI, ICloneable
 	public Item item{get => _item; set => _item = value;} 
 	protected int amount;
 	public int Amount{get => amount;}
-	protected SubjectCellControllerScript cell = null;
-	public SubjectCellControllerScript cellInvenroty{get => cell; set => cell = value;}
-	protected ThingUIScript UI;
+	protected SubjectCellController cell = null;
+	public SubjectCellController cellInvenroty{get => cell; set => cell = value;}
+	protected ThingUI UI;
 
 	public void ClickOnItem()
 	{
@@ -35,7 +35,7 @@ public class ItemController : VisualAPI, ICloneable
 		this.amount = 1;
 	}
 
-	public void SetUI(ThingUIScript UI){
+	public void SetUI(ThingUI UI){
 		this.UI = UI;
 		UpdateUI();
 	}
@@ -76,7 +76,7 @@ public class ItemController : VisualAPI, ICloneable
 public interface VisualAPI{
 	VisualAPI GetVisual();
 	void ClearUI();
-	void SetUI(ThingUIScript UI);
+	void SetUI(ThingUI UI);
 	void UpdateUI();
 	void ClickOnItem();
 }

@@ -19,8 +19,8 @@ public class SplinterController : VisualAPI, ICloneable{
 	public SplinterController() : base(){
 		_splinter = null;
 	}
-	protected ThingUIScript UI;
-	public void SetUI(ThingUIScript UI){
+	protected ThingUI UI;
+	public void SetUI(ThingUI UI){
 		this.UI = UI;
 		UpdateUI();
 	}

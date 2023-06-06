@@ -7,7 +7,7 @@ public class ForgeItemVisual : MonoBehaviour
     private ItemSynthesis thing;
     public ItemSynthesis Thing { get => thing; }
     private Item item;
-    public ThingUIScript UIItem;
+    public ThingUI UIItem;
     public ResourceObjectCost resourceCost;
     public ForgeItemObjectCost forgeItemCost;
 

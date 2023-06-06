@@ -115,7 +115,7 @@ public class Resource : BaseObject, ICloneable, VisualAPI
     //UI
     public override string GetName() { return Name.ToString(); }
     public void ClickOnItem() { InventoryController.Instance.OpenInfoItem(this); }
-    public void SetUI(ThingUIScript UI)
+    public void SetUI(ThingUI UI)
     {
         this.UI = UI;
         UpdateUI();

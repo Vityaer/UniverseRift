@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerPanel : Building
 {
-    [SerializeField] private ItemSliderControllerScript sliderLevel;
+    [SerializeField] private ItemSliderController sliderLevel;
     [SerializeField] private TextMeshProUGUI nameText, levelText, IDGuildText, idText;
     [SerializeField] private CostLevelUp playerLevelList, rewardForLevelUp;
     [SerializeField] private Image avatar, outlineAvatar;

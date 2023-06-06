@@ -15,7 +15,7 @@ public class WheelFortune : Building
     [Header("Controller")]
     [SerializeField] private ButtonCostController buttonOneRotate, buttonTenRotate;
     [Header("Images reward")]
-    public List<SubjectCellControllerScript> places = new List<SubjectCellControllerScript>();
+    public List<SubjectCellController> places = new List<SubjectCellController>();
 
     [Header("List reward")]
     private List<FortuneReward> rewards = new List<FortuneReward>();

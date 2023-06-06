@@ -6,7 +6,7 @@ using TMPro;
 public class PanelInfoSplinterScript : MonoBehaviour{
     [Header("PanelInfo Item")]
 	public GameObject panelInfoItem;
-	public SubjectCellControllerScript imageInfoItem; 
+	public SubjectCellController imageInfoItem; 
 	public TextMeshProUGUI textNameItem, textTypeItem, textGeneralInfo;
 	private Item selectItem = null;
 	[Header("Controllers")]

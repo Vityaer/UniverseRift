@@ -2,6 +2,7 @@ using Common;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
+using Models.Heroes;
 using Models.Items;
 using System.Collections.Generic;
 using UniRx;
@@ -16,6 +17,8 @@ namespace Db.CommonDictionaries
         public ReactiveCommand OnFinishDownloadFiles = new ReactiveCommand();
 
         private Dictionary<string, HeroModel> _heroes = new Dictionary<string, HeroModel>();
+        private Dictionary<string, RaceModel> _races = new Dictionary<string, RaceModel>();
+        private Dictionary<string, VocationModel> _vocations = new Dictionary<string, VocationModel>();
         private Dictionary<string, Item> _items = new Dictionary<string, Item>();
         private Dictionary<string, Rarity> _raryties = new Dictionary<string, Rarity>();
         private Dictionary<string, ItemSet> _itemSets = new Dictionary<string, ItemSet>();
@@ -32,6 +35,8 @@ namespace Db.CommonDictionaries
         public Dictionary<string, ItemSet> ItemSets => _itemSets;
         public Dictionary<string, ItemType> ItemTypes => _itemTypes;
         public Dictionary<string, RatingModel> Ratings => _ratings;
+        public Dictionary<string, RaceModel> Races => _races;
+        public Dictionary<string, VocationModel> Vocations => _vocations;
 
 
         private bool IsDownloadedInLocalStorage
@@ -159,6 +164,8 @@ namespace Db.CommonDictionaries
         private void LoadFromLocalDirectory()
         {
             _heroes = GetModels<HeroModel>();
+            _races = GetModels<RaceModel>();
+            _vocations = GetModels<VocationModel>();
             _items = GetModels<Item>();
             _raryties = GetModels<Rarity>();
             _itemSets = GetModels<ItemSet>();
