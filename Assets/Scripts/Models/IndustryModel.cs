@@ -1,4 +1,5 @@
-﻿using Models.City.Mines;
+﻿using Assets.Scripts.City.Buildings.Mines;
+using Models.City.Mines;
 using System;
 using System.Collections.Generic;
 

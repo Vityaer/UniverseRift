@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 
-public class BackgroundController : MonoBehaviour
+namespace UIController
 {
-
-    private static BackgroundController instance;
-    public static BackgroundController Instance { get => instance; }
-    public GameObject currentBackground;
-
-    [Header("List background")]
-    public GameObject cityBackground;
-
-    void Awake()
+    public class BackgroundController : MonoBehaviour
     {
-        instance = this;
-    }
 
-    public void OpenBackground(GameObject newBackground)
-    {
-        if (currentBackground != null) currentBackground.SetActive(false);
-        currentBackground = newBackground;
-        currentBackground.SetActive(true);
-    }
+        private static BackgroundController instance;
+        public static BackgroundController Instance { get => instance; }
+        public GameObject currentBackground;
 
-    public void OpenCityBackground()
-    {
-        OpenBackground(cityBackground);
+        [Header("List background")]
+        public GameObject cityBackground;
+
+        void Awake()
+        {
+            instance = this;
+        }
+
+        public void OpenBackground(GameObject newBackground)
+        {
+            if (currentBackground != null) currentBackground.SetActive(false);
+            currentBackground = newBackground;
+            currentBackground.SetActive(true);
+        }
+
+        public void OpenCityBackground()
+        {
+            OpenBackground(cityBackground);
+        }
     }
 }

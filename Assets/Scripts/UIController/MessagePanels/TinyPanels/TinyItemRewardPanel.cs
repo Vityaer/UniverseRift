@@ -1,12 +1,17 @@
 using TMPro;
+using UIController.Inventory;
 using UnityEngine.UI;
 
-public class TinyItemRewardPanel : TinyRewardPanel
+namespace UIController.MessagePanels.TinyPanels
 {
-    public TextMeshProUGUI textCountItem;
-    public Image imageItem;
-    public void Open(Item data)
+    public class TinyItemRewardPanel : TinyRewardPanel
     {
+        public TextMeshProUGUI textCountItem;
+        public Image imageItem;
 
+        public void Open(Item data)
+        {
+
+        }
     }
 }

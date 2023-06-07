@@ -1,46 +1,49 @@
 using IdleGame.MultiplayerData;
+using Models.City.Arena;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Client : MonoBehaviour
+namespace Network.GameServer
 {
-    private static Client instance;
-    public static Client Instance { get => instance; }
-    [Header("Data")]
-    public List<ArenaOpponent> listOpponents = new List<ArenaOpponent>();
-    
-    private void Awake()
+    public class Client : MonoBehaviour
     {
-        instance = this;
-    }
+        public static Client Instance { get; private set; }
 
-    public DateTime GetServerTime()
-    {
-        return DateTime.Now;
-    }
-    // public DateTime GetCurrentDay(){
-    // 	return currentDay;
-    // }
-    // public DateTime GetCurrentWeek(){
+        public List<ArenaOpponentModel> listOpponents = new List<ArenaOpponentModel>();
 
-    // }
-    // public DateTime GetCurrentMonth(){
-
-    // }
-    public void GetListOpponentSimpleArena(List<ArenaOpponent> opponents)
-    {
-        for (int i = 0; i < 3; i++)
+        private void Awake()
         {
-            opponents.Add(listOpponents[UnityEngine.Random.Range(0, listOpponents.Count)]);
+            Instance = this;
         }
-    }
 
-    public DataCycleEvent GetDataCurrentCycleEvent()
-    {
-        DataCycleEvent result = new DataCycleEvent();
-        result.stage = 0;
-        result.startTime = (DateTime.Today).ToString();
-        return result;
+        public DateTime GetServerTime()
+        {
+            return DateTime.Now;
+        }
+        // public DateTime GetCurrentDay(){
+        // 	return currentDay;
+        // }
+        // public DateTime GetCurrentWeek(){
+
+        // }
+        // public DateTime GetCurrentMonth(){
+
+        // }
+        public void GetListOpponentSimpleArena(List<ArenaOpponentModel> opponents)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                opponents.Add(listOpponents[UnityEngine.Random.Range(0, listOpponents.Count)]);
+            }
+        }
+
+        public DataCycleEvent GetDataCurrentCycleEvent()
+        {
+            DataCycleEvent result = new DataCycleEvent();
+            result.Stage = 0;
+            result.StartTime = DateTime.Today.ToString();
+            return result;
+        }
     }
 }

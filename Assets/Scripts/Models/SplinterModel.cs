@@ -1,4 +1,6 @@
-﻿namespace Models
+﻿using UIController.Inventory;
+
+namespace Models
 {
     [System.Serializable]
     public class SplinterModel : BaseModel

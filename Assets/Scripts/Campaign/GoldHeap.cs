@@ -1,6 +1,9 @@
+using Assets.Scripts.GeneralObject;
+using Assets.Scripts.Network.GameServer;
 using DG.Tweening;
 using HelpFuction;
 using System;
+using UIController.Reward;
 using UnityEngine;
 using UnityEngine.UI;
 

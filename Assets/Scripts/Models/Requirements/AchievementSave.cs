@@ -1,4 +1,6 @@
-﻿namespace Models.Requiremets
+﻿using Common;
+
+namespace Models.Requiremets
 {
     [System.Serializable]
     public class AchievementSave

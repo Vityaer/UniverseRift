@@ -1,0 +1,38 @@
+﻿namespace Models.Heroes.Actions
+{
+    public enum TypeProperties
+    {
+        ID,
+        AllDebuff,
+        AllBuff,
+        CountWarrior,
+        CountWizard,
+        CountArcher,
+        CountPastor,
+        CountSlayer,
+        CountTank,
+        CountSupport,
+        CountStun,
+        CountPetrification,
+        CountFreezing,
+        CountAstral,
+        CountDumb,
+        CountPoison,
+        CountBleeding,
+        CountHellishMark,
+        CountMelleeHeroes,
+        CountNotMelleeHeroes,
+        CountAliveHeroes,
+        CountDeadHeroes,
+        CountHeroesHPLess50,
+        CountHeroesHPLess30,
+        CountPeople,
+        CountElf,
+        CountUndead,
+        CountMechanic,
+        CountInquisition,
+        CountDemon,
+        CountGod,
+        HellishMark
+    }
+}

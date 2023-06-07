@@ -27,18 +27,4 @@ namespace UIController.ItemVisual
     [System.Serializable] public class RaceSprite : BaseItemSprite { public string race; }
     [System.Serializable] public class VocationSprite : BaseItemSprite { public string vocation; }
     [System.Serializable] public class GeneralSprite : BaseItemSprite { public SpriteName name = SpriteName.OneStarHero; }
-
-
-    public enum SpriteName
-    {
-        OneStarHero = 1,
-        TwoStarHero = 2,
-        ThreeStarHero = 3,
-        FourStartHero = 4,
-        FiveStarHero = 5,
-        BaseSplinterHero = 6,
-        BaseSplinterArtifact = 7,
-        OneStarPeople = 11,
-        OneStarElf = 12
-    }
 }

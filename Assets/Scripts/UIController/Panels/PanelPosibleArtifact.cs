@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using UIController.ControllerPanels;
+using UIController.Inventory;
+using UIController.ItemVisual;
 using UnityEngine;
 
 public class PanelPosibleArtifact : BasePanelScript

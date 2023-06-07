@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using City.Buildings.Mines;
 using System;
 
 namespace Models.City.Mines

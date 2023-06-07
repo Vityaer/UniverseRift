@@ -6,8 +6,8 @@ namespace UIController.Cards
 {
     public class VocationView : MonoBehaviour
     {
-        [SerializeField] private Image imageVocation;
+        [SerializeField] private Image _imageVocation;
         public void SetData(string newVocation)
-        { imageVocation.sprite = SystemSprites.Instance.GetVocationImage(newVocation); }
+        { _imageVocation.sprite = SystemSprites.Instance.GetVocationImage(newVocation); }
     }
 }

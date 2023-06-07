@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Assets.Scripts.Models.Heroes;
+using Assets.Scripts.City.TrainCamp;
+using UIController.ControllerPanels;
+
 public class PanelDetailsHero : BasePanelScript{
 	public TextMeshProUGUI textAttackSkill, textDeffendSkill, textSpeed, textCountCounterAttack, textCanRetaliation;
 	private HeroModel hero;

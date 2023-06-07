@@ -1,19 +1,23 @@
-﻿using UnityEngine;
+﻿using City.General;
+using UnityEngine;
 
-public class ActionSheet : MainPage
+namespace UIController.Actions
 {
-    [SerializeField] private Canvas canvasActionUI;
-    [SerializeField] private GameObject background;
-
-    public override void Open()
+    public class ActionSheet : MainPage
     {
-        base.Open();
-        canvasActionUI.enabled = true;
-        BackgroundController.Instance.OpenBackground(background);
-    }
+        [SerializeField] private Canvas canvasActionUI;
+        [SerializeField] private GameObject background;
 
-    public override void Close()
-    {
-        canvasActionUI.enabled = false;
+        public override void Open()
+        {
+            base.Open();
+            canvasActionUI.enabled = true;
+            BackgroundController.Instance.OpenBackground(background);
+        }
+
+        public override void Close()
+        {
+            canvasActionUI.enabled = false;
+        }
     }
 }

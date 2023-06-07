@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using Models.Heroes.Skills;
+using System.Collections.Generic;
 using UnityEngine;
-public class SkillUIController : MonoBehaviour
-{
-    public List<SkillObject> skillsObject = new List<SkillObject>();
 
-    public void ShowSkills(List<Skill> skills)
+namespace City.TrainCamp
+{
+    public class SkillUIController : MonoBehaviour
     {
-        ClearPanelSkills();
-        for (int i = 0; i < skills.Count; i++)
+        public List<SkillUI> skillsObject = new List<SkillUI>();
+
+        public void ShowSkills(List<Skill> skills)
         {
-            skillsObject[i].SetInfo(skills[i]);
+            ClearPanelSkills();
+            for (int i = 0; i < skills.Count; i++)
+            {
+                skillsObject[i].SetInfo(skills[i]);
+            }
         }
-    }
-    private void ClearPanelSkills()
-    {
-        foreach (SkillObject obj in skillsObject)
+        private void ClearPanelSkills()
         {
-            obj.OffObject();
+            foreach (var obj in skillsObject)
+            {
+                obj.OffObject();
+            }
         }
     }
 }

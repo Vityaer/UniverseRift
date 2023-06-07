@@ -1,4 +1,5 @@
-﻿using Db.CommonDictionaries;
+﻿using Assets.Scripts.Models.Heroes;
+using Db.CommonDictionaries;
 using Editor.Common;
 using Models.City.Mines;
 using Sirenix.OdinInspector;

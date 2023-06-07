@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class TinyRewardPanel : MonoBehaviour
+namespace UIController.MessagePanels
 {
-    public void Close() { }
+    public class TinyRewardPanel : MonoBehaviour
+    {
+        public void Close() { }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fight.HeroControllers.Generals;
+using UnityEngine;
 
 namespace Models.Heroes
 {

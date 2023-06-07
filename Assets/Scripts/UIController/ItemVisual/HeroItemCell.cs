@@ -1,84 +1,89 @@
-﻿using UnityEngine;
+﻿using City.TrainCamp;
+using UIController.Inventory;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroItemCell : MonoBehaviour
+namespace UIController.ItemVisual
 {
-    public string typeCell;
-    public Sprite defaultSprite;
-
-    [Header("Info")]
-    public Image image;
-    public RatingHero ratingController;
-
-    private Item item;
-
-    void Awake()
+    public class HeroItemCell : MonoBehaviour
     {
-        image = GetComponent<Image>();
-    }
+        public string typeCell;
+        public Sprite defaultSprite;
 
-    void Start()
-    {
-        DefaulfView();
-    }
+        [Header("Info")]
+        public Image image;
+        public RatingHero ratingController;
 
+        private Item item;
 
-    public void DefaulfView()
-    {
-        image.sprite = defaultSprite;
-        ratingController?.ShowRating(0);
-    }
-
-    private void SetBonus()
-    {
-        TrainCamp.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
-        TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        image.sprite = item.Image;
-        image.color = new Color(255, 255, 255, 1);
-        //ratingController?.ShowRating(item.Rating);
-    }
-    //API
-    public void Clear()
-    {
-        item = null;
-        DefaulfView();
-    }
-
-    public void SetItem(Item newItem)
-    {
-        if (item != null)
+        void Awake()
         {
-            InventoryController.Instance.AddItem(item);
-            TrainCamp.Instance.TakeOff(item);
-            TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
+            image = GetComponent<Image>();
         }
 
-        item = newItem;
-
-        if (item != null)
-        {
-            SetBonus();
-        }
-        else
+        void Start()
         {
             DefaulfView();
         }
-    }
 
-    public void ClickOnCell()
-    {
-        if (item != null)
+
+        public void DefaulfView()
         {
-            InventoryController.Instance.OpenInfoItem(item, typeCell, this);
+            image.sprite = defaultSprite;
+            ratingController?.ShowRating(0);
         }
-        else
+
+        private void SetBonus()
         {
-            InventoryController.Instance.Open(typeCell, this);
+            TrainCamp.Instance.ReturnSelectHero().CostumeHero.TakeOn(item);
+            TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            image.sprite = item.Image;
+            image.color = new Color(255, 255, 255, 1);
+            //ratingController?.ShowRating(item.Rating);
+        }
+        //API
+        public void Clear()
+        {
+            item = null;
+            DefaulfView();
+        }
+
+        public void SetItem(Item newItem)
+        {
+            if (item != null)
+            {
+                InventoryController.Instance.AddItem(item);
+                TrainCamp.Instance.TakeOff(item);
+                TrainCamp.Instance.HeroPanel.UpdateTextAboutHero();
+            }
+
+            item = newItem;
+
+            if (item != null)
+            {
+                SetBonus();
+            }
+            else
+            {
+                DefaulfView();
+            }
+        }
+
+        public void ClickOnCell()
+        {
+            if (item != null)
+            {
+                InventoryController.Instance.OpenInfoItem(item, typeCell, this);
+            }
+            else
+            {
+                InventoryController.Instance.Open(typeCell, this);
+            }
         }
     }
 }

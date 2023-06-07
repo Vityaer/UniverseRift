@@ -1,7 +1,13 @@
+using Assets.Scripts.City.Buildings.General;
+using Assets.Scripts.Fight.WarTable;
+using Common;
 using Models;
 using System;
 using System.Collections.Generic;
+using UIController;
+using UIController.ControllerPanels;
 using UnityEngine;
+
 public class CampaignBuilding : BuildingWithFight
 {
     private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";

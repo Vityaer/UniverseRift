@@ -1,107 +1,36 @@
-using UIController.ItemVisual;
 using Models.Heroes;
+using Models.City.TrainCamp;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LevelUPRaitingHeroes", menuName = "Custom ScriptableObject/LevelUpRatingHeroes", order = 61)]
-[System.Serializable]
-public class LevelUpRatingHeroes : ScriptableObject
+namespace City.TrainCamp
 {
-    [Header("Ratings")]
-    public List<LevelUpRaiting> ratings = new List<LevelUpRaiting>();
-
-    public LevelUpRaiting GetRequirements(HeroModel hero)
+    [CreateAssetMenu(fileName = "LevelUPRaitingHeroes", menuName = "Custom ScriptableObject/LevelUpRatingHeroes", order = 61)]
+    [System.Serializable]
+    public class LevelUpRatingHeroes : ScriptableObject
     {
-        int currentRating = hero.General.RatingHero;
-        LevelUpRaiting result = ratings.Find(x => x.level == (currentRating + 1));
-        if (result != null)
+        [Header("Ratings")]
+        public List<LevelUpRaitingModel> ratings = new List<LevelUpRaitingModel>();
+
+        public LevelUpRaitingModel GetRequirements(HeroModel hero)
         {
-            result.UpdateData(hero);
-        }
-        else
-        {
-            Debug.Log("not found LevelUpRaiting");
-        }
-        return result;
-    }
-}
-
-[System.Serializable]
-public class LevelUpRaiting
-{
-    public string Name;
-    public int level;
-    [Header("Requirements")]
-    [SerializeField] private ListResource list;
-    public List<RequirementHero> requirementHeroes = new List<RequirementHero>();
-    public ListResource Cost => list;
-
-
-    public void UpdateData(HeroModel hero)
-    {
-        requirementHeroes.ForEach(x => x.UpdateData(hero));
-    }
-}
-
-[System.Serializable]
-public class RequirementHero
-{
-    public string ID;
-    public int rating, count;
-    public RequireRaceUpRating requireRace;
-    public string race;
-    private HeroModel dataHero;
-
-    public HeroModel GetData => dataHero;
-
-    public void UpdateData(HeroModel hero)
-    {
-        var IDHero = hero.General.ViewId;
-        race = hero.General.Race;
-        dataHero = new HeroModel();
-        if (ID.Equals(string.Empty))
-        {
-            ID = IDHero;
-            dataHero.General = (GeneralInfoHero)hero.General.Clone();
-            dataHero.General.Level = 1;
-        }
-        else
-        {
-            dataHero.General = new GeneralInfoHero();
-            dataHero.General.RatingHero = rating;
-            dataHero.General.Race = race;
-            SpriteName spriteName = SpriteName.OneStarHero;
-            switch (rating)
+            int currentRating = hero.General.RatingHero;
+            LevelUpRaitingModel result = ratings.Find(x => x.Level == currentRating + 1);
+            if (result != null)
             {
-                case 1:
-                    spriteName = SpriteName.OneStarHero;
-                    break;
-                case 2:
-                    spriteName = SpriteName.TwoStarHero;
-                    break;
-                case 3:
-                    spriteName = SpriteName.ThreeStarHero;
-                    break;
-                case 4:
-                    spriteName = SpriteName.FourStartHero;
-                    break;
-                case 5:
-                    spriteName = SpriteName.FiveStarHero;
-                    break;
+                result.UpdateData(hero);
             }
-            if (SystemSprites.Instance == null) Debug.Log("SystemSprites.Instance null");
-            if (dataHero == null) Debug.Log("dataHero null");
-            if (dataHero.General == null) Debug.Log("dataHero.generalInfo null");
-            dataHero.General.ImageHero = SystemSprites.Instance.GetSprite(spriteName);
+            else
+            {
+                Debug.Log("not found LevelUpRaiting");
+            }
+            return result;
         }
     }
-}
 
-public enum RequireRaceUpRating
-{
-    Equal,
-    Friend,
-    Enemy,
-    God,
-    Any
+
+
+
+
+
 }

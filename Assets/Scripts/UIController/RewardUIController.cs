@@ -1,75 +1,81 @@
 ﻿using System.Collections.Generic;
+using UIController.Inventory;
+using UIController.ItemVisual;
 using UnityEngine;
+using UIController.Rewards;
 
-public class RewardUIController : MonoBehaviour
+namespace UIController
 {
-    public List<SubjectCellController> cells = new List<SubjectCellController>();
-    public Transform panelRewards;
-    public GameObject btnAllReward;
-    private Reward reward;
-
-    public void ShowReward(Reward reward, bool lengthReward = false)
+    public class RewardUIController : MonoBehaviour
     {
-        this.reward = reward;
-        if (cells.Count == 0) GetCells();
-        if (btnAllReward != null) btnAllReward.SetActive((reward.Count > 4) && (lengthReward == false));
-        for (int i = 0; (i < 4) && (i < reward.Count); i++) cells[i].SetItem(reward.GetList[i] as VisualAPI);
-        for (int i = reward.Count; i < cells.Count; i++) cells[i].OffCell();
-        panelRewards.gameObject.SetActive(reward.Count > 0);
-    }
+        public List<SubjectCellController> cells = new List<SubjectCellController>();
+        public Transform panelRewards;
+        public GameObject btnAllReward;
+        private Reward reward;
 
-    public void ShowAllReward(Reward reward)
-    {
-        this.reward = reward;
-        if (cells.Count == 0) GetCells();
-        for (int i = 0; i < reward.Count; i++)
+        public void ShowReward(Reward reward, bool lengthReward = false)
         {
-            cells[i].SetItem(reward.GetList[i]);
+            this.reward = reward;
+            if (cells.Count == 0) GetCells();
+            if (btnAllReward != null) btnAllReward.SetActive(reward.Count > 4 && lengthReward == false);
+            for (int i = 0; i < 4 && i < reward.Count; i++) cells[i].SetItem(reward.GetList[i] as VisualAPI);
+            for (int i = reward.Count; i < cells.Count; i++) cells[i].OffCell();
+            panelRewards.gameObject.SetActive(reward.Count > 0);
         }
 
-        for (int i = reward.Count; i < cells.Count; i++)
-            cells[i].OffCell();
-        panelRewards.gameObject.SetActive(reward.Count > 0);
-    }
-
-    public void ShowAutoReward(AutoReward autoReward)
-    {
-        if (cells.Count == 0)
-            GetCells();
-        List<PosibleRewardObject> listPosibleObject = new List<PosibleRewardObject>();
-        autoReward.GetListPosibleRewards(listPosibleObject);
-
-        if (btnAllReward != null)
-            btnAllReward.SetActive(listPosibleObject.Count > 4);
-
-        for (int i = 0; (i < 4) && (i < listPosibleObject.Count); i++)
-            cells[i].SetItem(listPosibleObject[i]);
-
-        for (int i = listPosibleObject.Count; i < cells.Count; i++)
-            cells[i].OffCell();
-        panelRewards.gameObject.SetActive(listPosibleObject.Count > 0);
-    }
-
-    void GetCells()
-    {
-        foreach (Transform cell in panelRewards)
+        public void ShowAllReward(Reward reward)
         {
-            cells.Add(cell.GetComponent<SubjectCellController>());
+            this.reward = reward;
+            if (cells.Count == 0) GetCells();
+            for (int i = 0; i < reward.Count; i++)
+            {
+                cells[i].SetItem(reward.GetList[i]);
+            }
+
+            for (int i = reward.Count; i < cells.Count; i++)
+                cells[i].OffCell();
+            panelRewards.gameObject.SetActive(reward.Count > 0);
         }
-    }
 
-    public void OpenAllReward()
-    {
-        BoxAllRewards.Instance.ShowAll(this.reward);
-    }
+        public void ShowAutoReward(AutoReward autoReward)
+        {
+            if (cells.Count == 0)
+                GetCells();
+            List<PosibleRewardObject> listPosibleObject = new List<PosibleRewardObject>();
+            autoReward.GetListPosibleRewards(listPosibleObject);
 
-    public void CloseReward()
-    {
-        gameObject.SetActive(false);
-    }
+            if (btnAllReward != null)
+                btnAllReward.SetActive(listPosibleObject.Count > 4);
 
-    public void OpenReward()
-    {
-        gameObject.SetActive(true);
+            for (int i = 0; i < 4 && i < listPosibleObject.Count; i++)
+                cells[i].SetItem(listPosibleObject[i]);
+
+            for (int i = listPosibleObject.Count; i < cells.Count; i++)
+                cells[i].OffCell();
+            panelRewards.gameObject.SetActive(listPosibleObject.Count > 0);
+        }
+
+        void GetCells()
+        {
+            foreach (Transform cell in panelRewards)
+            {
+                cells.Add(cell.GetComponent<SubjectCellController>());
+            }
+        }
+
+        public void OpenAllReward()
+        {
+            BoxAllRewards.Instance.ShowAll(reward);
+        }
+
+        public void CloseReward()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OpenReward()
+        {
+            gameObject.SetActive(true);
+        }
     }
 }

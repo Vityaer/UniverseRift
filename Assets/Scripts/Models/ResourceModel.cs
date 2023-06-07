@@ -1,4 +1,7 @@
-﻿namespace Models
+﻿using Assets.Scripts.GeneralObject;
+using Common.Resourses;
+
+namespace Models
 {
     //Resource
     [System.Serializable]

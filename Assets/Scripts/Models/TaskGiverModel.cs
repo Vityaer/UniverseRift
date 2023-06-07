@@ -7,6 +7,6 @@ namespace Models
     [Serializable]
     public class TaskGiverModel : BaseModel
     {
-        public List<Task> tasks = new List<Task>();
+        public List<TaskModel> tasks = new List<TaskModel>();
     }
 }

@@ -1,6 +1,10 @@
-﻿using TMPro;
+﻿using Assets.Scripts.Fight;
+using Models.Fights.Campaign;
+using TMPro;
+using UIController;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class MissionController : MonoBehaviour
 {
     [Header("UI")]
@@ -127,12 +131,4 @@ public class MissionController : MonoBehaviour
         btnGoFight.SetActive((status == 1) || (status == 2));
         blockPanel.SetActive(false);
     }
-}
-
-public enum StatusMission
-{
-    NotOpen = 0,
-    Open = 1,
-    Complete = 2,
-    InAutoFight = 3
 }

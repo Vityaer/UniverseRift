@@ -1,33 +1,38 @@
-﻿using UnityEngine;
+﻿using Fight;
+using Models.Fights.Challenge;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ChallengeUI : MonoBehaviour
+namespace City.Buildings.ChallengeBuild
 {
-    [SerializeField] private Text textName;
-    [SerializeField] private Image backgroundChallenge;
-    [SerializeField] private GameObject btnOpen;
-    [SerializeField] private GameObject imageIsDone;
-    [SerializeField] private Challenge challenge;
-    [SerializeField] private ChallengeBuild challengeBuild;
-    public void SetData(Challenge challenge, ChallengeBuild challengeBuild)
+    public class ChallengeUI : MonoBehaviour
     {
-        this.challengeBuild = challengeBuild;
-        this.challenge = challenge;
-        UpdateUI();
-    }
-    public void UpdateUI()
-    {
-        textName.text = challenge.Name;
-        backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.Location);
-        UpdateControllersUI();
-    }
-    public void UpdateControllersUI()
-    {
-        imageIsDone.SetActive(challenge.IsDone);
-        btnOpen.SetActive(!challenge.IsDone);
-    }
-    public void OpenChallenge()
-    {
-        challengeBuild.OpenChallenge(challenge);
+        [SerializeField] private Text textName;
+        [SerializeField] private Image backgroundChallenge;
+        [SerializeField] private GameObject btnOpen;
+        [SerializeField] private GameObject imageIsDone;
+        [SerializeField] private ChallengeModel challenge;
+        [SerializeField] private ChallengeBuild challengeBuild;
+        public void SetData(ChallengeModel challenge, ChallengeBuild challengeBuild)
+        {
+            this.challengeBuild = challengeBuild;
+            this.challenge = challenge;
+            UpdateUI();
+        }
+        public void UpdateUI()
+        {
+            textName.text = challenge.Name;
+            backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.Location);
+            UpdateControllersUI();
+        }
+        public void UpdateControllersUI()
+        {
+            imageIsDone.SetActive(challenge.IsDone);
+            btnOpen.SetActive(!challenge.IsDone);
+        }
+        public void OpenChallenge()
+        {
+            challengeBuild.OpenChallenge(challenge);
+        }
     }
 }

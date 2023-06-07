@@ -2,15 +2,19 @@ using UIController.ItemVisual;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RaceView : MonoBehaviour
+namespace UIController.Cards
 {
-    [SerializeField] private Image imageRace;
-    
-    public void SetData(string newRace)
+    public class RaceView : MonoBehaviour
     {
-        imageRace.sprite = SystemSprites.Instance.GetSprite(newRace);
-        currentRace = newRace;
-    }
+        [SerializeField] private Image _imageRace;
 
-    private string currentRace;
+        private string _currentRace;
+
+        public void SetData(string newRace)
+        {
+            _imageRace.sprite = SystemSprites.Instance.GetSprite(newRace);
+            _currentRace = newRace;
+        }
+
+    }
 }

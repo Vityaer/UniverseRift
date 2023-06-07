@@ -1,5 +1,6 @@
-﻿using Models.Heroes;
+﻿using Models.Heroes.Characteristics;
 using System.Collections.Generic;
+using UIController.Inventory;
 using UnityEngine;
 
 

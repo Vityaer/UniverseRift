@@ -2,38 +2,41 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RatingHero : MonoBehaviour
+namespace UIController
 {
-    public List<GameObject> stars = new List<GameObject>();
-    private List<Image> imageStars = new List<Image>();
-    public Color colorSimpleStar, colorAdvancedStar, colorPowerfulStar;
-    public int rating = 0;
-    void Awake()
+    public class RatingHero : MonoBehaviour
     {
-        rating = 0;
-        foreach (GameObject star in stars)
+        public List<GameObject> stars = new List<GameObject>();
+        private List<Image> imageStars = new List<Image>();
+        public Color colorSimpleStar, colorAdvancedStar, colorPowerfulStar;
+        public int rating = 0;
+        void Awake()
         {
-            imageStars.Add(star.GetComponent<Image>());
+            rating = 0;
+            foreach (GameObject star in stars)
+            {
+                imageStars.Add(star.GetComponent<Image>());
+            }
         }
-    }
-    public void ShowRating(int rating)
-    {
-        if (rating > 6) rating = 6;
-        if (stars.Count > 0)
+        public void ShowRating(int rating)
         {
-            for (int i = 0; i < stars.Count; i++)
-                stars[i].SetActive(false);
-            for (int i = 0; i < rating; i++)
-                stars[i].SetActive(true);
-            this.rating = rating;
+            if (rating > 6) rating = 6;
+            if (stars.Count > 0)
+            {
+                for (int i = 0; i < stars.Count; i++)
+                    stars[i].SetActive(false);
+                for (int i = 0; i < rating; i++)
+                    stars[i].SetActive(true);
+                this.rating = rating;
+            }
+            else
+            {
+                Debug.Log(gameObject.name);
+            }
         }
-        else
+        public void Hide()
         {
-            Debug.Log(gameObject.name);
+            ShowRating(0);
         }
-    }
-    public void Hide()
-    {
-        ShowRating(0);
     }
 }

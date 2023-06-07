@@ -1,5 +1,7 @@
 ﻿using Models;
 using Models.Heroes;
+using Models.Heroes.Characteristics;
+using Models.Heroes.Skills;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,11 +61,11 @@ public partial class GameHero : BaseModel
     public float MaxHP { get => this.characts.MaxHP; set => this.characts.MaxHP = value; }
 }
 [System.Serializable]
-public class FightCharacteristics : Characteristics
+public class FightCharacteristics : HeroCharacteristics
 {
     public int GeneralAttack = 0, GeneralArmor = 0;
     public float MaxHP;
-    public FightCharacteristics(Characteristics heroCharacts)
+    public FightCharacteristics(HeroCharacteristics heroCharacts)
     {
         this.baseCharacteristic = heroCharacts.baseCharacteristic;
         this.limitLevel = heroCharacts.limitLevel;

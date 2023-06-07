@@ -1,5 +1,11 @@
-﻿using System;
+﻿using Assets.Scripts.GeneralObject;
+using Common;
+using System;
 using System.Collections.Generic;
+using UIController.Inventory;
+using UIController.MessagePanels;
+using UIController.MessagePanels.TinyPanels;
+using UIController.Reward;
 using UnityEngine;
 
 public class MessageController : MonoBehaviour

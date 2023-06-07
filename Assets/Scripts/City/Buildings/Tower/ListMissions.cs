@@ -1,10 +1,14 @@
-using System.Collections;
+using Models.Fights.Campaign;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewListMission", menuName = "Missions/List Mission", order = 56)]
-public class ListMissions : ScriptableObject{
-	public string Name;
-	public List<Mission> missions = new List<Mission>();
-	public int Count{get => missions.Count;}
+namespace City.Buildings.Tower
+{
+    [CreateAssetMenu(fileName = "NewListMission", menuName = "Missions/List Mission", order = 56)]
+    public class ListMissions : ScriptableObject
+    {
+        public string Name;
+        public List<MissionModel> missions = new List<MissionModel>();
+        public int Count { get => missions.Count; }
+    }
 }

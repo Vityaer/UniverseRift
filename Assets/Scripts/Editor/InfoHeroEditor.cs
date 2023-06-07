@@ -1,3 +1,4 @@
+using Assets.Scripts.Models.Heroes;
 using UnityEditor;
 using UnityEngine;
 

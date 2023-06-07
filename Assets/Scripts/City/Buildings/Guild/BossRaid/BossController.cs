@@ -1,26 +1,31 @@
-﻿using UnityEngine;
+﻿using Models.Fights.Campaign;
+using UnityEngine;
 
-public class BossController : MonoBehaviour
+namespace City.Buildings.Guild.BossRaid
 {
+    public class BossController : MonoBehaviour
+    {
+        public CampaignChapterModel CampaignChapterModel;
+        public int CurrentNumBoss;
+        public MissionModel Mission;
 
-    public CampaignChapterModel guildBosses;
-    public int currentNumBoss = 0;
-    public Mission mission;
-    void Start()
-    {
-        PrepareNewMission();
-    }
-    void PrepareNewMission()
-    {
-        // mission = (Mission) guildBosses.missions[currentNumBoss].Clone();
-        // foreach(MissionEnemy enemy in mission.listEnemy){
-        // 	enemy.CurrentHP = enemy.HP;
+        void Start()
+        {
+            PrepareNewMission();
+        }
+
+        void PrepareNewMission()
+        {
+            // mission = (Mission) guildBosses.missions[currentNumBoss].Clone();
+            // foreach(MissionEnemy enemy in mission.listEnemy){
+            // 	enemy.CurrentHP = enemy.HP;
+            // }
+        }
+        // public MissionEnemy GetBoss(){
+        // 	if(mission.listEnemy.Count == 0){
+        // 		PrepareNewMission();
+        // 	}
+        // 	return mission.listEnemy[0];
         // }
     }
-    // public MissionEnemy GetBoss(){
-    // 	if(mission.listEnemy.Count == 0){
-    // 		PrepareNewMission();
-    // 	}
-    // 	return mission.listEnemy[0];
-    // }
 }

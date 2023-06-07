@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.City.General;
+using UIController;
+using UnityEngine;
 
 public class AutoFight : MainPage
 {

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IWorkWithWarTable
+﻿namespace Fight.WarTable
 {
-	void RegisterOnOpenCloseWarTable();
+    public interface IWorkWithWarTable
+    {
+        void RegisterOnOpenCloseWarTable();
 
-	void UnregisterOnOpenCloseWarTable();
+        void UnregisterOnOpenCloseWarTable();
 
-	void Change(bool isOpen);
+        void Change(bool isOpen);
+    }
 }

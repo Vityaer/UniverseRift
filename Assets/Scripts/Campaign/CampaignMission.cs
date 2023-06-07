@@ -1,3 +1,6 @@
+using Assets.Scripts.GeneralObject;
+using Assets.Scripts.Models.Fights.Campaign;
+using UIController.Reward;
 using UnityEngine;
 
 [System.Serializable]

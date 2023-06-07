@@ -1,10 +1,11 @@
 ﻿using Models.Heroes;
+using Models.Heroes.Characteristics;
 using System;
 using UnityEngine;
 
 internal class Growth
 {
-    public static void GrowHero(Characteristics characts, ResistanceModel resistance, IncreaseCharacteristicsModel increaseCharacts, int level = 1)
+    public static void GrowHero(HeroCharacteristics characts, ResistanceModel resistance, IncreaseCharacteristicsModel increaseCharacts, int level = 1)
     {
         GrowthCharact(ref characts.HP, increaseCharacts.increaseHP, level);
         GrowthCharact(ref characts.Damage, increaseCharacts.increaseDamage, level);

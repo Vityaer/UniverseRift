@@ -1,82 +1,89 @@
-﻿using Sirenix.Serialization;
+﻿using Assets.Scripts.GeneralObject;
+using Common.Resourses;
+using Sirenix.Serialization;
 using System;
+using UIController;
+using UIController.Inventory;
+using UIController.ItemVisual;
 using UnityEngine;
-using City.Buildings.Market;
 
-public class MarketProductController : MonoBehaviour
+namespace City.Buildings.Market
 {
-    [OdinSerialize] private BaseMarketProduct marketProduct;
-    [SerializeField] private GameObject soldOutPanel;
-
-    public ButtonCostController buttonCost;
-    public SubjectCellController cellProduct;
-    private BaseObject _subject;
-
-    private Action<string, int> callback = null;
-
-    public void SetData(MarketProduct<Resource> product, Action<string, int> callback)
+    public class MarketProductController : MonoBehaviour
     {
-        this.callback = callback;
-        marketProduct = product;
-        buttonCost.UpdateCost(product.Cost, Buy);
-        cellProduct.SetItem(product.subject);
-        UpdateUI();
-        _subject = product.subject;
-    }
+        [OdinSerialize] private BaseMarketProduct marketProduct;
+        [SerializeField] private GameObject soldOutPanel;
 
-    public void SetData(MarketProduct<Item> product, Action<string, int> callback)
-    {
-        this.callback = callback;
-        marketProduct = product;
-        buttonCost.UpdateCost(product.Cost, Buy);
-        cellProduct.SetItem(product.subject);
-        UpdateUI();
-        _subject = product.subject;
-    }
+        public ButtonCostController buttonCost;
+        public SubjectCellController cellProduct;
+        private BaseObject _subject;
 
-    public void SetData(MarketProduct<SplinterModel> product, Action<string, int> callback)
-    {
-        this.callback = callback;
-        marketProduct = product;
-        buttonCost.UpdateCost(product.Cost, Buy);
-        cellProduct.SetItem(product.subject);
-        UpdateUI();
-        _subject = product.subject;
-    }
+        private Action<string, int> callback = null;
 
-    public void UpdateUI()
-    {
-        if (marketProduct.CountLeftProduct == marketProduct.CountMaxProduct)
+        public void SetData(MarketProduct<Resource> product, Action<string, int> callback)
         {
-            buttonCost.Disable();
-            soldOutPanel.SetActive(true);
+            this.callback = callback;
+            marketProduct = product;
+            buttonCost.UpdateCost(product.Cost, Buy);
+            cellProduct.SetItem(product.subject);
+            UpdateUI();
+            _subject = product.subject;
         }
-        else
+
+        public void SetData(MarketProduct<Item> product, Action<string, int> callback)
         {
-            soldOutPanel.SetActive(false);
-            buttonCost.EnableButton();
+            this.callback = callback;
+            marketProduct = product;
+            buttonCost.UpdateCost(product.Cost, Buy);
+            cellProduct.SetItem(product.subject);
+            UpdateUI();
+            _subject = product.subject;
         }
-    }
 
-    public void Recovery()
-    {
-        marketProduct.Recovery();
-        UpdateUI();
-    }
+        public void SetData(MarketProduct<SplinterModel> product, Action<string, int> callback)
+        {
+            this.callback = callback;
+            marketProduct = product;
+            buttonCost.UpdateCost(product.Cost, Buy);
+            cellProduct.SetItem(product.subject);
+            UpdateUI();
+            _subject = product.subject;
+        }
 
-    public void Buy(int count = 1)
-    {
-        if ((count + marketProduct.CountLeftProduct) > marketProduct.CountMaxProduct)
-            count = marketProduct.CountMaxProduct - marketProduct.CountLeftProduct;
-        marketProduct.GetProduct(count);
+        public void UpdateUI()
+        {
+            if (marketProduct.CountLeftProduct == marketProduct.CountMaxProduct)
+            {
+                buttonCost.Disable();
+                soldOutPanel.SetActive(true);
+            }
+            else
+            {
+                soldOutPanel.SetActive(false);
+                buttonCost.EnableButton();
+            }
+        }
 
-        UpdateUI();
-        if (callback != null)
-            callback(marketProduct.Id, marketProduct.CountLeftProduct);
-    }
+        public void Recovery()
+        {
+            marketProduct.Recovery();
+            UpdateUI();
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void Buy(int count = 1)
+        {
+            if (count + marketProduct.CountLeftProduct > marketProduct.CountMaxProduct)
+                count = marketProduct.CountMaxProduct - marketProduct.CountLeftProduct;
+            marketProduct.GetProduct(count);
+
+            UpdateUI();
+            if (callback != null)
+                callback(marketProduct.Id, marketProduct.CountLeftProduct);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

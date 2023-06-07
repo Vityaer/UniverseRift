@@ -3,34 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSplinter", menuName = "Custom ScriptableObject/Splinter", order = 52)]
-
-[System.Serializable]
-public class SplintersList : SerializedScriptableObject
+namespace UIController.Inventory
 {
-    [SerializeField]
-    private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
+    [CreateAssetMenu(fileName = "NewSplinter", menuName = "Custom ScriptableObject/Splinter", order = 52)]
 
-    public SplinterModel GetSplinter(string ID)
+    [System.Serializable]
+    public class SplintersList : SerializedScriptableObject
     {
-        SplinterModel result = null;
+        [SerializeField]
+        private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
 
-        if (_splinters.ContainsKey(ID))
+        public SplinterModel GetSplinter(string ID)
         {
-            result = _splinters[ID];
-        }
-        else
-        {
-            HeroModel hero = Tavern.Instance.GetInfoHero(ID);
-            result = new SplinterModel(hero);
+            SplinterModel result = null;
+
+            if (_splinters.ContainsKey(ID))
+            {
+                result = _splinters[ID];
+            }
+            else
+            {
+                HeroModel hero = Tavern.Instance.GetInfoHero(ID);
+                result = new SplinterModel(hero);
+            }
+
+            if (result == null)
+            {
+                Debug.Log("Not found splinter with id = " + ID.ToString());
+                result = _splinters.ElementAt(0).Value;
+            }
+            return result;
         }
 
-        if (result == null)
-        {
-            Debug.Log("Not found splinter with id = " + ID.ToString());
-            result = _splinters.ElementAt(0).Value;
-        }
-        return result;
     }
-
 }

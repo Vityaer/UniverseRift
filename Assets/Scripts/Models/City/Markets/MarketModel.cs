@@ -1,4 +1,4 @@
-﻿using City.Buildings.Market;
+﻿using Assets.Scripts.Models.City.Markets;
 using System.Collections.Generic;
 
 namespace Models.City.Markets
@@ -6,7 +6,7 @@ namespace Models.City.Markets
     [System.Serializable]
     public class MarketModel : BaseModel
     {
-        public TypeMarket TypeMarket;
+        public MarketType Type;
         public List<ProductModel> Products = new List<ProductModel>();
 
         public MarketModel() { }

@@ -1,93 +1,102 @@
+using Models.Heroes;
+using City.Buildings.General;
 using IdleGame.AdvancedObservers;
+using Models.City.TrainCamp;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.GeneralObject;
+using Common.Resourses;
+using Common;
 
-public class LevelUpRatingHero : Building
+namespace City.TrainCamp
 {
-    [Header("Data")]
-    public LevelUpRatingHeroes listCost;
-    
-    [Header("UI")]
-    public Button buttonLevelUP;
-    public ListRequirementHeroesUI listRequirementHeroes;
-    
-    [SerializeField] private ResourceObjectCost objectCost;
-
-    private HeroModel currentHero;
-    private LevelUpRaiting data;
-    private bool resourceDone = false;
-    private bool requireHeroesDone = false;
-    private ObserverActionWithHero observersRatingUp = new ObserverActionWithHero();
-
-    public static LevelUpRatingHero Instance { get; private set; }
-
-    protected override void OpenPage()
+    public class LevelUpRatingHero : Building
     {
-        currentHero = TrainCamp.Instance.ReturnSelectHero();
-        data = listCost.GetRequirements(currentHero);
-        listRequirementHeroes.SetData(data.requirementHeroes);
-        GameController.Instance.RegisterOnChangeResource(CheckResource, TypeResource.ContinuumStone);
-        CheckCanUpdateRating();
-    }
+        [Header("Data")]
+        public LevelUpRatingHeroes listCost;
 
-    public void RatingUp(int count = 1)
-    {
-        GameController.Instance.SubtractResource(data.Cost);
-        currentHero.UpRating();
-        OnRatingUp();
-        listRequirementHeroes.DeleteSelectedHeroes();
-        Close();
-    }
+        [Header("UI")]
+        public Button buttonLevelUP;
+        public ListRequirementHeroesUI listRequirementHeroes;
 
-    public void CheckCanUpdateRating()
-    {
-        resourceDone = GameController.Instance.CheckResource(data.Cost.GetResource(TypeResource.ContinuumStone));
-        requireHeroesDone = listRequirementHeroes.IsAllDone();
-        buttonLevelUP.interactable = (resourceDone && requireHeroesDone);
-    }
+        [SerializeField] private ResourceObjectCost objectCost;
 
-    public void CheckResource(Resource res)
-    {
-        CheckCanUpdateRating();
-    }
+        private HeroModel currentHero;
+        private LevelUpRaitingModel data;
+        private bool resourceDone = false;
+        private bool requireHeroesDone = false;
+        private ObserverActionWithHero observersRatingUp = new ObserverActionWithHero();
 
-    public void CheckHeroes()
-    {
-        CheckCanUpdateRating();
-    }
+        public static LevelUpRatingHero Instance { get; private set; }
 
-    protected override void ClosePage()
-    {
-        GameController.Instance.UnregisterOnChangeResource(CheckResource, TypeResource.ContinuumStone);
-        listRequirementHeroes.ClearData();
-    }
+        protected override void OpenPage()
+        {
+            currentHero = TrainCamp.Instance.ReturnSelectHero();
+            data = listCost.GetRequirements(currentHero);
+            listRequirementHeroes.SetData(data.requirementHeroes);
+            GameController.Instance.RegisterOnChangeResource(CheckResource, TypeResource.ContinuumStone);
+            CheckCanUpdateRating();
+        }
 
-    public override void Close()
-    {
-        ClosePage();
-        CanvasBuildingsUI.Instance.CloseBuilding(building);
-    }
+        public void RatingUp(int count = 1)
+        {
+            GameController.Instance.SubtractResource(data.Cost);
+            currentHero.UpRating();
+            OnRatingUp();
+            listRequirementHeroes.DeleteSelectedHeroes();
+            Close();
+        }
 
-    public void RegisterOnRatingUp(Action<BigDigit> d, int rating, string ID = "")
-    {
-        observersRatingUp.Add(d, ID, rating);
-    }
+        public void CheckCanUpdateRating()
+        {
+            resourceDone = GameController.Instance.CheckResource(data.Cost.GetResource(TypeResource.ContinuumStone));
+            requireHeroesDone = listRequirementHeroes.IsAllDone();
+            buttonLevelUP.interactable = resourceDone && requireHeroesDone;
+        }
 
-    public void UnregisterOnRatingUp(Action<BigDigit> d, int rating, string ID)
-    { 
-        observersRatingUp.Remove(d, ID, rating);
-    }
+        public void CheckResource(Resource res)
+        {
+            CheckCanUpdateRating();
+        }
 
-    private void OnRatingUp()
-    {
-        observersRatingUp.OnAction(string.Empty, currentHero.General.RatingHero);
-        observersRatingUp.OnAction(currentHero.General.ViewId, currentHero.General.RatingHero);
-        TrainCamp.Instance.HeroPanel.UpdateInfoAbountHero();
-    }
+        public void CheckHeroes()
+        {
+            CheckCanUpdateRating();
+        }
 
-    private void Awake()
-    {
-        Instance = this;
+        protected override void ClosePage()
+        {
+            GameController.Instance.UnregisterOnChangeResource(CheckResource, TypeResource.ContinuumStone);
+            listRequirementHeroes.ClearData();
+        }
+
+        public override void Close()
+        {
+            ClosePage();
+            CanvasBuildingsUI.Instance.CloseBuilding(building);
+        }
+
+        public void RegisterOnRatingUp(Action<BigDigit> d, int rating, string ID = "")
+        {
+            observersRatingUp.Add(d, ID, rating);
+        }
+
+        public void UnregisterOnRatingUp(Action<BigDigit> d, int rating, string ID)
+        {
+            observersRatingUp.Remove(d, ID, rating);
+        }
+
+        private void OnRatingUp()
+        {
+            observersRatingUp.OnAction(string.Empty, currentHero.General.RatingHero);
+            observersRatingUp.OnAction(currentHero.General.ViewId, currentHero.General.RatingHero);
+            TrainCamp.Instance.HeroPanel.UpdateInfoAbountHero();
+        }
+
+        private void Awake()
+        {
+            Instance = this;
+        }
     }
 }

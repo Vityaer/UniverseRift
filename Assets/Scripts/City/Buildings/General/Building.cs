@@ -1,59 +1,60 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Common;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-public class Building : SerializedMonoBehaviour{
+namespace City.Buildings.General
+{
+    public class Building : SerializedMonoBehaviour
+    {
+        [SerializeField] protected GameObject building;
+        [SerializeField] protected Button buttonOpenBuilding, buttonCloseBuilding;
+        [Header("Main settings")]
+        [SerializeField] private int levelForAvailableBuilding = 0;
 
-	[SerializeField] protected GameObject building;
-	[SerializeField] protected Button buttonOpenBuilding, buttonCloseBuilding;  
-	[Header("Main settings")]
-	[SerializeField] private int levelForAvailableBuilding = 0; 
-	
-	protected virtual void Start()
-	{
-		OnStart();	
-		GameController.Instance.RegisterOnLoadGame(OnLoadGame);
-		building.SetActive(false); 
-		buttonOpenBuilding?.onClick.RemoveAllListeners();
-		buttonCloseBuilding?.onClick.RemoveAllListeners();
-		buttonOpenBuilding?.onClick.AddListener(() => Open());
-		buttonCloseBuilding?.onClick.AddListener(() => Close());
-	}
+        protected virtual void Start()
+        {
+            OnStart();
+            GameController.Instance.RegisterOnLoadGame(OnLoadGame);
+            building.SetActive(false);
+            buttonOpenBuilding?.onClick.RemoveAllListeners();
+            buttonCloseBuilding?.onClick.RemoveAllListeners();
+            buttonOpenBuilding?.onClick.AddListener(() => Open());
+            buttonCloseBuilding?.onClick.AddListener(() => Close());
+        }
 
-	public virtual void Open()
-	{
-		if(AvailableFromLevel())
-		{
-			CanvasBuildingsUI.Instance.OpenBuilding(building);
-			OpenPage();
-		}
-	}
+        public virtual void Open()
+        {
+            if (AvailableFromLevel())
+            {
+                CanvasBuildingsUI.Instance.OpenBuilding(building);
+                OpenPage();
+            }
+        }
 
-	protected bool AvailableFromLevel(){
-		bool result = (GameController.GetPlayerInfo.Level >= levelForAvailableBuilding);
-		if(result == false)  
- 			MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
-		
-		return result;
-	}
+        protected bool AvailableFromLevel()
+        {
+            bool result = GameController.GetPlayerInfo.Level >= levelForAvailableBuilding;
+            if (result == false)
+                MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
 
-	public virtual void Close()
-	{
-		ClosePage();
-		CanvasBuildingsUI.Instance.CloseBuilding(building);
-	}
+            return result;
+        }
 
-	virtual protected void OnStart(){}
-	virtual protected void OpenPage(){}
-	virtual protected void ClosePage(){}
-	virtual protected void OnLoadGame(){}
+        public virtual void Close()
+        {
+            ClosePage();
+            CanvasBuildingsUI.Instance.CloseBuilding(building);
+        }
 
-	protected void SaveGame()
-	{
-		GameController.Instance.SaveGame();
-	}
+        virtual protected void OnStart() { }
+        virtual protected void OpenPage() { }
+        virtual protected void ClosePage() { }
+        virtual protected void OnLoadGame() { }
+
+        protected void SaveGame()
+        {
+            GameController.Instance.SaveGame();
+        }
+    }
 }

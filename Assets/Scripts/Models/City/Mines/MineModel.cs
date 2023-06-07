@@ -1,4 +1,5 @@
-﻿using System;
+﻿using City.Buildings.Mines;
+using System;
 using UnityEngine;
 
 namespace Models.City.Mines

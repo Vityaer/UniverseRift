@@ -1,13 +1,19 @@
-public class EveryDayTaskController : RequirementMenu
-{
-    protected override void OnLoadGame()
-    {
-        LoadData(GameController.GetPlayerGame.saveEveryTimeTasks);
-    }
+using City.Buildings.Requirement;
+using Common;
 
-    protected override void SaveData()
+namespace UIController.ButtonsInCity
+{
+    public class EveryDayTaskController : RequirementMenu
     {
-        GameController.GetPlayerGame.SaveEveryTimeTask(listRequirement);
-        SaveGame();
+        protected override void OnLoadGame()
+        {
+            LoadData(GameController.GetPlayerGame.saveEveryTimeTasks);
+        }
+
+        protected override void SaveData()
+        {
+            GameController.GetPlayerGame.SaveEveryTimeTask(listRequirement);
+            SaveGame();
+        }
     }
 }

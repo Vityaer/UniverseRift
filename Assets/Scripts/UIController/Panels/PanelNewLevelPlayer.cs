@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Common;
+using UIController.MessagePanels;
+using UIController.Reward;
+
 public class PanelNewLevelPlayer : RewardPanel{
 	public TextMeshProUGUI textNewLevel;
 	public void Open(Reward reward){

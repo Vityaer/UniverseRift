@@ -1,25 +1,33 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Models.Heroes;
 using System.Collections.Generic;
+using UIController;
+using UIController.Cards;
 using UnityEngine;
 
-public class BuildingWithHeroesList : Building{
-	
-	[SerializeField] protected ListCardOnWarTable listHeroesController;
-	protected List<HeroModel> listHeroes = new List<HeroModel>();
+namespace City.Buildings.General
+{
+    public class BuildingWithHeroesList : Building
+    {
 
-    public virtual void SelectHero(Card cardHero){}
+        [SerializeField] protected ListCardOnWarTable listHeroesController;
+        protected List<HeroModel> listHeroes = new List<HeroModel>();
 
-	public virtual void UnselectHero(Card cardHero){}
+        public virtual void SelectHero(Card cardHero) { }
 
-	protected virtual void FilterHeroes(List<HeroModel> heroes){}
+        public virtual void UnselectHero(Card cardHero) { }
 
-	protected void LoadListHeroes(){
-		FilterHeroes(listHeroes);
-		listHeroesController.SetList(listHeroes);
-		listHeroesController.RegisterOnSelect(SelectHero);
-	}
+        protected virtual void FilterHeroes(List<HeroModel> heroes) { }
 
-	protected void OnDestroy(){
-		listHeroesController.UnRegisterOnSelect(SelectHero);
-	}
+        protected void LoadListHeroes()
+        {
+            FilterHeroes(listHeroes);
+            listHeroesController.SetList(listHeroes);
+            listHeroesController.RegisterOnSelect(SelectHero);
+        }
+
+        protected void OnDestroy()
+        {
+            listHeroesController.UnRegisterOnSelect(SelectHero);
+        }
+    }
 }

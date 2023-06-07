@@ -1,4 +1,8 @@
-﻿using Sirenix.Serialization;
+﻿using Assets.Scripts.GeneralObject;
+using Common;
+using Common.Resourses;
+using Sirenix.Serialization;
+using UIController.Inventory;
 using UnityEngine;
 
 namespace City.Buildings.Market

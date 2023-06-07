@@ -1,4 +1,8 @@
-﻿using TMPro;
+﻿using Common.Resourses;
+using TMPro;
+using UIController;
+using UIController.Inventory;
+using UIController.ItemVisual;
 using UnityEngine;
 using UnityEngine.UI;
 

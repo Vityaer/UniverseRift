@@ -1,75 +1,93 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.City.Buildings.Voyage;
+using Assets.Scripts.GeneralObject;
+using City.Buildings.General;
+using Common;
 using Models;
+using Models.Fights.Campaign;
 using System;
-public class VoyageControllerSctipt : BuildingWithFight{
-	[SerializeField] private List<Mission> missions = new List<Mission>();
-	[SerializeField] private List<VoyageMissionController> missionsUI = new List<VoyageMissionController>(); 
-	[SerializeField] private PanelVoyageMission panelVoyageMission;
-	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission"; 
-	VoyageBuildingModel voyageBuildingSave = null;
-	int currentMission = 0;
-	private Action<BigDigit> observerDoneTravel;
-	public LocationWithBuildings locationController;
-	private static VoyageControllerSctipt instance;
-	public static VoyageControllerSctipt Instance{get => instance;}
-	void Awake(){ instance = this; }
-	
-	protected override void OnLoadGame()
-	{
-		voyageBuildingSave = GameController.GetCitySave.voyageBuildingSave;
-		currentMission = voyageBuildingSave.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
-		LoadMissions();
-	}
+using System.Collections.Generic;
+using UIController.Reward;
+using UnityEngine;
 
-	private void LoadMissions()
-	{
-		StatusMission statusMission = StatusMission.NotOpen;
-		for(int i = 0; i < missions.Count; i++)
-		{
-			if(i < currentMission){
-				statusMission = StatusMission.Complete;
-			}else if(i == currentMission){
-				statusMission = StatusMission.Open;
-			}else{statusMission = StatusMission.NotOpen;}
-			missionsUI[i].SetData(missions[i], i + 1, statusMission);
-		}
-	}
+namespace City.Buildings.Voyage
+{
+    public class VoyageControllerSctipt : BuildingWithFight
+    {
+        [SerializeField] private List<MissionModel> missions = new List<MissionModel>();
+        [SerializeField] private List<VoyageMissionController> missionsUI = new List<VoyageMissionController>();
+        [SerializeField] private PanelVoyageMission panelVoyageMission;
+        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
+        VoyageBuildingModel voyageBuildingSave = null;
+        int currentMission = 0;
+        private Action<BigDigit> observerDoneTravel;
+        public LocationWithBuildings locationController;
+        private static VoyageControllerSctipt instance;
+        public static VoyageControllerSctipt Instance { get => instance; }
+        void Awake() { instance = this; }
 
-	protected override void OnResultFight(FightResult result)
-	{
-		if(result == FightResult.Win){
-			OnWinFight(currentMission);
-			missionsUI[currentMission].SetStatus(StatusMission.Complete);
-			currentMission += 1;
-			if(currentMission < missions.Count) missionsUI[currentMission].SetStatus(StatusMission.Open);
-			voyageBuildingSave.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
-			SaveGame();
-			if(currentMission == missions.Count) OnDoneTravel(1);
-		}
-	}
+        protected override void OnLoadGame()
+        {
+            voyageBuildingSave = GameController.GetCitySave.voyageBuildingSave;
+            currentMission = voyageBuildingSave.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
+            LoadMissions();
+        }
 
-	public void ShowInfo(VoyageMissionController controller, Reward winReward, StatusMission status)
-	{
-		panelVoyageMission.ShowInfo(controller, winReward, status);
-	}
+        private void LoadMissions()
+        {
+            StatusMission statusMission = StatusMission.NotOpen;
+            for (int i = 0; i < missions.Count; i++)
+            {
+                if (i < currentMission)
+                {
+                    statusMission = StatusMission.Complete;
+                }
+                else if (i == currentMission)
+                {
+                    statusMission = StatusMission.Open;
+                }
+                else { statusMission = StatusMission.NotOpen; }
+                missionsUI[i].SetData(missions[i], i + 1, statusMission);
+            }
+        }
 
-	public void RegisterOnDoneTravel(Action<BigDigit> d){observerDoneTravel += d;}
-	public void UnregisterOnDoneTravel(Action<BigDigit> d){observerDoneTravel -= d;}
+        protected override void OnResultFight(FightResult result)
+        {
+            if (result == FightResult.Win)
+            {
+                OnWinFight(currentMission);
+                missionsUI[currentMission].SetStatus(StatusMission.Complete);
+                currentMission += 1;
+                if (currentMission < missions.Count) missionsUI[currentMission].SetStatus(StatusMission.Open);
+                voyageBuildingSave.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
+                SaveGame();
+                if (currentMission == missions.Count) OnDoneTravel(1);
+            }
+        }
 
-	protected void OnDoneTravel(int num){
-		if(observerDoneTravel != null)
-			observerDoneTravel(new BigDigit(num));
-	}
+        public void ShowInfo(VoyageMissionController controller, Reward winReward, StatusMission status)
+        {
+            panelVoyageMission.ShowInfo(controller, winReward, status);
+        }
 
-	protected override void OpenPage(){
-		WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
-		locationController.Show();
-	}
-	protected override void ClosePage(){
-		Debug.Log("close page");
-		locationController.Hide();
-	}
+        public void RegisterOnDoneTravel(Action<BigDigit> d) { observerDoneTravel += d; }
+        public void UnregisterOnDoneTravel(Action<BigDigit> d) { observerDoneTravel -= d; }
 
+        protected void OnDoneTravel(int num)
+        {
+            if (observerDoneTravel != null)
+                observerDoneTravel(new BigDigit(num));
+        }
+
+        protected override void OpenPage()
+        {
+            WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
+            locationController.Show();
+        }
+        protected override void ClosePage()
+        {
+            Debug.Log("close page");
+            locationController.Hide();
+        }
+
+    }
 }

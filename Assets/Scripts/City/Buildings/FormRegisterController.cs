@@ -1,46 +1,50 @@
+using City.Buildings.General;
+using Common;
 using Cysharp.Threading.Tasks;
-using Network.DataServer.Messages;
-using Network.DataServer;
 using Models;
+using Network.DataServer;
+using Network.DataServer.Messages;
 using UnityEngine;
-using System;
 
-public class FormRegisterController : Building
+namespace City.Buildings
 {
-    [SerializeField] private PanelRegistration panelRegistration;
-    private PlayerInfoModel playerInfo;
-
-    protected override void Start()
+    public class FormRegisterController : Building
     {
-        GameController.Instance.RegisterOnLoadGame(OnLoadGame);
-    }
+        [SerializeField] private PanelRegistration panelRegistration;
+        private PlayerInfoModel playerInfo;
 
-    protected override void OnLoadGame()
-    {
-        Debug.Log("name: " + GameController.GetPlayerInfo.Name);
-        if (GameController.GetPlayerInfo.Name.Equals(string.Empty))
+        protected override void Start()
         {
-            Debug.Log("OpenForRegister");
-            panelRegistration.Open();
+            GameController.Instance.RegisterOnLoadGame(OnLoadGame);
         }
-    }
 
-    public async UniTaskVoid CreateAccount(string name)
-    {
-        var data = new Registration { Name = name };
-        var result = await DataServer.PostData(data);
-        if (Int32.TryParse(result, out int id))
+        protected override void OnLoadGame()
         {
-            GameController.Instance.RegisterPlayer(name, id);
-            GetStartPack();
-            SaveGame();
+            Debug.Log("name: " + GameController.GetPlayerInfo.Name);
+            if (GameController.GetPlayerInfo.Name.Equals(string.Empty))
+            {
+                Debug.Log("OpenForRegister");
+                panelRegistration.Open();
+            }
         }
-    }
 
-    private void GetStartPack()
-    {
-        GameController.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 10));
-        GameController.Instance.AddResource(new Resource(TypeResource.Diamond, 100));
-        GameController.Instance.AddResource(new Resource(TypeResource.CoinFortune, 5));
+        public async UniTaskVoid CreateAccount(string name)
+        {
+            var data = new Registration { Name = name };
+            var result = await DataServer.PostData(data);
+            if (int.TryParse(result, out int id))
+            {
+                GameController.Instance.RegisterPlayer(name, id);
+                GetStartPack();
+                SaveGame();
+            }
+        }
+
+        private void GetStartPack()
+        {
+            GameController.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 10));
+            GameController.Instance.AddResource(new Resource(TypeResource.Diamond, 100));
+            GameController.Instance.AddResource(new Resource(TypeResource.CoinFortune, 5));
+        }
     }
 }

@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Fight;
+using Fight;
+using Fight.Common.Strikes;
+using Fight.HeroStates;
+using Fight.Rounds;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class HeroStatus : MonoBehaviour{
+public partial class HeroStateAPI : MonoBehaviour{
 //Debuff
 	private Debuff debuff = new Debuff();
 	private void SaveDebuff(State state, int round){
@@ -13,7 +18,7 @@ public partial class HeroStatus : MonoBehaviour{
 
 //Dots	
 	private List<Dot> dots = new List<Dot>();
-	private void SaveDot(TypeDot typeDot, List<Round> rounds){
+	private void SaveDot(DotType typeDot, List<Round> rounds){
 		dots.Add(new Dot(typeDot, rounds));
 	}
 
@@ -62,7 +67,7 @@ public class Debuff{
 	
 
 	public class Dot{
-		public TypeDot type;
+		public DotType type;
 		public List<Round> rounds;
 		public void Update(List<Round> extraRounds){
 			bool find = false;
@@ -88,7 +93,7 @@ public class Debuff{
 		}
 		public bool IsFinish{get => (rounds.Count == 0);}
 
-		public Dot(TypeDot type, List<Round> newRounds){
+		public Dot(DotType type, List<Round> newRounds){
 			this.type   = type;
 			this.rounds = new List<Round>();
 			foreach (Round round in newRounds) {

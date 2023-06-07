@@ -1,6 +1,10 @@
+using Assets.Scripts.Fight.FightUI;
 using UnityEngine;
 
-public class FightDirectionsController : MonoBehaviour
+namespace Fight.FightUI
 {
-    public MelleeAtackDirectionController melleeAttackController;
+    public class FightDirectionsController : MonoBehaviour
+    {
+        public MelleeAtackDirectionController melleeAttackController;
+    }
 }

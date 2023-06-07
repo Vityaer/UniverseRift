@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using Assets.Scripts.GeneralObject;
+
 [CustomPropertyDrawer(typeof(BigDigit))]
 public class ExponentialViewDrawer : PropertyDrawer{
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){

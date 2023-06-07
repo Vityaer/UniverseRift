@@ -1,4 +1,5 @@
-﻿using Editor.Common;
+﻿using Assets.Scripts.Models.Heroes;
+using Editor.Common;
 using Models.City.Mines;
 using Models.Heroes;
 using Sirenix.OdinInspector;

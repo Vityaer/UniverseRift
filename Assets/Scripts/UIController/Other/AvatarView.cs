@@ -1,12 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class AvatarView : MonoBehaviour
-{
-    public Image mainImage, borderImage;
-    public int levelVip;
 
-    public void SetAvatar(Sprite newAvatar)
+namespace UController.Other
+{
+    public class AvatarView : MonoBehaviour
     {
-        mainImage.sprite = newAvatar;
+        public Image mainImage, borderImage;
+        public int levelVip;
+
+        public void SetAvatar(Sprite newAvatar)
+        {
+            mainImage.sprite = newAvatar;
+        }
     }
 }

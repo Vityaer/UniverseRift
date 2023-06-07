@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Fight.Common.Strikes;
+using Fight.Rounds;
+using System.Collections.Generic;
 using UnityEngine;
 
 public partial class GameHero
 {
-    public HeroStatus statusState;
+    public HeroStateAPI statusState;
     public void GetDamage(Strike strike)
     {
         float calcDamage = CalculateDamage(strike);
         characts.HP = (characts.HP > calcDamage) ? characts.HP - (int)calcDamage : 0;
     }
 
-    public void GetHeal(float heal, TypeNumber typeNumber = TypeNumber.Num)
+    public void GetHeal(float heal, RoundTypeNumber typeNumber = RoundTypeNumber.Num)
     {
         heal = (int)Mathf.Floor(heal * resistances.EfficiencyHeal);
         float calcHeal = heal;
-        if (typeNumber == TypeNumber.Percent)
+        if (typeNumber == RoundTypeNumber.Percent)
         {
             calcHeal = (int)Mathf.Floor(MaxHP * (heal / 100f));
         }
@@ -22,9 +24,9 @@ public partial class GameHero
         if (characts.HP > MaxHP) characts.HP = MaxHP;
     }
 
-    public void ChangeMaxHP(float amount, TypeNumber typeNumber, List<Round> rounds = null)
+    public void ChangeMaxHP(float amount, RoundTypeNumber typeNumber, List<Round> rounds = null)
     {
-        if (typeNumber == TypeNumber.Num)
+        if (typeNumber == RoundTypeNumber.Num)
         {
             if (characts.HP == MaxHP) characts.HP += (int)amount;
             MaxHP += (int)amount;
@@ -36,9 +38,9 @@ public partial class GameHero
         }
     }
 
-    public void ChangePhysicalAttack(int amount, TypeNumber typeNumber, List<Round> rounds)
+    public void ChangePhysicalAttack(int amount, RoundTypeNumber typeNumber, List<Round> rounds)
     {
-        if (typeNumber == TypeNumber.Num)
+        if (typeNumber == RoundTypeNumber.Num)
         {
             characts.Damage += amount;
         }
@@ -48,9 +50,9 @@ public partial class GameHero
         }
     }
 
-    public void ChangeInitiative(int amount, TypeNumber typeNumber, List<Round> rounds)
+    public void ChangeInitiative(int amount, RoundTypeNumber typeNumber, List<Round> rounds)
     {
-        if (typeNumber == TypeNumber.Num)
+        if (typeNumber == RoundTypeNumber.Num)
         {
             characts.Initiative += amount;
         }
@@ -60,9 +62,9 @@ public partial class GameHero
         }
     }
 
-    public void ChangeArmor(int amount, TypeNumber typeNumber, List<Round> rounds)
+    public void ChangeArmor(int amount, RoundTypeNumber typeNumber, List<Round> rounds)
     {
-        if (typeNumber == TypeNumber.Num)
+        if (typeNumber == RoundTypeNumber.Num)
         {
             characts.GeneralArmor += amount;
         }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
-public class ArenaController : MonoBehaviour
+namespace City.Buildings.Arena
 {
+    public class ArenaController : MonoBehaviour
+    {
+    }
 }

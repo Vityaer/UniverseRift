@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Fight;
+using Fight.Common.Strikes;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
@@ -26,7 +28,7 @@ namespace Fight.HeroControllers.Legolas
             {
                 CollisionTarget(other.GetComponent<HeroController>());
 
-                if ((_currentHit + 1) < _targets.Length)
+                if (_currentHit + 1 < _targets.Length)
                 {
                     _currentHit++;
                 }

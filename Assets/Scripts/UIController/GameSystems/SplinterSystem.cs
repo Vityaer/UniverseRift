@@ -1,26 +1,30 @@
+using UIController.Inventory;
 using UnityEngine;
 
-public class SplinterSystem : MonoBehaviour
+namespace UIController.GameSystems
 {
-    public SplintersList splintersList;
-
-    public SplinterModel GetSplinter(string ID)
+    public class SplinterSystem : MonoBehaviour
     {
-        return splintersList.GetSplinter(ID);
-    }
+        public SplintersList splintersList;
 
-    void Awake()
-    {
-        if (instance == null)
+        public SplinterModel GetSplinter(string ID)
         {
-            instance = this;
-        }
-        else
-        {
-            Debug.Log("splinter system create twice, gameObject: " + gameObject.name);
+            return splintersList.GetSplinter(ID);
         }
 
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Debug.Log("splinter system create twice, gameObject: " + gameObject.name);
+            }
+
+        }
+        private static SplinterSystem instance;
+        public static SplinterSystem Instance { get => instance; }
     }
-    private static SplinterSystem instance;
-    public static SplinterSystem Instance { get => instance; }
 }

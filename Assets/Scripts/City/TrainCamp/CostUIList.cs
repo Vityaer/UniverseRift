@@ -1,19 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using Common.Resourses;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CostUIList : MonoBehaviour
+namespace City.TrainCamp
 {
-    public List<ResourceObjectCost> costObject = new List<ResourceObjectCost>();
-
-    public void ShowCosts(ListResource resourcesCost)
+    public class CostUIList : MonoBehaviour
     {
-        for (int i = 0; i < resourcesCost.List.Count; i++)
+        public List<ResourceObjectCost> costObject = new List<ResourceObjectCost>();
+
+        public void ShowCosts(ListResource resourcesCost)
         {
-            costObject[i].SetData(resourcesCost.List[i]);
-        }
-        for (int i = resourcesCost.List.Count; i < costObject.Count; i++)
-        {
-            costObject[i].Hide();
+            for (int i = 0; i < resourcesCost.List.Count; i++)
+            {
+                costObject[i].SetData(resourcesCost.List[i]);
+            }
+
+            for (int i = resourcesCost.List.Count; i < costObject.Count; i++)
+            {
+                costObject[i].Hide();
+            }
         }
     }
 }

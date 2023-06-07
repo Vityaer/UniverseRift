@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.City.Buildings.Tavern;
+using Assets.Scripts.Models.Heroes;
+using City.Buildings.General;
+using Common.Resourses;
+using System.Collections.Generic;
+using UIController.Buttons;
 using UnityEngine;
 
 namespace City.Buildings.MagicCircle

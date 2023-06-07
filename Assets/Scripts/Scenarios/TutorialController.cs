@@ -1,41 +1,46 @@
+using Common;
+using Common.Resourses;
 using Models;
 using UnityEngine;
 
-public class TutorialController : MonoBehaviour
+namespace Scenarios
 {
-    SimpleBuildingModel tutorial = null;
-    private const string NAME_RECORD_STAGE = "Stage";
-    private int stage = 0;
-
-    void Start()
+    public class TutorialController : MonoBehaviour
     {
-        GameController.Instance.RegisterOnLoadGame(OnLoadGame);
-    }
+        SimpleBuildingModel tutorial = null;
+        private const string NAME_RECORD_STAGE = "Stage";
+        private int stage = 0;
 
-    void OnLoadGame()
-    {
-        tutorial = GameController.GetCitySave.tutorial;
-        stage = tutorial.GetRecordInt(NAME_RECORD_STAGE);
-        switch (stage)
+        void Start()
         {
-            case 0:
-                StartTutorial();
-                break;
+            GameController.Instance.RegisterOnLoadGame(OnLoadGame);
         }
-    }
 
-    private void StartTutorial()
-    {
-        stage += 1;
-        GameController.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 50, 0));
-        GameController.Instance.AddResource(new Resource(TypeResource.SimpleTask, 50, 0));
-        GameController.Instance.AddResource(new Resource(TypeResource.SpecialTask, 50, 0));
-        GameController.Instance.AddResource(new Resource(TypeResource.SpecialHireCard, 50, 0));
-        SaveStage();
-    }
+        void OnLoadGame()
+        {
+            tutorial = GameController.GetCitySave.tutorial;
+            stage = tutorial.GetRecordInt(NAME_RECORD_STAGE);
+            switch (stage)
+            {
+                case 0:
+                    StartTutorial();
+                    break;
+            }
+        }
 
-    private void SaveStage()
-    {
-        tutorial.SetRecordInt(NAME_RECORD_STAGE, stage);
+        private void StartTutorial()
+        {
+            stage += 1;
+            GameController.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 50, 0));
+            GameController.Instance.AddResource(new Resource(TypeResource.SimpleTask, 50, 0));
+            GameController.Instance.AddResource(new Resource(TypeResource.SpecialTask, 50, 0));
+            GameController.Instance.AddResource(new Resource(TypeResource.SpecialHireCard, 50, 0));
+            SaveStage();
+        }
+
+        private void SaveStage()
+        {
+            tutorial.SetRecordInt(NAME_RECORD_STAGE, stage);
+        }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Xml;
+using Assets.Scripts.GeneralObject;
 
 public static class FunctionHelp 
 {

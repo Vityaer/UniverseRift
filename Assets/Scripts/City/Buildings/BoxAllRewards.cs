@@ -1,23 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-public class BoxAllRewards : BasePanelScript
+﻿using UIController;
+using UIController.ControllerPanels;
+using UIController.Reward;
+
+namespace City.Buildings
 {
-    public RewardUIController rewardController;
-    private static BoxAllRewards instance;
-    public static BoxAllRewards Instance{ get => instance;}
-    
-    void Awake()
+    public class BoxAllRewards : BasePanelScript
     {
-        instance = this;
-    }
-    
-    public void ShowAll(Reward reward)
-    {
-        if(reward != null) rewardController.ShowAllReward(reward);
-    	Open();
-    }
+        public RewardUIController rewardController;
+        private static BoxAllRewards instance;
+        public static BoxAllRewards Instance { get => instance; }
+
+        void Awake()
+        {
+            instance = this;
+        }
+
+        public void ShowAll(Reward reward)
+        {
+            if (reward != null) rewardController.ShowAllReward(reward);
+            Open();
+        }
 
 
+    }
 }

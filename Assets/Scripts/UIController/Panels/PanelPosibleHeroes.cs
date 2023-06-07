@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UIController.Cards;
+using UIController.ControllerPanels;
+using UIController.Inventory;
 using UnityEngine;
 
 public class PanelPosibleHeroes : BasePanelScript

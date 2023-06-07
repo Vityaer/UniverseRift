@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using City.Buildings.General;
 
-public class MinesLocation : LocationWithBuildings{
+namespace City.Buildings.Mines
+{
+    public class MinesLocation : LocationWithBuildings
+    {
+    }
 }

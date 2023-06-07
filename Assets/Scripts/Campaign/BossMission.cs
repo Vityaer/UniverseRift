@@ -1,3 +1,5 @@
+using Assets.Scripts.Models.Fights.Campaign;
+
 public class BossMission : Mission, ICloneable
 {
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UIController.Inventory;
 
 namespace Models
 {
