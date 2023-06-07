@@ -10,16 +10,16 @@ public class ListCardOnWarTable : MonoBehaviour
     [SerializeField] private List<Card> listCard = new List<Card>();
     [SerializeField] private bool loadedListHeroes = false;
 
-    private List<InfoHero> listHeroes = new List<InfoHero>();
+    private List<HeroModel> listHeroes = new List<HeroModel>();
     private Action<Card> delSelect, delUnSelect;
 
     public bool LoadedListHeroes => loadedListHeroes;
 
-    private void CreateCards(List<InfoHero> heroes)
+    private void CreateCards(List<HeroModel> heroes)
     {
         GameObject cardObject;
         Card cardScript;
-        foreach (InfoHero hero in heroes)
+        foreach (HeroModel hero in heroes)
         {
             cardObject = Instantiate(prefabCard, transform);
             cardScript = cardObject.GetComponent<Card>();
@@ -28,11 +28,11 @@ public class ListCardOnWarTable : MonoBehaviour
         }
     }
 
-    public void ShowRace(int Race)
+    public void ShowRace(string Race)
     {
         foreach (Card card in listCard)
         {
-            card.gameObject.SetActive((int)card.hero.generalInfo.Race == Race);
+            card.gameObject.SetActive(card.hero.General.Race == Race);
         }
     }
 
@@ -46,15 +46,15 @@ public class ListCardOnWarTable : MonoBehaviour
 
     private void SortOfLevel()
     {
-        InfoHero helpCard = null;
+        HeroModel helpCard = null;
         int levelFirst, levelSecond;
         for (int i = 0; i < listHeroes.Count; i++)
         {
             for (int j = i + 1; j < listHeroes.Count; j++)
             {
-                levelFirst = listHeroes[i].generalInfo.Level;
-                levelSecond = listHeroes[i].generalInfo.Level;
-                if ((levelFirst < levelSecond) || ((levelFirst == levelSecond) && (listHeroes[i].generalInfo.RatingHero < listHeroes[j].generalInfo.RatingHero)))
+                levelFirst = listHeroes[i].General.Level;
+                levelSecond = listHeroes[i].General.Level;
+                if ((levelFirst < levelSecond) || ((levelFirst == levelSecond) && (listHeroes[i].General.RatingHero < listHeroes[j].General.RatingHero)))
                 {
                     helpCard = listHeroes[i];
                     listHeroes[i] = listHeroes[j];
@@ -66,12 +66,12 @@ public class ListCardOnWarTable : MonoBehaviour
     }
     private void SortOfRating()
     {
-        InfoHero helpCard = null;
+        HeroModel helpCard = null;
         for (int i = 0; i < listHeroes.Count; i++)
         {
             for (int j = i + 1; j < listHeroes.Count; j++)
             {
-                if ((listHeroes[i].generalInfo.RatingHero < listHeroes[j].generalInfo.RatingHero))
+                if ((listHeroes[i].General.RatingHero < listHeroes[j].General.RatingHero))
                 {
                     helpCard = listHeroes[i];
                     listHeroes[i] = listHeroes[j];
@@ -102,7 +102,7 @@ public class ListCardOnWarTable : MonoBehaviour
         }
     }
 
-    public void SetList(List<InfoHero> listHeroes)
+    public void SetList(List<HeroModel> listHeroes)
     {
         this.listHeroes = listHeroes;
         loadedListHeroes = true;
@@ -160,10 +160,10 @@ public class ListCardOnWarTable : MonoBehaviour
         listCard.Remove(card);
     }
 
-    public void SelectCards(List<InfoHero> selectedCard)
+    public void SelectCards(List<HeroModel> selectedCard)
     {
         Card currentCard = null;
-        InfoHero currentHero = null;
+        HeroModel currentHero = null;
         for (int i = 0; i < selectedCard.Count; i++)
         {
             currentHero = selectedCard[i];

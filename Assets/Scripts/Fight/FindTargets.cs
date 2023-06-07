@@ -75,58 +75,58 @@ public partial class FightController : MonoBehaviour
                     workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.IsAlive == false);
                     for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
                     break;
-                case TypeSelect.People:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.People);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Elf:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Elf);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Undead:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Undead);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Daemon:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Daemon);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.God:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.God);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Elemental:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Elemental);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Warrior:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Warrior);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Wizard:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Wizard);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Archer:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Archer);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Pastor:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Pastor);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Slayer:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Slayer);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Tank:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Tank);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
-                case TypeSelect.Support:
-                    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Support);
-                    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
-                    break;
+                //case TypeSelect.People:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.People);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Elf:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Elf);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Undead:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Undead);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Daemon:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Daemon);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.God:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.God);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Elemental:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.Race == Race.Elemental);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Warrior:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Warrior);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Wizard:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Wizard);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Archer:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Archer);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Pastor:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Pastor);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Slayer:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Slayer);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Tank:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Tank);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
+                //case TypeSelect.Support:
+                //    workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.ClassHero == Vocation.Support);
+                //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                //    break;
                 case TypeSelect.Order:
                     for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
                     break;
@@ -135,7 +135,7 @@ public partial class FightController : MonoBehaviour
         }
     }
 
-    public void ChooseEnemies(Side side, int countTarget, List<HeroController> listTarget, Race race)
+    public void ChooseEnemies(Side side, int countTarget, List<HeroController> listTarget, string race)
     {
 
     }

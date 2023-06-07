@@ -68,7 +68,7 @@ public class Inventory
         OnChange();
     }
 
-    public void RemoveSplinter(Splinter splinerForDelete)
+    public void RemoveSplinter(SplinterModel splinerForDelete)
     {
         SplinterController controller = splinters.Find(x => x.splinter == splinerForDelete);
         if (controller == null) Debug.Log("not found splinter for delete");
@@ -79,7 +79,7 @@ public class Inventory
     public Inventory(InventorySave inventorySave)
     {
         Item _item;
-        Splinter _splinter;
+        SplinterModel _splinter;
         ItemsList itemsList = Resources.Load<ItemsList>("Items/ListItems");
 
         foreach (var item in inventorySave.listItem)
@@ -91,7 +91,7 @@ public class Inventory
             }
         }
 
-        foreach (SplinterModel item in inventorySave.listSplinter)
+        foreach (Models.SplinterModel item in inventorySave.listSplinter)
         {
             var name = item.Id;
             _splinter = SplinterSystem.Instance.GetSplinter(name);

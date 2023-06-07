@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using Models.City.Mines;
 using UnityEngine;
 using UnityEngine.UI;
 

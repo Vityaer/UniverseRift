@@ -24,12 +24,12 @@ public class MarketController : Building
 
     protected override void OnLoadGame()
     {
-        List<MarketProductModel> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
+        List<ProductModel> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
         BaseMarketProduct currentProduct = null;
-        foreach (MarketProductModel product in saveProducts)
+        foreach (ProductModel product in saveProducts)
         {
             currentProduct = productsForSale.Find(x => x.Id == product.Id);
-            if (currentProduct != null) currentProduct.UpdateData(product.countSell);
+            if (currentProduct != null) currentProduct.UpdateData(product.CountSell);
         }
         if (productFill)
             UpdateUIProducts();
@@ -60,7 +60,7 @@ public class MarketController : Building
                 case MarketProduct<Item> product:
                     productControllers[i].SetData(product, OnBuyPoduct);
                     break;
-                case MarketProduct<Splinter> product:
+                case MarketProduct<SplinterModel> product:
                     productControllers[i].SetData(product, OnBuyPoduct);
                     break;
 
@@ -85,7 +85,7 @@ public class MarketController : Building
     }
 
     [Button] public void AddResource() { productsForSale.Add(new MarketProduct<Resource>()); }
-    [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<Splinter>()); }
+    [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<SplinterModel>()); }
     [Button] public void AddItem() { productsForSale.Add(new MarketProduct<Item>()); }
 
     [ContextMenu("Check products")]

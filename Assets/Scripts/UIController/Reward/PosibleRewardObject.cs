@@ -26,7 +26,7 @@ public class PosibleRewardItem: PosibleRewardObject{
 [System.Serializable]
 public class PosibleRewardSplinter: PosibleRewardObject{
 	public SplinterName ID = SplinterName.OneStarPeople;
-	public Splinter GetSplinter{get{ return new Splinter($"{ID}", 1); }}
+	public SplinterModel GetSplinter{get{ return new SplinterModel($"{ID}", 1); }}
 	public SplinterName GetID{get => ID;}
 
 }

@@ -9,11 +9,11 @@ using UnityEngine;
 public class SplintersList : SerializedScriptableObject
 {
     [SerializeField]
-    private Dictionary<string, Splinter> _splinters = new Dictionary<string, Splinter>();
+    private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
 
-    public Splinter GetSplinter(string ID)
+    public SplinterModel GetSplinter(string ID)
     {
-        Splinter result = null;
+        SplinterModel result = null;
 
         if (_splinters.ContainsKey(ID))
         {
@@ -21,8 +21,8 @@ public class SplintersList : SerializedScriptableObject
         }
         else
         {
-            InfoHero hero = Tavern.Instance.GetInfoHero(ID);
-            result = new Splinter(hero);
+            HeroModel hero = Tavern.Instance.GetInfoHero(ID);
+            result = new SplinterModel(hero);
         }
 
         if (result == null)

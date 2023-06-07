@@ -99,7 +99,7 @@ public class DailyController : Building
     }
 
     [Button] public void AddResource() { listRewards.Add(new MarketProduct<Resource>()); }
-    [Button] public void AddSplinter() { listRewards.Add(new MarketProduct<Splinter>()); }
+    [Button] public void AddSplinter() { listRewards.Add(new MarketProduct<SplinterModel>()); }
     [Button] public void AddItem() { listRewards.Add(new MarketProduct<Item>()); }
 
     //Save

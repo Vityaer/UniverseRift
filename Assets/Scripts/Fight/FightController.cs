@@ -82,7 +82,7 @@ public partial class FightController : MonoBehaviour
             heroScript = null;
 
             if ((side == Side.Left && (team[i].card != null)) || (team[i].Hero != null))
-                currentHeroPrefab = Instantiate(team[i].Hero.generalInfo.Prefab, teamPos[i].Position, Quaternion.identity, GridController.Instance.ParentTemplateObjects);
+                currentHeroPrefab = Instantiate(team[i].Hero.General.Prefab, teamPos[i].Position, Quaternion.identity, GridController.Instance.ParentTemplateObjects);
 
             if (currentHeroPrefab != null)
             {

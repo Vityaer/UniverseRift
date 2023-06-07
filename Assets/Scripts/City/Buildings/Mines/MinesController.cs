@@ -1,6 +1,7 @@
-using Models;
+using Models.City.Mines;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class MinesController : Building
 {
     public List<PlaceForMine> minePlaces = new List<PlaceForMine>();

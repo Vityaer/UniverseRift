@@ -14,16 +14,16 @@ namespace Models
             this.petID = newPetId;
         }
         public TeamFightModel() { }
-        public void ChangeIdHero(InfoHero oldHero, InfoHero newHero)
+        public void ChangeIdHero(HeroModel oldHero, HeroModel newHero)
         {
-            int pos = listID.FindIndex(x => x == oldHero.generalInfo.IDCreate);
-            if (pos >= 0) listID[pos] = newHero.generalInfo.IDCreate;
+            int pos = listID.FindIndex(x => x == oldHero.General.IDCreate);
+            if (pos >= 0) listID[pos] = newHero.General.IDCreate;
         }
-        public void AddHero(int pos, InfoHero hero) { listID[pos] = hero.generalInfo.IDCreate; }
-        public void RemoveHero(InfoHero hero)
+        public void AddHero(int pos, HeroModel hero) { listID[pos] = hero.General.IDCreate; }
+        public void RemoveHero(HeroModel hero)
         {
-            int pos = listID.FindIndex(x => x == hero.generalInfo.IDCreate);
-            if (pos >= 0) listID[pos] = hero.generalInfo.IDCreate;
+            int pos = listID.FindIndex(x => x == hero.General.IDCreate);
+            if (pos >= 0) listID[pos] = hero.General.IDCreate;
         }
         public void SetNewPetId(int newId) { petID = newId; }
         public TeamFightModel Clone() { return new TeamFightModel(listID, petID); }

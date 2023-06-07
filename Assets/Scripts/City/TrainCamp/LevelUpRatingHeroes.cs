@@ -1,3 +1,5 @@
+using UIController.ItemVisual;
+using Models.Heroes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +10,9 @@ public class LevelUpRatingHeroes : ScriptableObject
     [Header("Ratings")]
     public List<LevelUpRaiting> ratings = new List<LevelUpRaiting>();
 
-    public LevelUpRaiting GetRequirements(InfoHero hero)
+    public LevelUpRaiting GetRequirements(HeroModel hero)
     {
-        int currentRating = hero.generalInfo.RatingHero;
+        int currentRating = hero.General.RatingHero;
         LevelUpRaiting result = ratings.Find(x => x.level == (currentRating + 1));
         if (result != null)
         {
@@ -35,7 +37,7 @@ public class LevelUpRaiting
     public ListResource Cost => list;
 
 
-    public void UpdateData(InfoHero hero)
+    public void UpdateData(HeroModel hero)
     {
         requirementHeroes.ForEach(x => x.UpdateData(hero));
     }
@@ -47,27 +49,27 @@ public class RequirementHero
     public string ID;
     public int rating, count;
     public RequireRaceUpRating requireRace;
-    public Race race;
-    private InfoHero dataHero;
+    public string race;
+    private HeroModel dataHero;
 
-    public InfoHero GetData => dataHero;
+    public HeroModel GetData => dataHero;
 
-    public void UpdateData(InfoHero hero)
+    public void UpdateData(HeroModel hero)
     {
-        var IDHero = hero.generalInfo.ViewId;
-        race = hero.generalInfo.Race;
-        dataHero = new InfoHero();
+        var IDHero = hero.General.ViewId;
+        race = hero.General.Race;
+        dataHero = new HeroModel();
         if (ID.Equals(string.Empty))
         {
             ID = IDHero;
-            dataHero.generalInfo = (GeneralInfoHero)hero.generalInfo.Clone();
-            dataHero.generalInfo.Level = 1;
+            dataHero.General = (GeneralInfoHero)hero.General.Clone();
+            dataHero.General.Level = 1;
         }
         else
         {
-            dataHero.generalInfo = new GeneralInfoHero();
-            dataHero.generalInfo.RatingHero = rating;
-            dataHero.generalInfo.Race = race;
+            dataHero.General = new GeneralInfoHero();
+            dataHero.General.RatingHero = rating;
+            dataHero.General.Race = race;
             SpriteName spriteName = SpriteName.OneStarHero;
             switch (rating)
             {
@@ -89,8 +91,8 @@ public class RequirementHero
             }
             if (SystemSprites.Instance == null) Debug.Log("SystemSprites.Instance null");
             if (dataHero == null) Debug.Log("dataHero null");
-            if (dataHero.generalInfo == null) Debug.Log("dataHero.generalInfo null");
-            dataHero.generalInfo.ImageHero = SystemSprites.Instance.GetSprite(spriteName);
+            if (dataHero.General == null) Debug.Log("dataHero.generalInfo null");
+            dataHero.General.ImageHero = SystemSprites.Instance.GetSprite(spriteName);
         }
     }
 }

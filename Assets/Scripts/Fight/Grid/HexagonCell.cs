@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Models.Heroes;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif

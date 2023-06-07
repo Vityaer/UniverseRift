@@ -14,7 +14,7 @@ public class LevelUpRatingHero : Building
     
     [SerializeField] private ResourceObjectCost objectCost;
 
-    private InfoHero currentHero;
+    private HeroModel currentHero;
     private LevelUpRaiting data;
     private bool resourceDone = false;
     private bool requireHeroesDone = false;
@@ -81,8 +81,8 @@ public class LevelUpRatingHero : Building
 
     private void OnRatingUp()
     {
-        observersRatingUp.OnAction(string.Empty, currentHero.generalInfo.RatingHero);
-        observersRatingUp.OnAction(currentHero.generalInfo.ViewId, currentHero.generalInfo.RatingHero);
+        observersRatingUp.OnAction(string.Empty, currentHero.General.RatingHero);
+        observersRatingUp.OnAction(currentHero.General.ViewId, currentHero.General.RatingHero);
         TrainCamp.Instance.HeroPanel.UpdateInfoAbountHero();
     }
 

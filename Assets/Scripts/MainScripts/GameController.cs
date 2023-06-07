@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private List<InfoHero> listHeroes = new List<InfoHero>();
+    [SerializeField] private List<HeroModel> listHeroes = new List<HeroModel>();
     public Player player;
     public bool flagLoadedGame = false;
-    public Action<InfoHero> observerChangeListHeroes;
+    public Action<HeroModel> observerChangeListHeroes;
     public Action observerChangeCountHeroes;
 
     private static GameController instance;
     public static GameController Instance { get => instance; }
 
-    public List<InfoHero> GetListHeroes { get => listHeroes; }
+    public List<HeroModel> GetListHeroes { get => listHeroes; }
     public int GetMaxCountHeroes { get => player.PlayerGame.maxCountHeroes; }
     public int GetCurrentCountHeroes { get => listHeroes.Count; }
 
@@ -60,13 +60,13 @@ public class GameController : MonoBehaviour
 
 
 
-    public void GetListHeroesWithObserver(ref List<InfoHero> listHeroes, Action<InfoHero> d)
+    public void GetListHeroesWithObserver(ref List<HeroModel> listHeroes, Action<HeroModel> d)
     {
         observerChangeListHeroes += d;
         listHeroes = this.listHeroes;
     }
 
-    public void AddHero(InfoHero newHero)
+    public void AddHero(HeroModel newHero)
     {
         newHero.PrepareLocalization();
         listHeroes.Add(newHero);
@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
         SaveGame();
     }
 
-    public void RemoveHero(InfoHero removeHero)
+    public void RemoveHero(HeroModel removeHero)
     {
         bool flag = listHeroes.Remove(removeHero);
         if (flag) Debug.Log("герой успешно удалён!");
@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
         SaveGame();
     }
 
-    private void OnChangeListHeroes(InfoHero hero)
+    private void OnChangeListHeroes(HeroModel hero)
     {
         if (observerChangeListHeroes != null) observerChangeListHeroes(hero);
         if (observerChangeCountHeroes != null) observerChangeCountHeroes();

@@ -8,7 +8,7 @@ public class Task : ICloneable{
 	public string Name;
 	public int ID;
 	public int Rating;
-	public List<InfoHero> heroes = new List<InfoHero>();
+	public List<HeroModel> heroes = new List<HeroModel>();
 	public int RequireHour;
 	private TimeSpan _requireTime = new TimeSpan();
 	public TimeSpan requireTime{get 

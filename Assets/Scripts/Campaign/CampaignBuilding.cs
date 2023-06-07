@@ -8,7 +8,7 @@ public class CampaignBuilding : BuildingWithFight
     private const string NAME_RECORD_NUM_MAX_MISSION = "MaxMission";
     private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
 
-    public CampaignChapter chapter;
+    public CampaignChapterModel chapter;
     public BasePanelScript panelWorldCampaign;
 
     private MissionController infoMission;
@@ -17,7 +17,7 @@ public class CampaignBuilding : BuildingWithFight
     private int countMission = 20;
     private BuildingWithFightTeamsModel campaingSaveObject;
 
-    [SerializeField] private List<CampaignChapter> chapters = new List<CampaignChapter>();
+    [SerializeField] private List<CampaignChapterModel> chapters = new List<CampaignChapterModel>();
     [SerializeField] private List<MissionController> missionControllers = new List<MissionController>();
 
     public static CampaignBuilding Instance { get; private set; }
@@ -35,19 +35,19 @@ public class CampaignBuilding : BuildingWithFight
         this.chapter = GetCampaignChapter(currentMission);
         LoadMissions(this.chapter);
     }
-    private CampaignChapter GetCampaignChapter(int numMission)
+    private CampaignChapterModel GetCampaignChapter(int numMission)
     {
-        CampaignChapter result = chapters.Find(x => x.numChapter == (numMission / countMission));
+        CampaignChapterModel result = chapters.Find(x => x.numChapter == (numMission / countMission));
         if (result == null) result = chapters[chapters.Count - 1];
         return result;
     }
     //API
-    public void LoadMissions(CampaignChapter chapter)
+    public void LoadMissions(CampaignChapterModel chapter)
     {
         int current = 0;
         for (int i = 0; i < missionControllers.Count; i++)
         {
-            missionControllers[i].SetMission(chapter.missions[i], (chapter.numChapter * countMission) + i + 1);
+            missionControllers[i].SetMission(chapter.Missions[i], (chapter.numChapter * countMission) + i + 1);
         }
         if (chapter.numChapter * countMission <= maxMission)
         {
@@ -68,13 +68,13 @@ public class CampaignBuilding : BuildingWithFight
             }
             else
             {
-                CampaignChapter chapterAutoFight = GetCampaignChapter(currentMission);
-                AutoFight.Instance.SelectMissionAutoFight(chapterAutoFight.missions[currentMission % countMission]);
+                CampaignChapterModel chapterAutoFight = GetCampaignChapter(currentMission);
+                AutoFight.Instance.SelectMissionAutoFight(chapterAutoFight.Missions[currentMission % countMission]);
             }
         }
     }
 
-    public void OpenChapter(CampaignChapter chapter)
+    public void OpenChapter(CampaignChapterModel chapter)
     {
         this.chapter = chapter;
         LoadMissions(chapter);

@@ -1,3 +1,4 @@
+using Models.Heroes;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -37,7 +38,7 @@ public class HeroPanel : Building
     public Action LeftButtonClick;
     public Action RightButtonClick;
 
-    private InfoHero _hero;
+    private HeroModel _hero;
 
     protected override void OnStart()
     {
@@ -48,7 +49,7 @@ public class HeroPanel : Building
         btnCloseHeroDetails.onClick.AddListener(() => _heroDetailsPanel.Close());
     }
 
-    public void ShowHero(InfoHero hero)
+    public void ShowHero(HeroModel hero)
     {
         _hero = hero;
         UpdateInfoAbountHero();
@@ -56,8 +57,8 @@ public class HeroPanel : Building
 
     public void UpdateInfoAbountHero()
     {
-        imageHero.sprite = _hero.generalInfo.ImageHero;
-        textNameHero.text = _hero.generalInfo.Name;
+        imageHero.sprite = _hero.General.ImageHero;
+        textNameHero.text = _hero.General.Name;
         UpdateTextAboutHero();
         foreach (HeroItemCell cell in CellsForItem)
         {
@@ -69,7 +70,7 @@ public class HeroPanel : Building
 
     public void UpdateTextAboutHero()
     {
-        textLevel.text = _hero.generalInfo.Level.ToString();
+        textLevel.text = _hero.General.Level.ToString();
         textHP.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.HP)).ToString();
         textAttack.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Damage)).ToString();
         textArmor.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
@@ -77,13 +78,13 @@ public class HeroPanel : Building
         textStrengthHero.text = _hero.GetStrength.ToString();
         _hero.PrepareSkillLocalization();
         skillController.ShowSkills(_hero.skills);
-        costController.ShowCosts(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
+        costController.ShowCosts(costLevelObject.GetCostForLevelUp(_hero.General.Level));
         // _heroDetailsPanel.ShowDetails(_hero);
     }
 
     private void CheckResourceForLevelUP()
     {
-        btnLevelUP.interactable = GameController.Instance.CheckResource(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
+        btnLevelUP.interactable = GameController.Instance.CheckResource(costLevelObject.GetCostForLevelUp(_hero.General.Level));
     }
 
     public void TakeOff(Item item)
@@ -94,7 +95,7 @@ public class HeroPanel : Building
 
     public void LevelUp()
     {
-        GameController.Instance.SubtractResource(costLevelObject.GetCostForLevelUp(_hero.generalInfo.Level));
+        GameController.Instance.SubtractResource(costLevelObject.GetCostForLevelUp(_hero.General.Level));
         _hero.LevelUP();
         UpdateInfoAbountHero();
     }

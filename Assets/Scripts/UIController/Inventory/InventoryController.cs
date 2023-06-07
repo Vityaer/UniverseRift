@@ -102,11 +102,11 @@ public class InventoryController : MonoBehaviour
     }
     public void AddSplinter(SplinterController splinterController) { inventory.Add(splinterController); }
     public void AddSplinters(List<SplinterController> splinters) { inventory.Add(splinters); }
-    public void AddSplinters(List<Splinter> splinters)
+    public void AddSplinters(List<SplinterModel> splinters)
     {
-        foreach (Splinter splinter in splinters) AddSplinter(new SplinterController(splinter));
+        foreach (SplinterModel splinter in splinters) AddSplinter(new SplinterController(splinter));
     }
-    public void RemoveSplinter(Splinter splinterForDelete) { inventory.RemoveSplinter(splinterForDelete); }
+    public void RemoveSplinter(SplinterModel splinterForDelete) { inventory.RemoveSplinter(splinterForDelete); }
     public void SelectItem()
     {
         if (cellItem != null)
@@ -197,7 +197,7 @@ public class InventoryController : MonoBehaviour
         panelInfoItem.OpenInfoAboutItem(item, this.cellItem, onHero: true);
     }
 
-    public void OpenInfoItem(Splinter splinter)
+    public void OpenInfoItem(SplinterModel splinter)
     {
         OpenInfoItem(new SplinterController(splinter), withControl: false);
     }

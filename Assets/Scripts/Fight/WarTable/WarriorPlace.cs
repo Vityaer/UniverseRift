@@ -8,16 +8,16 @@ public class WarriorPlace : MonoBehaviour
 {
     public int ID;
     public Card card;
-    private InfoHero hero;
+    private HeroModel hero;
     public WarTableController WarTable;
     [SerializeField] private Image ImageHero;
     [SerializeField] private TextMeshProUGUI textLevel;
-    public InfoHero Hero => hero;
+    public HeroModel Hero => hero;
     void Start()
     {
         WarTable = WarTableController.Instance;
     }
-    public void SetHero(Card card, InfoHero hero)
+    public void SetHero(Card card, HeroModel hero)
     {
         if (card != null) this.card = card;
         this.hero = hero;
@@ -37,9 +37,9 @@ public class WarriorPlace : MonoBehaviour
     }
     public void UpdateUI()
     {
-        ImageHero.sprite = hero?.generalInfo.ImageHero;
+        ImageHero.sprite = hero?.General.ImageHero;
         ImageHero.enabled = true;
-        textLevel.text = hero.generalInfo.Level.ToString();
+        textLevel.text = hero.General.Level.ToString();
     }
     private void ClearUI()
     {

@@ -109,7 +109,7 @@ public class MessageController : MonoBehaviour
         for (int i = 0; i < items.Count; i++)
             AddQueueTinyRewards(tinyItemReward, () => tinyItemReward.Open(items[i]));
 
-        List<Splinter> splinters = reward.GetSplinters;
+        List<SplinterModel> splinters = reward.GetSplinters;
         for (int i = 0; i < splinters.Count; i++)
             AddQueueTinyRewards(tinySplinterReward, () => tinySplinterReward.Open(splinters[i]));
     }

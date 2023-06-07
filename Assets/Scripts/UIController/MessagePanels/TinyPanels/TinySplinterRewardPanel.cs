@@ -1,6 +1,6 @@
 public class TinySplinterRewardPanel : TinyRewardPanel
 {
-    public void Open(Splinter data)
+    public void Open(SplinterModel data)
     {
 
     }

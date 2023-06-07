@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.City.Markets;
+using System;
 using System.Collections.Generic;
 
 namespace Models

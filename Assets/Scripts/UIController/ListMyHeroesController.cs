@@ -4,7 +4,7 @@ using UnityEngine;
 public class ListMyHeroesController : MonoBehaviour
 {
     [SerializeField] private ListCardOnWarTable listHeroesController;
-    protected List<InfoHero> listHeroes = new List<InfoHero>();
+    protected List<HeroModel> listHeroes = new List<HeroModel>();
 
     [Header("UI")]
     private Canvas canvas;

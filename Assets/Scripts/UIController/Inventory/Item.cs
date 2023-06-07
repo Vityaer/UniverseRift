@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using Models.Heroes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,13 +12,13 @@ public class Item : PlayerObject, VisualAPI
     {
         get
         {
-            if (sprite == null || !Name.Equals(sprite.name))
+            if (sprite == null || !Id.Equals(sprite.name))
             {
                 if (spriteAtlas == null) spriteAtlas = Resources.LoadAll<Sprite>("Items/Items");
                 //LoadData();
                 for (int i = 0; i < spriteAtlas.Length; i++)
                 {
-                    if (Name.Equals(spriteAtlas[i].name))
+                    if (Id.Equals(spriteAtlas[i].name))
                     {
                         sprite = spriteAtlas[i];
                         break;
@@ -43,7 +43,7 @@ public class Item : PlayerObject, VisualAPI
         }
         sprite = null;
         Item loadedItem = GetItem(Id);
-        name = loadedItem.Name;
+        name = loadedItem.Id;
         this.Type = loadedItem.Type;
         this.Set = loadedItem.Set;
         this.ListBonuses = loadedItem.ListBonuses;
@@ -60,7 +60,7 @@ public class Item : PlayerObject, VisualAPI
     {
         string result = string.Empty;
         foreach (Bonus bonus in ListBonuses)
-            result = string.Concat(result, GetText(bonus.Count, Name.ToString()));
+            result = string.Concat(result, GetText(bonus.Count, $"{Id}"));
         return result;
     }
 

@@ -3,7 +3,7 @@
 public class BossController : MonoBehaviour
 {
 
-    public CampaignChapter guildBosses;
+    public CampaignChapterModel guildBosses;
     public int currentNumBoss = 0;
     public Mission mission;
     void Start()

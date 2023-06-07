@@ -1,6 +1,6 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Models;
+using Models.City.Mines;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace Editor.Pages.Heroes
     public class HeroPageEditor : BasePageEditor
     {
         private CommonDictionaries _dictionaries;
+        private List<HeroModel> _heroes => _dictionaries.Heroes.Select(l => l.Value).ToList();
 
         public HeroPageEditor(CommonDictionaries commonDictionaries)
         {
@@ -19,26 +20,29 @@ namespace Editor.Pages.Heroes
             Init();
         }
 
+        public override void Save()
+        {
+            var units = Heroes.Select(r => new HeroModel
+            {
+                Id = r.Id
+            }).ToList();
+
+            EditorUtils.Save(units);
+            base.Save();
+        }
+
         protected override void AddElement()
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            var hero = new InfoHero();
-            Heroes.Add(hero);
+            _dictionaries.Heroes.Add(id, new HeroModel() { Id = id });
+            Heroes.Add(new HeroModelEditor(_dictionaries.Heroes[id]));
         }
 
-        private void RemoveElements(InfoHero light, object b, List<InfoHero> lights)
+        private void RemoveElements(HeroModelEditor light, object b, List<HeroModelEditor> lights)
         {
             var targetElement = Heroes.First(e => e == light);
             Heroes.Remove(targetElement);
-        }
-
-        public override void Save()
-        {
-            var heroes = Heroes.Select(hero => new HeroModel(hero)).ToList();
-
-            EditorUtils.Save(heroes);
-            base.Save();
         }
 
         [ShowInInspector]
@@ -48,6 +52,6 @@ namespace Editor.Pages.Heroes
         [LabelText("Heroes")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
-        public List<InfoHero> Heroes = new List<InfoHero>();
+        public List<HeroModelEditor> Heroes = new List<HeroModelEditor>();
     }
 }

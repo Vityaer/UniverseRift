@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class PanelInfoItem : MonoBehaviour
 {
     public static PanelInfoItem Instance { get; private set; }
@@ -66,7 +67,7 @@ public class PanelInfoItem : MonoBehaviour
         }
 
         selectItem = item;
-        UpdateUIInfo(item.Image, item.Name, type: item.Type.ToString(), generalInfo: item.GetTextBonuses());
+        UpdateUIInfo(item.Image, item.Id, type: item.Type.ToString(), generalInfo: item.GetTextBonuses());
         OpenPanel();
     }
 
@@ -81,7 +82,7 @@ public class PanelInfoItem : MonoBehaviour
     {
         RemoveAllListenersOnButtons();
 
-        UpdateUIInfo(splinterController.splinter.Image, splinterController.splinter.Name);
+        UpdateUIInfo(splinterController.splinter.Image, splinterController.splinter.Id);
         if (withControl)
         {
             componentButtonAction.onClick.AddListener(() => splinterController.GetReward());

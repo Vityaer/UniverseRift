@@ -14,7 +14,7 @@ using Misc.Json.Impl;
 public class Tavern : Building
 {
 	[Header("All rating heroes")]
-	[SerializeField] private List<InfoHero> listHeroes = new List<InfoHero>();
+	[SerializeField] private List<HeroModel> listHeroes = new List<HeroModel>();
 	public Button SpecialHire;
 	public Button SimpleHire;
 	public Button FriendHire;
@@ -23,7 +23,7 @@ public class Tavern : Building
 	private Resource specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
     private ObserverActionWithHero observersHireRace = new ObserverActionWithHero();
 	private IJsonConverter _jsonConverter;
-    public List<InfoHero> GetListHeroes => listHeroes;
+    public List<HeroModel> GetListHeroes => listHeroes;
 	public static Tavern Instance { get; private set; }
 
 	void Awake()
@@ -56,19 +56,19 @@ public class Tavern : Building
 
 	private async UniTaskVoid SimpleHireHero(int count = 1)
 	{
-		InfoHero hero = null;
+		HeroModel hero = null;
 		var message = new SimpleHire { PlayerId = GameController.GetPlayerInfo.PlayerId, Count = count };
 		var result = await DataServer.PostData(message);
 		var newHeroes = _jsonConverter.FromJson<DataHero[]>(result);
 
 		for (int i = 0; i < newHeroes.Length; i++)
 		{
-			var heroSave = new HeroModel(newHeroes[i]);
-			hero = new InfoHero(heroSave);
+			var heroSave = new HeroData(newHeroes[i]);
+			hero = new HeroModel(heroSave);
 			OnHireHeroes(hero);
 			if (hero != null)
 			{
-				hero.generalInfo.Name = $"{hero.generalInfo.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+				hero.General.Name = $"{hero.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
 				AddNewHero(hero);
 			}
 		}
@@ -85,8 +85,8 @@ public class Tavern : Building
 	public void SpecialHireHero(int count = 1)
 	{
 		float rand = 0f;
-		InfoHero hero = null;
-		List<InfoHero> workList = new List<InfoHero>();
+		HeroModel hero = null;
+		List<HeroModel> workList = new List<HeroModel>();
 		
 		OnSpecialHire(count);
 	}
@@ -99,9 +99,9 @@ public class Tavern : Building
 		btnCostManyHire.ChangeCost(simpleFriendCost * 10f, StartSimpleHire);
 	}
 
-	public void AddNewHero(InfoHero hero)
+	public void AddNewHero(HeroModel hero)
 	{
-		MessageController.Instance.AddMessage($"Новый герой! Это - {hero.generalInfo.Name}");
+		MessageController.Instance.AddMessage($"Новый герой! Это - {hero.General.Name}");
 		GameController.Instance.AddHero(hero);
 	}
 
@@ -115,9 +115,9 @@ public class Tavern : Building
 	}
 	//API
 
-	public InfoHero GetInfoHero(string ID)
+	public HeroModel GetInfoHero(string ID)
 	{
-		InfoHero hero = (InfoHero)listHeroes.Find(x => x.generalInfo.HeroId == ID)?.Clone();
+		HeroModel hero = (HeroModel)listHeroes.Find(x => x.General.HeroId == ID)?.Clone();
 		if (hero == null)
 			Debug.Log(string.Concat("not exist hero with ID= ", ID.ToString()));
 		return hero;
@@ -151,11 +151,11 @@ public class Tavern : Building
 		observersHireRace.Add(d, ID, 1);
 	}
 
-	private void OnHireHeroes(InfoHero hero)
+	private void OnHireHeroes(HeroModel hero)
 	{
 		//and Rarity
 		observersHireRace.OnAction(string.Empty, 1);
-		observersHireRace.OnAction(hero.generalInfo.ViewId, 1);
+		observersHireRace.OnAction(hero.General.ViewId, 1);
 	}
 
 }

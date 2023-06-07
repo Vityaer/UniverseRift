@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UIController.Cards;
 
 public class Card : MonoBehaviour
 {
-	public InfoHero hero;
+	public HeroModel hero;
 	[SerializeField] private Image _imageUI;
 	[SerializeField] private TextMeshProUGUI _levelUI;
 	[SerializeField] private Image _panelSelect;
@@ -24,13 +25,13 @@ public class Card : MonoBehaviour
         SetImage(requirementHero.GetData);
     }
 
-    public void ChangeInfo(InfoHero hero)
+    public void ChangeInfo(HeroModel hero)
     {
         this.hero = hero;
         UpdateUI();
     }
 
-    public void ChangeInfo(InfoHero hero, ListCardOnWarTable listCardController)
+    public void ChangeInfo(HeroModel hero, ListCardOnWarTable listCardController)
     {
         this.hero = hero;
         this.listCardController = listCardController;
@@ -39,15 +40,15 @@ public class Card : MonoBehaviour
 
     private void UpdateUI()
 	{
-		_imageUI.sprite       = hero.generalInfo.ImageHero;
-		_levelUI.text         = hero.generalInfo.Level.ToString();
-		_ratingController.ShowRating(hero.generalInfo.RatingHero); 
+		_imageUI.sprite       = hero.General.ImageHero;
+		_levelUI.text         = hero.General.Level.ToString();
+		_ratingController.ShowRating(hero.General.RatingHero); 
 
 	}
 
-	private void SetImage(InfoHero data)
+	private void SetImage(HeroModel data)
 	{
-		_imageUI.sprite = data.generalInfo.ImageHero;
+		_imageUI.sprite = data.General.ImageHero;
 	}
 
 //API

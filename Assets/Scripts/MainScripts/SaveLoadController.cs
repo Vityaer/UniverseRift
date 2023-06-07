@@ -13,28 +13,28 @@ internal class SaveLoadController : MonoBehaviour
 
     //API
     //Hero
-    public static void SaveListHero(List<InfoHero> listHero)
+    public static void SaveListHero(List<HeroModel> listHero)
     {
         StreamWriter sw = CreateStream(NameListHeroFile, false);
-        foreach (InfoHero hero in listHero)
+        foreach (HeroModel hero in listHero)
         {
-            var heroSave = new HeroModel(hero);
+            var heroSave = new HeroData(hero);
             sw.WriteLine(JsonUtility.ToJson(heroSave));
         }
         sw.Close();
     }
 
 
-    public static void LoadListHero(List<InfoHero> ResultList)
+    public static void LoadListHero(List<HeroModel> ResultList)
     {
-        HeroModel heroSave = new HeroModel();
+        HeroData heroSave = new HeroData();
         List<string> rows = ReadFile(NameListHeroFile);
         if (rows.Count > 0)
         {
             foreach (string row in rows)
             {
                 JsonUtility.FromJsonOverwrite(row, heroSave);
-                ResultList.Add(new InfoHero(heroSave));
+                ResultList.Add(new HeroModel(heroSave));
             }
         }
     }

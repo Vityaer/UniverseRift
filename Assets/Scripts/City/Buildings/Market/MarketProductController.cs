@@ -34,7 +34,7 @@ public class MarketProductController : MonoBehaviour
         _subject = product.subject;
     }
 
-    public void SetData(MarketProduct<Splinter> product, Action<string, int> callback)
+    public void SetData(MarketProduct<SplinterModel> product, Action<string, int> callback)
     {
         this.callback = callback;
         marketProduct = product;

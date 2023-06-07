@@ -2,7 +2,7 @@
 public class MissionEnemy
 {
     public HeroName heroName = HeroName.Peasant;
-    public InfoHero enemyPrefab
+    public HeroModel enemyPrefab
     {
         get
         {

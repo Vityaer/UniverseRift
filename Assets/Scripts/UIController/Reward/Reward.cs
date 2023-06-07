@@ -63,11 +63,11 @@ public class Reward
             return result;
         }
     }
-    public List<Splinter> GetSplinters
+    public List<SplinterModel> GetSplinters
     {
         get
         {
-            List<Splinter> result = new List<Splinter>();
+            List<SplinterModel> result = new List<SplinterModel>();
             foreach (RewardSplinter rewardSplinter in splinters)
                 result.Add(rewardSplinter.GetSplinter);
             return result;
@@ -86,7 +86,7 @@ public class Reward
             items.Add(new RewardItem(item));
         }
     }
-    public void AddSplinter(Splinter splinter)
+    public void AddSplinter(SplinterModel splinter)
     {
         RewardSplinter work = splinters.Find(x => (x.ID.ToString() == splinter.Id));
         if (work != null)

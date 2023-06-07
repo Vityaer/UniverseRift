@@ -4,13 +4,13 @@ using UnityEngine;
 using TMPro;
 public class PanelDetailsHero : BasePanelScript{
 	public TextMeshProUGUI textAttackSkill, textDeffendSkill, textSpeed, textCountCounterAttack, textCanRetaliation;
-	private InfoHero hero;
+	private HeroModel hero;
 	protected override void OnOpen(){
 		hero = TrainCamp.Instance.ReturnSelectHero();
-		textAttackSkill.text = hero.characts.baseCharacteristic.Attack.ToString();
-		textDeffendSkill.text = hero.characts.baseCharacteristic.Defense.ToString();
-		textSpeed.text = hero.characts.baseCharacteristic.Speed.ToString();
-		textCountCounterAttack.text = hero.characts.baseCharacteristic.CountCouterAttack.ToString();
-		textCanRetaliation.text = hero.characts.baseCharacteristic.CanRetaliation ? "Yes" : "No";
+		textAttackSkill.text = hero.Characts.baseCharacteristic.Attack.ToString();
+		textDeffendSkill.text = hero.Characts.baseCharacteristic.Defense.ToString();
+		textSpeed.text = hero.Characts.baseCharacteristic.Speed.ToString();
+		textCountCounterAttack.text = hero.Characts.baseCharacteristic.CountCouterAttack.ToString();
+		textCanRetaliation.text = hero.Characts.baseCharacteristic.CanRetaliation ? "Yes" : "No";
 	}
 }

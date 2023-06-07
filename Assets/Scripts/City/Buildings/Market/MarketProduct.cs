@@ -18,7 +18,7 @@ namespace City.Buildings.Market
                 case Item product:
                     InventoryController.Instance.AddItem(product);
                     break;
-                case Splinter product:
+                case SplinterModel product:
                     Debug.Log("write add splinter here");
                     // InventoryControllerScript.Instance.AddSplinter(product);
                     break;

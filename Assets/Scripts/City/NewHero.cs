@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class NewHero : MonoBehaviour
 {
-    public List<InfoHero> listNewHero = new List<InfoHero>();
+    public List<HeroModel> listNewHero = new List<HeroModel>();
 
     public Color colorNotInteractable;
     public Color colorInteractable;
@@ -28,13 +28,13 @@ public class NewHero : MonoBehaviour
     {
         GameController.Instance.SubtractResource(DiamondCost);
 
-        InfoHero hero = (InfoHero)(listNewHero[Random.Range(0, listNewHero.Count)].Clone());
-        hero.generalInfo.Name = hero.generalInfo.Name + " №" + Random.Range(0, 1000).ToString();
+        HeroModel hero = (HeroModel)(listNewHero[Random.Range(0, listNewHero.Count)].Clone());
+        hero.General.Name = hero.General.Name + " №" + Random.Range(0, 1000).ToString();
         GetNewHero(hero);
-        MessageController.Instance.AddMessage("Новый герой! Это - " + hero.generalInfo.Name);
+        MessageController.Instance.AddMessage("Новый герой! Это - " + hero.General.Name);
         CheckResourceForBuyHero();
     }
-    public void GetNewHero(InfoHero newHero)
+    public void GetNewHero(HeroModel newHero)
     {
         GameController.Instance.AddHero(newHero);
     }

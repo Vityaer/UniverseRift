@@ -1,4 +1,5 @@
 using Models.Grid;
+using Models.Heroes;
 using System;
 using System.Collections;
 using System.Collections.Generic;

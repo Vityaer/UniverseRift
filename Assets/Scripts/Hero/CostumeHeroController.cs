@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Models.Heroes;
+using System.Collections.Generic;
 using UnityEngine;
 
 

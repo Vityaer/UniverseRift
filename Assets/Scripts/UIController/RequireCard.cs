@@ -14,7 +14,7 @@ public class RequireCard : MonoBehaviour
 
     private int requireSelectCount = 0;
     private RequirementHero requirementHero;
-    private List<InfoHero> selectedHeroes = new List<InfoHero>();
+    private List<HeroModel> selectedHeroes = new List<HeroModel>();
 
     public void SetData(RequirementHero requirementHero)
     {
@@ -62,7 +62,7 @@ public class RequireCard : MonoBehaviour
     {
         listCard.RegisterOnSelect(AddHero);
         listCard.RegisterOnUnSelect(RemoveHero);
-        List<InfoHero> currentHeroes = GameController.Instance.GetListHeroes;
+        List<HeroModel> currentHeroes = GameController.Instance.GetListHeroes;
         currentHeroes = currentHeroes.FindAll(x => x.CheckСonformity(requirementHero));
         currentHeroes.Remove(TrainCamp.Instance.ReturnSelectHero());
         listCard.SetList(currentHeroes);
@@ -98,7 +98,7 @@ public class RequireCard : MonoBehaviour
         ClearData();
     }
 
-    public void ShowData(RequirementHero requirementHero, List<InfoHero> selectedHeroes)
+    public void ShowData(RequirementHero requirementHero, List<HeroModel> selectedHeroes)
     {
         this.selectedHeroes = selectedHeroes;
         this.requirementHero = requirementHero;

@@ -29,7 +29,7 @@ public class TravelCircleScript : Building{
 		foreach(TravelCircleOnRace travel in travels)
 			travel.CurrentMission = travelCircleSave.GetRecordInt(travel.GetNameRecord);
 
-		ChangeTravel(travels[UnityEngine.Random.Range(0, travels.Count)].race);
+		ChangeTravel(travels[Random.Range(0, travels.Count)].race);
 	}
 
 	protected override void OpenPage()
@@ -82,7 +82,7 @@ public class TravelCircleScript : Building{
 		}
 	}
 
-	public void ChangeTravel(Race newRace)
+	public void ChangeTravel(string newRace)
 	{
 		if((currentTravel == null) || currentTravel.race != newRace){
 			currentTravel = travels.Find(x => x.race == newRace);
@@ -99,9 +99,10 @@ public class TravelCircleScript : Building{
 
 }
 [System.Serializable]
-public class TravelCircleOnRace{
+public class TravelCircleOnRace
+{
 	private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission"; 
-	public Race race;
+	public string race;
 	public TravelSelectScript controllerUI;
 	public List<MissionWithSmashReward> missions = new List<MissionWithSmashReward>();
 	private int currentMission =  0;

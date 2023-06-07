@@ -24,9 +24,9 @@ public class HeroDetailsPanel : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _countCouterAttackText;
 	[SerializeField] private TextMeshProUGUI _melleeText;
 
-	public void ShowDetails(InfoHero hero)
+	public void ShowDetails(HeroModel hero)
 	{
-		_probabilityCriticalAttackText.text = $"{hero.characts.ProbabilityCriticalAttack}";
+		_probabilityCriticalAttackText.text = $"{hero.Characts.ProbabilityCriticalAttack}";
 	}
 
 	public void Open()

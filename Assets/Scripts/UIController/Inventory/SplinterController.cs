@@ -4,17 +4,17 @@ using UnityEngine;
 
 [System.Serializable]
 public class SplinterController : VisualAPI, ICloneable{
-	[SerializeField]private Splinter _splinter;
-	public Splinter splinter{get => _splinter;}
+	[SerializeField]private SplinterModel _splinter;
+	public SplinterModel splinter{get => _splinter;}
 	public void ClickOnItem(){
 		InventoryController.Instance.OpenInfoItem(this, withControl : true);
 	}
-	public SplinterController(Splinter splinter, int amount){
-		this._splinter = (Splinter) splinter.Clone();
+	public SplinterController(SplinterModel splinter, int amount){
+		this._splinter = (SplinterModel) splinter.Clone();
 		this._splinter.SetAmount(amount);
 	}
-	public SplinterController(Splinter splinter){
-		this._splinter = (Splinter) splinter.Clone();
+	public SplinterController(SplinterModel splinter){
+		this._splinter = (SplinterModel) splinter.Clone();
 	}
 	public SplinterController() : base(){
 		_splinter = null;

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public class TrainCamp : MainPage
 {
     public HeroPanel HeroPanel;
-    public List<InfoHero> listHeroes = new List<InfoHero>();
+    public List<HeroModel> listHeroes = new List<HeroModel>();
     public int numSelectHero = 0;
-    private InfoHero hero;
+    private HeroModel hero;
     public ListCardOnWarTable listCardPanel;
     public ListMyHeroesController ListCard;
 
@@ -45,7 +45,7 @@ public class TrainCamp : MainPage
         OpenHeroPanel();
     }
 
-    public InfoHero ReturnSelectHero()
+    public HeroModel ReturnSelectHero()
     {
         return listHeroes[numSelectHero];
     }

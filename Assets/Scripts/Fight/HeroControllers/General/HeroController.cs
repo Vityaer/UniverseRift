@@ -316,7 +316,7 @@ public partial class HeroController : MonoBehaviour
     }
 
     //API
-    public void SetHero(InfoHero infoHero, HexagonCell place, Side side)
+    public void SetHero(HeroModel infoHero, HexagonCell place, Side side)
     {
         myPlace = place;
         place.SetHero(this);

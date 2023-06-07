@@ -8,32 +8,32 @@ public class Sanctuary : BuildingWithHeroesList
     public Tavern tavernController;
     private Card selectedHero;
     public Button btnSave, btnReplacement;
-    public InfoHero newHero;
+    public HeroModel newHero;
 
 
-    private List<InfoHero> heroes = new List<InfoHero>();
+    private List<HeroModel> heroes = new List<HeroModel>();
     public void ReplacementHero()
     {
         Resource resCost = null;
         if (selectedHero != null)
         {
-            if (selectedHero.hero.generalInfo.RatingHero == 4)
+            if (selectedHero.hero.General.RatingHero == 4)
             {
                 resCost = costReplacementFourRating;
-                heroes = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.RatingHero == 4));
+                heroes = tavernController.GetListHeroes.FindAll(x => (x.General.RatingHero == 4));
             }
             else
             {
                 resCost = costReplacementFiveRating;
-                heroes = tavernController.GetListHeroes.FindAll(x => (x.generalInfo.RatingHero == 5));
+                heroes = tavernController.GetListHeroes.FindAll(x => (x.General.RatingHero == 5));
             }
 
             if (GameController.Instance.CheckResource(resCost))
             {
-                heroes = heroes.FindAll(x => ((x.generalInfo.RatingHero == selectedHero.hero.generalInfo.RatingHero) && (x.generalInfo.Race == selectedHero.hero.generalInfo.Race) && (x.generalInfo.ViewId != selectedHero.hero.generalInfo.ViewId)));
+                heroes = heroes.FindAll(x => ((x.General.RatingHero == selectedHero.hero.General.RatingHero) && (x.General.Race == selectedHero.hero.General.Race) && (x.General.ViewId != selectedHero.hero.General.ViewId)));
                 if (heroes.Count > 0)
                 {
-                    newHero = (InfoHero)heroes[Random.Range(0, heroes.Count)].Clone();
+                    newHero = (HeroModel)heroes[Random.Range(0, heroes.Count)].Clone();
                     btnSave.gameObject.SetActive(true);
                 }
             }

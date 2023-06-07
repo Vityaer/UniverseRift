@@ -36,7 +36,7 @@ namespace Altar
 
         public void FiredHeroes()
         {
-            List<InfoHero> heroes = new List<InfoHero>();
+            List<HeroModel> heroes = new List<HeroModel>();
 
             OnDissamble(selectedHeroCards.Count);
 
@@ -55,12 +55,12 @@ namespace Altar
             }
         }
 
-        private void GetRewardFromHeroes(List<InfoHero> heroes)
+        private void GetRewardFromHeroes(List<HeroModel> heroes)
         {
             Reward reward = new Reward();
             Resource currentResource = null;
 
-            foreach (InfoHero hero in heroes)
+            foreach (HeroModel hero in heroes)
             {
                 for (int i = 0; i < _templateRewards.Count; i++)
                 {

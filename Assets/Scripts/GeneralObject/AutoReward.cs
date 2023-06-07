@@ -64,7 +64,7 @@ public class AutoReward{
 			}			
 		}
 	}
-	Splinter workSplinter = null;
+	SplinterModel workSplinter = null;
 	private void GetPosibleSplinter(Reward reward, int countTact){
 		Debug.Log("splinters");
 		result = 0;

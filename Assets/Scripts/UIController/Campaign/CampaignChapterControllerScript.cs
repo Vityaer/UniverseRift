@@ -7,7 +7,7 @@ public class CampaignChapterControllerScript : MonoBehaviour{
 
 	public Image image; 
 	public Text name;
-	public CampaignChapter chapter;
+	public CampaignChapterModel chapter;
 	public bool isOpen = false;
 
 	void Start(){

@@ -4,7 +4,7 @@ public class SplinterSystem : MonoBehaviour
 {
     public SplintersList splintersList;
 
-    public Splinter GetSplinter(string ID)
+    public SplinterModel GetSplinter(string ID)
     {
         return splintersList.GetSplinter(ID);
     }

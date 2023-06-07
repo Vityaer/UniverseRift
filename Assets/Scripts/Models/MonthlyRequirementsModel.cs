@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Models
 {
     [System.Serializable]
-    public class MonthlyRequirementsModel
+    public class MonthlyRequirementsModel : BaseModel
     {
         [SerializeField] private List<ListRequirementModel> listGroupRequirements = new List<ListRequirementModel>();
         public List<AchievementSave> GetTasks(TypeMonthlyTasks type)

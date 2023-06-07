@@ -22,7 +22,7 @@ public class WheelFortune : Building
 
     public List<FortuneReward<Resource>> resources = new List<FortuneReward<Resource>>();
     public List<FortuneReward<Item>> items = new List<FortuneReward<Item>>();
-    public List<FortuneReward<Splinter>> splinters = new List<FortuneReward<Splinter>>();
+    public List<FortuneReward<SplinterModel>> splinters = new List<FortuneReward<SplinterModel>>();
 
     [Header("Arrow")]
     public RectTransform arrowRect;
@@ -93,7 +93,7 @@ public class WheelFortune : Building
                 case FortuneReward<Item> product:
                     places[i].SetItem(product.subject);
                     break;
-                case FortuneReward<Splinter> product:
+                case FortuneReward<SplinterModel> product:
                     places[i].SetItem(product.subject);
                     break;
 
@@ -162,7 +162,7 @@ public class WheelFortune : Building
                     Item rewardItem = (rewards[numbersReward[i]] as FortuneReward<Item>).subject as Item;
                     reward.AddItem((Item)rewardItem.Clone());
                     break;
-                case FortuneReward<Splinter> splinter:
+                case FortuneReward<SplinterModel> splinter:
                     break;
             }
         }

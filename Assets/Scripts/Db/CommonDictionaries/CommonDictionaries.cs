@@ -2,6 +2,10 @@ using Common;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
+using Models.City.Markets;
+using Models.City.Mines;
+using Models.City.Misc;
+using Models.Fights.Misc;
 using Models.Heroes;
 using Models.Items;
 using System.Collections.Generic;
@@ -24,7 +28,14 @@ namespace Db.CommonDictionaries
         private Dictionary<string, ItemSet> _itemSets = new Dictionary<string, ItemSet>();
         private Dictionary<string, ItemType> _itemTypes = new Dictionary<string, ItemType>();
         private Dictionary<string, RatingModel> _ratings = new Dictionary<string, RatingModel>();
-        
+        private Dictionary<string, CampaignChapterModel> _campaignChapters = new Dictionary<string, CampaignChapterModel>();
+        private Dictionary<string, LocationModel> _locations = new Dictionary<string, LocationModel>();
+        private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
+        private Dictionary<string, ProductModel> _products = new Dictionary<string, ProductModel>();
+        private Dictionary<string, MarketModel> _markets = new Dictionary<string, MarketModel>();
+        private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
+        private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
+
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -37,6 +48,13 @@ namespace Db.CommonDictionaries
         public Dictionary<string, RatingModel> Ratings => _ratings;
         public Dictionary<string, RaceModel> Races => _races;
         public Dictionary<string, VocationModel> Vocations => _vocations;
+        public Dictionary<string, CampaignChapterModel> CampaignChapters => _campaignChapters;
+        public Dictionary<string, LocationModel> Locations => _locations;
+        public Dictionary<string, SplinterModel> Splinters => _splinters;
+        public Dictionary<string, ProductModel> Products => _products;
+        public Dictionary<string, MarketModel> Markets => _markets;
+        public Dictionary<string, MineModel> Mines => _mines;
+        public Dictionary<string, StorageChallengeModel> StorageChallenges => _storageChallenges;
 
 
         private bool IsDownloadedInLocalStorage
@@ -110,32 +128,6 @@ namespace Db.CommonDictionaries
         private async UniTask LoadFromRemoteDirectory()
         {
             //_cells = await DownloadModels<BaseCell>();
-            //_units = await DownloadModels<UnitModel>();
-            //_towers = await DownloadModels<TowerModel>();
-            //_gameModes = await DownloadModels<GameModeModel>();
-            //_grids = await DownloadModels<GameFieldGrid>();
-            //_castles = await DownloadModels<CastleModel>();
-            //_rarytis = await DownloadModels<Rarity>();
-            //_cards = await DownloadModels<CardModel>();
-            //_unitTypes = await DownloadModels<UnitTypeModel>();
-            //_waveLists = await DownloadModels<WaveList>();
-            //_waves = await DownloadModels<Wave>();
-            //_abilities = await DownloadModels<BaseAbilityModel>();
-            //_levels = await DownloadModels<LevelModel>();
-            //_heroes = await DownloadModels<GameHero>();
-            //_spells = await DownloadModels<SpellModel>();
-            //_palettes = await DownloadModels<BasePalette>();
-            //_traits = await DownloadModels<TraitsModel>();
-            //_bullets = await DownloadModels<BulletModel>();
-            //_lights = await DownloadModels<LightSettingModel>();
-            //_defaultDecks = await DownloadModels<DefaultDeckModel>();
-            //_simpleRewards = await DownloadModels<SimpleRewardModel>();
-            //_randomRewards = await DownloadModels<RandomRewardModel>();
-            //_currencies = await DownloadModels<CurrencyModel>();
-            //_chests = await DownloadModels<ChestModel>();
-            //_marketItemModels = await DownloadModels<MarketItemModel>();
-            //_marketCategoryModels = await DownloadModels<MarketCategoryModel>();
-            //_cardLevelModels = await DownloadModels<CardLevelModel>();
 
             //var jsonData = await TextUtils.DownloadJsonData(nameof(AbilityConfigList));
             //_abilitiesConfig = _converter.FromJson<AbilityConfigList>(jsonData).ConfigList;
@@ -171,6 +163,13 @@ namespace Db.CommonDictionaries
             _itemSets = GetModels<ItemSet>();
             _itemTypes = GetModels<ItemType>();
             _ratings = GetModels<RatingModel>();
+            _campaignChapters = GetModels<CampaignChapterModel>();
+            _locations = GetModels<LocationModel>();
+            _splinters = GetModels<SplinterModel>();
+            _products = GetModels<ProductModel>();
+            _markets = GetModels<MarketModel>();
+            _mines = GetModels<MineModel>();
+            _storageChallenges = GetModels<StorageChallengeModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

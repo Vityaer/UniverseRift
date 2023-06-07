@@ -103,72 +103,72 @@ public class WarTableController : MonoBehaviour
     private void CheckTeam(List<WarriorPlace> team)
     {
         team = team.FindAll(x => x.Hero != null);
-        int racePeople = team.FindAll(x => x.Hero.generalInfo.Race == Race.People).Count;
-        int raceElf = team.FindAll(x => x.Hero.generalInfo.Race == Race.Elf).Count;
-        int raceUndead = team.FindAll(x => x.Hero.generalInfo.Race == Race.Undead).Count;
-        int raceDaemon = team.FindAll(x => x.Hero.generalInfo.Race == Race.Daemon).Count;
-        int raceGod = team.FindAll(x => x.Hero.generalInfo.Race == Race.God).Count;
-        int raceDarkGod = team.FindAll(x => x.Hero.generalInfo.Race == Race.Elemental).Count;
-        switch (team.Count)
-        {
-            case 1:
-                Debug.Log("one people");
-                break;
-            case 6:
-                if (racePeople == 6)
-                {
-                    Debug.Log("all people");
-                }
-                else if (raceElf == 6)
-                {
-                    Debug.Log("all elf");
-                }
-                else if (raceUndead == 6)
-                {
-                    Debug.Log("all undead");
-                }
-                else if (raceDaemon == 6)
-                {
-                    Debug.Log("all daemon");
-                }
-                else if (raceGod == 6)
-                {
-                    Debug.Log("all god");
-                }
-                else if (raceDarkGod == 6)
-                {
-                    Debug.Log("all dark god");
-                }
-                else if ((raceElf == 3) && (racePeople == 3))
-                {
-                    Debug.Log("3 elf and 3 people");
-                }
-                else if ((raceUndead == 3) && (raceDaemon == 3))
-                {
-                    Debug.Log("3 undead and 3 Daemon");
-                }
-                else if ((raceGod == 3) && (raceDarkGod == 3))
-                {
-                    Debug.Log("3 god and 3 darkgod");
-                }
-                else if ((racePeople == 2) && (raceElf == 2) && (raceGod == 2))
-                {
-                    Debug.Log("this is Good");
-                }
-                else if ((raceUndead == 2) && (raceDaemon == 2) && (raceDarkGod == 2))
-                {
-                    Debug.Log("this is Evil");
-                }
-                else if ((racePeople == 1) && (raceElf == 1) && (raceDaemon == 1) && (raceUndead == 1) && (raceGod == 1) && (raceDarkGod == 1))
-                {
-                    Debug.Log("all race");
-                }
-                break;
-        }
+        //int racePeople = team.FindAll(x => x.Hero.General.Race == Race.People).Count;
+        //int raceElf = team.FindAll(x => x.Hero.General.Race == Race.Elf).Count;
+        //int raceUndead = team.FindAll(x => x.Hero.General.Race == Race.Undead).Count;
+        //int raceDaemon = team.FindAll(x => x.Hero.General.Race == Race.Daemon).Count;
+        //int raceGod = team.FindAll(x => x.Hero.General.Race == Race.God).Count;
+        //int raceDarkGod = team.FindAll(x => x.Hero.General.Race == Race.Elemental).Count;
+        //switch (team.Count)
+        //{
+        //    case 1:
+        //        Debug.Log("one people");
+        //        break;
+        //    case 6:
+        //        if (racePeople == 6)
+        //        {
+        //            Debug.Log("all people");
+        //        }
+        //        else if (raceElf == 6)
+        //        {
+        //            Debug.Log("all elf");
+        //        }
+        //        else if (raceUndead == 6)
+        //        {
+        //            Debug.Log("all undead");
+        //        }
+        //        else if (raceDaemon == 6)
+        //        {
+        //            Debug.Log("all daemon");
+        //        }
+        //        else if (raceGod == 6)
+        //        {
+        //            Debug.Log("all god");
+        //        }
+        //        else if (raceDarkGod == 6)
+        //        {
+        //            Debug.Log("all dark god");
+        //        }
+        //        else if ((raceElf == 3) && (racePeople == 3))
+        //        {
+        //            Debug.Log("3 elf and 3 people");
+        //        }
+        //        else if ((raceUndead == 3) && (raceDaemon == 3))
+        //        {
+        //            Debug.Log("3 undead and 3 Daemon");
+        //        }
+        //        else if ((raceGod == 3) && (raceDarkGod == 3))
+        //        {
+        //            Debug.Log("3 god and 3 darkgod");
+        //        }
+        //        else if ((racePeople == 2) && (raceElf == 2) && (raceGod == 2))
+        //        {
+        //            Debug.Log("this is Good");
+        //        }
+        //        else if ((raceUndead == 2) && (raceDaemon == 2) && (raceDarkGod == 2))
+        //        {
+        //            Debug.Log("this is Evil");
+        //        }
+        //        else if ((racePeople == 1) && (raceElf == 1) && (raceDaemon == 1) && (raceUndead == 1) && (raceGod == 1) && (raceDarkGod == 1))
+        //        {
+        //            Debug.Log("all race");
+        //        }
+        //        break;
+        //}
         btnStartFight.interactable = (leftTeam.FindAll(place => place.Hero != null).Count > 0);
     }
     //API
-    public void OpenMission(Mission mission, List<InfoHero> listHeroes)
+    public void OpenMission(Mission mission, List<HeroModel> listHeroes)
     {
         ClearLeftTeam();
         ClearRightTeam();
@@ -219,7 +219,7 @@ public class WarTableController : MonoBehaviour
         listCardPanel.EventOpen();
     }
 
-    private void FillListHeroes(List<InfoHero> listHeroes)
+    private void FillListHeroes(List<HeroModel> listHeroes)
     {
         listCardPanel.Clear();
         listCardPanel.SetList(listHeroes);

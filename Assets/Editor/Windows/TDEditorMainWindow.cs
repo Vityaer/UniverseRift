@@ -1,14 +1,21 @@
+using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
+using Editor.Pages.Campaigns;
+using Editor.Pages.City.Mines;
 using Editor.Pages.Heroes;
 using Editor.Pages.Heroes.Race;
 using Editor.Pages.Items;
 using Editor.Pages.Items.Set;
 using Editor.Pages.Items.Type;
+using Editor.Pages.Mall.Market;
+using Editor.Pages.Mall.Products;
 using Editor.Pages.Rating;
+using Editor.Pages.Splinters;
 using Editor.Units;
 using Misc.Json.Impl;
+using Pages.City.ChallengeTower;
 using Pages.Heroes.Vocation;
 using Sirenix.OdinInspector.Editor;
 using System.Collections.Generic;
@@ -22,7 +29,7 @@ namespace Editor.Windows
     {
         private CommonDictionaries _dictionaries;
         private ConfigVersion ConfigVersion;
-        
+
         private List<BasePageEditor> _allPages;
         private HeroPageEditor _heroPageEditor;
         private RacePageEditor _racePageEditor;
@@ -32,6 +39,13 @@ namespace Editor.Windows
         private ItemTypePageEditor _itemTypePageEditor;
         private RarityPageEditor _rarityPageEditor;
         private RatingPageEditor _ratingPageEditor;
+        private CampaignPageEditor _campaignPageEditor;
+        private LocationPageEditor _locationPageEditor;
+        private ProductPageEditor _productPageEditor;
+        private SplinterPageEditor _splinterPageEditor;
+        private MarketPageEditor _marketPageEditor;
+        private MinePageEditor _minePageEditor;
+        private StorageChallangePageEditor _storageChallangePageEditor;
 
         private OdinMenuTree _tree;
 
@@ -71,14 +85,22 @@ namespace Editor.Windows
         private void FillTree()
         {
             _tree.Selection.SupportsMultiSelect = false;
-            _tree.Add("Heroes/Heroes Editor", _heroPageEditor);
-            _tree.Add("Heroes/Race Editor", _racePageEditor);
-            _tree.Add("Rating/Vocation Editor", _vocationPageEditor);
-            _tree.Add("Items/Items Editor", _itemPageEditor);
-            _tree.Add("Items/Set Editor", _itemSetPageEditor);
-            _tree.Add("Items/Type Editor", _itemTypePageEditor);
-            _tree.Add("Rarity/Rarities Editor", _rarityPageEditor);
-            _tree.Add("Rating/Rating Editor", _ratingPageEditor);
+            _tree.Add("Heroes/Heroes", _heroPageEditor);
+            _tree.Add("Heroes/Race", _racePageEditor);
+            _tree.Add("Heroes/Vocation", _vocationPageEditor);
+            _tree.Add("Inventory/Items/Items", _itemPageEditor);
+            _tree.Add("Inventory/Items/Set", _itemSetPageEditor);
+            _tree.Add("Inventory/Items/Type", _itemTypePageEditor);
+            _tree.Add("Inventory/Splinters", _splinterPageEditor);
+            _tree.Add("Rarity/Rarities", _rarityPageEditor);
+            _tree.Add("Rating/Rating", _ratingPageEditor);
+            _tree.Add("Fights/Ñampaign", _campaignPageEditor);
+            _tree.Add("Fights/Storage Challange", _storageChallangePageEditor);
+            _tree.Add("Fights/Location", _locationPageEditor);
+            _tree.Add("Mall/Markets", _marketPageEditor);
+            _tree.Add("Mall/Products", _productPageEditor);
+            _tree.Add("City/Mines", _minePageEditor);
+            
         }
 
         private async void InitPages()
@@ -120,6 +142,21 @@ namespace Editor.Windows
 
             _vocationPageEditor =  new VocationPageEditor(_dictionaries);
             _allPages.Add(_vocationPageEditor);
+
+            _campaignPageEditor = new CampaignPageEditor(_dictionaries);
+            _allPages.Add(_campaignPageEditor);
+
+            _locationPageEditor = new LocationPageEditor(_dictionaries);
+            _allPages.Add(_locationPageEditor);
+
+            _productPageEditor = new ProductPageEditor(_dictionaries);
+            _allPages.Add(_productPageEditor);
+
+            _marketPageEditor = new MarketPageEditor(_dictionaries);
+            _allPages.Add(_marketPageEditor);
+
+            _minePageEditor = new MinePageEditor(_dictionaries);
+            _allPages.Add(_minePageEditor);
         }
 
         private void OnValueSaved()

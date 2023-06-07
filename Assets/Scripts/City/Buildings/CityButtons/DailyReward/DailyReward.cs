@@ -28,7 +28,7 @@ public class DailyReward : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 this.reward = product;
                 rewardController.SetItem(product.subject);
                 break;
-            case MarketProduct<Splinter> product:
+            case MarketProduct<SplinterModel> product:
                 this.reward = product;
                 rewardController.SetItem(product.subject);
                 break;

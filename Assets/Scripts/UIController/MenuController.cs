@@ -16,7 +16,7 @@ public class MenuController : MonoBehaviour
 	private FooterButton currentPageButton;
 	public FooterButton startPageButton;
 	public GameObject background;
-	private List<InfoHero> listHeroes = new List<InfoHero>();
+	private List<HeroModel> listHeroes = new List<HeroModel>();
 
 	void Awake()
 	{
@@ -29,7 +29,7 @@ public class MenuController : MonoBehaviour
 		OpenPage(startPageButton);
 	}
 
-	private void OnChangeListHeroes(InfoHero hero){
+	private void OnChangeListHeroes(HeroModel hero){
 		if(isInteractableButtons != (listHeroes.Count > 0)){
 			isInteractableButtons = !isInteractableButtons;
 			InteractableBtnCampaign(isInteractableButtons);
