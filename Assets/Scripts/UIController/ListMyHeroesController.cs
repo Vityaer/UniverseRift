@@ -1,44 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using Common;
+using Models.Heroes;
+using System.Collections.Generic;
+using UIController.ButtonsInCity;
 using UnityEngine;
 
-public class ListMyHeroesController : MonoBehaviour
+namespace UIController
 {
-    [SerializeField] private ListCardOnWarTable listHeroesController;
-    protected List<InfoHero> listHeroes = new List<InfoHero>();
-
-    [Header("UI")]
-    private Canvas canvas;
-    public GameObject background;
-    public FooterButton btnOpenClose;
-
-    void Awake()
+    public class ListMyHeroesController : MonoBehaviour
     {
-        canvas = GetComponent<Canvas>();
-        btnOpenClose.RegisterOnChange(Change);
-    }
+        [SerializeField] private ListCardOnWarTable listHeroesController;
+        protected List<HeroModel> listHeroes = new List<HeroModel>();
 
-    void Change(bool isOpen)
-    {
-        if (isOpen) { Open(); } else { Close(); }
-    }
+        [Header("UI")]
+        private Canvas canvas;
+        public GameObject background;
+        public FooterButton btnOpenClose;
 
-    void LoadListHeroes()
-    {
-        listHeroes = GameController.Instance.GetListHeroes;
-        listHeroesController.SetList(listHeroes);
-    }
+        void Awake()
+        {
+            canvas = GetComponent<Canvas>();
+            btnOpenClose.RegisterOnChange(Change);
+        }
 
-    public void Open()
-    {
-        LoadListHeroes();
-        canvas.enabled = true;
-        listHeroesController.EventOpen();
-        BackgroundController.Instance.OpenBackground(background);
-    }
+        void Change(bool isOpen)
+        {
+            if (isOpen) { Open(); } else { Close(); }
+        }
 
-    public void Close()
-    {
-        canvas.enabled = false;
-        listHeroesController.EventClose();
+        void LoadListHeroes()
+        {
+            listHeroes = GameController.Instance.GetListHeroes;
+            listHeroesController.SetList(listHeroes);
+        }
+
+        public void Open()
+        {
+            LoadListHeroes();
+            canvas.enabled = true;
+            listHeroesController.EventOpen();
+            BackgroundController.Instance.OpenBackground(background);
+        }
+
+        public void Close()
+        {
+            canvas.enabled = false;
+            listHeroesController.EventClose();
+        }
     }
 }

@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UIController.ControllerPanels;
 
-public class PanelTravelListMissions : BasePanelScript{
+namespace City.Buildings.TravelCircle
+{
+    public class PanelTravelListMissions : BasePanelScript
+    {
+    }
 }

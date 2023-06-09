@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RobinArrow : Arrow
+namespace Fight.HeroControllers.Robin
 {
+    public class RobinArrow : Arrow
+    {
+    }
 }

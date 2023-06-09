@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 
-public class FightData : MonoBehaviour
+namespace Fight
 {
-    public float lastDamage;
-    public delegate void Del(float damage);
-    public Del delsLastDamage;
-    public void RegisterOnLastDamage(Del d)
+    public class FightData : MonoBehaviour
     {
-        delsLastDamage += d;
-    }
-    public void UnRegisterOnLastDamage(Del d)
-    {
-        delsLastDamage += d;
-    }
-    public void GetLastDamage()
-    {
-        if (delsLastDamage != null)
-            delsLastDamage(lastDamage);
-    }
+        public float lastDamage;
+        public delegate void Del(float damage);
+        public Del delsLastDamage;
 
-    private static FightData instance;
-    public static FightData Instance { get => instance; }
-    void Awake()
-    {
-        if (instance == null)
+        public static FightData Instance { get; private set; }
+
+        void Awake()
         {
-            instance = this;
+            Instance = this;
         }
-        else
+
+        public void RegisterOnLastDamage(Del d)
         {
-            Destroy(this);
+            delsLastDamage += d;
         }
+
+        public void UnRegisterOnLastDamage(Del d)
+        {
+            delsLastDamage += d;
+        }
+
+        public void GetLastDamage()
+        {
+            if (delsLastDamage != null)
+                delsLastDamage(lastDamage);
+        }
+
+
+
+
     }
 }

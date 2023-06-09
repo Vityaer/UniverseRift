@@ -1,66 +1,71 @@
+using Models.City.TrainCamp;
 using System.Collections.Generic;
+using UIController;
 using UnityEngine;
 
-public class ListRequirementHeroesUI : MonoBehaviour
+namespace City.TrainCamp
 {
-    public LevelUpRatingHero mainController;
-
-    [SerializeField] private List<RequireCard> requireCards = new List<RequireCard>();
-    private List<RequirementHero> requirementHeroes = new List<RequirementHero>();
-
-    public void SetData(List<RequirementHero> requirementHeroes)
+    public class ListRequirementHeroesUI : MonoBehaviour
     {
-        this.requirementHeroes = requirementHeroes;
-        for (int i = 0; i < requireCards.Count; i++)
+        public LevelUpRatingHero mainController;
+
+        [SerializeField] private List<RequireCard> requireCards = new List<RequireCard>();
+        private List<RequirementHeroModel> requirementHeroes = new List<RequirementHeroModel>();
+
+        public void SetData(List<RequirementHeroModel> requirementHeroes)
         {
-            if (i < requirementHeroes.Count)
+            this.requirementHeroes = requirementHeroes;
+            for (int i = 0; i < requireCards.Count; i++)
             {
-                requireCards[i].SetData(requirementHeroes[i]);
-            }
-            else
-            {
-                requireCards[i].Hide();
-            }
-        }
-    }
-
-    public bool GetCanLevelUpRating()
-    {
-        bool result = false;
-        return result;
-    }
-
-    public void HeroSelectDiselect()
-    {
-        mainController.CheckHeroes();
-    }
-
-    public bool IsAllDone()
-    {
-        bool result = true;
-        for (int i = 0; i < requirementHeroes.Count; i++)
-        {
-            if (requireCards[i].CheckHeroes())
-            {
-                result = false;
-                break;
+                if (i < requirementHeroes.Count)
+                {
+                    requireCards[i].SetData(requirementHeroes[i]);
+                }
+                else
+                {
+                    requireCards[i].Hide();
+                }
             }
         }
-        return result;
-    }
 
-    public void ClearData()
-    {
-        foreach (RequireCard requireCard in requireCards)
+        public bool GetCanLevelUpRating()
         {
-            requireCard.ClearData();
+            bool result = false;
+            return result;
         }
-    }
-    public void DeleteSelectedHeroes()
-    {
-        for (int i = 0; i < requirementHeroes.Count; i++)
+
+        public void HeroSelectDiselect()
         {
-            requireCards[i].DeleteSelectedHeroes();
+            mainController.CheckHeroes();
+        }
+
+        public bool IsAllDone()
+        {
+            bool result = true;
+            for (int i = 0; i < requirementHeroes.Count; i++)
+            {
+                if (requireCards[i].CheckHeroes())
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        public void ClearData()
+        {
+            foreach (RequireCard requireCard in requireCards)
+            {
+                requireCard.ClearData();
+            }
+        }
+        public void DeleteSelectedHeroes()
+        {
+            for (int i = 0; i < requirementHeroes.Count; i++)
+            {
+                requireCards[i].DeleteSelectedHeroes();
+            }
         }
     }
 }

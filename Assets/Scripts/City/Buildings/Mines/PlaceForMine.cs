@@ -1,27 +1,31 @@
+using Models.City.Mines;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaceForMine : MonoBehaviour
+namespace City.Buildings.Mines
 {
-    public int ID;
-    public Transform point;
-    public List<TypeMine> types = new List<TypeMine>();
-    public MineController mineController = null;
-
-    void Awake()
+    public class PlaceForMine : MonoBehaviour
     {
-        point = base.transform;
-    }
+        public string ID;
+        public Transform point;
+        public List<TypeMine> types = new List<TypeMine>();
+        public MineController mineController = null;
 
-    public void OpenPanelForCreateMine()
-    {
-        if (mineController == null)
+        void Awake()
         {
-            MinesController.Instance.panelNewMineCreate.Open(this);
+            point = transform;
         }
-        else
+
+        public void OpenPanelForCreateMine()
         {
-            MinesController.Instance.panelMineInfo.SetData(mineController);
+            if (mineController == null)
+            {
+                MinesController.Instance.panelNewMineCreate.Open(this);
+            }
+            else
+            {
+                MinesController.Instance.panelMineInfo.SetData(mineController);
+            }
         }
     }
 }

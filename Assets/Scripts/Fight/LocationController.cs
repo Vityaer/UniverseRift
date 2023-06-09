@@ -1,49 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using Models.Fights.Misc;
+using System.Collections.Generic;
+using UIController;
 using UnityEngine;
 
-public class LocationController : MonoBehaviour
+namespace Fight
 {
-    public List<Location> locations = new List<Location>();
-    private Location curLocation;
-    void Awake()
+    public class LocationController : MonoBehaviour
     {
-        instance = this;
+        public List<LocationModel> Locations = new List<LocationModel>();
+
+        private LocationModel _curLocation;
+
+        public static LocationController Instance { get; private set; }
+
+        void Awake()
+        {
+            Instance = this;
+        }
+
+        public void OpenLocation(string typeLocation)
+        {
+            _curLocation = Locations.Find(x => x.Id == typeLocation);
+            BackgroundController.Instance.OpenBackground(_curLocation.BackgroundForFight);
+        }
+
+        // public void CloseLocation(){
+        // 	curLocation.backgroundForFight.SetActive(false);
+        // }
+
+        public Sprite GetBackgroundForMission(string typeLocation)
+        {
+            return Locations.Find(x => x.Id == typeLocation).BackgroundForMission;
+        }
+
+        public void Close()
+        {
+            if (_curLocation != null)
+                BackgroundController.Instance.OpenCityBackground();
+        }
+
     }
-
-    public void OpenLocation(TypeLocation typeLocation)
-    {
-        curLocation = locations.Find(x => x.type == typeLocation);
-        BackgroundController.Instance.OpenBackground(curLocation.backgroundForFight);
-    }
-
-    // public void CloseLocation(){
-    // 	curLocation.backgroundForFight.SetActive(false);
-    // }
-
-    public Sprite GetBackgroundForMission(TypeLocation typeLocation)
-    {
-        return locations.Find(x => x.type == typeLocation).backgroundForMission;
-    }
-
-    public void Close()
-    {
-        if (curLocation != null) BackgroundController.Instance.OpenCityBackground();
-    }
-
-    private static LocationController instance;
-    public static LocationController Instance { get => instance; }
-}
-
-public enum TypeLocation
-{
-    Forest,
-    NightForest,
-    Desert
-}
-[System.Serializable]
-public class Location
-{
-    public TypeLocation type;
-    public GameObject backgroundForFight;
-    public Sprite backgroundForMission;
 }

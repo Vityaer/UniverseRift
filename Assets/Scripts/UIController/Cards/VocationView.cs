@@ -1,8 +1,13 @@
+using UIController.ItemVisual;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VocationView : MonoBehaviour
+namespace UIController.Cards
 {
-    [SerializeField] private Image imageVocation;
-    public void SetData(Vocation newVocation) { imageVocation.sprite = SystemSprites.Instance.GetSprite(newVocation); }
+    public class VocationView : MonoBehaviour
+    {
+        [SerializeField] private Image _imageVocation;
+        public void SetData(string newVocation)
+        { _imageVocation.sprite = SystemSprites.Instance.GetVocationImage(newVocation); }
+    }
 }

@@ -1,4 +1,6 @@
+using Fight.HeroControllers.Generals;
 using Models.Grid;
+using Models.Heroes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,51 +10,55 @@ namespace Fight.Grid
 {
     public class GridController : MonoBehaviour
     {
-        private Coroutine _coroutineCheckClick;
-        public Transform ParentTemplateObjects;
-        private Stack<HexagonCell> way = new Stack<HexagonCell>();
-        private HexagonCell PreviousCell = null;
         public static bool PlayerCanController = false;
-        protected Action observerFoundWay;
+
+        public Transform ParentTemplateObjects;
         public GridFactory GridSpawner;
+
+        protected Action ObserverFoundWay;
+
+        private Stack<HexagonCell> _way = new Stack<HexagonCell>();
+        private HexagonCell _previousCell = null;
         private BaseGrid _grid;
+        private Coroutine _coroutineCheckClick;
+
         public List<HexagonCell> Cells => _grid.Cells;
         public List<HexagonCell> GetLeftTeamPos => _grid.StartCellsLeftTeam;
         public List<HexagonCell> GetRightTeamPos => _grid.StartCellsRightTeam;
 
         public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
         {
-            way.Clear();
-            PreviousCell = null;
+            _way.Clear();
+            _previousCell = null;
             startCell.FindWay(previousCell: null, target: finishCell, typeMovement: typeMovement);
-            way.Push(finishCell);
+            _way.Push(finishCell);
             do
             {
                 if (finishCell != null)
                 {
-                    PreviousCell = finishCell.PreviousCell;
-                    if (PreviousCell != null) way.Push(PreviousCell);
+                    _previousCell = finishCell.PreviousCell;
+                    if (_previousCell != null) _way.Push(_previousCell);
                 }
-                finishCell = PreviousCell;
+                finishCell = _previousCell;
             } while ((finishCell != startCell) && (finishCell != null));
             OnFoundWay();
-            return way;
+            return _way;
         }
 
         public void RegisterOnFoundWay(Action d)
         {
-            observerFoundWay += d;
+            ObserverFoundWay += d;
         }
 
         public void UnregisterOnFoundWay(Action d)
         {
-            observerFoundWay -= d;
+            ObserverFoundWay -= d;
         }
 
         private void OnFoundWay()
         {
-            if (observerFoundWay != null)
-                observerFoundWay();
+            if (ObserverFoundWay != null)
+                ObserverFoundWay();
         }
 
         private void Start()

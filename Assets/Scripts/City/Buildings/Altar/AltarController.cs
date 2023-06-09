@@ -1,15 +1,19 @@
-﻿using System;
+﻿using City.Buildings.General;
+using Models.Heroes;
+using Common;
+using System;
 using System.Collections.Generic;
+using UIController.Cards;
 using UnityEngine;
 using UnityEngine.UI;
+using UIController.Rewards;
 
 namespace Altar
 {
     public class AltarController : BuildingWithHeroesList
     {
-
         [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
-        [SerializeField] protected Button _musterOutButton;
+        [SerializeField] protected Button MusterOutButton;
 
         private List<Card> selectedHeroCards = new List<Card>();
 
@@ -17,7 +21,7 @@ namespace Altar
         {
             listHeroesController.RegisterOnSelect(SelectHero);
             listHeroesController.RegisterOnUnSelect(UnselectHero);
-            _musterOutButton.onClick.AddListener(FiredHeroes);
+            MusterOutButton.onClick.AddListener(FiredHeroes);
         }
 
         protected override void OpenPage()
@@ -36,13 +40,13 @@ namespace Altar
 
         public void FiredHeroes()
         {
-            List<InfoHero> heroes = new List<InfoHero>();
+            List<HeroModel> heroes = new List<HeroModel>();
 
             OnDissamble(selectedHeroCards.Count);
 
             foreach (Card card in selectedHeroCards)
             {
-                heroes.Add(card.hero);
+                heroes.Add(card.Hero);
                 card.Unselect();
             }
             selectedHeroCards.Clear();
@@ -55,16 +59,15 @@ namespace Altar
             }
         }
 
-        private void GetRewardFromHeroes(List<InfoHero> heroes)
+        private void GetRewardFromHeroes(List<HeroModel> heroes)
         {
-            Reward reward = new Reward();
-            Resource currentResource = null;
+            var reward = new Reward();
 
-            foreach (InfoHero hero in heroes)
+            foreach (HeroModel hero in heroes)
             {
                 for (int i = 0; i < _templateRewards.Count; i++)
                 {
-                    currentResource = _templateRewards[i].CalculateReward(hero);
+                    var currentResource = _templateRewards[i].CalculateReward(hero);
                     if (currentResource != null)
                     {
                         reward.AddResource(currentResource);

@@ -1,12 +1,14 @@
+using Models.Heroes;
+using Models.Heroes.Actions;
 using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR_WIN
-[CustomEditor(typeof(InfoHero))]
+[CustomEditor(typeof(HeroModel))]
 [CanEditMultipleObjects]
 public class InfoHeroEditor : UnityEditor.Editor
 {
-    InfoHero InfoHeroScript;
+    HeroModel InfoHeroScript;
 
     //public override void OnInspectorGUI(){
     // serializedObject.Update();

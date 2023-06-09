@@ -1,32 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using UIController;
+using UIController.ButtonsInCity;
 using UnityEngine;
 
-public abstract class MainPage : MonoBehaviour
+namespace City.General
 {
-	[SerializeField] private FooterButton btnOpenClose;
-
-    protected virtual void Awake()
-	{
-		btnOpenClose.RegisterOnChange(Change);
-	}
-
-    private void Change(bool isOpen)
-	{
-		if(isOpen)
-		{ 
-			Open(); 
-		}
-		else
-		{ 
-			Close();
-		}
-	}
-
-    public virtual void Open()
+    public abstract class MainPage : MonoBehaviour
     {
-        MenuController.Instance.CurrentPage = this;
-    }
+        [SerializeField] private FooterButton btnOpenClose;
 
-    public abstract void Close();
+        protected virtual void Awake()
+        {
+            btnOpenClose.RegisterOnChange(Change);
+        }
+
+        private void Change(bool isOpen)
+        {
+            if (isOpen)
+            {
+                Open();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        public virtual void Open()
+        {
+            MenuController.Instance.CurrentPage = this;
+        }
+
+        public abstract void Close();
+    }
 }

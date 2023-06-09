@@ -1,91 +1,100 @@
+using City.Acievements;
+using City.Buildings.General;
+using Common;
 using Models.Requiremets;
-using ObjectSave;
 using System.Collections.Generic;
+using UIController.Panels;
 using UnityEngine;
 
-public class RequirementMenu : Building
+namespace City.Buildings.Requirement
 {
-    [SerializeField] private Transform taskboard;
-    [SerializeField] private GameObject prefabRequirement;
-    [SerializeField] protected List<Achievement> listRequirement = new List<Achievement>();
-
-    public MyScrollRect scrollRectController;
-    protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
-
-    protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
-    private List<AchievementSave> RequirementSaves = new List<AchievementSave>();
-
-    protected override void OnLoadGame()
+    public class RequirementMenu : Building
     {
-        LoadData(GameController.GetPlayerGame.saveMainRequirements);
-    }
+        [SerializeField] private Transform taskboard;
+        [SerializeField] private GameObject prefabRequirement;
+        [SerializeField] protected List<Achievement> listRequirement = new List<Achievement>();
 
-    public void LoadData(List<AchievementSave> RequirementSaves)
-    {
-        Achievement currentTask = null;
-        for (int i = 0; i < RequirementSaves.Count; i++)
+        public ParentScroll scrollRectController;
+        protected List<RequirementUI> requirementControllers = new List<RequirementUI>();
+
+        protected List<RequirementUI> listTaskUI = new List<RequirementUI>();
+        private List<AchievementSave> RequirementSaves = new List<AchievementSave>();
+
+        protected override void OnLoadGame()
         {
-            currentTask = listRequirement.Find(x => x.ID == RequirementSaves[i].ID);
-            if (currentTask != null) { currentTask.SetProgress(RequirementSaves[i].currentStage, RequirementSaves[i].progress); }
-            else
+            LoadData(GameController.GetPlayerGame.saveMainRequirements);
+        }
+
+        public void LoadData(List<AchievementSave> RequirementSaves)
+        {
+            Achievement currentTask = null;
+            for (int i = 0; i < RequirementSaves.Count; i++)
             {
-                RequirementSaves.Remove(RequirementSaves[i]);
+                currentTask = listRequirement.Find(x => x.ID == RequirementSaves[i].ID);
+                if (currentTask != null)
+                {
+                    currentTask.SetProgress(RequirementSaves[i].currentStage, RequirementSaves[i].progress);
+                }
+                else
+                {
+                    RequirementSaves.Remove(RequirementSaves[i]);
+                }
+            }
+            CreateRequrements();
+            OnAfterLoadData();
+        }
+
+        protected virtual void SaveData()
+        {
+            GameController.GetPlayerGame.SaveMainRequirements(listRequirement);
+            SaveGame();
+        }
+
+        protected void CreateRequrements()
+        {
+            RequirementUI currentTask = null;
+            foreach (Achievement task in listRequirement)
+            {
+                currentTask = GetRequirementUI();
+                currentTask.SetData(task);
+                currentTask.RegisterOnChange(SaveData);
+                currentTask.SetScroll(scrollRectController);
+                listTaskUI.Add(currentTask);
             }
         }
-        CreateRequrements();
-        OnAfterLoadData();
-    }
+        protected virtual void OnAfterLoadData() { }
 
-    protected virtual void SaveData()
-    {
-        GameController.GetPlayerGame.SaveMainRequirements(listRequirement);
-        SaveGame();
-    }
-
-    protected void CreateRequrements()
-    {
-        RequirementUI currentTask = null;
-        foreach (Achievement task in listRequirement)
+        private RequirementUI GetRequirementUI()
         {
-            currentTask = GetRequirementUI();
-            currentTask.SetData(task as Achievement);
-            currentTask.RegisterOnChange(SaveData);
-            currentTask.SetScroll(scrollRectController);
-            listTaskUI.Add(currentTask);
+            RequirementUI result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
+            requirementControllers.Add(result);
+            return result;
         }
-    }
-    protected virtual void OnAfterLoadData() { }
 
-    private RequirementUI GetRequirementUI()
-    {
-        RequirementUI result = Instantiate(prefabRequirement, taskboard).GetComponent<RequirementUI>();
-        requirementControllers.Add(result);
-        return result;
-    }
-
-    [ContextMenu("Clear all task")]
-    public void ClearAllTask()
-    {
-        for (int i = 0; i < listTaskUI.Count; i++)
+        [ContextMenu("Clear all task")]
+        public void ClearAllTask()
         {
-            listTaskUI[i].Restart();
-        }
-    }
-
-    //Test and check
-    [ContextMenu("Check all")]
-    public void CheckAll()
-    {
-        for (int i = 0; i < listRequirement.Count - 1; i++)
-        {
-            for (int j = i + 1; j < listRequirement.Count; j++)
+            for (int i = 0; i < listTaskUI.Count; i++)
             {
-                if (listRequirement[i].ID == listRequirement[j].ID)
+                listTaskUI[i].Restart();
+            }
+        }
+
+        //Test and check
+        [ContextMenu("Check all")]
+        public void CheckAll()
+        {
+            for (int i = 0; i < listRequirement.Count - 1; i++)
+            {
+                for (int j = i + 1; j < listRequirement.Count; j++)
                 {
-                    Debug.Log(string.Concat("two Requirement with equals ID: ", listRequirement[i].ID.ToString(), " ,i: ", i.ToString(), " ,j: ", j.ToString()));
+                    if (listRequirement[i].ID == listRequirement[j].ID)
+                    {
+                        Debug.Log(string.Concat("two Requirement with equals ID: ", listRequirement[i].ID.ToString(), " ,i: ", i.ToString(), " ,j: ", j.ToString()));
+                    }
                 }
             }
         }
-    }
 
+    }
 }

@@ -1,29 +1,33 @@
-using System.Collections;
+using Fight.Grid;
+using Fight.HeroControllers.Generals;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmithController : HeroController
+namespace Fight.HeroControllers.Smith
 {
-	protected override void DoSpell()
-	{
-		statusState.ChangeStamina(-100);
-		anim.Play("Spell");
-	}
+    public class SmithController : HeroController
+    {
+        protected override void DoSpell()
+        {
+            statusState.ChangeStamina(-100);
+            anim.Play("Spell");
+        }
 
-	private void AroundStun()
-	{
-		List<NeighbourCell> neighbours = myPlace.GetAvailableNeighbours;
-		listTarget.Clear();
-		for (int i = 0; i < neighbours.Count; i++)
-		{
-			Debug.Log(neighbours[i].Cell.gameObject.name);
-			if (neighbours[i].GetHero != null)
-			{
-				listTarget.Add(neighbours[i].GetHero);
-				// Debug.Log("find hero", neighbours[i].GetHero.gameObject);
-			}
-		}
-		OnSpell(listTarget);
-		EndTurn();
-	}
+        private void AroundStun()
+        {
+            List<NeighbourCell> neighbours = myPlace.GetAvailableNeighbours;
+            listTarget.Clear();
+            for (int i = 0; i < neighbours.Count; i++)
+            {
+                Debug.Log(neighbours[i].Cell.gameObject.name);
+                if (neighbours[i].GetHero != null)
+                {
+                    listTarget.Add(neighbours[i].GetHero);
+                    // Debug.Log("find hero", neighbours[i].GetHero.gameObject);
+                }
+            }
+            OnSpell(listTarget);
+            EndTurn();
+        }
+    }
 }

@@ -2,41 +2,44 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FooterButton : MonoBehaviour
+namespace UIController.ButtonsInCity
 {
-    private Image btnBackGround;
-    private RectTransform btnSprite;
-    public Vector2 startSize;
-    public Color colorSelected, colorUnSelected;
-
-    void Awake()
+    public class FooterButton : MonoBehaviour
     {
-        btnSprite = transform.Find("ButtonImage").GetComponent<RectTransform>();
-        btnBackGround = GetComponent<Image>();
-        startSize = btnSprite.localScale;
-    }
+        private Image btnBackGround;
+        private RectTransform btnSprite;
+        public Vector2 startSize;
+        public Color colorSelected, colorUnSelected;
 
-    public void Select()
-    {
-        btnSprite.DOScale(startSize * 1.1f, 0.25f);
-        btnBackGround.color = colorSelected;
-        Change(isOpen: true);
-    }
+        void Awake()
+        {
+            btnSprite = transform.Find("ButtonImage").GetComponent<RectTransform>();
+            btnBackGround = GetComponent<Image>();
+            startSize = btnSprite.localScale;
+        }
 
-    public void UnSelect()
-    {
-        btnSprite.DOScale(startSize, 0.25f);
-        btnBackGround.color = colorUnSelected;
-        Change(isOpen: false);
-    }
+        public void Select()
+        {
+            btnSprite.DOScale(startSize * 1.1f, 0.25f);
+            btnBackGround.color = colorSelected;
+            Change(isOpen: true);
+        }
 
-    public delegate void Del(bool isOpen);
-    private Del delsOpenClose;
-    public void RegisterOnChange(Del d) { delsOpenClose += d; }
-    public void UnRegisterOnChange(Del d) { delsOpenClose -= d; }
-    public void Change(bool isOpen)
-    {
-        if (delsOpenClose != null)
-            delsOpenClose(isOpen);
+        public void UnSelect()
+        {
+            btnSprite.DOScale(startSize, 0.25f);
+            btnBackGround.color = colorUnSelected;
+            Change(isOpen: false);
+        }
+
+        public delegate void Del(bool isOpen);
+        private Del delsOpenClose;
+        public void RegisterOnChange(Del d) { delsOpenClose += d; }
+        public void UnRegisterOnChange(Del d) { delsOpenClose -= d; }
+        public void Change(bool isOpen)
+        {
+            if (delsOpenClose != null)
+                delsOpenClose(isOpen);
+        }
     }
 }

@@ -1,41 +1,47 @@
+using Common;
+using MainScripts;
+using UIController.Rewards;
 using UnityEngine;
 
-public class RewardPanel : MonoBehaviour
+namespace UIController.MessagePanels
 {
-    protected Reward reward;
-    public GameObject panel;
-    public RewardUIController rewardController;
-
-    public void Open(Reward reward)
+    public class RewardPanel : MonoBehaviour
     {
-        if (reward != null)
-            SetReward(reward);
+        protected Reward reward;
+        public GameObject panel;
+        public RewardUIController rewardController;
 
-        panel.SetActive(true);
+        public void Open(Reward reward)
+        {
+            if (reward != null)
+                SetReward(reward);
+
+            panel.SetActive(true);
+        }
+
+        protected virtual void SetReward(Reward reward)
+        {
+            this.reward = reward.Clone();
+            rewardController.ShowAllReward(reward);
+        }
+
+        private void GetReward()
+        {
+            GameController.Instance.AddReward(reward);
+            reward = null;
+        }
+
+        public void Close()
+        {
+            MessageController.Instance.OpenNextPanel();
+
+            if (reward != null)
+                GetReward();
+
+            OnClose();
+            panel.SetActive(false);
+        }
+
+        protected virtual void OnClose() { }
     }
-
-    protected virtual void SetReward(Reward reward)
-    {
-        this.reward = reward.Clone();
-        rewardController.ShowAllReward(reward);
-    }
-
-    private void GetReward()
-    {
-        GameController.Instance.AddReward(reward);
-        reward = null;
-    }
-
-    public void Close()
-    {
-        MessageController.Instance.OpenNextPanel();
-
-        if (reward != null)
-            GetReward();
-
-        OnClose();
-        panel.SetActive(false);
-    }
-
-    protected virtual void OnClose() { }
 }

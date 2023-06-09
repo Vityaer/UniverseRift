@@ -1,35 +1,40 @@
-﻿using UnityEngine;
+﻿using City.General;
+using UIController;
+using UnityEngine;
 
-public class CityController : MainPage
+namespace City.SliderCity
 {
-    public CityScroller sliderCity;
-
-    [Header("UI")]
-    private Canvas canvasCity;
-    public GameObject background, cityParent;
-
-    [Header("UI Button")]
-    [SerializeField] GameObject canvasButtonsUI;
-
-    protected override void Awake()
+    public class CityController : MainPage
     {
-        canvasCity = GetComponent<Canvas>();
-        base.Awake();
-    }
+        public CityScroller sliderCity;
 
-    public override void Open()
-    {
-        base.Open();
-        sliderCity.enabled = true;
-        canvasButtonsUI.SetActive(true);
-        cityParent.SetActive(true);
-        BackgroundController.Instance.OpenBackground(background);
-    }
+        [Header("UI")]
+        private Canvas canvasCity;
+        public GameObject background, cityParent;
 
-    public override void Close()
-    {
-        sliderCity.enabled = false;
-        cityParent.SetActive(false);
-        canvasButtonsUI.SetActive(false);
+        [Header("UI Button")]
+        [SerializeField] GameObject canvasButtonsUI;
+
+        protected override void Awake()
+        {
+            canvasCity = GetComponent<Canvas>();
+            base.Awake();
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            sliderCity.enabled = true;
+            canvasButtonsUI.SetActive(true);
+            cityParent.SetActive(true);
+            BackgroundController.Instance.OpenBackground(background);
+        }
+
+        public override void Close()
+        {
+            sliderCity.enabled = false;
+            cityParent.SetActive(false);
+            canvasButtonsUI.SetActive(false);
+        }
     }
 }

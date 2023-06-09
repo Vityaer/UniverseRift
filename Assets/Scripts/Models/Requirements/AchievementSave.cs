@@ -1,4 +1,7 @@
-﻿namespace Models.Requiremets
+﻿using City.Acievements;
+using Common;
+
+namespace Models.Requiremets
 {
     [System.Serializable]
     public class AchievementSave

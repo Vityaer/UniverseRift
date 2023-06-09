@@ -1,18 +1,23 @@
-using System.Collections;
+using Models.City.Arena;
+using Network.GameServer;
 using System.Collections.Generic;
+using UIController.ControllerPanels;
 using UnityEngine;
 
-public class PanelSimpleArena : BasePanelScript
+namespace City.Buildings.Arena
 {
-    List<ArenaOpponent> opponentsSimpleArena = new List<ArenaOpponent>();
-    [SerializeField] private List<ArenaOpponentView> arenaOpponentsUI = new List<ArenaOpponentView>();
-    protected override void OnOpen()
+    public class PanelSimpleArena : BasePanelScript
     {
-        opponentsSimpleArena = new List<ArenaOpponent>();
-        Client.Instance.GetListOpponentSimpleArena(opponentsSimpleArena);
-        for (int i = 0; i < 3; i++)
+        List<ArenaOpponentModel> opponentsSimpleArena = new List<ArenaOpponentModel>();
+        [SerializeField] private List<ArenaOpponentView> arenaOpponentsUI = new List<ArenaOpponentView>();
+        protected override void OnOpen()
         {
-            arenaOpponentsUI[i].SetData(opponentsSimpleArena[i]);
+            opponentsSimpleArena = new List<ArenaOpponentModel>();
+            Client.Instance.GetListOpponentSimpleArena(opponentsSimpleArena);
+            for (int i = 0; i < 3; i++)
+            {
+                arenaOpponentsUI[i].SetData(opponentsSimpleArena[i]);
+            }
         }
     }
 }

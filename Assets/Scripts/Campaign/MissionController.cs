@@ -1,6 +1,12 @@
-﻿using TMPro;
+﻿using Fight;
+using Campaign;
+using Models.Fights.Campaign;
+using TMPro;
+using UIController;
 using UnityEngine;
 using UnityEngine.UI;
+using Common.Resourses;
+
 public class MissionController : MonoBehaviour
 {
     [Header("UI")]
@@ -23,7 +29,7 @@ public class MissionController : MonoBehaviour
     {
         this.mission = (CampaignMission)mission.Clone();
         this.numMission = numMission;
-        backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.location);
+        backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.Location);
         textNameMission.text = numMission.ToString();
         statusMission = StatusMission.NotOpen;
         UpdateUI();
@@ -127,12 +133,4 @@ public class MissionController : MonoBehaviour
         btnGoFight.SetActive((status == 1) || (status == 2));
         blockPanel.SetActive(false);
     }
-}
-
-public enum StatusMission
-{
-    NotOpen = 0,
-    Open = 1,
-    Complete = 2,
-    InAutoFight = 3
 }

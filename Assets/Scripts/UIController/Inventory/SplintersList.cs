@@ -1,36 +1,41 @@
-﻿using Sirenix.OdinInspector;
+﻿using City.Buildings.Tavern;
+using Models;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSplinter", menuName = "Custom ScriptableObject/Splinter", order = 52)]
-
-[System.Serializable]
-public class SplintersList : SerializedScriptableObject
+namespace UIController.Inventory
 {
-    [SerializeField]
-    private Dictionary<string, Splinter> _splinters = new Dictionary<string, Splinter>();
+    [CreateAssetMenu(fileName = "NewSplinter", menuName = "Custom ScriptableObject/Splinter", order = 52)]
 
-    public Splinter GetSplinter(string ID)
+    [System.Serializable]
+    public class SplintersList : SerializedScriptableObject
     {
-        Splinter result = null;
+        [SerializeField]
+        private Dictionary<string, Splinter> _splinters = new Dictionary<string, Splinter>();
 
-        if (_splinters.ContainsKey(ID))
+        public Splinter GetSplinter(string ID)
         {
-            result = _splinters[ID];
-        }
-        else
-        {
-            InfoHero hero = Tavern.Instance.GetInfoHero(ID);
-            result = new Splinter(hero);
+            Splinter result = null;
+
+            if (_splinters.ContainsKey(ID))
+            {
+                result = _splinters[ID];
+            }
+            else
+            {
+                var hero = TavernController.Instance.GetInfoHero(ID);
+                result = new Splinter(hero);
+            }
+
+            if (result == null)
+            {
+                Debug.Log("Not found splinter with id = " + ID.ToString());
+                result = _splinters.ElementAt(0).Value;
+            }
+            return result;
         }
 
-        if (result == null)
-        {
-            Debug.Log("Not found splinter with id = " + ID.ToString());
-            result = _splinters.ElementAt(0).Value;
-        }
-        return result;
     }
-
 }

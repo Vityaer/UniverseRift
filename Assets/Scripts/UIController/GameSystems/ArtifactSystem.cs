@@ -1,15 +1,21 @@
+using UIController.Inventory;
 using UnityEngine;
 
-public class ArtifactSystem : MonoBehaviour
+namespace UIController.GameSystems
 {
-    public ItemsList artifactList;
-
-    public Item GetArtifact(int ID) { return artifactList.GetArtifact(ID); }
-    void Awake()
+    public class ArtifactSystem : MonoBehaviour
     {
-        instance = this;
-    }
-    private static ArtifactSystem instance;
-    public static ArtifactSystem Instance { get => instance; }
+        public ItemsList artifactList;
 
+        public Item GetArtifact(string ID) { return artifactList.GetItem(ID); }
+
+        void Awake()
+        {
+            instance = this;
+        }
+
+        private static ArtifactSystem instance;
+        public static ArtifactSystem Instance { get => instance; }
+
+    }
 }

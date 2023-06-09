@@ -1,4 +1,7 @@
+using City.Buildings;
+using Common;
 using TMPro;
+using UIController.ControllerPanels;
 using UnityEngine.UI;
 
 public class PanelRegistration : BasePanelScript

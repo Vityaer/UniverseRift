@@ -1,25 +1,29 @@
 ﻿using TMPro;
+using UIController.Inventory;
 using UnityEngine;
 
-public class ForgeItemObjectCost : MonoBehaviour
+namespace UIController.ItemVisual
 {
-    public TextMeshProUGUI textAmount;
-    private Item requireItem;
-    private int amountRequire;
-
-    public void SetInfo(Item item, int amount)
+    public class ForgeItemObjectCost : MonoBehaviour
     {
-        this.requireItem = item;
-        this.amountRequire = amount;
-        CheckItems();
-    }
+        public TextMeshProUGUI textAmount;
+        private Item requireItem;
+        private int amountRequire;
 
-    public void CheckItems()
-    {
-        int currentCount = InventoryController.Instance.HowManyThisItems(requireItem);
-        string result = (currentCount >= amountRequire) ? "<color=black>" : "<color=red>";
+        public void SetInfo(Item item, int amount)
+        {
+            requireItem = item;
+            amountRequire = amount;
+            CheckItems();
+        }
 
-        result = string.Concat(result, currentCount.ToString(), "</color>/", amountRequire.ToString());
-        textAmount.text = result;
+        public void CheckItems()
+        {
+            int currentCount = InventoryController.Instance.HowManyThisItems(requireItem);
+            string result = currentCount >= amountRequire ? "<color=black>" : "<color=red>";
+
+            result = string.Concat(result, currentCount.ToString(), "</color>/", amountRequire.ToString());
+            textAmount.text = result;
+        }
     }
 }

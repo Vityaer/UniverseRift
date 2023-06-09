@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class OutlineController : MonoBehaviour
+namespace Effects
 {
-    [SerializeField] private Material defaultMaterial, outlineMaterial;
-    private SpriteRenderer spriteRenderer;
-
-    void Awake()
+    public class OutlineController : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        [SerializeField] private Material defaultMaterial, outlineMaterial;
+        private SpriteRenderer spriteRenderer;
 
-    public void SwitchOn()
-    {
-        spriteRenderer.material = outlineMaterial;
-    }
+        void Awake()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
-    public void SwitchOff()
-    {
-        spriteRenderer.material = defaultMaterial;
+        public void SwitchOn()
+        {
+            spriteRenderer.material = outlineMaterial;
+        }
+
+        public void SwitchOff()
+        {
+            spriteRenderer.material = defaultMaterial;
+        }
     }
 }

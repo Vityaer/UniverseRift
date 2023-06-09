@@ -1,46 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using City.Buildings.General;
+using City.Buildings.Tavern;
+using Fight.WarTable;
+using Models.Fights.Campaign;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class TestingRoom : Building, IWorkWithWarTable
+namespace City.Buildings
 {
-    [SerializeField] private Mission mission;
-    [SerializeField] private List<WarriorPlace> leftTeam = new List<WarriorPlace>();
-    [SerializeField] private List<WarriorPlace> rightTeam = new List<WarriorPlace>();
-
-    protected override void OpenPage()
+    public class TestingRoom : Building, IWorkWithWarTable
     {
-        UnregisterOnOpenCloseWarTable();
-    }
+        [SerializeField] private MissionModel mission;
+        [SerializeField] private List<WarriorPlace> leftTeam = new List<WarriorPlace>();
+        [SerializeField] private List<WarriorPlace> rightTeam = new List<WarriorPlace>();
 
-    public void ChangeTeamForFill(bool isLeft)
-    {
-    }
-
-    public void OpenFight()
-    {
-        WarTableController.Instance.OpenMission(mission, Tavern.Instance.GetListHeroes);
-        RegisterOnOpenCloseWarTable();
-    }
-
-    public void Change(bool isOpen)
-    {
-        if (!isOpen)
+        protected override void OpenPage()
         {
-            Open();
+            UnregisterOnOpenCloseWarTable();
         }
-        else
+
+        public void ChangeTeamForFill(bool isLeft)
         {
-            Close();
         }
-    }
 
-    public void RegisterOnOpenCloseWarTable()
-    {
-        WarTableController.Instance.RegisterOnOpenCloseMission(this.Change);
-    }
+        public void OpenFight()
+        {
+            WarTableController.Instance.OpenMission(mission, TavernController.Instance.GetListHeroes);
+            RegisterOnOpenCloseWarTable();
+        }
 
-    public void UnregisterOnOpenCloseWarTable()
-    {
-        WarTableController.Instance.UnregisterOnOpenCloseMission(this.Change);
+        public void Change(bool isOpen)
+        {
+            if (!isOpen)
+            {
+                Open();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        public void RegisterOnOpenCloseWarTable()
+        {
+            WarTableController.Instance.RegisterOnOpenCloseMission(this.Change);
+        }
+
+        public void UnregisterOnOpenCloseWarTable()
+        {
+            WarTableController.Instance.UnregisterOnOpenCloseMission(this.Change);
+        }
     }
 }

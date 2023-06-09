@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Common.Resourses;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace City.TrainCamp
 {
-
     [System.Serializable]
     public class LevelUp
     {
         public string Name;
         public int level;
-        public TypeIncrease typeIncrease = TypeIncrease.Mulitiply;
+        public CostIncreaseType typeIncrease = CostIncreaseType.Mulitiply;
 
         [SerializeField] private ListResource list;
         [SerializeField] private List<float> listIncrease;

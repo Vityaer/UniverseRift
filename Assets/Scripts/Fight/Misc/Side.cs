@@ -1,6 +1,9 @@
-public enum Side
+namespace Fight.Misc
 {
-	Left = 0,
-	Right = 1,
-	All = 2
+    public enum Side
+    {
+        Left = 0,
+        Right = 1,
+        All = 2
+    }
 }

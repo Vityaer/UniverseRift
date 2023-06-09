@@ -1,44 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using System;
-namespace IdleGame.Touch{
-	public class MainTouchControllerScript : MonoBehaviour{
-	    private Vector3 startPosition, endPosition;
-		private Vector2 swipeDistance;
-		private Action<TypeSwipe> observerSwipe;
-		public float widthPercent = 25f;
-		void Start(){
-			swipeDistance.x = Screen.width * widthPercent / 100f;
-		}
-	    RaycastHit2D hit;
-	    void Update(){
-	    	if (Input.GetMouseButtonDown(0)){
-				startPosition  = Input.mousePosition;
-			}
-			if (Input.GetMouseButtonUp(0)){
-				endPosition  = Input.mousePosition;
-				if(Mathf.Abs(endPosition.y - startPosition.y) < swipeDistance.x){
-					if(endPosition.x - startPosition.x > swipeDistance.x){
-						OnSwipe(TypeSwipe.Left);
-					}else if(startPosition.x - endPosition.x > swipeDistance.x){
-						OnSwipe(TypeSwipe.Right);
-					}
-				}
-			}
-	    }
-	    public void RegisterOnObserverSwipe(Action<TypeSwipe> d){observerSwipe += d;}
-	    public void UnregisterOnObserverSwipe(Action<TypeSwipe> d){observerSwipe -= d;}
-	    private void OnSwipe(TypeSwipe type){if(observerSwipe != null) observerSwipe(type);}
-	    private static MainTouchControllerScript instance;
-	    public static MainTouchControllerScript Instance{get => instance;}
-	    void Awake(){
-	    	instance = this;
-	    }
-	}
-	public enum TypeSwipe{
-		Left,
-		Right
-	}
-} 
+using UnityEngine;
+
+namespace UIController.GameSystems
+{
+    public class MainTouchControllerScript : MonoBehaviour
+    {
+        public float WidthPercent = 0.2f;
+
+        private Vector3 _startPosition;
+        private Vector3 _endPosition;
+        private Vector2 _swipeDistance;
+        private Action<TypeSwipe> _observerSwipe;
+
+        public static MainTouchControllerScript Instance { get; private set; }
+
+        void Awake()
+        {
+            Instance = this;
+        }
+
+        void Start()
+        {
+            _swipeDistance.x = Screen.width * WidthPercent;
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _startPosition = Input.mousePosition;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                _endPosition = Input.mousePosition;
+                if (Mathf.Abs(_endPosition.y - _startPosition.y) < _swipeDistance.x)
+                {
+                    if (_endPosition.x - _startPosition.x > _swipeDistance.x)
+                    {
+                        OnSwipe(TypeSwipe.Left);
+                    }
+                    else if (_startPosition.x - _endPosition.x > _swipeDistance.x)
+                    {
+                        OnSwipe(TypeSwipe.Right);
+                    }
+                }
+            }
+        }
+
+        public void RegisterOnObserverSwipe(Action<TypeSwipe> d) { _observerSwipe += d; }
+        public void UnregisterOnObserverSwipe(Action<TypeSwipe> d) { _observerSwipe -= d; }
+        private void OnSwipe(TypeSwipe type) { if (_observerSwipe != null) _observerSwipe(type); }
+
+    }
+}

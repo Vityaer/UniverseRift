@@ -1,47 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
+using City.Buildings.Requirement;
+using Common;
 using UnityEngine;
 
-public class MonthlyTasks : RequirementMenu
+namespace City.Buildings.PageCycleEvent.MonthlyEvents
 {
-	public MonthlyEvents monthlyEventsParent;
-	public TypeMonthlyTasks type;
-	public GameObject MainPanel => building;
+    public class MonthlyTasks : RequirementMenu
+    {
+        public MonthlyEvents monthlyEventsParent;
+        public TypeMonthlyTasks type;
+        public GameObject MainPanel => building;
 
-	protected override void OnLoadGame(){}
+        protected override void OnLoadGame() { }
 
-	protected override void SaveData()
-	{
-		monthlyEventsParent.SaveData(type, listRequirement);
-	}
+        protected override void SaveData()
+        {
+            monthlyEventsParent.SaveData(type, listRequirement);
+        }
 
-	protected override void OnAfterLoadData()
-	{
-		for(int i = 0; i < requirementControllers.Count - 1; i++)
-		{
-			if(requirementControllers[i].IsEmpty == false)
-			{
-				requirementControllers[i].RegisterOnComplete(OnCompleteTask);
-			}
-		}
-		// OnCompleteTask();
-	}
+        protected override void OnAfterLoadData()
+        {
+            for (int i = 0; i < requirementControllers.Count - 1; i++)
+            {
+                if (requirementControllers[i].IsEmpty == false)
+                {
+                    requirementControllers[i].RegisterOnComplete(OnCompleteTask);
+                }
+            }
+            // OnCompleteTask();
+        }
 
-	private void OnCompleteTask()
-	{
-		bool result = true;
-		for(int i = 0; i < requirementControllers.Count - 1; i++)
-		{
-			if(requirementControllers[i].IsComplete == false)
-			{
-				result = false;
-				break;
-			}
-		}
-		
-		if(result && (requirementControllers[requirementControllers.Count - 1].IsComplete == false))
-		{
-			requirementControllers[requirementControllers.Count - 1].ChangeProgress(new BigDigit(1));
-		}
-	}
+        private void OnCompleteTask()
+        {
+            bool result = true;
+            for (int i = 0; i < requirementControllers.Count - 1; i++)
+            {
+                if (requirementControllers[i].IsComplete == false)
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            if (result && requirementControllers[requirementControllers.Count - 1].IsComplete == false)
+            {
+                requirementControllers[requirementControllers.Count - 1].ChangeProgress(new BigDigit(1));
+            }
+        }
+    }
 }
