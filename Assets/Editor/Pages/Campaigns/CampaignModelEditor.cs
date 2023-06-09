@@ -1,4 +1,5 @@
-﻿using Editor.Common;
+﻿using Campaign;
+using Editor.Common;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 

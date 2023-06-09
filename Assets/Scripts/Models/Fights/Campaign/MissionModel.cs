@@ -1,8 +1,10 @@
 ﻿using Campaign;
 using Fight;
 using Fight.WarTable;
+using MainScripts;
+using System;
 using System.Collections.Generic;
-using UIController.Reward;
+using UIController.Rewards;
 
 namespace Models.Fights.Campaign
 {

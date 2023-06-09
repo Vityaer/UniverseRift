@@ -48,7 +48,7 @@ namespace City.TrainCamp
 
         public void SelectHero(Card card)
         {
-            numSelectHero = listHeroes.FindIndex(x => x == card.hero);
+            numSelectHero = listHeroes.FindIndex(x => x == card.Hero);
             SelectHero(numSelectHero);
             OpenHeroPanel();
         }

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.General;
-using Assets.Scripts.Fight.WarTable;
+﻿using City.Buildings.General;
 using Common;
 using Fight.WarTable;
 using Models.Fights.Challenge;

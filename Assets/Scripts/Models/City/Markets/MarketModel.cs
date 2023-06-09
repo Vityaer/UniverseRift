@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Models.City.Markets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Models.City.Markets
 {

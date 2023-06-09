@@ -1,6 +1,6 @@
-using Assets.Scripts.Fight.Grid;
-using Assets.Scripts.Fight.Misc;
 using Fight.Grid;
+using Fight.HeroControllers.Generals;
+using Fight.Misc;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -22,7 +22,7 @@ namespace City.Buildings.ChallengeBuild
         public void UpdateUI()
         {
             textName.text = challenge.Name;
-            backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.mission.Location);
+            backgroundChallenge.sprite = LocationController.Instance.GetBackgroundForMission(challenge.Mission.Location);
             UpdateControllersUI();
         }
         public void UpdateControllersUI()

@@ -1,10 +1,4 @@
-﻿using Assets.Scripts.Fight;
-using Assets.Scripts.Fight.AI;
-using Assets.Scripts.Fight.Grid;
-using Assets.Scripts.Fight.Misc;
-using Assets.Scripts.Fight.WarTable;
-using Assets.Scripts.Models.Fights.Campaign;
-using Fight.AI;
+﻿using Fight.AI;
 using Fight.Grid;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
@@ -15,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Fight.Comparers;
+using MainScripts;
 
 namespace Fight
 {
@@ -95,7 +91,7 @@ namespace Fight
                 currentHeroPrefab = null;
                 heroScript = null;
 
-                if ((side == Side.Left && (team[i].card != null)) || (team[i].Hero != null))
+                if ((side == Side.Left && (team[i].Card != null)) || (team[i].Hero != null))
                     currentHeroPrefab = Instantiate(team[i].Hero.General.Prefab, teamPos[i].Position, Quaternion.identity, GridController.Instance.ParentTemplateObjects);
 
                 if (currentHeroPrefab != null)

@@ -1,4 +1,3 @@
-using Assets.Scripts.Fight;
 using DG.Tweening;
 using Fight.Common.Strikes;
 using System;

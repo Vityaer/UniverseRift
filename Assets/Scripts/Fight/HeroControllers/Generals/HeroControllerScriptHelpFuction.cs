@@ -1,4 +1,7 @@
-using Assets.Scripts.Fight.Misc;
+using Effects;
+using Fight.FightInterface;
+using Fight.Grid;
+using Fight.Misc;
 using UnityEngine;
 
 namespace Fight.HeroControllers.Generals

@@ -1,7 +1,7 @@
-using Assets.Scripts.City.Buildings.Market;
 using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Market;
 using Common.Resourses;
+using MainScripts;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Panels;
@@ -36,7 +36,7 @@ namespace City.Buildings.CityButtons.DailyReward
                     reward = product;
                     rewardController.SetItem(product.subject);
                     break;
-                case MarketProduct<SplinterModel> product:
+                case MarketProduct<Splinter> product:
                     reward = product;
                     rewardController.SetItem(product.subject);
                     break;

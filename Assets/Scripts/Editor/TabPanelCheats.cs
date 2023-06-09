@@ -129,7 +129,7 @@ public class TabPanelCheats : EditorWindow
 
             var name = IDsplinter;
 
-            SplinterModel splinter = splintersList.GetSplinter(name);
+            Splinter splinter = splintersList.GetSplinter(name);
             if (splinter != null)
                 InventoryController.Instance.AddSplinter(new SplinterController(splinter, splinter.RequireAmount));
         }

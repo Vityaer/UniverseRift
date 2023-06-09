@@ -1,4 +1,6 @@
 using Common;
+using MainScripts;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace UIController.MessagePanels

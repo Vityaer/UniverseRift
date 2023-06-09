@@ -7,7 +7,7 @@ namespace UIController.GameSystems
     {
         public SplintersList splintersList;
 
-        public SplinterModel GetSplinter(string ID)
+        public Splinter GetSplinter(string ID)
         {
             return splintersList.GetSplinter(ID);
         }

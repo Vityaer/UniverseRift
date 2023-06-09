@@ -1,8 +1,7 @@
-using Assets.Scripts.City.Buildings.Voyage;
 using Models.Fights.Campaign;
 using TMPro;
 using UIController;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace City.Buildings.Voyage

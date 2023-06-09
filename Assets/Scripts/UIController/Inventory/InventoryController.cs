@@ -1,4 +1,5 @@
 ﻿using Common.Resourses;
+using MainScripts;
 using System.Collections.Generic;
 using UIController.ItemVisual;
 using UnityEngine;
@@ -105,11 +106,11 @@ namespace UIController.Inventory
         }
         public void AddSplinter(SplinterController splinterController) { inventory.Add(splinterController); }
         public void AddSplinters(List<SplinterController> splinters) { inventory.Add(splinters); }
-        public void AddSplinters(List<SplinterModel> splinters)
+        public void AddSplinters(List<Splinter> splinters)
         {
-            foreach (SplinterModel splinter in splinters) AddSplinter(new SplinterController(splinter));
+            foreach (Splinter splinter in splinters) AddSplinter(new SplinterController(splinter));
         }
-        public void RemoveSplinter(SplinterModel splinterForDelete) { inventory.RemoveSplinter(splinterForDelete); }
+        public void RemoveSplinter(Splinter splinterForDelete) { inventory.RemoveSplinter(splinterForDelete); }
         public void SelectItem()
         {
             if (cellItem != null)
@@ -200,7 +201,7 @@ namespace UIController.Inventory
             panelInfoItem.OpenInfoAboutItem(item, this.cellItem, onHero: true);
         }
 
-        public void OpenInfoItem(SplinterModel splinter)
+        public void OpenInfoItem(Splinter splinter)
         {
             OpenInfoItem(new SplinterController(splinter), withControl: false);
         }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using City.Buildings;
+using GeneralObject;
+using System.Collections.Generic;
 using UIController.Inventory;
 using UIController.ItemVisual;
-using UnityEngine;
 using UIController.Rewards;
+using UnityEngine;
 
 namespace UIController
 {

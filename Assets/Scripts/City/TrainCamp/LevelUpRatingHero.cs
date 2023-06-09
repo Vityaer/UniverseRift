@@ -1,13 +1,12 @@
-using Models.Heroes;
 using City.Buildings.General;
+using Common;
+using Common.Resourses;
 using IdleGame.AdvancedObservers;
 using Models.City.TrainCamp;
+using Models.Heroes;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets.Scripts.GeneralObject;
-using Common.Resourses;
-using Common;
 
 namespace City.TrainCamp
 {

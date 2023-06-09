@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hero;
+using System;
 using System.Collections.Generic;
 
 namespace Models
@@ -10,7 +11,7 @@ namespace Models
         public void NewData(CostumeHeroController costume)
         {
             ItemIds.Clear();
-            foreach (global::Item item in costume.items)
+            foreach (var item in costume.items)
             {
                 ItemIds.Add(item.Id);
             }

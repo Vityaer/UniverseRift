@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Fight.HeroStates
 {
-    public partial class HeroState : MonoBehaviour
+    public partial class HeroStatus : MonoBehaviour
     {
         public TimeSlider sliderHP;
         public TimeSlider sliderStamina;
@@ -44,11 +44,11 @@ namespace Fight.HeroStates
 
             currentHP = HP;
             sliderHP.ChangeValue(HP);
-            if ((HP / sliderHP._maxValue < 0.5f) && (HP / sliderHP._maxValue > 0.3f))
+            if ((HP / sliderHP.MaxValue < 0.5f) && (HP / sliderHP.MaxValue > 0.3f))
             {
                 heroController.OnHPLess50();
             }
-            else if (HP / sliderHP._maxValue < 0.3f)
+            else if (HP / sliderHP.MaxValue < 0.3f)
             {
                 heroController.OnHPLess30();
             }
@@ -62,7 +62,7 @@ namespace Fight.HeroStates
 
         public void ChangeMaxHP(float amountChange)
         {
-            SetMaxHealth(sliderHP._maxValue + amountChange);
+            SetMaxHealth(sliderHP.MaxValue + amountChange);
         }
 
         public void Death()

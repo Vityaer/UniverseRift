@@ -1,5 +1,5 @@
 using Models.Fights.Campaign;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace City.Buildings.TravelCircle

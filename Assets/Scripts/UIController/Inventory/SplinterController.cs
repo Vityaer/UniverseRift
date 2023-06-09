@@ -1,24 +1,26 @@
-﻿using UnityEngine;
+﻿using Hero;
+using System;
+using UnityEngine;
 
 namespace UIController.Inventory
 {
     [System.Serializable]
     public class SplinterController : VisualAPI, ICloneable
     {
-        [SerializeField] private SplinterModel _splinter;
-        public SplinterModel splinter { get => _splinter; }
+        [SerializeField] private Splinter _splinter;
+        public Splinter splinter { get => _splinter; }
         public void ClickOnItem()
         {
             InventoryController.Instance.OpenInfoItem(this, withControl: true);
         }
-        public SplinterController(SplinterModel splinter, int amount)
+        public SplinterController(Splinter splinter, int amount)
         {
-            _splinter = (SplinterModel)splinter.Clone();
+            _splinter = (Splinter)splinter.Clone();
             _splinter.SetAmount(amount);
         }
-        public SplinterController(SplinterModel splinter)
+        public SplinterController(Splinter splinter)
         {
-            _splinter = (SplinterModel)splinter.Clone();
+            _splinter = (Splinter)splinter.Clone();
         }
         public SplinterController() : base()
         {

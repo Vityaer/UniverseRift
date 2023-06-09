@@ -6,18 +6,18 @@ namespace City.TrainCamp
 {
     public class CostUIList : MonoBehaviour
     {
-        public List<ResourceObjectCost> costObject = new List<ResourceObjectCost>();
+        public List<ResourceObjectCost> CostObject = new List<ResourceObjectCost>();
 
         public void ShowCosts(ListResource resourcesCost)
         {
             for (int i = 0; i < resourcesCost.List.Count; i++)
             {
-                costObject[i].SetData(resourcesCost.List[i]);
+                CostObject[i].SetData(resourcesCost.List[i]);
             }
 
-            for (int i = resourcesCost.List.Count; i < costObject.Count; i++)
+            for (int i = resourcesCost.List.Count; i < CostObject.Count; i++)
             {
-                costObject[i].Hide();
+                CostObject[i].Hide();
             }
         }
     }

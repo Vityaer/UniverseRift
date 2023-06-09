@@ -1,9 +1,12 @@
-﻿using Assets.Scripts.City.Buildings.Tavern;
-using Assets.Scripts.City.Buildings.Tower;
-using Assets.Scripts.City.Buildings.Voyage;
-using Assets.Scripts.City.Buildings.WheelFortune;
-using Assets.Scripts.City.TrainCamp;
-using Assets.Scripts.GeneralObject;
+﻿using City.Acievements;
+using City.Buildings.Arena;
+using City.Buildings.Forge;
+using City.Buildings.TaskGiver;
+using City.Buildings.Tavern;
+using City.Buildings.Tower;
+using City.Buildings.Voyage;
+using City.Buildings.WheelFortune;
+using City.TrainCamp;
 using Common;
 using Models.Requiremets;
 using System;
@@ -89,16 +92,16 @@ namespace City.Buildings.Requirement
             switch (requirement.type)
             {
                 case TypeRequirement.SimpleSpin:
-                    WheelFortune.Instance.RegisterOnSimpleRotate(ChangeProgress);
+                    WheelFortuneController.Instance.RegisterOnSimpleRotate(ChangeProgress);
                     break;
                 case TypeRequirement.SpecialHireCount:
-                    Tavern.Instance.RegisterOnSpecialHire(ChangeProgress);
+                    TavernController.Instance.RegisterOnSpecialHire(ChangeProgress);
                     break;
                 case TypeRequirement.GetLevel:
                     GameController.Instance.RegisterOnLevelUP(ChangeProgress);
                     break;
                 case TypeRequirement.SynthesItem:
-                    Forge.Instance.RegisterOnCraft(ChangeProgress);
+                    ForgeController.Instance.RegisterOnCraft(ChangeProgress);
                     break;
                 case TypeRequirement.DoneChapter:
                 case TypeRequirement.DoneMission:
@@ -123,16 +126,16 @@ namespace City.Buildings.Requirement
                     LevelUpRatingHero.Instance.RegisterOnRatingUp(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value, requirement.GetStringRecords.GetRecord("ID").value);
                     break;
                 case TypeRequirement.CountWinArenaFight:
-                    ArenaScript.Instance.RegisterOnWinFight(ChangeProgress);
+                    ArenaController.Instance.RegisterOnWinFight(ChangeProgress);
                     break;
                 case TypeRequirement.CountTryArenaFight:
-                    ArenaScript.Instance.RegisterOnTryFight(ChangeProgress);
+                    ArenaController.Instance.RegisterOnTryFight(ChangeProgress);
                     break;
                 case TypeRequirement.CountDoneTasks:
-                    TaskGiver.Instance.RegisterOnDoneTask(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value);
+                    TaskGiverController.Instance.RegisterOnDoneTask(ChangeProgress, requirement.GetIntRecords.GetRecord("RATING").value);
                     break;
                 case TypeRequirement.CountDoneTravel:
-                    VoyageControllerSctipt.Instance.RegisterOnDoneTravel(ChangeProgress);
+                    VoyageController.Instance.RegisterOnDoneTravel(ChangeProgress);
                     break;
                     // case TypeRequirement.GetHeroes:
                     //     requirementScript.listRequirement[i].requireInt = EditorGUILayout.IntField("Count:", requirementScript.listRequirement[i].requireInt);

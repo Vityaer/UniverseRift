@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using City.TaskBoard;
+using Common.Resourses;
+using TMPro;
 using UIController;
 using UIController.ItemVisual;
 using UnityEngine;
@@ -32,16 +34,16 @@ namespace City.Buildings.TaskGiver
             buttonCostScript.Clear();
             switch (task.status)
             {
-                case StatusTask.NotStart:
+                case TaskStatusType.NotStart:
                     sliderTime.SetMaxValue(task.requireTime);
                     buttonCostScript.UpdateLabel(StartTask, "Начать");
                     break;
-                case StatusTask.InWork:
+                case TaskStatusType.InWork:
                     sliderTime.RegisterOnFinish(FinishFromSlider);
                     buttonCostScript.UpdateCost(new Resource(TypeResource.Diamond, task.Rating * 10, 0), BuyProgress);
                     sliderTime.SetData(task.timeStartTask, task.requireTime);
                     break;
-                case StatusTask.Done:
+                case TaskStatusType.Done:
                     sliderTime.SetData(task.timeStartTask, task.requireTime);
                     sliderTime.UnregisterOnFinish(FinishFromSlider);
                     buttonCostScript.UpdateLabel(GetReward, "Завершить");
@@ -71,7 +73,7 @@ namespace City.Buildings.TaskGiver
             objectCurrentTime.SetActive(true);
             sliderTime?.SetData(task.timeStartTask, task.requireTime);
             UpdateStatus();
-            TaskGiver.Instance.UpdateSave();
+            TaskGiverController.Instance.UpdateSave();
         }
 
         public void BuyProgress(int count = 1)
@@ -82,7 +84,7 @@ namespace City.Buildings.TaskGiver
 
         public void GetReward(int count)
         {
-            TaskGiver.Instance.FinishTask(this);
+            TaskGiverController.Instance.FinishTask(this);
         }
 
     }

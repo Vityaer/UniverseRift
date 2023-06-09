@@ -1,6 +1,7 @@
 using Common;
+using MainScripts;
 using UIController;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

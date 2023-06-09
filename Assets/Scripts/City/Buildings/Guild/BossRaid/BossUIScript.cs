@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Fight.WarTable;
-using Common;
+﻿using Common;
 using Fight.WarTable;
 using UIController;
 using UnityEngine;
@@ -37,7 +36,7 @@ namespace City.Buildings.Guild.BossRaid
         public void OpenFightWithBoss()
         {
             RegisterOnOpenCloseWarTable();
-            WarTableController.Instance.OpenMission(bossController.mission, GameController.Instance.GetListHeroes);
+            WarTableController.Instance.OpenMission(bossController.Mission, GameController.Instance.GetListHeroes);
         }
         public void RegisterOnOpenCloseWarTable() { WarTableController.Instance.RegisterOnOpenCloseMission(this.Change); }
         public void UnregisterOnOpenCloseWarTable() { WarTableController.Instance.UnregisterOnOpenCloseMission(this.Change); }

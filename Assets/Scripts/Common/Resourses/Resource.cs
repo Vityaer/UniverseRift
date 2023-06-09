@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.GeneralObject;
-using System;
+﻿using System;
 using UIController.Inventory;
 using UnityEngine;
 

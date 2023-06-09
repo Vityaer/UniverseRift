@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Fight.HeroStates
 {
-    public partial class HeroState : MonoBehaviour
+    public partial class HeroStatus : MonoBehaviour
     {
         private List<BuffModel> _listBuff = new List<BuffModel>();
 

@@ -1,7 +1,4 @@
-using Assets.Scripts.Fight;
 using Fight;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UIController.GameSystems

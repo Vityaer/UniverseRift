@@ -7,7 +7,7 @@ using Models.Heroes;
 using System;
 using System.Collections.Generic;
 using UIController.Inventory;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace Common

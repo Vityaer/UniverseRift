@@ -1,9 +1,11 @@
-﻿using Assets.Scripts.Fight;
+﻿using Fight;
+using Campaign;
 using Models.Fights.Campaign;
 using TMPro;
 using UIController;
 using UnityEngine;
 using UnityEngine.UI;
+using Common.Resourses;
 
 public class MissionController : MonoBehaviour
 {

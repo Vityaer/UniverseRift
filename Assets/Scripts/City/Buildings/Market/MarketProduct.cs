@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.GeneralObject;
-using Common;
+﻿using Common;
 using Common.Resourses;
 using Sirenix.Serialization;
 using UIController.Inventory;
@@ -22,7 +21,7 @@ namespace City.Buildings.Market
                 case Item product:
                     InventoryController.Instance.AddItem(product);
                     break;
-                case SplinterModel product:
+                case Splinter product:
                     Debug.Log("write add splinter here");
                     // InventoryControllerScript.Instance.AddSplinter(product);
                     break;

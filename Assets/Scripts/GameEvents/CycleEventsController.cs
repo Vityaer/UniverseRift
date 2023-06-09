@@ -1,4 +1,3 @@
-using Assets.Scripts.GameEvents;
 using Common;
 using HelpFuction;
 using IdleGame.MultiplayerData;
@@ -72,14 +71,5 @@ namespace GameEvents
             currentEventController = listEvents.Find(x => x.StageCycleEvent == currentStageCycle);
             currentEventController.Open(startTime, requireTime);
         }
-    }
-
-    public enum StageCycleEvent
-    {
-        Tavern = 0,
-        Agent = 1,
-        Arena = 2,
-        MagicRound = 3,
-        Fortune = 4
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Fight.HeroControllers.Generals;
+using Fight.HeroStates;
 using System.Collections.Generic;
 using UnityEngine;
 

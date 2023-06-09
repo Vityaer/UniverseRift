@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Campaign;
+﻿using Campaign;
 using Models.Heroes;
 using TMPro;
 using UIController.Cards;

@@ -1,4 +1,5 @@
-using Assets.Scripts.GeneralObject;
+using Common;
+using Fight;
 using Fight.WarTable;
 using Models.Fights.Campaign;
 using System;
@@ -35,7 +36,7 @@ namespace City.Buildings.General
             }
         }
 
-        protected virtual void OnResultFight(FightResult result)
+        protected virtual void OnResultFight(FightResultType result)
         {
             Debug.Log("not override result fight");
         }

@@ -11,7 +11,7 @@ namespace UIController.Cards
 
         public void SetData(string ID, float percent)
         {
-            cardInfo.ChangeInfo(Tavern.Instance.GetInfoHero(ID));
+            cardInfo.ChangeInfo(TavernController.Instance.GetInfoHero(ID));
             textPercent.text = $"{percent}%";
             gameObject.SetActive(true);
         }

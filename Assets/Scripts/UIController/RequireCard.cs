@@ -38,7 +38,7 @@ namespace UIController
             if (selectedHeroes.Count < requireSelectCount)
             {
                 card.Select();
-                selectedHeroes.Add(card.hero);
+                selectedHeroes.Add(card.Hero);
                 UpdateUI();
                 requireCardInfo.UpdateUI();
             }
@@ -49,7 +49,7 @@ namespace UIController
             if (selectedHeroes.Count > 0)
             {
                 card.Unselect();
-                selectedHeroes.Remove(card.hero);
+                selectedHeroes.Remove(card.Hero);
                 UpdateUI();
                 requireCardInfo.UpdateUI();
             }

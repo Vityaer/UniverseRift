@@ -7,8 +7,8 @@ namespace UIController.Rewards
     {
         public SplinterName ID = SplinterName.OneStarPeople;
         public int amount = 1;
-        private SplinterModel splinter = null;
-        public SplinterModel GetSplinter { get { if (splinter == null) { splinter = new SplinterModel($"{ID}", amount); } return splinter; } }
+        private Splinter splinter = null;
+        public Splinter GetSplinter { get { if (splinter == null) { splinter = new Splinter($"{ID}", amount); } return splinter; } }
 
         public RewardSplinter(SplinterName ID, int amount)
         {
@@ -16,7 +16,7 @@ namespace UIController.Rewards
             this.amount = amount;
         }
 
-        public RewardSplinter(SplinterModel splinter)
+        public RewardSplinter(Splinter splinter)
         {
             ID = SplinterName.OneStarPeople;
             this.splinter = splinter;

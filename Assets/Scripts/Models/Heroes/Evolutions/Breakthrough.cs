@@ -1,4 +1,4 @@
-﻿using Models.Heroes.Characteristics;
+﻿using Models.Heroes.HeroCharacteristics;
 using UnityEngine;
 
 namespace Models.Heroes.Evolutions

@@ -1,4 +1,4 @@
-using Assets.Scripts.GeneralObject;
+using Common;
 using System;
 using System.Collections.Generic;
 

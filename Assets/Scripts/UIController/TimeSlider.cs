@@ -12,7 +12,7 @@ namespace UIController
         [SerializeField] private Color _lowValue;
         [SerializeField] private Color _fillValue;
 
-        private float _maxValue = 1f;
+        public float MaxValue = 1f;
         private Tween _sequenceChangeValue;
         private Action _observerMaxFill;
 
@@ -24,9 +24,9 @@ namespace UIController
 
         public void ChangeValue(float value)
         {
-            if (_maxValue > 0)
+            if (MaxValue > 0)
             {
-                float t = (float)value / _maxValue;
+                float t = (float)value / MaxValue;
                 if (_sequenceChangeValue != null) _sequenceChangeValue.Kill();
                 _sequenceChangeValue = DOTween.Sequence()
                 .Append(slider.DOValue(t, 0.5f))
@@ -36,7 +36,7 @@ namespace UIController
 
         private void CheckMaxFill(float value)
         {
-            if (value >= _maxValue)
+            if (value >= MaxValue)
             {
                 OnFillMaxSlider();
             }
@@ -45,8 +45,8 @@ namespace UIController
         public void SetMaxValue(float maxValue)
         {
             if (gameObject.activeSelf == false) gameObject.SetActive(true);
-            this._maxValue = maxValue;
-            ChangeValue(this._maxValue);
+            this.MaxValue = maxValue;
+            ChangeValue(this.MaxValue);
         }
 
         public void Death()

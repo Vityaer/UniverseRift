@@ -1,5 +1,5 @@
-using Assets.Scripts.City.Buildings.TravelCircle;
 using City.Buildings.BaseObjectsUI;
+using MainScripts;
 using Models.Fights.Campaign;
 using TMPro;
 using UIController;

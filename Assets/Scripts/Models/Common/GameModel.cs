@@ -1,12 +1,7 @@
-﻿using Assets.Scripts.City.Buildings.Mines;
-using Assets.Scripts.GeneralObject;
-using Assets.Scripts.MainScripts;
-using Assets.Scripts.Models.City.Markets;
+﻿using City.Acievements;
 using City.Buildings.Mines;
-using Common;
 using Common.Resourses;
 using MainScripts;
-using Models;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.Requiremets;

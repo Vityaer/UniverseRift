@@ -1,10 +1,11 @@
-﻿using Assets.Scripts.Fight;
-using Assets.Scripts.Fight.Misc;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Fight.AI;
 using Fight.Common.Strikes;
 using Fight.Grid;
+using Fight.HeroStates;
+using Fight.Misc;
 using Fight.Rounds;
+using Hero;
 using Models.Heroes;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Fight.HeroControllers.Generals
     public partial class HeroController : MonoBehaviour
     {
         [Header("Components")]
-        public HeroStateAPI statusState;
+        public HeroStatus statusState;
         protected Transform tr;
         [SerializeField] protected HexagonCell myPlace;
         [HideInInspector] public List<HeroController> listTarget = new List<HeroController>();
@@ -49,7 +50,7 @@ namespace Fight.HeroControllers.Generals
 
         void Awake()
         {
-            statusState = GetComponent<HeroState>();
+            statusState = GetComponent<HeroStatus>();
             hero.statusState = statusState;
             tr = base.transform;
             BodyParent = transform.Find("BodyParent").transform;

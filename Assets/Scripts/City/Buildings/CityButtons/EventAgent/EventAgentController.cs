@@ -1,4 +1,4 @@
-using Assets.Scripts.City.Buildings.General;
+using City.Buildings.General;
 using Common;
 using Common.Resourses;
 using Models;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UIController.ItemVisual;
 using UIController.Panels;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace City.Buildings.CityButtons.EventAgent

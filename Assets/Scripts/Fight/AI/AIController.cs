@@ -1,5 +1,4 @@
-using Assets.Scripts.Fight.AI;
-using Assets.Scripts.Fight.Misc;
+using Fight.Misc;
 using UnityEngine;
 
 namespace Fight.AI

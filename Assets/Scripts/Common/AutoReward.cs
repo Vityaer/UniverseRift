@@ -3,7 +3,7 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using UIController.Inventory;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 
 namespace GeneralObject
@@ -80,7 +80,7 @@ namespace GeneralObject
                 }
             }
         }
-        SplinterModel workSplinter = null;
+        Splinter workSplinter = null;
         private void GetPosibleSplinter(Reward reward, int countTact)
         {
             Debug.Log("splinters");

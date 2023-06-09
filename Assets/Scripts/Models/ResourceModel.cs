@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.GeneralObject;
+﻿using Common;
 using Common.Resourses;
 
 namespace Models

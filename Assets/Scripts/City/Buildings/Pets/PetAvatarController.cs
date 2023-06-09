@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.Pets;
-using City.Pets;
+﻿using City.Pets;
 using UIController;
 using UnityEngine;
 using UnityEngine.UI;

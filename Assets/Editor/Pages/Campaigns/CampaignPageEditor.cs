@@ -1,4 +1,5 @@
-﻿using Db.CommonDictionaries;
+﻿using Campaign;
+using Db.CommonDictionaries;
 using Editor.Common;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;

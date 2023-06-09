@@ -1,3 +1,4 @@
+using Fight.HeroStates;
 using UnityEngine;
 
 namespace Fight.HeroControllers.Generals
@@ -12,7 +13,7 @@ namespace Fight.HeroControllers.Generals
 
         public void StartDefend()
         {
-            Buff buffDefend = new Buff(TypeBuff.Armor, 1f);
+            BuffModel buffDefend = new BuffModel(BuffType.Armor, 1f);
             statusState.SetBuff(buffDefend);
             EndTurn();
         }

@@ -1,5 +1,5 @@
 ﻿using Common;
-using Models.Heroes.Characteristics;
+using Models.Heroes.HeroCharacteristics;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

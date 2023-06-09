@@ -1,5 +1,6 @@
-﻿using Assets.Scripts.Fight.Grid;
-using Assets.Scripts.Fight.HeroControllers.Robin;
+﻿using Fight.Grid;
+using Fight.HeroControllers.Generals;
+using Fight.HeroControllers.Robin;
 using UnityEngine;
 
 namespace Fight.HeroControllers.Legolas
@@ -24,8 +25,8 @@ namespace Fight.HeroControllers.Legolas
             if (cell.Hero.Side == this.Side)
                 return;
 
-            _selectedEnemy = cell.Hero; 
-            
+            _selectedEnemy = cell.Hero;
+
             HexagonCell.UnregisterOnClick(SelectEnemy);
             statusState.ChangeStamina(-100);
             anim.Play("Spell");

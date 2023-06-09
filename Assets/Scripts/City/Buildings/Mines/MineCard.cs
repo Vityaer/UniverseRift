@@ -1,4 +1,3 @@
-using Assets.Scripts.City.Buildings.Mines;
 using Models.City.Mines;
 using TMPro;
 using UnityEngine;
@@ -11,7 +10,7 @@ namespace City.Buildings.Mines
         public GameObject panel;
         public Image imageMine, outLight;
         [SerializeField] private TextMeshProUGUI textCountRequirement;
-        private DataAboutMines data;
+        private MineData data;
         private static MineCard selectMineCard = null;
 
         public bool GetCanCreateFromCount { get => data.currentCount < data.maxCount; }

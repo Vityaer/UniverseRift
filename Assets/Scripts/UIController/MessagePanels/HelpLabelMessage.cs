@@ -1,3 +1,4 @@
+using MainScripts;
 using UnityEngine;
 
 namespace UIController.MessagePanels

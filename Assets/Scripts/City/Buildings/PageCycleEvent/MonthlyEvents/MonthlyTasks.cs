@@ -1,4 +1,5 @@
-using Assets.Scripts.City.Buildings.Requirement;
+using City.Buildings.Requirement;
+using Common;
 using UnityEngine;
 
 namespace City.Buildings.PageCycleEvent.MonthlyEvents

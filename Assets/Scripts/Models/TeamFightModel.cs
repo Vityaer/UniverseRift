@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Models.Heroes;
+﻿using Models.Heroes;
 using System.Collections.Generic;
 
 namespace Models

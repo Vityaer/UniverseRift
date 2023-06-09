@@ -5,32 +5,32 @@ namespace City.Buildings.Voyage
 {
     public class VoyageMissionController : MonoBehaviour
     {
-        [SerializeField] private StatusMission status = StatusMission.NotOpen;
-        private Mission mission;
-        private int numMission = 0;
+        [SerializeField] private StatusMission _status = StatusMission.NotOpen;
+        private MissionModel _mission;
+        private int _numMission = 0;
 
-        public void SetData(Mission mission, int numMission, StatusMission newStatus)
+        public void SetData(MissionModel mission, int numMission, StatusMission newStatus)
         {
-            this.mission = mission;
-            this.numMission = numMission;
-            status = newStatus;
+            this._mission = mission;
+            this._numMission = numMission;
+            _status = newStatus;
         }
 
         public void SetStatus(StatusMission newStatus)
         {
-            status = newStatus;
+            _status = newStatus;
         }
 
         public void OpenPanelInfo()
         {
-            VoyageControllerSctipt.Instance.ShowInfo(this, mission.WinReward, status);
+            VoyageController.Instance.ShowInfo(this, _mission.WinReward, _status);
         }
 
         public void OpenMission()
         {
-            if (status == StatusMission.Open)
+            if (_status == StatusMission.Open)
             {
-                VoyageControllerSctipt.Instance.OpenMission(mission);
+                VoyageController.Instance.OpenMission(_mission);
             }
         }
     }

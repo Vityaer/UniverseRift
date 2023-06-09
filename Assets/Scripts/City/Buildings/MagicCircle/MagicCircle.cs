@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.City.Buildings.Tavern;
-using Assets.Scripts.Models.Heroes;
-using City.Buildings.General;
+﻿using City.Buildings.General;
+using City.Buildings.Tavern;
 using Common.Resourses;
+using Models.Heroes;
 using System.Collections.Generic;
 using UIController.Buttons;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace City.Buildings.MagicCircle
         {
             if (_listHeroes.Count == 0)
             {
-                _listHeroes = Tavern.Instance.GetListHeroes;
+                _listHeroes = TavernController.Instance.GetListHeroes;
             }
         }
 
@@ -57,7 +57,7 @@ namespace City.Buildings.MagicCircle
 
         private void AddNewHero(HeroModel hero)
         {
-            Tavern.Instance.AddNewHero(hero);
+            TavernController.Instance.AddNewHero(hero);
         }
 
 

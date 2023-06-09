@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.City.SliderCity;
-using City.General;
+﻿using City.General;
 using UIController;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.Mines;
-using Common;
+﻿using Common;
 using Models.City.Mines;
 using UnityEngine;
 using UnityEngine.UI;

@@ -27,7 +27,7 @@ namespace City.Buildings.Arena
         }
         public void GoToFight()
         {
-            ArenaScript.Instance.FightWithOpponentUseAI(opponent);
+            ArenaController.Instance.FightWithOpponentUseAI(opponent);
         }
 
     }

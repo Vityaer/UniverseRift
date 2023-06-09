@@ -1,6 +1,6 @@
-using Assets.Scripts.City.Buildings.Tower;
 using City.Buildings.General;
 using Common;
+using Fight;
 using Models;
 using Models.Fights.Campaign;
 using System.Collections.Generic;
@@ -56,9 +56,9 @@ namespace City.Buildings.Tower
 
         //After fight
 
-        protected override void OnResultFight(FightResult result)
+        protected override void OnResultFight(FightResultType result)
         {
-            if (result == FightResult.Win)
+            if (result == FightResultType.Win)
             {
                 OnWinFight(currentMission);
                 currentMission += 1;

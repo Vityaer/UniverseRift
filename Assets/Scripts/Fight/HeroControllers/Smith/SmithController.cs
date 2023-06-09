@@ -15,7 +15,7 @@ namespace Fight.HeroControllers.Smith
 
         private void AroundStun()
         {
-            List<CellDirectionType> neighbours = myPlace.GetAvailableNeighbours;
+            List<NeighbourCell> neighbours = myPlace.GetAvailableNeighbours;
             listTarget.Clear();
             for (int i = 0; i < neighbours.Count; i++)
             {

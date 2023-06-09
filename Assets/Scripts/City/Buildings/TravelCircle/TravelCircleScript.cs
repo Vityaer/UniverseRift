@@ -1,5 +1,6 @@
 using City.Buildings.General;
 using Common;
+using Fight;
 using Fight.WarTable;
 using Models;
 using Models.City.TravelCircle;
@@ -83,9 +84,9 @@ namespace City.Buildings.TravelCircle
             missionsUI[currentMission].OpenForFight();
         }
 
-        public void OnResultFight(FightResult result)
+        public void OnResultFight(FightResultType result)
         {
-            if (result == FightResult.Win)
+            if (result == FightResultType.Win)
             {
                 currentTravel.OpenNextMission();
                 travelCircleSave.SetRecordInt(currentTravel.GetNameRecord, currentTravel.CurrentMission);

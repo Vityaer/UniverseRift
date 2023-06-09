@@ -1,4 +1,6 @@
-﻿using Sirenix.OdinInspector;
+﻿using City.Buildings.Tavern;
+using Models;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,11 +13,11 @@ namespace UIController.Inventory
     public class SplintersList : SerializedScriptableObject
     {
         [SerializeField]
-        private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
+        private Dictionary<string, Splinter> _splinters = new Dictionary<string, Splinter>();
 
-        public SplinterModel GetSplinter(string ID)
+        public Splinter GetSplinter(string ID)
         {
-            SplinterModel result = null;
+            Splinter result = null;
 
             if (_splinters.ContainsKey(ID))
             {
@@ -23,8 +25,8 @@ namespace UIController.Inventory
             }
             else
             {
-                HeroModel hero = Tavern.Instance.GetInfoHero(ID);
-                result = new SplinterModel(hero);
+                var hero = TavernController.Instance.GetInfoHero(ID);
+                result = new Splinter(hero);
             }
 
             if (result == null)

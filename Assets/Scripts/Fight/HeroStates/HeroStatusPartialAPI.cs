@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Fight.HeroStates
 {
-    public partial class HeroState : MonoBehaviour
+    public partial class HeroStatus : MonoBehaviour
     {
 
         public State currentState = State.Clear;

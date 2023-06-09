@@ -1,4 +1,4 @@
-using Assets.Scripts.Fight.Grid;
+using Fight.HeroControllers.Generals;
 using Models.Grid;
 using Models.Heroes;
 using System;

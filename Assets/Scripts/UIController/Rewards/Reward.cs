@@ -2,7 +2,6 @@ using Common;
 using Common.Resourses;
 using System.Collections.Generic;
 using UIController.Inventory;
-using UIController.Reward;
 using UnityEngine;
 
 namespace UIController.Rewards
@@ -70,11 +69,11 @@ namespace UIController.Rewards
                 return result;
             }
         }
-        public List<SplinterModel> GetSplinters
+        public List<Splinter> GetSplinters
         {
             get
             {
-                List<SplinterModel> result = new List<SplinterModel>();
+                List<Splinter> result = new List<Splinter>();
                 foreach (RewardSplinter rewardSplinter in splinters)
                     result.Add(rewardSplinter.GetSplinter);
                 return result;
@@ -93,7 +92,7 @@ namespace UIController.Rewards
                 items.Add(new RewardItem(item));
             }
         }
-        public void AddSplinter(SplinterModel splinter)
+        public void AddSplinter(Splinter splinter)
         {
             RewardSplinter work = splinters.Find(x => x.ID.ToString() == splinter.Id);
             if (work != null)

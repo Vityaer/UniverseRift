@@ -1,23 +1,8 @@
 ﻿using UnityEngine;
-
 namespace Network.DataServer.Messages
 {
-    public class SimpleHire : INetworkMessage
+    public class SimpleHire : AbstractHireMessage
     {
-        public int PlayerId;
-        public int Count;
-
-        public string Route => "Heroes/GetSimpleHeroes";
-
-        public WWWForm Form
-        {
-            get
-            {
-                var form = new WWWForm();
-                form.AddField("PlayerId", PlayerId);
-                form.AddField("Count", Count);
-                return form;
-            }
-        }
+        public new string Route => "Heroes/GetSimpleHeroes";
     }
 }

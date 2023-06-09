@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Campaign;
+﻿using Campaign;
 using System;
 
 namespace GameUtils
@@ -7,7 +7,7 @@ namespace GameUtils
     {
         public static int CastNameToId(string name)
         {
-            return (int) Enum.Parse(typeof(Unit), name);
+            return (int)Enum.Parse(typeof(Unit), name);
         }
     }
 }

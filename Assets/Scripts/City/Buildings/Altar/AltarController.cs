@@ -1,12 +1,12 @@
-﻿using Assets.Scripts.City.Buildings.General;
-using Assets.Scripts.GeneralObject;
-using Assets.Scripts.Models.Heroes;
+﻿using City.Buildings.General;
+using Models.Heroes;
 using Common;
 using System;
 using System.Collections.Generic;
 using UIController.Cards;
 using UnityEngine;
 using UnityEngine.UI;
+using UIController.Rewards;
 
 namespace Altar
 {
@@ -46,7 +46,7 @@ namespace Altar
 
             foreach (Card card in selectedHeroCards)
             {
-                heroes.Add(card.hero);
+                heroes.Add(card.Hero);
                 card.Unselect();
             }
             selectedHeroCards.Clear();

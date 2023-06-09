@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.PageCycleEvent.MonthlyEvents;
+﻿using City.Buildings.PageCycleEvent.MonthlyEvents;
 using Models.Requiremets;
 using System.Collections.Generic;
 using UnityEngine;

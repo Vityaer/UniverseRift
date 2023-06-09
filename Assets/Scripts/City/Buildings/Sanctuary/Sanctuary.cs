@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.City.Buildings.Tavern;
-using Assets.Scripts.Models.Heroes;
-using City.Buildings.General;
+﻿using City.Buildings.General;
+using City.Buildings.Tavern;
 using Common;
 using Common.Resourses;
+using Models.Heroes;
 using System.Collections.Generic;
 using UIController.Cards;
 using UnityEngine;
@@ -13,7 +13,6 @@ namespace City.Buildings.Sanctuary
     public class Sanctuary : BuildingWithHeroesList
     {
         public Resource costReplacementFourRating, costReplacementFiveRating;
-        public Tavern tavernController;
         private Card selectedHero;
         public Button btnSave, btnReplacement;
         public HeroModel newHero;
@@ -25,20 +24,20 @@ namespace City.Buildings.Sanctuary
             Resource resCost = null;
             if (selectedHero != null)
             {
-                if (selectedHero.hero.General.RatingHero == 4)
+                if (selectedHero.Hero.General.RatingHero == 4)
                 {
                     resCost = costReplacementFourRating;
-                    heroes = tavernController.GetListHeroes.FindAll(x => x.General.RatingHero == 4);
+                    heroes = TavernController.Instance.GetListHeroes.FindAll(x => x.General.RatingHero == 4);
                 }
                 else
                 {
                     resCost = costReplacementFiveRating;
-                    heroes = tavernController.GetListHeroes.FindAll(x => x.General.RatingHero == 5);
+                    heroes = TavernController.Instance.GetListHeroes.FindAll(x => x.General.RatingHero == 5);
                 }
 
                 if (GameController.Instance.CheckResource(resCost))
                 {
-                    heroes = heroes.FindAll(x => x.General.RatingHero == selectedHero.hero.General.RatingHero && x.General.Race == selectedHero.hero.General.Race && x.General.ViewId != selectedHero.hero.General.ViewId);
+                    heroes = heroes.FindAll(x => x.General.RatingHero == selectedHero.Hero.General.RatingHero && x.General.Race == selectedHero.Hero.General.Race && x.General.ViewId != selectedHero.Hero.General.ViewId);
                     if (heroes.Count > 0)
                     {
                         newHero = (HeroModel)heroes[Random.Range(0, heroes.Count)].Clone();
@@ -53,7 +52,7 @@ namespace City.Buildings.Sanctuary
             if (newHero != null)
             {
                 listHeroesController.RemoveCards(new List<Card> { selectedHero });
-                GameController.Instance.RemoveHero(selectedHero.hero);
+                GameController.Instance.RemoveHero(selectedHero.Hero);
                 GameController.Instance.AddHero(newHero);
                 btnSave.gameObject.SetActive(false);
             }

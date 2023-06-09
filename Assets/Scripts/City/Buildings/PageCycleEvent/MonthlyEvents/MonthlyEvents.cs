@@ -1,4 +1,4 @@
-using Assets.Scripts.GeneralObject;
+using City.Acievements;
 using City.Buildings.General;
 using Common;
 using Models;

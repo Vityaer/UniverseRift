@@ -1,6 +1,9 @@
+using Campaign;
+using Common.Resourses;
 using GeneralObject;
 using System;
 using TMPro;
+using UIController.Rewards;
 
 namespace UIController.MessagePanels
 {

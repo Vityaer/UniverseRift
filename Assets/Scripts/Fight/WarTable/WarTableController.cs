@@ -58,7 +58,7 @@ namespace Fight.WarTable
             {
                 if (place.IsEmpty)
                 {
-                    place.SetHero(card, card.hero);
+                    place.SetHero(card, card.Hero);
                     UpdateStrengthTeam(leftTeam, textStrengthLeftTeam);
                     break;
                 }
@@ -198,7 +198,7 @@ namespace Fight.WarTable
             OpenMission(mission, GameController.Instance.GetListHeroes);
         }
 
-        public void OpenMission(MissionModel mission, Action<bool> actionOnCloseWarTable, Action<FightResult> actionOnResultFight)
+        public void OpenMission(MissionModel mission, Action<bool> actionOnCloseWarTable, Action<FightResultType> actionOnResultFight)
         {
             RegisterOnOpenCloseMission(actionOnCloseWarTable);
             FightController.Instance.RegisterOnFightResult(actionOnResultFight);

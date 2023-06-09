@@ -1,4 +1,5 @@
-using Assets.Scripts.Models.Heroes;
+using Models.Heroes;
+using Models.Heroes.Actions;
 using UnityEditor;
 using UnityEngine;
 

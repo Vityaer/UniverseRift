@@ -1,6 +1,6 @@
 ﻿using UIController;
 using UIController.ControllerPanels;
-using UIController.Reward;
+using UIController.Rewards;
 
 namespace City.Buildings
 {

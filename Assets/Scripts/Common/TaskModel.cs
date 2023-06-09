@@ -1,3 +1,4 @@
+using City.TaskBoard;
 using Common;
 using Common.Resourses;
 using Models;
@@ -50,17 +51,17 @@ public class TaskModel : BaseModel, ICloneable
     }
 
     public long strTimeStartTask;
-    public StatusTask status = StatusTask.NotStart;
+    public TaskStatusType status = TaskStatusType.NotStart;
     [HideInInspector][SerializeField] private Resource reward;
     public Resource Reward { get => reward; set => reward = value; }
     public void Start()
     {
-        status = StatusTask.InWork;
+        status = TaskStatusType.InWork;
         timeStartTask = DateTime.Now;
     }
     public void Finish()
     {
-        status = StatusTask.Done;
+        status = TaskStatusType.Done;
     }
     //API
     public void GetReward()

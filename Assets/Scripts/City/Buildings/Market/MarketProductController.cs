@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.GeneralObject;
+﻿using Common;
 using Common.Resourses;
 using Sirenix.Serialization;
 using System;
@@ -40,7 +40,7 @@ namespace City.Buildings.Market
             _subject = product.subject;
         }
 
-        public void SetData(MarketProduct<SplinterModel> product, Action<string, int> callback)
+        public void SetData(MarketProduct<Splinter> product, Action<string, int> callback)
         {
             this.callback = callback;
             marketProduct = product;

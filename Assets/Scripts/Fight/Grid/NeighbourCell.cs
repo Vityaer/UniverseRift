@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Models.Heroes;
+using Fight.HeroControllers.Generals;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif

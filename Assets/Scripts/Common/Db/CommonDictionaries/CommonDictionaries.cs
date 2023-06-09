@@ -1,4 +1,4 @@
-using Assets.Scripts.Models.Heroes;
+using Campaign;
 using Common;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
@@ -37,6 +37,7 @@ namespace Db.CommonDictionaries
         private Dictionary<string, MarketModel> _markets = new Dictionary<string, MarketModel>();
         private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
         private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
+        private Dictionary<string, ResistanceModel> _resistances = new Dictionary<string, ResistanceModel>();
 
         private readonly IJsonConverter _converter;
         private bool _isInited;
@@ -57,7 +58,7 @@ namespace Db.CommonDictionaries
         public Dictionary<string, MarketModel> Markets => _markets;
         public Dictionary<string, MineModel> Mines => _mines;
         public Dictionary<string, StorageChallengeModel> StorageChallenges => _storageChallenges;
-
+        public Dictionary<string, ResistanceModel> Resistances => _resistances;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -172,6 +173,7 @@ namespace Db.CommonDictionaries
             _markets = GetModels<MarketModel>();
             _mines = GetModels<MineModel>();
             _storageChallenges = GetModels<StorageChallengeModel>();
+            _resistances = GetModels<ResistanceModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

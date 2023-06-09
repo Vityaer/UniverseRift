@@ -1,6 +1,6 @@
-using Assets.Scripts.City.Buildings.General;
-using Assets.Scripts.City.Buildings.Market;
 using City.Buildings.CityButtons.DailyReward;
+using City.Buildings.CityButtons.EventAgent;
+using City.Buildings.General;
 using City.Buildings.Market;
 using Common;
 using Common.Resourses;
@@ -109,7 +109,7 @@ namespace City.Buildings.CityButtons
         }
 
         [Button] public void AddResource() { listRewards.Add(new MarketProduct<Resource>()); }
-        [Button] public void AddSplinter() { listRewards.Add(new MarketProduct<SplinterModel>()); }
+        [Button] public void AddSplinter() { listRewards.Add(new MarketProduct<Splinter>()); }
         [Button] public void AddItem() { listRewards.Add(new MarketProduct<Item>()); }
 
         //Save

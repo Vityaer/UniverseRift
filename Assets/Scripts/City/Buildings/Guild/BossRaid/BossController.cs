@@ -1,4 +1,5 @@
-﻿using Models.Fights.Campaign;
+﻿using Campaign;
+using Models.Fights.Campaign;
 using UnityEngine;
 
 namespace City.Buildings.Guild.BossRaid

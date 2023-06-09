@@ -1,20 +1,20 @@
-﻿using Models.City.Markets;
-using City.Buildings.General;
+﻿using City.Buildings.General;
+using Common;
+using Common.Resourses;
 using Models;
+using Models.City.Markets;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
-using UnityEngine;
-using Common.Resourses;
-using Common;
 using UIController.GameSystems;
 using UIController.Inventory;
+using UnityEngine;
 
 namespace City.Buildings.Market
 {
     public class MarketController : Building
     {
-        public TypMarket typeMarket;
+        public MarketType typeMarket;
         public Transform showcase;
         [Header("Products")]
         [OdinSerialize] private List<BaseMarketProduct> productsForSale = new List<BaseMarketProduct>();
@@ -66,7 +66,7 @@ namespace City.Buildings.Market
                     case MarketProduct<Item> product:
                         productControllers[i].SetData(product, OnBuyPoduct);
                         break;
-                    case MarketProduct<SplinterModel> product:
+                    case MarketProduct<Splinter> product:
                         productControllers[i].SetData(product, OnBuyPoduct);
                         break;
 
@@ -92,7 +92,7 @@ namespace City.Buildings.Market
         }
 
         [Button] public void AddResource() { productsForSale.Add(new MarketProduct<Resource>()); }
-        [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<SplinterModel>()); }
+        [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<Splinter>()); }
         [Button] public void AddItem() { productsForSale.Add(new MarketProduct<Item>()); }
 
         [ContextMenu("Check products")]

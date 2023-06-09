@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using City.Acievements;
+using Common;
 
 namespace Models.Requiremets
 {

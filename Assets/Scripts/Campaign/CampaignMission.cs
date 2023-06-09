@@ -1,25 +1,29 @@
-using Assets.Scripts.GeneralObject;
-using Assets.Scripts.Models.Fights.Campaign;
-using UIController.Reward;
+using GeneralObject;
+using Models.Fights.Campaign;
+using System;
+using UIController.Rewards;
 using UnityEngine;
 
-[System.Serializable]
-public class CampaignMission : Mission, ICloneable
+namespace Campaign
 {
-    [Header("Auto fight reward")]
-    [SerializeField] private AutoReward _autoFightReward;
-
-    public AutoReward AutoFightReward => _autoFightReward;
-
-    public object Clone()
+    [System.Serializable]
+    public class CampaignMission : MissionModel, ICloneable
     {
-        return new CampaignMission
+        [Header("Auto fight reward")]
+        [SerializeField] private AutoReward _autoFightReward;
+
+        public AutoReward AutoFightReward => _autoFightReward;
+
+        public object Clone()
         {
-            Name = this.Name,
-            ListEnemy = this.listEnemy,
-            WinReward = (Reward)this.WinReward.Clone(),
-            _autoFightReward = this._autoFightReward,
-            Location = this.Location
-        };
+            return new CampaignMission
+            {
+                Name = this.Name,
+                ListEnemy = this.ListEnemy,
+                WinReward = (Reward)this.WinReward.Clone(),
+                _autoFightReward = _autoFightReward,
+                Location = this.Location
+            };
+        }
     }
 }

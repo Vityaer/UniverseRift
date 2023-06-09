@@ -1,79 +1,81 @@
-﻿using Models.Heroes.Characteristics;
+﻿using Models.Heroes.HeroCharacteristics;
 using System.Collections.Generic;
 using UIController.Inventory;
 using UnityEngine;
 
-
-[System.Serializable]
-public class CostumeHeroController
+namespace Hero
 {
-    public List<Item> items = new List<Item>();
-    private static ItemsList itemsList;
+    [System.Serializable]
+    public class CostumeHeroController
+    {
+        public List<Item> items = new List<Item>();
+        private static ItemsList itemsList;
 
-    //API
-    public void TakeOn(Item newItem)
-    {
-        bool flagFind = false;
-        for (int i = 0; i < items.Count; i++)
+        //API
+        public void TakeOn(Item newItem)
         {
-            if (items[i].Type == newItem.Type)
+            bool flagFind = false;
+            for (int i = 0; i < items.Count; i++)
             {
-                items[i] = newItem;
-                flagFind = true;
-                break;
+                if (items[i].Type == newItem.Type)
+                {
+                    items[i] = newItem;
+                    flagFind = true;
+                    break;
+                }
+            }
+            if (flagFind == false)
+            {
+                items.Add(newItem);
             }
         }
-        if (flagFind == false)
+        public void TakeOff(Item item)
         {
-            items.Add(newItem);
+            items.Remove(item);
         }
-    }
-    public void TakeOff(Item item)
-    {
-        items.Remove(item);
-    }
-    public void TakeOffAll()
-    {
-        items.Clear();
-    }
-    public Item GetItem(string typeItem)
-    {
-        Item result = null;
-        for (int i = 0; i < items.Count; i++)
+        public void TakeOffAll()
         {
-            if (items[i].Type == typeItem)
+            items.Clear();
+        }
+        public Item GetItem(string typeItem)
+        {
+            Item result = null;
+            for (int i = 0; i < items.Count; i++)
             {
-                result = items[i];
-                break;
+                if (items[i].Type == typeItem)
+                {
+                    result = items[i];
+                    break;
+                }
+            }
+            return result;
+        }
+        public float GetBonus(TypeCharacteristic type)
+        {
+            float result = 0f;
+            foreach (Item item in items)
+                result += item.GetBonus(type);
+            return result;
+        }
+        public void SetData(List<string> listIDItems)
+        {
+            if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
+            foreach (var ID in listIDItems)
+            {
+                items.Add(itemsList.GetItem(ID));
             }
         }
-        return result;
-    }
-    public float GetBonus(TypeCharacteristic type)
-    {
-        float result = 0f;
-        foreach (Item item in items)
-            result += item.GetBonus(type);
-        return result;
-    }
-    public void SetData(List<string> listIDItems)
-    {
-        if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
-        foreach (var ID in listIDItems)
+        public CostumeHeroController Clone()
         {
-            items.Add(itemsList.GetItem(ID));
+            return new CostumeHeroController(items);
         }
-    }
-    public CostumeHeroController Clone()
-    {
-        return new CostumeHeroController(this.items);
-    }
-    public CostumeHeroController(List<Item> newItems)
-    {
-        for (int i = 0; i < newItems.Count; i++)
+        public CostumeHeroController(List<Item> newItems)
         {
-            this.items.Add((Item)newItems[i].Clone());
+            for (int i = 0; i < newItems.Count; i++)
+            {
+                items.Add((Item)newItems[i].Clone());
+            }
         }
+        public CostumeHeroController() { }
     }
-    public CostumeHeroController() { }
 }

@@ -1,8 +1,10 @@
 ﻿using City.Buildings.Tavern;
+using Hero;
 using Models.City.TrainCamp;
-using Models.Heroes.Characteristics;
 using Models.Heroes.Evolutions;
+using Models.Heroes.HeroCharacteristics;
 using Models.Heroes.Skills;
+using System;
 using System.Collections.Generic;
 using UIController.Localization.Languages;
 using UnityEngine;
@@ -14,17 +16,16 @@ namespace Models.Heroes
     {
         public GeneralInfoHero General;
         public GameObject PrefabArrow;
-        public Characteristics Characts;
-        public ResistanceModel Resistances;
         public IncreaseCharacteristicsModel IncCharacts;
-        public CostumeHeroController CostumeHero;
         public List<Skill> skills = new List<Skill>();
-        public BreakthroughHero Evolutions;
+        public Evolution Evolutions;
+        public Characteristics Characts;
+        public StorageResistances Resistances;
+
+        public CostumeHeroController CostumeHero = new CostumeHeroController();
         public HeroLocalization localization = null;
 
-        public Sprite GetMainImage => General.ImageHero;
         public float GetStrength => Mathf.Round(GetCharacteristic(TypeCharacteristic.Damage) + GetCharacteristic(TypeCharacteristic.HP) / 3f);
-
 
         public HeroModel()
         {
@@ -32,7 +33,7 @@ namespace Models.Heroes
 
         public HeroModel(HeroData heroSave)
         {
-            var hero = Tavern.Instance.GetListHeroes.Find(x => x.General.HeroId == heroSave.HeroId);
+            var hero = TavernController.Instance.GetListHeroes.Find(x => x.General.HeroId == heroSave.HeroId);
             CopyData(hero);
             General.HeroId = heroSave.HeroId;
             General.ViewId = heroSave.HeroId;
@@ -49,7 +50,7 @@ namespace Models.Heroes
             General = (GeneralInfoHero)Data.General.Clone();
             IncCharacts = (IncreaseCharacteristicsModel)Data.IncCharacts.Clone();
             Characts = Data.Characts.Clone();
-            Resistances = (ResistanceModel)Data.Resistances.Clone();
+            Resistances = (StorageResistances)Data.Resistances.Clone();
             General.Prefab = Resources.Load<GameObject>(string.Concat("Heroes/", General.ViewId.ToString()));
             PrefabArrow = Data.PrefabArrow;
             skills = Data.skills;
@@ -161,7 +162,7 @@ namespace Models.Heroes
                 Characts = Characts.Clone(),
                 IncCharacts = (IncreaseCharacteristicsModel)IncCharacts.Clone(),
                 PrefabArrow = PrefabArrow,
-                Resistances = (ResistanceModel)Resistances.Clone(),
+                Resistances = (StorageResistances)Resistances.Clone(),
                 CostumeHero = CostumeHero.Clone(),
                 skills = skills,
                 Evolutions = Evolutions,

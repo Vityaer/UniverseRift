@@ -71,7 +71,7 @@ namespace UIController.Inventory
             OnChange();
         }
 
-        public void RemoveSplinter(SplinterModel splinerForDelete)
+        public void RemoveSplinter(Splinter splinerForDelete)
         {
             SplinterController controller = splinters.Find(x => x.splinter == splinerForDelete);
             if (controller == null) Debug.Log("not found splinter for delete");
@@ -82,7 +82,7 @@ namespace UIController.Inventory
         public Inventory(InventorySave inventorySave)
         {
             Item _item;
-            SplinterModel _splinter;
+            Splinter _splinter;
             ItemsList itemsList = Resources.Load<ItemsList>("Items/ListItems");
 
             foreach (var item in inventorySave.listItem)

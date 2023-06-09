@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Models.Heroes;
-using Models.Heroes;
+﻿using Models.Heroes;
 using Network.DataServer.Models;
 using System;
 

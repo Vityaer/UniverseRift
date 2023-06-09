@@ -1,4 +1,4 @@
-using Assets.Scripts.City.Buildings;
+using City.Buildings;
 using Common;
 using TMPro;
 using UIController.ControllerPanels;

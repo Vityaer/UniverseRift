@@ -1,6 +1,7 @@
-using Assets.Scripts.City.Buildings.General;
-using Assets.Scripts.Fight.WarTable;
+using City.Buildings.General;
 using Common;
+using Fight;
+using Fight.WarTable;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -8,149 +9,152 @@ using UIController;
 using UIController.ControllerPanels;
 using UnityEngine;
 
-public class CampaignBuilding : BuildingWithFight
+namespace Campaign
 {
-    private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
-    private const string NAME_RECORD_NUM_MAX_MISSION = "MaxMission";
-    private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
-
-    public CampaignChapterModel chapter;
-    public BasePanelScript panelWorldCampaign;
-
-    private MissionController infoMission;
-    private CampaignMission mission;
-    private int currentMission, maxMission;
-    private int countMission = 20;
-    private BuildingWithFightTeamsModel campaingSaveObject;
-
-    [SerializeField] private List<CampaignChapterModel> chapters = new List<CampaignChapterModel>();
-    [SerializeField] private List<MissionController> missionControllers = new List<MissionController>();
-
-    public static CampaignBuilding Instance { get; private set; }
-
-    public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.GetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME); }
-
-    protected override void OnLoadGame()
+    public class CampaignBuilding : BuildingWithFight
     {
-        Debug.Log("campaing loading...");
-        campaingSaveObject = GameController.GetCitySave.mainCampaignBuilding;
-        currentMission = campaingSaveObject.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, defaultNum: -1);
-        maxMission = campaingSaveObject.GetRecordInt(NAME_RECORD_NUM_MAX_MISSION, defaultNum: 0);
-        if (currentMission > maxMission) currentMission = maxMission;
+        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
+        private const string NAME_RECORD_NUM_MAX_MISSION = "MaxMission";
+        private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
 
-        this.chapter = GetCampaignChapter(currentMission);
-        LoadMissions(this.chapter);
-    }
-    private CampaignChapterModel GetCampaignChapter(int numMission)
-    {
-        CampaignChapterModel result = chapters.Find(x => x.numChapter == (numMission / countMission));
-        if (result == null) result = chapters[chapters.Count - 1];
-        return result;
-    }
-    //API
-    public void LoadMissions(CampaignChapterModel chapter)
-    {
-        int current = 0;
-        for (int i = 0; i < missionControllers.Count; i++)
+        public CampaignChapterModel chapter;
+        public BasePanelScript panelWorldCampaign;
+
+        private MissionController infoMission;
+        private CampaignMission mission;
+        private int currentMission, maxMission;
+        private int countMission = 20;
+        private BuildingWithFightTeamsModel campaingSaveObject;
+
+        [SerializeField] private List<CampaignChapterModel> chapters = new List<CampaignChapterModel>();
+        [SerializeField] private List<MissionController> missionControllers = new List<MissionController>();
+
+        public static CampaignBuilding Instance { get; private set; }
+
+        public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.GetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME); }
+
+        protected override void OnLoadGame()
         {
-            missionControllers[i].SetMission(chapter.Missions[i], (chapter.numChapter * countMission) + i + 1);
+            Debug.Log("campaing loading...");
+            campaingSaveObject = GameController.GetCitySave.mainCampaignBuilding;
+            currentMission = campaingSaveObject.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, defaultNum: -1);
+            maxMission = campaingSaveObject.GetRecordInt(NAME_RECORD_NUM_MAX_MISSION, defaultNum: 0);
+            if (currentMission > maxMission) currentMission = maxMission;
+
+            chapter = GetCampaignChapter(currentMission);
+            LoadMissions(chapter);
         }
-        if (chapter.numChapter * countMission <= maxMission)
+        private CampaignChapterModel GetCampaignChapter(int numMission)
         {
-            for (int i = 0; ((chapter.numChapter * countMission + i) <= maxMission) && (i < missionControllers.Count); i++)
+            CampaignChapterModel result = chapters.Find(x => x.numChapter == numMission / countMission);
+            if (result == null) result = chapters[chapters.Count - 1];
+            return result;
+        }
+        //API
+        public void LoadMissions(CampaignChapterModel chapter)
+        {
+            int current = 0;
+            for (int i = 0; i < missionControllers.Count; i++)
             {
-                missionControllers[i].CompletedMission();
+                missionControllers[i].SetMission(chapter.Missions[i], chapter.numChapter * countMission + i + 1);
             }
-            if (chapter.numChapter == (maxMission / countMission))
+            if (chapter.numChapter * countMission <= maxMission)
             {
-                missionControllers[maxMission % countMission].OpenMission();
+                for (int i = 0; chapter.numChapter * countMission + i <= maxMission && i < missionControllers.Count; i++)
+                {
+                    missionControllers[i].CompletedMission();
+                }
+                if (chapter.numChapter == maxMission / countMission)
+                {
+                    missionControllers[maxMission % countMission].OpenMission();
+                }
+            }
+            if (currentMission >= 0)
+            {
+                if (chapter.numChapter == currentMission / countMission)
+                {
+                    missionControllers[currentMission % countMission].SetAutoFight();
+                }
+                else
+                {
+                    CampaignChapterModel chapterAutoFight = GetCampaignChapter(currentMission);
+                    AutoFight.Instance.SelectMissionAutoFight(chapterAutoFight.Missions[currentMission % countMission]);
+                }
             }
         }
-        if (currentMission >= 0)
+
+        public void OpenChapter(CampaignChapterModel chapter)
         {
-            if (chapter.numChapter == (currentMission / countMission))
+            this.chapter = chapter;
+            LoadMissions(chapter);
+            panelWorldCampaign.Close();
+        }
+        public void OpenNextMission()
+        {
+            OpenMission(currentMission + 1);
+            campaingSaveObject.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
+            campaingSaveObject.SetRecordInt(NAME_RECORD_NUM_MAX_MISSION, maxMission);
+            GameController.Instance.SaveGame();
+        }
+        public void OpenMission(int num)
+        {
+            currentMission = num;
+            maxMission = num + 1;
+            if (chapter.numChapter == maxMission / 20)
             {
-                missionControllers[currentMission % countMission].SetAutoFight();
+                missionControllers[maxMission % 20].OpenMission();
+            }
+        }
+        public void OnResultFight(FightResultType result)
+        {
+            if (result == FightResultType.Win)
+            {
+                if (infoMission != null)
+                {
+                    infoMission.MissionWin();
+                }
+                else
+                {
+                    Debug.Log("это была не миссия компании");
+                }
+            }
+            if (mission == null) { WarTableController.Instance.FinishMission(); }
+            infoMission = null;
+            mission = null;
+        }
+
+        public void SelectMission(MissionController infoMission)
+        {
+            Debug.Log("Select mission open");
+            this.infoMission = infoMission;
+            mission = infoMission.mission;
+            WarTableController.Instance.OpenMission(infoMission.mission, this.OnOpenCloseMission);
+            FightController.Instance.RegisterOnFightResult(OnResultFight);
+        }
+        private void OnOpenCloseMission(bool isOpen)
+        {
+            if (isOpen == false)
+            {
+                WarTableController.Instance.UnregisterOnOpenCloseMission(OnOpenCloseMission);
+                MenuController.Instance.OpenMainPage();
+                Open();
             }
             else
             {
-                CampaignChapterModel chapterAutoFight = GetCampaignChapter(currentMission);
-                AutoFight.Instance.SelectMissionAutoFight(chapterAutoFight.Missions[currentMission % countMission]);
+                Close();
             }
         }
-    }
-
-    public void OpenChapter(CampaignChapterModel chapter)
-    {
-        this.chapter = chapter;
-        LoadMissions(chapter);
-        panelWorldCampaign.Close();
-    }
-    public void OpenNextMission()
-    {
-        OpenMission(currentMission + 1);
-        campaingSaveObject.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
-        campaingSaveObject.SetRecordInt(NAME_RECORD_NUM_MAX_MISSION, maxMission);
-        GameController.Instance.SaveGame();
-    }
-    public void OpenMission(int num)
-    {
-        currentMission = num;
-        maxMission = num + 1;
-        if (chapter.numChapter == (maxMission / 20))
+        void Awake()
         {
-            missionControllers[maxMission % 20].OpenMission();
+            Instance = this;
         }
-    }
-    public void OnResultFight(FightResult result)
-    {
-        if (result == FightResult.Win)
+
+
+
+        //Auto fight
+        public void SaveAutoFight(DateTime newDateTime)
         {
-            if (infoMission != null)
-            {
-                infoMission.MissionWin();
-            }
-            else
-            {
-                Debug.Log("это была не миссия компании");
-            }
+            campaingSaveObject.SetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, newDateTime);
         }
-        if (mission == null) { WarTableController.Instance.FinishMission(); }
-        infoMission = null;
-        mission = null;
-    }
-
-    public void SelectMission(MissionController infoMission)
-    {
-        Debug.Log("Select mission open");
-        this.infoMission = infoMission;
-        this.mission = infoMission.mission;
-        WarTableController.Instance.OpenMission(infoMission.mission, this.OnOpenCloseMission);
-        FightController.Instance.RegisterOnFightResult(OnResultFight);
-    }
-    private void OnOpenCloseMission(bool isOpen)
-    {
-        if (isOpen == false)
-        {
-            WarTableController.Instance.UnregisterOnOpenCloseMission(OnOpenCloseMission);
-            MenuController.Instance.OpenMainPage();
-            Open();
-        }
-        else
-        {
-            Close();
-        }
-    }
-    void Awake()
-    {
-        Instance = this;
-    }
-
-
-
-    //Auto fight
-    public void SaveAutoFight(DateTime newDateTime)
-    {
-        campaingSaveObject.SetRecordDate(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, newDateTime);
     }
 }

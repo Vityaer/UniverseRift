@@ -2,6 +2,7 @@
 using Common.Resourses;
 using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,15 @@ namespace City.TrainCamp
 {
     public class ResourceObjectCost : MonoBehaviour
     {
-        public Image image;
-        public TextMeshProUGUI textAmount;
+        [SerializeField] private Image Image;
+        [SerializeField] private TextMeshProUGUI TextAmount;
+
         private Resource costResource = null;
         private Resource storeResource;
+
+        private ReactiveCommand<bool> _observerCanBuy = new ReactiveCommand<bool>();
+
+        public IObservable<bool> ObserverCanBuy => _observerCanBuy;
 
         public void SetData(Resource res)
         {
@@ -21,7 +27,7 @@ namespace City.TrainCamp
 
             costResource = res;
             CheckResource();
-            image.sprite = costResource.Image;
+            Image.sprite = costResource.Image;
             gameObject.SetActive(true);
             GameController.Instance.RegisterOnChangeResource(CheckResource, costResource.Name);
         }
@@ -35,23 +41,22 @@ namespace City.TrainCamp
         {
             storeResource = GameController.Instance.GetResource(costResource.Name);
             bool flag = GameController.Instance.CheckResource(costResource);
-            string result = flag ? "<color=green>" : "<color=red>";
-            result = string.Concat(result, costResource.ToString(), "</color>/", storeResource.ToString());
-            textAmount.text = result;
+            string color = flag ? "<color=green>" : "<color=red>";
+
+            string result = $"{color}{costResource}</color>/{storeResource}";
+            TextAmount.text = result;
             OnCheckResource(flag);
             return flag;
         }
+
         public void Hide()
         {
             gameObject.SetActive(false);
         }
-        private Action<bool> observerCanBuy;
-        public void RegisterOnCanBuy(Action<bool> d) { observerCanBuy += d; }
-        public void UnregisterOnCanBuy(Action<bool> d) { observerCanBuy -= d; }
+
         private void OnCheckResource(bool check)
         {
-            if (observerCanBuy != null)
-                observerCanBuy(check);
+            _observerCanBuy?.Execute(check);
         }
     }
 }

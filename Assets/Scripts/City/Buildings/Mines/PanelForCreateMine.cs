@@ -1,5 +1,4 @@
-using Assets.Scripts.City.Buildings.Mines;
-using Assets.Scripts.City.TrainCamp;
+using City.TrainCamp;
 using Common;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,8 +36,8 @@ namespace City.Buildings.Mines
             panel.SetActive(true);
 
         }
-        DataAboutMines data = null;
-        public void UpdateUI(DataAboutMines newData)
+        MineData data = null;
+        public void UpdateUI(MineData newData)
         {
             data = newData;
             panelController.SetActive(true);

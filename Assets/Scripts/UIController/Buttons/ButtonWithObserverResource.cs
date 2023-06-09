@@ -1,6 +1,7 @@
 using City.TrainCamp;
 using Common.Resourses;
 using System;
+using UniRx;
 using UnityEngine;
 
 namespace UIController.Buttons
@@ -10,6 +11,8 @@ namespace UIController.Buttons
         public ResourceObjectCost resourceObserver;
         public ButtonCostController buttonCostComponent;
         public Resource cost;
+
+        public ReactiveCommand OnClick = new ReactiveCommand();
 
         public void ChangeCost(Resource cost)
         {

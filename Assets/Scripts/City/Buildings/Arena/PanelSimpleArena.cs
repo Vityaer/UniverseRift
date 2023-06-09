@@ -1,4 +1,3 @@
-using Assets.Scripts.Network.GameServer;
 using Models.City.Arena;
 using Network.GameServer;
 using System.Collections.Generic;

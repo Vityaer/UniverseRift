@@ -1,10 +1,9 @@
 ﻿using City.Buildings.General;
+using City.Buildings.Tavern;
 using Fight.WarTable;
 using Models.Fights.Campaign;
 using System.Collections.Generic;
 using UnityEngine;
-using City.Buildings.Tavern;
-using Assets.Scripts.Fight.WarTable;
 
 namespace City.Buildings
 {
@@ -25,7 +24,7 @@ namespace City.Buildings
 
         public void OpenFight()
         {
-            WarTableController.Instance.OpenMission(mission, Tavern.Instance.GetListHeroes);
+            WarTableController.Instance.OpenMission(mission, TavernController.Instance.GetListHeroes);
             RegisterOnOpenCloseWarTable();
         }
 

@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.Mines;
+﻿using City.Buildings.Mines;
 using Models.City.Mines;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace Models
     {
         public List<MineBuildModel> listAdminMine = new List<MineBuildModel>();
         public List<MineModel> listMine = new List<MineModel>();
+
         public void SaveMine(MineController mineController)
         {
             MineModel mineSave = listMine.Find(x => x.Id == mineController.ID);

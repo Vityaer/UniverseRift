@@ -8,15 +8,17 @@ namespace UIController.Cards
 {
     public class Card : MonoBehaviour
     {
-        public HeroModel hero;
+        public HeroModel Hero;
+        public bool Selected = false;
+
         [SerializeField] private Image _imageUI;
         [SerializeField] private TextMeshProUGUI _levelUI;
         [SerializeField] private Image _panelSelect;
         [SerializeField] private VocationView _vocationUI;
         [SerializeField] private RaceView _raceUI;
-        public RatingHero _ratingController;
-        private ListCardOnWarTable listCardController;
-        public bool Selected = false;
+
+        private RatingHero _ratingController;
+        private ListCardOnWarTable _listCardController;
 
         public void SetData(RequirementHeroModel requirementHero)
         {
@@ -30,22 +32,22 @@ namespace UIController.Cards
 
         public void ChangeInfo(HeroModel hero)
         {
-            this.hero = hero;
+            this.Hero = hero;
             UpdateUI();
         }
 
         public void ChangeInfo(HeroModel hero, ListCardOnWarTable listCardController)
         {
-            this.hero = hero;
-            this.listCardController = listCardController;
+            this.Hero = hero;
+            this._listCardController = listCardController;
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            _imageUI.sprite = hero.General.ImageHero;
-            _levelUI.text = hero.General.Level.ToString();
-            _ratingController.ShowRating(hero.General.RatingHero);
+            _imageUI.sprite = Hero.General.ImageHero;
+            _levelUI.text = Hero.General.Level.ToString();
+            _ratingController.ShowRating(Hero.General.RatingHero);
 
         }
 
@@ -59,11 +61,11 @@ namespace UIController.Cards
         {
             if (Selected == false)
             {
-                listCardController.SelectCard(this);
+                _listCardController.SelectCard(this);
             }
             else
             {
-                listCardController.UnselectCard(this);
+                _listCardController.UnselectCard(this);
             }
         }
 
@@ -89,7 +91,7 @@ namespace UIController.Cards
 
         public void DestroyCard()
         {
-            listCardController.RemoveCardFromList(this);
+            _listCardController.RemoveCardFromList(this);
             Destroy(gameObject);
         }
     }

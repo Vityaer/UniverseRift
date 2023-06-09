@@ -45,7 +45,7 @@ namespace UIController.ItemVisual
         {
             if (matter == TypeMatter.Synthesis)
             {
-                Forge.Instance.SelectItem(this, thing);
+                ForgeController.Instance.SelectItem(this, thing);
                 UIItem.Select();
             }
         }

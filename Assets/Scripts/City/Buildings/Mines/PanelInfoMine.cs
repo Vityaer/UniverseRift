@@ -1,4 +1,4 @@
-using Assets.Scripts.City.TrainCamp;
+using City.TrainCamp;
 using Common;
 using Common.Resourses;
 using TMPro;

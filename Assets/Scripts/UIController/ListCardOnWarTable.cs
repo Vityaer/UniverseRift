@@ -36,7 +36,7 @@ namespace UIController
         {
             foreach (Card card in listCard)
             {
-                card.gameObject.SetActive(card.hero.General.Race == Race);
+                card.gameObject.SetActive(card.Hero.General.Race == Race);
             }
         }
 
@@ -171,7 +171,7 @@ namespace UIController
             for (int i = 0; i < selectedCard.Count; i++)
             {
                 currentHero = selectedCard[i];
-                currentCard = listCard.Find(x => x.hero == currentHero);
+                currentCard = listCard.Find(x => x.Hero == currentHero);
                 if (currentCard != null)
                 {
                     currentCard.Select();

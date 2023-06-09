@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.City.Buildings.Mines;
-using Common;
+﻿using Common;
 using Common.Resourses;
 using Models.City.Mines;
 using System;
@@ -15,7 +14,7 @@ namespace City.Buildings.Mines
         private Resource reward, store;
         public TypeMine type;
 
-        private DataAboutMines data = null;
+        private MineData data = null;
         private Resource maxStoreResource = null;
         private Action<int> observerLevel;
 

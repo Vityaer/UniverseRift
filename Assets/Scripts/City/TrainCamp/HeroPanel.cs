@@ -6,9 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Common;
-using Models.Heroes.Characteristics;
 using UIController.Inventory;
 using UIController.ItemVisual;
+using Models.Heroes.HeroCharacteristics;
 
 namespace City.TrainCamp
 {

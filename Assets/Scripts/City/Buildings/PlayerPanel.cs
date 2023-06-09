@@ -1,11 +1,12 @@
-﻿using Assets.Scripts.City.TrainCamp;
-using City.Buildings.General;
+﻿using City.Buildings.General;
+using City.TrainCamp;
 using Common;
 using Common.Resourses;
+using MainScripts;
 using Models;
 using TMPro;
 using UIController.ItemVisual;
-using UIController.Reward;
+using UIController.Rewards;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,7 +55,7 @@ namespace City.Buildings
                 GameController.Instance.SubtractResource(requireExpForLevel);
                 GameController.Instance.player.LevelUP();
                 requireExpForLevel = GetRequireExpForLevel();
-                Reward reward = new Reward(rewardForLevelUp.GetCostForLevelUp(playerInfo.Level));
+                var reward = new Reward(rewardForLevelUp.GetCostForLevelUp(playerInfo.Level));
                 MessageController.Instance.OpenPanelNewLevel(reward);
                 GameController.Instance.RegisterOnChangeResource(ChangeExp, TypeResource.Exp);
                 UpdateMainUI();

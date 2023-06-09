@@ -1,12 +1,15 @@
-﻿using Assets.Scripts.Models.Heroes;
-using Db.CommonDictionaries;
+﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Models.City.Mines;
+using Editor.Pages.Items.Set;
+using Models;
+using Models.Heroes;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine.TextCore.Text;
 using Utils;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace Editor.Pages.Heroes
 {
@@ -18,14 +21,17 @@ namespace Editor.Pages.Heroes
         public HeroPageEditor(CommonDictionaries commonDictionaries)
         {
             _dictionaries = commonDictionaries;
+            Heroes = _heroes.Select(heroModel => new HeroModelEditor(heroModel, _dictionaries)).ToList();
             Init();
         }
 
         public override void Save()
         {
-            var units = Heroes.Select(r => new HeroModel
+            var units = Heroes.Select(hero => new HeroModel
             {
-                Id = r.Id
+                Id = hero.Id,
+                General = hero.General,
+                Characts = hero.Characts
             }).ToList();
 
             EditorUtils.Save(units);
@@ -36,8 +42,12 @@ namespace Editor.Pages.Heroes
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            _dictionaries.Heroes.Add(id, new HeroModel() { Id = id });
-            Heroes.Add(new HeroModelEditor(_dictionaries.Heroes[id]));
+            _dictionaries.Heroes.Add(id, new HeroModel()
+            {
+                Id = id,
+
+            });
+            Heroes.Add(new HeroModelEditor(_dictionaries.Heroes[id], _dictionaries));
         }
 
         private void RemoveElements(HeroModelEditor light, object b, List<HeroModelEditor> lights)

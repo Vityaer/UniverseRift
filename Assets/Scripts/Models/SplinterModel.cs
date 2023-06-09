@@ -6,6 +6,9 @@ namespace Models
     public class SplinterModel : BaseModel
     {
         public int Amount;
+
+        public SplinterModel() { }
+
         public SplinterModel(SplinterController splinterController)
         {
             this.Id = splinterController.splinter.Id;

@@ -1,6 +1,5 @@
-using Assets.Scripts.City.Buildings.Mines;
-using Assets.Scripts.City.TrainCamp;
 using City.Buildings.General;
+using City.TrainCamp;
 using Common;
 using Common.Resourses;
 using Models.City.Mines;
@@ -19,7 +18,7 @@ namespace City.Buildings.Mines
         public PanelForCreateMine panelNewMineCreate;
 
         [Header("Data")]
-        [SerializeField] private List<DataAboutMines> listDataMines = new List<DataAboutMines>();
+        [SerializeField] private List<MineData> listDataMines = new List<MineData>();
 
         private List<MineModel> saveMines = new List<MineModel>();
 
@@ -33,7 +32,7 @@ namespace City.Buildings.Mines
             saveMines = GameController.GetPlayerGame.GetMines;
             PlaceForMine place = null;
             MineController mineController = null;
-            DataAboutMines data = null;
+            MineData data = null;
             foreach (MineModel mine in saveMines)
             {
                 place = minePlaces.Find(x => x.ID == mine.Id);
@@ -53,7 +52,7 @@ namespace City.Buildings.Mines
             }
         }
 
-        public void CreateNewMine(PlaceForMine place, DataAboutMines data)
+        public void CreateNewMine(PlaceForMine place, MineData data)
         {
             data.AddMine();
             MineController mineController = Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
@@ -62,7 +61,7 @@ namespace City.Buildings.Mines
             mineController.CreateMine(mine);
         }
 
-        public DataAboutMines GetDataMineFromType(TypeMine type)
+        public MineData GetDataMineFromType(TypeMine type)
         {
             return listDataMines.Find(x => x.type == type);
         }
@@ -106,23 +105,6 @@ namespace City.Buildings.Mines
                     break;
             }
             return result;
-        }
-    }
-
-    [System.Serializable]
-    public class DataAboutMines
-    {
-        public TypeMine type;
-        public int currentCount = 0, maxCount = 2;
-        public CostLevelUp ResourceOnLevelProduction, ResourceOnLevelUP;
-        public int maxStore = 50;
-        public TypeStore typeStore = TypeStore.Percent;
-        public ListResource costCreate;
-        public GameObject prefabMine;
-        public Sprite image { get => prefabMine.GetComponent<SpriteRenderer>().sprite; }
-        public void AddMine()
-        {
-            currentCount += 1;
         }
     }
 }

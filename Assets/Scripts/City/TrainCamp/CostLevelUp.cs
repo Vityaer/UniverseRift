@@ -15,10 +15,10 @@ namespace City.TrainCamp
 
         public ListResource GetCostForLevelUp(int level)
         {
-            bool find = false;
-            int previousStage = 0;
+            var find = false;
+            var previousStage = 0;
 
-            ListResource result = new ListResource();
+            var result = new ListResource();
 
             for (int i = 0; i < levelsCost.Count; i++)
             {

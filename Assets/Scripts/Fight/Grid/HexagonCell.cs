@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Models.Heroes;
-using Assets.Scripts.Fight.Misc;
+using Fight.HeroControllers.Generals;
+using Fight.Misc;
+using Fight.FightInterface;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif

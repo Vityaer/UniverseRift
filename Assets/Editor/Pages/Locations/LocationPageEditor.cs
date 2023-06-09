@@ -32,7 +32,6 @@ namespace Assets.Editor.Pages.Locations
             var units = Locations.Select(r => new LocationModel
             {
                 Id = r.Id,
-                Name = r.Name
             }).ToList();
 
             EditorUtils.Save(units);
