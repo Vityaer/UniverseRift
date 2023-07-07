@@ -6,7 +6,7 @@ namespace UIController.Rewards
     [Serializable]
     public class PosibleRewardResource : PosibleRewardObject
     {
-        public TypeResource subject = TypeResource.Diamond;
-        public Resource GetResource { get { return new Resource(subject); } }
+        public ResourceType subject = ResourceType.Diamond;
+        public GameResource GetResource { get { return new GameResource(subject); } }
     }
 }

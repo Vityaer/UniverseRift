@@ -1,25 +1,47 @@
 using Models;
+using Models.Common.BigDigits;
+using System;
 using UIController.Inventory;
 using UnityEngine;
 
 namespace Common
 {
-    [System.Serializable]
-    public class BaseObject : BaseModel, VisualAPI
+    [Serializable]
+    public class BaseObject : BaseModel
     {
+        public string Name;
+
         protected Sprite sprite = null;
-        public virtual Sprite Image { get => sprite; }
-        //API
-        public bool IsNull() { return sprite == null; }
-        public virtual string GetTextAmount() { return string.Empty; }
-        public virtual string GetName() { return "string.Empty"; }
-        //Visial API
-        public virtual void ClearUI() { UI = null; }
-        public virtual VisualAPI GetVisual() { return this as VisualAPI; }
-        public virtual void ClickOnItem() { Debug.Log("не переопредили ClickOnItem(BaseObject)"); }
-        protected ThingUI UI;
-        public virtual void SetUI(ThingUI UI) { Debug.Log("не переопредили SetUI(BaseObject)"); }
-        public virtual void UpdateUI() { Debug.Log("не переопредили UpdateUI(BaseObject)"); }
-        public virtual BaseObject Clone() { Debug.Log("не переопредили Clone()"); return new BaseObject(); }
+
+        public int Amount;
+        public override string ToString()
+            => Amount.ToString();
+
+        public virtual Sprite Image => sprite;
+
+        public BaseObject()
+        {
+            Amount = 0;
+        }
+
+        public virtual bool EqualsZero
+            => Amount == 0;
+
+        public bool IsNull() =>
+            sprite == null;
+
+
+        public virtual void Add(int count)
+        {
+            Amount += count;
+        }
+
+        public virtual void Remove(int count)
+        {
+            Amount -= count;
+        }
+
+        public virtual bool CheckCount(int count) 
+            => Amount >= count;
     }
 }

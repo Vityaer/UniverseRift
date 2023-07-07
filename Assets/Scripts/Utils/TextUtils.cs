@@ -28,6 +28,29 @@ namespace Utils
             return text;
         }
 
+        public static string GetDataFromLocalStorage<T>()
+        {
+            var path = GetDataPath<T>();
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+            var text = File.ReadAllText(path);
+            return text;
+        }
+
+        public static void SaveGameData<T>(T data)
+        {
+            File.WriteAllText(GetDataPath<T>(),
+                JsonConvert.SerializeObject(data, Constants.Common.SerializerSettings));
+        }
+
+        public static string GetDataPath<T>()
+        {
+            var path = Path.Combine(Constants.Common.GameDataPath, $"{typeof(T).Name}.json");
+            return path;
+        }
+
         public static string GetConfigPath<T>()
         {
             var path = Path.Combine(Constants.Common.DictionariesPath, $"{typeof(T).Name}.json");

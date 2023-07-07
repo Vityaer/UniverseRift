@@ -4,7 +4,7 @@ using System;
 using Models.Heroes;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
-using Fight.FightInterface;
+using UniRx;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif
@@ -13,21 +13,33 @@ namespace Fight.Grid
 {
     public class HexagonCell : MonoBehaviour
     {
+        private GridController _gridController;
+
         public bool available = true;
         public bool availableMove = true;
         public bool achievableMove = false;
         public int step = 0;
-        public SpriteRenderer spriteCell, spriteAvailable;
+        public SpriteRenderer SpriteCell;
+        public SpriteRenderer SpriteAvailable;
 
         [SerializeField] private List<NeighbourCell> neighbours = new List<NeighbourCell>();
-        [SerializeField] HeroController heroScript;
+        [SerializeField] private HeroController heroScript;
+        [SerializeField] private Transform tr;
 
         private GameObject subject;
-        private Transform tr;
         private bool showAchievable = false;
         private static HeroController requestHero = null;
         private static Action<HexagonCell> observerClick, observerSelectDirection, observerAchivableMove;
+        private int _dist = 100;
+        private HexagonCell _previousCell = null;
+        private IDisposable _disposable;
 
+        public HexagonCell PreviousCell { get => _previousCell; }
+        bool checkNext = false;
+        List<NeighbourCell> asumptionNeighbourCell = new List<NeighbourCell>();
+        CellDirectionType directionToTarget;
+
+        public int GetDist { get => _dist; }
         public Vector3 Position { get => transform.position; }
         public List<NeighbourCell> GetAvailableNeighbours { get => neighbours.FindAll(x => x.available == true); }
         public bool CanStand { get => availableMove && heroScript == null; }
@@ -42,8 +54,13 @@ namespace Fight.Grid
 
         void Start()
         {
-            FightController.Instance.RegisterOnFinishFight(OnEndMatch);
-            spriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
+            SpriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
+        }
+
+        public void SetData(GridController gridController)
+        {
+            Debug.Log("set data");
+            _gridController = gridController;
 
         }
 
@@ -74,8 +91,8 @@ namespace Fight.Grid
                     if (showAchievable == false/* && GridController.PlayerCanController*/)
                     {
                         showAchievable = true;
-                        spriteAvailable.enabled = true;
-                        spriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
+                        SpriteAvailable.enabled = true;
+                        SpriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
                     }
 
                     if (step > 0)
@@ -104,7 +121,7 @@ namespace Fight.Grid
 
         private void ShowDirectionsAttack()
         {
-            FightUI.Instance.melleeAttackController.RegisterOnSelectDirection(SelectDirection, this, GetAvailableNeighbours);
+            //FightDirectionView.Instance.melleeAttackController.RegisterOnSelectDirection(SelectDirection, this, GetAvailableNeighbours);
         }
 
         private void SelectDirection(CellDirectionType direction)
@@ -115,6 +132,7 @@ namespace Fight.Grid
                 observerSelectDirection = null;
             }
         }
+
         private HexagonCell GetNeighbourCellOnDirection(CellDirectionType direction)
         {
             HexagonCell result = neighbours.Find(x => x.direction == direction).Cell;
@@ -132,8 +150,8 @@ namespace Fight.Grid
             showAchievable = false;
             step = 0;
             achievableMove = false;
-            spriteAvailable.enabled = false;
-            dist = 100;
+            SpriteAvailable.enabled = false;
+            _dist = 100;
             requestHero?.UnregisterOnEndSelectCell(ClearCanMove);
         }
 
@@ -158,8 +176,8 @@ namespace Fight.Grid
 
         public void SetColor(Color color)
         {
-            spriteAvailable.enabled = true;
-            spriteAvailable.color = color;
+            SpriteAvailable.enabled = true;
+            SpriteAvailable.color = color;
         }
 
         public void ClearSublject()
@@ -167,7 +185,7 @@ namespace Fight.Grid
             subject = null;
             heroScript = null;
             availableMove = true;
-            spriteAvailable.enabled = false;
+            SpriteAvailable.enabled = false;
         }
 
         public void ClickOnMe()
@@ -206,42 +224,47 @@ namespace Fight.Grid
                 neighbours.Add(newNeighbour);
             }
         }
-        public void ClearNeighbours() { neighbours.Clear(); }
+        public void ClearNeighbours()
+        {
+            neighbours.Clear();
+        }
         //Find way
-        private int dist = 100;
-        public int GetDist { get => dist; }
-        private HexagonCell previousCell = null;
-        public HexagonCell PreviousCell { get => previousCell; }
-        bool checkNext = false;
-        List<NeighbourCell> asumptionNeighbourCell = new List<NeighbourCell>();
-        CellDirectionType directionToTarget;
+
+
         public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Ground, int step = 1)
         {
+            Debug.Log("FindWay");
             if (available && (availableMove || previousCell == null || this == target))
             {
-                if (step < dist)
+                if (step < _dist)
                 {
                     checkNext = true;
-                    dist = step;
+                    _dist = step;
                 }
-                else if (step == dist)
+                else if (step == _dist)
                 {
                     checkNext = UnityEngine.Random.Range(0f, 1f) > 0.5f;
                 }
-                else { checkNext = false; }
-                if (checkNext)
+                else
                 {
-                    if (this.previousCell == null) GridController.Instance.RegisterOnFoundWay(ClearFindWay);
-                    this.previousCell = previousCell;
-                    if (target.GetDist > step && this != target)
-                    {
-                        directionToTarget = NeighbourCell.GetDirection(this, target);
-                        for (int level = 0; level <= 3; level++)
-                        {
-                            NeighbourCell.GetNeighboursOnLevelNear(neighbours, directionToTarget, level, asumptionNeighbourCell);
-                            if (asumptionNeighbourCell.Count > 0) CheckNeighbour(previousCell, target, typeMovement, step);
+                    checkNext = false;
+                }
 
-                        }
+                if (!checkNext)
+                    return;
+
+                if (_previousCell == null)
+                    _disposable = _gridController.OnFinishFoundWay.Subscribe(_ => ClearFindWay());
+
+                _previousCell = previousCell;
+                if (target.GetDist > step && this != target)
+                {
+                    directionToTarget = NeighbourCell.GetDirection(this, target);
+                    for (int level = 0; level <= 3; level++)
+                    {
+                        NeighbourCell.GetNeighboursOnLevelNear(neighbours, directionToTarget, level, asumptionNeighbourCell);
+                        if (asumptionNeighbourCell.Count > 0) CheckNeighbour(previousCell, target, typeMovement, step);
+
                     }
                 }
             }
@@ -254,20 +277,14 @@ namespace Fight.Grid
 
             }
         }
+
         public void ClearFindWay()
         {
-            GridController.Instance.UnregisterOnFoundWay(ClearFindWay);
-            dist = 100;
-            previousCell = null;
+            _disposable.Dispose();
+            _dist = 100;
+            _previousCell = null;
             checkNext = false;
         }
-
-        private void OnEndMatch()
-        {
-            observerClick = null;
-            observerAchivableMove = null;
-        }
-
 
         //Potision controller	
 #if UNITY_EDITOR_WIN

@@ -22,17 +22,13 @@ namespace Editor.Pages.Campaigns
         public override void Init()
         {
             base.Init();
-            CampaignChapters = _campaignChapters.Select(f => new CampaignModelEditor(f)).ToList();
+            CampaignChapters = _campaignChapters.Select(f => new CampaignModelEditor(f, _dictionaries)).ToList();
             DataExist = true;
         }
 
         public override void Save()
         {
-            var units = CampaignChapters.Select(r => new CampaignChapterModel
-            {
-                Id = r.Id,
-                Name = r.Name
-            }).ToList();
+            var units = CampaignChapters.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(units);
             base.Save();
@@ -43,7 +39,7 @@ namespace Editor.Pages.Campaigns
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
             _dictionaries.CampaignChapters.Add(id, new CampaignChapterModel() { Id = id });
-            CampaignChapters.Add(new CampaignModelEditor(_dictionaries.CampaignChapters[id]));
+            CampaignChapters.Add(new CampaignModelEditor(_dictionaries.CampaignChapters[id], _dictionaries));
         }
 
         private void RemoveElements(CampaignModelEditor light, object b, List<CampaignModelEditor> lights)

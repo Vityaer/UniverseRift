@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Inventories.Splinters;
 using Common.Resourses;
 using Sirenix.Serialization;
 using UIController.Inventory;
@@ -15,13 +16,13 @@ namespace City.Buildings.Market
             AddCountLeftProduct(count);
             switch (subject)
             {
-                case Resource product:
-                    GameController.Instance.AddResource(product * count);
+                case GameResource product:
+                    //GameController.Instance.AddResource(product * count);
                     break;
-                case Item product:
-                    InventoryController.Instance.AddItem(product);
+                case GameItem product:
+                    //InventoryController.Instance.AddItem(product);
                     break;
-                case Splinter product:
+                case GameSplinter product:
                     Debug.Log("write add splinter here");
                     // InventoryControllerScript.Instance.AddSplinter(product);
                     break;

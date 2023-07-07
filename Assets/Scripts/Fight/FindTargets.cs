@@ -8,15 +8,15 @@ using UnityEngine;
 
 namespace Fight
 {
-    public partial class FightController : MonoBehaviour
+    public partial class FightController
     {
         public void ChooseEnemies(Side side, int countTarget, List<HeroController> listTarget, TypeSelect typeSelect = TypeSelect.Order)
         {
             listTarget.Clear();
-            List<Warrior> workTeam = ((side == Side.Left) ? rightTeam : leftTeam).Where(x => x.heroController != null).ToList();
+            List<Warrior> workTeam = ((side == Side.Left) ? _rightTeam : _leftTeam).Where(x => x.heroController != null).ToList();
             workTeam = workTeam.Where(x => x?.heroController.IsDeath == false).ToList();
             if (countTarget > workTeam.Count) countTarget = workTeam.Count;
-            countTarget = (int)Mathf.Clamp(countTarget, 0, workTeam.Count);
+            countTarget = Mathf.Clamp(countTarget, 0, workTeam.Count);
             if (countTarget > 0)
             {
                 switch (typeSelect)
@@ -75,11 +75,11 @@ namespace Fight
                         for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[countTarget - i].heroController);
                         break;
                     case TypeSelect.IsAlive:
-                        workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.IsAlive == true);
+                        //workTeam = workTeam.FindAll(x => x.heroController.hero.Model.General.IsAlive == true);
                         for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
                         break;
                     case TypeSelect.IsNotAlive:
-                        workTeam = workTeam.FindAll(x => x.heroController.hero.generalInfo.IsAlive == false);
+                        //workTeam = workTeam.FindAll(x => x.heroController.hero.Model.General.IsAlive == false);
                         for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
                         break;
                     //case TypeSelect.People:
@@ -152,7 +152,7 @@ namespace Fight
         public HeroController ChooseEnemy(Side side)
         {
             HeroController result = null;
-            List<Warrior> workTeam = (side == Side.Left) ? rightTeam : leftTeam;
+            List<Warrior> workTeam = (side == Side.Left) ? _rightTeam : _leftTeam;
             for (int i = 0; i < workTeam.Count; i++)
             {
                 if (workTeam[i].heroController.IsDeath == false)

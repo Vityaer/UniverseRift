@@ -1,0 +1,47 @@
+﻿using Common;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using Ui.Misc.Widgets;
+using UniRx;
+using Utils;
+using VContainer;
+using VContainer.Unity;
+using VContainerUi.Abstraction;
+using VContainerUi.Interfaces;
+using VContainerUi.Messages;
+using VContainerUi.Services;
+
+namespace UiExtensions.Scroll.Interfaces
+{
+    public abstract class UiPanelController<T> : UiController<T>, IInitializable, IStartable, IPopUp, IDisposable
+        where T : BasePanel
+    {
+        [Inject] protected readonly GameController GameController;
+        [Inject] protected readonly IUiMessagesPublisherService _messagesPublisher;
+        protected readonly CompositeDisposable Disposables = new CompositeDisposable();
+
+        public void Initialize()
+        {
+            GameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(Disposables);
+        }
+
+        public virtual void Start()
+        {
+            View.CloseButton?.OnClickAsObservable().Subscribe(_ => Close()).AddTo(Disposables);
+            View.DimedButton?.OnClickAsObservable().Subscribe(_ => Close()).AddTo(Disposables);
+        }
+
+        protected virtual void Close()
+        {
+            _messagesPublisher.BackWindowPublisher.BackWindow();
+        }
+
+        public virtual void Dispose()
+        {
+            Disposables.Dispose();
+        }
+
+
+    }
+}

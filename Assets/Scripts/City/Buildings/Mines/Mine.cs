@@ -2,23 +2,24 @@
 using Common.Resourses;
 using Models.City.Mines;
 using System;
+using System.Collections.Generic;
 
 namespace City.Buildings.Mines
 {
     [Serializable]
     public class Mine
     {
-        public Resource income;
+        public GameResource income;
         public int level;
         public DateTime previousDateTime;
-        private Resource reward, store;
+        private GameResource reward, store;
         public TypeMine type;
 
         private MineData data = null;
-        private Resource maxStoreResource = null;
+        private GameResource maxStoreResource = null;
         private Action<int> observerLevel;
 
-        public Resource GetMaxStore
+        public GameResource GetMaxStore
         {
             get
             {
@@ -26,13 +27,14 @@ namespace City.Buildings.Mines
                 return maxStoreResource;
             }
         }
-        public Resource GetStore => store;
+        public GameResource GetStore => store;
 
         private void CalculateReward()
         {
             if (store < maxStoreResource)
             {
-                int tact = FunctionHelp.CalculateCountTact(previousDateTime, MaxCount: 86400, lenthTact: 1);
+                //int tact = CalculateCountTact(previousDateTime, MaxCount: 86400, lenthTact: 1);
+                int tact = 10;
                 store.AddResource(income * (tact / 86400) * 100f);
                 if (store > maxStoreResource)
                 {
@@ -44,7 +46,7 @@ namespace City.Buildings.Mines
 
         public void LevelUP()
         {
-            GameController.Instance.SubtractResource(GetCostLevelUp());
+            //GameController.Instance.SubtractResource(GetCostLevelUp());
             level += 1;
             OnLevelChange();
         }
@@ -54,26 +56,26 @@ namespace City.Buildings.Mines
             if (level > 0)
             {
                 CalculateReward();
-                GameController.Instance.AddResource(store);
+                //GameController.Instance.AddResource(store);
                 store.Clear();
             }
         }
 
-        public ListResource GetCostLevelUp()
+        public List<GameResource> GetCostLevelUp()
         {
             return data.ResourceOnLevelUP.GetCostForLevelUp(level);
         }
 
-        public Resource CalculateMaxStoreAmount()
+        public GameResource CalculateMaxStoreAmount()
         {
-            Resource result = null;
+            GameResource result = null;
             switch (data.typeStore)
             {
                 case TypeStore.Percent:
-                    result = (Resource)(income * (data.maxStore / 100f)).Clone();
+                    result = income * (data.maxStore / 100f);
                     break;
                 case TypeStore.Num:
-                    result = new Resource(income.Name, data.maxStore);
+                    result = new GameResource(income.Type, data.maxStore);
                     break;
             }
             return result;
@@ -85,10 +87,10 @@ namespace City.Buildings.Mines
             OnLevelChange();
             previousDateTime = mineSave.PreviousDateTime;
             type = mineSave.typeMine;
-            store = new Resource(mineSave.store.type, mineSave.store.amount);
-            TypeMine typeMine = MinesController.GetTypeMineFromTypeResource(mineSave.store.type);
+            store = new GameResource(mineSave.Store.Type, mineSave.Store.Amount);
+            TypeMine typeMine = MinesController.GetTypeMineFromTypeResource(mineSave.Store.Type);
             data = MinesController.Instance.GetDataMineFromType(typeMine);
-            income = data.ResourceOnLevelProduction.GetCostForLevelUp(level).List[0];
+            //income = data.ResourceOnLevelProduction.GetCostForLevelUp(level).List[0];
             maxStoreResource = CalculateMaxStoreAmount();
             if (income != null) CalculateReward();
         }

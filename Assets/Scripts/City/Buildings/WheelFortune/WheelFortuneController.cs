@@ -1,41 +1,43 @@
-﻿using City.Buildings.General;
+﻿using City.Buildings.Abstractions;
+using City.Panels.Messages;
 using Common;
+using Common.Inventories.Splinters;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using MainScripts;
+using DG.Tweening;
 using Misc.Json;
 using Misc.Json.Impl;
+using Models.Common.BigDigits;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UIController;
 using UIController.Inventory;
-using UIController.ItemVisual;
 using UIController.Rewards;
+using UniRx;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace City.Buildings.WheelFortune
 {
-    public class WheelFortuneController : Building
+    public class WheelFortuneController : BaseBuilding<WheelFortuneView>, IInitializable
     {
-        [Header("Controller")]
-        [SerializeField] private ButtonCostController buttonOneRotate, buttonTenRotate;
-        [Header("Images reward")]
-        public List<SubjectCellController> places = new List<SubjectCellController>();
+        private const int ONE_TIME = 1; 
+        private const int MANY_TIME = 10;
+        private const float ARROW_SPEED = 3f;
+
+        [Inject] private IJsonConverter _jsonConverter;
 
         [Header("List reward")]
-        private List<FortuneReward> rewards = new List<FortuneReward>();
+        private List<FortuneRewardModel> rewards = new List<FortuneRewardModel>();
 
-        public List<FortuneReward<Resource>> resources = new List<FortuneReward<Resource>>();
-        public List<FortuneReward<Item>> items = new List<FortuneReward<Item>>();
-        public List<FortuneReward<Splinter>> splinters = new List<FortuneReward<Splinter>>();
+        public List<FortuneReward<GameResource>> resources = new List<FortuneReward<GameResource>>();
+        public List<FortuneReward<GameItem>> items = new List<FortuneReward<GameItem>>();
+        public List<FortuneReward<GameSplinter>> splinters = new List<FortuneReward<GameSplinter>>();
 
         [Header("Arrow")]
-        public RectTransform arrowRect;
-        public float arrowSpeed;
         private float previousTilt = 0f;
 
         private float generalProbability = 0f;
@@ -43,9 +45,21 @@ namespace City.Buildings.WheelFortune
         public float testRandom = 0;
         private List<int> numbersReward = new List<int>();
         private float deltaMiss = 15f;
-        private Quaternion startRotation;
-        private Coroutine coroutineRotate;
-        private IJsonConverter _jsonConverter;
+        private ReactiveCommand<BigDigit> _onSimpleRotate = new ReactiveCommand<BigDigit>();
+        private Sequence _sequence;
+        public IObservable<BigDigit> OnSimpleRotate => _onSimpleRotate;
+
+        private void FillRewards()
+        {
+            for (int i = 0; i < resources.Count; i++) rewards.Add(resources[i]);
+            for (int i = 0; i < items.Count; i++) rewards.Add(items[i]);
+            for (int i = 0; i < splinters.Count; i++) rewards.Add(splinters[i]);
+        }
+        public void Initialize()
+        {
+            View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(ONE_TIME)).AddTo(Disposables);
+            View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(MANY_TIME)).AddTo(Disposables);
+        }
 
         protected override void OpenPage()
         {
@@ -55,15 +69,17 @@ namespace City.Buildings.WheelFortune
 
         public void PlaySimpleRoulette(int coin = 1)
         {
-            coroutineRotate = StartCoroutine(IRotateArrow(GetRandom(coin)));
-            OnSimpleRotate(coin);
+            View.OneRotateButton.Disable();
+            View.ManyRotateButton.Disable();
+            StartRotateArrow(GetRandom(coin));
+            _onSimpleRotate.Execute(new BigDigit(coin));
         }
 
         private async UniTaskVoid RefreshRewards()
         {
-            var message = new FortuneWheelRewards { PlayerId = GameController.GetPlayerInfo.PlayerId };
+            var message = new FortuneWheelRewards { PlayerId = CommonGameData.Player.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            rewards = _jsonConverter.FromJson<FortuneReward[]>(result).ToList();
+            rewards = _jsonConverter.FromJson<FortuneRewardModel[]>(result).ToList();
         }
 
         private float GetRandom(int countSpin)
@@ -77,7 +93,7 @@ namespace City.Buildings.WheelFortune
                 k = 0;
                 for (int j = 0; j < rewards.Count; j++)
                 {
-                    result += rewards[j].probability;
+                    result += rewards[j].Probability;
                     if (result < rand) { k++; } else { break; }
                 }
                 numbersReward.Add(k);
@@ -87,8 +103,8 @@ namespace City.Buildings.WheelFortune
         private void CalculateProbability()
         {
             generalProbability = 0f;
-            foreach (FortuneReward reward in rewards)
-                generalProbability += reward.probability;
+            foreach (FortuneRewardModel reward in rewards)
+                generalProbability += reward.Probability;
         }
         private void FillWheelFortune()
         {
@@ -96,155 +112,51 @@ namespace City.Buildings.WheelFortune
             {
                 switch (rewards[i])
                 {
-                    case FortuneReward<Resource> product:
-                        places[i].SetItem((product as FortuneReward<Resource>).subject);
+                    case FortuneReward<GameResource> product:
+                        View.RewardCells[i].SetData(product.subject);
                         break;
-                    case FortuneReward<Item> product:
-                        places[i].SetItem(product.subject);
+                    case FortuneReward<GameItem> product:
+                        View.RewardCells[i].SetData(product.subject);
                         break;
-                    case FortuneReward<Splinter> product:
-                        places[i].SetItem(product.subject);
+                    case FortuneReward<GameSplinter> product:
+                        View.RewardCells[i].SetData(product.subject);
                         break;
 
                 }
             }
         }
-        IEnumerator IRotateArrow(float targetTilt)
+        private void StartRotateArrow(float targetTilt)
         {
-            float startTilt = (int)(previousTilt / 360) + 360f;
-            targetTilt = startTilt + targetTilt;
-            float t = 0;
-            Debug.Log("rotate stage 0");
-            while (previousTilt > startTilt) previousTilt -= 360f;
-            float delta = (startTilt - previousTilt) / 360;
-            while (t <= 1)
-            {
-                arrowRect.rotation = Quaternion.Euler(0, 0, -Mathf.Lerp(previousTilt, startTilt, t));
-                if (t < 0.36)
-                {
-                    t += Time.deltaTime * arrowSpeed * (1f / delta) * Mathf.Max(t, 0.1f);
-                }
-                else
-                {
-                    t += Time.deltaTime * arrowSpeed * (1f / delta);
-                }
-                yield return null;
-            }
-            t = 0;
-            while (t <= 1)
-            {
-                arrowRect.rotation = Quaternion.Euler(0, 0, -Mathf.Lerp(startTilt, 360 + startTilt, t));
-                t += Time.deltaTime * arrowSpeed;
-                yield return null;
-            }
-            t = 0;
-            while (startTilt > targetTilt) startTilt -= 360f;
-            delta = (targetTilt - startTilt) / 360;
-            while (t <= 1)
-            {
-                arrowRect.rotation = Quaternion.Euler(0, 0, -Mathf.Lerp(startTilt, targetTilt, t));
-                if (t < 0.64)
-                {
-                    t += Time.deltaTime * arrowSpeed * (1f / delta);
-                }
-                else
-                {
-                    t += Time.deltaTime * arrowSpeed * (1f / delta) * Mathf.Max(1 - t, 0.01f);
-                }
-                yield return null;
-            }
-            previousTilt = targetTilt;
-            GetReward();
+            var currentRotation = View.Arrow.localRotation.eulerAngles;
+            _sequence = DOTween.Sequence()
+                .Append(View.Arrow.DOLocalRotate(currentRotation + new Vector3(0, 0, 360), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
+                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, 360), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
+                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, targetTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360).OnComplete(GetReward));
         }
+
         private void GetReward()
         {
-            Reward reward = new Reward();
+            RewardData reward = new RewardData();
             for (int i = 0; i < numbersReward.Count; i++)
             {
                 switch (rewards[numbersReward[i]])
                 {
-                    case FortuneReward<Resource> res:
-                        Resource rewardRes = (rewards[numbersReward[i]] as FortuneReward<Resource>).subject as Resource;
-                        reward.AddResource((Resource)rewardRes.Clone());
+                    case FortuneReward<GameResource> res:
+                        GameResource rewardRes = (rewards[numbersReward[i]] as FortuneReward<GameResource>).subject as GameResource;
+                        //reward.Add(rewardRes);
                         break;
-                    case FortuneReward<Item> item:
-                        Item rewardItem = (rewards[numbersReward[i]] as FortuneReward<Item>).subject as Item;
-                        reward.AddItem((Item)rewardItem.Clone());
+                    case FortuneReward<GameItem> item:
+                        GameItem rewardItem = (rewards[numbersReward[i]] as FortuneReward<GameItem>).subject as GameItem;
+                        //reward.Add(rewardItem);
                         break;
-                    case FortuneReward<Splinter> splinter:
+                    case FortuneReward<GameSplinter> splinter:
                         break;
                 }
             }
-            MessageController.Instance.OpenSimpleRewardPanel(reward);
+            //MessageController.Instance.OpenSimpleRewardPanel(reward);
+
+            View.OneRotateButton.Enable();
+            View.ManyRotateButton.Enable();
         }
-        private void OneRotate(int count)
-        {
-            PlaySimpleRoulette(1);
-        }
-        private void TenRotate(int count)
-        {
-            PlaySimpleRoulette(10);
-        }
-
-        protected override void OnStart()
-        {
-            _jsonConverter = new JsonConverter();
-
-            buttonOneRotate.RegisterOnBuy(OneRotate);
-            buttonTenRotate.RegisterOnBuy(TenRotate);
-
-            for (int i = 0; i < resources.Count; i++) rewards.Add(resources[i]);
-            for (int i = 0; i < items.Count; i++) rewards.Add(items[i]);
-            for (int i = 0; i < splinters.Count; i++) rewards.Add(splinters[i]);
-            FortuneReward x = null;
-            for (int i = 0; i < rewards.Count - 1; i++)
-            {
-                for (int j = i + 1; j < rewards.Count; j++)
-                {
-                    if (rewards[i].posID > rewards[j].posID)
-                    {
-                        x = rewards[i];
-                        rewards[i] = rewards[j];
-                        rewards[j] = x;
-                    }
-                }
-            }
-            startRotation = arrowRect.rotation;
-        }
-        [ContextMenu("StartPosition")]
-        public void StartPosition()
-        {
-            arrowRect.rotation = startRotation;
-            if (coroutineRotate != null)
-            {
-                StopCoroutine(coroutineRotate);
-                coroutineRotate = null;
-            }
-
-        }
-        private static WheelFortuneController instance;
-        public static WheelFortuneController Instance { get => instance; }
-        void Awake()
-        {
-            instance = this;
-        }
-        //Observers
-        private Action<BigDigit> observerSimpleRotate;
-        public void RegisterOnSimpleRotate(Action<BigDigit> d) { observerSimpleRotate += d; }
-        private void OnSimpleRotate(int amount) { if (observerSimpleRotate != null) observerSimpleRotate(new BigDigit(amount)); }
-
-    }
-
-    [Serializable]
-    public class FortuneReward
-    {
-        public float probability;
-        public int posID;
-    }
-
-    [Serializable]
-    public class FortuneReward<T> : FortuneReward where T : BaseObject
-    {
-        public T subject;
     }
 }

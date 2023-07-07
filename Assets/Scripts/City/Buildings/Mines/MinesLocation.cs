@@ -1,4 +1,4 @@
-using City.Buildings.General;
+using City.Buildings.Abstractions;
 
 namespace City.Buildings.Mines
 {

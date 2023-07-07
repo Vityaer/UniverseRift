@@ -1,6 +1,9 @@
 ﻿using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Network.DataServer.Common;
+using Newtonsoft.Json;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Network.DataServer
 {
@@ -26,7 +29,8 @@ namespace Network.DataServer
             var url = string.Concat(MAIN_URL, message.Route);
             UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
             var asyncRequest = await request.SendWebRequest();
-            return asyncRequest.downloadHandler.text;
+            var answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
+            return answer.Result;
         }
 
         public static async UniTask<string> DownloadData(string route)

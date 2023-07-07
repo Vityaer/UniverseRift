@@ -8,7 +8,8 @@ public class Constants
         public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.Indented
+            Formatting = Formatting.Indented,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
         public static string DictionariesPath
@@ -25,7 +26,26 @@ public class Constants
             }
         }
 
+        public static string GameDataPath
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return "Assets/API/GameData";
+#elif UNITY_STANDALONE || UNITY_SERVER
+                return Application.streamingAssetsPath;
+#elif UNITY_ANDROID
+                return Application.persistentDataPath;
+#endif
+            }
+        }
+
         public const string GAME_DATA_SERVER_ADDRESS = "ip";
+    }
+
+    public static class Game
+    {
+        public const int TACT_TIME = 5;
     }
 
     public static class Fight
@@ -40,5 +60,12 @@ public class Constants
         public static Color NOT_ACHIEVABLE_ENEMY_CELL_COLOR = new Color(255, 0, 0, 0.3f);
         public static Color ACHIEVABLE_FRIEND_CELL_COLOR = new Color(0, 255, 0, 0.7f);
         public static Color NOT_ACHIEVABLE_FRIEND_CELL_COLOR = new Color(0, 255, 0, 0.3f);
+    }
+
+    public static class ResourcesPath
+    {
+        public static string HEROES_PATH = "Heroes/";
+        public static string HERO_TEMPLATE_PATH = "Heroes/HeroTemplate";
+        public static string SFX_PREFAB = "Sounds/ButtonClick";
     }
 }

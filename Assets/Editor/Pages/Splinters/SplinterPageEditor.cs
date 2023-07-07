@@ -30,7 +30,7 @@ namespace Editor.Pages.Splinters
 
         public override void Save()
         {
-            var units = Splinters.Select(r => new Splinter
+            var units = Splinters.Select(r => new SplinterModel
             {
                 Id = r.Id
             }).ToList();

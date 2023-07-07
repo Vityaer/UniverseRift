@@ -1,4 +1,5 @@
-﻿using Common.Resourses;
+﻿using Common.Inventories.Splinters;
+using Common.Resourses;
 using TMPro;
 using UIController;
 using UIController.Inventory;
@@ -41,7 +42,7 @@ public class ThingUI : MonoBehaviour
         imageThing.enabled = true;
     }
 
-    public void UpdateUI(Resource res)
+    public void UpdateUI(GameResource res)
     {
         Clear();
         Debug.Log(res.ToString());
@@ -50,22 +51,22 @@ public class ThingUI : MonoBehaviour
         imageThing.enabled = true;
     }
 
-    public void UpdateUI(SplinterController splinterController)
+    public void UpdateUI(GameSplinter splinterController)
     {
         Clear();
-        imageThing.sprite = splinterController.splinter.Image;
-        if (sliderAmount != null)
-        {
-            if (OnlyMainData == false)
-            {
-                sliderAmount.SetAmount(splinterController.splinter.Amount, splinterController.splinter.RequireAmount);
-            }
-            else
-            {
-                sliderAmount.Hide();
-            }
-        }
-        imageThing.enabled = true;
+        //imageThing.sprite = splinterController.splinter.Image;
+        //if (sliderAmount != null)
+        //{
+        //    if (OnlyMainData == false)
+        //    {
+        //        sliderAmount.SetAmount(splinterController.splinter.Amount, splinterController.splinter.RequireAmount);
+        //    }
+        //    else
+        //    {
+        //        sliderAmount.Hide();
+        //    }
+        //}
+        //imageThing.enabled = true;
     }
 
     public void Select()

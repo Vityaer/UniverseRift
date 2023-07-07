@@ -1,15 +1,11 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Editor.Pages.Items.Set;
-using Models;
 using Models.Heroes;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine.TextCore.Text;
 using Utils;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace Editor.Pages.Heroes
 {
@@ -27,14 +23,9 @@ namespace Editor.Pages.Heroes
 
         public override void Save()
         {
-            var units = Heroes.Select(hero => new HeroModel
-            {
-                Id = hero.Id,
-                General = hero.General,
-                Characts = hero.Characts
-            }).ToList();
+            var heroes = Heroes.Select(hero => hero.GetModel()).ToList();
 
-            EditorUtils.Save(units);
+            EditorUtils.Save(heroes);
             base.Save();
         }
 

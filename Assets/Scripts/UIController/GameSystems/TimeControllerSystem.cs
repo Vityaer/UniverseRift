@@ -1,14 +1,18 @@
 using Common;
 using Models;
+using Models.Common;
 using Network.GameServer;
 using System;
 using UnityEngine;
+using VContainer;
 
 namespace UIController.GameSystems
 {
-    public class TimeControllerSystem : MonoBehaviour
+    public class TimeControllerSystem
     {
-        TimeManagementModel timeControllerSave = null;
+        [Inject] private readonly CommonGameData _ñommonGameData;
+
+        private TimeManagementData timeControllerSave = null;
 
         private TimeSpan day = new TimeSpan(24, 0, 0);
         private TimeSpan week = new TimeSpan(7, 0, 0, 0);
@@ -26,18 +30,18 @@ namespace UIController.GameSystems
         public DateTime GetMonthCycle { get => monthCycle; }
         void Start()
         {
-            GameController.Instance.RegisterOnLoadGame(OnLoadGame);
+            //GameController.Instance.RegisterOnLoadGame(OnLoadGame);
         }
 
         void OnLoadGame()
         {
             currentTime = Client.Instance.GetServerTime();
-            timeControllerSave = GameController.GetCitySave.timeManagement;
-            if (timeControllerSave.CheckRecordDate(NAME_RECORD_DAY))
+            timeControllerSave = _ñommonGameData.City.TimeManagementSave;
+            if (timeControllerSave.DateRecords.CheckRecord(NAME_RECORD_DAY))
             {
-                dayCycle = timeControllerSave.GetRecordDate(NAME_RECORD_DAY);
-                weekCycle = timeControllerSave.GetRecordDate(NAME_RECORD_WEEK);
-                monthCycle = timeControllerSave.GetRecordDate(NAME_RECORD_MONTH);
+                dayCycle = timeControllerSave.DateRecords.GetRecord(NAME_RECORD_DAY);
+                weekCycle = timeControllerSave.DateRecords.GetRecord(NAME_RECORD_WEEK);
+                monthCycle = timeControllerSave.DateRecords.GetRecord(NAME_RECORD_MONTH);
             }
             UpdateDay(currentTime);
             UpdateWeek(currentTime);
@@ -49,7 +53,7 @@ namespace UIController.GameSystems
 #if UNITY_EDITOR
             flagNewDay = true;
             dayCycle = newDay.Date;
-            timeControllerSave.SetRecordDate(NAME_RECORD_DAY, dayCycle);
+            timeControllerSave.DateRecords.SetRecord(NAME_RECORD_DAY, dayCycle);
             OnNewDay();
 #else
     	TimeSpan deltaTime = newDay - dayCycle;
@@ -72,7 +76,7 @@ namespace UIController.GameSystems
                 weekCycle = newWeek.Date;
                 flagNewWeek = true;
                 OnNewWeek();
-                timeControllerSave.SetRecordDate(NAME_RECORD_WEEK, weekCycle);
+                timeControllerSave.DateRecords.SetRecord(NAME_RECORD_WEEK, weekCycle);
             }
             else
             {
@@ -87,7 +91,7 @@ namespace UIController.GameSystems
                 monthCycle = newMonth.Date;
                 flagNewMonth = true;
                 OnNewMonth();
-                timeControllerSave.SetRecordDate(NAME_RECORD_MONTH, monthCycle);
+                timeControllerSave.DateRecords.SetRecord(NAME_RECORD_MONTH, monthCycle);
             }
             else
             {
@@ -117,18 +121,8 @@ namespace UIController.GameSystems
         private void OnNewWeek() { if (observerWeekChange != null) observerWeekChange(); }
         private void OnNewMonth() { if (observerMonthChange != null) observerMonthChange(); }
 
+
         [ContextMenu("Change Cycle day")]
         private void ChangeDay() { OnNewDay(); }
-        void Awake() { instance = this; }
-        private static TimeControllerSystem instance;
-        public static TimeControllerSystem Instance { get => instance; }
-    }
-
-    public enum TypeDateRecord
-    {
-        DayRecover = 0,
-        WeekRecover = 1,
-        monthRecover = 2,
-        AutoFightReward = 3
     }
 }

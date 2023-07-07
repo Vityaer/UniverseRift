@@ -4,33 +4,44 @@ using Common.Resourses;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
+using UniRx;
+using Assets.Scripts.ClientServices;
 
 namespace UIController.Observers
 {
-    public class ObserverResourceController : MonoBehaviour
+    public class ObserverResourceController : BaseObserverUi
     {
+        [Inject] private ResourceStorageController _resourceStorageController;
+        [Inject] private BuyResourcePanelController _buyResourcePanelController;
+
         [Header("General")]
-        public TypeResource typeResource;
+        public ResourceType typeResource;
         private bool isMyabeBuy;
         public int cost;
-        private Resource resource;
+        private GameResource resource;
 
         [Header("UI")]
         public GameObject btnAddResource;
         public Image imageResource;
         public TextMeshProUGUI countResource;
 
-        void Start()
+        protected override void Start()
         {
-            isMyabeBuy = MarketResourceController.Instance.GetCanSellThisResource(typeResource);
-            resource = new Resource(typeResource);
+            //isMyabeBuy = MarketResourceController.Instance.GetCanSellThisResource(typeResource);
+            resource = new GameResource(typeResource);
             imageResource.sprite = resource.Image;
             btnAddResource.SetActive(isMyabeBuy);
-            GameController.Instance.RegisterOnChangeResource(UpdateUI, typeResource);
-            UpdateUI(GameController.Instance.GetResource(typeResource));
         }
 
-        public void UpdateUI(Resource res)
+        [Inject]
+        public override void Construct()
+        {
+            _resourceStorageController.Subscribe(typeResource, UpdateUI);
+            UpdateUI(_resourceStorageController.GetResource(typeResource));
+        }
+
+        public void UpdateUI(GameResource res)
         {
             resource = res;
             countResource.text = resource.ToString();
@@ -38,12 +49,13 @@ namespace UIController.Observers
 
         public void OpenPanelForBuyResource()
         {
-            MarketProduct<Resource> product = null;
-            product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Name);
+            MarketProduct<GameResource> product = null;
+            product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Type);
             if (product != null)
-                PanelBuyResource.StandartPanelBuyResource.Open(
+                _buyResourcePanelController.Open(
                     product.subject, product.Cost
                     );
         }
+
     }
 }

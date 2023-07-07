@@ -5,9 +5,9 @@ using Sirenix.OdinInspector;
 namespace Editor.Units
 {
     [HideReferenceObjectPicker]
-    public class RarityEditor : BaseModelEditor<Rarity>
+    public class RarityEditor : BaseModelEditor<RarityModel>
     {
-        public RarityEditor(Rarity model)
+        public RarityEditor(RarityModel model)
         {
             _model = model;
         }

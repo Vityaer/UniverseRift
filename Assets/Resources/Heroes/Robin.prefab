@@ -112,7 +112,6 @@ GameObject:
   - component: {fileID: 7142450140740552528}
   - component: {fileID: 8782716024542455549}
   - component: {fileID: 718994708157379994}
-  - component: {fileID: -7930022285280729625}
   m_Layer: 0
   m_Name: Robin
   m_TagString: Hero
@@ -217,25 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391b41eda8b4e974cac4c742daa446a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: -7930022285280729625}
+  statusState: {fileID: 2000703427162941637}
   myPlace: {fileID: 0}
   listTarget: []
   speedMove: 2
   speedAnimation: 1
   hero:
-    generalInfo:
-      Name: 
-      race: 0
-      ClassHero: 0
-      ratingHero: 0
-      rare: 0
-      idHero: 0
-      Level: 0
-      isAlive: 1
-      IDCreate: 0
-      IDPrefab: 0
-    prefabArrow: {fileID: 0}
-    characts:
+    Characteristics:
       limitLevel: 0
       Damage: 0
       HP: 0
@@ -245,9 +232,9 @@ MonoBehaviour:
       Accuracy: 0
       CleanDamage: 0
       Dodge: 0
-      CountTargetForSimpleAttack: 0
-      CountTargetForSpell: 0
-      baseCharacteristic:
+      CountTargetForSimpleAttack: 1
+      CountTargetForSpell: 1
+      Main:
         Attack: 0
         Defense: 0
         Speed: 0
@@ -256,43 +243,14 @@ MonoBehaviour:
         typeStrike: 0
         CanRetaliation: 1
         CountCouterAttack: 1
-      GeneralAttack: 0
-      GeneralArmor: 0
-      MaxHP: 0
-    resistances:
-      MagicResistance: 0
-      CritResistance: 0
-      PoisonResistance: 0
-      StunResistance: 0
-      PetrificationResistance: 0
-      FreezingResistance: 0
-      AstralResistance: 0
-      DumbResistance: 0
-      SilinceResistance: 0
-      EfficiencyHeal: 1
-    skills: []
     statusState: {fileID: 0}
-  side: 0
+  Side: 0
   maxCountCounterAttack: 1
   flagAnimFinish: 0
   isFacingRight: 1
+  BodyParent: {fileID: 5169299495739018371}
   outlineController: {fileID: 4667552447416698645}
   robinArrow: {fileID: 6473698938844156246, guid: cdb28fad87713fe4394df6e2ca327c8c, type: 3}
---- !u!114 &-7930022285280729625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6057398808196528911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9862628d0eee54478944b293a8a5242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliderHP: {fileID: 6271545144273199520}
-  sliderStamina: {fileID: 4547495732585353844}
-  currentState: 5
 --- !u!1 &7761274715736173972
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,15 +420,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
---- !u!114 &4547495732585353844 stripped
+--- !u!114 &2000703427162941637 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3420605837107723154, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
   m_PrefabInstance: {fileID: 3799775605794984791}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
+  m_Script: {fileID: 11500000, guid: df8c7a86e35990f44bb5e8d2cabf91ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &5270910640857738902 stripped
@@ -478,14 +436,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9051543130703936961, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
   m_PrefabInstance: {fileID: 3799775605794984791}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6271545144273199520 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
-  m_PrefabInstance: {fileID: 3799775605794984791}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

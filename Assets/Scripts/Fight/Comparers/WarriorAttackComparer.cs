@@ -6,9 +6,9 @@ namespace Fight.Comparers
     {
         public int Compare(Warrior w1, Warrior w2)
         {
-            if (w1.heroController.hero.characts.Damage < w2.heroController.hero.characts.Damage)
+            if (w1.heroController.hero.Model.Characteristics.Damage < w2.heroController.hero.Model.Characteristics.Damage)
                 return 1;
-            else if (w1.heroController.hero.characts.Damage > w2.heroController.hero.characts.Damage)
+            else if (w1.heroController.hero.Model.Characteristics.Damage > w2.heroController.hero.Model.Characteristics.Damage)
                 return -1;
             else
                 return 0;

@@ -3,11 +3,15 @@ using System;
 using UIController;
 using UIController.FightUI;
 using UnityEngine;
+using VContainer;
+using UniRx;
 
 namespace Fight.HeroStates
 {
-    public partial class HeroStatus : MonoBehaviour
+    public partial class HeroStatus : MonoBehaviour, IDisposable
     {
+        private FightController _fightController;
+
         public TimeSlider sliderHP;
         public TimeSlider sliderStamina;
         private Vector2 delta = new Vector2(0, 30);
@@ -16,18 +20,19 @@ namespace Fight.HeroStates
         private int stamina = 25;
         // private GameObject panelStatus;
         private float currentHP;
-
+        private CompositeDisposable _disposables = new CompositeDisposable();
         public int Stamina => stamina;
+
+        [Inject]
+        public void Construct(FightController fightController)
+        {
+            _fightController = fightController;
+            _fightController.OnEndRound.Subscribe(_ => RoundFinish()).AddTo(_disposables);
+        }
 
         void Awake()
         {
             heroController = GetComponent<HeroController>();
-        }
-
-        void Start()
-        {
-            FightController.Instance.RegisterOnEndRound(RoundFinish);
-            gameObject.transform.Find("CanvasHeroesStatus").gameObject.SetActive(true);
         }
 
         //Helth	
@@ -35,11 +40,11 @@ namespace Fight.HeroStates
         {
             if (HP < currentHP)
             {
-                ListFightTextsScript.Instance.ShowDamage(currentHP - HP, gameObject.transform.position);
+                PoolFightTexts.Instance.ShowDamage(currentHP - HP, gameObject.transform.position);
             }
             else
             {
-                ListFightTextsScript.Instance.ShowHeal(HP - currentHP, gameObject.transform.position);
+                PoolFightTexts.Instance.ShowHeal(HP - currentHP, gameObject.transform.position);
             }
 
             currentHP = HP;
@@ -93,6 +98,11 @@ namespace Fight.HeroStates
         {
             if (observerStamina != null)
                 observerStamina(num);
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
     }
 }

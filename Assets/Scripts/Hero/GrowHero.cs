@@ -21,11 +21,13 @@ namespace Hero
             GrowthCharact(ref resistance.CritResistance, increaseCharacts.increaseCritResistance, level);
             GrowthCharact(ref resistance.MagicResistance, increaseCharacts.increaseMagicResistance, level);
         }
+
         private static void GrowthCharact(ref int charact, float increase, int level)
         {
             for (int i = 0; i < level; i++)
                 charact = (int)Mathf.Ceil(charact * (1 + increase / 100f));
         }
+
         private static void GrowthCharact(ref float charact, float increase, int level)
         {
             for (int i = 0; i < level; i++)

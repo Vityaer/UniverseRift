@@ -31,10 +31,13 @@ namespace Models.Heroes.Actions
         public RoundTypeNumber typeNumber;
         public DropOrSum RepeatCall;
         public List<Round> rounds = new List<Round>();
+
         [Space]
         private List<HeroController> listTarget = new List<HeroController>();
+
         private HeroController master;
         public HeroController Master { get => master; set => master = value; }
+
         public void SetNewTarget(List<HeroController> listTarget)
         {
             this.listTarget.Clear();
@@ -45,8 +48,19 @@ namespace Models.Heroes.Actions
                 {
                     if (sideTarget != SideTarget.I)
                     {
-                        if (sideTarget == SideTarget.Friend) { if (side == Side.Left) { side = Side.Right; } else { side = Side.Left; } }
-                        FightController.Instance.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
+                        if (sideTarget == SideTarget.Friend)
+                        {
+                            if (side == Side.Left)
+                            {
+                                side = Side.Right;
+                            }
+                            else
+                            {
+                                side = Side.Left;
+                            }
+                        }
+
+                        master.FightController.ChooseEnemies(side, countTarget, this.listTarget, typeSelect);
                     }
                     else
                     {

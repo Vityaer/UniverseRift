@@ -39,7 +39,6 @@ namespace UIController
                     interval = DateTime.Now - startTime;
                     waitSeconds = (int)interval.TotalSeconds;
                     t = waitSeconds / secondsInterval;
-                    Debug.Log($"accumulation: {waitSeconds}, all time: {secondsInterval}, t = {t}");
                     if (t >= 1)
                     {
                         interval = generalInterval;
@@ -133,6 +132,7 @@ namespace UIController
             float result = 1f;
             switch (typeSlider)
             {
+                //TODO: можно использовать TotalSeconds
                 case TypeSliderTime.Remainder:
                     if (interval.Days > 0)
                     {

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Inventories.Splinters;
 using Common.Resourses;
 using Sirenix.Serialization;
 using System;
@@ -15,37 +16,37 @@ namespace City.Buildings.Market
         [SerializeField] private GameObject soldOutPanel;
 
         public ButtonCostController buttonCost;
-        public SubjectCellController cellProduct;
+        public SubjectCell CellProduct;
         private BaseObject _subject;
 
         private Action<string, int> callback = null;
 
-        public void SetData(MarketProduct<Resource> product, Action<string, int> callback)
+        public void SetData(MarketProduct<GameResource> product, Action<string, int> callback)
         {
             this.callback = callback;
             marketProduct = product;
-            buttonCost.UpdateCost(product.Cost, Buy);
-            cellProduct.SetItem(product.subject);
+            //buttonCost.UpdateCost(product.Cost, Buy);
+            //CellProduct.SetItem(product.subject);
             UpdateUI();
             _subject = product.subject;
         }
 
-        public void SetData(MarketProduct<Item> product, Action<string, int> callback)
+        public void SetData(MarketProduct<GameItem> product, Action<string, int> callback)
         {
             this.callback = callback;
             marketProduct = product;
-            buttonCost.UpdateCost(product.Cost, Buy);
-            cellProduct.SetItem(product.subject);
+            //buttonCost.UpdateCost(product.Cost, Buy);
+            //CellProduct.SetItem(product.subject);
             UpdateUI();
             _subject = product.subject;
         }
 
-        public void SetData(MarketProduct<Splinter> product, Action<string, int> callback)
+        public void SetData(MarketProduct<GameSplinter> product, Action<string, int> callback)
         {
             this.callback = callback;
             marketProduct = product;
-            buttonCost.UpdateCost(product.Cost, Buy);
-            cellProduct.SetItem(product.subject);
+            //buttonCost.UpdateCost(product.Cost, Buy);
+            //CellProduct.SetItem(product.subject);
             UpdateUI();
             _subject = product.subject;
         }
@@ -60,7 +61,7 @@ namespace City.Buildings.Market
             else
             {
                 soldOutPanel.SetActive(false);
-                buttonCost.EnableButton();
+                buttonCost.Enable();
             }
         }
 

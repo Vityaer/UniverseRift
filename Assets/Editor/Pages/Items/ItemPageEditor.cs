@@ -14,7 +14,7 @@ namespace Editor.Pages.Items
     public class ItemPageEditor : BasePageEditor
     {
         private CommonDictionaries _dictionaries;
-        private List<Item> _items => _dictionaries.Items.Select(l => l.Value).ToList();
+        private List<ItemModel> _items => _dictionaries.Items.Select(l => l.Value).ToList();
 
         public ItemPageEditor(CommonDictionaries commonDictionaries)
         {
@@ -33,7 +33,8 @@ namespace Editor.Pages.Items
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            var item = new ItemModelEditor(new Item(), _dictionaries);
+            _dictionaries.Items.Add(id, new ItemModel() { Id = id });
+            var item = new ItemModelEditor(new ItemModel(), _dictionaries);
             Items.Add(item);
         }
 
@@ -45,12 +46,8 @@ namespace Editor.Pages.Items
 
         public override void Save()
         {
-            var items = Items.Select(itemModel => new Item
-            {
-                Id = itemModel.Id,
-                Rarity = itemModel.Rarity
-            }).ToList();
-            EditorUtils.Save(items);
+            //var items = Items.Select(itemModel => itemModel.GetModel).ToList();
+            //EditorUtils.Save(items);
             base.Save();
         }
 

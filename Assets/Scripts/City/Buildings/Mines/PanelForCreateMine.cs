@@ -42,12 +42,12 @@ namespace City.Buildings.Mines
             data = newData;
             panelController.SetActive(true);
             costController.ShowCosts(data.costCreate);
-            btnCreate.interactable = GameController.Instance.CheckResource(data.costCreate);
+            //btnCreate.interactable = GameController.Instance.CheckResource(data.costCreate);
         }
         public void CreateMine()
         {
             MineCard.DiselectAfterCreate();
-            GameController.Instance.SubtractResource(data.costCreate);
+            //GameController.Instance.SubtractResource(data.costCreate);
             Close();
             MinesController.Instance.CreateNewMine(place, data);
         }

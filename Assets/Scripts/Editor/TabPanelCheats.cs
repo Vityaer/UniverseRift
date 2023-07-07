@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Inventories.Splinters;
 using Common.Resourses;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ public class TabPanelCheats : EditorWindow
     Vector2 scrollPos;
     string IDsplinter;
     string IDItem;
-    Resource res = new Resource();
+    GameResource res = new GameResource();
 
     [MenuItem("Tools/My develop/TabPanel Cheat")]
     static void Init()
@@ -29,33 +30,33 @@ public class TabPanelCheats : EditorWindow
         GUILayout.Label("Clear Data", EditorStyles.boldLabel);
         if (GUILayout.Button("Clear heroes")) { ClearListHeroes(); }
         if (GUILayout.Button("Clear general info")) { ClearGeneralInfo(); }
-        if (GUILayout.Button("Clear resources")) { ClearResources(); }
+        //if (GUILayout.Button("Clear resources")) { ClearResources(); }
         if (GUILayout.Button("Clear inventory")) { ClearInventory(); }
         if (GUILayout.Button("Clear All info")) { ClearAllData(); }
 
         EditorGUILayout.Space();
         GUILayout.Label("Cheats", EditorStyles.boldLabel);
-        if (GUILayout.Button("+ 50 Simple Hire")) { AddSimpleHire(); }
-        if (GUILayout.Button("+ 500k gold")) { Add500kGold(); }
-        if (GUILayout.Button("+ 50 Simple tasks")) { AddSimpleTask(); }
-        if (GUILayout.Button("+ 50 Special tasks")) { AddSpecialTask(); }
-        if (GUILayout.Button("+ 50 race hire")) { AddRaceHire(); }
-        if (GUILayout.Button("+ 50 spin coin")) { AddSpinCoin(); }
+        //if (GUILayout.Button("+ 50 Simple Hire")) { AddSimpleHire(); }
+        //if (GUILayout.Button("+ 500k gold")) { Add500kGold(); }
+        //if (GUILayout.Button("+ 50 Simple tasks")) { AddSimpleTask(); }
+        //if (GUILayout.Button("+ 50 Special tasks")) { AddSpecialTask(); }
+        //if (GUILayout.Button("+ 50 race hire")) { AddRaceHire(); }
+        //if (GUILayout.Button("+ 50 spin coin")) { AddSpinCoin(); }
         GUILayout.BeginHorizontal("box");
-        res.Name = (TypeResource)EditorGUILayout.EnumPopup("TypeResource:", res.Name);
-        res.Count = EditorGUILayout.FloatField("Count:", res.Count);
-        res.E10 = EditorGUILayout.IntField("E10:", res.E10);
-        if (GUILayout.Button("Add Resource")) { AddCustomResource(); }
+        //res.Type = (ResourceType)EditorGUILayout.EnumPopup("TypeResource:", res.Type);
+        //res.Count = EditorGUILayout.FloatField("Count:", res.Count);
+        //res.E10 = EditorGUILayout.IntField("E10:", res.E10);
+        //if (GUILayout.Button("Add Resource")) { AddCustomResource(); }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal("box");
         IDsplinter = EditorGUILayout.TextField("ID:", IDsplinter);
-        if (GUILayout.Button("+ Splinters")) { AddSplinters(); }
+        //if (GUILayout.Button("+ Splinters")) { AddSplinters(); }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal("box");
         IDItem = EditorGUILayout.TextField("ID:", IDItem);
-        if (GUILayout.Button("+ Item")) { AddItem(); }
+        //if (GUILayout.Button("+ Item")) { AddItem(); }
         GUILayout.EndHorizontal();
 
         EditorGUILayout.EndScrollView();
@@ -87,70 +88,70 @@ public class TabPanelCheats : EditorWindow
         StreamWriter sw = CreateStream(NameInventoryFile, false);
         sw.Close();
     }
-    void ClearResources()
-    {
-        GameController.Instance.ClearAllResource();
-    }
-    void Add500kGold()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.Gold, 500, 3));
-    }
-    void AddSimpleHire()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.SimpleHireCard, 50, 0));
-    }
-    void AddSimpleTask()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.SimpleTask, 50, 0));
-    }
-    void AddSpecialTask()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.SpecialTask, 50, 0));
-    }
-    void AddRaceHire()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.RaceHireCard, 50, 0));
-    }
-    void AddSpinCoin()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(new Resource(TypeResource.CoinFortune, 50, 0));
-    }
-    void AddCustomResource()
-    {
-        if (GameController.Instance != null) GameController.Instance.AddResource(res);
-    }
-    SplintersList splintersList = null;
-    void AddSplinters()
-    {
-        if (InventoryController.Instance != null)
-        {
-            if (splintersList == null)
-                splintersList = Resources.Load<SplintersList>("Items/ListSplinters");
+    //void ClearResources()
+    //{
+    //    GameController.Instance.ClearAllResource();
+    //}
+    //void Add500kGold()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.Gold, 500, 3));
+    //}
+    //void AddSimpleHire()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.SimpleHireCard, 50, 0));
+    //}
+    //void AddSimpleTask()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.SimpleTask, 50, 0));
+    //}
+    //void AddSpecialTask()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.SpecialTask, 50, 0));
+    //}
+    //void AddRaceHire()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.RaceHireCard, 50, 0));
+    //}
+    //void AddSpinCoin()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(new GameResource(ResourceType.CoinFortune, 50, 0));
+    //}
+    //void AddCustomResource()
+    //{
+    //    if (GameController.Instance != null) GameController.Instance.AddResource(res);
+    //}
 
-            var name = IDsplinter;
+    //void AddSplinters()
+    //{
+    //    if (InventoryController.Instance != null)
+    //    {
+    //        if (splintersList == null)
+    //            splintersList = Resources.Load<SplintersList>("Items/ListSplinters");
 
-            Splinter splinter = splintersList.GetSplinter(name);
-            if (splinter != null)
-                InventoryController.Instance.AddSplinter(new SplinterController(splinter, splinter.RequireAmount));
-        }
-    }
-    private ItemsList itemsList = null;
-    void AddItem()
-    {
-        if (InventoryController.Instance != null)
-        {
-            if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
-            Item item = itemsList?.GetItem(IDItem);
-            if (item != null)
-            {
-                InventoryController.Instance.AddItem(new ItemController(item, 1));
-            }
-            else
-            {
-                Debug.Log("хуйня");
-            }
-        }
-    }
+    //        var name = IDsplinter;
+
+    //        GameSplinter splinter = splintersList.GetSplinter(name);
+    //        if (splinter != null)
+    //            InventoryController.Instance.AddSplinter(new SplinterController(splinter, splinter.RequireAmount));
+    //    }
+    //}
+
+    //void AddItem()
+    //{
+    //    if (InventoryController.Instance != null)
+    //    {
+    //        if (itemsList == null) itemsList = Resources.Load<ItemsList>("Items/ListItems");
+    //        GameItem item = itemsList?.GetItem(IDItem);
+    //        if (item != null)
+    //        {
+    //            InventoryController.Instance.AddItem(new ItemController(item, 1));
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("хуйня");
+    //        }
+    //    }
+    //}
 
 
     //Core

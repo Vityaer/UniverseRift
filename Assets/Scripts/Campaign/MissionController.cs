@@ -1,136 +1,125 @@
-﻿using Fight;
-using Campaign;
+﻿using Common.Resourses;
+using Fight;
 using Models.Fights.Campaign;
+using System;
 using TMPro;
 using UIController;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using Common.Resourses;
 
-public class MissionController : MonoBehaviour
+namespace Campaign
 {
-    [Header("UI")]
-    public TextMeshProUGUI textNameMission;
-    public TextMeshProUGUI textAutoRewardGold, textAutoRewardExperience, textAutoRewardStone;
-    public Image backgoundMission;
-    public GameObject infoFotter;
-    public GameObject blockPanel;
-    public GameObject imageAutoFight;
-    public GameObject btnGoFight;
-    public TextMeshProUGUI textBtnGoFight;
-    public RewardUIController rewardController;
-    [Header("Contollers")]
-    public StatusMission statusMission;
-    public CampaignMission mission;
-    private int numMission;
-
-    //API
-    public void SetMission(CampaignMission mission, int numMission)
+    public class MissionController : MonoBehaviour
     {
-        this.mission = (CampaignMission)mission.Clone();
-        this.numMission = numMission;
-        backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.Location);
-        textNameMission.text = numMission.ToString();
-        statusMission = StatusMission.NotOpen;
-        UpdateUI();
-    }
+        [Header("UI")]
+        public TextMeshProUGUI textNameMission;
+        public TextMeshProUGUI textAutoRewardGold;
+        public TextMeshProUGUI textAutoRewardExperience;
+        public TextMeshProUGUI textAutoRewardStone;
+        public Image backgoundMission;
+        public GameObject infoFotter;
+        public GameObject blockPanel;
+        public GameObject imageAutoFight;
+        public GameObject btnGoFight;
+        public TextMeshProUGUI textBtnGoFight;
+        public RewardUIController rewardController;
+        [Header("Contollers")]
+        public StatusMission Status;
+        public CampaignMissionModel mission;
+        public int numMission;
+        private ReactiveCommand<MissionController> _onClickMission = new ReactiveCommand<MissionController>();
 
-    public void SetAutoFight()
-    {
-        AutoFight.Instance.SelectMissionAutoFight(this);
-    }
+        public IObservable<MissionController> OnClickMission => _onClickMission;
 
-    public void ClickOnMission()
-    {
-        if (statusMission != StatusMission.Complete)
+        public void SetMission(CampaignMissionModel mission, int numMission)
         {
-            if (statusMission == StatusMission.Open)
+            this.mission = mission;
+            this.numMission = numMission;
+            //backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.Location);
+            textNameMission.text = numMission.ToString();
+            Status = StatusMission.NotOpen;
+            UpdateUI();
+        }
+
+        public void ClickOnMission()
+        {
+            _onClickMission.Execute(this);
+        }
+
+        public void UpdateAutoRewardUI()
+        {
+            if (Status == StatusMission.Complete || Status == StatusMission.InAutoFight)
             {
-                CampaignBuilding.Instance.SelectMission(this);
+                infoFotter.SetActive(true);
+                var autoReward = mission.AutoFightReward;
+                textAutoRewardGold.text = $"{autoReward.BaseResource[ResourceType.Gold].Amount} /{Constants.Game.TACT_TIME}sec.";
+                textAutoRewardStone.text = $"{autoReward.BaseResource[ResourceType.ContinuumStone].Amount} /{Constants.Game.TACT_TIME}sec.";
+                textAutoRewardExperience.text = $"{autoReward.BaseResource[ResourceType.Exp].Amount} /{Constants.Game.TACT_TIME}sec.";
             }
         }
-        else
+
+        public void StartAutoFight()
         {
-            if (statusMission != StatusMission.InAutoFight)
+            Status = StatusMission.InAutoFight;
+            imageAutoFight.SetActive(true);
+            btnGoFight.SetActive(false);
+        }
+
+        public void StopAutoFight()
+        {
+            Status = StatusMission.Complete;
+            imageAutoFight.SetActive(false);
+            btnGoFight.SetActive(true);
+        }
+
+        public void MissionWin()
+        {
+            Status = StatusMission.InAutoFight;
+            UpdateAutoRewardUI();
+            UpdateUI();
+            StartAutoFight();
+        }
+
+        public void CompletedMission()
+        {
+            Status = StatusMission.Complete;
+            imageAutoFight.SetActive(false);
+            UpdateUI();
+            UpdateAutoRewardUI();
+        }
+
+        public void OpenMission()
+        {
+            Status = StatusMission.Open;
+            blockPanel.SetActive(false);
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            switch (Status)
             {
-                AutoFight.Instance.SelectMissionAutoFight(this);
+                case StatusMission.NotOpen:
+                    blockPanel.SetActive(true);
+                    infoFotter.SetActive(false);
+                    btnGoFight.SetActive(false);
+                    rewardController.CloseReward();
+                    break;
+                case StatusMission.Open:
+                    //rewardController.ShowReward(mission.WinReward);
+                    rewardController.OpenReward();
+                    textBtnGoFight.text = "Вызвать";
+                    break;
+                case StatusMission.Complete:
+                case StatusMission.InAutoFight:
+                    //rewardController.ShowAutoReward(mission.AutoFightReward);
+                    rewardController.OpenReward();
+                    textBtnGoFight.text = "Авто";
+                    break;
             }
+            btnGoFight.SetActive(Status == StatusMission.Open || Status == StatusMission.Complete);
+            blockPanel.SetActive(false);
         }
-    }
-
-    public void UpdateAutoRewardUI()
-    {
-        if ((statusMission == StatusMission.Complete) || (statusMission == StatusMission.InAutoFight))
-        {
-            infoFotter.SetActive(true);
-            textAutoRewardGold.text = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.Gold).ToString(), "/ 5sec");
-            textAutoRewardExperience.text = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.Exp).ToString(), "/ 5sec");
-            textAutoRewardStone.text = string.Concat(this.mission.AutoFightReward.resources.List.Find(x => x.Name == TypeResource.ContinuumStone).ToString(), "/ 5sec");
-        }
-    }
-
-    public void StartAutoFight()
-    {
-        statusMission = StatusMission.InAutoFight;
-        imageAutoFight.SetActive(true);
-        btnGoFight.SetActive(false);
-    }
-
-    public void StopAutoFight()
-    {
-        statusMission = StatusMission.Complete;
-        imageAutoFight.SetActive(false);
-        btnGoFight.SetActive(true);
-    }
-
-    public void MissionWin()
-    {
-        statusMission = StatusMission.InAutoFight;
-        AutoFight.Instance.SelectMissionAutoFight(this);
-        UpdateAutoRewardUI();
-        UpdateUI();
-        StartAutoFight();
-        CampaignBuilding.Instance.OpenNextMission();
-    }
-
-    public void CompletedMission()
-    {
-        statusMission = StatusMission.Complete;
-        UpdateUI();
-        UpdateAutoRewardUI();
-    }
-
-    public void OpenMission()
-    {
-        statusMission = StatusMission.Open;
-        blockPanel.SetActive(false);
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        switch (statusMission)
-        {
-            case StatusMission.NotOpen:
-                blockPanel.SetActive(true);
-                infoFotter.SetActive(false);
-                btnGoFight.SetActive(false);
-                rewardController.CloseReward();
-                break;
-            case StatusMission.Open:
-                rewardController.ShowReward(this.mission.WinReward);
-                rewardController.OpenReward();
-                textBtnGoFight.text = "Вызвать";
-                break;
-            case StatusMission.Complete:
-            case StatusMission.InAutoFight:
-                rewardController.ShowAutoReward(this.mission.AutoFightReward);
-                rewardController.OpenReward();
-                textBtnGoFight.text = "Авто";
-                break;
-        }
-        int status = (int)statusMission;
-        btnGoFight.SetActive((status == 1) || (status == 2));
-        blockPanel.SetActive(false);
     }
 }

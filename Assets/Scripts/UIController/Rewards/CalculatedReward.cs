@@ -1,4 +1,5 @@
-﻿using Common.Resourses;
+﻿using Common.Inventories.Splinters;
+using Common.Resourses;
 using System.Collections;
 using System.Collections.Generic;
 using UIController.Inventory;
@@ -9,32 +10,29 @@ namespace UIController.Rewards
     [System.Serializable]
     public class CalculatedReward
     {
-        [SerializeField] private ListResource listResource = new ListResource();
-        public ListResource GetListResource { get => listResource; }
-        [SerializeField] private List<ItemController> items = new List<ItemController>();
-        public List<ItemController> GetItems { get => items; }
-        [SerializeField] private List<SplinterController> splinters = new List<SplinterController>();
-        public List<SplinterController> GetSplinters { get => splinters; }
-        public int AllCount { get => listResource.Count + GetItems.Count + GetSplinters.Count; }
+        [SerializeField] private List<GameResource> _resources = new List<GameResource>();
+        [SerializeField] private List<GameItem> _items = new List<GameItem>();
+        [SerializeField] private List<GameSplinter> _splinters = new List<GameSplinter>();
+        public int AllCount  => _resources.Count + _items.Count + _splinters.Count; 
 
         public CalculatedReward() { }
 
-        public CalculatedReward(ListResource listRes, List<ItemController> items, List<SplinterController> splinters)
+        public CalculatedReward(List<GameResource> listRes, List<GameItem> items, List<GameSplinter> splinters)
         {
-            listResource = listRes;
-            this.items = items;
-            this.splinters = splinters;
+            _resources = listRes;
+            this._items = items;
+            this._splinters = splinters;
         }
 
-        public CalculatedReward Clone()
-        {
-            ListResource listRes = (ListResource)listResource.Clone();
-            List<ItemController> items = new List<ItemController>();
-            List<SplinterController> splinters = new List<SplinterController>();
-            foreach (ItemController item in this.items) { items.Add((ItemController)item.Clone()); }
-            foreach (SplinterController splinter in this.splinters) { splinters.Add((SplinterController)splinter.Clone()); }
-            return new CalculatedReward(listRes, items, splinters);
-        }
+        //public CalculatedReward Clone()
+        //{
+            //ListResource listRes = (ListResource)_resources.Clone();
+            //List<ItemController> items = new List<ItemController>();
+            //List<SplinterController> splinters = new List<SplinterController>();
+            //foreach (ItemController item in this._items) { items.Add((ItemController)item.Clone()); }
+            //foreach (SplinterController splinter in this._splinters) { splinters.Add((SplinterController)splinter.Clone()); }
+            //return new CalculatedReward(listRes, items, splinters);
+        //}
 
     }
 }

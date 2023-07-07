@@ -16,7 +16,7 @@ namespace Models.Heroes.Actions
             {
                 case EffectSimpleAction.Damage:
                     foreach (HeroController heroController in listTarget)
-                        heroController.GetDamage(new Strike(amount, heroController.hero.characts.GeneralAttack, typeNumber: typeNumber));
+                        heroController.ApplyDamage(new Strike(amount, heroController.hero.Model.Characteristics.Main.Attack, typeNumber: typeNumber));
                     break;
                 case EffectSimpleAction.Heal:
                     foreach (HeroController heroController in listTarget)

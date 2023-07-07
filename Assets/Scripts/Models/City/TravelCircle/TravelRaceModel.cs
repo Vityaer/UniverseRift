@@ -8,7 +8,7 @@ namespace Models.City.TravelCircle
     {
         private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
         public string race;
-        public TravelSelectScript controllerUI;
+        public TravelSelect controllerUI;
         public List<MissionWithSmashReward> missions = new List<MissionWithSmashReward>();
         private int currentMission = 0;
         public int CurrentMission { get => currentMission; set => currentMission = value; }

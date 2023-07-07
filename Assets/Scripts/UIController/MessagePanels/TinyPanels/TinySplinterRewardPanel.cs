@@ -1,10 +1,10 @@
-using UIController.Inventory;
+using Common.Inventories.Splinters;
 
 namespace UIController.MessagePanels.TinyPanels
 {
     public class TinySplinterRewardPanel : TinyRewardPanel
     {
-        public void Open(Splinter data)
+        public void Open(GameSplinter data)
         {
 
         }

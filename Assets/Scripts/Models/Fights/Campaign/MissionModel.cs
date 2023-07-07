@@ -1,42 +1,40 @@
-﻿using Campaign;
-using Fight;
-using Fight.WarTable;
-using MainScripts;
+﻿using Db.CommonDictionaries;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UIController.Rewards;
 
 namespace Models.Fights.Campaign
 {
-    [System.Serializable]
-    public class MissionModel : BaseModel, ICloneable
+    [Serializable]
+    public class MissionModel
     {
+        [NonSerialized] public CommonDictionaries Dictionaries;
+
         public string Name;
         public string Location;
-        public List<Unit> ListEnemy;
-        public Reward WinReward;
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
+        NumberOfItemsPerPage = 20,
+        CustomRemoveElementFunction = nameof(RemoveHero), CustomAddFunction = nameof(AddHero))]
+        public List<HeroData> Units = new List<HeroData>();
+        public RewardData WinReward;
 
-        public virtual void OnFinishFight(FightResultType fightResult)
+        public MissionModel() { }
+
+        public MissionModel(CommonDictionaries dictionaries)
         {
-            if (fightResult == FightResultType.Win)
-            {
-                MessageController.Instance.OpenWin(WinReward, WarTableController.Instance.FinishMission);
-            }
-            else
-            {
-                MessageController.Instance.OpenDefeat(null, WarTableController.Instance.FinishMission);
-            }
+            Dictionaries = dictionaries;
         }
 
-        public object Clone()
+        protected void AddHero()
         {
-            return new MissionModel
-            {
-                Name = Name,
-                ListEnemy = ListEnemy,
-                Location = Location,
-                WinReward = WinReward.Clone()
-            };
+            Units.Add(new HeroData(Dictionaries));
         }
+
+        private void RemoveHero(HeroData light, object b, List<HeroData> lights)
+        {
+            Units.Remove(light);
+        }
+
     }
 }

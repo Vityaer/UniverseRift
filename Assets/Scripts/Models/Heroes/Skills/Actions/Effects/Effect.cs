@@ -1,7 +1,9 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight;
+using Fight.HeroControllers.Generals;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 namespace Models.Heroes.Actions
 {
@@ -26,7 +28,7 @@ namespace Models.Heroes.Actions
         public void CreateEffect(HeroController master)
         {
             this.master = master;
-            foreach (ActionEffect action in listAction)
+            foreach (var action in listAction)
             {
                 action.Master = master;
             }
@@ -43,7 +45,7 @@ namespace Models.Heroes.Actions
             }
             else
             {
-                foreach (ActionEffect action in listAction)
+                foreach (var action in listAction)
                 {
                     action.SetNewTarget(listTarget);
                     action.ExecuteAction();
@@ -61,7 +63,7 @@ namespace Models.Heroes.Actions
             }
             else
             {
-                foreach (ActionEffect action in listAction)
+                foreach (var action in listAction)
                 {
                     action.SetNewTarget(listTarget);
                     action.ExecuteAction();

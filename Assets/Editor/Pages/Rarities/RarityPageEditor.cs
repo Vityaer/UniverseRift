@@ -11,7 +11,7 @@ namespace Editor.Units
     public class RarityPageEditor : BasePageEditor
     {
         private CommonDictionaries _dictionaries;
-        private List<Rarity> _rarities => _dictionaries.Rarities.Select(l => l.Value).ToList();
+        private List<RarityModel> _rarities => _dictionaries.Rarities.Select(l => l.Value).ToList();
 
         public RarityPageEditor(CommonDictionaries commonDictionaries)
         {
@@ -28,7 +28,7 @@ namespace Editor.Units
 
         public override void Save()
         {
-            var units = Rarities.Select(r => new Rarity
+            var units = Rarities.Select(r => new RarityModel
             {
                 Id = r.Id,
                 Name = r.Name
@@ -42,7 +42,7 @@ namespace Editor.Units
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            _dictionaries.Rarities.Add(id, new Rarity() { Id = id });
+            _dictionaries.Rarities.Add(id, new RarityModel() { Id = id });
             Rarities.Add(new RarityEditor(_dictionaries.Rarities[id]));
         }
 

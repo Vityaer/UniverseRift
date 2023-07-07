@@ -72,7 +72,6 @@ namespace Fight.HeroControllers.Generals
             Del delsOnHeal = null;
             DelListTarget delsOnSpell = null;
             DelListTarget delsOnListSpell = null;
-            FightController.Instance.RemoveHeroWithActionAll(this);
         }
     }
 }

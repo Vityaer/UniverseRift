@@ -7,13 +7,13 @@ namespace Models.Heroes.Evolutions
     public class Breakthrough
     {
         [Header("Data")]
-        public uint NumBreakthrough;
+        public int NumBreakthrough;
 
         [Header("Require")]
-        public uint RequireLevel;
+        public int RequireLevel;
 
         [Header("Reward")]
-        public uint NewLimitLevel;
+        public int NewLimitLevel;
         public IncreaseCharacteristicsModel IncCharacts;
 
         [Header("Serious changes")]

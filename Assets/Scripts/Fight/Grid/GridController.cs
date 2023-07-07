@@ -1,91 +1,65 @@
+using Cysharp.Threading.Tasks;
 using Fight.HeroControllers.Generals;
 using Models.Grid;
 using Models.Heroes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UniRx;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
+using VContainerUi.Abstraction;
 
 namespace Fight.Grid
 {
-    public class GridController : MonoBehaviour
+    public class GridController : UiController<GridView>, IInitializable, IDisposable
     {
         public static bool PlayerCanController = false;
 
-        public Transform ParentTemplateObjects;
-        public GridFactory GridSpawner;
+        [Inject] private readonly GridFactory _gridSpawner;
 
-        protected Action ObserverFoundWay;
+        public ReactiveCommand OnFinishFoundWay = new ReactiveCommand();
 
+        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CompositeDisposable _disposables = new CompositeDisposable();
         private Stack<HexagonCell> _way = new Stack<HexagonCell>();
         private HexagonCell _previousCell = null;
         private BaseGrid _grid;
-        private Coroutine _coroutineCheckClick;
 
         public List<HexagonCell> Cells => _grid.Cells;
         public List<HexagonCell> GetLeftTeamPos => _grid.StartCellsLeftTeam;
         public List<HexagonCell> GetRightTeamPos => _grid.StartCellsRightTeam;
+        public Transform RootTemplateObjects => View.ParentTemplateObjects;
 
-        public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
+        public void Initialize()
         {
-            _way.Clear();
-            _previousCell = null;
-            startCell.FindWay(previousCell: null, target: finishCell, typeMovement: typeMovement);
-            _way.Push(finishCell);
-            do
+            _grid = _gridSpawner.CreateGrid(View.Prefab, View.GridParent);
+            foreach (var cell in _grid.Cells)
             {
-                if (finishCell != null)
-                {
-                    _previousCell = finishCell.PreviousCell;
-                    if (_previousCell != null) _way.Push(_previousCell);
-                }
-                finishCell = _previousCell;
-            } while ((finishCell != startCell) && (finishCell != null));
-            OnFoundWay();
-            return _way;
+                cell.SetData(this);
+            }
+
+            _grid.CloseGrid();
         }
 
-        public void RegisterOnFoundWay(Action d)
+        public void OpenGrid()
         {
-            ObserverFoundWay += d;
-        }
-
-        public void UnregisterOnFoundWay(Action d)
-        {
-            ObserverFoundWay -= d;
-        }
-
-        private void OnFoundWay()
-        {
-            if (ObserverFoundWay != null)
-                ObserverFoundWay();
-        }
-
-        private void Start()
-        {
-            FightController.Instance.RegisterOnStartFight(StartFight);
-            FightController.Instance.RegisterOnFinishFight(FinishFight);
-            _grid = GridSpawner.CreateGrid();
-            CloseGrid();
-        }
-
-        private void OnDestroy()
-        {
-            FightController.Instance.UnregisterOnStartFight(StartFight);
-            FightController.Instance.UnregisterOnFinishFight(FinishFight);
+            _grid.OpenGrid();
+            StartFight();
         }
 
         private void StartFight()
         {
-            _coroutineCheckClick = StartCoroutine(ICheckClick());
+            CheckClick(_tokenSource.Token).Forget();
         }
 
-        private IEnumerator ICheckClick()
+        private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
         {
             RaycastHit2D hit;
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && PlayerCanController)
                 {
                     hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.down);
                     if (hit != null)
@@ -104,33 +78,39 @@ namespace Fight.Grid
                         }
                     }
                 }
-                yield return null;
+                await UniTask.Yield();
             }
 
         }
 
-        private void FinishFight()
+        public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
         {
-            StopCoroutine(_coroutineCheckClick);
-            _coroutineCheckClick = null;
-            CloseGrid();
+            _way.Clear();
+            _previousCell = null;
+            startCell.FindWay(previousCell: null, target: finishCell, typeMovement: typeMovement);
+            _way.Push(finishCell);
+            do
+            {
+                if (finishCell != null)
+                {
+                    _previousCell = finishCell.PreviousCell;
+                    if (_previousCell != null) _way.Push(_previousCell);
+                }
+                finishCell = _previousCell;
+            } while ((finishCell != startCell) && (finishCell != null));
+            OnFinishFoundWay.Execute();
+            return _way;
         }
 
-        public void OpenGrid()
+        public void FinishFight()
         {
-            _grid.OpenGrid();
-        }
-
-        public void CloseGrid()
-        {
+            _tokenSource.Cancel();
             _grid.CloseGrid();
         }
 
-        private static GridController instance;
-        public static GridController Instance => instance;
-        void Awake()
+        public void Dispose()
         {
-            instance = this;
+            _disposables.Dispose();
         }
     }
 }

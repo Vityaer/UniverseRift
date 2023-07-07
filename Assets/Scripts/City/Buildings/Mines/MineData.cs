@@ -1,6 +1,7 @@
 ﻿using City.TrainCamp;
 using Common.Resourses;
 using Models.City.Mines;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace City.Buildings.Mines
@@ -10,12 +11,14 @@ namespace City.Buildings.Mines
     {
         public TypeMine type;
         public int currentCount = 0, maxCount = 2;
-        public CostLevelUp ResourceOnLevelProduction, ResourceOnLevelUP;
+        public CostLevelUpContainer ResourceOnLevelProduction, ResourceOnLevelUP;
         public int maxStore = 50;
         public TypeStore typeStore = TypeStore.Percent;
-        public ListResource costCreate;
+        public List<GameResource> costCreate;
         public GameObject prefabMine;
+
         public Sprite image { get => prefabMine.GetComponent<SpriteRenderer>().sprite; }
+
         public void AddMine()
         {
             currentCount += 1;

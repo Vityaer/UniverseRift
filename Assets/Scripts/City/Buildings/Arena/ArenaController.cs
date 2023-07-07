@@ -1,25 +1,23 @@
-﻿using City.Buildings.General;
+﻿using City.Buildings.Abstractions;
 using Common;
 using Fight;
 using Models;
 using Models.City.Arena;
+using Models.Common;
+using Models.Common.BigDigits;
+using Utils;
+using VContainer;
 
 namespace City.Buildings.Arena
 {
-    public class ArenaController : BuildingWithFight
+    public class ArenaController : BuildingWithFight<ArenaView>
     {
-        ArenaBuildingModel arenaBuildingSave;
-
-        public static ArenaController Instance { get; private set; }
-
-        void Awake()
-        {
-            Instance = this;
-        }
+        private ArenaBuildingModel _arenaBuildingSave;
+        [Inject] private readonly CommonGameData _сommonGameData;
 
         protected override void OnLoadGame()
         {
-            arenaBuildingSave = GameController.GetCitySave.arenaBuilding;
+            _arenaBuildingSave = _сommonGameData.City.ArenaSave;
         }
 
         public void FightWithOpponentUseAI(ArenaOpponentModel opponent)
@@ -31,10 +29,10 @@ namespace City.Buildings.Arena
         {
             if (result == FightResultType.Win)
             {
-                OnWinFight(1);
-                SaveGame();
+                _onWinFight.Execute(1);
+                TextUtils.Save(_сommonGameData);
             }
-            OnTryFight();
+            _onTryFight.Execute(1);
         }
 
     }

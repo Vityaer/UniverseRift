@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
-using Common.Resourses;
 using UIController.Inventory;
+using Common.Resourses;
 #if UNITY_EDITOR_WIN
 #endif
 
@@ -13,33 +13,28 @@ namespace City.Buildings.Forge
         [Header("Require")]
         public string IDRequireItem;
         public int countRequireItem;
-        public Resource requireResource;
+        public GameResource requireResource;
 
         [Header("Reward")]
         public string IDReward;
 
-        private Item _reward = null;
-        public Item reward
+        private GameItem _reward = null;
+        public GameItem reward
         {
             get
             {
-                if (_reward == null) _reward = GetItem(IDReward);
+                //if (_reward == null) _reward = GetItem(IDReward);
                 return _reward;
             }
         }
-        private Item _requireItem = null;
-        public Item requireItem
+        private GameItem _requireItem = null;
+        public GameItem requireItem
         {
             get
             {
-                if (_requireItem == null) _requireItem = GetItem(IDRequireItem);
+                //if (_requireItem == null) _requireItem = GetItem(IDRequireItem);
                 return _requireItem;
             }
         }
-        private Item GetItem(string ID)
-        {
-            return Item.GetItem(ID);
-        }
-
     }
 }

@@ -6,29 +6,38 @@ using UnityEngine;
 
 namespace UIController.Buttons
 {
-    public class ButtonWithObserverResource : MonoBehaviour
+    public class ButtonWithObserverResource : MonoBehaviour, IDisposable
     {
         public ResourceObjectCost resourceObserver;
         public ButtonCostController buttonCostComponent;
-        public Resource cost;
+        public GameResource cost;
+        private CompositeDisposable _disposable = new CompositeDisposable();
 
-        public ReactiveCommand OnClick = new ReactiveCommand();
+        private event Action OnClick; 
 
-        public void ChangeCost(Resource cost)
+        private void Awake()
         {
-            resourceObserver.SetData(cost);
+            buttonCostComponent.OnClick.Subscribe(_ => { Debug.Log($"click {OnClick != null}"); OnClick?.Invoke(); }).AddTo(_disposable);
         }
 
-        public void ChangeCost(Action<int> d)
+        public void ChangeCost(GameResource cost)
         {
             resourceObserver.SetData(cost);
-            buttonCostComponent.UpdateCostWithoutInfo(cost, d);
+            buttonCostComponent.SetCost(cost);
         }
 
-        public void ChangeCost(Resource cost, Action<int> d)
+        public void ChangeCost(GameResource cost, Action value)
         {
             resourceObserver.SetData(cost);
-            buttonCostComponent.UpdateCostWithoutInfo(cost, d);
+            buttonCostComponent.SetCost(cost);
+            OnClick = value;
         }
+
+        public void Dispose()
+        {
+            _disposable.Dispose();
+        }
+
+
     }
 }

@@ -1,4 +1,4 @@
-using City.Buildings.General;
+using City.Buildings.Abstractions;
 using City.TrainCamp;
 using Common;
 using Common.Resourses;
@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace City.Buildings.Mines
 {
-    public class MinesController : Building
+    public class MinesController : BaseBuilding<MinesView>
     {
         public List<PlaceForMine> minePlaces = new List<PlaceForMine>();
         public List<MineController> buildings = new List<MineController>();
 
         [Header("Panels")]
-        public PanelInfoMine panelMineInfo;
+        public InfoMinePanelController panelMineInfo;
         public PanelForCreateMine panelNewMineCreate;
 
         [Header("Data")]
@@ -29,7 +29,7 @@ namespace City.Buildings.Mines
 
         protected override void OnLoadGame()
         {
-            saveMines = GameController.GetPlayerGame.GetMines;
+            //saveMines =CommonGameData.City.GetMines;
             PlaceForMine place = null;
             MineController mineController = null;
             MineData data = null;
@@ -40,7 +40,7 @@ namespace City.Buildings.Mines
                 {
                     data = listDataMines.Find(x => x.type == mine.typeMine);
                     data.AddMine();
-                    mineController = Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
+                    mineController = Object.Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
                     place.mineController = mineController;
                     mineController.LoadMine(mine);
                     buildings.Add(mineController);
@@ -55,7 +55,7 @@ namespace City.Buildings.Mines
         public void CreateNewMine(PlaceForMine place, MineData data)
         {
             data.AddMine();
-            MineController mineController = Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
+            MineController mineController = Object.Instantiate(data.prefabMine, place.point.position, Quaternion.identity, place.transform).GetComponent<MineController>();
             place.mineController = mineController;
             MineModel mine = new MineModel(place.ID, data.type);
             mineController.CreateMine(mine);
@@ -66,42 +66,42 @@ namespace City.Buildings.Mines
             return listDataMines.Find(x => x.type == type);
         }
 
-        public CostLevelUp GetCostUpdateMine(TypeMine type)
+        public CostLevelUpContainer GetCostUpdateMine(TypeMine type)
         {
             return listDataMines.Find(x => x.type == type).ResourceOnLevelUP;
         }
 
-        public static TypeMine GetTypeMineFromTypeResource(TypeResource typeResource)
+        public static TypeMine GetTypeMineFromTypeResource(ResourceType typeResource)
         {
             TypeMine result = TypeMine.Gold;
             switch (typeResource)
             {
-                case TypeResource.Gold:
+                case ResourceType.Gold:
                     result = TypeMine.Gold;
                     break;
-                case TypeResource.Diamond:
+                case ResourceType.Diamond:
                     result = TypeMine.Diamond;
                     break;
-                case TypeResource.RedDust:
+                case ResourceType.RedDust:
                     result = TypeMine.RedDust;
                     break;
             }
             return result;
         }
 
-        public static TypeResource GetTypeResourceFromTypeMine(TypeMine typeMine)
+        public static ResourceType GetTypeResourceFromTypeMine(TypeMine typeMine)
         {
-            TypeResource result = TypeResource.Gold;
+            ResourceType result = ResourceType.Gold;
             switch (typeMine)
             {
                 case TypeMine.Gold:
-                    result = TypeResource.Gold;
+                    result = ResourceType.Gold;
                     break;
                 case TypeMine.Diamond:
-                    result = TypeResource.Diamond;
+                    result = ResourceType.Diamond;
                     break;
                 case TypeMine.RedDust:
-                    result = TypeResource.RedDust;
+                    result = ResourceType.RedDust;
                     break;
             }
             return result;

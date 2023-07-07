@@ -5,7 +5,7 @@ namespace Network.DataServer.Messages
     {
         public int Count;
 
-        public string Route => throw new System.NotImplementedException();
+        public string Route => "Heroes/GetSimpleHeroes";
 
         public WWWForm Form
         {

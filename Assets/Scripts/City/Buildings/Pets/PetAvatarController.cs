@@ -17,8 +17,8 @@ namespace City.Buildings.Pets
         public Image imagePet;
 
 
-        public PetsZoo mainController;
-        public void SetData(PetAvatar newPet, PetsZoo mainController)
+        public PetsZooController mainController;
+        public void SetData(PetAvatar newPet, PetsZooController mainController)
         {
             this.mainController = mainController;
             pet = newPet;

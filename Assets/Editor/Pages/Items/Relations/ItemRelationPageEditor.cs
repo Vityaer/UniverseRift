@@ -1,0 +1,66 @@
+﻿using Db.CommonDictionaries;
+using Editor.Common;
+using Models.Items;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using System.Linq;
+using Utils;
+
+namespace Pages.Items.Relations
+{
+    public class ItemRelationPageEditor: BasePageEditor
+    {
+        private CommonDictionaries _dictionaries;
+        private List<ItemRelationModel> _itemRelations => _dictionaries.ItemRelations.Select(l => l.Value).ToList();
+
+        public ItemRelationPageEditor(CommonDictionaries commonDictionaries)
+        {
+            _dictionaries = commonDictionaries;
+            Init();
+        }
+        
+        public override void Init()
+        {
+            base.Init();
+            ItemRelations = _itemRelations.Select(item => new ItemRelationModelEditor(item, _dictionaries)).ToList();
+            DataExist = true;
+        }
+
+        protected override void AddElement()
+        {
+            base.AddElement();
+            var id = UnityEngine.Random.Range(0, 99999).ToString();
+            _dictionaries.ItemRelations.Add(id, new ItemRelationModel() { Id = id });
+            var item = new ItemRelationModelEditor(new ItemRelationModel(), _dictionaries);
+            ItemRelations.Add(item);
+        }
+
+        private void RemoveElements(ItemRelationModelEditor light, object b, List<ItemRelationModelEditor> lights)
+        {
+            var targetElement = ItemRelations.First(e => e == light);
+            ItemRelations.Remove(targetElement);
+        }
+
+        public override void Save()
+        {
+            var itemRelations = ItemRelations.Select(itemRelationModel => new ItemRelationModel
+            {
+                Id = itemRelationModel.Id,
+                ResultItemName = itemRelationModel.ResultItemName,
+                ItemIngredientName = itemRelationModel.ItemIngredientName,
+                RequireCount = itemRelationModel.RequireCount
+            }).ToList();
+            EditorUtils.Save(itemRelations);
+            base.Save();
+        }
+
+        [ShowInInspector]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 5,
+    CustomAddFunction = nameof(AddElement), CustomRemoveElementFunction = nameof(RemoveElements))]
+        [HorizontalGroup("3")]
+        [LabelText("Items")]
+        [PropertyOrder(2)]
+        [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
+        public List<ItemRelationModelEditor> ItemRelations = new List<ItemRelationModelEditor>();
+    }
+}

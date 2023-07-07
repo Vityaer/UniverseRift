@@ -7,9 +7,16 @@ namespace Models.Grid
     public class BaseGrid : MonoBehaviour
     {
         private List<HexagonCell> _cells = new List<HexagonCell>();
+
+        public List<HexagonCell> StartCellsLeftTeam;
+        public List<HexagonCell> StartCellsRightTeam;
+
         public List<HexagonCell> Cells => _cells;
 
-        public List<HexagonCell> StartCellsLeftTeam, StartCellsRightTeam;
+        private void Start()
+        {
+            FindNeighbours();
+        }
 
         private void FindAllCell()
         {
@@ -20,7 +27,7 @@ namespace Models.Grid
         }
 
         [ContextMenu("FindNeighbours")]
-        public void FindNeighbours()
+        private void FindNeighbours()
         {
             FindAllCell();
             for (int i = 0; i < _cells.Count; i++)

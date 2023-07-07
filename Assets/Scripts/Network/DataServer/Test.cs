@@ -13,7 +13,7 @@ public class Test : MonoBehaviour
     [ContextMenu("TestRegistration")]
     async UniTaskVoid TestRegistration()
     {
-        var data = new Registration { Name = Name };
+        var data = new PlayerRegistration { Name = Name };
         var result = await DataServer.PostData(data);
         Debug.Log(result);
     }

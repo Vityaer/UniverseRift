@@ -1,29 +1,32 @@
-using City.TrainCamp;
-using Common;
+using City.Panels.SelectHeroes;
+using Hero;
 using Models.City.TrainCamp;
 using Models.Heroes;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UIController.Animations;
 using UIController.Cards;
+using UniRx;
 using UnityEngine;
 
 namespace UIController
 {
-    public class RequireCard : MonoBehaviour
+    public class RequireCard : MonoBehaviour, IDisposable
     {
         [SerializeField] private Card card;
         [SerializeField] private TextMeshProUGUI textCountRequirement;
 
         [Header("Panel select heroes")]
         public OpenClosePanel panelListHeroes;
-        public ListCardOnWarTable listCard;
+        public HeroCardsContainerController listCard;
         public RequireCard requireCardInfo;
 
         private int requireSelectCount = 0;
         private RequirementHeroModel requirementHero;
-        private List<HeroModel> selectedHeroes = new List<HeroModel>();
+        private List<GameHero> selectedHeroes = new List<GameHero>();
 
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
         public void SetData(RequirementHeroModel requirementHero)
         {
             ClearData();
@@ -68,23 +71,23 @@ namespace UIController
 
         public void OpenListCard()
         {
-            listCard.RegisterOnSelect(AddHero);
-            listCard.RegisterOnUnSelect(RemoveHero);
-            List<HeroModel> currentHeroes = GameController.Instance.GetListHeroes;
-            currentHeroes = currentHeroes.FindAll(x => x.CheckСonformity(requirementHero));
-            currentHeroes.Remove(TrainCamp.Instance.ReturnSelectHero());
-            listCard.SetList(currentHeroes);
-            listCard.SelectCards(selectedHeroes);
-            panelListHeroes.Open();
-            requireCardInfo.ShowData(requirementHero, selectedHeroes);
-            panelListHeroes.RegisterOnClose(OnClosePanelHeroes);
+            //listCard.OnSelect.Subscribe(AddHero).AddTo(_disposables);
+            //listCard.OnDiselect.Subscribe(RemoveHero).AddTo(_disposables);
+            //List<HeroModel> currentHeroes = GameController.Instance.ListHeroes;
+            //currentHeroes = currentHeroes.FindAll(x => x.CheckСonformity(requirementHero));
+            //currentHeroes.Remove(TrainCamp.Instance.ReturnSelectHero());
+            //listCard.SetList(currentHeroes);
+            //listCard.SelectCards(selectedHeroes);
+            //panelListHeroes.Open();
+            //requireCardInfo.ShowData(requirementHero, selectedHeroes);
+            //panelListHeroes.RegisterOnClose(OnClosePanelHeroes);
         }
 
         void OnClosePanelHeroes()
         {
             panelListHeroes.UnregisterOnClose(OnClosePanelHeroes);
-            listCard.UnRegisterOnSelect(AddHero);
-            listCard.UnRegisterOnUnSelect(RemoveHero);
+            //listCard.UnRegisterOnSelect(AddHero);
+            //listCard.UnRegisterOnUnSelect(RemoveHero);
         }
 
         public void ClearData()
@@ -101,19 +104,23 @@ namespace UIController
         {
             for (int i = 0; i < selectedHeroes.Count; i++)
             {
-                GameController.Instance.RemoveHero(selectedHeroes[i]);
+                //GameController.Instance.RemoveHero(selectedHeroes[i]);
             }
             ClearData();
         }
 
         public void ShowData(RequirementHeroModel requirementHero, List<HeroModel> selectedHeroes)
         {
-            this.selectedHeroes = selectedHeroes;
+            //this.selectedHeroes = selectedHeroes;
             this.requirementHero = requirementHero;
             requireSelectCount = requirementHero.count;
             card.SetData(requirementHero);
             UpdateUI();
         }
 
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
     }
 }

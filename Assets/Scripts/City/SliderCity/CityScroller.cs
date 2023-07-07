@@ -1,74 +1,78 @@
 ﻿using DG.Tweening;
-using System.Collections.Generic;
+using System;
 using UIController.GameSystems;
+using UniRx;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
+using VContainerUi.Abstraction;
 
 namespace City.SliderCity
 {
-    public class CityScroller : MonoBehaviour
+    public class CityScroller : UiController<CityView>, IInitializable, IDisposable
     {
-        private Vector2 leftPos;
-        private Vector2 rightPos;
+        private const float MOVE_ANIMATION_TIME = 0.25f;
 
-        public int curSheet;
-        public float scaleX = 3f, timeAnimMove = 0.25f;
-        public List<Transform> ListCitySheet = new List<Transform>();
+        [Inject] private readonly MainSwipeController _mainSwipeController;
+        private Vector2 _leftPos;
+        private Vector2 _rightPos;
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
-        void Start()
+        private int _curentSheet;
+        private Tween _tween;
+
+        public void Initialize()
         {
-            leftPos = new Vector2(-ScreenSize.X, 0);
-            rightPos = new Vector2(ScreenSize.X, 0);
-            curSheet = ListCitySheet.Count / 2;
+            _leftPos = new Vector2(-ScreenSize.X, 0);
+            _rightPos = new Vector2(ScreenSize.X, 0);
+            _curentSheet = View.ListCitySheet.Count / 2;
             SetStartPosition();
-            MainTouchControllerScript.Instance?.RegisterOnObserverSwipe(OnSwipe);
+            _mainSwipeController.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
         }
 
-        private void OnSwipe(TypeSwipe typeSwipe)
+        private void OnSwipe(SwipeType typeSwipe)
         {
             switch (typeSwipe)
             {
-                case TypeSwipe.Left:
+                case SwipeType.Left:
                     SwipeLeft();
                     break;
-                case TypeSwipe.Right:
+                case SwipeType.Right:
                     SwipeRight();
                     break;
             }
         }
 
-        void OnDisable()
-        {
-            MainTouchControllerScript.Instance.UnregisterOnObserverSwipe(OnSwipe);
-        }
-
-        void OnEnable()
-        {
-            MainTouchControllerScript.Instance?.RegisterOnObserverSwipe(OnSwipe);
-        }
-
         public void SwipeLeft()
         {
-            ListCitySheet[curSheet].DOMove(rightPos, timeAnimMove);
-            if (curSheet > 0) curSheet--;
-            ListCitySheet[curSheet].DOMove(Vector2.zero, timeAnimMove);
+            View.ListCitySheet[_curentSheet].DOMove(_rightPos, MOVE_ANIMATION_TIME);
+            _curentSheet = Math.Clamp(_curentSheet - 1, 0, View.ListCitySheet.Count);
+            View.ListCitySheet[_curentSheet].DOMove(Vector2.zero, MOVE_ANIMATION_TIME);
         }
+
         public void SwipeRight()
         {
-            ListCitySheet[curSheet].DOMove(leftPos, timeAnimMove);
-            if (curSheet < ListCitySheet.Count - 1) curSheet++;
-            ListCitySheet[curSheet].DOMove(Vector2.zero, timeAnimMove);
+            View.ListCitySheet[_curentSheet].DOMove(_leftPos, MOVE_ANIMATION_TIME);
+            _curentSheet = Math.Clamp(_curentSheet + 1, 0, View.ListCitySheet.Count);
+            View.ListCitySheet[_curentSheet].DOMove(Vector2.zero, MOVE_ANIMATION_TIME);
         }
+
         private void SetStartPosition()
         {
-            for (int i = 0; i < curSheet; i++)
+            for (int i = 0; i < _curentSheet; i++)
             {
-                ListCitySheet[i].DOMove(leftPos, 0f);
+                View.ListCitySheet[i].position = _leftPos;
             }
-            for (int i = curSheet + 1; i < ListCitySheet.Count; i++)
+
+            for (int i = _curentSheet + 1; i < View.ListCitySheet.Count; i++)
             {
-                ListCitySheet[i].DOMove(rightPos, 0f);
+                View.ListCitySheet[i].position = _rightPos;
             }
         }
 
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
     }
 }

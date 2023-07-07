@@ -29,12 +29,12 @@ namespace Fight.HeroControllers.Legolas
 
             HexagonCell.UnregisterOnClick(SelectEnemy);
             statusState.ChangeStamina(-100);
-            anim.Play("Spell");
+            Animator.Play("Spell");
         }
 
         private void CreateLegolasArrow()
         {
-            var arrow = Instantiate(_arrow, tr.position, Quaternion.identity).GetComponent<RobinArrow>();
+            var arrow = Instantiate(_arrow, Self.position, Quaternion.identity).GetComponent<RobinArrow>();
         }
     }
 }

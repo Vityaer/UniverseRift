@@ -43,7 +43,7 @@ namespace Fight.HeroControllers.Legolas
             strike.bonusPercent = _multiplier * 100f;
 
             if (strike != null)
-                target.GetDamage(strike);
+                target.ApplyDamage(strike);
 
             _multiplier += _increaseMultiplier;
 

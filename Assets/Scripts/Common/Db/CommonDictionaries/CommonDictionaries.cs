@@ -1,11 +1,14 @@
 using Campaign;
+using City.TrainCamp;
 using Common;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
+using Models.Achievments;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
+using Models.Common;
 using Models.Fights.Misc;
 using Models.Heroes;
 using Models.Items;
@@ -25,10 +28,10 @@ namespace Db.CommonDictionaries
         private Dictionary<string, HeroModel> _heroes = new Dictionary<string, HeroModel>();
         private Dictionary<string, RaceModel> _races = new Dictionary<string, RaceModel>();
         private Dictionary<string, VocationModel> _vocations = new Dictionary<string, VocationModel>();
-        private Dictionary<string, Item> _items = new Dictionary<string, Item>();
-        private Dictionary<string, Rarity> _raryties = new Dictionary<string, Rarity>();
+        private Dictionary<string, ItemModel> _items = new Dictionary<string, ItemModel>();
+        private Dictionary<string, RarityModel> _raryties = new Dictionary<string, RarityModel>();
         private Dictionary<string, ItemSet> _itemSets = new Dictionary<string, ItemSet>();
-        private Dictionary<string, ItemType> _itemTypes = new Dictionary<string, ItemType>();
+        private Dictionary<string, ItemRelationModel> _itemRelations = new Dictionary<string, ItemRelationModel>();
         private Dictionary<string, RatingModel> _ratings = new Dictionary<string, RatingModel>();
         private Dictionary<string, CampaignChapterModel> _campaignChapters = new Dictionary<string, CampaignChapterModel>();
         private Dictionary<string, LocationModel> _locations = new Dictionary<string, LocationModel>();
@@ -38,16 +41,19 @@ namespace Db.CommonDictionaries
         private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
         private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
         private Dictionary<string, ResistanceModel> _resistances = new Dictionary<string, ResistanceModel>();
-
+        private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
+        private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new Dictionary<string, CostLevelUpContainer>();
+        private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new Dictionary<string, MonthlyTasksModel>();
+        private Dictionary<string, TaskModel> _patternTasks = new Dictionary<string, TaskModel>();
+        
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
         public bool Inited => _isInited;
         public Dictionary<string, HeroModel> Heroes => _heroes;
-        public Dictionary<string, Item> Items => _items;
-        public Dictionary<string, Rarity> Rarities => _raryties;
+        public Dictionary<string, ItemModel> Items => _items;
+        public Dictionary<string, RarityModel> Rarities => _raryties;
         public Dictionary<string, ItemSet> ItemSets => _itemSets;
-        public Dictionary<string, ItemType> ItemTypes => _itemTypes;
         public Dictionary<string, RatingModel> Ratings => _ratings;
         public Dictionary<string, RaceModel> Races => _races;
         public Dictionary<string, VocationModel> Vocations => _vocations;
@@ -59,6 +65,13 @@ namespace Db.CommonDictionaries
         public Dictionary<string, MineModel> Mines => _mines;
         public Dictionary<string, StorageChallengeModel> StorageChallenges => _storageChallenges;
         public Dictionary<string, ResistanceModel> Resistances => _resistances;
+        public Dictionary<string, AchievmentModel> Achievments => _achievments;
+        public Dictionary<string, ItemRelationModel> ItemRelations => _itemRelations;
+        public Dictionary<string, CostLevelUpContainer> CostContainers => _heroesCostLevelUps;
+        public Dictionary<string, MonthlyTasksModel> MonthlyTasks => _monthlyTasks;
+        public Dictionary<string, TaskModel> PatternTasks => _patternTasks;
+
+
 
         private bool IsDownloadedInLocalStorage
         {
@@ -161,10 +174,9 @@ namespace Db.CommonDictionaries
             _heroes = GetModels<HeroModel>();
             _races = GetModels<RaceModel>();
             _vocations = GetModels<VocationModel>();
-            _items = GetModels<Item>();
-            _raryties = GetModels<Rarity>();
+            _items = GetModels<ItemModel>();
+            _raryties = GetModels<RarityModel>();
             _itemSets = GetModels<ItemSet>();
-            _itemTypes = GetModels<ItemType>();
             _ratings = GetModels<RatingModel>();
             _campaignChapters = GetModels<CampaignChapterModel>();
             _locations = GetModels<LocationModel>();
@@ -174,6 +186,11 @@ namespace Db.CommonDictionaries
             _mines = GetModels<MineModel>();
             _storageChallenges = GetModels<StorageChallengeModel>();
             _resistances = GetModels<ResistanceModel>();
+            _achievments = GetModels<AchievmentModel>();
+            _itemRelations = GetModels<ItemRelationModel>();
+            _heroesCostLevelUps = GetModels<CostLevelUpContainer>();
+            _monthlyTasks = GetModels<MonthlyTasksModel>();
+            _patternTasks = GetModels<TaskModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

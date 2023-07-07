@@ -3,18 +3,21 @@
     [System.Serializable]
     public class TeamRecordModel : BaseRecordModel
     {
-        public TeamFightModel value;
-        public TeamRecordModel(string key, TeamFightModel value)
+        public TeamFightData value;
+
+        public TeamRecordModel(string key, TeamFightData value)
         {
             this.key = key;
             this.value = value.Clone();
         }
+
         public TeamRecordModel(string key)
         {
             this.key = key;
-            value = new TeamFightModel();
+            value = new TeamFightData();
         }
-        public void SetNewTeam(TeamFightModel newTeam)
+
+        public void SetNewTeam(TeamFightData newTeam)
         {
             this.value = newTeam;
         }

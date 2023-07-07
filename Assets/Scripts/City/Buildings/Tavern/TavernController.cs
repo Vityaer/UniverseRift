@@ -1,132 +1,88 @@
-﻿using City.Buildings.General;
+﻿using City.Buildings.Abstractions;
 using Common;
+using Common.Heroes;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using Hero;
 using IdleGame.AdvancedObservers;
-using MainScripts;
 using Misc.Json;
-using Misc.Json.Impl;
 using Models;
+using Models.Common.BigDigits;
 using Models.Heroes;
 using Network.DataServer;
 using Network.DataServer.Messages;
-using Network.DataServer.Models;
 using System;
 using System.Collections.Generic;
-using UIController.Buttons;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
+using VContainer;
+using VContainer.Unity;
 
 namespace City.Buildings.Tavern
 {
-    public class TavernController : Building
+    public class TavernController : BaseBuilding<TavernView>, IStartable
     {
-        [Header("All rating heroes")]
-        [SerializeField] private List<HeroModel> _listHeroes = new List<HeroModel>();
-        [SerializeField] private Button _specialHire;
-        [SerializeField] private Button _simpleHire;
-        [SerializeField] private Button _friendHire;
-        [SerializeField] private ButtonWithObserverResource _btnCostOneHire;
-        [SerializeField] private ButtonWithObserverResource _btnCostManyHire;
+        [Inject] private readonly HeroesStorageController _heroesStorageController;
+        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly IObjectResolver _resolver;
 
-        private Resource _simpleHireCost = new Resource(TypeResource.SimpleHireCard, 1, 0);
-        private Resource _specialHireCost = new Resource(TypeResource.SpecialHireCard, 1, 0);
-        private Resource _friendHireCost = new Resource(TypeResource.FriendHeart, 10, 0);
+        private GameResource _simpleHireCost = new GameResource(ResourceType.SimpleHireCard, 1, 0);
+        private GameResource _specialHireCost = new GameResource(ResourceType.SpecialHireCard, 1, 0);
+        private GameResource _friendHireCost = new GameResource(ResourceType.FriendHeart, 10, 0);
+
+        private ReactiveCommand<BigDigit> _observerSimpleHire = new ReactiveCommand<BigDigit>();
+        private ReactiveCommand<BigDigit> _observerSpecialHire = new ReactiveCommand<BigDigit>();
+        private ReactiveCommand<BigDigit> _observerFriendHire = new ReactiveCommand<BigDigit>();
 
         private ObserverActionWithHero observersHireRace = new ObserverActionWithHero();
-        private IJsonConverter _jsonConverter;
-        public List<HeroModel> GetListHeroes => _listHeroes;
-        public static TavernController Instance { get; private set; }
-
-        void Awake()
-        {
-            Instance = this;
-            _jsonConverter = new JsonConverter();
-        }
 
         protected override void OnStart()
         {
-            CheckLoadedHeroes();
-            SelectHire<SpecialHire>(_simpleHireCost, OnSpecialHire);
+            _resolver.Inject(View.ObserverSimpleHire);
+            _resolver.Inject(View.ObserverSpecialHire);
 
-            _simpleHire.OnClickAsObservable().Subscribe(_ => SelectHire<SimpleHire>(_simpleHireCost, OnSimpleHire));
-            _specialHire.OnClickAsObservable().Subscribe(_ => SelectHire<SpecialHire>(_specialHireCost, OnSpecialHire));
-            _friendHire.OnClickAsObservable().Subscribe(_ => SelectHire<FriendHire>(_friendHireCost, OnFriendHire));
-        }
-        
-        public void SelectHire<T>(Resource costOneHire, Action<int> onResultHire) where T : AbstractHireMessage, new()
-        {
-            _btnCostOneHire.ChangeCost(costOneHire, _ => HireHero<T>(1, onResultHire).Forget());
-            _btnCostManyHire.ChangeCost(costOneHire * 10f, _ => HireHero<T>(10, onResultHire).Forget());
+            _resolver.Inject(View.ResourceObjectCostOneHire);
+            _resolver.Inject(View.ResourceObjectCostManyHire);
+
+            SelectHire<SpecialHire>(_simpleHireCost, _observerSpecialHire);
+
+            View.SimpleHireButton.OnClickAsObservable().Subscribe(_ => SelectHire<SimpleHire>(_simpleHireCost, _observerSimpleHire));
+            View.SpecialHireButton.OnClickAsObservable().Subscribe(_ => SelectHire<SpecialHire>(_specialHireCost, _observerSpecialHire));
+            View.FriendHireButton.OnClickAsObservable().Subscribe(_ => SelectHire<FriendHire>(_friendHireCost, _observerFriendHire));
         }
 
-        private async UniTaskVoid HireHero<T>(int count, Action<int> onResultHire) where T : AbstractHireMessage, new()
+        public void SelectHire<T>(GameResource costOneHire, ReactiveCommand<BigDigit> onHireHeroes) where T : AbstractHireMessage, new()
         {
-            var message = new T { PlayerId = GameController.GetPlayerInfo.PlayerId, Count = count };
+            View.CostOneHireController.ChangeCost(costOneHire, () => HireHero<T>(1, onHireHeroes).Forget());
+            View.CostManyHireController.ChangeCost(costOneHire * 10, () => HireHero<T>(10, onHireHeroes).Forget());
+        }
+
+        private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes) where T : AbstractHireMessage, new()
+        {
+            Debug.Log("start hire hero");
+            var message = new T { PlayerId = CommonGameData.Player.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
-            var newHeroes = _jsonConverter.FromJson<DataHero[]>(result);
+            Debug.Log(result);
+            var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
 
-            for (int i = 0; i < newHeroes.Length; i++)
+            for (int i = 0; i < newHeroes.Count; i++)
             {
-                var heroSave = new HeroData(newHeroes[i]);
-                var hero = new HeroModel(heroSave);
+                Debug.Log($"{newHeroes[i]}");
+                var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
+                var hero = new GameHero(model, newHeroes[i]);
                 OnHireHeroes(hero);
-                if (hero != null)
-                {
-                    hero.General.Name = $"{hero.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
-                    AddNewHero(hero);
-                }
+                hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+                AddNewHero(hero);
             }
 
-            onResultHire(count);
+            onHireHeroes.Execute(new BigDigit(count));
         }
 
-        public void AddNewHero(HeroModel hero)
+        private void AddNewHero(GameHero hero)
         {
-            MessageController.Instance.AddMessage($"Новый герой! Это - {hero.General.Name}");
-            GameController.Instance.AddHero(hero);
-        }
-
-
-        private void CheckLoadedHeroes()
-        {
-            if (_listHeroes.Count == 0)
-            {
-                //listHeroes = new List<InfoHero>(Resources.LoadAll("ScriptableObjects/HeroesData", typeof(InfoHero)) as InfoHero[]);
-            }
-        }
-        //API
-
-        public HeroModel GetInfoHero(string ID)
-        {
-            HeroModel hero = (HeroModel)_listHeroes.Find(x => x.General.HeroId == ID)?.Clone();
-            if (hero == null)
-                Debug.Log(string.Concat("not exist hero with ID= ", ID.ToString()));
-            return hero;
-        }
-
-        //Observers
-        private Action<BigDigit> observerSimpleHire, observerSpecialHire, observerFriendHire;
-        public void RegisterOnSimpleHire(Action<BigDigit> d) { observerSimpleHire += d; }
-        public void RegisterOnSpecialHire(Action<BigDigit> d) { observerSpecialHire += d; }
-        public void RegisterOnFriendHire(Action<BigDigit> d) { observerFriendHire += d; }
-        private void OnSimpleHire(int amount)
-        {
-            if (observerSimpleHire != null)
-                observerSimpleHire(new BigDigit(amount));
-        }
-
-        private void OnSpecialHire(int amount)
-        {
-            if (observerSpecialHire != null)
-                observerSpecialHire(new BigDigit(amount));
-        }
-
-        private void OnFriendHire(int amount)
-        {
-            if (observerFriendHire != null)
-                observerFriendHire(new BigDigit(amount));
+            _heroesStorageController.AddHero(hero);
         }
 
         public void RegisterOnHireHeroes(Action<BigDigit> d, string ID = "")
@@ -134,12 +90,13 @@ namespace City.Buildings.Tavern
             observersHireRace.Add(d, ID, 1);
         }
 
-        private void OnHireHeroes(HeroModel hero)
+        private void OnHireHeroes(GameHero hero)
         {
             //and Rarity
             observersHireRace.OnAction(string.Empty, 1);
-            observersHireRace.OnAction(hero.General.ViewId, 1);
+            observersHireRace.OnAction(hero.Model.General.ViewId, 1);
         }
+
 
     }
 }

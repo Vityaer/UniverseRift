@@ -1,19 +1,24 @@
-﻿using City.Buildings.General;
+﻿using City.Buildings.Abstractions;
 using Common;
+using Common.Inventories.Splinters;
 using Common.Resourses;
 using Models;
 using Models.City.Markets;
+using Models.Common;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
 using UIController.GameSystems;
 using UIController.Inventory;
 using UnityEngine;
+using VContainer;
 
 namespace City.Buildings.Market
 {
-    public class MarketController : Building
+    public class MarketController : BaseBuilding<MarketView>
     {
+        [Inject] private readonly CommonGameData _сommonGameData;
+
         public MarketType typeMarket;
         public Transform showcase;
         [Header("Products")]
@@ -24,26 +29,26 @@ namespace City.Buildings.Market
 
         protected override void OnStart()
         {
-            if (productControllers.Count == 0) GetCells();
-            TimeControllerSystem.Instance.RegisterOnNewCycle(RecoveryAllProducts, cycle);
+            //if (productControllers.Count == 0) GetCells();
+            //TimeControllerSystem.Instance.RegisterOnNewCycle(RecoveryAllProducts, cycle);
         }
 
         protected override void OnLoadGame()
         {
-            List<ProductModel> saveProducts = GameController.GetPlayerGame.GetProductForMarket(typeMarket);
-            BaseMarketProduct currentProduct = null;
-            foreach (ProductModel product in saveProducts)
-            {
-                currentProduct = productsForSale.Find(x => x.Id == product.Id);
-                if (currentProduct != null) currentProduct.UpdateData(product.CountSell);
-            }
-            if (productFill)
-                UpdateUIProducts();
+            //List<ProductModel> saveProducts = _сommonGameData.City.GetProductForMarket(typeMarket);
+            //BaseMarketProduct currentProduct = null;
+            //foreach (ProductModel product in saveProducts)
+            //{
+            //    currentProduct = productsForSale.Find(x => x.Id == product.Id);
+            //    if (currentProduct != null) currentProduct.UpdateData(product.CountSell);
+            //}
+            //if (productFill)
+            //    UpdateUIProducts();
         }
 
         private void OnBuyPoduct(string IDproduct, int coutSell)
         {
-            GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
+            //GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
         }
 
         private void UpdateUIProducts()
@@ -60,13 +65,13 @@ namespace City.Buildings.Market
             {
                 switch (productsForSale[i])
                 {
-                    case MarketProduct<Resource> product:
+                    case MarketProduct<GameResource> product:
                         productControllers[i].SetData(product, OnBuyPoduct);
                         break;
-                    case MarketProduct<Item> product:
+                    case MarketProduct<GameItem> product:
                         productControllers[i].SetData(product, OnBuyPoduct);
                         break;
-                    case MarketProduct<Splinter> product:
+                    case MarketProduct<GameSplinter> product:
                         productControllers[i].SetData(product, OnBuyPoduct);
                         break;
 
@@ -88,12 +93,12 @@ namespace City.Buildings.Market
 
         public void NewSellProduct(string IDproduct, int newCountSell)
         {
-            GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell);
+            //GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell);
         }
 
-        [Button] public void AddResource() { productsForSale.Add(new MarketProduct<Resource>()); }
-        [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<Splinter>()); }
-        [Button] public void AddItem() { productsForSale.Add(new MarketProduct<Item>()); }
+        [Button] public void AddResource() { productsForSale.Add(new MarketProduct<GameResource>()); }
+        [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<GameSplinter>()); }
+        [Button] public void AddItem() { productsForSale.Add(new MarketProduct<GameItem>()); }
 
         [ContextMenu("Check products")]
         private void CheckProducts()

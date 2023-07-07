@@ -1,161 +1,136 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System;
-using City.Buildings.General;
+﻿using Assets.Scripts.ClientServices;
+using City.Buildings.Abstractions;
+using City.Panels.Messages;
 using Common.Resourses;
-using Common;
+using Db.CommonDictionaries;
+using Models.Common.BigDigits;
+using System;
+using System.Collections.Generic;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards;
-using MainScripts;
 using UniRx;
-#if UNITY_EDITOR_WIN
-using UnityEditor;
-#endif
+using VContainer;
 
 namespace City.Buildings.Forge
 {
-    public class ForgeController : Building
+    public class ForgeController : BaseBuilding<ForgeView>
     {
-        public ForgeItemVisual LeftItem, RightItem;
-        private List<ItemSynthesis> workList;
+        private const int ITEMS_COUNT = 16;
 
-        [SerializeField] private List<ItemSynthesis> weapons, armors, necklace, boots;
-        [SerializeField] private List<ForgeItemVisual> listPlace = new List<ForgeItemVisual>();
-        [SerializeField] private List<Resource> listCostItems = new List<Resource>();
+        [Inject] private readonly InventoryController _inventoryController;
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
-        [SerializeField] private Button _weaponPanelButton;
-        [SerializeField] private Button _armorPanelButton;
-        [SerializeField] private Button _bootsPanelButton;
-        [SerializeField] private Button _amuletPanelButton;
-        [SerializeField] private Button _buttonSynthesis;
+        private List<ForgeItemVisual> _listPlace = new List<ForgeItemVisual>();
+        private List<GameResource> _listCostItems = new List<GameResource>();
 
-        private ItemsList itemsList;
-        private ItemSynthesis currentItem;
-        private ForgeItemVisual currentCell = null;
+        private List<ItemSynthesis> _weapons;
+        private List<ItemSynthesis> _armors;
+        private List<ItemSynthesis> _necklaces;
+        private List<ItemSynthesis> _boots;
+        private List<ItemSynthesis> _currentItems;
 
-        public static ForgeController Instance { get; private set; }
+        private int _currentIndex;
+        private ItemSynthesis _currentItem;
+        private ForgeItemVisual _currentCell = null;
+        private ReactiveCommand<BigDigit> _onCraft = new ReactiveCommand<BigDigit>();
 
-        void Awake()
-        {
-            Instance = this;
-        }
+        public IObservable<BigDigit> OnCraft => _onCraft;
 
         protected override void OnStart()
         {
-            _weaponPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(TypeSynthesis.Weapon));
-            _armorPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(TypeSynthesis.Armor));
-            _bootsPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(TypeSynthesis.Boots));
-            _amuletPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(TypeSynthesis.Amulet));
-            _buttonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem());
-            OpenList(TypeSynthesis.Weapon);
-            SelectItem(listPlace[0], listPlace[0].Thing);
+            //View.WeaponPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_weapons)).AddTo(Disposables);
+            //View.ArmorPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_armors)).AddTo(Disposables);
+            //View.BootsPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_necklaces)).AddTo(Disposables);
+            //View.AmuletPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_boots)).AddTo(Disposables);
+            //View.ButtonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem()).AddTo(Disposables);
+
+            //for (var i = 0; i < ITEMS_COUNT; i++)
+            //{
+            //    var itemVisual = UnityEngine.Object.Instantiate(View.ForgeItemVisualPrefab, View.Content);
+            //    itemVisual.OnSelected.Subscribe(SelectItem).AddTo(Disposables);
+            //    _listPlace.Add(itemVisual);
+            //}
+
+            //OpenList(_weapons);
+            //SelectItem(_listPlace[0]);
         }
 
-        public void OpenList(TypeSynthesis type)
+        public void OpenList(List<ItemSynthesis> items)
         {
-            switch (type)
+            _currentItems = items;
+
+            for (int i = 0; i < items.Count; i++)
             {
-                case TypeSynthesis.Weapon:
-                    workList = weapons;
-                    break;
-                case TypeSynthesis.Armor:
-                    workList = armors;
-                    break;
-                case TypeSynthesis.Amulet:
-                    workList = necklace;
-                    break;
-                case TypeSynthesis.Boots:
-                    workList = boots;
-                    break;
+                _listPlace[i].SetItem(items[i]);
+                CheckItemCount(i);
             }
 
-            for (int i = 0; i < workList.Count; i++)
-            {
-                listPlace[i].SetItem(workList[i]);
-                // listPlace[i].UIItem.SwitchDoneForUse( InventoryControllerScript.Instance.HowManyThisItems( workList[i].requireItem) >= workList[i].countRequireItem );
-            }
-            if (currentCell != null)
-                SelectItem(currentCell, currentCell.Thing);
+            if (_currentCell != null)
+                SelectItem(_currentCell);
 
-            currentCell?.UIItem.Select();
+            _currentCell?.UIItem.Select();
         }
 
-
-        public void SelectItem(ForgeItemVisual selectedCell, ItemSynthesis item)
+        public void SelectItem(ForgeItemVisual selectedCell)
         {
-            currentCell?.UIItem.Diselect();
-            currentItem = item;
-            currentCell = selectedCell;
-            LeftItem.SetItem(item.requireItem, item.countRequireItem);
-            RightItem.SetResource(item.requireResource);
+            _currentCell?.UIItem.Diselect();
+            _currentItem = selectedCell.Thing;
+            _currentIndex = _listPlace.FindIndex(place => place == selectedCell);
+            _currentCell = selectedCell;
+            View.LeftItem.SetItem(_currentItem.requireItem, _currentItem.countRequireItem);
+            View.RightItem.SetResource(_currentItem.requireResource);
             CheckDemands();
         }
 
         public void CheckDemands()
         {
-            _buttonSynthesis.interactable = GameController.Instance.CheckResource(currentItem.requireResource) && InventoryController.Instance.CheckItems(currentItem.requireItem, currentItem.countRequireItem);
+            View.ButtonSynthesis.interactable = _resourceStorageController.CheckResource(_currentItem.requireResource) && _inventoryController.CheckItems(_currentItem.requireItem, _currentItem.countRequireItem);
             RecalculateDemands();
         }
 
         private void RecalculateDemands()
         {
-            LeftItem.forgeItemCost.CheckItems();
-            RightItem.resourceCost.CheckResource();
+            View.LeftItem.forgeItemCost.CheckItems();
+            View.RightItem.resourceCost.CheckResource();
         }
 
         public void SynthesisItem()
         {
             int createdCount = 0;
-            Reward reward = new Reward();
+            RewardData reward = new RewardData();
 
-            while (GameController.Instance.CheckResource(currentItem.requireResource) && InventoryController.Instance.CheckItems(currentItem.requireItem, currentItem.countRequireItem))
+            var requirementItems =
+                new GameItem()
+                {
+                    Id = _currentItem.IDRequireItem,
+                    Amount = _currentItem.countRequireItem
+                };
+
+            while (_resourceStorageController.CheckResource(_currentItem.requireResource) && _inventoryController.CheckItems(_currentItem.requireItem, _currentItem.countRequireItem))
             {
-                GameController.Instance.SubtractResource(currentItem.requireResource);
-                InventoryController.Instance.RemoveItems(currentItem.requireItem, currentItem.countRequireItem);
-                OnCraft(1);
+                _resourceStorageController.SubtractResource(_currentItem.requireResource);
+                _inventoryController.Remove(_currentItem.requireItem);
+                _onCraft.Execute(new BigDigit(1));
                 createdCount += 1;
             }
 
-            Item item = (Item)currentItem.reward.Clone();
-            item.Amount = createdCount;
-            reward.AddItem(item);
-            MessageController.Instance.OpenSimpleRewardPanel(reward);
-            currentCell.UIItem.SwitchDoneForUse(InventoryController.Instance.HowManyThisItems(currentItem.requireItem) >= currentItem.countRequireItem);
-            CheckNextItem();
+            var newItem = new GameItem() { Amount = createdCount };
+            //reward.Add(newItem);
+            //MessageController.Instance.OpenSimpleRewardPanel(reward);
+
+            CheckItemCount(_currentIndex);
+            CheckItemCount(_currentIndex + 1);
             CheckDemands();
         }
 
-        private void CheckNextItem()
+        private void CheckItemCount(int index)
         {
-            int num = listPlace.FindIndex(x => x == currentCell) + 1;
-            if (num < workList.Count)
-                listPlace[num].UIItem.SwitchDoneForUse(InventoryController.Instance.HowManyThisItems(workList[num].requireItem) >= workList[num].countRequireItem);
-        }
+            var item = _listPlace[index].Thing;
+            var flag = _inventoryController.GameInventory.InventoryObjects[item.requireItem.Id].CheckCount(_currentItem.countRequireItem);
 
-        //Observers
-        private Action<BigDigit> observerCraft;
-        public void RegisterOnCraft(Action<BigDigit> d) { observerCraft += d; }
-        private void OnCraft(int amount) { if (observerCraft != null) observerCraft(new BigDigit(amount)); }
-        //Editor
-#if UNITY_EDITOR_WIN
-        [ContextMenu("Set All Costs")]
-        public void SetAllCosts()
-        {
-            Undo.RecordObject(this, "forgeUpdateCosts");
-            SetCosts(weapons);
-            SetCosts(armors);
-            SetCosts(necklace);
-            SetCosts(boots);
+            _currentCell.UIItem.SwitchDoneForUse(flag);
         }
-        void SetCosts(List<ItemSynthesis> listItems)
-        {
-            for (int i = 0; i < listItems.Count; i++)
-            {
-                listItems[i].requireResource = listCostItems[i];
-            }
-        }
-#endif
     }
 }

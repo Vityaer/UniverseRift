@@ -24,13 +24,13 @@ namespace Models.City.TrainCamp
             if (ID.Equals(string.Empty))
             {
                 ID = IDHero;
-                dataHero.General = (GeneralInfoHero)hero.General.Clone();
-                dataHero.General.Level = 1;
+                //dataHero.General = (GeneralInfoHero)hero.General.Clone();
+                //dataHero.General.Level = 1;
             }
             else
             {
                 dataHero.General = new GeneralInfoHero();
-                dataHero.General.RatingHero = rating;
+                dataHero.General.Rating = rating;
                 dataHero.General.Race = race;
                 SpriteName spriteName = SpriteName.OneStarHero;
                 switch (rating)
@@ -54,7 +54,7 @@ namespace Models.City.TrainCamp
                 if (SystemSprites.Instance == null) Debug.Log("SystemSprites.Instance null");
                 if (dataHero == null) Debug.Log("dataHero null");
                 if (dataHero.General == null) Debug.Log("dataHero.generalInfo null");
-                dataHero.General.ImageHero = SystemSprites.Instance.GetSprite(spriteName);
+                //dataHero.General.Ima.geHero = SystemSprites.Instance.GetSprite(spriteName);
             }
         }
     }

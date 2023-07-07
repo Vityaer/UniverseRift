@@ -9,7 +9,7 @@ namespace City.TrainCamp
     {
         public Image image;
         public Skill skill;
-        public SkillInfoController detailController;
+        public SkillCell detailController;
 
         public void SetInfo(Skill skill)
         {

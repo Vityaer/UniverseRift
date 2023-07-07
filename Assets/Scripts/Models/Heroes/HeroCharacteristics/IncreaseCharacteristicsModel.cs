@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Models.Heroes.HeroCharacteristics
 {
     [Serializable]
-    public class IncreaseCharacteristicsModel : ICloneable
+    public class IncreaseCharacteristicsModel
     {
         public float increaseDamage;
         public float increaseHP;
@@ -20,7 +20,7 @@ namespace Models.Heroes.HeroCharacteristics
         public float increaseCritResistance;
         public float increasePoisonResistance;
 
-        public object Clone()
+        public IncreaseCharacteristicsModel Clone()
         {
             return new IncreaseCharacteristicsModel
             {

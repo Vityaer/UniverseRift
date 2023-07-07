@@ -28,7 +28,7 @@ namespace Fight.HeroControllers.Generals
             flagAnimFinish = false;
             if (CheckExistAnimation(nameAnimation))
             {
-                anim.Play(nameAnimation);
+                Animator.Play(nameAnimation);
             }
             else
             {
@@ -47,7 +47,7 @@ namespace Fight.HeroControllers.Generals
             else
             {
                 int stateId = Animator.StringToHash(nameAnimation);
-                bool animExist = anim.HasState(0, stateId);
+                bool animExist = Animator.HasState(0, stateId);
                 animationsExist.Add(nameAnimation, animExist);
                 result = animExist;
             }
@@ -56,14 +56,13 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimDistanceAttack(List<HeroController> enemies)
         {
-            GameObject arrow;
             hitCount = 0;
             this.listTarget = enemies;
             foreach (HeroController target in listTarget)
             {
-                arrow = Instantiate(hero.PrefabArrow, tr.position, Quaternion.identity);
-                arrow.GetComponent<Arrow>().SetTarget(target, new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike, isMellee: false));
-                arrow.GetComponent<Arrow>().RegisterOnCollision(HitCount);
+                //var arrow = Instantiate(hero.Model.ArrowPrefab, tr.position, Quaternion.identity);
+                //arrow.SetTarget(target, new Strike(hero.Characteristics.Damage, hero.Characteristics.Main.Attack, typeStrike: typeStrike, isMellee: false));
+                //arrow.RegisterOnCollision(HitCount);
             }
         }
 
@@ -74,8 +73,8 @@ namespace Fight.HeroControllers.Generals
             Vector3 rotateAttack = Vector3.zero;
             rotateAttack = new Vector3(0, 0, isFacingRight ? 45 : -45);
             sequenceAnimation = DOTween.Sequence()
-                        .Append(tr.DORotate(rotateAttack, 0.25f))
-                        .Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
+                        .Append(Self.DORotate(rotateAttack, 0.25f))
+                        .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
         }
 
         private void DefaultAnimIdle()
@@ -96,10 +95,12 @@ namespace Fight.HeroControllers.Generals
         {
             sequenceAnimation?.Kill();
 
-            bool attackFromLeft = NeedFlip(FightController.Instance.GetCurrentHero());
-            Vector3 rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
-            sequenceAnimation = DOTween.Sequence().Append(tr.DORotate(rotateGiveDamage, 0.25f))
-                    .Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
+            var attackFromLeft = NeedFlip(FightController.GetCurrentHero());
+
+            var rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
+
+            sequenceAnimation = DOTween.Sequence().Append(Self.DORotate(rotateGiveDamage, 0.25f))
+                    .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
         }
 
         private void DefaultAnimDeath()
@@ -107,7 +108,7 @@ namespace Fight.HeroControllers.Generals
             isDeath = true;
             sequenceAnimation?.Kill();
             sequenceAnimation = DOTween.Sequence()
-                .Append(tr.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
+                .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
         }
     }
 }

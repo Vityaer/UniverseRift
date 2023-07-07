@@ -1,14 +1,18 @@
-﻿using Models.City.TrainCamp;
+﻿using City.Panels.SelectHeroes;
+using Hero;
+using Models.City.TrainCamp;
 using Models.Heroes;
+using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UIController.Cards
 {
-    public class Card : MonoBehaviour
+    public class Card : MonoBehaviour, IDisposable
     {
-        public HeroModel Hero;
+        public GameHero Hero;
         public bool Selected = false;
 
         [SerializeField] private Image _imageUI;
@@ -16,9 +20,18 @@ namespace UIController.Cards
         [SerializeField] private Image _panelSelect;
         [SerializeField] private VocationView _vocationUI;
         [SerializeField] private RaceView _raceUI;
+        [SerializeField] private Button Button;
 
         private RatingHero _ratingController;
-        private ListCardOnWarTable _listCardController;
+        private ReactiveCommand<Card> _onClick = new ReactiveCommand<Card>();
+        private CompositeDisposable _disposables = new CompositeDisposable();
+        private IDisposable _heroSubscribe;
+        public IObservable<Card> OnClick => _onClick;
+
+        private void Awake()
+        {
+            Button.OnClickAsObservable().Subscribe(_ => ClickOnCard()).AddTo(_disposables);
+        }
 
         public void SetData(RequirementHeroModel requirementHero)
         {
@@ -30,43 +43,30 @@ namespace UIController.Cards
             SetImage(requirementHero.GetData);
         }
 
-        public void ChangeInfo(HeroModel hero)
+        public void SetData(GameHero hero)
         {
-            this.Hero = hero;
+            Hero = hero;
             UpdateUI();
-        }
-
-        public void ChangeInfo(HeroModel hero, ListCardOnWarTable listCardController)
-        {
-            this.Hero = hero;
-            this._listCardController = listCardController;
-            UpdateUI();
+            _heroSubscribe = hero.OnChangeData.Subscribe(_ => UpdateUI());
         }
 
         private void UpdateUI()
         {
-            _imageUI.sprite = Hero.General.ImageHero;
-            _levelUI.text = Hero.General.Level.ToString();
-            _ratingController.ShowRating(Hero.General.RatingHero);
+            _imageUI.sprite = Hero.Avatar;
+            _levelUI.text = $"{Hero.HeroData.Level}";
+            //_ratingController.ShowRating(Hero.General.RatingHero);
 
         }
 
         private void SetImage(HeroModel data)
         {
-            _imageUI.sprite = data.General.ImageHero;
+            //_imageUI.sprite = data.General.ImageHero;
         }
 
         //API
         public void ClickOnCard()
         {
-            if (Selected == false)
-            {
-                _listCardController.SelectCard(this);
-            }
-            else
-            {
-                _listCardController.UnselectCard(this);
-            }
+            _onClick.Execute(this);
         }
 
         public void Select()
@@ -85,14 +85,15 @@ namespace UIController.Cards
         {
             _imageUI.sprite = null;
             _levelUI.text = string.Empty;
-            _ratingController.Hide();
+            //_ratingController.Hide();
             gameObject.SetActive(false);
+            _heroSubscribe?.Dispose();
         }
 
-        public void DestroyCard()
+        public void Dispose()
         {
-            _listCardController.RemoveCardFromList(this);
-            Destroy(gameObject);
+            _heroSubscribe.Dispose();
+            _disposables.Dispose();
         }
     }
 }

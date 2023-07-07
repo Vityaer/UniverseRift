@@ -1,34 +1,43 @@
-using City.Buildings.General;
+using City.Buildings.Abstractions;
 using Common;
+using Common.Rewards;
 using Fight;
 using Fight.WarTable;
 using Models;
+using Models.Common;
+using Models.Common.BigDigits;
 using Models.Fights.Campaign;
 using System;
 using System.Collections.Generic;
 using UIController.Rewards;
+using UniRx;
 using UnityEngine;
+using VContainer;
 
 namespace City.Buildings.Voyage
 {
-    public class VoyageController : BuildingWithFight
+    public class VoyageController : BuildingWithFight<VoyageView>
     {
+        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
+
+        [Inject] private CommonGameData _commonGameData;
+        [Inject] private WarTableController _warTableController;
+
+        [SerializeField] private VoyageMissionPanelController panelVoyageMission;
         [SerializeField] private List<MissionModel> missions = new List<MissionModel>();
         [SerializeField] private List<VoyageMissionController> missionsUI = new List<VoyageMissionController>();
-        [SerializeField] private PanelVoyageMission panelVoyageMission;
-        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
-        VoyageBuildingModel voyageBuildingSave = null;
-        int currentMission = 0;
-        private Action<BigDigit> observerDoneTravel;
+
+        private VoyageBuildingData voyageBuildingSave = null;
+        private int _currentMission = 0;
+        private ReactiveCommand<int> _onDoneTravel = new ReactiveCommand<int>();
         public LocationWithBuildings locationController;
-        private static VoyageController instance;
-        public static VoyageController Instance { get => instance; }
-        void Awake() { instance = this; }
+
+        public IObservable<int> OnDoneTravel => _onDoneTravel;
 
         protected override void OnLoadGame()
         {
-            voyageBuildingSave = GameController.GetCitySave.voyageBuildingSave;
-            currentMission = voyageBuildingSave.GetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION);
+            voyageBuildingSave = _commonGameData.City.VoyageSave;
+            _currentMission = voyageBuildingSave.IntRecords.GetRecord(NAME_RECORD_NUM_CURRENT_MISSION);
             LoadMissions();
         }
 
@@ -37,16 +46,20 @@ namespace City.Buildings.Voyage
             StatusMission statusMission = StatusMission.NotOpen;
             for (int i = 0; i < missions.Count; i++)
             {
-                if (i < currentMission)
+                if (i < _currentMission)
                 {
                     statusMission = StatusMission.Complete;
                 }
-                else if (i == currentMission)
+                else if (i == _currentMission)
                 {
                     statusMission = StatusMission.Open;
                 }
-                else { statusMission = StatusMission.NotOpen; }
-                missionsUI[i].SetData(missions[i], i + 1, statusMission);
+                else
+                {
+                    statusMission = StatusMission.NotOpen;
+                }
+
+                missionsUI[i].SetData(i + 1, statusMission);
             }
         }
 
@@ -54,40 +67,21 @@ namespace City.Buildings.Voyage
         {
             if (result == FightResultType.Win)
             {
-                OnWinFight(currentMission);
-                missionsUI[currentMission].SetStatus(StatusMission.Complete);
-                currentMission += 1;
-                if (currentMission < missions.Count) missionsUI[currentMission].SetStatus(StatusMission.Open);
-                voyageBuildingSave.SetRecordInt(NAME_RECORD_NUM_CURRENT_MISSION, currentMission);
-                SaveGame();
-                if (currentMission == missions.Count) OnDoneTravel(1);
+                _onWinFight.Execute(_currentMission);
+                missionsUI[_currentMission].SetStatus(StatusMission.Complete);
+                _currentMission += 1;
+                if (_currentMission < missions.Count) missionsUI[_currentMission].SetStatus(StatusMission.Open);
+                voyageBuildingSave.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, _currentMission);
+                //SaveGame();
+
+                if (_currentMission == missions.Count)
+                    _onDoneTravel.Execute(1);
             }
         }
 
-        public void ShowInfo(VoyageMissionController controller, Reward winReward, StatusMission status)
+        public void ShowInfo(VoyageMissionController controller, GameReward winReward, StatusMission status)
         {
             panelVoyageMission.ShowInfo(controller, winReward, status);
         }
-
-        public void RegisterOnDoneTravel(Action<BigDigit> d) { observerDoneTravel += d; }
-        public void UnregisterOnDoneTravel(Action<BigDigit> d) { observerDoneTravel -= d; }
-
-        protected void OnDoneTravel(int num)
-        {
-            if (observerDoneTravel != null)
-                observerDoneTravel(new BigDigit(num));
-        }
-
-        protected override void OpenPage()
-        {
-            WarTableController.Instance.UnregisterOnOpenCloseMission(OnAfterFight);
-            locationController.Show();
-        }
-        protected override void ClosePage()
-        {
-            Debug.Log("close page");
-            locationController.Hide();
-        }
-
     }
 }

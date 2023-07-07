@@ -1,11 +1,13 @@
 using Common;
+using Cysharp.Threading.Tasks;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UIController.Observers
 {
-    public class OtherObserver : MonoBehaviour
+    public class OtherObserver : MonoBehaviour, IDisposable
     {
         public TypeObserverOther type;
         public bool isMyabeBuy = false;
@@ -14,6 +16,8 @@ namespace UIController.Observers
         public GameObject btnAddResource;
         public Image imageObserver;
         public TextMeshProUGUI textObserver;
+
+        private IDisposable _disposable;
 
         void Start()
         {
@@ -27,18 +31,18 @@ namespace UIController.Observers
             switch (type)
             {
                 case TypeObserverOther.CountHeroes:
-                    GameController.Instance.RegisterOnChangeCountHeroes(UpdateUI);
+                    //_disposable = GameController.Instance.OnChangeCountHeroes.Subscribe(UpdateUI);
                     break;
             }
         }
 
         public void UpdateUI()
         {
-            string textCount = string.Empty;
+            var textCount = string.Empty;
             switch (type)
             {
                 case TypeObserverOther.CountHeroes:
-                    textCount = FunctionHelp.AmountFromRequireCount(GameController.Instance.GetCurrentCountHeroes, GameController.Instance.GetMaxCountHeroes);
+                    //textCount = FunctionHelp.AmountFromRequireCount(GameController.Instance.GetCurrentCountHeroes, GameController.Instance.GetMaxCountHeroes);
                     break;
                 case TypeObserverOther.MineEnergy:
                     textCount = "3 / 5";
@@ -56,6 +60,11 @@ namespace UIController.Observers
             // 	PanelBuyResourceScript.StandartPanelBuyResource.Open(
             // 		product.subject, product.cost
             // 		);
+        }
+
+        public void Dispose()
+        {
+            _disposable?.Dispose();
         }
     }
 }
