@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1577822870165957103}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6020863908447892167}
   m_RootOrder: 0
@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 7225441008994654087}
   - component: {fileID: 8587372577266563348}
   - component: {fileID: 7913128985336944825}
-  - component: {fileID: 414766490144332707}
   - component: {fileID: 6706448811310642901}
   m_Layer: 0
   m_Name: Legolas
@@ -205,21 +204,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &414766490144332707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4621635828186957131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9862628d0eee54478944b293a8a5242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliderHP: {fileID: 4844303402866974692}
-  sliderStamina: {fileID: 3109909358205086768}
-  currentState: 5
 --- !u!114 &6706448811310642901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,65 +216,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a2add30da05a0429ee24cdaec6721f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 414766490144332707}
+  statusState: {fileID: 1148559163397559937}
   myPlace: {fileID: 0}
   listTarget: []
   speedMove: 2
   speedAnimation: 1
-  hero:
-    generalInfo:
-      Name: 
-      Race: 0
-      ClassHero: 0
-      RatingHero: 1
-      Rare: 0
-      IdHero: 0
-      Level: 0
-      IsAlive: 1
-      IDCreate: 0
-      IDPrefab: 0
-    prefabArrow: {fileID: 0}
-    characts:
-      limitLevel: 0
-      Damage: 0
-      HP: 0
-      Initiative: 0
-      ProbabilityCriticalAttack: 0
-      DamageCriticalAttack: 0
-      Accuracy: 0
-      CleanDamage: 0
-      Dodge: 0
-      CountTargetForSimpleAttack: 0
-      CountTargetForSpell: 0
-      baseCharacteristic:
-        Attack: 0
-        Defense: 0
-        Speed: 0
-        typeMovement: 0
-        Mellee: 0
-        typeStrike: 0
-        CanRetaliation: 1
-        CountCouterAttack: 1
-      GeneralAttack: 0
-      GeneralArmor: 0
-      MaxHP: 0
-    resistances:
-      MagicResistance: 0
-      CritResistance: 0
-      PoisonResistance: 0
-      StunResistance: 0
-      PetrificationResistance: 0
-      FreezingResistance: 0
-      AstralResistance: 0
-      DumbResistance: 0
-      SilinceResistance: 0
-      EfficiencyHeal: 1
-    skills: []
-    statusState: {fileID: 0}
   Side: 0
   maxCountCounterAttack: 1
   flagAnimFinish: 0
   isFacingRight: 1
+  BodyParent: {fileID: 6020863908447892167}
   outlineController: {fileID: 6121825018485143889}
   _arrow: {fileID: 2237889415795683320, guid: 18f75effc983bbb47b445f592cd23953, type: 3}
 --- !u!1 &9189308515377484752
@@ -462,26 +397,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
---- !u!114 &3109909358205086768 stripped
+--- !u!114 &1148559163397559937 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3420605837107723154, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
   m_PrefabInstance: {fileID: 2344385959639526675}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4844303402866974692 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
-  m_PrefabInstance: {fileID: 2344385959639526675}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
+  m_Script: {fileID: 11500000, guid: df8c7a86e35990f44bb5e8d2cabf91ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &6707377303707848914 stripped

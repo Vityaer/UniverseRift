@@ -3,25 +3,29 @@ using Fight.FightInterface;
 using Fight.Grid;
 using Fight.Misc;
 using UnityEngine;
+using VContainer;
 
 namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
+        [Inject] private FightDirectionController _directionController;
+
         [SerializeField] bool isFacingRight = true;
 
-        private Transform BodyParent;
+        [SerializeField] private Transform BodyParent;
         public OutlineController outlineController;
 
         private SpriteRenderer _spriteRenderer;
         public Sprite GetSprite => GetSpriteRenderer.sprite;
         public bool SpellExist => CheckExistAnimation(ANIMATION_SPELL);
+
         public SpriteRenderer GetSpriteRenderer
         {
             get
             {
                 if (_spriteRenderer == null)
-                    _spriteRenderer = transform.Find("BodyParent/Body").GetComponent<SpriteRenderer>();
+                    _spriteRenderer = BodyParent.Find("Body").GetComponent<SpriteRenderer>();
                 return _spriteRenderer;
             }
         }
@@ -29,19 +33,21 @@ namespace Fight.HeroControllers.Generals
         protected virtual void PrepareOnStartTurn()
         {
             needFlip = false;
+            FindAvailableCells();
+            listTarget.Clear();
+
             if (this.Side == Side.Left)
             {
-                FightUI.Instance.OpenControllers(this);
+                _directionController.OpenControllers(this);
+                outlineController.SwitchOn();
+                WaitingSelectTarget();
             }
             else
             {
-                FightUI.Instance.CloseControllers();
+                _directionController.CloseControllers();
             }
-            listTarget.Clear();
-            FindAvailableCells();
-            WaitingSelectTarget();
+
             OnStartAction();
-            outlineController.SwitchOn();
         }
 
         private bool NeedFlip(HeroController enemy)
@@ -112,7 +118,7 @@ namespace Fight.HeroControllers.Generals
 
         private void ShowHeroesPlaceInteractive()
         {
-            foreach (var warrior in FightController.Instance.GetLeftTeam)
+            foreach (var warrior in FightController.GetLeftTeam)
             {
                 Color color;
                 if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
@@ -126,7 +132,7 @@ namespace Fight.HeroControllers.Generals
                 warrior.Cell.SetColor(color);
             }
 
-            foreach (var warrior in FightController.Instance.GetRightTeam)
+            foreach (var warrior in FightController.GetRightTeam)
             {
                 Color color = Color.red;
                 if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
@@ -155,7 +161,7 @@ namespace Fight.HeroControllers.Generals
 
         private bool CanShoot()
         {
-            return (hero.characts.baseCharacteristic.Mellee == true) || (!hero.characts.baseCharacteristic.Mellee && myPlace.MyEnemyNear(this.Side));
+            return (hero.Model.Characteristics.Main.Mellee == true) || (!hero.Model.Characteristics.Main.Mellee && myPlace.MyEnemyNear(this.Side));
         }
 
         [ContextMenu("Add 100 stamina")]

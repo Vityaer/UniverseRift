@@ -14,7 +14,7 @@ namespace City.TrainCamp
 
         public LevelUpRaitingModel GetRequirements(HeroModel hero)
         {
-            int currentRating = hero.General.RatingHero;
+            int currentRating = hero.General.Rating;
             LevelUpRaitingModel result = ratings.Find(x => x.Level == currentRating + 1);
             if (result != null)
             {

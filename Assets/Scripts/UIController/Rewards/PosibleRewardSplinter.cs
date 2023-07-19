@@ -1,5 +1,5 @@
-﻿using System;
-using UIController.Inventory;
+﻿using Common.Inventories.Splinters;
+using System;
 
 namespace UIController.Rewards
 {
@@ -7,7 +7,7 @@ namespace UIController.Rewards
     public class PosibleRewardSplinter : PosibleRewardObject
     {
         public SplinterName ID = SplinterName.OneStarPeople;
-        public Splinter GetSplinter { get { return new Splinter($"{ID}", 1); } }
+        public GameSplinter GetSplinter { get { return new GameSplinter($"{ID}", 1); } }
         public SplinterName GetID { get => ID; }
 
     }

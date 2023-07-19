@@ -7,7 +7,7 @@ namespace Fight.HeroControllers.Militia
         protected override void DoSpell()
         {
             statusState.ChangeStamina(-100);
-            anim.Play("Spell");
+            Animator.Play("Spell");
         }
 
     }

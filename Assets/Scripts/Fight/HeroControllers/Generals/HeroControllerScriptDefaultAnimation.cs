@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Fight.HeroControllers.Generals
 {
-    public partial class HeroController : MonoBehaviour
+    public partial class HeroController : MonoBehaviour, IDisposable
     {
         //Animations
         private const string ANIMATION_ATTACK = "Attack",
@@ -18,7 +18,7 @@ namespace Fight.HeroControllers.Generals
                              ANIMATION_SPELL = "Spell";
         [SerializeField] bool flagAnimFinish = false;
         Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
-        Tween sequenceAnimation;
+        private Tween _sequenceAnimation;
 
         protected void PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true)
         {
@@ -28,7 +28,7 @@ namespace Fight.HeroControllers.Generals
             flagAnimFinish = false;
             if (CheckExistAnimation(nameAnimation))
             {
-                anim.Play(nameAnimation);
+                Animator.Play(nameAnimation);
             }
             else
             {
@@ -47,7 +47,7 @@ namespace Fight.HeroControllers.Generals
             else
             {
                 int stateId = Animator.StringToHash(nameAnimation);
-                bool animExist = anim.HasState(0, stateId);
+                bool animExist = Animator.HasState(0, stateId);
                 animationsExist.Add(nameAnimation, animExist);
                 result = animExist;
             }
@@ -56,26 +56,24 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimDistanceAttack(List<HeroController> enemies)
         {
-            GameObject arrow;
             hitCount = 0;
             this.listTarget = enemies;
             foreach (HeroController target in listTarget)
             {
-                arrow = Instantiate(hero.PrefabArrow, tr.position, Quaternion.identity);
-                arrow.GetComponent<Arrow>().SetTarget(target, new Strike(hero.characts.Damage, hero.characts.GeneralAttack, typeStrike: typeStrike, isMellee: false));
-                arrow.GetComponent<Arrow>().RegisterOnCollision(HitCount);
+                //var arrow = Instantiate(hero.Model.ArrowPrefab, tr.position, Quaternion.identity);
+                //arrow.SetTarget(target, new Strike(hero.Characteristics.Damage, hero.Characteristics.Main.Attack, typeStrike: typeStrike, isMellee: false));
+                //arrow.RegisterOnCollision(HitCount);
             }
         }
 
         protected void DefaultAnimAttack(HeroController enemy)
         {
-            Debug.Log("default anim attack");
-            sequenceAnimation?.Kill();
+            _sequenceAnimation?.Kill();
             Vector3 rotateAttack = Vector3.zero;
             rotateAttack = new Vector3(0, 0, isFacingRight ? 45 : -45);
-            sequenceAnimation = DOTween.Sequence()
-                        .Append(tr.DORotate(rotateAttack, 0.25f))
-                        .Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
+            _sequenceAnimation = DOTween.Sequence()
+                        .Append(Self.DORotate(rotateAttack, 0.25f))
+                        .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
         }
 
         private void DefaultAnimIdle()
@@ -94,20 +92,27 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimGetDamage(Strike strike)
         {
-            sequenceAnimation?.Kill();
+            _sequenceAnimation?.Kill();
 
-            bool attackFromLeft = NeedFlip(FightController.Instance.GetCurrentHero());
-            Vector3 rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
-            sequenceAnimation = DOTween.Sequence().Append(tr.DORotate(rotateGiveDamage, 0.25f))
-                    .Append(tr.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
+            var attackFromLeft = NeedFlip(FightController.GetCurrentHero());
+
+            var rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
+
+            _sequenceAnimation = DOTween.Sequence().Append(Self.DORotate(rotateGiveDamage, 0.25f))
+                    .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
         }
 
         private void DefaultAnimDeath()
         {
             isDeath = true;
-            sequenceAnimation?.Kill();
-            sequenceAnimation = DOTween.Sequence()
-                .Append(tr.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
+            _sequenceAnimation?.Kill();
+            _sequenceAnimation = DOTween.Sequence()
+                .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
+        }
+
+        public void Dispose()
+        {
+            _sequenceAnimation?.Kill();
         }
     }
 }

@@ -1,18 +1,35 @@
 using Models.Fights.Campaign;
+using System;
+using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace City.Buildings.Voyage
 {
-    public class VoyageMissionController : MonoBehaviour
+    public class VoyageMissionController : MonoBehaviour, IDisposable
     {
+        [SerializeField] private Button _selectButton;
         [SerializeField] private StatusMission _status = StatusMission.NotOpen;
-        private MissionModel _mission;
-        private int _numMission = 0;
 
-        public void SetData(MissionModel mission, int numMission, StatusMission newStatus)
+        private int _numMission = 0;
+        private CompositeDisposable _disposables = new CompositeDisposable();
+        private ReactiveCommand<int> _onSelect = new ReactiveCommand<int>();
+
+        public IObservable<int> OnSelect => _onSelect;
+
+        private void Awake()
         {
-            this._mission = mission;
-            this._numMission = numMission;
+            //_selectButton.OnClickAsObservable().Subscribe(_ => OnClick()).AddTo(_disposables);   
+        }
+
+        public void OpenMission()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetData(int numMission, StatusMission newStatus)
+        {
+            _numMission = numMission;
             _status = newStatus;
         }
 
@@ -21,17 +38,15 @@ namespace City.Buildings.Voyage
             _status = newStatus;
         }
 
-        public void OpenPanelInfo()
+        private void OnClick()
         {
-            VoyageController.Instance.ShowInfo(this, _mission.WinReward, _status);
+            _onSelect.Execute(_numMission);
         }
 
-        public void OpenMission()
+        public void Dispose()
         {
-            if (_status == StatusMission.Open)
-            {
-                VoyageController.Instance.OpenMission(_mission);
-            }
+            _disposables.Dispose();
         }
+
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Models.Heroes
 {
     [System.Serializable]
-    public class StorageResistances : ICloneable
+    public class StorageResistances
     {
         public float MagicResistance;
         public float CritResistance;
@@ -16,7 +16,7 @@ namespace Models.Heroes
         public float DumbResistance;
         public float SilinceResistance;
         public float EfficiencyHeal = 1f;
-        public object Clone()
+        public StorageResistances Clone()
         {
             return new StorageResistances
             {

@@ -1,5 +1,5 @@
-﻿using Common;
-using Common.Resourses;
+﻿using Common.Resourses;
+using Models.Common.BigDigits;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +35,7 @@ namespace UIController.ItemVisual
             Show();
         }
 
-        public void SetAmount(Resource currentResource, Resource maxResource)
+        public void SetAmount(GameResource currentResource, GameResource maxResource)
         {
             SetAmount(currentResource.Amount, maxResource.Amount);
         }

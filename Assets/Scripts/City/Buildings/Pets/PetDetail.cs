@@ -13,7 +13,7 @@ namespace City.Buildings.Pets
 
         [Header("Controller")]
         public Button btnBack;
-        public PetsZoo mainController;
+        public PetsZooController mainController;
         PetAvatar pet;
         public void ShowPet(PetAvatar pet)
         {

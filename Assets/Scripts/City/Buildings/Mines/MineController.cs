@@ -26,19 +26,19 @@ namespace City.Buildings.Mines
         {
             // anim?.Play("Create");
             mine.SetData(mineSave);
-            GameController.GetPlayerGame.SaveMine(this);
+            //GameController.GetPlayerGame.SaveMine(this);
         }
 
         public void UpdateLevel()
         {
             mine.LevelUP();
-            GameController.GetPlayerGame.SaveMine(this);
+            //GameController.GetPlayerGame.SaveMine(this);
         }
 
         public void GetReward()
         {
             mine.GetResources();
-            GameController.GetPlayerGame.SaveMine(this);
+            //GameController.GetPlayerGame.SaveMine(this);
         }
 
         public void OpenPanelInfo()

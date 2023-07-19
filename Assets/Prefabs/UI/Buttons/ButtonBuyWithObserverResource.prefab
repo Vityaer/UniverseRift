@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1478197518769782871}
   m_RootOrder: 1
@@ -165,6 +166,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5282026859666974127}
   - {fileID: 7897083020784645707}
@@ -257,19 +259,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1478197518769782870}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7017254075560689579}
-        m_TargetAssemblyTypeName: ButtonCostScript, Assembly-CSharp
-        m_MethodName: Buy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5833053385635707733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,11 +275,9 @@ MonoBehaviour:
   resourceObserver: {fileID: 5282026859666974122}
   buttonCostComponent: {fileID: 7017254075560689579}
   cost:
-    Description: 
+    Id: 
     Name: 0
-    amount:
-      count: 0
-      e10: 0
+    Amount: 0
 --- !u!114 &7017254075560689579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,16 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98c3b3e2950041488323ab740deacdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textCost: {fileID: 3016877049849845305}
-  btn: {fileID: 1478197518769782868}
-  imgRes: {fileID: 5282026859780287314}
-  res:
-    Description: 
-    Name: 0
-    amount:
-      count: 0
-      e10: 0
-  countBuy: 1
+  _costText: {fileID: 2505505945840923423}
+  _button: {fileID: 1478197518769782868}
+  _mainImage: {fileID: 1478197518769782870}
   typeDefaultMessage: 2
 --- !u!1001 &1478197517778737243
 PrefabInstance:
@@ -368,6 +349,14 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 6759370593781775857, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+      propertyPath: Image
+      value: 
+      objectReference: {fileID: 5282026859780287314}
+    - target: {fileID: 6759370593781775857, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+      propertyPath: TextAmount
+      value: 
+      objectReference: {fileID: 3016877049849845305}
     - target: {fileID: 6759370593781775860, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -482,11 +471,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
---- !u!224 &5282026859666974127 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6759370593781775860, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+--- !u!114 &3016877049849845305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4421837188921347682, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
   m_PrefabInstance: {fileID: 1478197517778737243}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5282026859666974122 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6759370593781775857, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
@@ -498,6 +493,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854a750f28b6fee48b38c4f638ba4d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5282026859666974127 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6759370593781775860, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+  m_PrefabInstance: {fileID: 1478197517778737243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5282026859780287314 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6759370593794421513, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
@@ -507,16 +507,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3016877049849845305 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4421837188921347682, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
-  m_PrefabInstance: {fileID: 1478197517778737243}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

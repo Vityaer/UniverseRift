@@ -1,120 +1,127 @@
-﻿using Common;
+﻿using Assets.Scripts.ClientServices;
 using Common.Resourses;
 using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
+using VContainerUi.Abstraction;
 
 namespace UIController
 {
-    public partial class ButtonCostController : MonoBehaviour
+    public partial class ButtonCostController : UiView, IDisposable
     {
-        public TextMeshProUGUI textCost;
-        public Button btn;
-        public Image imgRes;
-        public Resource res;
-        public Action<int> delBuyMatter;
-        public int countBuy = 1;
+        private ResourceStorageController _resourceStorageController;
+
+        [SerializeField] private TextMeshProUGUI _costText;
+        [SerializeField] private Button _button;
+        [SerializeField] private Image _mainImage;
+        [SerializeField] private TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
+
+        private GameResource _cost;
+        private int countBuy = 1;
         private bool disable = false;
-        public TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
+        private CompositeDisposable _disposables = new CompositeDisposable();
+        private IDisposable _subscriberResource;
+
+        private ReactiveCommand<GameResource> _onClick = new ReactiveCommand<GameResource>();
+
+        public IObservable<GameResource> OnClick => _onClick;
+        
+        [Inject]
+        public void Construct(ResourceStorageController resourceStorageController)
+        {
+            _resourceStorageController = resourceStorageController;
+
+            if(_cost != null)
+                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
+        }
 
         void Start()
         {
-            if (res.Count > 0)
-            {
-                UpdateInfo();
-            }
+            _button.OnClickAsObservable().Subscribe(_ => Click()).AddTo(_disposables);
         }
 
-        public void UpdateCost(Resource res, Action<int> d)
+        public void SetCost(GameResource res)
         {
-            delBuyMatter = d;
-            this.res = res;
-            UpdateInfo();
+            _cost = res;
+            Enable();
         }
 
-        public void RegisterOnBuy(Action<int> d)
+        public void SetCostWithoutInfo(GameResource res)
         {
-            delBuyMatter = d;
-            UpdateInfo();
-        }
-
-        public void UpdateCostWithoutInfo(Resource res, Action<int> d)
-        {
-            delBuyMatter = d;
-            this.res = res;
+            _cost = res;
             CheckResource(res);
+            Enable();
         }
 
-        public void UpdateLabel(Action<int> d, string text)
+        public void SetLabel(string text)
         {
-            delBuyMatter = d;
-            res.Clear();
-            textCost.text = text;
+            _cost.Clear();
+            _costText.text = text;
             disable = false;
-            btn.interactable = true;
+            _button.interactable = true;
         }
 
-        private void UpdateInfo()
+        private void OnChageStorageResource(GameResource storageResource)
         {
             if (disable == false)
             {
-                if (res.Count > 0)
+                if (_cost.Amount.Mantissa > 0)
                 {
-                    textCost.text = res.ToString();
-                    imgRes.enabled = true;
-                    imgRes.sprite = res.Image;
-                    GameController.Instance.RegisterOnChangeResource(CheckResource, res.Name);
+                    _costText.text = _cost.ToString();
+                    _mainImage.enabled = true;
+                    _mainImage.sprite = _cost.Image;
                 }
                 else
                 {
-                    textCost.text = DefaultEmpty();
+                    _costText.text = DefaultEmpty();
                     if (typeDefaultMessage != TypeDefaultMessage.Number)
-                        imgRes.enabled = false;
+                        _mainImage.enabled = false;
                 }
-                CheckResource(res);
+                CheckResource(_cost);
             }
         }
 
-        public void Buy()
+        public void Click()
         {
-            if (disable == false && GameController.Instance.CheckResource(res))
-            {
-                Debug.Log("button buy");
-                if (res.Count > 0f) SubstractResource();
-                if (delBuyMatter != null) delBuyMatter(countBuy);
-            }
+            _onClick.Execute(_cost);
         }
 
-        public void CheckResource(Resource res)
+        public void CheckResource(GameResource res)
         {
-            if (disable == false)
-                btn.interactable = GameController.Instance.CheckResource(this.res);
+            if (disable)
+                return;
+
+            _button.interactable = _resourceStorageController.CheckResource(_cost);
         }
 
         public void Disable()
         {
             disable = true;
-            GameController.Instance.UnregisterOnChangeResource(CheckResource, res.Name);
-            btn.interactable = false;
+            _button.interactable = false;
+            _subscriberResource.Dispose();
+            _subscriberResource = null;
         }
 
-        public void EnableButton()
+        public void Enable()
         {
+            if (_subscriberResource != null)
+            {
+                Debug.LogError("try double subscribe");
+                return;
+            }
+
             disable = false;
-            GameController.Instance.RegisterOnChangeResource(CheckResource, res.Name);
-        }
-
-        private void SubstractResource()
-        {
-            GameController.Instance.SubtractResource(res);
+            if(_resourceStorageController != null)
+                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
         }
 
         public void Clear()
         {
-            delBuyMatter = null;
-            btn.interactable = true;
-            imgRes.enabled = false;
+            _button.interactable = true;
+            _mainImage.enabled = false;
             disable = false;
         }
 
@@ -134,6 +141,12 @@ namespace UIController
                     break;
             }
             return result;
+        }
+
+        public void Dispose()
+        {
+            _subscriberResource?.Dispose();
+            _disposables.Dispose();
         }
     }
 }

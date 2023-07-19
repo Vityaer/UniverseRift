@@ -1,19 +1,20 @@
 using UnityEngine;
 using Models.Grid;
+using Common.Factories;
+using VContainer;
 
 namespace Fight.Grid
 {
-    public class GridFactory : MonoBehaviour
+    public class GridFactory : BaseFactory<BaseGrid>
     {
-        public GameObject GridPrefab;
-        public Transform SpawnPoint;
-        private BaseGrid _grid;
-        
-        public BaseGrid CreateGrid()
+        public GridFactory(IObjectResolver objectResolver) : base(objectResolver)
+        {
+        }
+
+        public BaseGrid CreateGrid(BaseGrid Prefab, Transform SpawnPoint)
 	    {
-            _grid = Instantiate(GridPrefab, SpawnPoint.position, Quaternion.identity, SpawnPoint).GetComponent<BaseGrid>();
-            _grid.FindNeighbours();
-            return _grid;
+            var grid = Object.Instantiate(Prefab, SpawnPoint.position, Quaternion.identity, SpawnPoint);
+            return grid;
 	    }
     }
 }

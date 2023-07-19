@@ -1,5 +1,5 @@
 ﻿using City.Buildings.PageCycleEvent.MonthlyEvents;
-using Models.Requiremets;
+using Models.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +9,9 @@ namespace Models
     public class MonthlyRequirementsModel : BaseModel
     {
         [SerializeField] private List<ListRequirementModel> listGroupRequirements = new List<ListRequirementModel>();
-        public List<AchievementSave> GetTasks(TypeMonthlyTasks type)
+        public List<AchievmentData> GetTasks(TypeMonthlyTasks type)
         {
-            List<AchievementSave> result = listGroupRequirements.Find(x => x.ID == ((int)type))?.list;
+            List<AchievmentData> result = listGroupRequirements.Find(x => x.ID == ((int)type))?.list;
             if (result == null)
             {
                 ListRequirementModel work = new ListRequirementModel(type);

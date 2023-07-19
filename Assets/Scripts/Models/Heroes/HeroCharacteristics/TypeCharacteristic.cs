@@ -1,12 +1,12 @@
 ﻿namespace Models.Heroes.HeroCharacteristics
 {
-    public enum TypeCharacteristic
+    public enum TypeCharacteristic : byte
     {
-        Damage,
-        HP,
-        Defense,
-        Initiative,
-        Attack,
+        Damage = 0,
+        HP = 1,
+        Defense = 2,
+        Initiative = 3,
+        Attack = 4,
         ProbabilityCriticalAttack,
         DamageCriticalAttack,
         Accuracy,

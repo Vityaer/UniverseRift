@@ -38,7 +38,7 @@ namespace Fight
         protected virtual void CollisionTarget(HeroController target)
         {
             if (strike != null)
-                target.GetDamage(strike);
+                target.ApplyDamage(strike);
 
             if (delsCollision != null)
                 delsCollision();

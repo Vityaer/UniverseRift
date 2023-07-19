@@ -1,35 +1,10 @@
-using UIController;
-using UIController.ButtonsInCity;
 using UnityEngine;
+using VContainerUi.Abstraction;
 
 namespace City.General
 {
-    public abstract class MainPage : MonoBehaviour
+    public abstract class MainPage : UiView
     {
-        [SerializeField] private FooterButton btnOpenClose;
-
-        protected virtual void Awake()
-        {
-            btnOpenClose.RegisterOnChange(Change);
-        }
-
-        private void Change(bool isOpen)
-        {
-            if (isOpen)
-            {
-                Open();
-            }
-            else
-            {
-                Close();
-            }
-        }
-
-        public virtual void Open()
-        {
-            MenuController.Instance.CurrentPage = this;
-        }
-
-        public abstract void Close();
+        public GameObject Background;
     }
 }

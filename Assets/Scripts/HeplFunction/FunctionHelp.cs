@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Models.Common.BigDigits;
 using System;
 using System.IO;
 using UnityEngine;
@@ -91,10 +91,12 @@ public static class FunctionHelp
         }
         return convertedDate;
     }
+
     public static string AmountFromRequireCount(int currentAmount, int maxCount)
     {
         return string.Concat(currentAmount.ToString(), "/", maxCount.ToString());
     }
+
     public static string AmountFromRequireCountWithColorLess(int currentAmount, int maxCount)
     {
         string result = string.Empty;
@@ -108,10 +110,12 @@ public static class FunctionHelp
         }
         return result;
     }
+
     public static string AmountFromRequireCount(BigDigit currentAmount, BigDigit maxCount)
     {
         return string.Concat(currentAmount.ToString(), "/", maxCount.ToString());
     }
+
     public static string AmountFromRequireCountWithColorLess(BigDigit currentAmount, BigDigit maxCount)
     {
         string result = string.Empty;
@@ -125,27 +129,19 @@ public static class FunctionHelp
         }
         return result;
     }
-    public static int CalculateCountTact(DateTime previousDateTime, int MaxCount = 8640, int lenthTact = 5)
-    {
-        TimeSpan interval = FunctionHelp.CalculateTimeHasPassed(previousDateTime);
-        int tact = (int)(interval.TotalSeconds) / lenthTact;
-        tact = Math.Min(tact, MaxCount);
-        return tact;
-    }
+
     public static TimeSpan CalculateTimeHasPassed(DateTime previousDateTime)
     {
         DateTime localDate = DateTime.Now;
         TimeSpan interval = localDate - previousDateTime;
         return interval;
     }
-    public static string TextLevel(int level)
-    {
-        return string.Concat("Уровень ", level.ToString());
-    }
+
     public static DateTime GetDateTimeNow()
     {
         return DateTime.Now;
     }
+
     public static string TimeSpanConvertToSmallString(TimeSpan interval)
     {
         string result = string.Empty;
@@ -171,13 +167,14 @@ public static class FunctionHelp
     {
         return (DateTime.Compare(a, b) > 0) ? a - b : b - a;
     }
+
     public static TimeSpan GetLeftTimeToEnd(DateTime start, TimeSpan timeUp)
     {
         return (start + timeUp - DateTime.Now);
     }
+
     public static float GetLeftSecondsToEnd(DateTime start, TimeSpan timeUp)
     {
         return (float)GetLeftTimeToEnd(start, timeUp).TotalSeconds;
     }
-
 }

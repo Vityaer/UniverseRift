@@ -8,7 +8,6 @@ namespace Campaign
     {
         public string Name;
         public int numChapter;
-        [OdinSerialize] public List<CampaignMission> Missions = new List<CampaignMission>();
-
+        public List<CampaignMissionModel> Missions = new List<CampaignMissionModel>();
     }
 }

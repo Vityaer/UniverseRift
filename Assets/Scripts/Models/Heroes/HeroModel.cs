@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Tavern;
+using Fight;
 using Hero;
 using Models.City.TrainCamp;
 using Models.Heroes.Evolutions;
@@ -12,164 +13,37 @@ using UnityEngine;
 namespace Models.Heroes
 {
     [System.Serializable]
-    public class HeroModel : BaseModel, ICloneable
+    public class HeroModel : BaseModel
     {
         public GeneralInfoHero General;
-        public GameObject PrefabArrow;
-        public IncreaseCharacteristicsModel IncCharacts;
-        public List<Skill> skills = new List<Skill>();
+        public string ArrowPrefabPath;
         public Evolution Evolutions;
-        public Characteristics Characts;
+        public Characteristics Characteristics;
+        public IncreaseCharacteristicsModel IncCharacts;
         public StorageResistances Resistances;
-
-        public CostumeHeroController CostumeHero = new CostumeHeroController();
-        public HeroLocalization localization = null;
-
-        public float GetStrength => Mathf.Round(GetCharacteristic(TypeCharacteristic.Damage) + GetCharacteristic(TypeCharacteristic.HP) / 3f);
-
-        public HeroModel()
-        {
-        }
-
-        public HeroModel(HeroData heroSave)
-        {
-            var hero = TavernController.Instance.GetListHeroes.Find(x => x.General.HeroId == heroSave.HeroId);
-            CopyData(hero);
-            General.HeroId = heroSave.HeroId;
-            General.ViewId = heroSave.HeroId;
-            General.Name = heroSave.Name;
-            General.RatingHero = heroSave.Rating;
-            LevelUP(heroSave.Level - 1);
-            CostumeHero = new CostumeHeroController();
-            CostumeHero.SetData(heroSave.Costume.ItemIds);
-            Preparation();
-        }
-
-        private void CopyData(HeroModel Data)
-        {
-            General = (GeneralInfoHero)Data.General.Clone();
-            IncCharacts = (IncreaseCharacteristicsModel)Data.IncCharacts.Clone();
-            Characts = Data.Characts.Clone();
-            Resistances = (StorageResistances)Data.Resistances.Clone();
-            General.Prefab = Resources.Load<GameObject>(string.Concat("Heroes/", General.ViewId.ToString()));
-            PrefabArrow = Data.PrefabArrow;
-            skills = Data.skills;
-            Evolutions = Data.Evolutions;
-            CostumeHero = new CostumeHeroController();
-
-        }
-
-        public void Preparation()
-        {
-            GetSkills();
-            PrepareLocalization();
-        }
-
-        //API
-        public void LevelUP(int count = 1)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                if (General.Level < Evolutions.LimitLevel)
-                {
-                    General.Level += 1;
-                    Growth.GrowHero(Characts, Resistances, IncCharacts);
-                }
-            }
-        }
-
-        public float GetCharacteristic(TypeCharacteristic typeBonus)
-        {
-            float result = 0;
-            switch (typeBonus)
-            {
-                case TypeCharacteristic.HP:
-                    result += Characts.HP;
-                    break;
-                case TypeCharacteristic.Damage:
-                    result += Characts.Damage;
-                    break;
-                case TypeCharacteristic.Initiative:
-                    result += Characts.Initiative;
-                    break;
-                case TypeCharacteristic.Defense:
-                    result += Characts.baseCharacteristic.Defense;
-                    break;
-            }
-            result += CostumeHero.GetBonus(typeBonus);
-            return result;
-        }
-
-        public void PrepareHeroWithLevel(int level)
-        {
-            General.Level = level;
-            Growth.GrowHero(Characts, Resistances, IncCharacts, General.Level);
-        }
+        public List<Skill> Skills = new List<Skill>();
 
         private void GetSkills()
         {
-            foreach (Skill skill in skills)
+            foreach (Skill skill in Skills)
             {
-                skill.GetSkill(Evolutions.currentBreakthrough);
+                skill.GetSkill(Evolutions.CurrentBreakthrough);
             }
         }
 
-        public void PrepareLocalization()
+        public HeroModel Clone()
         {
-            localization = LanguageController.Instance.GetLocalizationHero(General.ViewId);
-        }
-
-        public void PrepareSkillLocalization()
-        {
-            if (localization == null)
-                PrepareLocalization();
-
-            if (localization != null)
+            return new HeroModel()
             {
-                foreach (Skill skill in skills)
-                    skill.GetInfoAboutSkill(localization);
-            }
-            else
-            {
-                //Debug.LogError("localization not found");
-            }
-        }
-
-        public bool CheckСonformity(RequirementHeroModel requirementHero)
-        {
-            bool result = false;
-
-            if (General.RatingHero == requirementHero.rating && General.Race == requirementHero.race)
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        public void UpRating()
-        {
-            General.RatingHero += 1;
-            Growth.GrowHero(Characts, Resistances, Evolutions.GetGrowth(General.RatingHero));
-            Evolutions.ChangeData(General);
-        }
-
-        public object Clone()
-        {
-            var copyHero = new HeroModel
-            {
-                General = (GeneralInfoHero)General.Clone(),
-                Characts = Characts.Clone(),
-                IncCharacts = (IncreaseCharacteristicsModel)IncCharacts.Clone(),
-                PrefabArrow = PrefabArrow,
-                Resistances = (StorageResistances)Resistances.Clone(),
-                CostumeHero = CostumeHero.Clone(),
-                skills = skills,
-                Evolutions = Evolutions,
-                localization = localization
+                General = this.General.Clone(),
+                ArrowPrefabPath = this.ArrowPrefabPath,
+                Evolutions = this.Evolutions.Clone(),
+                Characteristics = this.Characteristics.Clone(),
+                IncCharacts = this.IncCharacts.Clone(),
+                Resistances = this.Resistances.Clone(),
+                Skills = this.Skills
             };
-            copyHero.Preparation();
-            return copyHero;
         }
+
     }
 }

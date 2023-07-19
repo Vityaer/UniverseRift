@@ -9,7 +9,7 @@ namespace Hero
         public float MaxHP;
         public FightCharacteristics(Characteristics heroCharacts)
         {
-            this.baseCharacteristic = heroCharacts.baseCharacteristic;
+            this.Main = heroCharacts.Main;
             this.limitLevel = heroCharacts.limitLevel;
             this.ProbabilityCriticalAttack = heroCharacts.ProbabilityCriticalAttack;
             this.DamageCriticalAttack = heroCharacts.DamageCriticalAttack;

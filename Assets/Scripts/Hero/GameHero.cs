@@ -1,66 +1,120 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Db.CommonDictionaries;
+using Fight.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
-using Models.Heroes.Skills;
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Hero
 {
     [System.Serializable]
-    public partial class GameHero : BaseModel
+    public class GameHero
     {
-        [Header("Current")]
-        public GeneralInfoHero generalInfo;
-        public FightCharacteristics characts;
-        public StorageResistances resistances;
-        public List<Skill> skills = new List<Skill>();
+        private HeroModel _model;
+        private HeroData _heroData;
+        private HeroController _prefab;
 
-        private int currentBreakthrough;
+        public ReactiveCommand OnChangeData => new ReactiveCommand();
+        public GameCostumeHero Costume = new GameCostumeHero();
 
-        public BaseCharacteristicModel GetBaseCharacteristic => characts.baseCharacteristic;
-        public GameObject PrefabArrow { get; private set; }
+        public Sprite Avatar => _prefab.GetSprite;
+        public HeroModel Model => _model;
+        public HeroController Prefab => _prefab;
+        public HeroData HeroData => _heroData;
+        public BaseCharacteristicModel GetBaseCharacteristic => _model.Characteristics.Main;
+        public float MaxHP => _model.Characteristics.HP;
+        public int Strength => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.HP) / 6 + GetCharacteristic(TypeCharacteristic.Damage));
 
-        public GameHero(HeroModel hero)
+        public GameHero(HeroModel hero, HeroData data)
         {
-            SetHero(hero);
-        }
-
-        public void SetHero(HeroModel hero)
-        {
-            this.generalInfo = (GeneralInfoHero)hero.General.Clone();
-            this.PrefabArrow = hero.PrefabArrow;
-            this.resistances = (StorageResistances)hero.Resistances.Clone();
+            _model = hero.Clone();
+            _heroData = data;
+            _prefab = Resources.Load<HeroController>($"{Constants.ResourcesPath.HEROES_PATH}{_heroData.HeroId}");
+            PrepareHero();
             PrepareCharacts(hero);
-            this.skills = hero.skills;
-            if (hero.Evolutions != null)
-            {
-                currentBreakthrough = hero.Evolutions.currentBreakthrough;
-            }
-            else
-            {
-                Debug.Log("hero.Evolutions not exist, id-hero: " + hero.General.ViewId.ToString());
-                currentBreakthrough = 0;
-            }
         }
+
+        private void PrepareHero()
+        {
+            Growth.GrowHero(_model.Characteristics, _model.Resistances, _model.IncCharacts, _heroData.Level);
+        }
+
+        public void LevelUp(int count = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (_heroData.Level < _model.Evolutions.LimitLevel())
+                {
+                    _heroData.Level += 1;
+                    Growth.GrowHero(_model.Characteristics, _model.Resistances, _model.IncCharacts);
+                }
+            }
+
+            OnChangeData.Execute();
+        }
+
+        public HeroData GetSaveData()
+        {
+            _heroData.Costume = new CostumeData(Costume);
+            return _heroData;
+        }
+
         private void PrepareCharacts(HeroModel hero)
         {
-            this.characts = new FightCharacteristics(hero.Characts.Clone());
-            characts.Damage = hero.GetCharacteristic(TypeCharacteristic.Damage);
-            this.characts.GeneralArmor = (int)hero.GetCharacteristic(TypeCharacteristic.Defense);
-            this.characts.GeneralAttack = (int)hero.GetCharacteristic(TypeCharacteristic.Attack);
-            this.characts.Initiative = hero.GetCharacteristic(TypeCharacteristic.Initiative);
-            this.characts.HP = Mathf.Round(hero.GetCharacteristic(TypeCharacteristic.HP));
-            this.characts.MaxHP = this.characts.HP;
+            //this.characts = new FightCharacteristics(hero.Characts.Clone());
+            //characts.Damage = hero.GetCharacteristic(TypeCharacteristic.Damage);
+            //this.characts.GeneralArmor = (int)hero.GetCharacteristic(TypeCharacteristic.Defense);
+            //this.characts.GeneralAttack = (int)hero.GetCharacteristic(TypeCharacteristic.Attack);
+            //this.characts.Initiative = hero.GetCharacteristic(TypeCharacteristic.Initiative);
+            //this.characts.HP = Mathf.Round(hero.GetCharacteristic(TypeCharacteristic.HP));
+            //this.characts.MaxHP = this.characts.HP;
         }
+
         public void PrepareSkills(HeroController master)
         {
-            foreach (Skill skill in skills)
-            {
-                skill.CreateSkill(master, currentBreakthrough);
-            }
+            //foreach (Skill skill in skills)
+            //{
+            //    skill.CreateSkill(master, currentBreakthrough);
+            //}
         }
-        public float MaxHP { get => this.characts.MaxHP; set => this.characts.MaxHP = value; }
+
+        //public int GetCharacteristic(TypeCharacteristic hP)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+        //public void UpRating()
+        //{
+        //    General.Rating += 1;
+        //    Growth.GrowHero(Characts, Resistances, Evolutions.GetGrowth(General.Rating));
+        //    Evolutions.ChangeData(General);
+        //}
+
+        //public int Strength() => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.Damage) + GetCharacteristic(TypeCharacteristic.HP) / 3f);
+
+        public float GetCharacteristic(TypeCharacteristic typeBonus)
+        {
+            float result = 0;
+            switch (typeBonus)
+            {
+                case TypeCharacteristic.HP:
+                    result += _model.Characteristics.HP;
+                    break;
+                case TypeCharacteristic.Damage:
+                    result += _model.Characteristics.Damage;
+                    break;
+                case TypeCharacteristic.Initiative:
+                    result += _model.Characteristics.Initiative;
+                    break;
+                case TypeCharacteristic.Defense:
+                    result += _model.Characteristics.Main.Defense;
+                    break;
+            }
+            result += Costume.GetBonus(typeBonus);
+            return result;
+        }
+
     }
 }

@@ -20,11 +20,14 @@ namespace Editor.Pages.Heroes
             _model = model;
             _dictionaries = commonDictionaries;
 
-            _model.General = new GeneralInfoHero();
-            _model.Characts = new Characteristics();
-            _model.IncCharacts = new IncreaseCharacteristicsModel();
-            _model.Evolutions = new Evolution();
-            _model.Resistances = new StorageResistances();
+            if (_model.General == null)
+            {
+                _model.General = new GeneralInfoHero();
+                _model.Characteristics = new Characteristics();
+                _model.IncCharacts = new IncreaseCharacteristicsModel();
+                _model.Evolutions = new Evolution();
+                _model.Resistances = new StorageResistances();
+            }
 
         }
 
@@ -51,8 +54,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public Characteristics Characts
         {
-            get => _model.Characts;
-            set => _model.Characts = value;
+            get => _model.Characteristics;
+            set => _model.Characteristics = value;
         }
 
         [ShowInInspector]

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1686884048120873256}
   - component: {fileID: 1686884048120873254}
-  - component: {fileID: 1686884048120873257}
   m_Layer: 0
   m_Name: GoldMine
   m_TagString: Untagged
@@ -28,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.032, y: -0.009, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -83,26 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1686884048120873257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686884048120873259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f6655b52f4b5f46b3a8441df344f8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mine:
-    income:
-      Name: 0
-      amount:
-        count: 0
-        e10: 0
-    level: 0
-    type: 1
-  image: {fileID: 0}
-  anim: {fileID: 0}

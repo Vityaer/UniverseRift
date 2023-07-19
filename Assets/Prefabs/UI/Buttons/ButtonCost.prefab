@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5890134975243810167}
   - {fileID: 6240395307686387792}
@@ -147,16 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98c3b3e2950041488323ab740deacdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textCost: {fileID: 9144922397897199125}
-  btn: {fileID: 426474137936773289}
-  imgRes: {fileID: 3895844832076700050}
-  res:
-    Description: 
-    Name: 9
-    amount:
-      count: 1
-      e10: 0
-  countBuy: 1
+  _costText: {fileID: 9144922397897199125}
+  _button: {fileID: 426474137936773289}
+  _mainImage: {fileID: 3895844832076700050}
   typeDefaultMessage: 2
 --- !u!1 &3319984722780705410
 GameObject:
@@ -186,6 +180,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4176851346050378696}
   m_RootOrder: 1
@@ -250,7 +245,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 26.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -320,6 +315,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4176851346050378696}
   m_RootOrder: 0

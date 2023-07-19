@@ -1,24 +1,24 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
+using Models;
+using Models.Items;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UIController.Inventory;
 using UnityEditor;
-using UnityEngine;
 
 namespace Editor.Pages.Items
 {
     [HideReferenceObjectPicker]
-    public class ItemModelEditor : BaseModelEditor<Item>
+    public class ItemModelEditor : BaseModelEditor<ItemModel>
     {
         private readonly CommonDictionaries _dictionaries;
         private string[] _allRarities => _dictionaries.Rarities.Select(c => c.Value).Select(r => r.Id).ToArray();
-        private string[] _allTypes => _dictionaries.ItemTypes.Select(c => c.Value).Select(r => r.Id).ToArray();
         private string[] _allRatings => _dictionaries.Ratings.Select(c => c.Value).Select(r => r.Id).ToArray();
         private string[] _allSets => _dictionaries.ItemSets.Select(c => c.Value).Select(r => r.Id).ToArray();
 
-        public ItemModelEditor(Item item, CommonDictionaries commonDictionaries)
+        public ItemModelEditor(ItemModel item, CommonDictionaries commonDictionaries)
         {
             _dictionaries = commonDictionaries;
             _model = item;
@@ -41,30 +41,26 @@ namespace Editor.Pages.Items
         [HorizontalGroup("Item")]
         [VerticalGroup("Item/Left")]
         [BoxGroup("Item/Left/Common")]
+        [LabelText("Type")]
+        [PropertyOrder(1)]
+        [LabelWidth(110)]
+        public ItemType Type
+        {
+            get => _model.Type;
+            set => _model.Type = value;
+        }
+
+        [ShowInInspector]
+        [HorizontalGroup("Item")]
+        [VerticalGroup("Item/Left")]
+        [BoxGroup("Item/Left/Common")]
         [LabelText("Bonuses")]
         [PropertyOrder(2)]
         [LabelWidth(110)]
-        public List<Bonus> ListBonuses = new List<Bonus>();
-
-        [ShowInInspector]
-        [HorizontalGroup("3")]
-        [ListDrawerSettings(ShowItemCount = true, ShowIndexLabels = true, Expanded = true, DraggableItems = false)]
-        [LabelText("Type")]
-        [PropertyOrder(3)]
-        [ValueDropdown(nameof(_allTypes), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
-        public string Type
+        public List<Bonus> ListBonuses
         {
-            get
-            {
-                var result = _model.Type;
-                if (string.IsNullOrEmpty(result))
-                {
-                    result = _allTypes.FirstOrDefault();
-                }
-
-                return result;
-            }
-            set => _model.Type = value;
+            get => _model.Bonuses;
+            set => _model.Bonuses = value;
         }
 
         [ShowInInspector]
@@ -98,7 +94,7 @@ namespace Editor.Pages.Items
         {
             get
             {
-                var result = _model.Set;
+                var result = _model.SetName;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = _allSets.FirstOrDefault();
@@ -106,28 +102,7 @@ namespace Editor.Pages.Items
 
                 return result;
             }
-            set => _model.Set = value;
-        }
-
-        [ShowInInspector]
-        [HorizontalGroup("4")]
-        [ListDrawerSettings(ShowItemCount = true, ShowIndexLabels = true, Expanded = true, DraggableItems = false)]
-        [LabelText("Rarity")]
-        [PropertyOrder(4)]
-        [ValueDropdown(nameof(_allRarities), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
-        public string Rarity
-        {
-            get
-            {
-                var result = _model.Rarity;
-                if (string.IsNullOrEmpty(result))
-                {
-                    result = _allRarities.FirstOrDefault();
-                }
-
-                return result;
-            }
-            set => _model.Rarity = value;
+            set => _model.SetName = value;
         }
     }
 }

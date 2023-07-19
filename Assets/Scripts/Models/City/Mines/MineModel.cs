@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Mines;
+using Common.Resourses;
 using System;
 using UnityEngine;
 
@@ -7,10 +8,10 @@ namespace Models.City.Mines
     [Serializable]
     public class MineModel : MineBuildModel
     {
-        public ResourceModel store;
-        [SerializeField] private string previousDateTime;
+        public GameResource Store;
+        [SerializeField] private string _previousDateTime;
 
-        public DateTime PreviousDateTime { get => FunctionHelp.StringToDateTime(previousDateTime); set => previousDateTime = value.ToString(); }
+        public DateTime PreviousDateTime { get => FunctionHelp.StringToDateTime(_previousDateTime); set => _previousDateTime = value.ToString(); }
 
         public MineModel() { }
 
@@ -23,9 +24,9 @@ namespace Models.City.Mines
         {
             this.Id = ID;
             this.level = 1;
-            store = new ResourceModel(MinesController.GetTypeResourceFromTypeMine(typeMine));
+            Store = new GameResource(MinesController.GetTypeResourceFromTypeMine(typeMine));
             this.typeMine = typeMine;
-            previousDateTime = DateTime.Now.ToString();
+            _previousDateTime = DateTime.Now.ToString();
         }
 
         public void ChangeInfo(MineController mineController)
@@ -33,8 +34,8 @@ namespace Models.City.Mines
             this.Id = mineController.ID;
             this.level = mineController.GetMine.level;
             this.typeMine = mineController.GetMine.type;
-            store = new ResourceModel(mineController.GetMine.GetStore);
-            previousDateTime = mineController.GetMine.previousDateTime.ToString();
+            //Store = mineController.GetMine.GetStore.Clone();
+            _previousDateTime = mineController.GetMine.previousDateTime.ToString();
         }
 
     }

@@ -17,6 +17,6 @@ namespace Models
             }
             return result;
         }
-        public void SetNewTeam(string key, TeamFightModel value) { GetRecord(key).SetNewTeam(value); }
+        public void SetNewTeam(string key, TeamFightData value) { GetRecord(key).SetNewTeam(value); }
     }
 }

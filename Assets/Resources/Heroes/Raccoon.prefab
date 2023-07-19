@@ -124,8 +124,8 @@ Transform:
   m_GameObject: {fileID: 1623417319485998908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3222306402332986059}
   m_Father: {fileID: 6047761180791885619}
@@ -140,11 +140,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6047761180791885619}
-  - component: {fileID: 4814899939534788800}
   - component: {fileID: -7752210056699772074}
   - component: {fileID: -7748374960917871371}
   - component: {fileID: 524209730194274389}
-  - component: {fileID: 7413818165337122146}
+  - component: {fileID: 6012448578972234046}
   m_Layer: 0
   m_Name: Raccoon
   m_TagString: Hero
@@ -169,78 +168,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4814899939534788800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818314269543377875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusState: {fileID: 7413818165337122146}
-  myPlace: {fileID: 0}
-  listTarget: []
-  speedMove: 2
-  speedAnimation: 1
-  hero:
-    generalInfo:
-      Name: 
-      race: 0
-      ClassHero: 0
-      ratingHero: 0
-      rare: 0
-      idHero: 0
-      Level: 0
-      isAlive: 1
-      IDCreate: 0
-      IDPrefab: 0
-    prefabArrow: {fileID: 0}
-    characts:
-      limitLevel: 0
-      Damage: 0
-      HP: 0
-      Initiative: 0
-      ProbabilityCriticalAttack: 0
-      DamageCriticalAttack: 0
-      Accuracy: 0
-      CleanDamage: 0
-      Dodge: 0
-      CountTargetForSimpleAttack: 0
-      CountTargetForSpell: 0
-      baseCharacteristic:
-        Attack: 0
-        Defense: 0
-        Speed: 0
-        typeMovement: 0
-        Mellee: 0
-        typeStrike: 0
-        CanRetaliation: 1
-        CountCouterAttack: 1
-      GeneralAttack: 0
-      GeneralArmor: 0
-      MaxHP: 0
-    resistances:
-      MagicResistance: 0
-      CritResistance: 0
-      PoisonResistance: 0
-      StunResistance: 0
-      PetrificationResistance: 0
-      FreezingResistance: 0
-      AstralResistance: 0
-      DumbResistance: 0
-      SilinceResistance: 0
-      EfficiencyHeal: 1
-    skills: []
-    statusState: {fileID: 0}
-  side: 0
-  maxCountCounterAttack: 1
-  flagAnimFinish: 0
-  isFacingRight: 1
-  outlineController: {fileID: 5111973933404280759}
 --- !u!50 &-7752210056699772074
 Rigidbody2D:
   serializedVersion: 4
@@ -309,7 +236,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7413818165337122146
+--- !u!114 &6012448578972234046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,12 +245,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3818314269543377875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9862628d0eee54478944b293a8a5242, type: 3}
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderHP: {fileID: 80160428140530541}
-  sliderStamina: {fileID: 7570053096156182713}
-  currentState: 5
+  statusState: {fileID: 5608711351428104712}
+  myPlace: {fileID: 0}
+  listTarget: []
+  speedMove: 2
+  speedAnimation: 1
+  Side: 0
+  maxCountCounterAttack: 1
+  flagAnimFinish: 0
+  isFacingRight: 1
+  BodyParent: {fileID: 9216227614129961335}
+  outlineController: {fileID: 5111973933404280759}
 --- !u!1001 &7110704015334979994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465,30 +400,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
---- !u!114 &80160428140530541 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
-  m_PrefabInstance: {fileID: 7110704015334979994}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &2248353006166738011 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9051543130703936961, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
   m_PrefabInstance: {fileID: 7110704015334979994}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7570053096156182713 stripped
+--- !u!114 &5608711351428104712 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3420605837107723154, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
   m_PrefabInstance: {fileID: 7110704015334979994}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590098b6abe282447a1a6cc4b4fe181a, type: 3}
+  m_Script: {fileID: 11500000, guid: df8c7a86e35990f44bb5e8d2cabf91ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

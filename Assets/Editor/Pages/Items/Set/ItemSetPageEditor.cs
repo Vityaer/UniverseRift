@@ -29,11 +29,7 @@ namespace Editor.Pages.Items.Set
 
         public override void Save()
         {
-            var sets = ItemSets.Select(r => new ItemSet
-            {
-                Id = r.Id,
-                Name = r.Name
-            }).ToList();
+            var sets = ItemSets.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(sets);
             base.Save();

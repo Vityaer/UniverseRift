@@ -6,7 +6,7 @@ namespace City.Buildings.Market
     [System.Serializable]
     public abstract class BaseMarketProduct
     {
-        [SerializeField] private Resource cost;
+        [SerializeField] private GameResource cost;
         [SerializeField] private string id;
         [Min(1)][SerializeField] private int countMaxProduct = 1;
         private int countLeftProduct = 0;
@@ -14,7 +14,7 @@ namespace City.Buildings.Market
         public string Id { get => id; }
         public int CountMaxProduct => countMaxProduct;
         public int CountLeftProduct => countLeftProduct;
-        public Resource Cost => cost;
+        public GameResource Cost => cost;
 
         protected void AddCountLeftProduct(int count = 1)
         {

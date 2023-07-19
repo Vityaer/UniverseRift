@@ -1,0 +1,44 @@
+﻿using Fight.Misc;
+using System;
+using UniRx;
+using VContainer;
+using VContainer.Unity;
+
+namespace Fight.AI
+{
+    public class BotProvider : IInitializable, IDisposable
+    {
+        [Inject] private readonly FightController _fightController;
+        [Inject] private readonly BotFactory _botFactory;
+        
+        private BaseBot _bot;
+        private CompositeDisposable _disposables = new CompositeDisposable(); 
+
+        public void Initialize()
+        {
+            _fightController.OnStartFight.Subscribe(_ => OnStartFight()).AddTo(_disposables);
+            _fightController.OnFinishFight.Subscribe(_ => OnFinishFight()).AddTo(_disposables);
+        }
+
+        private void OnStartFight()
+        {
+            _bot = _botFactory.Create<BaseBot>();
+            _bot.Initialize();
+        }
+
+        private void OnFinishFight()
+        {
+            _bot = null;
+        }
+
+        public bool CheckMeOnSubmission(Side side)
+        {
+            return _bot.CheckMeOnSubmission(side);
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
+    }
+}

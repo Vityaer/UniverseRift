@@ -10,7 +10,7 @@ namespace Fight.HeroControllers.Smith
         protected override void DoSpell()
         {
             statusState.ChangeStamina(-100);
-            anim.Play("Spell");
+            Animator.Play("Spell");
         }
 
         private void AroundStun()

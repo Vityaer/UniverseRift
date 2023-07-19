@@ -6,34 +6,35 @@ namespace UIController
 {
     public class RatingHero : MonoBehaviour
     {
-        public List<GameObject> stars = new List<GameObject>();
-        private List<Image> imageStars = new List<Image>();
-        public Color colorSimpleStar, colorAdvancedStar, colorPowerfulStar;
-        public int rating = 0;
+        private List<GameObject> _stars = new List<GameObject>();
+        private List<Image> _imageStars = new List<Image>();
+        private Color _simpleStarColor;
+        private Color _advancedStarColor;
+        private Color _powerfulStarColor;
+        private int _rating = 0;
+
         void Awake()
         {
-            rating = 0;
-            foreach (GameObject star in stars)
+            _rating = 0;
+            foreach (GameObject star in _stars)
             {
-                imageStars.Add(star.GetComponent<Image>());
+                _imageStars.Add(star.GetComponent<Image>());
             }
         }
+
         public void ShowRating(int rating)
         {
             if (rating > 6) rating = 6;
-            if (stars.Count > 0)
+            if (_stars.Count > 0)
             {
-                for (int i = 0; i < stars.Count; i++)
-                    stars[i].SetActive(false);
+                for (int i = 0; i < _stars.Count; i++)
+                    _stars[i].SetActive(false);
                 for (int i = 0; i < rating; i++)
-                    stars[i].SetActive(true);
-                this.rating = rating;
-            }
-            else
-            {
-                Debug.Log(gameObject.name);
+                    _stars[i].SetActive(true);
+                this._rating = rating;
             }
         }
+
         public void Hide()
         {
             ShowRating(0);

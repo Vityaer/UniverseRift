@@ -1,5 +1,4 @@
-﻿using City.Buildings.General;
-using Models.Heroes;
+﻿using Models.Heroes;
 using Common;
 using System;
 using System.Collections.Generic;
@@ -7,46 +6,53 @@ using UIController.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 using UIController.Rewards;
+using City.Buildings.Abstractions;
+using Models.Common.BigDigits;
+using City.Buildings.Altar;
+using UniRx;
 
 namespace Altar
 {
-    public class AltarController : BuildingWithHeroesList
+    public class AltarController : BuildingWithHeroesList<AltarView>
     {
         [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
-        [SerializeField] protected Button MusterOutButton;
+
+        private readonly ReactiveCommand<BigDigit> _onDissamble = new ReactiveCommand<BigDigit>();
 
         private List<Card> selectedHeroCards = new List<Card>();
 
+        public IObservable<BigDigit> OnDissamble => _onDissamble;
+
         protected override void OnStart()
         {
-            listHeroesController.RegisterOnSelect(SelectHero);
-            listHeroesController.RegisterOnUnSelect(UnselectHero);
-            MusterOutButton.onClick.AddListener(FiredHeroes);
+            //ListHeroesController.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
+            //ListHeroesController.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+            //View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes()).AddTo(Disposables);
         }
 
         protected override void OpenPage()
         {
-            listHeroes = GameController.Instance.GetListHeroes;
+            //ListHeroes = GameController.Instance.ListHeroes;
             LoadListHeroes();
-            listHeroesController.EventOpen();
+            View.ListHeroesController.EventOpen();
         }
 
         protected override void ClosePage()
         {
             for (int i = 0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].Unselect();
             selectedHeroCards.Clear();
-            listHeroesController.EventClose();
+            View.ListHeroesController.EventClose();
         }
 
         public void FiredHeroes()
         {
             List<HeroModel> heroes = new List<HeroModel>();
 
-            OnDissamble(selectedHeroCards.Count);
+            _onDissamble.Execute(new BigDigit(selectedHeroCards.Count));
 
             foreach (Card card in selectedHeroCards)
             {
-                heroes.Add(card.Hero);
+                //heroes.Add(card.Hero);
                 card.Unselect();
             }
             selectedHeroCards.Clear();
@@ -55,13 +61,13 @@ namespace Altar
 
             for (int i = 0; i < heroes.Count; i++)
             {
-                GameController.Instance.RemoveHero(heroes[i]);
+                //GameController.Instance.RemoveHero(heroes[i]);
             }
         }
 
         private void GetRewardFromHeroes(List<HeroModel> heroes)
         {
-            var reward = new Reward();
+            var reward = new RewardModel();
 
             foreach (HeroModel hero in heroes)
             {
@@ -70,12 +76,12 @@ namespace Altar
                     var currentResource = _templateRewards[i].CalculateReward(hero);
                     if (currentResource != null)
                     {
-                        reward.AddResource(currentResource);
+                        //reward.AddResource(currentResource);
                     }
                 }
             }
 
-            GameController.Instance.AddReward(reward);
+            //GameController.Instance.AddReward(reward);
         }
 
         public override void SelectHero(Card cardHero)
@@ -89,17 +95,5 @@ namespace Altar
             selectedHeroCards.Remove(cardHero);
             cardHero.Unselect();
         }
-
-        //Observers
-        private Action<BigDigit> observerDissamble;
-        public void RegisterOnDissamble(Action<BigDigit> d) { observerDissamble += d; }
-
-        private void OnDissamble(int amount)
-        {
-            if (observerDissamble != null)
-                observerDissamble(new BigDigit(amount));
-        }
-
-
     }
 }

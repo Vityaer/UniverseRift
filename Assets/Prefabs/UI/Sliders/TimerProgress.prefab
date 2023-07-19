@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 999253682493652169}
   m_RootOrder: 0
@@ -58,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.88019025, b: 0.023584902, a: 1}
+  m_Color: {r: 0, g: 0.2858511, b: 0.8113208, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -101,6 +102,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6043056199026602004}
   m_Father: {fileID: 2818049398898668535}
@@ -121,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2818049398898668535}
   - component: {fileID: 725948075240459566}
-  - component: {fileID: 5607982957979228740}
+  - component: {fileID: 1484263784007861000}
   m_Layer: 5
   m_Name: TimerProgress
   m_TagString: Untagged
@@ -139,6 +141,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 997316007187054783}
   - {fileID: 999253682493652169}
@@ -203,7 +206,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5607982957979228740
+--- !u!114 &1484263784007861000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,15 +215,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2331469236232716296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1454a9d90165af44ba79fd523f41b35b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e40abf20843d8344a3aa9a831a43e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 725948075240459566}
   fillImage: {fileID: 3517264914421088503}
   textTime: {fileID: 6610632588715235380}
-  typeSlider: 0
-  lowValue: {r: 1, g: 0.04654569, b: 0, a: 1}
-  fillValue: {r: 0.21313202, g: 1, b: 0, a: 1}
+  typeSlider: 1
+  lowValue: {r: 1, g: 0.57924527, b: 0.57924527, a: 0.68235296}
+  fillValue: {r: 0.55814934, g: 1, b: 0.40943396, a: 0.69411767}
 --- !u!1 &5111550549919212762
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +250,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3629215442794222714}
   m_RootOrder: 0
@@ -282,6 +286,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3402587386267601504}
   m_Father: {fileID: 2818049398898668535}
@@ -320,6 +325,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2818049398898668535}
   m_RootOrder: 3
@@ -384,7 +390,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.45
+  m_fontSize: 50.35
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -454,6 +460,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2818049398898668535}
   m_RootOrder: 0

@@ -1,4 +1,6 @@
-﻿namespace Models.Heroes.HeroCharacteristics
+﻿using System;
+
+namespace Models.Heroes.HeroCharacteristics
 {
     [System.Serializable]
     public class Characteristics
@@ -14,24 +16,24 @@
         public float Dodge;
         public int CountTargetForSimpleAttack = 1;
         public int CountTargetForSpell = 1;
-        public BaseCharacteristicModel baseCharacteristic;
+        public BaseCharacteristicModel Main = new BaseCharacteristicModel();
 
         public Characteristics Clone()
         {
-            return new Characteristics
+            return new Characteristics()
             {
-                limitLevel = limitLevel,
-                Damage = Damage,
-                HP = HP,
-                Initiative = Initiative,
-                ProbabilityCriticalAttack = ProbabilityCriticalAttack,
-                DamageCriticalAttack = DamageCriticalAttack,
-                Accuracy = Accuracy,
-                CleanDamage = CleanDamage,
-                Dodge = Dodge,
-                CountTargetForSimpleAttack = CountTargetForSimpleAttack,
-                CountTargetForSpell = CountTargetForSpell,
-                baseCharacteristic = baseCharacteristic
+                limitLevel = this.limitLevel,
+                Damage = this.Damage,
+                HP = this.HP,
+                Initiative = this.Initiative,
+                ProbabilityCriticalAttack = this.ProbabilityCriticalAttack,
+                DamageCriticalAttack = this.DamageCriticalAttack,
+                Accuracy = this.Accuracy,
+                CleanDamage = this.CleanDamage,
+                Dodge = this.Dodge,
+                CountTargetForSimpleAttack = this.CountTargetForSpell,
+                CountTargetForSpell = this.CountTargetForSpell,
+                Main = this.Main.Clone()
             };
         }
     }

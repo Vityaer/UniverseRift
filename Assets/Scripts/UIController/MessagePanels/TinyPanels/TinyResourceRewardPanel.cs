@@ -9,7 +9,7 @@ namespace UIController.MessagePanels.TinyPanels
         public TextMeshProUGUI textCountResource;
         public Image imageResource;
 
-        public void Open(Resource res)
+        public void Open(GameResource res)
         {
 
         }

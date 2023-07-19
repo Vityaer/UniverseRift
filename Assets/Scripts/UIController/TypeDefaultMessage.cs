@@ -1,12 +1,9 @@
 ﻿namespace UIController
 {
-    public partial class ButtonCostController
+    public enum TypeDefaultMessage
     {
-        public enum TypeDefaultMessage
-        {
-            Emtpy,
-            Number,
-            Word
-        }
+        Emtpy,
+        Number,
+        Word
     }
 }

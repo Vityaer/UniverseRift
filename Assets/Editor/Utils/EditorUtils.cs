@@ -20,7 +20,6 @@ namespace Utils
             return data;
         }
 
-
         public static T Load<T>()
         {
             var path = GetConfigPath<T>();

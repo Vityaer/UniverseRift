@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Common.BigDigits;
+using System;
 
 namespace Common.Observers
 {

@@ -3,17 +3,17 @@ using Common;
 
 namespace UIController.ButtonsInCity
 {
-    public class EveryDayTaskController : RequirementMenu
+    public class EveryDayTaskController : AchievmentsPageController
     {
         protected override void OnLoadGame()
         {
-            LoadData(GameController.GetPlayerGame.saveEveryTimeTasks);
+            //LoadData(CommonGameData.City.DailyReward);
         }
 
         protected override void SaveData()
         {
-            GameController.GetPlayerGame.SaveEveryTimeTask(listRequirement);
-            SaveGame();
+            //GameController.GetPlayerGame.SaveEveryTimeTask(_achievments);
+            //SaveGame();
         }
     }
 }

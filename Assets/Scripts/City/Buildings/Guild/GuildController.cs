@@ -1,9 +1,9 @@
-using City.Buildings.General;
+using City.Buildings.Abstractions;
 using Models.City.Misc;
 
 namespace City.Buildings.Guild
 {
-    public class GuildController : Building
+    public class GuildController : BaseBuilding<GuildView>
     {
         public GuildModel guildInfo;
     }

@@ -1,4 +1,4 @@
-using MainScripts;
+using City.Panels.Messages;
 using UnityEngine;
 
 namespace UIController.MessagePanels
@@ -7,7 +7,7 @@ namespace UIController.MessagePanels
     {
         public void ShowMessage()
         {
-            MessageController.Instance.AddMessage(message);
+            //MessageController.Instance.AddMessage(message);
         }
         [SerializeField] private string message;
     }

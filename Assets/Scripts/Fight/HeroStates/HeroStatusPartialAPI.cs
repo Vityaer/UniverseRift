@@ -69,9 +69,5 @@ namespace Fight.HeroStates
             }
             return result;
         }
-        void OnDestroy()
-        {
-            FightController.Instance.UnregisterOnEndRound(RoundFinish);
-        }
     }
 }
