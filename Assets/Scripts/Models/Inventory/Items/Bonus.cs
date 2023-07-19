@@ -1,9 +1,9 @@
 ﻿using Models.Heroes.HeroCharacteristics;
-using UnityEngine;
+using System;
 
 namespace UIController.Inventory
 {
-    [System.Serializable]
+    [Serializable]
     public class Bonus
     {
         public TypeCharacteristic Name;

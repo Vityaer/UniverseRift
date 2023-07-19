@@ -50,23 +50,6 @@ namespace UIController.GameSystems
 
         public void UpdateDay(DateTime newDay)
         {
-#if UNITY_EDITOR
-            flagNewDay = true;
-            dayCycle = newDay.Date;
-            timeControllerSave.DateRecords.SetRecord(NAME_RECORD_DAY, dayCycle);
-            OnNewDay();
-#else
-    	TimeSpan deltaTime = newDay - dayCycle;
-    	if(deltaTime > day){
-            Debug.Log("this new day");
-    		dayCycle = newDay.Date;
-    		flagNewDay = true;
-    		timeControllerSave.SetRecordDate(NAME_RECORD_DAY, dayCycle);
-    		OnNewDay();
-    	}else{
-    		Debug.Log("this equals day");
-    	}
-#endif
         }
         public void UpdateWeek(DateTime newWeek)
         {

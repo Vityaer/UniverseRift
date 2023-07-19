@@ -1,5 +1,6 @@
 ﻿using City.Buildings.Abstractions;
-using UIController.ItemVisual;
+using System.Collections.Generic;
+using UIController.ItemVisual.Forges;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,8 @@ namespace City.Buildings.Forge
     public class ForgeView : BaseBuildingView
     {
         public RectTransform Content;
-        public ForgeItemVisual LeftItem;
-        public ForgeItemVisual RightItem;
+        public ItemForgeIngredients LeftItem;
+        public ItemForgeCost RightItem;
         public Button WeaponPanelButton;
         public Button ArmorPanelButton;
         public Button BootsPanelButton;
@@ -17,5 +18,6 @@ namespace City.Buildings.Forge
         public Button ButtonSynthesis;
 
         public ForgeItemVisual ForgeItemVisualPrefab;
+
     }
 }

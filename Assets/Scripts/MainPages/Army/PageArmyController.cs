@@ -33,8 +33,6 @@ namespace UIController
         public new void Initialize()
         {
             base.Initialize();
-            Debug.Log("page army init");
-            //_mainSwipeController.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
             _heroPanel.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(_disposables);
         }
@@ -46,8 +44,15 @@ namespace UIController
 
         public override void OnShow()
         {
+            Debug.Log("armyShow");
             View.CardsContainer.ShowCards(_listHeroes);
             base.OnShow();
+        }
+
+        public override void OnHide()
+        {
+            Debug.Log("armyhide");
+            base.OnHide();
         }
 
         private void OnSwipe(SwipeType typeSwipe)

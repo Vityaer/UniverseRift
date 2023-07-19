@@ -23,7 +23,7 @@ namespace UIController.MessagePanels
         protected virtual void SetReward(GameReward reward)
         {
             //this.reward = reward.Clone();
-            View.rewardController.ShowAllReward(reward);
+            //View.rewardController.ShowAllReward(reward);
         }
 
         private void GetReward()

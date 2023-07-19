@@ -1,5 +1,6 @@
 ﻿using City.Buildings.Abstractions;
 using City.TaskBoard;
+using Common;
 using Common.Observers;
 using Common.Resourses;
 using Models;
@@ -20,6 +21,8 @@ namespace City.Buildings.TaskGiver
         public List<TaskData> tasks = new List<TaskData>();
         private List<TaskController> taskControllers = new List<TaskController>();
 
+        private GameResource SimpleTaskCost = new GameResource(ResourceType.SimpleTask, 1, 0);
+        private GameResource SpecialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
         private GameResource costReplacement = new GameResource(ResourceType.Diamond, 10f);
 
         private bool isLoadedTask = false;
@@ -29,13 +32,14 @@ namespace City.Buildings.TaskGiver
         protected override void OnStart()
         {
             taskGiverBuilding = CommonGameData.City.TaskboardSave;
-            //View.BuySimpleTaskButton.RegisterOnBuy(CreateSimpleTask);
-            //View.BuySpecialTaskButton.RegisterOnBuy(CreateSprecialTask);
+            View.BuySimpleTaskButton.ChangeCost(SimpleTaskCost, CreateSimpleTask);
+            View.BuySpecialTaskButton.ChangeCost(SpecialTaskCost, CreateSprecialTask);
+            SetCostReplacement();
         }
 
         public override void OnHide()
         {
-            foreach (TaskController task in taskControllers)
+            foreach (var task in taskControllers)
             {
                 task.StopTimer();
             }
@@ -72,12 +76,12 @@ namespace City.Buildings.TaskGiver
             SetCostReplacement();
             //SaveGame();
         }
-        public void CreateSimpleTask(int count = 1)
+        public void CreateSimpleTask()
         {
             CreateTask(_taskProvider.GetSimpleTask());
         }
 
-        public void CreateSprecialTask(int count = 1)
+        public void CreateSprecialTask()
         {
             CreateTask(_taskProvider.GetSpecialTask());
         }
@@ -120,23 +124,24 @@ namespace City.Buildings.TaskGiver
 
         private void SetCostReplacement()
         {
-            //costReplacement.Count = 10f * tasks.FindAll(x => x.status == TaskStatusType.NotStart).Count;
-            //View.BuyReplacementButton.UpdateCost(costReplacement, ReplacementNotWorkTask);
+            costReplacement *= tasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
+            View.BuyReplacementButton.ChangeCost(costReplacement, ReplacementNotWorkTask);
         }
 
-        public void ReplacementNotWorkTask(int count = 1)
+        public void ReplacementNotWorkTask()
         {
-            //List<TaskModel> tasksForReplacement = tasks.FindAll(x => x.status == TaskStatusType.NotStart);
-            //for (int i = 0; i < tasksForReplacement.Count; i++)
-            //{
-            //    tasks.Remove(tasksForReplacement[i]);
-            //    Destroy(taskControllers.Find(x => x.GetTask == tasksForReplacement[i])?.gameObject);
-            //}
-            //for (int i = 0; i < tasksForReplacement.Count; i++)
-            //{
-            //    CreateTask(patternTasks.GetSimpleTask());
-            //}
-            //SaveGame();
+            var tasksForReplacement = tasks.FindAll(x => x.Status == TaskStatusType.NotStart);
+            for (var i = 0; i < tasksForReplacement.Count; i++)
+            {
+                tasks.Remove(tasksForReplacement[i]);
+                UnityEngine.Object.Destroy(taskControllers.Find(x => x.GetTask == tasksForReplacement[i])?.gameObject);
+            }
+            for (int i = 0; i < tasksForReplacement.Count; i++)
+            {
+                CreateSimpleTask();
+            }
+
+            GameController.SaveGame();
         }
 
         public void RegisterOnDoneTask(Action<BigDigit> d, int rating)

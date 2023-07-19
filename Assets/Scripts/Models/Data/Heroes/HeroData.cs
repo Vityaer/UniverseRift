@@ -1,6 +1,4 @@
 ﻿using Db.CommonDictionaries;
-using Hero;
-using Models.Data;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
@@ -15,6 +13,7 @@ namespace Models
 
         private string[] _allHeroesName => _commonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
         [ValueDropdown(nameof(_allHeroesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public int Id;
         public string HeroId;
 
         public int Level = 1;

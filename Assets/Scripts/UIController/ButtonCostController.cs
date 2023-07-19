@@ -6,10 +6,11 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using VContainerUi.Abstraction;
 
 namespace UIController
 {
-    public partial class ButtonCostController : MonoBehaviour, IDisposable
+    public partial class ButtonCostController : UiView, IDisposable
     {
         private ResourceStorageController _resourceStorageController;
 
@@ -33,7 +34,8 @@ namespace UIController
         {
             _resourceStorageController = resourceStorageController;
 
-            _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
+            if(_cost != null)
+                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
         }
 
         void Start()

@@ -1,18 +1,25 @@
 using City.Buildings.Abstractions;
 using City.Buildings.WorldMaps;
+using ClientServices;
+using Common.Rewards;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Fight;
 using Models;
 using Models.Common;
 using Models.Fights.Campaign;
+using Network.DataServer.Messages.Campaigns;
+using Network.DataServer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
+using Common;
 
 namespace Campaign
 {
@@ -24,8 +31,9 @@ namespace Campaign
         private const int CHAPTER_MISSION_COUNT = 20;
 
         [Inject] private readonly GoldHeapController _goldHeapController;
-        [Inject] private readonly CommonGameData _gameData;
+        [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly ClientRewardService _clientRewardService;
 
         private CampaignChapterModel _chapter;
         private CampaignMissionModel _mission;
@@ -35,7 +43,6 @@ namespace Campaign
         private BuildingWithFightTeamsData campaingSaveObject;
         private List<MissionController> missionControllers = new List<MissionController>();
 
-        public DateTime GetAutoFightPreviousDate { get => campaingSaveObject.DateRecords.GetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, DateTime.Now); }
 
         public void Initialize()
         {
@@ -51,10 +58,10 @@ namespace Campaign
 
         protected override void OnLoadGame()
         {
-            campaingSaveObject = _gameData.City.MainCampaignSave;
+            campaingSaveObject = _commonGameData.City.MainCampaignSave;
             _currentMissionIndex = campaingSaveObject.IntRecords.GetRecord(NAME_RECORD_NUM_CURRENT_MISSION, -1);
             _maxMission = campaingSaveObject.IntRecords.GetRecord(NAME_RECORD_NUM_MAX_MISSION, 0);
-            if (_currentMissionIndex > _maxMission) _currentMissionIndex = _maxMission;
+            if (_currentMissionIndex >= _maxMission) _currentMissionIndex = _maxMission - 1;
 
             var chapter = GetCampaignChapter(_currentMissionIndex);
             OpenChapter(chapter);
@@ -103,10 +110,17 @@ namespace Campaign
 
         public void OpenNextMission()
         {
+            SendData().Forget();
             OpenMission(_currentMissionIndex + 1);
             campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
             campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_MAX_MISSION, _maxMission);
-            _gameData.Save();
+        }
+
+        private async UniTaskVoid SendData()
+        {
+            var message = new CompleteNextMissionMessage { PlayerId = _commonGameData.Player.PlayerInfoData.Id };
+            var result = await DataServer.PostData(message);
+            UnityEngine.Debug.Log($"oen next mission: {result}");
         }
 
         private void OpenMission(int num)
@@ -121,16 +135,17 @@ namespace Campaign
 
         protected override void OnResultFight(FightResultType result)
         {
-
+            UnityEngine.Debug.Log($"on result {result}");
             if (result == FightResultType.Win)
             {
                 _infoMission.MissionWin();
+                var reward = new GameReward(_infoMission.mission.WinReward);
+                UnityEngine.Debug.Log("add reward");
+                _clientRewardService.AddReward(reward);
+                OpenNextMission();
+                GameController.SaveGame();
             }
-            //_autoFightController.SelectMissionAutoFight(_mission);
-            OpenNextMission();
 
-            _infoMission = null;
-            _mission = null;
             base.OnResultFight(result);
         }
 
@@ -138,7 +153,8 @@ namespace Campaign
         {
             if (this._infoMission != null)
             {
-                _infoMission.CompletedMission();
+                if(_infoMission.Status == StatusMission.InAutoFight)
+                    _infoMission.StopAutoFight();
             }
 
             this._infoMission = infoMission;
@@ -158,7 +174,7 @@ namespace Campaign
         private void SetAutoFightMission(MissionController infoMission)
         {
             infoMission.StartAutoFight();
-            _goldHeapController.SetNewReward(infoMission.mission.AutoFightReward);
+            _goldHeapController.SetNewReward(infoMission.mission.AutoFightReward, _currentMissionIndex);
             SaveSelectAutoFight(infoMission);
         }
 
@@ -166,7 +182,7 @@ namespace Campaign
         {
             var index = missionControllers.IndexOf(infoMission);
             campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, index);
-            _gameData.Save();
+            _commonGameData.Save();
         }
 
 

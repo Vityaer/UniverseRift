@@ -1,8 +1,9 @@
-﻿using Models.Heroes.HeroCharacteristics;
+﻿using Db.CommonDictionaries;
+using Models;
+using Models.Heroes.HeroCharacteristics;
 using Models.Items;
 using System.Collections.Generic;
 using UIController.Inventory;
-using UnityEngine;
 
 namespace Hero
 {
@@ -44,6 +45,12 @@ namespace Hero
         public GameCostumeHero Clone()
         {
             return new GameCostumeHero() { Items = this.Items };
+        }
+
+        public GameItem GetItem(ItemType cellType)
+        {
+            Items.TryGetValue(cellType, out var item);
+            return item;
         }
     }
 }

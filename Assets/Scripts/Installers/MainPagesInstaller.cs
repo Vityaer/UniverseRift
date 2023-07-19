@@ -6,6 +6,7 @@ using MainPages.City;
 using MainPages.Events;
 using MainPages.MenuButtons;
 using MainPages.MenuHud;
+using MainPages.SecondCity;
 using Ui.MainMenu;
 using Ui.MainMenu.MenuButtons;
 using UIController;
@@ -29,6 +30,7 @@ namespace Installers
         [SerializeField] private SafeArea _safeArea;
 
         [SerializeField] private CityPageView _cityPageView;
+        [SerializeField] private SecondCityPageView _secondCityPageView;
         [SerializeField] private EventsPageView _eventsPageView;
         [SerializeField] private CampaignPageView _campaignPageView;
         [SerializeField] private PageArmyView _pageArmyView;
@@ -53,6 +55,7 @@ namespace Installers
             builder.Register<MainMenuController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
             builder.RegisterUiView<CityPageController, CityPageView>(_cityPageView, rootCity.transform);
+            builder.RegisterUiView<SecondCityPageController, SecondCityPageView>(_secondCityPageView, rootCity.transform);
 
             builder.RegisterUiView<EventsPageController, EventsPageView>(_eventsPageView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<CampaignPageController, CampaignPageView>(_campaignPageView, safeArea.RootTemporallyWindows);
@@ -70,6 +73,9 @@ namespace Installers
                 .AsImplementedInterfaces().AsSelf();
 
             builder.Register<IWindow, CityWindow>(Lifetime.Scoped)
+                .AsImplementedInterfaces().AsSelf();
+
+            builder.Register<IWindow, SecondCityWindow>(Lifetime.Scoped)
                 .AsImplementedInterfaces().AsSelf();
 
             builder.Register<IWindow, CampaignWindow>(Lifetime.Scoped)

@@ -1,65 +1,46 @@
 ﻿using City.Achievements;
 using City.Buildings.Mines;
+using Cysharp.Threading.Tasks;
+using Misc.Json;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.Data;
 using Models.Data.Heroes;
+using Models.Data.Inventories;
 using Models.Data.Players;
-using Newtonsoft.Json;
-using Sirenix.Utilities;
+using Network.DataServer;
+using Network.DataServer.Messages.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils;
+using VContainer;
 
 namespace Models.Common
 {
     [System.Serializable]
     public class CommonGameData : BaseDataModel
     {
-        public int MaxHeroesCount = 100;
+        [Inject] private readonly IJsonConverter _jsonConverter;
 
         public CityData City = new CityData();
-        public PlayerData Player = new PlayerData();
+        public PlayerData PlayerInfoData = new PlayerData();
+        public List<TaskData> ListTasks;
+        public AchievmentStorageData Requirements;
         public CycleEventsData CycleEventsData = new CycleEventsData();
         public HeroesStorage HeroesStorage = new HeroesStorage();
+        public List<ResourceData> Resources;
+        public InventoryData InventoryData;
+
         public bool IsInited { get; private set; } = false;
 
-        public CommonGameData() { }
-
-        public void Init()
+        public async UniTaskVoid Init(int playerId)
         {
-            Player = GetData<PlayerData>();
-            HeroesStorage = GetData<HeroesStorage>();
-            City = GetData<CityData>();
-            CycleEventsData = GetData<CycleEventsData>();
+            var message = new GetPlayerSaveMessage { PlayerId = playerId };
+            var result = await DataServer.PostData(message);
+
             IsInited = true;
             Debug.Log("data loaded");
         }
 
-        private T GetData<T>() where T : new()
-        {
-            var jsonData = TextUtils.GetDataFromLocalStorage<T>();
-
-            if (jsonData.IsNullOrWhitespace())
-                return new T();
-
-            return JsonConvert.DeserializeObject<T>(jsonData, Constants.Common.SerializerSettings);
-        }
-
-        public void Save()
-        {
-            TextUtils.SaveGameData(Player);
-            TextUtils.SaveGameData(HeroesStorage);
-            TextUtils.SaveGameData(City);
-            TextUtils.SaveGameData(CycleEventsData);
-
-        }
-
-        public void CreateGame(CommonGameData game)
-        {
-            City = game.City;
-            Player = game.Player;
-        }
 
         //API mines
         public void SaveMine(MineController mineController) { City.IndustrySave.SaveMine(mineController); }

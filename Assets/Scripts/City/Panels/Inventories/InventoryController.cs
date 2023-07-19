@@ -1,43 +1,73 @@
 ﻿using City.Panels.Inventories;
-using City.Panels.SubjectPanels;
-using City.Panels.SubjectPanels.Resources;
 using Common;
 using Common.Inventories.Splinters;
-using Common.Resourses;
+using Models.Common;
 using Models.Items;
 using System.Collections.Generic;
+using System.Linq;
 using UIController.ItemVisual;
 using UiExtensions.Scroll.Interfaces;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using VContainerUi.Messages;
+using UniRx;
+using Models;
+using VContainerUi.Model;
+using Db.CommonDictionaries;
+using System;
 
 namespace UIController.Inventory
 {
     public class InventoryController : UiPanelController<InventoryView>, IInitializable
     {
-        [Inject] private readonly SplinterPanelController _splinterPanelController;
-        [Inject] private readonly ResourcePanelController _resourcePanelController;
-        [Inject] private readonly ItemPanelController _itemPanelController;
-
         private const int CELLS_COUNT = 40;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly CommonGameData _commonGameData;
 
         private GameInventory _gameInventory;
-
-        private HeroItemCellController cellItem = null;
-        private bool isOpenInventory = false;
-
         private List<SubjectCell> _cells = new List<SubjectCell>();
+        private ReactiveCommand<BaseObject> _onObjectSelect = new ReactiveCommand<BaseObject>();
 
+        public IObservable<BaseObject> OnObjectSelect => _onObjectSelect;
         public GameInventory GameInventory => _gameInventory;
+        public ReactiveCommand OnClose = new ReactiveCommand();
 
-        public void Initialize()
+        public new void Initialize()
         {
-            //for (var i = 0; i < CELLS_COUNT; i++)
-            //{
-            //    var cell = Object.Instantiate(View.CellPrefab, View.GridParent);
-            //    _cells.Add(cell);
-            //}
+            for (var i = 0; i < CELLS_COUNT; i++)
+            {
+                var cell = UnityEngine.Object.Instantiate(View.CellPrefab, View.GridParent);
+                cell.OnSelect.Subscribe(OnCellClick);
+                _cells.Add(cell);
+            }
+
+            base.Initialize();
+        }
+
+        private void OnCellClick(SubjectCell cell)
+        {
+            _onObjectSelect.Execute(cell.Subject);
+            Close();
+        }
+
+        protected override void OnLoadGame()
+        {
+            _gameInventory = new GameInventory(_commonDictionaries, _commonGameData.Player.InventoryData);
+            GameController.OnGameSave.Subscribe(_ => OnSaveGame()).AddTo(Disposables);
+        }
+
+        private void OnSaveGame()
+        {
+            _commonGameData.Player.InventoryData = new InventoryData(_gameInventory);
+        }
+
+        public void ShowAll()
+        {
+            var items = new List<GameItem>();
+            _gameInventory.GetObjectByType(items);
+            ShowItems(items);
+            OpenWindow();
         }
 
         private void ShowItems<T>(List<T> list) where T : BaseObject
@@ -53,16 +83,10 @@ namespace UIController.Inventory
             }
         }
 
-
-        public bool CheckItems(GameItem item, int count = 1)
+        public override void OnHide()
         {
-            var result = false;
-            var workItem = _gameInventory.InventoryObjects[item.Id];
-
-            if (workItem != null)
-                result = workItem.CheckCount(count);
-
-            return result;
+            OnClose.Execute();
+            base.OnHide();
         }
 
         public void Add<T>(T obj) where T : BaseObject
@@ -91,104 +115,18 @@ namespace UIController.Inventory
             }
         }
 
-        public void SelectItem(GameItem gameItem)
-        {
-            if (cellItem != null)
-            {
-                cellItem.SetItem(gameItem);
-                gameItem.Remove(1);
-                if (gameItem.EqualsZero)
-                    _gameInventory.Remove(gameItem);
-                cellItem = null;
-                gameItem = null;
-            }
-            CloseAll();
-        }
-
-        public void Open(ItemType type)
-        {
-            Open(type, cellItem: null);
-        }
-
         public void Open(ItemType typeItems, HeroItemCellController cellItem = null)
         {
-            this.cellItem = cellItem;
             _gameInventory.GetItemByType(typeItems, out var items);
             ShowItems(items);
+            OpenWindow();
         }
 
-        public void OpenInfoItem(GameItem item)
+        private void OpenWindow()
         {
-            _itemPanelController.ShowData(item, cellItem);
+            _messagesPublisher.OpenWindowPublisher.OpenWindow<InventoryController>(openType: OpenType.Additive);
         }
 
-        public void OpenInfoItem(GameResource res)
-        {
-            _resourcePanelController.ShowData(res);
-        }
 
-        public void OpenInfoItem(GameItem item, ItemType typeItems, HeroItemCellController cellItem)
-        {
-            // canvasInventory.enabled = true;
-            this.cellItem = cellItem;
-            _itemPanelController.ShowData(item, this.cellItem, onHero: true);
-        }
-
-        public void OpenInfoItem(GameSplinter splinter)
-        {
-            //_splinterPanelController.ShowData(spliter);
-        }
-
-        public void OpenInfoItem(GameSplinter splinterController, bool withControl)
-        {
-            //selectSplinter = splinterController;
-            //panelInfoSplinter.OpenInfoAboutSplinter(splinterController, withControl);
-        }
-
-        [ContextMenu("Close")]
-        public void Close()
-        {
-            //panelInfoItem.Close();
-            //panelInfoSplinter.Close();
-            //if (isOpenInventory)
-            //{
-            //    panelInventory.SetActive(false);
-            //    isOpenInventory = false;
-            //}
-            //canvasInventory.enabled = false;
-            //cellItem = null;
-        }
-
-        public void CloseAll()
-        {
-            //panelInfoItem.Close();
-            //panelInventory.SetActive(false);
-            //isOpenInventory = false;
-            //canvasInventory.enabled = false;
-        }
-
-        void Start()
-        {
-            //LoadInformation();
-            //inventory.RegisterOnChange(Refresh);
-        }
-
-        void OnApplicationPause(bool pauseStatus)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-		SaveLoadController.SaveInventory(inventory);
-#endif
-        }
-
-        void OnDestroy()
-        {
-            //SaveLoadController.SaveInventory(inventory);
-            //inventory.UnregisterOnChange(Refresh);
-        }
-
-        void LoadInformation()
-        {
-            //inventory = SaveLoadController.LoadInventory();
-        }
     }
 }

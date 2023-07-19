@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using DG.Tweening;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using VContainer.Diagnostics;
 using VContainer.Extensions;
 
 namespace VContainer.Unity
@@ -16,15 +12,16 @@ namespace VContainer.Unity
 
         protected override void Configure(IContainerBuilder builder)
         {
+            foreach (var installer in _monoInstallers)
+            {
+                installer.Install(builder);
+            }
+
             foreach (var installer in _scriptableObjectInstallers)
             {
                 installer.Install(builder);
             }
 
-            foreach (var installer in _monoInstallers)
-            {
-                installer.Install(builder);
-            }
         }
     }
 }

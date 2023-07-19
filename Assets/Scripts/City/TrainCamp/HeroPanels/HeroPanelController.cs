@@ -4,8 +4,13 @@ using City.TrainCamp.HeroPanels;
 using City.TrainCamp.HeroPanels.HeroDetails;
 using Db.CommonDictionaries;
 using Hero;
+using Models.Common;
+using Models;
 using Models.Heroes.HeroCharacteristics;
+using Network.DataServer;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UIController.Inventory;
 using UiExtensions.Scroll.Interfaces;
@@ -14,15 +19,20 @@ using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
+using Network.DataServer.Messages.HeroPanels;
+using Cysharp.Threading.Tasks;
+using Misc.Json;
 
 namespace City.TrainCamp
 {
     public class HeroPanelController : UiPanelController<HeroPanelView>, IInitializable
     {
         [Inject] private readonly CommonDictionaries _dictionaries;
+        [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly HeroDetailsPanelController _heroDetailsPanel;
         [Inject] private IObjectResolver _objectResolver;
+        [Inject] private readonly IJsonConverter _jsonConverter;
 
         private CostLevelUpContainer costLevelObject;
 
@@ -41,6 +51,7 @@ namespace City.TrainCamp
             {
                 _objectResolver.Inject(cell);
             }
+
             View.EvolitionPanelButton.OnClickAsObservable().Subscribe(_ => OpenEvolutionPanel()).AddTo(Disposables);
             View.ToLeftButton.OnClickAsObservable().Subscribe(_ => _onSwipe.Execute(SwipeType.Left)).AddTo(Disposables);
             View.ToRightButton.OnClickAsObservable().Subscribe(_ => _onSwipe.Execute(SwipeType.Right)).AddTo(Disposables);
@@ -72,8 +83,8 @@ namespace City.TrainCamp
             UpdateTextAboutHero();
             foreach (var cell in View.CellsForItem)
             {
-                //cell.Clear();
-                //cell.SetItem(_hero.Costume.Items[cell.CellType]);
+                cell.Clear();
+                cell.SetData(_hero.Costume.GetItem(cell.CellType));
             }
             CheckResourceForLevelUP();
         }
@@ -97,21 +108,23 @@ namespace City.TrainCamp
             View.LevelUpButton.interactable = _resourceStorageController.CheckResource(costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
         }
 
-        public void TakeOff(GameItem item)
-        {
-            _hero.Costume.TakeOff(item);
-            UpdateTextAboutHero();
-        }
-
         public void LevelUp()
         {
             var cost = costLevelObject.GetCostForLevelUp(_hero.HeroData.Level);
             if (_resourceStorageController.CheckResource(cost))
             {
+                LevelUpMessage().Forget();
                 _resourceStorageController.SubtractResource(cost);
                 _hero.LevelUp();
                 UpdateInfoAboutHero();
             }
+        }
+
+        private async UniTaskVoid LevelUpMessage()
+        {
+            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.Player.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
+            var result = await DataServer.PostData(message);
+            UnityEngine.Debug.Log(result);
         }
 
         private void OpenEvolutionPanel()

@@ -1,9 +1,14 @@
-﻿using Db.CommonDictionaries;
+﻿using Common.Resourses;
+using Db.CommonDictionaries;
 using Editor.Common;
+using Models.Common.BigDigits;
+using Models.Data.Inventories;
 using Models.Items;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UIController.Inventory;
 using Utils;
 
 namespace Pages.Items.Relations
@@ -43,19 +48,41 @@ namespace Pages.Items.Relations
 
         public override void Save()
         {
-            var itemRelations = ItemRelations.Select(itemRelationModel => new ItemRelationModel
-            {
-                Id = itemRelationModel.Id,
-                ResultItemName = itemRelationModel.ResultItemName,
-                ItemIngredientName = itemRelationModel.ItemIngredientName,
-                RequireCount = itemRelationModel.RequireCount
-            }).ToList();
+            var itemRelations = ItemRelations.Select(itemRelationModel => itemRelationModel.GetModel()).ToList();
             EditorUtils.Save(itemRelations);
             base.Save();
         }
 
         [ShowInInspector]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 5,
+        [HorizontalGroup("1")]
+        [PropertyOrder(1)]
+        public string NewSetName;
+        [ShowInInspector]
+        [PropertyOrder(1)]
+        [HorizontalGroup("1")]
+        public string RequireSetName;
+
+        [HorizontalGroup("2")]
+        [Button("Create set")]
+        private void CreateSet()
+        {
+            if (NewSetName == string.Empty || RequireSetName == string.Empty)
+                return;
+
+            foreach (var type in (ItemType[])Enum.GetValues(typeof(ItemType)))
+            {
+                AddElement();
+                var model = ItemRelations[ItemRelations.Count - 1].GetModel();
+                model.Id = $"Recipe{NewSetName}{type}";
+                model.ResultItemName = $"{NewSetName}{type}";
+                model.ItemIngredientName = $"{RequireSetName}{type}";
+                model.RequireCount = 3;
+                model.Cost = new ResourceData() { Type = ResourceType.Gold, Amount = new BigDigit(1, 3) };
+            }
+        }
+
+        [ShowInInspector]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 4,
     CustomAddFunction = nameof(AddElement), CustomRemoveElementFunction = nameof(RemoveElements))]
         [HorizontalGroup("3")]
         [LabelText("Items")]

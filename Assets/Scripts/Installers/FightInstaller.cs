@@ -34,7 +34,7 @@ namespace Assets.Scripts.Installers
 
             builder.RegisterUiView<FightController, FightView>(_fightView, canvas.transform);
             builder.RegisterUiView<WarTableController, WarTableView>(_warTableView, canvas.transform);
-            builder.RegisterUiView<FightDirectionController, FightDirectionView>(_fightDirectionView, canvas.transform);
+            builder.RegisterUiView<FightDirectionController, FightDirectionView>(_fightDirectionView, rootGrid.transform);
             builder.Register<BotProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
             ConfigureWindows(builder);

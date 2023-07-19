@@ -1,5 +1,5 @@
 ﻿using Common.Resourses;
-using Models.Data;
+using Models.Data.Inventories;
 using System;
 using System.Collections.Generic;
 

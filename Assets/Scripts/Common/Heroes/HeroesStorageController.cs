@@ -5,6 +5,7 @@ using Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UIController.Inventory;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -44,13 +45,19 @@ namespace Common.Heroes
             foreach (var data in heroesStorage.ListHeroes)
             {
                 var heroTemplate = _commonDictionaries.Heroes[data.HeroId];
-                _listHeroes.Add(new GameHero(heroTemplate, data));
+                var hero = new GameHero(heroTemplate, data);
+                foreach (var itemData in data.Costume.Items.Values)
+                {
+                    hero.Costume.TakeOn(new GameItem(_commonDictionaries.Items[itemData]));
+                }
+
+                _listHeroes.Add(hero);
             }
         }
 
         private void OnSave()
         {
-            var data = _listHeroes.Select(hero => hero.HeroData).ToList();
+            var data = _listHeroes.Select(hero => hero.GetSaveData()).ToList();
             _commonGameData.HeroesStorage.ListHeroes = data;
         }
 

@@ -7,8 +7,8 @@ namespace City.Buildings.TravelCircle
     [System.Serializable]
     public class MissionWithSmashReward : MissionModel
     {
-        [SerializeField] protected RewardData smashReward;
-        public RewardData SmashReward { get => smashReward; }
+        [SerializeField] protected RewardModel smashReward;
+        public RewardModel SmashReward { get => smashReward; }
         public MissionWithSmashReward Clone()
         {
             return new MissionWithSmashReward

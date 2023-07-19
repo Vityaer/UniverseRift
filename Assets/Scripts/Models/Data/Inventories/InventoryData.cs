@@ -10,9 +10,10 @@ namespace Models
     [System.Serializable]
     public class InventoryData : BaseDataModel
     {
-        public List<ResourceData> Resources = new List<ResourceData>();
         public List<ItemData> Items = new List<ItemData>();
         public List<SplinterData> Splinters = new List<SplinterData>();
+
+        public InventoryData() { }
 
         public InventoryData(GameInventory inventory)
         {
@@ -20,9 +21,6 @@ namespace Models
             {
                 switch (obj)
                 {
-                    case GameResource res:
-                        Resources.Add(new ResourceData() { Type = res.Type, Amount = res.Amount});
-                        break;
                     case GameItem res:
                         Items.Add(new ItemData(res));
                         break;

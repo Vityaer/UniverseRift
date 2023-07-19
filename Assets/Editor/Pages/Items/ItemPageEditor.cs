@@ -2,11 +2,14 @@
 using Editor.Common;
 using Editor.Units;
 using Models;
+using Models.Items;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UIController.Inventory;
 using UnityEditor;
+using UnityEngine;
 using Utils;
 
 namespace Editor.Pages.Items
@@ -46,13 +49,34 @@ namespace Editor.Pages.Items
 
         public override void Save()
         {
-            //var items = Items.Select(itemModel => itemModel.GetModel).ToList();
-            //EditorUtils.Save(items);
+            var items = Items.Select(itemModel => itemModel.GetModel()).ToList();
+            EditorUtils.Save(items);
             base.Save();
         }
 
         [ShowInInspector]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 5,
+        [HorizontalGroup("1")]
+        public string NewSetName;
+        [Button("Create set")]
+        private void CreateSet()
+        {
+            if (NewSetName == string.Empty)
+                return;
+
+            foreach (var type in (ItemType[])Enum.GetValues(typeof(ItemType)))
+            {
+                AddElement();
+                var model = Items[Items.Count - 1].GetModel();
+                model.Id = $"{NewSetName}{type}";
+                model.SetName = NewSetName;
+                model.Type = type;
+                model.Bonuses = new List<Bonus>() { new Bonus() };
+            }
+        }
+
+        [Space(10)]
+        [ShowInInspector]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 4,
     CustomAddFunction = nameof(AddElement), CustomRemoveElementFunction = nameof(RemoveElements))]
         [HorizontalGroup("3")]
         [LabelText("Items")]

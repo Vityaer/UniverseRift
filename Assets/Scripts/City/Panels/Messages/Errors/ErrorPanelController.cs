@@ -1,11 +1,12 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
 namespace City.Panels.Messages.Errors
 {
-    public class ErrorPanelController : UiController<ErrorPanelView>, IInitializable
+    public class ErrorPanelController : UiController<ErrorPanelView>, IInitializable, IDisposable
     {
         public Vector2 delta = new Vector3(0, 3);
         public float timeShow = 0.2f;
@@ -47,6 +48,11 @@ namespace City.Panels.Messages.Errors
         public void SetStartPosition()
         {
             View.PanelRect.anchoredPosition = View.PanelRect.anchoredPosition - delta;
+        }
+
+        public void Dispose()
+        {
+            sequenceAnimation.Kill();
         }
     }
 }

@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
 using Models.Achievments;
+using Models.City.AbstactBuildingModels;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
@@ -14,6 +15,7 @@ using Models.Heroes;
 using Models.Items;
 using System.Collections.Generic;
 using UIController.Inventory;
+using UIController.Rewards;
 using UniRx;
 using UnityEngine;
 using Utils;
@@ -45,6 +47,8 @@ namespace Db.CommonDictionaries
         private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new Dictionary<string, CostLevelUpContainer>();
         private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new Dictionary<string, MonthlyTasksModel>();
         private Dictionary<string, TaskModel> _patternTasks = new Dictionary<string, TaskModel>();
+        private Dictionary<string, BuildingModel> _buildings = new Dictionary<string, BuildingModel>();
+        private Dictionary<string, RewardModel> _rewards = new Dictionary<string, RewardModel>();
         
         private readonly IJsonConverter _converter;
         private bool _isInited;
@@ -70,18 +74,36 @@ namespace Db.CommonDictionaries
         public Dictionary<string, CostLevelUpContainer> CostContainers => _heroesCostLevelUps;
         public Dictionary<string, MonthlyTasksModel> MonthlyTasks => _monthlyTasks;
         public Dictionary<string, TaskModel> PatternTasks => _patternTasks;
-
-
+        public Dictionary<string, BuildingModel> Buildings => _buildings;
+        public Dictionary<string, RewardModel> Rewards => _rewards;
 
         private bool IsDownloadedInLocalStorage
         {
             get
             {
-                //var result = TextUtils.IsLoadedToLocalStorage<GameHero>();
-                //result &= TextUtils.IsLoadedToLocalStorage<Item>();
-                //result &= TextUtils.IsLoadedToLocalStorage<Rarity>();
-                //return result;
-                return true;
+                var result = TextUtils.IsLoadedToLocalStorage<HeroModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<ItemModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<RarityModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<ItemSet>();
+                result &= TextUtils.IsLoadedToLocalStorage<RatingModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<RaceModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<VocationModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<CampaignChapterModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<LocationModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<SplinterModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<ProductModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<MarketModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<MineModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<StorageChallengeModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<ResistanceModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<AchievmentModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<ItemRelationModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<CostLevelUpContainer>();
+                result &= TextUtils.IsLoadedToLocalStorage<MonthlyTasksModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<TaskModel>();
+                result &= TextUtils.IsLoadedToLocalStorage<BuildingModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<RewardModel>();
+                return result;
             }
         }
 
@@ -94,10 +116,14 @@ namespace Db.CommonDictionaries
         {
 #if UNITY_EDITOR
             var needUpdateConfig = false;
+            if (!TextUtils.IsLoadedToLocalStorage<ConfigVersion>())
+            {
+                needUpdateConfig = await IsNeedUpdateConfig();
+            }
 #else
             var needUpdateConfig = await IsNeedUpdateConfig();
 #endif
-            if (!IsDownloadedInLocalStorage || needUpdateConfig)
+                if (!IsDownloadedInLocalStorage || needUpdateConfig)
             {
                 OnStartDownloadFiles.Execute();
                 await LoadFromRemoteDirectory();
@@ -143,31 +169,36 @@ namespace Db.CommonDictionaries
 
         private async UniTask LoadFromRemoteDirectory()
         {
-            //_cells = await DownloadModels<BaseCell>();
-
-            //var jsonData = await TextUtils.DownloadJsonData(nameof(AbilityConfigList));
-            //_abilitiesConfig = _converter.FromJson<AbilityConfigList>(jsonData).ConfigList;
-            //TextUtils.Save<AbilityConfigList>(jsonData);
-
-            //jsonData = await TextUtils.DownloadJsonData(nameof(MatchConfigList));
-            //_matchConfigs = _converter.FromJson<MatchConfigList>(jsonData).ConfigList;
-            //TextUtils.Save<MatchConfigList>(jsonData);
-
-            //jsonData = await TextUtils.DownloadJsonData(nameof(RareUpgradeCostCoefficents));
-            //_rareCoefficentCostConfigs = _converter.FromJson<RareUpgradeCostCoefficents>(jsonData).RareCoefficents;
-            //TextUtils.Save<RareUpgradeCostCoefficents>(jsonData);
-
-            //jsonData = await TextUtils.DownloadJsonData(nameof(UpgradeCostModel));
-            //_upgradeCoefficentCostConfigs = _converter.FromJson<UpgradeCostModel>(jsonData).LevelCoefficents;
-            //TextUtils.Save<UpgradeCostModel>(jsonData);
+            _heroes = await DownloadModels<HeroModel>();
+            _races = await DownloadModels<RaceModel>();
+            _vocations = await DownloadModels<VocationModel>();
+            _items = await DownloadModels<ItemModel>();
+            _raryties = await DownloadModels<RarityModel>();
+            _itemSets = await DownloadModels<ItemSet>();
+            _ratings = await DownloadModels<RatingModel>();
+            _campaignChapters = await DownloadModels<CampaignChapterModel>();
+            _locations = await DownloadModels<LocationModel>();
+            _splinters = await DownloadModels<SplinterModel>();
+            _products = await DownloadModels<ProductModel>();
+            _markets = await DownloadModels<MarketModel>();
+            _mines = await DownloadModels<MineModel>();
+            _storageChallenges = await DownloadModels<StorageChallengeModel>();
+            _resistances = await DownloadModels<ResistanceModel>();
+            _achievments = await DownloadModels<AchievmentModel>();
+            _itemRelations = await DownloadModels<ItemRelationModel>();
+            _heroesCostLevelUps = await DownloadModels<CostLevelUpContainer>();
+            _monthlyTasks = await DownloadModels<MonthlyTasksModel>();
+            _patternTasks = await DownloadModels<TaskModel>();
+            _buildings = await DownloadModels<BuildingModel>();
+            _rewards = await DownloadModels<RewardModel>();
         }
 
-        //private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
-        //{
-        //var jsonData = await TextUtils.DownloadJsonData(typeof(T).Name);
-        //TextUtils.Save<T>(jsonData, _converter);
-        //return TextUtils.FillDictionary<T>(jsonData, _converter);
-        //}
+        private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
+        {
+            var jsonData = await TextUtils.DownloadJsonData(typeof(T).Name);
+            TextUtils.Save(jsonData);
+            return TextUtils.FillDictionary<T>(jsonData, _converter);
+        }
 
         private void LoadFromLocalDirectory()
         {
@@ -191,6 +222,8 @@ namespace Db.CommonDictionaries
             _heroesCostLevelUps = GetModels<CostLevelUpContainer>();
             _monthlyTasks = GetModels<MonthlyTasksModel>();
             _patternTasks = GetModels<TaskModel>();
+            _buildings = GetModels<BuildingModel>();
+            _rewards = GetModels<RewardModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

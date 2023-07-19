@@ -12,5 +12,6 @@ namespace City.Panels.SubjectPanels
         public TextMeshProUGUI TypeItem;
         public TextMeshProUGUI GeneralInfo;
         public TextMeshProUGUI AddactiveInfo;
+        public TextMeshProUGUI ActionButtonText;
     }
 }

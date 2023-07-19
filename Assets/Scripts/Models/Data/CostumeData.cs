@@ -11,7 +11,9 @@ namespace Models
     {
         public Dictionary<ItemType, string> Items;
 
-        public void NewData(GameCostumeHero costume)
+        public CostumeData() { }
+
+        public CostumeData(GameCostumeHero costume)
         {
             Items = new Dictionary<ItemType, string>(costume.Items.Count);
 

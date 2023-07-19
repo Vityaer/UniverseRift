@@ -1,17 +1,13 @@
 using Common.Resourses;
-using System;
-using UIController.Rewards;
-using UiExtensions.Scroll.Interfaces;
-using VContainer;
-using VContainerUi.Model;
-using VContainerUi.Services;
-using VContainerUi.Messages;
-using UniRx;
-using DG.Tweening;
-using UnityEngine;
 using Common.Rewards;
 using Models.Data.Rewards;
-using UIController;
+using System;
+using UiExtensions.Scroll.Interfaces;
+using UniRx;
+using VContainer;
+using VContainerUi.Messages;
+using VContainerUi.Model;
+using VContainerUi.Services;
 
 namespace City.Panels.AutoFights
 {
@@ -28,7 +24,7 @@ namespace City.Panels.AutoFights
             View.textAutoRewardStone.text = $"{autoReward.BaseResource[ResourceType.ContinuumStone].Amount} /{Constants.Game.TACT_TIME}sec.";
             View.textAutoRewardExperience.text = $"{autoReward.BaseResource[ResourceType.Exp].Amount} /{Constants.Game.TACT_TIME}sec.";
 
-            View.RewardUIController.ShowAllReward(calculatedReward);
+            View.RewardUIController.ShowReward(calculatedReward);
             View.sliderAccumulation.SetData(previousDateTime, maxTime);
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<AutoFightRewardPanelController>(openType: OpenType.Additive);
         }

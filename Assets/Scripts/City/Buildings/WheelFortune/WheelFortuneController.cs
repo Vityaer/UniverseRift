@@ -22,7 +22,7 @@ using VContainer.Unity;
 
 namespace City.Buildings.WheelFortune
 {
-    public class WheelFortuneController : BaseBuilding<WheelFortuneView>, IInitializable
+    public class WheelFortuneController : BaseBuilding<WheelFortuneView>, IInitializable, IDisposable
     {
         private const int ONE_TIME = 1; 
         private const int MANY_TIME = 10;
@@ -136,7 +136,7 @@ namespace City.Buildings.WheelFortune
 
         private void GetReward()
         {
-            RewardData reward = new RewardData();
+            RewardModel reward = new RewardModel();
             for (int i = 0; i < numbersReward.Count; i++)
             {
                 switch (rewards[numbersReward[i]])
@@ -157,6 +157,12 @@ namespace City.Buildings.WheelFortune
 
             View.OneRotateButton.Enable();
             View.ManyRotateButton.Enable();
+        }
+
+        public new void Dispose()
+        {
+            _sequence.Kill();
+            base.Dispose();
         }
     }
 }

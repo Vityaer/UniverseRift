@@ -6,10 +6,11 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using VContainerUi.Abstraction;
 
 namespace City.TrainCamp
 {
-    public class ResourceObjectCost : MonoBehaviour, IDisposable
+    public class ResourceObjectCost : UiView, IDisposable
     {
         [SerializeField] private Image Image;
         [SerializeField] private TextMeshProUGUI TextAmount;
@@ -29,6 +30,9 @@ namespace City.TrainCamp
 
         public void SetData(GameResource res)
         {
+            if (_resourceStorageController == null)
+                Debug.LogError($"resource storage null, {gameObject.name}", gameObject);
+
             _disposable?.Dispose();
             _disposable = _resourceStorageController.Subscribe(res.Type, CheckResource);
 

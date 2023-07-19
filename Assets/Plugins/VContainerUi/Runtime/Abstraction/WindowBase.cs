@@ -29,7 +29,7 @@ namespace VContainerUi.Abstraction
 		public override void SetState(UiControllerState state, OpenType openedType = OpenType.Exclusive)
 		{
 			for (var i = 0; i < _controllers.Count; i++)
-				_controllers[i].SetState(new UiControllerState(state.IsActive, state.InFocus, i));
+				_controllers[i].SetState(new UiControllerState(state.IsActive, state.InFocus, i), openedType);
 			ProcessState();
 		}
 

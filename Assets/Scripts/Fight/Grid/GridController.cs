@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Fight.FightInterface;
 using Fight.HeroControllers.Generals;
 using Models.Grid;
 using Models.Heroes;
@@ -18,10 +19,11 @@ namespace Fight.Grid
         public static bool PlayerCanController = false;
 
         [Inject] private readonly GridFactory _gridSpawner;
+        [Inject] private readonly FightDirectionController _fightDirectionController;
 
         public ReactiveCommand OnFinishFoundWay = new ReactiveCommand();
 
-        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _tokenSource;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private Stack<HexagonCell> _way = new Stack<HexagonCell>();
         private HexagonCell _previousCell = null;
@@ -35,6 +37,7 @@ namespace Fight.Grid
         public void Initialize()
         {
             _grid = _gridSpawner.CreateGrid(View.Prefab, View.GridParent);
+            _grid.FindAllCell();
             foreach (var cell in _grid.Cells)
             {
                 cell.SetData(this);
@@ -51,34 +54,33 @@ namespace Fight.Grid
 
         private void StartFight()
         {
+            _tokenSource = new CancellationTokenSource();
             CheckClick(_tokenSource.Token).Forget();
         }
 
         private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
         {
+            Debug.Log("start check click");
             RaycastHit2D hit;
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && PlayerCanController)
                 {
                     hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.down);
-                    if (hit != null)
+                    if (hit.transform != null)
                     {
-                        if (hit.transform != null)
+                        if (hit.transform.CompareTag("HexagonCell"))
                         {
-                            if (hit.transform.CompareTag("HexagonCell"))
-                            {
-                                HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
-                                HexagonCell.ClickOnMe();
-                            }
-                            if (hit.transform.CompareTag("Hero"))
-                            {
-                                hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
-                            }
+                            HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
+                            HexagonCell.ClickOnMe();
+                        }
+                        if (hit.transform.CompareTag("Hero"))
+                        {
+                            hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
                         }
                     }
                 }
-                await UniTask.Yield();
+                await UniTask.Yield(cancellationToken: cancellationToken);
             }
 
         }
@@ -106,6 +108,12 @@ namespace Fight.Grid
         {
             _tokenSource.Cancel();
             _grid.CloseGrid();
+        }
+
+        public void ShowAttackDirections(Action<CellDirectionType> action, HexagonCell cell, List<NeighbourCell> neighbours)
+        {
+            Debug.Log($"show attack directions: {neighbours.Count}");
+            _fightDirectionController.MelleeAttackController.RegisterOnSelectDirection(action, cell, neighbours);
         }
 
         public void Dispose()

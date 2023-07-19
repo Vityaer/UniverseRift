@@ -1,22 +1,27 @@
 using Fight.HeroControllers.Generals;
+using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
+using VContainer.Unity;
 using VContainerUi.Abstraction;
 
 namespace Fight.FightInterface
 {
-    public class FightDirectionController : UiController<FightDirectionView>
+    public class FightDirectionController : UiController<FightDirectionView>, IInitializable, IDisposable
     {
-        public MelleeAtackDirectionController melleeAttackController;
+        //[Inject] private readonly FightController _fightController;
+
         private HeroController heroController;
         private List<HeroController> listWaits = new List<HeroController>();
+        private CompositeDisposable _disposables = new CompositeDisposable();
 
-        //public MelleeAtackDirectionController melleeAttackController => SelectDirection.melleeAttackController;
+        public MelleeAtackDirectionController MelleeAttackController => View.melleeAttackController;
 
-        void Start()
+        public void Initialize()
         {
-            //FightController.Instance.RegisterOnFinishFight(CloseControllers);
-            //FightController.Instance.RegisterOnEndRound(ClearData);
+            //_fightController.OnFinishFight.Subscribe(_ => CloseControllers()).AddTo(_disposables);
+            //_fightController.OnEndRound.Subscribe(_ => ClearData()).AddTo(_disposables);
         }
 
         public void WaitTurn()
@@ -42,11 +47,8 @@ namespace Fight.FightInterface
         }
 
         //API
-
-
         private void HeroChangeStamina(int stamina)
         {
-            Debug.Log($"HeroChangeStamina: {stamina}");
             View.btnSpell.interactable = stamina == 100;
         }
 
@@ -58,14 +60,15 @@ namespace Fight.FightInterface
             View.btnSpell.interactable = false;
         }
 
-        void ClearData()
+        public void ClearData()
         {
             listWaits.Clear();
         }
+
         public void OpenControllers(HeroController heroController)
         {
             this.heroController = heroController;
-            View.panelControllers.gameObject.SetActive(true);
+            View.panelControllers.SetActive(true);
             HeroController.RegisterOnEndAction(ClearController);
             View.btnWait.interactable = !listWaits.Contains(heroController);
             View.btnSpell.gameObject.SetActive(heroController.SpellExist);
@@ -76,7 +79,13 @@ namespace Fight.FightInterface
 
         public void CloseControllers()
         {
-            View.panelControllers.gameObject.SetActive(false);
+            View.panelControllers.SetActive(false);
         }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
+
     }
 }

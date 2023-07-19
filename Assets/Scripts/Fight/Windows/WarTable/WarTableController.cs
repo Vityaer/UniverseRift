@@ -99,19 +99,12 @@ namespace Fight.WarTable
             return result;
         }
 
-        private void ClearRightTeam()
+        private void ClearPlaces(List<WarriorPlace> places)
         {
-            for (int i = 0; i < View.RightTeam.Count; i++)
+            foreach (var place in places)
             {
-                View.RightTeam[i].ClearPlace();
-            }
-        }
-
-        private void ClearLeftTeam()
-        {
-            for (int i = 0; i < View.LeftTeam.Count; i++)
-            {
-                View.LeftTeam[i].ClearPlace();
+                if(!place.IsEmpty)
+                    RemoveHero(place.Hero);
             }
         }
 
@@ -195,8 +188,8 @@ namespace Fight.WarTable
         public void OpenMission(MissionModel mission, List<GameHero> listHeroes)
         {
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
-            ClearLeftTeam();
-            ClearRightTeam();
+            ClearPlaces(View.LeftTeam);
+            ClearPlaces(View.RightTeam);
 
             _mission = mission;
 
@@ -225,8 +218,8 @@ namespace Fight.WarTable
         public override void Close()
         {
             OnClose.Execute();
-            ClearRightTeam();
-            ClearLeftTeam();
+            ClearPlaces(View.LeftTeam);
+            ClearPlaces(View.RightTeam);
             base.Close();
         }
 

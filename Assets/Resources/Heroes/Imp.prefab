@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3009876140172054277}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8755550862569001704}
   m_RootOrder: 0
@@ -221,29 +221,6 @@ MonoBehaviour:
   listTarget: []
   speedMove: 2
   speedAnimation: 1
-  hero:
-    Characteristics:
-      limitLevel: 0
-      Damage: 0
-      HP: 0
-      Initiative: 0
-      ProbabilityCriticalAttack: 0
-      DamageCriticalAttack: 0
-      Accuracy: 0
-      CleanDamage: 0
-      Dodge: 0
-      CountTargetForSimpleAttack: 1
-      CountTargetForSpell: 1
-      Main:
-        Attack: 0
-        Defense: 0
-        Speed: 0
-        typeMovement: 0
-        Mellee: 0
-        typeStrike: 0
-        CanRetaliation: 1
-        CountCouterAttack: 1
-    statusState: {fileID: 0}
   Side: 0
   maxCountCounterAttack: 1
   flagAnimFinish: 0
@@ -289,6 +266,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6047761180791885619}
     m_Modifications:
+    - target: {fileID: 712676553144740125, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.b
+      value: 0.93664414
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.r
+      value: 0.48627448
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.g
+      value: 0.38953444
+      objectReference: {fileID: 0}
+    - target: {fileID: 837793287619215651, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.r
+      value: 0.34509802
+      objectReference: {fileID: 0}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -300,6 +313,38 @@ PrefabInstance:
     - target: {fileID: 5652931081233746797, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_Name
       value: CanvasHeroesStatus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.b
+      value: 0.24905658
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.g
+      value: 0.24905658
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _lowValue.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.b
+      value: 0.2299509
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: _fillValue.r
+      value: 0.2113207
       objectReference: {fileID: 0}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x

@@ -10,7 +10,6 @@ namespace City.Buildings.Abstractions
     public class BuildingWithHeroesList<T> : BaseBuilding<T> where T : BaseBuildingView
     {
 
-        [SerializeField] protected HeroCardsContainerController ListHeroesController;
         protected List<GameHero> ListHeroes = new List<GameHero>();
 
         public virtual void SelectHero(Card cardHero) { }
@@ -21,8 +20,8 @@ namespace City.Buildings.Abstractions
 
         protected void LoadListHeroes()
         {
-            FilterHeroes(ListHeroes);
-            ListHeroesController.ShowCards(ListHeroes);
+            //FilterHeroes(ListHeroes);
+            //ListHeroesController.ShowCards(ListHeroes);
             //ListHeroesController.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
         }
     }

@@ -14,10 +14,10 @@ namespace City.Panels.PosibleHeroes
         [Inject] private readonly CommonDictionaries _commonDictionaries; 
         public List<CardWithPercent> cardsWithPercent = new List<CardWithPercent>();
 
-        public void SetData(PosibleReward rewardInfo)
+        public void SetData(PosibleRewardData rewardInfo)
         {
-            CheckCountAvailableCard(rewardInfo.PosibilityObjectRewards.Count);
-            FillData(rewardInfo);
+            //CheckCountAvailableCard(rewardInfo.PosibilityObjectRewards.Count);
+            //FillData(rewardInfo);
         }
 
         private void CheckCountAvailableCard(int requireCount)
@@ -27,17 +27,17 @@ namespace City.Panels.PosibleHeroes
                     cardsWithPercent.Add(Object.Instantiate(View.Prefab, View.Content));
         }
 
-        private void FillData(PosibleReward rewardInfo)
+        private void FillData(PosibleRewardData rewardInfo)
         {
-            for (int i = 0; i < rewardInfo.PosibilityObjectRewards.Count; i++)
-            {
-                var name = rewardInfo.PosibilityObjectRewards[i].ModelId;
-                cardsWithPercent[i].SetData(_commonDictionaries.Heroes[name], rewardInfo.PosibleNumObject(i));
-            }
-            for (int i = rewardInfo.PosibilityObjectRewards.Count; i < cardsWithPercent.Count; i++)
-            {
-                cardsWithPercent[i].Hide();
-            }
+            //for (int i = 0; i < rewardInfo.PosibilityObjectRewards.Count; i++)
+            //{
+            //    var name = rewardInfo.PosibilityObjectRewards[i].ModelId;
+            //    cardsWithPercent[i].SetData(_commonDictionaries.Heroes[name], rewardInfo.PosibleNumObject(i));
+            //}
+            //for (int i = rewardInfo.PosibilityObjectRewards.Count; i < cardsWithPercent.Count; i++)
+            //{
+            //    cardsWithPercent[i].Hide();
+            //}
         }
     }
 }

@@ -33,7 +33,17 @@ namespace UiExtensions.MainPages
         {
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Additive);
         }
-        
+
+        public override void OnShow()
+        {
+            UnityEngine.Debug.Log($"open  {View.gameObject.name}");
+            base.OnShow();
+        }
+        public override void OnHide()
+        {
+            UnityEngine.Debug.Log($"close  {View.gameObject.name}");
+            base.OnHide();
+        }
         public void Dispose()
         {
             Disposables.Dispose();

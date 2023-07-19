@@ -1,13 +1,20 @@
 ﻿using Assets.Scripts.ClientServices;
 using City.Buildings.Abstractions;
-using City.Panels.Messages;
 using Common.Resourses;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
+using Models;
 using Models.Common.BigDigits;
+using Models.Data.Inventories;
+using Models.Items;
+using Network.DataServer;
+using Network.DataServer.Messages.Items;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using UIController.Inventory;
-using UIController.ItemVisual;
+using UIController.ItemVisual.Forges;
 using UIController.Rewards;
 using UniRx;
 using VContainer;
@@ -18,6 +25,8 @@ namespace City.Buildings.Forge
     {
         private const int ITEMS_COUNT = 16;
 
+        private List<string> SetNames = new List<string>() { "Pupil", "Peasant", "Militiaman", "Monk", "Warrior", "Feller", "Soldier", "Minotaur", "Demon", "Druid", "Obedient", "Devil", "Destiny", "Archangel", "Titan", "God" };
+
         [Inject] private readonly InventoryController _inventoryController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
@@ -25,14 +34,14 @@ namespace City.Buildings.Forge
         private List<ForgeItemVisual> _listPlace = new List<ForgeItemVisual>();
         private List<GameResource> _listCostItems = new List<GameResource>();
 
-        private List<ItemSynthesis> _weapons;
-        private List<ItemSynthesis> _armors;
-        private List<ItemSynthesis> _necklaces;
-        private List<ItemSynthesis> _boots;
-        private List<ItemSynthesis> _currentItems;
+        private List<GameItemRelation> _weapons = new List<GameItemRelation>();
+        private List<GameItemRelation> _armors = new List<GameItemRelation>();
+        private List<GameItemRelation> _necklaces = new List<GameItemRelation>();
+        private List<GameItemRelation> _boots = new List<GameItemRelation>();
+        private List<GameItemRelation> _currentItems;
 
         private int _currentIndex;
-        private ItemSynthesis _currentItem;
+        private GameItemRelation _currentItem;
         private ForgeItemVisual _currentCell = null;
         private ReactiveCommand<BigDigit> _onCraft = new ReactiveCommand<BigDigit>();
 
@@ -40,27 +49,49 @@ namespace City.Buildings.Forge
 
         protected override void OnStart()
         {
-            //View.WeaponPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_weapons)).AddTo(Disposables);
-            //View.ArmorPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_armors)).AddTo(Disposables);
-            //View.BootsPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_necklaces)).AddTo(Disposables);
-            //View.AmuletPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_boots)).AddTo(Disposables);
-            //View.ButtonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem()).AddTo(Disposables);
+            View.WeaponPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_weapons)).AddTo(Disposables);
+            View.ArmorPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_armors)).AddTo(Disposables);
+            View.BootsPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_boots)).AddTo(Disposables);
+            View.AmuletPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_necklaces)).AddTo(Disposables);
+            View.ButtonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem()).AddTo(Disposables);
 
-            //for (var i = 0; i < ITEMS_COUNT; i++)
-            //{
-            //    var itemVisual = UnityEngine.Object.Instantiate(View.ForgeItemVisualPrefab, View.Content);
-            //    itemVisual.OnSelected.Subscribe(SelectItem).AddTo(Disposables);
-            //    _listPlace.Add(itemVisual);
-            //}
-
-            //OpenList(_weapons);
-            //SelectItem(_listPlace[0]);
+            for (var i = 0; i < ITEMS_COUNT; i++)
+            {
+                var itemVisual = UnityEngine.Object.Instantiate(View.ForgeItemVisualPrefab, View.Content);
+                itemVisual.OnSelected.Subscribe(SelectItem).AddTo(Disposables);
+                _listPlace.Add(itemVisual);
+            }
+            _currentCell = _listPlace[0];
         }
 
-        public void OpenList(List<ItemSynthesis> items)
+        protected override void OnLoadGame()
+        {
+            LoadItemRelations(_weapons, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Weapon).ToList());
+            LoadItemRelations(_armors, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Armor).ToList());
+            LoadItemRelations(_necklaces, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Amulet).ToList());
+            LoadItemRelations(_boots, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Boots).ToList());
+            OpenList(_weapons);
+        }
+
+        private void LoadItemRelations(List<GameItemRelation> relations, List<ItemModel> itemModels)
+        {
+            foreach (var name in SetNames)
+            {
+                var item = itemModels.Find(item => item.SetName == name);
+
+                if (_commonDictionaries.ItemRelations.TryGetValue($"Recipe{item.Id}", out var relationModel))
+                {
+                    var result = new GameItem(_commonDictionaries.Items[relationModel.ResultItemName], 0);
+                    var ingredient = new GameItem(_commonDictionaries.Items[relationModel.ItemIngredientName], 0);
+                    var relation = new GameItemRelation(relationModel, ingredient, result);
+                    relations.Add(relation);
+                }
+            }
+        }
+
+        public void OpenList(List<GameItemRelation> items)
         {
             _currentItems = items;
-
             for (int i = 0; i < items.Count; i++)
             {
                 _listPlace[i].SetItem(items[i]);
@@ -69,68 +100,85 @@ namespace City.Buildings.Forge
 
             if (_currentCell != null)
                 SelectItem(_currentCell);
-
-            _currentCell?.UIItem.Select();
         }
 
         public void SelectItem(ForgeItemVisual selectedCell)
         {
-            _currentCell?.UIItem.Diselect();
+            _currentCell?.Diselect();
             _currentItem = selectedCell.Thing;
             _currentIndex = _listPlace.FindIndex(place => place == selectedCell);
             _currentCell = selectedCell;
-            View.LeftItem.SetItem(_currentItem.requireItem, _currentItem.countRequireItem);
-            View.RightItem.SetResource(_currentItem.requireResource);
+            _currentCell.Select();
+            View.LeftItem.SetInfo(_currentItems[_currentIndex]);
+            View.RightItem.SetInfo(_currentItems[_currentIndex]);
             CheckDemands();
         }
 
         public void CheckDemands()
         {
-            View.ButtonSynthesis.interactable = _resourceStorageController.CheckResource(_currentItem.requireResource) && _inventoryController.CheckItems(_currentItem.requireItem, _currentItem.countRequireItem);
-            RecalculateDemands();
+            View.ButtonSynthesis.interactable =
+                _resourceStorageController.CheckResource(_currentItem.Cost)
+                &&
+                View.LeftItem.IsEnough;
         }
 
-        private void RecalculateDemands()
+        public async UniTaskVoid SynthesisItem()
         {
-            View.LeftItem.forgeItemCost.CheckItems();
-            View.RightItem.resourceCost.CheckResource();
-        }
+            var createdCount = 0;
+            var reward = new RewardModel();
+            var currentCount = HowManyThisItems(_currentItem.Ingredient);
+            var cost = _currentItem.Cost;
+            var maxCanCreateCount = currentCount / _currentItem.Model.RequireCount;
 
-        public void SynthesisItem()
-        {
-            int createdCount = 0;
-            RewardData reward = new RewardData();
-
-            var requirementItems =
-                new GameItem()
-                {
-                    Id = _currentItem.IDRequireItem,
-                    Amount = _currentItem.countRequireItem
-                };
-
-            while (_resourceStorageController.CheckResource(_currentItem.requireResource) && _inventoryController.CheckItems(_currentItem.requireItem, _currentItem.countRequireItem))
+            for (var i = 1; i <= maxCanCreateCount; i++)
             {
-                _resourceStorageController.SubtractResource(_currentItem.requireResource);
-                _inventoryController.Remove(_currentItem.requireItem);
-                _onCraft.Execute(new BigDigit(1));
-                createdCount += 1;
+                if (_resourceStorageController.CheckResource(cost * i))
+                {
+                    createdCount = i;
+                }
             }
 
-            var newItem = new GameItem() { Amount = createdCount };
-            //reward.Add(newItem);
-            //MessageController.Instance.OpenSimpleRewardPanel(reward);
+            var message = new SynthesisItemMessage { PlayerId = CommonGameData.Player.PlayerInfoData.Id, ItemId = _currentItem.Model.ResultItemName, Count = createdCount };
+            var result = await DataServer.PostData(message);
+            UnityEngine.Debug.Log(result);
+            if (!string.IsNullOrEmpty(result))
+            {
+                var ingredients = new GameItem(_commonDictionaries.Items[_currentItem.Model.ItemIngredientName], createdCount);
+                _resourceStorageController.SubtractResource(cost * createdCount);
+                _inventoryController.Remove(ingredients);
+                _onCraft.Execute(new BigDigit(createdCount));
 
-            CheckItemCount(_currentIndex);
-            CheckItemCount(_currentIndex + 1);
-            CheckDemands();
+                var newItem = new ItemData() { Id = _currentItem.Model.ResultItemName, Amount = createdCount };
+                reward.Items.Add(newItem);
+                //MessageController.Instance.OpenSimpleRewardPanel(reward);
+
+                CheckItemCount(_currentIndex);
+                CheckItemCount(_currentIndex + 1);
+                CheckDemands();
+            }
         }
 
         private void CheckItemCount(int index)
         {
             var item = _listPlace[index].Thing;
-            var flag = _inventoryController.GameInventory.InventoryObjects[item.requireItem.Id].CheckCount(_currentItem.countRequireItem);
 
-            _currentCell.UIItem.SwitchDoneForUse(flag);
+            //var flag = _inventoryController.GameInventory
+            //    .InventoryObjects[item.Ingredient.Id]
+            //    .CheckCount(_currentItem.Model.RequireCount);
+
+            //_currentCell.Cell.SwitchDoneForUse(flag);
+        }
+
+        private int HowManyThisItems(GameItem item)
+        {
+            if (_inventoryController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
+            {
+                return value.Amount;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

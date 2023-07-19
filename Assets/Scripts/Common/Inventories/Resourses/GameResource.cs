@@ -1,7 +1,6 @@
-﻿using Models;
-using Models.Common.BigDigits;
+﻿using Models.Common.BigDigits;
+using Models.Data.Inventories;
 using System;
-using UIController.Inventory;
 using UniRx;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace Common.Resourses
             Amount = new BigDigit();
         }
 
-        public GameResource(ResourceModel resourceModel)
+        public GameResource(ResourceData resourceModel)
         {
             Type = resourceModel.Type;
             Amount = resourceModel.Amount;
@@ -52,6 +51,8 @@ namespace Common.Resourses
         public bool CheckCount(int count, int e10) =>
             Amount.CheckCount(count, e10);
 
+        public override bool EqualsZero =>
+            Amount.EqualsZero();
         public bool CheckCount(GameResource res) =>
             Amount.CheckCount(res.Amount);
 
@@ -93,7 +94,7 @@ namespace Common.Resourses
         //Operators
         public static GameResource operator *(GameResource res, float k)
         {
-            GameResource result = new GameResource(res.Type, Mathf.Ceil(res.Amount.Mantissa * k), res.Amount.E10);
+            GameResource result = new GameResource(res.Type, Mathf.RoundToInt(res.Amount.Mantissa * k), res.Amount.E10);
             return result;
         }
 

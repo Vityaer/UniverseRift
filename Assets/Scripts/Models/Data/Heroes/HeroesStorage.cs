@@ -1,5 +1,4 @@
-﻿using Hero;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Models.Data.Heroes
 {

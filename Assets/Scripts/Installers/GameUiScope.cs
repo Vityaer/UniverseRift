@@ -1,4 +1,7 @@
-﻿using Ui.LoadingScreen;
+﻿using Assets.Scripts.ClientServices;
+using ClientServices;
+using Common.Heroes;
+using Ui.LoadingScreen;
 using UIController.GameSystems;
 using VContainer;
 using VContainer.Unity;
@@ -12,7 +15,11 @@ namespace Installers
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            //builder.RegisterEntryPoint<MainSwipeController>(Lifetime.Singleton);
+
+            builder.Register<ClientRewardService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<ResourceStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<HeroesStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
             ConfigureWindows(builder);
             base.Configure(builder);
         }

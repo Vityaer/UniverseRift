@@ -10,7 +10,7 @@ namespace City.Panels.NewLevels
     {
         [Inject] private readonly CommonGameData _ñommonGameData;
 
-        public void SetData(RewardData reward)
+        public void SetData(RewardModel reward)
         {
             var newLevel = _ñommonGameData.Player.PlayerInfoData.Level;
             View.NewLevelLabel.text = $"{newLevel}";

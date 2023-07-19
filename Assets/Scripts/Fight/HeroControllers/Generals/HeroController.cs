@@ -32,7 +32,7 @@ namespace Fight.HeroControllers.Generals
         [Header("Characteristics")]
         public float speedMove = 2f;
         public float speedAnimation = 1f;
-        public GameHero hero;
+        public GameHeroFight hero;
         protected bool onGround = true;
         protected bool needFlip = false;
         public Side Side = Side.Left;
@@ -49,7 +49,7 @@ namespace Fight.HeroControllers.Generals
 
         public bool IsDeath { get => isDeath; }
         public Vector3 GetPosition { get => Self.position; }
-        public bool CanRetaliation { get => hero.Model.Characteristics.Main.CanRetaliation; }
+        public bool CanRetaliation { get => hero.Model.Characteristics.Main.CanRetaliation && currentCountCounterAttack > 0;  }
         public HexagonCell Cell { get => myPlace; }
         public bool Mellee { get => hero.Model.Characteristics.Main.Mellee; }
         public TypeStrike typeStrike { get => hero.Model.Characteristics.Main.AttackType; }
@@ -57,22 +57,19 @@ namespace Fight.HeroControllers.Generals
 
         void Awake()
         {
-            Debug.Log("hero awake");
-            hero.statusState = statusState;
             Self = base.transform;
             Rigidbody = GetComponent<Rigidbody2D>();
             Animator = GetComponent<Animator>();
         }
 
-        public void SetData(GameHero infoHero, HexagonCell place, Side side)
+        public void SetData(GameHero gameHero, HexagonCell place, Side side)
         {
-            Debug.Log($"{gameObject.name}, {infoHero.Model.General.Name}");
+            Debug.Log($"{gameObject.name}, {gameHero.Model.General.Name}");
             FightController.OnEndRound.Subscribe(_ => RefreshOnEndRound()).AddTo(_disposables);
             myPlace = place;
             place.SetHero(this);
             Side = side;
-            hero = infoHero;
-            statusState.SetMaxHealth(this.hero.Model.Characteristics.HP);
+            hero = new GameHeroFight(gameHero, statusState);
         }
 
         void Start()
@@ -84,7 +81,7 @@ namespace Fight.HeroControllers.Generals
 
         public void DoTurn()
         {
-            Debug.Log($"Start turn {gameObject.name}", gameObject);
+            //Debug.Log($"Start turn {gameObject.name}", gameObject);
             AddFightRecordActionMe();
             if (!isDeath && statusState.PermissionAction())
             {
@@ -98,7 +95,7 @@ namespace Fight.HeroControllers.Generals
 
         protected void EndTurn()
         {
-            Debug.Log($"End turn{gameObject.name}", gameObject);
+            //Debug.Log($"End turn{gameObject.name}", gameObject);
             if (isFacingRight ^ (Side == Side.Left)) FlipX();
             ClearAction();
             OnEndAction();
@@ -298,6 +295,7 @@ namespace Fight.HeroControllers.Generals
             while (flagAnimFinish == false)
                 yield return null;
 
+            Debug.Log($"I retalation attack {gameObject.name}");
             if (CanCounterAttack(this, attackedHero))
             {
                 AddFightRecordActionMe();
@@ -347,9 +345,7 @@ namespace Fight.HeroControllers.Generals
             {
                 OnTakingDamage();
                 hero.GetDamage(strike);
-                statusState.ChangeHP(hero.Model.Characteristics.HP);
-                statusState.ChangeStamina(10);
-                if (hero.Model.Characteristics.HP > 0.1f)
+                if (hero.Health > 0f)
                 {
                     PlayAnimation(ANIMATION_GET_DAMAGE, () => DefaultAnimGetDamage(strike));
                 }
@@ -363,7 +359,7 @@ namespace Fight.HeroControllers.Generals
         public virtual void GetHeal(float heal, RoundTypeNumber typeNumber = RoundTypeNumber.Num)
         {
             hero.GetHeal(heal, typeNumber);
-            statusState.ChangeHP(hero.Model.Characteristics.HP);
+            statusState.ChangeHP(hero.Health);
             FightEffectController.Instance.CreateHealObject(Self);
             OnHeal();
         }
@@ -376,15 +372,16 @@ namespace Fight.HeroControllers.Generals
 
         public void DeleteHero()
         {
+            _sequenceAnimation.Kill();
             myPlace.ClearSublject();
             if (coroutineAttackEnemy != null) StopCoroutine(coroutineAttackEnemy);
-            if (sequenceAnimation != null) sequenceAnimation.Kill();
             DeleteAllDelegate();
             Destroy(gameObject);
         }
 
         public void ClickOnMe()
         {
+            Debug.Log("click on hero");
             myPlace?.ClickOnMe();
         }
 

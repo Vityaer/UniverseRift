@@ -5,9 +5,9 @@ namespace Network.DataServer.Messages
     {
         public int Count;
 
-        public string Route => "Heroes/GetSimpleHeroes";
+        public new string Route => "Heroes/GetSimpleHeroes";
 
-        public WWWForm Form
+        public new WWWForm Form
         {
             get
             {

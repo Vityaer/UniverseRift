@@ -11,12 +11,15 @@ using Editor.Pages.Items.Set;
 using Editor.Pages.Mall.Market;
 using Editor.Pages.Mall.Products;
 using Editor.Pages.Rating;
+using Editor.Pages.Rewards;
 using Editor.Pages.Splinters;
 using Editor.Units;
 using Misc.Json.Impl;
+using Pages.Buildings.Forge;
 using Pages.City.ChallengeTower;
 using Pages.Heroes.CostLevelUp;
 using Pages.Heroes.Vocation;
+using Pages.Items.Relations;
 using Sirenix.OdinInspector.Editor;
 using System.Collections.Generic;
 using UnityEditor;
@@ -36,6 +39,7 @@ namespace Editor.Windows
         private VocationPageEditor _vocationPageEditor;
         private ItemPageEditor _itemPageEditor;
         private ItemSetPageEditor _itemSetPageEditor;
+        private ItemRelationPageEditor _itemRelationPageEditor;
         private RarityPageEditor _rarityPageEditor;
         private RatingPageEditor _ratingPageEditor;
         private CampaignPageEditor _campaignPageEditor;
@@ -46,6 +50,9 @@ namespace Editor.Windows
         private MinePageEditor _minePageEditor;
         private StorageChallangePageEditor _storageChallangePageEditor;
         private CostLevelUpContainerPageEditor _costLevelUpContainerPageEditor;
+        private ForgePageEditor _forgePageEditor;
+        private RewardPageEditor _rewardPageEditor;
+        
 
         private OdinMenuTree _tree;
 
@@ -91,6 +98,7 @@ namespace Editor.Windows
             _tree.Add("Heroes/Vocation", _vocationPageEditor);
             _tree.Add("Inventory/Items/Items", _itemPageEditor);
             _tree.Add("Inventory/Items/Set", _itemSetPageEditor);
+            _tree.Add("Inventory/Items/Item Relation", _itemRelationPageEditor);
             _tree.Add("Inventory/Splinters", _splinterPageEditor);
             _tree.Add("Rarity/Rarities", _rarityPageEditor);
             _tree.Add("Rating/Rating", _ratingPageEditor);
@@ -100,7 +108,9 @@ namespace Editor.Windows
             _tree.Add("Mall/Markets", _marketPageEditor);
             _tree.Add("Mall/Products", _productPageEditor);
             _tree.Add("City/Mines", _minePageEditor);
+            _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
             
+            //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
 
         private async void InitPages()
@@ -157,6 +167,16 @@ namespace Editor.Windows
 
             _costLevelUpContainerPageEditor = new CostLevelUpContainerPageEditor(_dictionaries);
             _allPages.Add(_costLevelUpContainerPageEditor);
+
+            _itemRelationPageEditor = new ItemRelationPageEditor(_dictionaries);
+            _allPages.Add(_itemRelationPageEditor);
+
+            _rewardPageEditor = new RewardPageEditor(_dictionaries);
+            _allPages.Add(_rewardPageEditor);
+
+            //_forgePageEditor = new ForgePageEditor(_dictionaries);
+            //_allPages.Add(_forgePageEditor);
+
         }
 
         private void OnValueSaved()

@@ -1,11 +1,11 @@
 ﻿using System;
 using UniRx;
-using UnityEngine;
 using VContainer;
+using VContainerUi.Abstraction;
 
 namespace UIController.Observers
 {
-    public abstract class BaseObserverUi : MonoBehaviour, IDisposable
+    public abstract class BaseObserverUi : UiView, IDisposable
     {
         protected CompositeDisposable Disposables = new CompositeDisposable();
 

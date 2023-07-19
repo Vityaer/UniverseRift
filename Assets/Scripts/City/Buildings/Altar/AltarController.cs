@@ -34,14 +34,14 @@ namespace Altar
         {
             //ListHeroes = GameController.Instance.ListHeroes;
             LoadListHeroes();
-            ListHeroesController.EventOpen();
+            View.ListHeroesController.EventOpen();
         }
 
         protected override void ClosePage()
         {
             for (int i = 0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].Unselect();
             selectedHeroCards.Clear();
-            ListHeroesController.EventClose();
+            View.ListHeroesController.EventClose();
         }
 
         public void FiredHeroes()
@@ -67,7 +67,7 @@ namespace Altar
 
         private void GetRewardFromHeroes(List<HeroModel> heroes)
         {
-            var reward = new RewardData();
+            var reward = new RewardModel();
 
             foreach (HeroModel hero in heroes)
             {

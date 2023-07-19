@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Chapter1",
+    "Name": null,
     "numChapter": 0,
     "Missions": [
       {
@@ -28,13 +28,39 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
         "Units": [
           {
+            "Id": 0,
             "HeroId": "Imp",
             "Level": 1,
             "Rating": 1,
@@ -45,9 +71,61 @@
           }
         ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -76,128 +154,40 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
-        },
-        "Name": "2",
-        "Location": null,
-        "Units": [],
-        "WinReward": {
-          "Objects": [
-            {},
-            {}
-          ]
-        }
-      },
-      {
-        "AutoFightReward": {
-          "BaseResource": {
-            "Gold": {
-              "Type": 0,
-              "Amount": {
-                "Mantissa": 5.0,
-                "E10": 0
-              }
-            },
-            "ContinuumStone": {
-              "Type": 2,
-              "Amount": {
-                "Mantissa": 4.0,
-                "E10": 0
-              }
-            },
-            "Exp": {
-              "Type": 10,
-              "Amount": {
-                "Mantissa": 3.0,
-                "E10": 0
-              }
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
             }
-          },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
-        },
-        "Name": "3",
-        "Location": null,
-        "Units": [],
-        "WinReward": {
+          ],
+          "Items": [],
+          "Splinters": [],
           "Objects": [
-            {},
-            {}
-          ]
-        }
-      },
-      {
-        "AutoFightReward": {
-          "BaseResource": {
-            "Gold": {
-              "Type": 0,
-              "Amount": {
-                "Mantissa": 5.0,
-                "E10": 0
-              }
-            },
-            "ContinuumStone": {
-              "Type": 2,
-              "Amount": {
-                "Mantissa": 4.0,
-                "E10": 0
-              }
-            },
-            "Exp": {
-              "Type": 10,
-              "Amount": {
-                "Mantissa": 3.0,
-                "E10": 0
-              }
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
             }
-          },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
-        },
-        "Name": "4",
-        "Location": null,
-        "Units": [],
-        "WinReward": {
-          "Objects": [
-            {},
-            {}
           ]
-        }
-      },
-      {
-        "AutoFightReward": {
-          "BaseResource": {
-            "Gold": {
-              "Type": 0,
-              "Amount": {
-                "Mantissa": 5.0,
-                "E10": 0
-              }
-            },
-            "ContinuumStone": {
-              "Type": 2,
-              "Amount": {
-                "Mantissa": 4.0,
-                "E10": 0
-              }
-            },
-            "Exp": {
-              "Type": 10,
-              "Amount": {
-                "Mantissa": 3.0,
-                "E10": 0
-              }
-            }
-          },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
         },
-        "Name": "5",
+        "Name": "1",
         "Location": null,
         "Units": [
           {
-            "HeroId": "Demoniac",
+            "Id": 0,
+            "HeroId": "Imp",
             "Level": 1,
             "Rating": 1,
             "CurrentBreakthrough": 0,
@@ -207,9 +197,61 @@
           }
         ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -238,16 +280,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -276,16 +406,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -314,16 +532,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -352,16 +658,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -390,16 +784,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -428,16 +910,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -466,16 +1036,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -504,16 +1162,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -542,16 +1288,104 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 11,
+              "Amount": {
+                "Mantissa": 1.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilWeapon",
+              "Amount": 1
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilBoots",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -580,16 +1414,80 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -618,16 +1516,80 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -656,16 +1618,80 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -694,16 +1720,80 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -732,16 +1822,80 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
         },
         "Name": "1",
         "Location": null,
-        "Units": [],
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
         "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       },
@@ -770,16 +1924,386 @@
               }
             }
           },
-          "PosibilityObjectRewards": [],
-          "GetAllSum": 0.0
-        },
-        "Name": "3",
-        "Location": null,
-        "Units": [],
-        "WinReward": {
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
           "Objects": [
-            {},
-            {}
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
+        },
+        "Name": "1",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "AutoFightReward": {
+          "BaseResource": {
+            "Gold": {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 5.0,
+                "E10": 0
+              }
+            },
+            "ContinuumStone": {
+              "Type": 2,
+              "Amount": {
+                "Mantissa": 4.0,
+                "E10": 0
+              }
+            },
+            "Exp": {
+              "Type": 10,
+              "Amount": {
+                "Mantissa": 3.0,
+                "E10": 0
+              }
+            }
+          },
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
+        },
+        "Name": "1",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "AutoFightReward": {
+          "BaseResource": {
+            "Gold": {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 5.0,
+                "E10": 0
+              }
+            },
+            "ContinuumStone": {
+              "Type": 2,
+              "Amount": {
+                "Mantissa": 4.0,
+                "E10": 0
+              }
+            },
+            "Exp": {
+              "Type": 10,
+              "Amount": {
+                "Mantissa": 3.0,
+                "E10": 0
+              }
+            }
+          },
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
+        },
+        "Name": "1",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "AutoFightReward": {
+          "BaseResource": {
+            "Gold": {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 5.0,
+                "E10": 0
+              }
+            },
+            "ContinuumStone": {
+              "Type": 2,
+              "Amount": {
+                "Mantissa": 4.0,
+                "E10": 0
+              }
+            },
+            "Exp": {
+              "Type": 10,
+              "Amount": {
+                "Mantissa": 3.0,
+                "E10": 0
+              }
+            }
+          },
+          "Resources": [
+            {
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Objects": [
+            {
+              "$type": "UIController.Rewards.PosibleRewards.PosibleObjectData`1[[Models.Data.Inventories.ResourceData, Assembly-CSharp]], Assembly-CSharp",
+              "Value": {
+                "Type": 0,
+                "Amount": {
+                  "Mantissa": 0.0,
+                  "E10": 0
+                }
+              },
+              "Posibility": 50.0
+            }
+          ]
+        },
+        "Name": "1",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 1,
+            "Rating": 1,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            }
+          ],
+          "Items": [
+            {
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
+          ],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ItemData, Assembly-CSharp",
+              "Id": "PupilAmulet",
+              "Amount": 1
+            }
           ]
         }
       }

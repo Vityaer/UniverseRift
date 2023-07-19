@@ -1,5 +1,5 @@
 ﻿using City.TrainCamp;
-using Models.Data;
+using Models.Data.Inventories;
 using System.Collections.Generic;
 
 namespace Models.Common

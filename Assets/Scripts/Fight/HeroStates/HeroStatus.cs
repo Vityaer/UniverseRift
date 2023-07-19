@@ -15,12 +15,11 @@ namespace Fight.HeroStates
         public int GetAllBuffArmor()
         {
             int armor = 0;
-            List<BuffModel> armorBuffs = _listBuff.FindAll(x => x.Type == BuffType.Armor);
+            var armorBuffs = _listBuff.FindAll(x => x.Type == BuffType.Armor);
             for (int i = 0; i < armorBuffs.Count; i++)
             {
                 armor += (int)Mathf.Round(armorBuffs[i].GetCurrentAmount);
             }
-            Debug.Log("bonus armor: " + armor.ToString());
             return armor;
         }
 

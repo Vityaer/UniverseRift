@@ -1,6 +1,4 @@
 ﻿using Common.Rewards;
-using UIController;
-using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 
 namespace City.Panels.BoxRewards
@@ -9,8 +7,8 @@ namespace City.Panels.BoxRewards
     {
         public void ShowAll(GameReward reward)
         {
-            if (reward != null)
-                View.RewardController.ShowAllReward(reward);
+            //if (reward != null)
+            //View.RewardController.ShowAllReward(reward);
         }
     }
 }

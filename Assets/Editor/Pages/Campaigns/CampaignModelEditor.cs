@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using UIController.Rewards;
 
 namespace Editor.Pages.Campaigns
 {
@@ -20,12 +21,16 @@ namespace Editor.Pages.Campaigns
             foreach (var mission in _model.Missions)
             {
                 mission.Dictionaries = _commonDictionaries;
-
                 if(mission.Units != null)
                     foreach (var unit in mission.Units)
                     {
                         unit._commonDictionaries = _commonDictionaries;
                     }
+
+                mission.WinReward._dictionaries = _commonDictionaries;
+                if (mission.WinReward.Items != null)
+                    foreach (var item in mission.WinReward.Items)
+                        item._commonDictionaries = _commonDictionaries;
             }
         }
 

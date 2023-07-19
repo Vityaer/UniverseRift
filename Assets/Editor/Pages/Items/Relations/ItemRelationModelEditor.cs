@@ -1,5 +1,6 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
+using Models.Data.Inventories;
 using Models.Items;
 using Sirenix.OdinInspector;
 using System.Linq;
@@ -18,9 +19,6 @@ namespace Pages.Items.Relations
         }
 
         [ShowInInspector]
-        [HorizontalGroup("Item")]
-        [VerticalGroup("Item/Left")]
-        [BoxGroup("Item/Left/Common")]
         [LabelText("Id")]
         [PropertyOrder(1)]
         [LabelWidth(110)]
@@ -31,7 +29,6 @@ namespace Pages.Items.Relations
         }
 
         [ShowInInspector]
-        [HorizontalGroup("3")]
         [LabelText("RequireCount")]
         [PropertyOrder(3)]
         public int RequireCount
@@ -41,7 +38,16 @@ namespace Pages.Items.Relations
         }
 
         [ShowInInspector]
-        [HorizontalGroup("3")]
+        [LabelText("Cost")]
+        [PropertyOrder(3)]
+        [LabelWidth(110)]
+        public ResourceData Cost
+        {
+            get => _model.Cost;
+            set => _model.Cost = value;
+        }
+
+        [ShowInInspector]
         [ListDrawerSettings(ShowItemCount = true, ShowIndexLabels = true, Expanded = true, DraggableItems = false)]
         [LabelText("ItemIngredientName")]
         [PropertyOrder(3)]
@@ -62,7 +68,6 @@ namespace Pages.Items.Relations
         }
 
         [ShowInInspector]
-        [HorizontalGroup("3")]
         [ListDrawerSettings(ShowItemCount = true, ShowIndexLabels = true, Expanded = true, DraggableItems = false)]
         [LabelText("ResultItemName")]
         [PropertyOrder(3)]

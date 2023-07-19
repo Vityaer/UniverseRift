@@ -27,10 +27,11 @@ namespace Fight.FightInterface
 
         private void Open(HexagonCell cell, List<NeighbourCell> neighbours)
         {
+            Debug.Log("open directions");
             PanelDirectionAttack.SetActive(true);
             _currentNeighbours = neighbours;
             PanelDirectionAttack.transform.position = cell.Position;
-            foreach (NeighbourCell neighbour in neighbours)
+            foreach (var neighbour in neighbours)
             {
                 if (neighbour.achievableMove && neighbour.Cell.available)
                 {

@@ -44,7 +44,10 @@ namespace UIController.Cards
         }
 
         public void SetData(GameHero hero)
-        {
+        {   
+            if (Selected)
+                Unselect();
+
             Hero = hero;
             UpdateUI();
             _heroSubscribe = hero.OnChangeData.Subscribe(_ => UpdateUI());

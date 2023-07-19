@@ -1,11 +1,11 @@
 ﻿using City.Buildings.Abstractions;
-using City.Buildings.Tavern;
 using Common.Heroes;
 using Common.Resourses;
 using Models;
 using Models.Heroes;
 using System.Collections.Generic;
-using UIController.Buttons;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using VContainer;
 
@@ -13,6 +13,8 @@ namespace City.Buildings.MagicCircle
 {
     public class MagicCircleController : BaseBuilding<MagicCircleView>
     {
+        private const string DEFAULT_RACE_NAME = "People";
+
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly IObjectResolver _resolver;
 
@@ -22,11 +24,20 @@ namespace City.Buildings.MagicCircle
 
         protected override void OnStart()
         {
+            foreach (var button in View.RaceSelectButtons)
+            {
+                button.Value.OnClickAsObservable().Subscribe(_ => ChangeHireRace(button.Key)).AddTo(Disposables);
+            }
+
+            _resolver.Inject(View.ObserverRaceHireCard);
+
             _resolver.Inject(View.ResourceObjectCostOneHire);
             _resolver.Inject(View.ResourceObjectCostManyHire);
 
             View.OneHire.ChangeCost(RaceHireCost, () => HireHero(1));
             View.ManyHire.ChangeCost(RaceHireCost * 10, () => HireHero(10));
+
+            ChangeHireRace(DEFAULT_RACE_NAME);
         }
 
         public void ChangeHireRace(string stringRace)

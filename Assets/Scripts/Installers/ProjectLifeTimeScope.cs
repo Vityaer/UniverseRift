@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.ClientServices;
 using City.Buildings.TaskGiver;
+using City.Panels.Inventories;
 using ClientServices;
 using Common;
 using Common.Heroes;
@@ -12,6 +13,8 @@ using MessagePipe;
 using Misc.Json;
 using Misc.Json.Impl;
 using Models.Common;
+using UIController.Inventory;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi;
@@ -27,14 +30,12 @@ namespace Installer
             base.Configure(builder);
             ConfigureMessagePipe(builder);
             builder.Register<JsonConverter>(Lifetime.Singleton).As<IJsonConverter>();
-
             builder.Register<CommonDictionaries>(Lifetime.Singleton);
             builder.Register<CommonGameData>(Lifetime.Singleton);
-            builder.Register<ClientRewardService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<ResourceStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<HeroesStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<CommonGameData>(Lifetime.Singleton);
             builder.Register<GameController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<GameTaskProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
 
             builder.RegisterEntryPoint<ProjectInitialize>();
 

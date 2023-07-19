@@ -19,10 +19,11 @@ namespace Common.Inventories.Splinters
         public RaceSplinter race;
         [SerializeField] private int requireAmount;
         [Header("rewards")]
-        public PosibleReward reward = new PosibleReward();
+        public PosibleRewardData reward = new PosibleRewardData();
         public string Rarity;
 
-        public int CountReward => reward.PosibilityObjectRewards.Count;
+        //public int CountReward => reward.PosibilityObjectRewards.Count;
+        public int CountReward => 1;
         public bool IsCanUse => Amount >= RequireAmount;
         public string GetTextType  => typeSplinter.ToString();
         public string GetTextDescription  => string.Empty;
@@ -110,7 +111,7 @@ namespace Common.Inventories.Splinters
             //sprite = hero.General.ImageHero;
             Rarity = hero.General.Rarity;
             Id = hero.General.ViewId;
-            reward = new PosibleReward();
+            reward = new PosibleRewardData();
             //reward.Add<GameHero>(Id);
             requireAmount = CalculateRequire();
         }
@@ -147,16 +148,16 @@ namespace Common.Inventories.Splinters
         {
             HeroModel hero = null;
             int selectNumber = 0;
-            float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
-            for (int i = 0; i < CountReward; i++)
-            {
-                rand -= reward.PosibilityObjectRewards[i].Posibility;
-                if (rand <= 0)
-                {
-                    selectNumber = i;
-                    break;
-                }
-            }
+            //float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
+            //for (int i = 0; i < CountReward; i++)
+            //{
+                //rand -= reward.PosibilityObjectRewards[i].Posibility;
+                //if (rand <= 0)
+                //{
+                    //selectNumber = i;
+                    //break;
+                //}
+            //}
             Debug.Log("selectNumber: " + selectNumber);
             //hero = TavernController.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
             return hero;

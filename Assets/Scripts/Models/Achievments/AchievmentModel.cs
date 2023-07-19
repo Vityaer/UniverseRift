@@ -23,7 +23,7 @@ namespace Models.Achievments
             return Stages[stage].RequireCount;
         }
 
-        public RewardData GetReward(int currentStage)
+        public RewardModel GetReward(int currentStage)
         {
             return Stages[currentStage].Reward;
         }

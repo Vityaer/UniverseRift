@@ -107,13 +107,13 @@ namespace Campaign
                     rewardController.CloseReward();
                     break;
                 case StatusMission.Open:
-                    //rewardController.ShowReward(mission.WinReward);
+                    rewardController.ShowReward(mission.WinReward);
                     rewardController.OpenReward();
                     textBtnGoFight.text = "Вызвать";
                     break;
                 case StatusMission.Complete:
                 case StatusMission.InAutoFight:
-                    //rewardController.ShowAutoReward(mission.AutoFightReward);
+                    rewardController.ShowAutoReward(mission.AutoFightReward);
                     rewardController.OpenReward();
                     textBtnGoFight.text = "Авто";
                     break;

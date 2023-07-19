@@ -50,6 +50,7 @@ namespace Ui.MainMenu
             AddMenuWindow<EventWindow>();
             AddMenuWindow<CityWindow>();
             AddMenuWindow<CampaignWindow>();
+            AddMenuWindow<SecondCityWindow>();
             AddMenuWindow<ArmyWindow>();
 
             OpenPage<CityWindow>(1);

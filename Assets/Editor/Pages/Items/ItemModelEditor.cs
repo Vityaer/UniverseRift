@@ -1,6 +1,7 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
 using Models;
+using Models.Items;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,10 +41,27 @@ namespace Editor.Pages.Items
         [HorizontalGroup("Item")]
         [VerticalGroup("Item/Left")]
         [BoxGroup("Item/Left/Common")]
+        [LabelText("Type")]
+        [PropertyOrder(1)]
+        [LabelWidth(110)]
+        public ItemType Type
+        {
+            get => _model.Type;
+            set => _model.Type = value;
+        }
+
+        [ShowInInspector]
+        [HorizontalGroup("Item")]
+        [VerticalGroup("Item/Left")]
+        [BoxGroup("Item/Left/Common")]
         [LabelText("Bonuses")]
         [PropertyOrder(2)]
         [LabelWidth(110)]
-        public List<Bonus> ListBonuses = new List<Bonus>();
+        public List<Bonus> ListBonuses
+        {
+            get => _model.Bonuses;
+            set => _model.Bonuses = value;
+        }
 
         [ShowInInspector]
         [HorizontalGroup("3")]

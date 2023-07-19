@@ -5,9 +5,12 @@ using Common;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Misc.Json;
 using Models.Common;
 using Models.Common.BigDigits;
 using Models.Data.Rewards;
+using Network.DataServer;
+using Network.DataServer.Messages.Campaigns;
 using Network.GameServer;
 using System;
 using System.Threading;
@@ -29,7 +32,8 @@ namespace Campaign
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly GameController _gameController;
         [Inject] private readonly ClientRewardService _clientRewardService;
-        
+        [Inject] private readonly IJsonConverter _jsonConverter;
+
         private DateTime _previousDateTime;
         private AutoRewardData _autoReward;
         private GameReward _calculatedReward;
@@ -38,6 +42,7 @@ namespace Campaign
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private CompositeDisposable _disposables = new CompositeDisposable();
         private IDisposable _disposable;
+        private int _missionIndex;
 
         public IObservable<BigDigit> ObserverGetHour => _observerGetHour;
 
@@ -45,51 +50,59 @@ namespace Campaign
         {
             _gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(_disposables);
             View.HeapButton.OnClickAsObservable().Subscribe(_ => OnClickHeap()).AddTo(_disposables);
+            OffGoldHeap();
         }
 
         protected override void OnLoadGame()
         {
             _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords.GetRecord(nameof(_previousDateTime), DateTime.Now);
+            if (!_commonGameData.City.MainCampaignSave.DateRecords.CheckRecord(nameof(_previousDateTime)))
+            {
+                _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
+                _gameController.SaveGame();
+            }
         }
 
-        public void SetNewReward(AutoRewardData newAutoReward)
+        public void SetNewReward(AutoRewardData newAutoReward, int missionIndex)
         {
             if (newAutoReward != null)
             {
                 _autoReward = newAutoReward;
+                _missionIndex = missionIndex;
             }
+            CheckSprite();
         }
 
         private void OnClickHeap()
         {
-            CalculateReward();
             if (_autoReward != null)
             {
-                _disposable = _autoFightRewardPanelController.OnClose.Subscribe(_ => GetReward());
-                _autoFightRewardPanelController.Open(_autoReward, _calculatedReward, _previousDateTime);
+                CalculateReward().Forget();
             }
-            OffGoldHeap();
         }
 
         public void GetReward()
         {
             _disposable.Dispose();
-            CalculateReward();
-            //_previousDateTime = Client.Instance.GetServerTime();
             _previousDateTime = DateTime.Now;
             _clientRewardService.AddReward(_calculatedReward);
             _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
             CheckSprite();
+            _gameController.SaveGame();
         }
 
-        private void CalculateReward()
+        private async UniTaskVoid CalculateReward()
         {
-            if (_autoReward != null)
-            {
-                int tact = CalculateCountTact(_previousDateTime);
-                _calculatedReward = _autoReward.GetCaculateReward(tact);
-                _observerGetHour.Execute(new BigDigit(tact / 720f));
-            }
+            var message = new GetAutoFightRewardMessage { PlayerId = _commonGameData.Player.PlayerInfoData.Id, NumMission = _missionIndex };
+            var result = await DataServer.PostData(message);
+
+            var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+            _calculatedReward = new GameReward(rewardModel);
+
+            _disposable = _autoFightRewardPanelController.OnClose.Subscribe(_ => GetReward());
+            _autoFightRewardPanelController.Open(_autoReward, _calculatedReward, _previousDateTime);
+            OffGoldHeap();
+
         }
 
         public int CalculateCountTact(DateTime previousDateTime, int MaxCount = 8640, int lenthTact = 5)
@@ -156,6 +169,7 @@ namespace Campaign
 
         public void Dispose()
         {
+            _tween.Kill();
             _disposables.Dispose();
         }
     }

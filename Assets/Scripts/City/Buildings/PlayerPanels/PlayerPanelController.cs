@@ -10,13 +10,13 @@ namespace City.Buildings.PlayerPanels
 {
     public class PlayerPanelController : UiPanelController<PlayerPanelView>
     {
-        private PlayerInfoData _playerInfo;
+        private PlayerData _playerInfo;
         private GameResource _requireExpForLevel;
         private GameResource _currentExp;
         private ReactiveCommand<BigDigit> _onLevelUp;
 
         public IObservable<BigDigit> OnLevelUp => _onLevelUp;
-        public PlayerInfoData PlayerInfoData => _playerInfo;
+        public PlayerData PlayerInfoData => _playerInfo;
 
         protected override void OnLoadGame()
         {

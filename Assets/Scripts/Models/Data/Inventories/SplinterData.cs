@@ -1,8 +1,9 @@
-﻿using Common.Inventories.Splinters;
+﻿using Common;
+using Common.Inventories.Splinters;
 
 namespace Models.Data.Inventories
 {
-    public class SplinterData : BaseDataModel
+    public class SplinterData : InventoryBaseItem
     {
         public string Id;
         public int Amount;
@@ -13,6 +14,11 @@ namespace Models.Data.Inventories
         {
             Id = splinter.Id;
             Amount = splinter.Amount;
+        }
+
+        public override BaseObject CreateGameObject()
+        {
+            return new GameSplinter(Id, Amount);
         }
     }
 }

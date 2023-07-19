@@ -13,12 +13,14 @@ using VContainer;
 using VContainerUi.Services;
 using UIController.Inventory;
 using City.Buildings.Requirement;
+using System;
 
 namespace MainPages.MenuHud
 {
     public class CityUiController : UiController<CityUiView>, IInitializable
     {
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
+        [Inject] private readonly InventoryController _inventoryController;
 
         private CompositeDisposable Disposables = new CompositeDisposable();
 
@@ -26,10 +28,11 @@ namespace MainPages.MenuHud
         {
             OpenPanelOnClick<FriendsController>(View.FriendlistButton);
             OpenPanelOnClick<MailController>(View.MailButton);
-            OpenPanelOnClick<InventoryController>(View.InventoryButton);
             OpenPanelOnClick<DailyRewardPanelController>(View.DailyRewardButton);
             OpenPanelOnClick<DailyTaskPanelController>(View.DailyTaskButton);
             OpenPanelOnClick<AchievmentsPageController>(View.AchievmentsButton);
+
+            View.InventoryButton.OnClickAsObservable().Subscribe(_ => OpenAllInventory()).AddTo(Disposables);
         }
 
         private void OpenPanelOnClick<T>(Button button) where T : IPopUp
@@ -40,6 +43,11 @@ namespace MainPages.MenuHud
         private void OpenBuilding<T>() where T : IPopUp
         {
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Additive);
+        }
+
+        private void OpenAllInventory()
+        {
+            _inventoryController.ShowAll();
         }
     }
 

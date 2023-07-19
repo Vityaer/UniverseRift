@@ -1,11 +1,16 @@
 ﻿using Cysharp.Threading.Tasks;
 using Misc.Json;
+using Misc.Json.Impl;
 using Models;
+using Models.Common;
+using Network.DataServer;
+using Network.DataServer.Jsons;
 using Network.Misc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using UniRx;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,6 +21,8 @@ namespace Utils
         //TODO: Подумать как обойтись без статики
         public static ReactiveCommand<FileLoadingProgress> DownloadProgress = new ReactiveCommand<FileLoadingProgress>();
         private static FileLoadingProgress fileProgress = new FileLoadingProgress(0);
+
+        private const string MAIN_URL = "https://localhost:7065/";
 
         public static string GetTextFromLocalStorage<T>()
         {
@@ -88,13 +95,15 @@ namespace Utils
             fileProgress.SetNameFile(modelType);
             var url = $"{Constants.Common.GAME_DATA_SERVER_ADDRESS}{modelType}.json";
             var progress = Progress.CreateOnlyValueChanged<float>(f => ReportProgress(f));
-            var op = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
-            return op.downloadHandler.text;
+            var asyncRequest = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
+            return asyncRequest.downloadHandler.text;
         }
 
         public static Dictionary<string, T> FillDictionary<T>(string jsonData, IJsonConverter converter)
             where T : BaseModel
         {
+            Save<T>(jsonData);
+            jsonData = GetTextFromLocalStorage<T>();
             var fromJson = converter.FromJson<List<T>>(jsonData);
             var result = new Dictionary<string, T>();
 

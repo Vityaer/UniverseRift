@@ -1,24 +1,22 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Db.CommonDictionaries;
+using Fight.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
-using Models.Heroes.Evolutions;
 using Models.Heroes.HeroCharacteristics;
-using System;
 using UniRx;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace Hero
 {
     [System.Serializable]
-    public partial class GameHero
+    public class GameHero
     {
         private HeroModel _model;
         private HeroData _heroData;
         private HeroController _prefab;
 
         public ReactiveCommand OnChangeData => new ReactiveCommand();
-        public GameCostumeHero Costume;
+        public GameCostumeHero Costume = new GameCostumeHero();
 
         public Sprite Avatar => _prefab.GetSprite;
         public HeroModel Model => _model;
@@ -26,11 +24,11 @@ namespace Hero
         public HeroData HeroData => _heroData;
         public BaseCharacteristicModel GetBaseCharacteristic => _model.Characteristics.Main;
         public float MaxHP => _model.Characteristics.HP;
-        public int Strength => Mathf.RoundToInt(_model.Characteristics.HP / 6 + _model.Characteristics.Damage);
-        
+        public int Strength => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.HP) / 6 + GetCharacteristic(TypeCharacteristic.Damage));
+
         public GameHero(HeroModel hero, HeroData data)
         {
-            _model = hero;
+            _model = hero.Clone();
             _heroData = data;
             _prefab = Resources.Load<HeroController>($"{Constants.ResourcesPath.HEROES_PATH}{_heroData.HeroId}");
             PrepareHero();
@@ -54,6 +52,12 @@ namespace Hero
             }
 
             OnChangeData.Execute();
+        }
+
+        public HeroData GetSaveData()
+        {
+            _heroData.Costume = new CostumeData(Costume);
+            return _heroData;
         }
 
         private void PrepareCharacts(HeroModel hero)
@@ -108,7 +112,7 @@ namespace Hero
                     result += _model.Characteristics.Main.Defense;
                     break;
             }
-            //result += CostumeHero.GetBonus(typeBonus);
+            result += Costume.GetBonus(typeBonus);
             return result;
         }
 

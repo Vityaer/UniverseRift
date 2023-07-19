@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Fight.HeroControllers.Generals
 {
-    public partial class HeroController : MonoBehaviour
+    public partial class HeroController : MonoBehaviour, IDisposable
     {
         //Animations
         private const string ANIMATION_ATTACK = "Attack",
@@ -18,7 +18,7 @@ namespace Fight.HeroControllers.Generals
                              ANIMATION_SPELL = "Spell";
         [SerializeField] bool flagAnimFinish = false;
         Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
-        Tween sequenceAnimation;
+        private Tween _sequenceAnimation;
 
         protected void PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true)
         {
@@ -68,11 +68,10 @@ namespace Fight.HeroControllers.Generals
 
         protected void DefaultAnimAttack(HeroController enemy)
         {
-            Debug.Log("default anim attack");
-            sequenceAnimation?.Kill();
+            _sequenceAnimation?.Kill();
             Vector3 rotateAttack = Vector3.zero;
             rotateAttack = new Vector3(0, 0, isFacingRight ? 45 : -45);
-            sequenceAnimation = DOTween.Sequence()
+            _sequenceAnimation = DOTween.Sequence()
                         .Append(Self.DORotate(rotateAttack, 0.25f))
                         .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
         }
@@ -93,22 +92,27 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimGetDamage(Strike strike)
         {
-            sequenceAnimation?.Kill();
+            _sequenceAnimation?.Kill();
 
             var attackFromLeft = NeedFlip(FightController.GetCurrentHero());
 
             var rotateGiveDamage = new Vector3(0, 0, attackFromLeft ? -45 : 45);
 
-            sequenceAnimation = DOTween.Sequence().Append(Self.DORotate(rotateGiveDamage, 0.25f))
+            _sequenceAnimation = DOTween.Sequence().Append(Self.DORotate(rotateGiveDamage, 0.25f))
                     .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { FinishAnimation(); }));
         }
 
         private void DefaultAnimDeath()
         {
             isDeath = true;
-            sequenceAnimation?.Kill();
-            sequenceAnimation = DOTween.Sequence()
+            _sequenceAnimation?.Kill();
+            _sequenceAnimation = DOTween.Sequence()
                 .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
+        }
+
+        public void Dispose()
+        {
+            _sequenceAnimation?.Kill();
         }
     }
 }

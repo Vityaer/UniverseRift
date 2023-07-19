@@ -1,10 +1,7 @@
-﻿using Common.Resourses;
-using Common.Rewards;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
 using Models.Common;
 using System;
-using System.Linq;
-using UIController.Rewards;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -14,6 +11,7 @@ namespace Common
     public class GameController : IStartable, IDisposable
     {
         [Inject] private readonly CommonGameData _сommonGameData;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         public ReactiveCommand OnLoadedGameData = new ReactiveCommand();
         public ReactiveCommand OnGameSave = new ReactiveCommand();
@@ -26,7 +24,7 @@ namespace Common
         private async UniTaskVoid WaitGameDataInit()
         {
             _сommonGameData.Init();
-            await UniTask.WaitUntil(() => _сommonGameData.IsInited);
+            await UniTask.WaitUntil(() => _сommonGameData.IsInited && _commonDictionaries.Inited);
             OnloadGame();
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Models.Items
 {
-    public enum ItemType
+    public enum ItemType : byte
     {
         Weapon = 0,
         Armor = 1,

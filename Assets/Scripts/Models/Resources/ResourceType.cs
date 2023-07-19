@@ -1,6 +1,6 @@
 ﻿namespace Common.Resourses
 {
-    public enum ResourceType
+    public enum ResourceType : byte
     {
         Gold = 0,
         Diamond = 1,

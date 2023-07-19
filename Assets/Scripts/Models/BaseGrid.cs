@@ -13,12 +13,7 @@ namespace Models.Grid
 
         public List<HexagonCell> Cells => _cells;
 
-        private void Start()
-        {
-            FindNeighbours();
-        }
-
-        private void FindAllCell()
+        public void FindAllCell()
         {
             _cells.Clear();
             var components = GetComponentsInChildren<HexagonCell>();

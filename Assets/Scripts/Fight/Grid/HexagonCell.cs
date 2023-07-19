@@ -59,7 +59,6 @@ namespace Fight.Grid
 
         public void SetData(GridController gridController)
         {
-            Debug.Log("set data");
             _gridController = gridController;
 
         }
@@ -121,7 +120,7 @@ namespace Fight.Grid
 
         private void ShowDirectionsAttack()
         {
-            //FightDirectionView.Instance.melleeAttackController.RegisterOnSelectDirection(SelectDirection, this, GetAvailableNeighbours);
+            _gridController.ShowAttackDirections(SelectDirection, this, GetAvailableNeighbours);
         }
 
         private void SelectDirection(CellDirectionType direction)
@@ -233,7 +232,6 @@ namespace Fight.Grid
 
         public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Ground, int step = 1)
         {
-            Debug.Log("FindWay");
             if (available && (availableMove || previousCell == null || this == target))
             {
                 if (step < _dist)

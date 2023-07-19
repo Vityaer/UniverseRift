@@ -10,10 +10,10 @@ namespace City.Panels.PosibleArtifacts
     {
         public List<ArtifactWithPercent> cardsWithPercent = new List<ArtifactWithPercent>();
 
-        public void SetData(PosibleReward rewardInfo)
+        public void SetData(PosibleRewardData rewardInfo)
         {
-            CheckCountAvailableCard(rewardInfo.PosibilityObjectRewards.Count);
-            FillData(rewardInfo);
+            //CheckCountAvailableCard(rewardInfo.PosibilityObjectRewards.Count);
+            //FillData(rewardInfo);
         }
 
         private void CheckCountAvailableCard(int requireCount)
@@ -23,17 +23,17 @@ namespace City.Panels.PosibleArtifacts
                     cardsWithPercent.Add(Object.Instantiate(View.Prefab, View.Content));
         }
 
-        private void FillData(PosibleReward rewardInfo)
+        private void FillData(PosibleRewardData rewardInfo)
         {
-            for (int i = 0; i < rewardInfo.PosibilityObjectRewards.Count; i++)
-            {
-                cardsWithPercent[i].SetData(rewardInfo.PosibilityObjectRewards[i].ModelId, rewardInfo.PosibleNumObject(i));
-            }
+            //for (int i = 0; i < rewardInfo.PosibilityObjectRewards.Count; i++)
+            //{
+            //    cardsWithPercent[i].SetData(rewardInfo.PosibilityObjectRewards[i].ModelId, rewardInfo.PosibleNumObject(i));
+            //}
 
-            for (int i = rewardInfo.PosibilityObjectRewards.Count; i < cardsWithPercent.Count; i++)
-            {
-                cardsWithPercent[i].Hide();
-            }
+            //for (int i = rewardInfo.PosibilityObjectRewards.Count; i < cardsWithPercent.Count; i++)
+            //{
+            //    cardsWithPercent[i].Hide();
+            //}
         }
     }
 }

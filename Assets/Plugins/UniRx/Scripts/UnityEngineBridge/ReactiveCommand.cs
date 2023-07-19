@@ -52,6 +52,11 @@ namespace UniRx
         {
             ForceExecute(Unit.Default);
         }
+
+        public object Subscribe(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ReactiveCommand<T> : IReactiveCommand<T>, IDisposable

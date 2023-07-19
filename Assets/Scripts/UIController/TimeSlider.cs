@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UIController
 {
-    public class TimeSlider : MonoBehaviour
+    public class TimeSlider : MonoBehaviour, IDisposable
     {
         [SerializeField] private Slider slider;
         [SerializeField] private Image fillImage;
@@ -44,6 +44,7 @@ namespace UIController
 
         public void SetMaxValue(float maxValue)
         {
+            Debug.Log($"set max health {maxValue}");
             if (gameObject.activeSelf == false) gameObject.SetActive(true);
             this.MaxValue = maxValue;
             ChangeValue(this.MaxValue);
@@ -65,5 +66,10 @@ namespace UIController
         public void RegisterOnFillSliderInMax(Action d) { _observerMaxFill += d; }
         public void UnregisterOnFillSliderInMax(Action d) { _observerMaxFill -= d; }
         private void OnFillMaxSlider() { if (_observerMaxFill != null) _observerMaxFill(); }
+
+        public void Dispose()
+        {
+            _sequenceChangeValue.Kill();
+        }
     }
 }

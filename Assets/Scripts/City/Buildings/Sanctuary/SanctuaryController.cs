@@ -82,8 +82,8 @@ namespace City.Buildings.Sanctuary
 
         protected override void OpenPage()
         {
-            LoadListHeroes();
-            ListHeroesController.EventOpen();
+            //LoadListHeroes();
+            //ListHeroesController.EventOpen();
             //_disposable = ListHeroesController.OnSelect.Subscribe(SelectHero);
         }
 
@@ -92,7 +92,7 @@ namespace City.Buildings.Sanctuary
             View.SaveButton.gameObject.SetActive(false);
             _selectedCard = null;
             _disposable.Dispose();
-            ListHeroesController.EventClose();
+            //ListHeroesController.EventClose();
         }
 
         public void Disposable()

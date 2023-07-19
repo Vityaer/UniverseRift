@@ -28,7 +28,7 @@ namespace City.Buildings.CityButtons.EventAgent
 
         private int _currentProgress = 0;
         private int _sumReward = 0;
-        private List<RewardData> listRewards;
+        private List<RewardModel> listRewards;
         private List<int> idReceivedReward = new List<int>(REWARD_COUNT);
         private List<DailyTaskRewardView> _rewardsUi = new List<DailyTaskRewardView>(REWARD_COUNT);
         private SimpleBuildingData progressObjectSave;

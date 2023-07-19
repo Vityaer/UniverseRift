@@ -33,10 +33,6 @@ namespace UIController
                     _stars[i].SetActive(true);
                 this._rating = rating;
             }
-            else
-            {
-                Debug.Log(gameObject.name);
-            }
         }
 
         public void Hide()

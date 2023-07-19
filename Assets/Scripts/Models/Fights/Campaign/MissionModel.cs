@@ -17,7 +17,7 @@ namespace Models.Fights.Campaign
         NumberOfItemsPerPage = 20,
         CustomRemoveElementFunction = nameof(RemoveHero), CustomAddFunction = nameof(AddHero))]
         public List<HeroData> Units = new List<HeroData>();
-        public RewardData WinReward;
+        public RewardModel WinReward;
 
         public MissionModel() { }
 

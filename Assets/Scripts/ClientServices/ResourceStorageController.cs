@@ -1,9 +1,10 @@
 ﻿using Common;
 using Common.Resourses;
 using Models.Common;
-using Models.Data;
+using Models.Data.Inventories;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UniRx;
 using VContainer;
@@ -27,7 +28,7 @@ namespace Assets.Scripts.ClientServices
 
         private void OnLoadGame()
         {
-            var resourcesDatas = _commonGameData.Player.Resources;
+            var resourcesDatas = _commonGameData.Resources;
             foreach (var typeResource in (ResourceType[])Enum.GetValues(typeof(ResourceType)))
             {
                 GameResource resource;

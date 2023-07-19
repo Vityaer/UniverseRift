@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Fight.Comparers;
 using Fight.Factories;
+using Fight.FightInterface;
 using Fight.Grid;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
@@ -25,6 +26,7 @@ namespace Fight
         [Inject] private readonly HeroFactory _heroFactory;
         [Inject] private readonly GridController _gridController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
+        [Inject] private readonly FightDirectionController _fightDirectionController;
 
         private const int MAX_ROUND_COUNT = 15;
         private const int TICK_DELAY = 750;
@@ -149,7 +151,7 @@ namespace Fight
             _round++;
             View.NumRoundText.text = $"Round {_round}";
             OnEndRound.Execute();
-
+            _fightDirectionController.ClearData();
             if (_round == MAX_ROUND_COUNT)
             {
                 Win(Side.Right);
@@ -206,6 +208,8 @@ namespace Fight
         {
             _isFightFinish = true;
             OnFinishFight.Execute();
+            _fightDirectionController.CloseControllers();
+            FinishFightCountdown(side).Forget();
 
             if (side == Side.Left)
             {
@@ -218,19 +222,18 @@ namespace Fight
                 _onFightResult.Execute(FightResultType.Defeat);
             }
 
-            FinishFightCountdown(side).Forget();
 
         }
 
         private async UniTaskVoid FinishFightCountdown(Side side)
         {
+            Debug.Log("finish fight");
             View.NumRoundText.text = "Конец боя!";
 
             if (side == Side.Right) CheckSaveResult();
             await UniTask.Delay(2500);
 
             var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
-            //_mission.OnFinishFight(fightResult);
             OnFinishFight.Execute();
             View.NumRoundText.text = string.Empty;
             _messagesPublisher.BackWindowPublisher.BackWindow();

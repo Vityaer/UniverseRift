@@ -8,6 +8,6 @@ namespace City.Acievements
     public class AchievmentStageModel
     {
         public BigDigit RequireCount;
-        public RewardData Reward;
+        public RewardModel Reward;
     }
 }

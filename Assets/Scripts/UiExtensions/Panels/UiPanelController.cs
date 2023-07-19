@@ -1,10 +1,9 @@
 ﻿using Common;
-using Newtonsoft.Json;
 using System;
-using System.IO;
+using System.Diagnostics;
 using Ui.Misc.Widgets;
 using UniRx;
-using Utils;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -32,8 +31,15 @@ namespace UiExtensions.Scroll.Interfaces
             View.DimedButton?.OnClickAsObservable().Subscribe(_ => Close()).AddTo(Disposables);
         }
 
+        public override void OnShow()
+        {
+            UnityEngine.Debug.Log($"show {View.gameObject.name}");
+            base.OnShow();
+        }
+
         protected virtual void Close()
         {
+            UnityEngine.Debug.Log($"close {View.gameObject.name}");
             _messagesPublisher.BackWindowPublisher.BackWindow();
         }
 

@@ -1,4 +1,5 @@
-﻿using City.Buildings.Abstractions;
+﻿using Assets.Scripts.ClientServices;
+using City.Buildings.Abstractions;
 using Common;
 using Common.Heroes;
 using Common.Resourses;
@@ -9,7 +10,6 @@ using IdleGame.AdvancedObservers;
 using Misc.Json;
 using Models;
 using Models.Common.BigDigits;
-using Models.Heroes;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
@@ -26,7 +26,7 @@ namespace City.Buildings.Tavern
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly IObjectResolver _resolver;
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
 
         private GameResource _simpleHireCost = new GameResource(ResourceType.SimpleHireCard, 1, 0);
         private GameResource _specialHireCost = new GameResource(ResourceType.SpecialHireCard, 1, 0);
@@ -55,29 +55,28 @@ namespace City.Buildings.Tavern
 
         public void SelectHire<T>(GameResource costOneHire, ReactiveCommand<BigDigit> onHireHeroes) where T : AbstractHireMessage, new()
         {
-            View.CostOneHireController.ChangeCost(costOneHire, () => HireHero<T>(1, onHireHeroes).Forget());
-            View.CostManyHireController.ChangeCost(costOneHire * 10, () => HireHero<T>(10, onHireHeroes).Forget());
+            View.CostOneHireController.ChangeCost(costOneHire, () => HireHero<T>(1, onHireHeroes, costOneHire).Forget());
+            View.CostManyHireController.ChangeCost(costOneHire * 10, () => HireHero<T>(10, onHireHeroes, costOneHire * 10).Forget());
         }
 
-        private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes) where T : AbstractHireMessage, new()
+        private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes, GameResource cost) where T : AbstractHireMessage, new()
         {
-            Debug.Log("start hire hero");
             var message = new T { PlayerId = CommonGameData.Player.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
-            Debug.Log(result);
             var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
-
+            
             for (int i = 0; i < newHeroes.Count; i++)
             {
-                Debug.Log($"{newHeroes[i]}");
+                Debug.Log($"{newHeroes[i].Id}");
                 var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
                 var hero = new GameHero(model, newHeroes[i]);
                 OnHireHeroes(hero);
                 hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
                 AddNewHero(hero);
             }
-
+            _resourceStorageController.SubtractResource(cost);
             onHireHeroes.Execute(new BigDigit(count));
+            GameController.SaveGame();
         }
 
         private void AddNewHero(GameHero hero)

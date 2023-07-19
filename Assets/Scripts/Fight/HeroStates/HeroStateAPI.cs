@@ -1,7 +1,6 @@
 ﻿using Fight.HeroControllers.Generals;
 using System;
 using UIController;
-using UIController.FightUI;
 using UnityEngine;
 using VContainer;
 using UniRx;
@@ -12,10 +11,10 @@ namespace Fight.HeroStates
     {
         private FightController _fightController;
 
+        [SerializeField] private HeroController heroController;
         public TimeSlider sliderHP;
         public TimeSlider sliderStamina;
         private Vector2 delta = new Vector2(0, 30);
-        private HeroController heroController;
         private Action<int> observerStamina;
         private int stamina = 25;
         // private GameObject panelStatus;
@@ -40,22 +39,22 @@ namespace Fight.HeroStates
         {
             if (HP < currentHP)
             {
-                PoolFightTexts.Instance.ShowDamage(currentHP - HP, gameObject.transform.position);
+                //PoolFightTexts.Instance.ShowDamage(currentHP - HP, gameObject.transform.position);
             }
             else
             {
-                PoolFightTexts.Instance.ShowHeal(HP - currentHP, gameObject.transform.position);
+                //PoolFightTexts.Instance.ShowHeal(HP - currentHP, gameObject.transform.position);
             }
 
             currentHP = HP;
             sliderHP.ChangeValue(HP);
             if ((HP / sliderHP.MaxValue < 0.5f) && (HP / sliderHP.MaxValue > 0.3f))
             {
-                heroController.OnHPLess50();
+                //heroController.OnHPLess50();
             }
             else if (HP / sliderHP.MaxValue < 0.3f)
             {
-                heroController.OnHPLess30();
+                //heroController.OnHPLess30();
             }
         }
 

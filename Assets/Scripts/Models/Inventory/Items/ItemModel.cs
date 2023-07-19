@@ -9,7 +9,12 @@ namespace Models
     {
         public ItemType Type;
         public string SetName;
-        public List<Bonus> Bonuses;
+        public List<Bonus> Bonuses = new List<Bonus>();
         public string Rating;
+
+        public ItemModel()
+        {
+            Bonuses = new List<Bonus>();
+        }
     }
 }

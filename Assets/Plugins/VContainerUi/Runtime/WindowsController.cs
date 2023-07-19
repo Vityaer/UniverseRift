@@ -25,7 +25,6 @@ namespace VContainerUi
         private readonly Stack<IBaseUiController> _windowsStack = new Stack<IBaseUiController>();
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private readonly UiScope _scope;
-        //private readonly Canvas _canvas;
 
         private IBaseUiController _window;
 
@@ -36,7 +35,6 @@ namespace VContainerUi
             IUiMessagesReceiverService uiMessagesReceiver,
             IUiMessagesPublisherService uiMessagesPublisher,
             UiScope scope
-            //Canvas canvas
         )
         {
             _container = container;
@@ -45,7 +43,6 @@ namespace VContainerUi
             _uiMessagesReceiver = uiMessagesReceiver;
             _uiMessagesPublisher = uiMessagesPublisher;
             _scope = scope;
-            //_canvas = canvas;
         }
 
         public void Initialize()
@@ -71,8 +68,6 @@ namespace VContainerUi
 
         public void Dispose()
         {
-            //if (_canvas != null)
-            //    Object.Destroy(_canvas.gameObject);
             _disposables.Dispose();
         }
 
@@ -84,6 +79,7 @@ namespace VContainerUi
             else
                 window = _windows.First(f => f.Name == message.Name);
             Open(window, message.OpenType);
+            Debug.Log($"opened: {_windowsStack.Count}");
         }
 
         private void Open(IBaseUiController window, OpenType openType)
@@ -94,7 +90,7 @@ namespace VContainerUi
                 var previousWindows = GetPreviouslyOpenedWindows();
                 foreach (var openedWindow in previousWindows)
                 {
-                    openedWindow.SetState(UiControllerState.NotActiveNotFocus);
+                    openedWindow.SetState(UiControllerState.NotActiveNotFocus, openType);
                 }
             }
 
@@ -112,10 +108,9 @@ namespace VContainerUi
                 return;
 
             var exclusive = _windowState.CurrentWindow.OpenedType == OpenType.Exclusive;
-
+            Debug.Log($"exclusive: {exclusive}");
             CloseWindow();
-
-            if(exclusive)
+            if (exclusive)
                 OpenPreviousWindows();
         }
 
@@ -123,22 +118,22 @@ namespace VContainerUi
         {
             var currentWindow = _windowsStack.Pop();
             currentWindow.Back();
+            Debug.Log($"close, list: {_windowsStack.Count}");
         }
 
         private void OpenPreviousWindows()
         {
             if (_windowsStack.Count == 0)
                 return;
-
             var previousWindows = GetPreviouslyOpenedWindows();
 
             foreach (var openedWindow in previousWindows)
             {
-                openedWindow.SetState(UiControllerState.IsActiveAndFocus);
+                openedWindow.SetState(UiControllerState.IsActiveAndFocus, openedWindow.OpenedType);
             }
 
             _windowState.CurrentWindow = previousWindows[previousWindows.Count - 1];
-           
+
             var firstWindow = GetFirstWindow();
             var isFirstPopUp = false;
             ActiveAndFocus(firstWindow, isFirstPopUp);

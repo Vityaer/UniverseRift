@@ -1,33 +1,82 @@
-﻿using City.TrainCamp;
-using Db.CommonDictionaries;
+﻿using City.Panels.SubjectPanels;
+using City.TrainCamp;
 using Models.Items;
-using Sirenix.OdinInspector;
-using System.Linq;
+using System;
 using UIController.Inventory;
+using UniRx;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
 namespace UIController.ItemVisual
 {
-    public class HeroItemCellController : MonoBehaviour
+    public class HeroItemCellController : MonoBehaviour, IDisposable
     {
         [Inject] private InventoryController _inventoryController;
+        [Inject] private ItemPanelController _itemPanelController;
         [Inject] private PageArmyController _trainCamp;
         [Inject] private HeroPanelController _heroPanelController;
 
-        private ItemType _cellType;
 
+        [SerializeField] private ItemType _cellType;
         [SerializeField] private Sprite _defaultSprite;
         [SerializeField] private Image _image;
         [SerializeField] private RatingHero _ratingController;
+        [SerializeField] private Button _button;
 
+        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _tempDisposables = new CompositeDisposable();
         private GameItem _item;
         public ItemType CellType => _cellType;
 
         void Start()
         {
-            DefaulfView();
+            _button.OnClickAsObservable().Subscribe(_ => ClickOnCell()).AddTo(_disposables);
+        }
+
+        private void ClickOnCell()
+        {
+            if (_item != null)
+            {
+                _itemPanelController.Open(_item, this, true);
+                _itemPanelController.OnAction.Subscribe(item => TakeOff()).AddTo(_tempDisposables);
+                _itemPanelController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
+            }
+            else
+            {
+                _inventoryController.Open(_cellType, this);
+                _inventoryController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem)).AddTo(_tempDisposables);
+                _inventoryController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
+            }
+        }
+
+        private void TakeOff()
+        {
+            _trainCamp.ReturnSelectHero().Costume.TakeOff(_item);
+            _inventoryController.Add(_item);
+            Clear();
+            _heroPanelController.UpdateTextAboutHero();
+        }
+
+        public void SetData(GameItem newItem)
+        {
+            _item = newItem;
+            if (_item != null)
+            {
+                SetBonus();
+                UpdateUI();
+            }
+            else
+            {
+                DefaulfView();
+            }
+        }
+
+        private void ClearSubscribe()
+        {
+            _tempDisposables.Dispose();
+            _tempDisposables = new CompositeDisposable();
         }
 
         public void DefaulfView()
@@ -40,53 +89,42 @@ namespace UIController.ItemVisual
         {
             _trainCamp.ReturnSelectHero().Costume.TakeOn(_item);
             _heroPanelController.UpdateTextAboutHero();
-            UpdateUI();
         }
 
         private void UpdateUI()
         {
             _image.sprite = _item.Image;
-            _image.color = new Color(255, 255, 255, 1);
             //ratingController?.ShowRating(item.Rating);
         }
-        //API
+
         public void Clear()
         {
+            if (_item == null)
+                return;
+
             _item = null;
             DefaulfView();
         }
 
         public void SetItem(GameItem newItem)
         {
+            ClearSubscribe();
+
             if (_item != null)
             {
                 _inventoryController.Add(_item);
-                //_trainCamp.TakeOff(_item);
                 _heroPanelController.UpdateTextAboutHero();
             }
 
             _item = newItem;
-
-            if (_item != null)
-            {
-                SetBonus();
-            }
-            else
-            {
-                DefaulfView();
-            }
+            var item = new GameItem(newItem.Model, 1);
+            _inventoryController.Remove(item);
+            SetData(item);
         }
 
-        public void ClickOnCell()
+        public void Dispose()
         {
-            if (_item != null)
-            {
-                _inventoryController.OpenInfoItem(_item, _cellType, this);
-            }
-            else
-            {
-                _inventoryController.Open(_cellType, this);
-            }
+            _disposables.Dispose();
         }
     }
 }
