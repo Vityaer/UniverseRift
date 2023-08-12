@@ -28,6 +28,9 @@ namespace City.Panels.SelectHeroes
 
         public void ShowCards(List<GameHero> heroes)
         {
+            if (heroes == null)
+                return;
+
             CheckCountCards(heroes.Count);
 
             for(var i = 0; i < heroes.Count; i++)

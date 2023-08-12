@@ -29,6 +29,8 @@ namespace City.Buildings.Tower
 
         public override void SetData(MissionModel data, ScrollRect scrollRect)
         {
+            Scroll = scrollRect;
+            mission = data;
         }
 
         public void SetData(MissionModel mission, int numMission, bool canOpenMission = false)

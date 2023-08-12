@@ -2,6 +2,7 @@ using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
+using Editor.Pages.Buildings.TaskBoards;
 using Editor.Pages.Campaigns;
 using Editor.Pages.City.Mines;
 using Editor.Pages.Heroes;
@@ -16,6 +17,7 @@ using Editor.Pages.Splinters;
 using Editor.Units;
 using Misc.Json.Impl;
 using Pages.Buildings.Forge;
+using Pages.Buildings.FortuneWheels;
 using Pages.City.ChallengeTower;
 using Pages.Heroes.CostLevelUp;
 using Pages.Heroes.Vocation;
@@ -52,7 +54,8 @@ namespace Editor.Windows
         private CostLevelUpContainerPageEditor _costLevelUpContainerPageEditor;
         private ForgePageEditor _forgePageEditor;
         private RewardPageEditor _rewardPageEditor;
-        
+        private GameTaskEditor _gameTaskModelEditor;
+        private FortuneRewardEditor _fortuneRewardEditor;
 
         private OdinMenuTree _tree;
 
@@ -109,7 +112,8 @@ namespace Editor.Windows
             _tree.Add("Mall/Products", _productPageEditor);
             _tree.Add("City/Mines", _minePageEditor);
             _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
-            
+            _tree.Add("Taskboard/Task Editor", _gameTaskModelEditor);
+            _tree.Add("FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
 
@@ -174,6 +178,11 @@ namespace Editor.Windows
             _rewardPageEditor = new RewardPageEditor(_dictionaries);
             _allPages.Add(_rewardPageEditor);
 
+            _gameTaskModelEditor = new GameTaskEditor(_dictionaries);
+            _allPages.Add(_gameTaskModelEditor);
+
+            _fortuneRewardEditor = new FortuneRewardEditor(_dictionaries);
+            _allPages.Add(_fortuneRewardEditor);
             //_forgePageEditor = new ForgePageEditor(_dictionaries);
             //_allPages.Add(_forgePageEditor);
 

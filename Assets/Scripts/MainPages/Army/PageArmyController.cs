@@ -86,7 +86,7 @@ namespace UIController
 
         private void OpenHeroPanel()
         {
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroPanelController>(openType: OpenType.Additive);
+            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroPanelController>(openType: OpenType.Exclusive);
         }
 
         public GameHero ReturnSelectHero()

@@ -59,7 +59,6 @@ namespace Campaign
             if (!_commonGameData.City.MainCampaignSave.DateRecords.CheckRecord(nameof(_previousDateTime)))
             {
                 _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
-                _gameController.SaveGame();
             }
         }
 
@@ -88,12 +87,11 @@ namespace Campaign
             _clientRewardService.AddReward(_calculatedReward);
             _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
             CheckSprite();
-            _gameController.SaveGame();
         }
 
         private async UniTaskVoid CalculateReward()
         {
-            var message = new GetAutoFightRewardMessage { PlayerId = _commonGameData.Player.PlayerInfoData.Id, NumMission = _missionIndex };
+            var message = new GetAutoFightRewardMessage { PlayerId = _commonGameData.PlayerInfoData.Id, NumMission = _missionIndex };
             var result = await DataServer.PostData(message);
 
             var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
@@ -102,7 +100,6 @@ namespace Campaign
             _disposable = _autoFightRewardPanelController.OnClose.Subscribe(_ => GetReward());
             _autoFightRewardPanelController.Open(_autoReward, _calculatedReward, _previousDateTime);
             OffGoldHeap();
-
         }
 
         public int CalculateCountTact(DateTime previousDateTime, int MaxCount = 8640, int lenthTact = 5)

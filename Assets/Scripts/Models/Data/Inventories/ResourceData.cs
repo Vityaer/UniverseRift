@@ -4,6 +4,7 @@ using Models.Common.BigDigits;
 
 namespace Models.Data.Inventories
 {
+    [System.Serializable]
     public class ResourceData : InventoryBaseItem
     {
         public ResourceType Type;

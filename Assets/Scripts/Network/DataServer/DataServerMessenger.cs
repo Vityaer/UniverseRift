@@ -9,7 +9,7 @@ namespace Network.DataServer
 {
     public class DataServer
     {
-        public static ReactiveCommand<string> OnError = new ReactiveCommand<string>();
+        //public static ReactiveCommand<string> OnError = new ReactiveCommand<string>();
 
         public static async UniTask<string> PostData<T>(T message) where T : INetworkMessage
         {
@@ -22,7 +22,7 @@ namespace Network.DataServer
             if (!string.IsNullOrEmpty(answer.Error))
             {
                 Debug.LogError($"Server error: {answer.Error}");
-                OnError.Execute(answer.Error);
+                //OnError.Execute(answer.Error);
             }
 
             return answer.Result;

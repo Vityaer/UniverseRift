@@ -23,18 +23,15 @@ namespace Editor.Pages.Mall.Market
         public override void Init()
         {
             base.Init();
-            Markets = _markets.Select(f => new MarketModelEditor(f)).ToList();
+            Markets = _markets.Select(f => new MarketModelEditor(f, _dictionaries)).ToList();
             DataExist = true;
         }
 
         public override void Save()
         {
-            var units = Markets.Select(r => new MarketModel
-            {
-                Id = r.Id
-            }).ToList();
+            var markets = Markets.Select(r => r.GetModel()).ToList();
 
-            EditorUtils.Save(units);
+            EditorUtils.Save(markets);
             base.Save();
         }
 
@@ -42,14 +39,14 @@ namespace Editor.Pages.Mall.Market
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            _dictionaries.Markets.Add(id, new MarketModel() { Id = id });
-            Markets.Add(new MarketModelEditor(_dictionaries.Markets[id]));
+            _dictionaries.Markets.Add(id, new MarketModel(_dictionaries) { Id = id });
+            Markets.Add(new MarketModelEditor(_dictionaries.Markets[id], _dictionaries));
         }
 
         private void RemoveElements(MarketModelEditor light, object b, List<MarketModelEditor> lights)
         {
             var targetElement = Markets.First(e => e == light);
-            var id = targetElement.Id;
+            var id = targetElement.Model.Id;
             _dictionaries.Markets.Remove(id);
             Markets.Remove(targetElement);
         }

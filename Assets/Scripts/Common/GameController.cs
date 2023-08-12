@@ -1,14 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Common;
-using System;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 
 namespace Common
 {
-    public class GameController : IStartable, IDisposable
+    public class GameController : IStartable
     {
         [Inject] private readonly CommonGameData _сommonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
@@ -23,7 +22,6 @@ namespace Common
 
         private async UniTaskVoid WaitGameDataInit()
         {
-            _сommonGameData.Init();
             await UniTask.WaitUntil(() => _сommonGameData.IsInited && _commonDictionaries.Inited);
             OnloadGame();
         }
@@ -31,31 +29,6 @@ namespace Common
         private void OnloadGame()
         {
             OnLoadedGameData.Execute();
-        }
-
-        public void SaveGame()
-        {
-            OnGameSave.Execute();
-            _сommonGameData.Save();
-        }
-
-        void OnApplicationPause(bool pauseStatus)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-		// SaveGame();
-#endif
-        }
-
-        void OnApplicationFocus(bool hasFocus)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        SaveGame();
-#endif
-        }
-
-        public void Dispose()
-        {
-            SaveGame();
         }
     }
 }

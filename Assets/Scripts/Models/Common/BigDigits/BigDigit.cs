@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+using UniverseRift.Heplers.MathOperations;
 
 namespace Models.Common.BigDigits
 {
@@ -102,11 +103,12 @@ namespace Models.Common.BigDigits
             }
             if (E10 == 0)
             {
-                Mantissa = Mathf.Round(Mantissa);
+                Mantissa = CustomMath.RoundToNearestInt(Mantissa);
             }
             else
             {
-                Mantissa = Mathf.Round(Mantissa * 1000f) * 0.001f;
+                Mantissa = (float)Math.Round(Mantissa, 3);
+                //Mantissa = Mathf.Round(Mantissa * 1000f) * 0.001f;
             }
         }
 

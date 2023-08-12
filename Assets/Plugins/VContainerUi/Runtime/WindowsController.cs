@@ -79,7 +79,6 @@ namespace VContainerUi
             else
                 window = _windows.First(f => f.Name == message.Name);
             Open(window, message.OpenType);
-            Debug.Log($"opened: {_windowsStack.Count}");
         }
 
         private void Open(IBaseUiController window, OpenType openType)
@@ -108,7 +107,6 @@ namespace VContainerUi
                 return;
 
             var exclusive = _windowState.CurrentWindow.OpenedType == OpenType.Exclusive;
-            Debug.Log($"exclusive: {exclusive}");
             CloseWindow();
             if (exclusive)
                 OpenPreviousWindows();
@@ -118,7 +116,6 @@ namespace VContainerUi
         {
             var currentWindow = _windowsStack.Pop();
             currentWindow.Back();
-            Debug.Log($"close, list: {_windowsStack.Count}");
         }
 
         private void OpenPreviousWindows()

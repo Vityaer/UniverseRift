@@ -62,7 +62,7 @@ namespace Assets.Scripts.ClientServices
                     data.Add(new ResourceData() { Type = resource.Type, Amount = resource.Amount });
             }
 
-            _commonGameData.Player.Resources = data;
+            _commonGameData.Resources = data;
         }
 
         public IDisposable Subscribe(ResourceType type, Action<GameResource> action)

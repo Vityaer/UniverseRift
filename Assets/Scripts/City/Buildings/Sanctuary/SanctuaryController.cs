@@ -89,9 +89,9 @@ namespace City.Buildings.Sanctuary
 
         protected override void ClosePage()
         {
-            View.SaveButton.gameObject.SetActive(false);
+            //View.SaveButton.gameObject.SetActive(false);
             _selectedCard = null;
-            _disposable.Dispose();
+            _disposable?.Dispose();
             //ListHeroesController.EventClose();
         }
 

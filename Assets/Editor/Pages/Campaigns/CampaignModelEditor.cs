@@ -30,7 +30,7 @@ namespace Editor.Pages.Campaigns
                 mission.WinReward._dictionaries = _commonDictionaries;
                 if (mission.WinReward.Items != null)
                     foreach (var item in mission.WinReward.Items)
-                        item._commonDictionaries = _commonDictionaries;
+                        item.CommonDictionaries = _commonDictionaries;
             }
         }
 

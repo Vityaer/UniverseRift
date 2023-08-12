@@ -1,4 +1,6 @@
 using Common.Resourses;
+using Models.City.Markets;
+using System;
 using UnityEngine;
 
 namespace City.Buildings.Market
@@ -6,9 +8,9 @@ namespace City.Buildings.Market
     [System.Serializable]
     public abstract class BaseMarketProduct
     {
-        [SerializeField] private GameResource cost;
-        [SerializeField] private string id;
-        [Min(1)][SerializeField] private int countMaxProduct = 1;
+        protected GameResource cost;
+        protected string id;
+        protected int countMaxProduct = 1;
         private int countLeftProduct = 0;
 
         public string Id { get => id; }
@@ -32,5 +34,10 @@ namespace City.Buildings.Market
         }
 
         public virtual void GetProduct(int count) { }
+
+        public void SetPurchaseCount(int purchaseCount)
+        {
+            countLeftProduct = purchaseCount;
+        }
     }
 }

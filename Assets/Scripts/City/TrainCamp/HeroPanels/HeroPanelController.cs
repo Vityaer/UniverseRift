@@ -122,7 +122,7 @@ namespace City.TrainCamp
 
         private async UniTaskVoid LevelUpMessage()
         {
-            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.Player.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
+            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
             var result = await DataServer.PostData(message);
             UnityEngine.Debug.Log(result);
         }

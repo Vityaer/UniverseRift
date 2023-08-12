@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Models.Data.Buildings.FortuneWheels;
+using Models.Data.Buildings.Markets;
+using Models.Data.Buildings.Taskboards;
+using System;
 
 namespace Models
 {
@@ -7,8 +10,7 @@ namespace Models
     {
         public TimeManagementData TimeManagementSave = new TimeManagementData();
         public IndustryModel IndustrySave = new IndustryModel();
-        public ShopModel MallSave = new ShopModel();
-        public TaskGiverModel TaskboardSave = new TaskGiverModel();
+        public MarketData MallSave = new MarketData();
         public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
         public BuildingWithFightTeamsData MainCampaignSave = new BuildingWithFightTeamsData();
         public BuildingWithFightTeamsData TravelCircleSave = new BuildingWithFightTeamsData();
@@ -18,6 +20,8 @@ namespace Models
         public CycleEventsData CycleEvents = new CycleEventsData();
         public SimpleBuildingData DailyReward = new SimpleBuildingData();
         public AchievmentStorageData Achievments = new AchievmentStorageData();
+        public FortuneWheelData FortuneWheelData = new FortuneWheelData();
+        public TaskBoardData TaskBoardData = new TaskBoardData();
 
     }
 }

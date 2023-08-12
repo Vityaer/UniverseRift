@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Inventories.Splinters;
 using Common.Resourses;
+using Models.City.Markets;
 using Sirenix.Serialization;
 using UIController.Inventory;
 using UnityEngine;
@@ -10,11 +11,19 @@ namespace City.Buildings.Market
     [System.Serializable]
     public class MarketProduct<T> : BaseMarketProduct where T : BaseObject
     {
-        [OdinSerialize] public T subject;
+        [OdinSerialize] public T Subject;
+
+        public MarketProduct(BaseProductModel productModel, T subject)
+        {
+            cost = new GameResource(productModel.Cost);
+            countMaxProduct = productModel.CountSell;
+            Subject = subject;
+        } 
+
         public override void GetProduct(int count)
         {
             AddCountLeftProduct(count);
-            switch (subject)
+            switch (Subject)
             {
                 case GameResource product:
                     //GameController.Instance.AddResource(product * count);

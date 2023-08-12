@@ -12,7 +12,7 @@ namespace City.Panels.NewLevels
 
         public void SetData(RewardModel reward)
         {
-            var newLevel = _ñommonGameData.Player.PlayerInfoData.Level;
+            var newLevel = _ñommonGameData.PlayerInfoData.Level;
             View.NewLevelLabel.text = $"{newLevel}";
         }
     }

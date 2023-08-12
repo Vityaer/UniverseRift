@@ -53,13 +53,13 @@ namespace UIController.Inventory
 
         protected override void OnLoadGame()
         {
-            _gameInventory = new GameInventory(_commonDictionaries, _commonGameData.Player.InventoryData);
+            _gameInventory = new GameInventory(_commonDictionaries, _commonGameData.InventoryData);
             GameController.OnGameSave.Subscribe(_ => OnSaveGame()).AddTo(Disposables);
         }
 
         private void OnSaveGame()
         {
-            _commonGameData.Player.InventoryData = new InventoryData(_gameInventory);
+            _commonGameData.InventoryData = new InventoryData(_gameInventory);
         }
 
         public void ShowAll()

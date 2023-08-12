@@ -39,7 +39,7 @@ namespace Installers
         [SerializeField] private SanctuaryView _sanctuaryView;
         [SerializeField] private ChallengeTowerView _challengeTowerView;
         [SerializeField] private VoyageView _voyageView;
-        [SerializeField] private WheelFortuneView _wheelFortuneView;
+        [SerializeField] private FortuneWheelView _wheelFortuneView;
         [SerializeField] private MagicCircleView _magicCircleView;
         //[SerializeField] private MinesView _minesView;
         [SerializeField] private ArenaView _arenaView;
@@ -64,7 +64,7 @@ namespace Installers
             builder.RegisterUiView<SanctuaryController, SanctuaryView>(_sanctuaryView, canvas.transform);
             builder.RegisterUiView<ChallengeTowerController, ChallengeTowerView>(_challengeTowerView, canvas.transform);
             builder.RegisterUiView<VoyageController, VoyageView>(_voyageView, canvas.transform);
-            builder.RegisterUiView<WheelFortuneController, WheelFortuneView>(_wheelFortuneView, canvas.transform);
+            builder.RegisterUiView<FortuneWheelController, FortuneWheelView>(_wheelFortuneView, canvas.transform);
             builder.RegisterUiView<MagicCircleController, MagicCircleView>(_magicCircleView, canvas.transform);
             //builder.RegisterUiView<MinesController, MinesView>(_minesView, canvas.transform);
             builder.RegisterUiView<ArenaController, ArenaView>(_arenaView, canvas.transform);

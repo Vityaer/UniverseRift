@@ -28,7 +28,7 @@ namespace MainPages.City
             OpenBuildingOnClick<AltarController>(View.AltarButton);
             OpenBuildingOnClick<GuildController>(View.GuildButton);
             OpenBuildingOnClick<SanctuaryController>(View.SanctuaryButton);
-            OpenBuildingOnClick<WheelFortuneController>(View.WheelButton);
+            OpenBuildingOnClick<FortuneWheelController>(View.WheelButton);
             OpenBuildingOnClick<PetsZooController>(View.PetZooButton);
             OpenBuildingOnClick<TaskboardController>(View.TaskboardButton);
         }

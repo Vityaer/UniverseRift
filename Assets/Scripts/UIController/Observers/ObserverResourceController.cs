@@ -49,12 +49,12 @@ namespace UIController.Observers
 
         public void OpenPanelForBuyResource()
         {
-            MarketProduct<GameResource> product = null;
-            product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Type);
-            if (product != null)
-                _buyResourcePanelController.Open(
-                    product.subject, product.Cost
-                    );
+            //MarketProduct<GameResource> product = null;
+            //product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Type);
+            //if (product != null)
+            //    _buyResourcePanelController.Open(
+            //        product.Subject, product.Cost
+            //        );
         }
 
     }

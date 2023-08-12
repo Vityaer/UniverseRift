@@ -69,7 +69,6 @@ namespace City.Buildings.Tower
                 _currentMissionIndex += 1;
                 challengeTower.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
                 LoadMissions();
-                //SaveGame();
             }
 
             OnTryMission.Execute();

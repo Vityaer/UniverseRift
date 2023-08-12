@@ -3,6 +3,7 @@ using Models.Data.Inventories;
 using System;
 using UniRx;
 using UnityEngine;
+using UniverseRift.Heplers.MathOperations;
 
 namespace Common.Resourses
 {
@@ -94,7 +95,7 @@ namespace Common.Resourses
         //Operators
         public static GameResource operator *(GameResource res, float k)
         {
-            GameResource result = new GameResource(res.Type, Mathf.RoundToInt(res.Amount.Mantissa * k), res.Amount.E10);
+            GameResource result = new GameResource(res.Type, CustomMath.RoundToNearestInt(res.Amount.Mantissa * k), res.Amount.E10);
             return result;
         }
 

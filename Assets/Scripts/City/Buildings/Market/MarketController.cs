@@ -1,117 +1,110 @@
-﻿using City.Buildings.Abstractions;
+﻿using Assets.Scripts.ClientServices;
+using City.Buildings.Abstractions;
+using ClientServices;
 using Common;
-using Common.Inventories.Splinters;
 using Common.Resourses;
-using Models;
+using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using Misc.Json;
 using Models.City.Markets;
 using Models.Common;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+using Network.DataServer;
+using Network.DataServer.Messages.City;
 using System.Collections.Generic;
-using UIController.GameSystems;
 using UIController.Inventory;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace City.Buildings.Market
 {
-    public class MarketController : BaseBuilding<MarketView>
+    public class MarketController : BaseBuilding<MarketView>, IInitializable
     {
         [Inject] private readonly CommonGameData _сommonGameData;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly InventoryController _inventoryController;
 
-        public MarketType typeMarket;
-        public Transform showcase;
-        [Header("Products")]
-        [OdinSerialize] private List<BaseMarketProduct> productsForSale = new List<BaseMarketProduct>();
-        [SerializeField] private List<MarketProductController> productControllers = new List<MarketProductController>();
         public CycleRecover cycle;
-        private bool productFill = false;
 
-        protected override void OnStart()
+        private List<MarketProductController> productControllers = new List<MarketProductController>();
+
+        public void Initialize()
         {
-            //if (productControllers.Count == 0) GetCells();
-            //TimeControllerSystem.Instance.RegisterOnNewCycle(RecoveryAllProducts, cycle);
+            var market = _commonDictionaries.Markets["CityMarket"];
+            foreach (var productId in market.Products)
+            {
+                var productModel = _commonDictionaries.Products[productId];
+
+                BaseMarketProduct baseMarketProduct = null;
+
+                switch (productModel)
+                {
+                    case ResourceProductModel resourceProductModel:
+                        var resource = new GameResource(resourceProductModel.Subject);
+                        baseMarketProduct = new MarketProduct<GameResource>(resourceProductModel, resource);
+                        break;
+                    case ItemProductModel itemProductModel:
+                        var itemModel = _commonDictionaries.Items[itemProductModel.Subject.Id];
+                        var item = new GameItem(itemModel, itemProductModel.Subject.Amount);
+                        baseMarketProduct = new MarketProduct<GameItem>(itemProductModel, item);
+                        break;
+                }
+
+                var controller = Object.Instantiate(View.Prefab, View.Content);
+                controller.SetData(productId, baseMarketProduct, () => TryBuyProductOnServer(productId, 1).Forget());
+                productControllers.Add(controller);
+                _resolver.Inject(controller.ButtonCost);
+            }
         }
 
         protected override void OnLoadGame()
         {
-            //List<ProductModel> saveProducts = _сommonGameData.City.GetProductForMarket(typeMarket);
-            //BaseMarketProduct currentProduct = null;
-            //foreach (ProductModel product in saveProducts)
-            //{
-            //    currentProduct = productsForSale.Find(x => x.Id == product.Id);
-            //    if (currentProduct != null) currentProduct.UpdateData(product.CountSell);
-            //}
-            //if (productFill)
-            //    UpdateUIProducts();
+            var marketData = _сommonGameData.City.MallSave;
+            foreach (var purchase in marketData.PurchaseDatas)
+            {
+                var controller = productControllers.Find(controller => controller.SubjectId == purchase.ProductId);
+                controller.SetPurchaseCount(purchase.PurchaseCount);
+            }
         }
 
-        private void OnBuyPoduct(string IDproduct, int coutSell)
+        private async UniTaskVoid TryBuyProductOnServer(string productId, int coutSell)
         {
-            //GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, coutSell);
+            var message = new BuyProductMessage { PlayerId = _сommonGameData.PlayerInfoData.Id, ProductId = productId, Count = coutSell };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                var product = _commonDictionaries.Products[productId];
+                var cost = new GameResource(product.Cost);
+                _resourceStorageController.SubtractResource(cost);
+
+                switch (product)
+                {
+                    case ResourceProductModel ResourceProduct:
+                        var resource = new GameResource(ResourceProduct.Subject);
+                        _resourceStorageController.AddResource(resource);
+                        break;
+                    case ItemProductModel ItemProduct:
+                        var itemModel = _commonDictionaries.Items[ItemProduct.Subject.Id];
+                        var item = new GameItem(itemModel, ItemProduct.Subject.Amount);
+                        _inventoryController.Add(item);
+                        break;
+                }
+
+                var controller = productControllers.Find(controller => controller.SubjectId == productId);
+                controller.FinishBuy();
+            }
+
         }
 
         private void UpdateUIProducts()
         {
-            foreach (MarketProductController product in productControllers)
+            foreach (var product in productControllers)
             {
                 product.UpdateUI();
-            }
-        }
-
-        protected override void OpenPage()
-        {
-            for (int i = 0; i < productsForSale.Count; i++)
-            {
-                switch (productsForSale[i])
-                {
-                    case MarketProduct<GameResource> product:
-                        productControllers[i].SetData(product, OnBuyPoduct);
-                        break;
-                    case MarketProduct<GameItem> product:
-                        productControllers[i].SetData(product, OnBuyPoduct);
-                        break;
-                    case MarketProduct<GameSplinter> product:
-                        productControllers[i].SetData(product, OnBuyPoduct);
-                        break;
-
-                }
-            }
-            for (int i = productsForSale.Count; i < productControllers.Count; i++)
-            {
-                productControllers[i].Hide();
-            }
-            productFill = true;
-        }
-        private void GetCells()
-        {
-            foreach (Transform child in showcase)
-                productControllers.Add(child.GetComponent<MarketProductController>());
-        }
-
-        private void RecoveryAllProducts() { if (productFill) foreach (MarketProductController product in productControllers) { product.Recovery(); } }
-
-        public void NewSellProduct(string IDproduct, int newCountSell)
-        {
-            //GameController.GetPlayerGame.NewDataAboutSellProduct(typeMarket, IDproduct, newCountSell);
-        }
-
-        [Button] public void AddResource() { productsForSale.Add(new MarketProduct<GameResource>()); }
-        [Button] public void AddSplinter() { productsForSale.Add(new MarketProduct<GameSplinter>()); }
-        [Button] public void AddItem() { productsForSale.Add(new MarketProduct<GameItem>()); }
-
-        [ContextMenu("Check products")]
-        private void CheckProducts()
-        {
-            for (int i = 0; i < productsForSale.Count - 1; i++)
-            {
-                for (int j = i + 1; j < productsForSale.Count; j++)
-                {
-                    if (productsForSale[i].Id == productsForSale[j].Id)
-                    {
-                        Debug.Log(string.Concat("product: ", i.ToString(), " and ", j.ToString(), " have equals ID"));
-                    }
-                }
             }
         }
     }

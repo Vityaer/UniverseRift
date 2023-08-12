@@ -20,6 +20,7 @@ using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using Common;
+using UnityEngine;
 
 namespace Campaign
 {
@@ -43,7 +44,6 @@ namespace Campaign
         private BuildingWithFightTeamsData campaingSaveObject;
         private List<MissionController> missionControllers = new List<MissionController>();
 
-
         public void Initialize()
         {
             View.WorldMapButton.OnClickAsObservable().Subscribe(_ => OpenWorldMap()).AddTo(Disposables);
@@ -59,7 +59,12 @@ namespace Campaign
         protected override void OnLoadGame()
         {
             campaingSaveObject = _commonGameData.City.MainCampaignSave;
-            _currentMissionIndex = campaingSaveObject.IntRecords.GetRecord(NAME_RECORD_NUM_CURRENT_MISSION, -1);
+
+            if (PlayerPrefs.HasKey(NAME_RECORD_NUM_CURRENT_MISSION))
+            {
+                _currentMissionIndex = PlayerPrefs.GetInt(NAME_RECORD_NUM_CURRENT_MISSION);
+            }
+
             _maxMission = campaingSaveObject.IntRecords.GetRecord(NAME_RECORD_NUM_MAX_MISSION, 0);
             if (_currentMissionIndex >= _maxMission) _currentMissionIndex = _maxMission - 1;
 
@@ -112,15 +117,14 @@ namespace Campaign
         {
             SendData().Forget();
             OpenMission(_currentMissionIndex + 1);
-            campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
+            PlayerPrefs.SetInt(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
             campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_MAX_MISSION, _maxMission);
         }
 
         private async UniTaskVoid SendData()
         {
-            var message = new CompleteNextMissionMessage { PlayerId = _commonGameData.Player.PlayerInfoData.Id };
+            var message = new CompleteNextMissionMessage { PlayerId = _commonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            UnityEngine.Debug.Log($"oen next mission: {result}");
         }
 
         private void OpenMission(int num)
@@ -143,7 +147,6 @@ namespace Campaign
                 UnityEngine.Debug.Log("add reward");
                 _clientRewardService.AddReward(reward);
                 OpenNextMission();
-                GameController.SaveGame();
             }
 
             base.OnResultFight(result);
@@ -181,8 +184,7 @@ namespace Campaign
         private void SaveSelectAutoFight(MissionController infoMission)
         {
             var index = missionControllers.IndexOf(infoMission);
-            campaingSaveObject.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, index);
-            _commonGameData.Save();
+            PlayerPrefs.SetInt(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
         }
 
 

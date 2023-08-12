@@ -39,7 +39,6 @@ public class Constants
 #endif
             }
         }
-
         
         public static string GAME_SERVER_IP => "45.12.75.166";
         public static string GAME_DATA_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}/Data/Dictionaries/";
@@ -48,7 +47,6 @@ public class Constants
 #else
         public static string GAME_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}:5000/";
 #endif
-
     }
 
     public static class Game

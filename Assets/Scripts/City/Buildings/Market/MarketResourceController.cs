@@ -13,12 +13,12 @@ namespace City.Buildings.Market
 
         public MarketProduct<GameResource> GetProductFromTypeResource(ResourceType name)
         {
-            return resources.Find(x => (x.subject as GameResource).Type == name);
+            return resources.Find(x => (x.Subject as GameResource).Type == name);
         }
 
         public bool GetCanSellThisResource(ResourceType name)
         {
-            return resources.Find(x => (x.subject as GameResource).Type == name) != null;
+            return resources.Find(x => (x.Subject as GameResource).Type == name) != null;
         }
 
         void Awake()

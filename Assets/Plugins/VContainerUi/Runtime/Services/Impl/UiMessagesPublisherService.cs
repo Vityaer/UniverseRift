@@ -1,4 +1,5 @@
 ﻿using MessagePipe;
+using UnityEngine;
 using VContainerUi.Messages;
 
 namespace VContainerUi.Services.Impl
@@ -22,9 +23,9 @@ namespace VContainerUi.Services.Impl
 			MessageFocusWindowPublisher = messageFocusWindowPublisher;
 			MessageShowWindowPublisher = messageShowWindowPublisher;
 			MessageCloseWindowPublisher = messageCloseWindowPublisher;
-		}
+        }
 
-		public IPublisher<MessageOpenWindow> OpenWindowPublisher { get; }
+        public IPublisher<MessageOpenWindow> OpenWindowPublisher { get; }
 		public IPublisher<MessageBackWindow> BackWindowPublisher { get; }
 		public IPublisher<MessageOpenRootWindow> OpenRootWindowPublisher { get; }
 		public IPublisher<MessageActiveWindow> MessageActiveWindowPublisher { get; }

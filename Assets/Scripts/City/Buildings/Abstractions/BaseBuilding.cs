@@ -51,7 +51,7 @@ namespace City.Buildings.Abstractions
 
         protected bool AvailableFromLevel()
         {
-            bool result = CommonGameData.Player.PlayerInfoData.Level >= levelForAvailableBuilding;
+            bool result = CommonGameData.PlayerInfoData.Level >= levelForAvailableBuilding;
             if (result == false)
             {
                 //MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");

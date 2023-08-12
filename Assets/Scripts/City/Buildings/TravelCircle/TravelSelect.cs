@@ -18,7 +18,7 @@ namespace City.Buildings.TravelCircle
 
         void Start()
         {
-            RaceUI.SetData(Race);
+            //RaceUI.SetData(Race);
 
         }
 

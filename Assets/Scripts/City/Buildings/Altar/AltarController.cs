@@ -33,15 +33,15 @@ namespace Altar
         protected override void OpenPage()
         {
             //ListHeroes = GameController.Instance.ListHeroes;
-            LoadListHeroes();
-            View.ListHeroesController.EventOpen();
+            //LoadListHeroes();
+            //View.ListHeroesController.EventOpen();
         }
 
         protected override void ClosePage()
         {
-            for (int i = 0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].Unselect();
-            selectedHeroCards.Clear();
-            View.ListHeroesController.EventClose();
+            //for (int i = 0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].Unselect();
+            //selectedHeroCards.Clear();
+            //View.ListHeroesController.EventClose();
         }
 
         public void FiredHeroes()

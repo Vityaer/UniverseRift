@@ -138,7 +138,7 @@ namespace City.Buildings.Forge
                 }
             }
 
-            var message = new SynthesisItemMessage { PlayerId = CommonGameData.Player.PlayerInfoData.Id, ItemId = _currentItem.Model.ResultItemName, Count = createdCount };
+            var message = new SynthesisItemMessage { PlayerId = CommonGameData.PlayerInfoData.Id, ItemId = _currentItem.Model.ResultItemName, Count = createdCount };
             var result = await DataServer.PostData(message);
             UnityEngine.Debug.Log(result);
             if (!string.IsNullOrEmpty(result))

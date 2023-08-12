@@ -1,19 +1,20 @@
 ﻿using City.TaskBoard;
 using Common.Resourses;
 using Models.Data;
+using Models.Tasks;
 using TMPro;
 using UIController;
 using UIController.ItemVisual;
 using UiExtensions.Misc;
 using UnityEngine;
+using UnityEngine.Profiling.Memory.Experimental;
 using UnityEngine.UI;
 
 namespace City.Buildings.TaskGiver
 {
     public class TaskController : ScrollableUiView<TaskData>
     {
-        private TaskData _data;
-        private TaskModel _model;
+        private GameTaskModel _model;
 
         [Header("UI")]
         public TextMeshProUGUI Name;
@@ -21,24 +22,26 @@ namespace City.Buildings.TaskGiver
         public SliderTime sliderTime;
         public ButtonCostController buttonCostScript;
         public RatingHero ratingController;
-        public SubjectCell RewardUIController;
+        public RewardUIController RewardUIController;
 
-        public TaskData GetTask => _data;
+        public TaskData GetTask => Data;
+
+        public void SetData(TaskData data, ScrollRect scrollRect, GameTaskModel model)
+        {
+            SetData(data, scrollRect);
+            _model = model;
+
+            Name.text = _model.Id;
+            ratingController.ShowRating(_model.Rating);
+            RewardUIController.ShowReward(_model.Reward);
+            UpdateStatus();
+
+        }
 
         public override void SetData(TaskData data, ScrollRect scrollRect)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetData(TaskData data, TaskModel model)
-        {
-            _data = data;
-            _model = model;
-
-            Name.text = _model.Name;
-            ratingController.ShowRating(_model.Rating);
-            //RewardUIController.SetItem(task.Reward);
-            UpdateStatus();
+            Data = data;
+            Scroll = scrollRect;
         }
 
         private void UpdateStatus()

@@ -43,8 +43,7 @@ namespace City.Panels.SubjectPanels
             }
 
             View.MainImage.SetData(item);
-            //TODO: адитивное окно ведёт себя странно
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Exclusive);
+            _messagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
         }
 
         private void OnClickButtonAction()
