@@ -30,10 +30,7 @@ namespace Editor.Pages.Achievments
 
         public override void Save()
         {
-            var achievments = Achievments.Select(r => new AchievmentModel
-            {
-                Id = r.Id
-            }).ToList();
+            var achievments = Achievments.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(achievments);
             base.Save();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.City.Mines
 {
-    public enum TypeMine
+    public enum MineType
     {
         Diamond = 0,
         Gold = 1,

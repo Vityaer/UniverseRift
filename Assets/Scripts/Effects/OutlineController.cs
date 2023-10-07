@@ -14,12 +14,12 @@ namespace Effects
 
         public void SwitchOn()
         {
-            spriteRenderer.material = outlineMaterial;
+            //spriteRenderer.material = outlineMaterial;
         }
 
         public void SwitchOff()
         {
-            spriteRenderer.material = defaultMaterial;
+            //spriteRenderer.material = defaultMaterial;
         }
     }
 }

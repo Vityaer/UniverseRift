@@ -58,6 +58,7 @@ namespace Editor.Pages.Mall.Products
         [LabelText("Resource")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
+        [ListDrawerSettings(DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4)]
         public List<ResourceProductModel> ResourseProducts = new List<ResourceProductModel>();
 
         [ShowInInspector]

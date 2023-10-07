@@ -12,10 +12,13 @@ using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
 using Models.Common;
+using Models.Data.Dailies;
+using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
 using Models.Heroes;
 using Models.Items;
 using Models.Tasks;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UIController.Inventory;
 using UIController.Rewards;
@@ -53,6 +56,10 @@ namespace Db.CommonDictionaries
         private Dictionary<string, BuildingModel> _buildings = new Dictionary<string, BuildingModel>();
         private Dictionary<string, RewardModel> _rewards = new Dictionary<string, RewardModel>();
         private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new Dictionary<string, FortuneRewardModel>();
+        private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new Dictionary<string, DailyRewardModel>();
+        private Dictionary<string, DailyTaskModel> _dailyTaskModels = new Dictionary<string, DailyTaskModel>();
+        private Dictionary<string, MineRestrictionModel> _mineRestrictions = new Dictionary<string, MineRestrictionModel>();
+
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -80,8 +87,10 @@ namespace Db.CommonDictionaries
         public Dictionary<string, BuildingModel> Buildings => _buildings;
         public Dictionary<string, RewardModel> Rewards => _rewards;
         public Dictionary<string, FortuneRewardModel> FortuneRewardModels => _fortuneRewardModels;
-
-
+        public Dictionary<string, DailyRewardModel> DailyRewardDatas => _dailyRewardDatas;
+        public Dictionary<string, DailyTaskModel> DailyTaskModels => _dailyTaskModels;
+        public Dictionary<string, MineRestrictionModel> MineRestrictions => _mineRestrictions;
+        
         private bool IsDownloadedInLocalStorage
         {
             get
@@ -108,6 +117,8 @@ namespace Db.CommonDictionaries
                 //result &= TextUtils.IsLoadedToLocalStorage<GameTaskModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<BuildingModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<RewardModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<MineRestrictionModel>();
+
                 return result;
             }
         }
@@ -198,12 +209,15 @@ namespace Db.CommonDictionaries
             _rewards = await DownloadModels<RewardModel>();
             _fortuneRewardModels = await DownloadModels<FortuneRewardModel>();
             _gameTaskModels = await DownloadModels<GameTaskModel>();
+            _dailyRewardDatas = await DownloadModels<DailyRewardModel>();
+            _dailyTaskModels = await DownloadModels<DailyTaskModel>();
+            _mineRestrictions = await DownloadModels<MineRestrictionModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
         {
             var jsonData = await TextUtils.DownloadJsonData(typeof(T).Name);
-            TextUtils.Save(jsonData);
+            TextUtils.Save<T>(jsonData);
             return TextUtils.FillDictionary<T>(jsonData, _converter);
         }
 
@@ -233,6 +247,9 @@ namespace Db.CommonDictionaries
             _rewards = GetModels<RewardModel>();
             _fortuneRewardModels = GetModels<FortuneRewardModel>();
             _gameTaskModels = GetModels<GameTaskModel>();
+            _dailyRewardDatas = GetModels<DailyRewardModel>();
+            _dailyTaskModels = GetModels<DailyTaskModel>();
+            _mineRestrictions = GetModels<MineRestrictionModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

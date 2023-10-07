@@ -27,5 +27,14 @@ namespace Network.DataServer
 
             return answer.Result;
         }
+
+        public static async UniTask<string> GetFileText<T>(T message) where T : INetworkMessage
+        {
+            var url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
+            Debug.Log(url);
+            UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
+            var asyncRequest = await request.SendWebRequest();
+            return asyncRequest.downloadHandler.text;
+        }
     }
 }

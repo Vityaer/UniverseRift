@@ -25,13 +25,15 @@ namespace Campaign
 {
     public class GoldHeapController : UiController<GoldHeapView>, IInitializable, IDisposable
     {
+        private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
+
         private const float ANIMATION_TIME = 0.25f;
         private const int TACT_MIN_COUNT = 2;
+        private TimeSpan maxTime = new TimeSpan(12, 0, 0);
 
         [Inject] private readonly AutoFightRewardPanelController _autoFightRewardPanelController;
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly GameController _gameController;
-        [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly IJsonConverter _jsonConverter;
 
         private DateTime _previousDateTime;
@@ -51,14 +53,15 @@ namespace Campaign
             _gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(_disposables);
             View.HeapButton.OnClickAsObservable().Subscribe(_ => OnClickHeap()).AddTo(_disposables);
             OffGoldHeap();
+            View.SliderAccumulation.gameObject.SetActive(false);
         }
 
         protected override void OnLoadGame()
         {
-            _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords.GetRecord(nameof(_previousDateTime), DateTime.Now);
-            if (!_commonGameData.City.MainCampaignSave.DateRecords.CheckRecord(nameof(_previousDateTime)))
+            if (_commonGameData.City.MainCampaignSave.DateRecords.CheckRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME))
             {
-                _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
+                _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords
+                    .GetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, DateTime.UtcNow);
             }
         }
 
@@ -66,8 +69,16 @@ namespace Campaign
         {
             if (newAutoReward != null)
             {
+                if (_previousDateTime == null)
+                {
+                    _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords
+                        .GetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, DateTime.UtcNow);
+                }
+
                 _autoReward = newAutoReward;
                 _missionIndex = missionIndex;
+                View.SliderAccumulation.gameObject.SetActive(true);
+                View.SliderAccumulation.SetData(_previousDateTime, maxTime);
             }
             CheckSprite();
         }
@@ -83,9 +94,9 @@ namespace Campaign
         public void GetReward()
         {
             _disposable.Dispose();
-            _previousDateTime = DateTime.Now;
-            _clientRewardService.AddReward(_calculatedReward);
-            _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(nameof(_previousDateTime), _previousDateTime);
+            _previousDateTime = DateTime.UtcNow;
+            _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, _previousDateTime);
+            View.SliderAccumulation.SetData(_previousDateTime, maxTime);
             CheckSprite();
         }
 

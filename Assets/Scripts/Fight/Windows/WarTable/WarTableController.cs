@@ -5,13 +5,11 @@ using Hero;
 using Models.Fights.Campaign;
 using System.Collections.Generic;
 using TMPro;
-using UIController.Cards;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
-using static UnityEngine.Networking.UnityWebRequest;
 
 namespace Fight.WarTable
 {
@@ -103,7 +101,7 @@ namespace Fight.WarTable
         {
             foreach (var place in places)
             {
-                if(!place.IsEmpty)
+                if (!place.IsEmpty)
                     RemoveHero(place.Hero);
             }
         }
@@ -187,7 +185,7 @@ namespace Fight.WarTable
         //API
         public void OpenMission(MissionModel mission, List<GameHero> listHeroes)
         {
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
 

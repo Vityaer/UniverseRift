@@ -71,6 +71,7 @@ namespace Pages.Buildings.FortuneWheels
         protected override void AddElement()
         {
             var fortuneItem = new FortuneItemRewardModel(_dictionaries);
+            fortuneItem.Subject.CommonDictionaries = _dictionaries;
             FortuneItemRewards.Add(fortuneItem);
         }
 

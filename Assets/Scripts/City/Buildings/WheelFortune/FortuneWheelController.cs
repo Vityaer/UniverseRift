@@ -14,6 +14,7 @@ using Models.Data.Buildings.FortuneWheels;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using Network.DataServer.Messages.City.FortuneWheels;
+using Network.DataServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,8 @@ namespace City.Buildings.WheelFortune
         private List<int> numbersReward = new List<int>();
         private ReactiveCommand<BigDigit> _onSimpleRotate = new ReactiveCommand<BigDigit>();
         private Sequence _sequence;
+        private float _currentTilt;
+        private GameReward _reward;
 
         public IObservable<BigDigit> OnSimpleRotate => _onSimpleRotate;
 
@@ -55,7 +58,7 @@ namespace City.Buildings.WheelFortune
 
             View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_oneRotate, ONE_TIME).Forget()).AddTo(Disposables);
             View.ManyRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_tenRotate, MANY_TIME).Forget()).AddTo(Disposables);
-            View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
+            //View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
         }
 
         protected override void OnLoadGame()
@@ -67,19 +70,19 @@ namespace City.Buildings.WheelFortune
 
         public async UniTaskVoid PlaySimpleRoulette(GameResource cost, int count = 1)
         {
-            View.OneRotateButton.Disable();
-            View.ManyRotateButton.Disable();
-
             var message = new FortuneWheelRotate { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
 
-            var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-            var rewards = new GameReward(rewardModel);
-            _clientRewardService.AddReward(rewards);
+            if (!string.IsNullOrEmpty(result))
+            {
+                var rewardContainer = _jsonConverter.FromJson<FortuneRewardContainer>(result);
+                _reward = new GameReward(rewardContainer.Reward);
 
-            _resourceStorageController.SubtractResource(cost);
-            StartRotateArrow(UnityEngine.Random.Range(120, 345));
-            _onSimpleRotate.Execute(new BigDigit(count));
+                _resourceStorageController.SubtractResource(cost);
+
+                StartRotateArrow(-rewardContainer.ResultItemIndex * 45);
+                _onSimpleRotate.Execute(new BigDigit(count));
+            }
         }
 
         private async UniTaskVoid RefreshRewards()
@@ -113,11 +116,13 @@ namespace City.Buildings.WheelFortune
         }
         private void StartRotateArrow(float targetTilt)
         {
-            var currentRotation = View.Arrow.localRotation.eulerAngles;
             _sequence = DOTween.Sequence()
-                .Append(View.Arrow.DOLocalRotate(currentRotation + new Vector3(0, 0, 360), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
+                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, 360 - _currentTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
                 .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, 360), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
-                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, targetTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360));
+                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, targetTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360)
+                .OnComplete(() => _clientRewardService.ShowReward(_reward)));
+
+            _currentTilt = targetTilt;
         }
 
         public new void Dispose()

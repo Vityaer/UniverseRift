@@ -6,7 +6,7 @@ namespace Network.DataServer.Jsons
     {
         public string Name;
 
-        public string Route => "Json/GetJsonFile";
+        public string Route => "Json/GetJsonTextFile";
 
         public WWWForm Form
         {

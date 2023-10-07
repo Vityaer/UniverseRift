@@ -16,6 +16,5 @@ namespace City.Buildings.WheelFortune
         [SerializeField] private List<SubjectCell> _rewardCells;
 
         public List<SubjectCell> RewardCells => _rewardCells;
-
     }
 }

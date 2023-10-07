@@ -1,99 +1,109 @@
 ﻿using Models.Heroes;
-using Common;
 using System;
 using System.Collections.Generic;
 using UIController.Cards;
 using UnityEngine;
-using UnityEngine.UI;
 using UIController.Rewards;
 using City.Buildings.Abstractions;
 using Models.Common.BigDigits;
 using City.Buildings.Altar;
 using UniRx;
+using VContainer.Unity;
+using Common.Heroes;
+using VContainer;
+using Hero;
+using Cysharp.Threading.Tasks;
+using Network.DataServer.Messages.Hires;
+using Network.DataServer.Models;
+using Network.DataServer;
+using ClientServices;
+using Common.Rewards;
+using Misc.Json;
+using Network.DataServer.Messages;
 
 namespace Altar
 {
-    public class AltarController : BuildingWithHeroesList<AltarView>
+    public class AltarController : BuildingWithHeroesList<AltarView>, IInitializable
     {
+        [Inject] private readonly HeroesStorageController _heroesStorageController;
+        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly ClientRewardService _clientRewardService;
+
         [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
 
         private readonly ReactiveCommand<BigDigit> _onDissamble = new ReactiveCommand<BigDigit>();
 
-        private List<Card> selectedHeroCards = new List<Card>();
+        private List<GameHero> _listHeroes;
+        private List<Card> _selectedHeroCards = new List<Card>();
 
         public IObservable<BigDigit> OnDissamble => _onDissamble;
 
-        protected override void OnStart()
+        public void Initialize()
         {
-            //ListHeroesController.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
-            //ListHeroesController.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
-            //View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes()).AddTo(Disposables);
+            View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
+            View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+            View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes().Forget()).AddTo(Disposables);
         }
 
-        protected override void OpenPage()
+        protected override void OnLoadGame()
         {
-            //ListHeroes = GameController.Instance.ListHeroes;
-            //LoadListHeroes();
-            //View.ListHeroesController.EventOpen();
+            _listHeroes = _heroesStorageController.ListHeroes;
         }
 
-        protected override void ClosePage()
+        public override void OnShow()
         {
-            //for (int i = 0; i < selectedHeroCards.Count; i++) selectedHeroCards[i].Unselect();
-            //selectedHeroCards.Clear();
-            //View.ListHeroesController.EventClose();
+            View.CardsContainer.ShowCards(_listHeroes);
+            base.OnShow();
         }
 
-        public void FiredHeroes()
+        public async UniTaskVoid FiredHeroes()
         {
-            List<HeroModel> heroes = new List<HeroModel>();
+            var fireContainer = new FireContainer();
 
-            _onDissamble.Execute(new BigDigit(selectedHeroCards.Count));
-
-            foreach (Card card in selectedHeroCards)
+            foreach (var card in _selectedHeroCards)
             {
-                //heroes.Add(card.Hero);
+                fireContainer.HeroesIds.Add(card.Hero.HeroData.Id);
+            }
+
+            var message = new FireHeroesMessage { PlayerId = CommonGameData.PlayerInfoData.Id, Container = fireContainer };
+            var result = await DataServer.PostData(message);
+
+            var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+            var reward = new GameReward(rewardModel);
+            _clientRewardService.ShowReward(reward);
+
+            var heroes = new List<GameHero>();
+
+            _onDissamble.Execute(new BigDigit(_selectedHeroCards.Count));
+
+            foreach (var card in _selectedHeroCards)
+            {
+                heroes.Add(card.Hero);
                 card.Unselect();
             }
-            selectedHeroCards.Clear();
-
-            GetRewardFromHeroes(heroes);
+            View.CardsContainer.RemoveCards(_selectedHeroCards);
+            _selectedHeroCards.Clear();
 
             for (int i = 0; i < heroes.Count; i++)
             {
-                //GameController.Instance.RemoveHero(heroes[i]);
+                _heroesStorageController.RemoveHero(heroes[i]);
             }
         }
 
-        private void GetRewardFromHeroes(List<HeroModel> heroes)
+        public void SelectHero(GameHero hero)
         {
-            var reward = new RewardModel();
-
-            foreach (HeroModel hero in heroes)
-            {
-                for (int i = 0; i < _templateRewards.Count; i++)
-                {
-                    var currentResource = _templateRewards[i].CalculateReward(hero);
-                    if (currentResource != null)
-                    {
-                        //reward.AddResource(currentResource);
-                    }
-                }
-            }
-
-            //GameController.Instance.AddReward(reward);
+            var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
+            _selectedHeroCards.Add(selectedCard);
+            selectedCard.Select();
         }
 
-        public override void SelectHero(Card cardHero)
+        public void UnselectHero(GameHero hero)
         {
-            selectedHeroCards.Add(cardHero);
-            cardHero.Select();
+            var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
+            _selectedHeroCards.Remove(selectedCard);
+            selectedCard.Unselect();
         }
 
-        public override void UnselectHero(Card cardHero)
-        {
-            selectedHeroCards.Remove(cardHero);
-            cardHero.Unselect();
-        }
+
     }
 }

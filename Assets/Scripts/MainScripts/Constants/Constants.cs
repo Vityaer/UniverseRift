@@ -12,6 +12,8 @@ public class Constants
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
+        public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+
         public static string DictionariesPath
         {
             get

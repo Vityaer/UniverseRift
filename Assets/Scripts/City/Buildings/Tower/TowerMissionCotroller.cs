@@ -13,7 +13,6 @@ namespace City.Buildings.Tower
 {
     public class TowerMissionCotroller : ScrollableUiView<MissionModel>
     {
-        private MissionModel mission;
         [Header("UI")]
         public TextMeshProUGUI textNumMission;
         public Image backgoundMission, enemyImage;
@@ -27,15 +26,21 @@ namespace City.Buildings.Tower
 
         public IObservable<TowerMissionCotroller> OnClick => _onClick;
 
+        protected override void Start()
+        {
+            Button.OnClickAsObservable().Subscribe(_ => OnMissionClick()).AddTo(Disposable);
+        }
+
         public override void SetData(MissionModel data, ScrollRect scrollRect)
         {
             Scroll = scrollRect;
-            mission = data;
+            Data = data;
         }
 
-        public void SetData(MissionModel mission, int numMission, bool canOpenMission = false)
+        public void SetData(MissionModel mission, ScrollRect scrollRect, int numMission, bool canOpenMission = false)
         {
-            this.mission = mission;
+            SetData(mission, scrollRect);
+            Data = mission;
             this.numMission = numMission;
             this.canOpenMission = canOpenMission;
             UpdateUI();
@@ -44,23 +49,18 @@ namespace City.Buildings.Tower
         private void UpdateUI()
         {
             textNumMission.text = numMission.ToString();
-            //if (mission != null)
-            //    rewardController.ShowReward(mission.WinReward);
+            if (Data?.WinReward != null)
+                rewardController.ShowReward(Data.WinReward);
+
             blockPanel.SetActive(canOpenMission == false);
         }
 
-        public void OpenMission()
+        private void OnMissionClick()
         {
             if (canOpenMission)
             {
                 _onClick.Execute(this);
             }
-            else
-            {
-                //MessageController.Instance.AddMessage("Миссия ещё не открыта");
-            }
         }
-
-
     }
 }

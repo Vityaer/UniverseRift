@@ -87,7 +87,7 @@ public static class FunctionHelp
         }
         catch (FormatException)
         {
-            convertedDate = DateTime.Now;
+            convertedDate = DateTime.UtcNow;
         }
         return convertedDate;
     }
@@ -132,14 +132,14 @@ public static class FunctionHelp
 
     public static TimeSpan CalculateTimeHasPassed(DateTime previousDateTime)
     {
-        DateTime localDate = DateTime.Now;
+        DateTime localDate = DateTime.UtcNow;
         TimeSpan interval = localDate - previousDateTime;
         return interval;
     }
 
     public static DateTime GetDateTimeNow()
     {
-        return DateTime.Now;
+        return DateTime.UtcNow;
     }
 
     public static string TimeSpanConvertToSmallString(TimeSpan interval)
@@ -170,7 +170,7 @@ public static class FunctionHelp
 
     public static TimeSpan GetLeftTimeToEnd(DateTime start, TimeSpan timeUp)
     {
-        return (start + timeUp - DateTime.Now);
+        return (start + timeUp - DateTime.UtcNow);
     }
 
     public static float GetLeftSecondsToEnd(DateTime start, TimeSpan timeUp)

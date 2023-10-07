@@ -124,7 +124,7 @@ namespace UIController.Inventory
 
         private void OpenWindow()
         {
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<InventoryController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<InventoryController>(openType: OpenType.Additive);
         }
 
 

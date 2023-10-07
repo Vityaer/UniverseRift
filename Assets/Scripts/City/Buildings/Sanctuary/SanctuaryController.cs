@@ -1,99 +1,113 @@
-﻿using City.Buildings.Abstractions;
-using City.Buildings.Tavern;
+﻿using Assets.Scripts.ClientServices;
+using City.Buildings.Abstractions;
 using Common.Heroes;
 using Common.Resourses;
+using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using Hero;
+using Misc.Json;
 using Models;
 using Models.Common;
 using Models.Heroes;
-using System.Collections.Generic;
-using UIController.Cards;
-using VContainer;
-using UniRx;
+using Network.DataServer;
+using Network.DataServer.Messages;
 using System;
-using Hero;
-using Db.CommonDictionaries;
-using System.Linq;
-using static UnityEngine.Rendering.DebugUI;
-using Assets.Scripts.ClientServices;
+using System.Collections.Generic;
+using System.Diagnostics;
+using UIController.Cards;
+using UniRx;
+using VContainer;
+using VContainer.Unity;
 
 namespace City.Buildings.Sanctuary
 {
-    public class SanctuaryController : BuildingWithHeroesList<SanctuaryView>, IDisposable
+    public class SanctuaryController : BuildingWithHeroesList<SanctuaryView>, IInitializable, IDisposable
     {
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonGameData _сommonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly IJsonConverter _jsonConverter;
 
         public HeroModel newHeroModel;
         private Card _selectedCard;
         private IDisposable _disposable;
+        private List<GameHero> _listHeroes;
 
-        public void ReplacementHero()
+        public void Initialize()
         {
-            GameResource resCost = null;
+            View.ReplacementButton.interactable = false;
+            View.ReplacementButton.OnClickAsObservable().Subscribe(_ => ReplacementHero().Forget()).AddTo(Disposables);
+            View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
+            View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+        }
+
+        protected override void OnLoadGame()
+        {
+            _listHeroes = _heroesStorageController.ListHeroes;
+        }
+
+
+        public override void OnShow()
+        {
+            View.CardsContainer.ShowCards(_listHeroes);
+            base.OnShow();
+        }
+
+        private async UniTaskVoid ReplacementHero()
+        {
+            //GameResource resCost = null;
             if (_selectedCard != null)
             {
-                foreach (var cost in View.Costs)
-                {
-                    if (_selectedCard.Hero.HeroData.Rating >= cost.Key)
-                        resCost = cost.Value;
-                }
+                //foreach (var cost in View.Costs)
+                //{
+                //    if (_selectedCard.Hero.HeroData.Rating >= cost.Key)
+                //        resCost = cost.Value;
+                //}
 
-                if (_resourceStorageController.CheckResource(resCost))
-                {
-                    var heroes = _commonDictionaries.Heroes.Where(x => x.Value.General.Rating == _selectedCard.Hero.HeroData.Rating && x.Value.General.Race == _selectedCard.Hero.Model.General.Race && x.Value.General.ViewId != _selectedCard.Hero.Model.General.ViewId).ToList();
-                    if (heroes.Count > 0)
-                    {
-                        var randomIndex = UnityEngine.Random.Range(0, heroes.Count);
-                        newHeroModel = _commonDictionaries.Heroes.ElementAt(randomIndex).Value;
-                        View.SaveButton.interactable = true;
-                    }
-                }
+                //if (_resourceStorageController.CheckResource(resCost))
+                //{
+                    var message = new ReplaceHeroMessage { PlayerId = CommonGameData.PlayerInfoData.Id, HeroId = _selectedCard.Hero.HeroData.Id };
+                    var result = await DataServer.PostData(message);
+
+                    View.CardsContainer.RemoveCard(_selectedCard);
+                    _heroesStorageController.RemoveHero(_selectedCard.Hero);
+
+                    var heroData = _jsonConverter.FromJson<HeroData>(result);
+
+                    var model = _commonDictionaries.Heroes[heroData.HeroId];
+                    var hero = new GameHero(model, heroData);
+                    _heroesStorageController.AddHero(hero);
+
+                    _selectedCard = null;
+                    View.ReplacementButton.interactable = false;
+                    View.CardsContainer.ShowCards(_listHeroes);
+                //}
             }
         }
 
-        public void SaveReplacement()
+        public void SelectHero(GameHero hero)
         {
-            if (newHeroModel != null)
+            UnityEngine.Debug.Log("select hero");
+            if (_selectedCard != null)
             {
-                var newHero = new HeroData()
-                {
-                    HeroId = newHeroModel.Id,
-                    Level = 1,
-                    Rating = 1,
-                    CurrentBreakthrough = 0
-                };
-
-                //ListHeroesController.RemoveCards(new List<Card> { _selectedCard });
-                _heroesStorageController.RemoveHero(_selectedCard.Hero);
-                //_heroesStorageController.AddHero(newHero);
-                View.SaveButton.interactable = false;
+                _selectedCard.Unselect();
             }
-        }
 
-        public override void SelectHero(Card newCardHero)
-        {
-            if (_selectedCard != null) _selectedCard.Unselect();
-            _selectedCard = newCardHero;
+            _selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedCard.Select();
+
             View.ReplacementButton.interactable = true;
         }
 
-        protected override void OpenPage()
+        public void UnselectHero(GameHero hero)
         {
-            //LoadListHeroes();
-            //ListHeroesController.EventOpen();
-            //_disposable = ListHeroesController.OnSelect.Subscribe(SelectHero);
+            var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
+            selectedCard.Unselect();
+            _selectedCard = null;
+            View.ReplacementButton.interactable = false;
         }
 
-        protected override void ClosePage()
-        {
-            //View.SaveButton.gameObject.SetActive(false);
-            _selectedCard = null;
-            _disposable?.Dispose();
-            //ListHeroesController.EventClose();
-        }
 
         public void Disposable()
         {

@@ -17,6 +17,7 @@ using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using City.Buildings.WheelFortune;
 using MainPages.City;
+using UIController.Common;
 using UnityEngine;
 using VContainer;
 using VContainer.Extensions;
@@ -31,6 +32,7 @@ namespace Installers
         private const int CANVAS_ORDER = 1;
 
         [SerializeField] private Canvas _canvas;
+        [SerializeField] private SafeArea _safeArea;
         [SerializeField] private TavernView _tavernView;
         [SerializeField] private MarketView _marketView;
         [SerializeField] private ForgeView _forgeView;
@@ -41,7 +43,7 @@ namespace Installers
         [SerializeField] private VoyageView _voyageView;
         [SerializeField] private FortuneWheelView _wheelFortuneView;
         [SerializeField] private MagicCircleView _magicCircleView;
-        //[SerializeField] private MinesView _minesView;
+        [SerializeField] private MinesView _minesView;
         [SerializeField] private ArenaView _arenaView;
         [SerializeField] private PetsZooView _petsZooView;
         [SerializeField] private TravelCircleView _travelCircleView;
@@ -56,23 +58,26 @@ namespace Installers
             canvas.GetComponent<Canvas>().sortingOrder = CANVAS_ORDER;
             builder.RegisterInstance(canvas);
 
-            builder.RegisterUiView<TavernController, TavernView>(_tavernView, canvas.transform);
-            builder.RegisterUiView<MarketController, MarketView>(_marketView, canvas.transform);
-            builder.RegisterUiView<ForgeController, ForgeView>(_forgeView, canvas.transform);
-            builder.RegisterUiView<AltarController, AltarView>(_altarView, canvas.transform);
-            builder.RegisterUiView<GuildController, GuildView>(_guildView, canvas.transform);
-            builder.RegisterUiView<SanctuaryController, SanctuaryView>(_sanctuaryView, canvas.transform);
-            builder.RegisterUiView<ChallengeTowerController, ChallengeTowerView>(_challengeTowerView, canvas.transform);
-            builder.RegisterUiView<VoyageController, VoyageView>(_voyageView, canvas.transform);
-            builder.RegisterUiView<FortuneWheelController, FortuneWheelView>(_wheelFortuneView, canvas.transform);
-            builder.RegisterUiView<MagicCircleController, MagicCircleView>(_magicCircleView, canvas.transform);
-            //builder.RegisterUiView<MinesController, MinesView>(_minesView, canvas.transform);
-            builder.RegisterUiView<ArenaController, ArenaView>(_arenaView, canvas.transform);
-            builder.RegisterUiView<PetsZooController, PetsZooView>(_petsZooView, canvas.transform);
-            builder.RegisterUiView<TravelCircleController, TravelCircleView>(_travelCircleView, canvas.transform);
-            builder.RegisterUiView<TaskboardController, TaskboardView>(_taskboardView, canvas.transform);
-            //builder.RegisterUiView<FriendsController, FriendsView>(_friendsView, canvas.transform);
-            //builder.RegisterUiView<MailController, MailView>(_mailView, canvas.transform);
+            var safeArea = Instantiate(_safeArea, canvas.transform);
+            //builder.RegisterInstance(safeArea);
+
+            builder.RegisterUiView<TavernController, TavernView>(_tavernView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<MarketController, MarketView>(_marketView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<ForgeController, ForgeView>(_forgeView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<AltarController, AltarView>(_altarView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<GuildController, GuildView>(_guildView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<SanctuaryController, SanctuaryView>(_sanctuaryView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<ChallengeTowerController, ChallengeTowerView>(_challengeTowerView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<VoyageController, VoyageView>(_voyageView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<FortuneWheelController, FortuneWheelView>(_wheelFortuneView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<MagicCircleController, MagicCircleView>(_magicCircleView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<MinesPageController, MinesView>(_minesView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<ArenaController, ArenaView>(_arenaView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<PetsZooController, PetsZooView>(_petsZooView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<TravelCircleController, TravelCircleView>(_travelCircleView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<TaskboardController, TaskboardView>(_taskboardView, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<FriendsController, FriendsView>(_friendsView, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<MailController, MailView>(_mailView, safeArea.RootTemporallyWindows);
         }
     }
 }

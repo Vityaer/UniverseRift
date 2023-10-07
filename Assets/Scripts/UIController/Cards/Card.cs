@@ -19,7 +19,7 @@ namespace UIController.Cards
         [SerializeField] private TextMeshProUGUI _levelUI;
         [SerializeField] private Image _panelSelect;
         [SerializeField] private VocationView _vocationUI;
-        [SerializeField] private RaceView _raceUI;
+        [SerializeField] private TravelRaceCampaignButton _raceUI;
         [SerializeField] private Button Button;
 
         private RatingHero _ratingController;

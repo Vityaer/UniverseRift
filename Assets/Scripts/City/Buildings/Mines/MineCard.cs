@@ -1,52 +1,72 @@
 using Models.City.Mines;
+using System;
 using TMPro;
+using UniRx;
+using Unity.Barracuda;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
+using VContainer;
+using VContainerUi.Abstraction;
 
 namespace City.Buildings.Mines
 {
-    public class MineCard : MonoBehaviour
+    public class MineCard : UiView
     {
-        public GameObject panel;
-        public Image imageMine, outLight;
-        [SerializeField] private TextMeshProUGUI textCountRequirement;
-        private MineData data;
-        private static MineCard selectMineCard = null;
+        public GameObject Panel;
+        public Image MineImage;
+        public Image OutLight;
+        public TextMeshProUGUI CountRequirementText;
+        public Button MainButton;
 
-        public bool GetCanCreateFromCount { get => data.currentCount < data.maxCount; }
+        private MineModel _mineModel;
+        private GameMineRestriction _mineRestriction;
+        private ReactiveCommand<MineCard> _onSelect = new();
 
-        public void SetData(TypeMine type)
+        public IObservable<MineCard> OnSelect => _onSelect;
+        public bool GetCanCreateFromCount { get => _mineRestriction.CurrentCount < _mineRestriction.MaxCount; }
+        public MineModel Model => _mineModel;
+
+        protected override void Awake()
         {
-            data = MinesController.Instance.GetDataMineFromType(type);
-            imageMine.sprite = data.image;
-            textCountRequirement.text = FunctionHelp.AmountFromRequireCount(data.currentCount, data.maxCount);
-            panel.SetActive(true);
+            MainButton.onClick.AddListener(Click);
+            base.Awake();
+        }
+
+        public void SetData(MineModel mineModel, GameMineRestriction mineRestriction)
+        {
+            _mineModel = mineModel;
+            _mineRestriction = mineRestriction;
+
+            var path = _mineModel.SpritePath.ReplaceForResources();
+            path = path.Replace(".png", "");
+            var sprite = Resources.Load<Sprite>(path);
+            MineImage.sprite = sprite;
+            CountRequirementText.text = FunctionHelp.AmountFromRequireCount(_mineRestriction.CurrentCount, _mineRestriction.MaxCount);
+            Panel.SetActive(true);
+        }
+
+        public void Click()
+        {
+            if (_mineRestriction.CurrentCount < _mineRestriction.MaxCount)
+            {
+                _onSelect.Execute(this);
+            }
         }
 
         public void Select()
         {
-            if (data.currentCount < data.maxCount)
-            {
-                MinesController.Instance.panelNewMineCreate.UpdateUI(data);
-                selectMineCard?.Diselect();
-                selectMineCard = this;
-                outLight.enabled = true;
-            }
+            OutLight.enabled = true;
         }
 
         public void Diselect()
         {
-            outLight.enabled = false;
-        }
-
-        public static void DiselectAfterCreate()
-        {
-            selectMineCard?.Diselect();
+            OutLight.enabled = false;
         }
 
         public void Hide()
         {
-            panel.SetActive(false);
+            Panel.SetActive(false);
         }
     }
 }

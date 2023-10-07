@@ -2,6 +2,8 @@
 using DG.Tweening;
 using Misc.Json;
 using Models;
+using Network.DataServer;
+using Network.DataServer.Jsons;
 using Network.Misc;
 using Newtonsoft.Json;
 using Sirenix.Serialization;
@@ -86,13 +88,22 @@ namespace Utils
             Debug.Log($"DownloadJsonData {fileProgress.FileName} {progress}%");
         }
 
+        //public static async UniTask<string> DownloadJsonData(string modelType)
+        //{
+        //    fileProgress.SetNameFile(modelType);
+        //    var url = $"{Constants.Common.GAME_DATA_SERVER_ADDRESS}{modelType}.json";
+        //    Debug.Log(url);
+        //    var progress = Progress.CreateOnlyValueChanged<float>(f => ReportProgress(f));
+        //    var asyncRequest = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
+        //    return asyncRequest.downloadHandler.text;
+        //}
+
         public static async UniTask<string> DownloadJsonData(string modelType)
         {
-            fileProgress.SetNameFile(modelType);
-            var url = $"{Constants.Common.GAME_DATA_SERVER_ADDRESS}{modelType}.json";
-            var progress = Progress.CreateOnlyValueChanged<float>(f => ReportProgress(f));
-            var asyncRequest = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
-            return asyncRequest.downloadHandler.text;
+            var message = new GetJsonDataMessage { Name = modelType };
+            var result = await DataServer.GetFileText(message);
+            Debug.Log(result);
+            return result;
         }
 
         public static Dictionary<string, T> FillDictionary<T>(string jsonData, IJsonConverter converter)

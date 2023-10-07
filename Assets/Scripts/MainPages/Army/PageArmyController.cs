@@ -44,14 +44,12 @@ namespace UIController
 
         public override void OnShow()
         {
-            Debug.Log("armyShow");
             View.CardsContainer.ShowCards(_listHeroes);
             base.OnShow();
         }
 
         public override void OnHide()
         {
-            Debug.Log("armyhide");
             base.OnHide();
         }
 

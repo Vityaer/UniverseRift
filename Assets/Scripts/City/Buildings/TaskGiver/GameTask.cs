@@ -63,7 +63,7 @@ namespace City.Buildings.TaskGiver
         public void Start()
         {
             Status = TaskStatusType.InWork;
-            TimeStartTask = DateTime.Now;
+            TimeStartTask = DateTime.UtcNow;
             _taskData.DateTimeStart = TimeStartTask.ToString();
         }
 

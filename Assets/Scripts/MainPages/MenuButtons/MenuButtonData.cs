@@ -5,8 +5,10 @@ using UnityEngine;
 namespace MainPages.MenuButtons
 {
     [Serializable]
-    public struct MenuButtonData
+    public class MenuButtonData
     {
+        public string Id;
+
         [HorizontalGroup("Group 1", LabelWidth = 40)]
         public string Text;
 

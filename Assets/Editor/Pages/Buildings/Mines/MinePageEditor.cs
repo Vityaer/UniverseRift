@@ -28,10 +28,7 @@ namespace Editor.Pages.City.Mines
 
         public override void Save()
         {
-            var units = Mines.Select(r => new MineModel
-            {
-                Id = r.Id
-            }).ToList();
+            var units = Mines.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(units);
             base.Save();

@@ -10,6 +10,7 @@ using Models.Data.Inventories;
 using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages.Common;
+using Sirenix.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
@@ -38,6 +39,9 @@ namespace Models.Common
         {
             var message = new GetPlayerSaveMessage { PlayerId = playerId };
             var result = await DataServer.PostData(message);
+            if (result.IsNullOrWhitespace())
+                return;
+            
             var data = _jsonConverter.FromJson<CommonGameData>(result);
 
             City = data.City;
@@ -55,7 +59,7 @@ namespace Models.Common
             }
 
             IsInited = true;
-            Debug.Log("data loaded");
+            Debug.Log($"data loaded, PLAYER_ID: {PlayerInfoData.Id}");
         }
     }
 }

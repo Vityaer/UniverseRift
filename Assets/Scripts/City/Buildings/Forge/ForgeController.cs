@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.ClientServices;
 using City.Buildings.Abstractions;
+using ClientServices;
 using Common.Resourses;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models;
@@ -30,6 +32,7 @@ namespace City.Buildings.Forge
         [Inject] private readonly InventoryController _inventoryController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly ClientRewardService _clientRewardService;
 
         private List<ForgeItemVisual> _listPlace = new List<ForgeItemVisual>();
         private List<GameResource> _listCostItems = new List<GameResource>();
@@ -44,6 +47,7 @@ namespace City.Buildings.Forge
         private GameItemRelation _currentItem;
         private ForgeItemVisual _currentCell = null;
         private ReactiveCommand<BigDigit> _onCraft = new ReactiveCommand<BigDigit>();
+        private IDisposable _onGetReward;
 
         public IObservable<BigDigit> OnCraft => _onCraft;
 
@@ -53,7 +57,7 @@ namespace City.Buildings.Forge
             View.ArmorPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_armors)).AddTo(Disposables);
             View.BootsPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_boots)).AddTo(Disposables);
             View.AmuletPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(_necklaces)).AddTo(Disposables);
-            View.ButtonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem()).AddTo(Disposables);
+            View.ButtonSynthesis.OnClickAsObservable().Subscribe(_ => SynthesisItem().Forget()).AddTo(Disposables);
 
             for (var i = 0; i < ITEMS_COUNT; i++)
             {
@@ -111,10 +115,10 @@ namespace City.Buildings.Forge
             _currentCell.Select();
             View.LeftItem.SetInfo(_currentItems[_currentIndex]);
             View.RightItem.SetInfo(_currentItems[_currentIndex]);
-            CheckDemands();
+            CheckResources();
         }
 
-        public void CheckDemands()
+        public void CheckResources()
         {
             View.ButtonSynthesis.interactable =
                 _resourceStorageController.CheckResource(_currentItem.Cost)
@@ -125,7 +129,7 @@ namespace City.Buildings.Forge
         public async UniTaskVoid SynthesisItem()
         {
             var createdCount = 0;
-            var reward = new RewardModel();
+            var rewardModel = new RewardModel();
             var currentCount = HowManyThisItems(_currentItem.Ingredient);
             var cost = _currentItem.Cost;
             var maxCanCreateCount = currentCount / _currentItem.Model.RequireCount;
@@ -140,22 +144,28 @@ namespace City.Buildings.Forge
 
             var message = new SynthesisItemMessage { PlayerId = CommonGameData.PlayerInfoData.Id, ItemId = _currentItem.Model.ResultItemName, Count = createdCount };
             var result = await DataServer.PostData(message);
-            UnityEngine.Debug.Log(result);
             if (!string.IsNullOrEmpty(result))
             {
-                var ingredients = new GameItem(_commonDictionaries.Items[_currentItem.Model.ItemIngredientName], createdCount);
+                var ingredients = new GameItem(_commonDictionaries.Items[_currentItem.Model.ItemIngredientName], createdCount * _currentItem.Model.RequireCount);
                 _resourceStorageController.SubtractResource(cost * createdCount);
                 _inventoryController.Remove(ingredients);
                 _onCraft.Execute(new BigDigit(createdCount));
 
                 var newItem = new ItemData() { Id = _currentItem.Model.ResultItemName, Amount = createdCount };
-                reward.Items.Add(newItem);
-                //MessageController.Instance.OpenSimpleRewardPanel(reward);
-
-                CheckItemCount(_currentIndex);
-                CheckItemCount(_currentIndex + 1);
-                CheckDemands();
+                rewardModel.Items.Add(newItem);
+                var gameReward = new GameReward(rewardModel);
+                _clientRewardService.ShowReward(gameReward);
+                _onGetReward = _clientRewardService.OnGetReward.Subscribe(_ => Refresh());
             }
+        }
+
+        private void Refresh()
+        {
+            _onGetReward.Dispose();
+            CheckItemCount(_currentIndex);
+            CheckItemCount(_currentIndex + 1);
+            CheckResources();
+            SelectItem(_currentCell);
         }
 
         private void CheckItemCount(int index)

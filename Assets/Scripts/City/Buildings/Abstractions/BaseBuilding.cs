@@ -2,6 +2,7 @@
 using Models.Common;
 using System;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -15,12 +16,11 @@ namespace City.Buildings.Abstractions
         where T : BaseBuildingView
     {
         [Inject] protected readonly CommonGameData CommonGameData;
-        [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
+        [Inject] protected readonly IUiMessagesPublisherService MessagesPublisher;
         [Inject] protected readonly GameController GameController;
         [Inject] protected readonly IObjectResolver _resolver;
 
         protected CompositeDisposable Disposables = new CompositeDisposable();
-
         private int levelForAvailableBuilding = 0;
 
         public string Name => throw new NotImplementedException();
@@ -37,6 +37,8 @@ namespace City.Buildings.Abstractions
         {
             foreach (var obj in View.AutoInjectObjects)
             {
+                if (_resolver == null)
+                    Debug.Log($"{View.gameObject.name}");
                 _resolver.Inject(obj);
             }
         }
@@ -63,7 +65,7 @@ namespace City.Buildings.Abstractions
         public virtual void Close()
         {
             ClosePage();
-            UiMessagesPublisher.BackWindowPublisher.BackWindow();
+            MessagesPublisher.BackWindowPublisher.BackWindow();
         }
 
         virtual protected void OnStart() { }

@@ -1,8 +1,4 @@
-using Assets.Scripts.ClientServices;
 using ClientServices;
-using Common;
-using Common.Resourses;
-using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Common;
@@ -12,7 +8,6 @@ using Network.DataServer.Messages;
 using System;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -41,8 +36,7 @@ namespace City.Panels.Registrations
 
         public void OpenPanelRegistration()
         {
-            Debug.Log("open registration");
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Additive);
         }
 
         private void OnChangeNewName(string newName)

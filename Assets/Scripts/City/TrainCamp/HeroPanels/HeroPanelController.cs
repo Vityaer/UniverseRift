@@ -67,7 +67,7 @@ namespace City.TrainCamp
         private void DetailsOpen()
         {
             _heroDetailsPanel.SetData(_hero);
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroDetailsPanelController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroDetailsPanelController>(openType: OpenType.Additive);
         }
 
         public void ShowHero(GameHero hero)
@@ -129,7 +129,7 @@ namespace City.TrainCamp
 
         private void OpenEvolutionPanel()
         {
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroEvolutionPanelController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroEvolutionPanelController>(openType: OpenType.Additive);
         }
     }
 }

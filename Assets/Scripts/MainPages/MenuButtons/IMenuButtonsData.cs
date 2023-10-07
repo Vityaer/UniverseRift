@@ -4,6 +4,6 @@ namespace MainPages.MenuButtons
 {
     public interface IMenuButtonsData
     {
-        Dictionary<string, MenuButtonData> ButtonData { get; }
+        List<MenuButtonData> ButtonData { get; }
     }
 }

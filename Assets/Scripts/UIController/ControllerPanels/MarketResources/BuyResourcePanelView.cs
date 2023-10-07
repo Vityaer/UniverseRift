@@ -1,4 +1,7 @@
-﻿using Ui.Misc.Widgets;
+﻿using City.TrainCamp;
+using Models.City.Markets;
+using System.Collections.Generic;
+using Ui.Misc.Widgets;
 using UIController.Buttons;
 using UIController.ControllerPanels.CountControllers;
 using UIController.ItemVisual;
@@ -12,6 +15,7 @@ namespace UIController.ControllerPanels.MarketResources
         [field: SerializeField] public CountPanelController CountController { get; private set; }
         [field: SerializeField] public ButtonWithObserverResource BuyButton { get; private set; }
 
+        public ResourceObjectCost ResourceObjectCost;
 
     }
 }

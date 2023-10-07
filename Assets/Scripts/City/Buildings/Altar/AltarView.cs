@@ -8,6 +8,6 @@ namespace City.Buildings.Altar
     public class AltarView : BaseBuildingView
     {
         public Button MusterOutButton;
-        public HeroCardsContainerController ListHeroesController;
+        public HeroCardsContainerController CardsContainer;
     }
 }

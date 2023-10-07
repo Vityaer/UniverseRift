@@ -15,8 +15,6 @@ namespace Fight.FightInterface
         public void AttackDirectionSelect(int numDirection)
         {
             CellDirectionType direction = (CellDirectionType)numDirection;
-            Debug.Log(direction.ToString());
-            Debug.Log(_currentNeighbours.Find(x => x.direction == direction)?.Cell.gameObject.name);
             if (_actionOnSelectDirection != null)
             {
                 _actionOnSelectDirection((CellDirectionType)numDirection);

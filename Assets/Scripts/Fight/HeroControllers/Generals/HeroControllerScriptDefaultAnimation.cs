@@ -54,15 +54,18 @@ namespace Fight.HeroControllers.Generals
             return result;
         }
 
+        private Arrow prefabArrow;
         private void DefaultAnimDistanceAttack(List<HeroController> enemies)
         {
             hitCount = 0;
             this.listTarget = enemies;
+            prefabArrow ??= Resources.Load<Arrow>("CreateObjects/Bullet");
+
             foreach (HeroController target in listTarget)
             {
-                //var arrow = Instantiate(hero.Model.ArrowPrefab, tr.position, Quaternion.identity);
-                //arrow.SetTarget(target, new Strike(hero.Characteristics.Damage, hero.Characteristics.Main.Attack, typeStrike: typeStrike, isMellee: false));
-                //arrow.RegisterOnCollision(HitCount);
+                var arrow = Instantiate(prefabArrow, transform.position, Quaternion.identity);
+                arrow.SetTarget(target, new Strike(hero.Model.Characteristics.Damage, hero.Model.Characteristics.Main.Attack, typeStrike: typeStrike, isMellee: false));
+                arrow.RegisterOnCollision(HitCount);
             }
         }
 

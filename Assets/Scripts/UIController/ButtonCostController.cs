@@ -47,6 +47,9 @@ namespace UIController
         {
             _cost = res;
             Enable();
+
+            if(_resourceStorageController != null)
+                OnChageStorageResource(_resourceStorageController.Resources[_cost.Type]);
         }
 
         public void SetCostWithoutInfo(GameResource res)
@@ -58,7 +61,8 @@ namespace UIController
 
         public void SetLabel(string text)
         {
-            _cost.Clear();
+            _cost?.Clear();
+            _subscriberResource?.Dispose();
             _costText.text = text;
             disable = false;
             _button.interactable = true;
@@ -70,15 +74,21 @@ namespace UIController
             {
                 if (_cost.Amount.Mantissa > 0)
                 {
-                    _costText.text = _cost.ToString();
-                    _mainImage.enabled = true;
-                    _mainImage.sprite = _cost.Image;
+                    if (_mainImage != null)
+                    {
+                        _costText.text = _cost.ToString();
+                        _mainImage.enabled = true;
+                        _mainImage.sprite = _cost.Image;
+                    }
                 }
                 else
                 {
-                    _costText.text = DefaultEmpty();
                     if (typeDefaultMessage != TypeDefaultMessage.Number)
-                        _mainImage.enabled = false;
+                        if (_mainImage != null)
+                        {
+                            _mainImage.enabled = false;
+                            _costText.text = DefaultEmpty();
+                        }
                 }
                 CheckResource(_cost);
             }
@@ -105,11 +115,12 @@ namespace UIController
             _subscriberResource = null;
         }
 
+
         public void Enable()
         {
             if (_subscriberResource != null)
             {
-                Debug.LogError("try double subscribe");
+                //Debug.LogError("try double subscribe");
                 return;
             }
 
@@ -121,7 +132,10 @@ namespace UIController
         public void Clear()
         {
             _button.interactable = true;
-            _mainImage.enabled = false;
+            if (_mainImage != null)
+            {
+                _mainImage.enabled = false;
+            }
             disable = false;
         }
 
@@ -143,10 +157,18 @@ namespace UIController
             return result;
         }
 
-        public void Dispose()
+        public new void OnDestroy()
         {
+            base.OnDestroy();
             _subscriberResource?.Dispose();
-            _disposables.Dispose();
+            _disposables?.Dispose();
+        }
+
+        public new void Dispose()
+        {
+            base.Dispose();
+            _subscriberResource?.Dispose();
+            _disposables?.Dispose();
         }
     }
 }

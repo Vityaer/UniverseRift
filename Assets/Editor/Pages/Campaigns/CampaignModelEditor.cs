@@ -24,7 +24,7 @@ namespace Editor.Pages.Campaigns
                 if(mission.Units != null)
                     foreach (var unit in mission.Units)
                     {
-                        unit._commonDictionaries = _commonDictionaries;
+                        unit.CommonDictionaries = _commonDictionaries;
                     }
 
                 mission.WinReward._dictionaries = _commonDictionaries;

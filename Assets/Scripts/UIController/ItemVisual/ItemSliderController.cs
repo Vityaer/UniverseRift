@@ -8,7 +8,6 @@ namespace UIController.ItemVisual
 {
     public class ItemSliderController : MonoBehaviour
     {
-
         public Slider slider;
         public TextMeshProUGUI textSlider;
 

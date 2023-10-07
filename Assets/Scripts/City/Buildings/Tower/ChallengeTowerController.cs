@@ -1,29 +1,34 @@
 using City.Buildings.Abstractions;
 using Common;
+using Db.CommonDictionaries;
 using Fight;
 using Models;
 using Models.Fights.Campaign;
 using System;
 using System.Collections.Generic;
 using UniRx;
+using VContainer;
 using VContainer.Unity;
 
 namespace City.Buildings.Tower
 {
     public class ChallengeTowerController : BuildingWithFight<ChallengeTowerView>, IInitializable
     {
+        [Inject] private readonly CommonDictionaries _dictionaries;
+
         private const int SHOW_MISSION_COUNT = 8;
         private const int SHOW_COMPLETED_MISSION_COUNT = 2;
         private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
+        
 
-        public ListMissions listMissions;
         public List<TowerMissionCotroller> _missionsUI = new List<TowerMissionCotroller>();
 
         private int _currentMissionIndex = 0;
+
         private List<MissionModel> workMission = new List<MissionModel>(SHOW_MISSION_COUNT);
         private BuildingWithFightTeamsData challengeTower = null;
         private ReactiveCommand<int> _onMissionWin = new ReactiveCommand<int>();
-
+        private List<MissionModel> _listMissions;
         public ReactiveCommand OnTryMission = new ReactiveCommand();
         public IObservable<int> OnMissionWin => _onMissionWin;
 
@@ -33,21 +38,30 @@ namespace City.Buildings.Tower
             {
                 var missionUi = UnityEngine.Object.Instantiate(View.MissionPrefab, View.Content);
                 _missionsUI.Add(missionUi);
+                missionUi.SetData(null, View.ScrollRect);
+                missionUi.OnClick.Subscribe(SelectMission).AddTo(Disposables);
             }
+        }
+
+        private void SelectMission(TowerMissionCotroller mission)
+        {
+            OpenMission(mission.GetData);
         }
 
         protected override void OnLoadGame()
         {
             challengeTower = CommonGameData.City.ChallengeTowerSave;
             _currentMissionIndex = challengeTower.IntRecords.GetRecord(NAME_RECORD_NUM_CURRENT_MISSION);
-            //LoadMissions();
+
+            _listMissions = _dictionaries.StorageChallenges["ChallengeTower"].Missions;
+            LoadMissions();
         }
 
         private void LoadMissions()
         {
             workMission = new List<MissionModel>(SHOW_MISSION_COUNT);
-            for (int i = _currentMissionIndex; i < _currentMissionIndex + SHOW_MISSION_COUNT && i < listMissions.Count; i++)
-                workMission.Add(listMissions.missions[i]);
+            for (int i = _currentMissionIndex; i < _currentMissionIndex + SHOW_MISSION_COUNT && i < _listMissions.Count; i++)
+                workMission.Add(_listMissions[i]);
             FillData();
         }
 
@@ -55,7 +69,7 @@ namespace City.Buildings.Tower
         {
             for (int i = 0; i < _missionsUI.Count && i < workMission.Count; i++)
             {
-                _missionsUI[i].SetData(workMission[i], _currentMissionIndex + i + 1, i == 0);
+                _missionsUI[i].SetData(workMission[i], View.ScrollRect, _currentMissionIndex + i + 1, i == 0);
             }
         }
 

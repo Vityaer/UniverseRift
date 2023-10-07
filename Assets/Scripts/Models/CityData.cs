@@ -9,7 +9,7 @@ namespace Models
     public class CityData : BaseModel
     {
         public TimeManagementData TimeManagementSave = new TimeManagementData();
-        public IndustryModel IndustrySave = new IndustryModel();
+        public IndustryData IndustrySave = new IndustryData();
         public MarketData MallSave = new MarketData();
         public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
         public BuildingWithFightTeamsData MainCampaignSave = new BuildingWithFightTeamsData();

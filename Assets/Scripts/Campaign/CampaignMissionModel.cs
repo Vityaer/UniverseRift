@@ -1,7 +1,6 @@
 using Db.CommonDictionaries;
 using Models.Data.Rewards;
 using Models.Fights.Campaign;
-using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 

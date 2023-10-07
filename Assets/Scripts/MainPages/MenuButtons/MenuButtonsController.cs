@@ -31,14 +31,15 @@ namespace Ui.MainMenu.MenuButtons
             LayoutRebuilder.ForceRebuildLayoutImmediate(View.Content);
         }
 
-        public void AddMenuButton<T>(string name)
+        public void AddMenuButton<T>(string id)
             where T : IWindow
         {
             var buttonView = UnityEngine.Object.Instantiate(View.MenuButtonPrefab, View.Content);
             var buttonIndex = _menuButtons.Count;
 
             _menuButtons.Add(buttonView);
-            if (_menuButtonsData.ButtonData.TryGetValue(name, out var data))
+            var data = _menuButtonsData.ButtonData.Find(buttonData => buttonData.Id == id);
+            if (data != null)
             {
                 buttonView.Icon.sprite = data.Icon;
                 buttonView.ButtonName.text = data.Text;

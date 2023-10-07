@@ -43,7 +43,7 @@ namespace City.Panels.SubjectPanels
             }
 
             View.MainImage.SetData(item);
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
         }
 
         private void OnClickButtonAction()

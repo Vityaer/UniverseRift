@@ -1,12 +1,12 @@
 ﻿using TMPro;
 using Ui.Misc.Widgets;
-using UIController.MessagePanels.Rewards;
+using UIController;
 
 namespace City.Panels.NewLevels
 {
-    public class PlayerNewLevelPanelView : RewardPanelView
+    public class PlayerNewLevelPanelView : BasePanel
     {
         public TextMeshProUGUI NewLevelLabel;
-
+        public RewardUIController RewardUIController;
     }
 }

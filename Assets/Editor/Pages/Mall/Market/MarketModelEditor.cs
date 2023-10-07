@@ -15,7 +15,7 @@ namespace Editor.Pages.Mall.Market
 
         [ShowInInspector]
         [HorizontalGroup("1")]
-        [LabelWidth(50)]
+        [LabelWidth(150)]
         public MarketModel Model
         {
             get => _model;

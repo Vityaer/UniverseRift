@@ -15,33 +15,44 @@ using VContainerUi.Model;
 using VContainerUi.Services;
 using VContainerUi.Messages;
 using Models.Common;
+using UIController.Cards;
+using System;
 
 namespace City.Buildings.TravelCircle
 {
     public class TravelCircleController : BuildingWithFight<TravelCircleView>, IInitializable
     {
+        private const int SHOW_MISSION_COUNT = 10;
+
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly TravelMissionsPanelController panelTravelListMissions;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
 
-        private const int SHOW_MISSION_COUNT = 10;
         private List<TravelCircleMissionController> _missionsUI = new List<TravelCircleMissionController>();
+        private TravelRaceCampaignButton _currentCampaingSelector;
+
         private List<TravelRaceModel> _travels = new List<TravelRaceModel>();
         private TravelRaceModel _currentTravel;
         BuildingWithFightTeamsData _travelCircleSave = null;
 
         public void Initialize()
         {
-            //for (var i = 0; i < SHOW_MISSION_COUNT; i++)
-            //{
-            //    var missionUi = UnityEngine.Object.Instantiate(View.MissionPrefab, View.Content);
-            //    _missionsUI.Add(missionUi);
-            //}
+            for (var i = 0; i < SHOW_MISSION_COUNT; i++)
+            {
+                var missionUi = UnityEngine.Object.Instantiate(View.MissionPrefab, View.Content);
+                _missionsUI.Add(missionUi);
+            }
+
+            foreach (var campaignSelector in View.TravelRaceCampaignButtons)
+            {
+                campaignSelector.OnSelect.Subscribe(OnSelectCampaign).AddTo(Disposables);
+            }
+
+            View.OpenListButton.OnClickAsObservable().Subscribe(_ => OpenTravel()).AddTo(Disposables);
         }
 
         protected override void OnStart()
         {
-            //View.OpenListButton.OnClickAsObservable().Subscribe(_ => OpenTravel()).AddTo(Disposables);
         }
 
         protected override void OnLoadGame()
@@ -76,6 +87,13 @@ namespace City.Buildings.TravelCircle
             _missionsUI[currentMission].OpenForFight();
         }
 
+        private void OnSelectCampaign(TravelRaceCampaignButton newSelector)
+        {
+            _currentCampaingSelector?.Diselect();
+            _currentCampaingSelector = newSelector;
+            _currentCampaingSelector.Select();
+        }
+
         protected override void OnResultFight(FightResultType result)
         {
             if (result == FightResultType.Win)
@@ -89,12 +107,12 @@ namespace City.Buildings.TravelCircle
 
         public void ChangeTravel(string newRace)
         {
-            if (_currentTravel == null || _currentTravel.race != newRace)
-            {
-                _currentTravel = _travels.Find(x => x.race == newRace);
-                _currentTravel.controllerUI.Select();
-                LoadMissions(_currentTravel.missions, _currentTravel.CurrentMission);
-            }
+            //if (_currentTravel == null || _currentTravel.race != newRace)
+            //{
+            //    _currentTravel = _travels.Find(x => x.race == newRace);
+            //    _currentTravel.controllerUI.Select();
+            //    LoadMissions(_currentTravel.missions, _currentTravel.CurrentMission);
+            //}
         }
 
         public void OpenTravel()

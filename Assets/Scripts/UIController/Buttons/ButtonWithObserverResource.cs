@@ -17,7 +17,7 @@ namespace UIController.Buttons
 
         private void Awake()
         {
-            buttonCostComponent.OnClick.Subscribe(_ => { Debug.Log($"click {OnClick != null}"); OnClick?.Invoke(); }).AddTo(_disposable);
+            buttonCostComponent.OnClick.Subscribe(_ =>  OnClick?.Invoke()).AddTo(_disposable);
         }
 
         public void ChangeCost(GameResource cost)

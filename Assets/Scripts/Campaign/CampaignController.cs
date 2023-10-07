@@ -8,19 +8,17 @@ using Fight;
 using Models;
 using Models.Common;
 using Models.Fights.Campaign;
-using Network.DataServer.Messages.Campaigns;
 using Network.DataServer;
+using Network.DataServer.Messages.Campaigns;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
-using Common;
-using UnityEngine;
 
 namespace Campaign
 {
@@ -133,19 +131,19 @@ namespace Campaign
             _maxMission = num + 1;
             if (_chapter.numChapter == _maxMission / CHAPTER_MISSION_COUNT)
             {
-                missionControllers[_maxMission % CHAPTER_MISSION_COUNT].OpenMission();
+                var missionController = missionControllers[_maxMission % CHAPTER_MISSION_COUNT];
+                missionController.OpenMission();
             }
         }
 
         protected override void OnResultFight(FightResultType result)
         {
-            UnityEngine.Debug.Log($"on result {result}");
             if (result == FightResultType.Win)
             {
                 _infoMission.MissionWin();
                 var reward = new GameReward(_infoMission.mission.WinReward);
-                UnityEngine.Debug.Log("add reward");
-                _clientRewardService.AddReward(reward);
+                _clientRewardService.ShowReward(reward);
+                SetAutoFightMission(_infoMission);
                 OpenNextMission();
             }
 
@@ -156,7 +154,7 @@ namespace Campaign
         {
             if (this._infoMission != null)
             {
-                if(_infoMission.Status == StatusMission.InAutoFight)
+                if (_infoMission.Status == StatusMission.InAutoFight)
                     _infoMission.StopAutoFight();
             }
 
@@ -176,15 +174,16 @@ namespace Campaign
 
         private void SetAutoFightMission(MissionController infoMission)
         {
+            var index = missionControllers.IndexOf(infoMission);
             infoMission.StartAutoFight();
-            _goldHeapController.SetNewReward(infoMission.mission.AutoFightReward, _currentMissionIndex);
+            _goldHeapController.SetNewReward(infoMission.mission.AutoFightReward, index);
             SaveSelectAutoFight(infoMission);
         }
 
         private void SaveSelectAutoFight(MissionController infoMission)
         {
             var index = missionControllers.IndexOf(infoMission);
-            PlayerPrefs.SetInt(NAME_RECORD_NUM_CURRENT_MISSION, _currentMissionIndex);
+            PlayerPrefs.SetInt(NAME_RECORD_NUM_CURRENT_MISSION, index);
         }
 
 
@@ -196,7 +195,7 @@ namespace Campaign
 
         private void OpenWorldMap()
         {
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<WorldMapController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<WorldMapController>(openType: OpenType.Exclusive);
         }
 
     }

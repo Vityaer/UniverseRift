@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainerUi.Interfaces;
@@ -9,6 +10,8 @@ namespace VContainerUi.Abstraction
     public abstract class UiView : UIBehaviour, IUiView, IDisposable
     {
         protected Sequence TweenSequence;
+
+        public List<UiView> AutoInjectObjects = new List<UiView>();
 
         public bool IsShow { get; private set; }
 
