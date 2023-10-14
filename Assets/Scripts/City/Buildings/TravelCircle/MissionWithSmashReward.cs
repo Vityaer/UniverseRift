@@ -1,3 +1,4 @@
+using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using UIController.Rewards;
 using UnityEngine;
@@ -7,8 +8,16 @@ namespace City.Buildings.TravelCircle
     [System.Serializable]
     public class MissionWithSmashReward : MissionModel
     {
-        [SerializeField] protected RewardModel smashReward;
-        public RewardModel SmashReward { get => smashReward; }
+        public RewardModel SmashReward;
+
+        public MissionWithSmashReward()
+        {
+        }
+
+        public MissionWithSmashReward(CommonDictionaries dictionaries) : base(dictionaries)
+        {
+        }
+
         public MissionWithSmashReward Clone()
         {
             return new MissionWithSmashReward

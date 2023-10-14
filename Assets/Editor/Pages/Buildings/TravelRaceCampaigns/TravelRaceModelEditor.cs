@@ -1,22 +1,21 @@
-﻿using Campaign;
+﻿using City.Buildings.TravelCircle;
 using Db.CommonDictionaries;
 using Editor.Common;
-using Models.City.Misc;
-using Models.Fights.Campaign;
+using Models.City.TravelCircle;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 
-namespace Pages.City.ChallengeTower
+namespace Editor.Pages.Buildings.TravelRaceCampaigns
 {
-    [HideReferenceObjectPicker]
-    public class StorageChallangeModelEditor : BaseModelEditor<StorageChallengeModel>
+    public class TravelRaceModelEditor : BaseModelEditor<TravelRaceModel>
     {
         private CommonDictionaries _commonDictionaries;
+        private string[] _allRaces => _commonDictionaries.Races.Select(c => c.Value).Select(r => r.Id).ToArray();
 
-        public StorageChallangeModelEditor(StorageChallengeModel model, CommonDictionaries commonDictionaries)
+        public TravelRaceModelEditor(TravelRaceModel model, CommonDictionaries dictionaries)
         {
-            _commonDictionaries = commonDictionaries;
+            _commonDictionaries = dictionaries;
             _model = model;
 
             foreach (var mission in _model.Missions)
@@ -31,6 +30,11 @@ namespace Pages.City.ChallengeTower
                 mission.WinReward.CommonDictionaries = _commonDictionaries;
                 if (mission.WinReward.Items != null)
                     foreach (var item in mission.WinReward.Items)
+                        item.CommonDictionaries = _commonDictionaries;
+
+                mission.SmashReward.CommonDictionaries = _commonDictionaries;
+                if (mission.SmashReward.Items != null)
+                    foreach (var item in mission.SmashReward.Items)
                         item.CommonDictionaries = _commonDictionaries;
             }
         }
@@ -47,12 +51,23 @@ namespace Pages.City.ChallengeTower
 
         [ShowInInspector]
         [HorizontalGroup("2")]
+        [LabelText("Race")]
+        [LabelWidth(150)]
+        [ValueDropdown(nameof(_allRaces), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public string Race
+        {
+            get => _model.Race;
+            set => _model.Race = value;
+        }
+
+        [ShowInInspector]
+        [HorizontalGroup("3")]
         [LabelText("Missions")]
         [LabelWidth(150)]
         [ListDrawerSettings(Expanded = false,
         NumberOfItemsPerPage = 20,
             CustomRemoveElementFunction = nameof(RemoveMission), CustomAddFunction = nameof(AddMission))]
-        public List<MissionModel> Missions
+        public List<MissionWithSmashReward> Missions
         {
             get => _model.Missions;
             set => _model.Missions = value;
@@ -60,15 +75,10 @@ namespace Pages.City.ChallengeTower
 
         protected void AddMission()
         {
-            var newMission = new MissionModel(_commonDictionaries);
-            newMission.WinReward.CommonDictionaries = _commonDictionaries;
-            if (newMission.WinReward.Items != null)
-                foreach (var item in newMission.WinReward.Items)
-                    item.CommonDictionaries = _commonDictionaries;
-            Missions.Add(newMission);
+            Missions.Add(new MissionWithSmashReward(_commonDictionaries));
         }
 
-        private void RemoveMission(MissionModel light, object b, List<MissionModel> lights)
+        private void RemoveMission(MissionWithSmashReward light, object b, List<MissionWithSmashReward> lights)
         {
             Missions.Remove(light);
         }

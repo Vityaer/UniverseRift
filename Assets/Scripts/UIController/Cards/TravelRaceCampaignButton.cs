@@ -1,3 +1,4 @@
+using Models.City.TravelCircle;
 using System;
 using TMPro;
 using UIController.ItemVisual;
@@ -13,10 +14,11 @@ namespace UIController.Cards
         [SerializeField] private Button MainButton;
         [SerializeField] private GameObject _outLine;
         [SerializeField] private TMP_Text _progressText;
+        [SerializeField][Space(10)] private string _currentRace;
 
-        private string _currentRace;
         private ReactiveCommand<TravelRaceCampaignButton> _onSelect = new();
 
+        public string RaceId => _currentRace;
         public IObservable<TravelRaceCampaignButton> OnSelect => _onSelect;
 
         private void Awake()
@@ -24,10 +26,10 @@ namespace UIController.Cards
             MainButton.onClick.AddListener(() => _onSelect.Execute(this));
         }
 
-        public void SetData(string newRace)
+        public void SetData(TravelRaceModel travelModel, int missionIndexCompleted)
         {
-            _imageRace.sprite = SystemSprites.Instance.GetSprite(newRace);
-            _currentRace = newRace;
+            var currentMission = missionIndexCompleted >= 0 ? missionIndexCompleted + 1 : 0;
+            _progressText.text = $"{currentMission} / {travelModel.Missions.Count}";
         }
 
         public void Select()
@@ -39,5 +41,6 @@ namespace UIController.Cards
         {
             _outLine.SetActive(false);
         }
+
     }
 }

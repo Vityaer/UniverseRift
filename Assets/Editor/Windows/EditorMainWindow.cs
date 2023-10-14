@@ -5,6 +5,7 @@ using Editor.Common;
 using Editor.Pages.Achievments;
 using Editor.Pages.Buildings.Mines.MineRestrictions;
 using Editor.Pages.Buildings.TaskBoards;
+using Editor.Pages.Buildings.TravelRaceCampaigns;
 using Editor.Pages.Campaigns;
 using Editor.Pages.City.Mines;
 using Editor.Pages.DailyRewards;
@@ -62,6 +63,7 @@ namespace Editor.Windows
         private AchievementPageEditor _achievementPageEditor;
         private DailyRewardPageEditor _dailyRewardPageEditor;
         private MineRestrictionPageEditor _mineRestrictionPageEditor;
+        private TravelRaceCircleEditor _travelRaceCircleEditor;
 
         private OdinMenuTree _tree;
 
@@ -123,7 +125,7 @@ namespace Editor.Windows
             _tree.Add("FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             _tree.Add("Achievements/Achievement Editor", _achievementPageEditor);
             _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
-            
+            _tree.Add("Travel/Main Editor", _travelRaceCircleEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
 
@@ -207,6 +209,9 @@ namespace Editor.Windows
 
             _mineRestrictionPageEditor = new MineRestrictionPageEditor(_dictionaries);
             _allPages.Add(_mineRestrictionPageEditor);
+
+            _travelRaceCircleEditor = new TravelRaceCircleEditor(_dictionaries);
+            _allPages.Add(_travelRaceCircleEditor);
 
         }
 

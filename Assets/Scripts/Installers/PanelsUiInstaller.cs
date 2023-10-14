@@ -10,7 +10,6 @@ using City.Buildings.Mines.Panels;
 using City.Buildings.Mines.Panels.CreateMines;
 using City.Buildings.PlayerPanels;
 using City.Buildings.Requirement;
-using City.Buildings.TravelCircle.PanelMissions;
 using City.Panels.Arenas;
 using City.Panels.Arenas.RatingArenas;
 using City.Panels.Arenas.SimpleArenas;
@@ -68,7 +67,6 @@ namespace Installers
         [SerializeField] private PlayerNewNamePanelView _playerNewNamePanelView;
         [SerializeField] private SplinterSelectCountPanelView _splinterSelectCountPanelView;
         [SerializeField] private AutoFightRewardPanelView _autoFightRewardPanelView;
-        [SerializeField] private TravelMissionsPanelView _travelMissionsPanelView;
         [SerializeField] private FriendsView _friendsView;
         [SerializeField] private MailView _mailView;
         [SerializeField] private GoldHeapView _goldHeapView;
@@ -104,7 +102,6 @@ namespace Installers
             builder.RegisterUiView<PlayerNewNamePanelController, PlayerNewNamePanelView>(_playerNewNamePanelView, canvas.transform);
             builder.RegisterUiView<SplinterSelectCountPanelController, SplinterSelectCountPanelView>(_splinterSelectCountPanelView, canvas.transform);
             builder.RegisterUiView<AutoFightRewardPanelController, AutoFightRewardPanelView>(_autoFightRewardPanelView, canvas.transform);
-            builder.RegisterUiView<TravelMissionsPanelController, TravelMissionsPanelView>(_travelMissionsPanelView, canvas.transform);
             builder.RegisterUiView<FriendsController, FriendsView>(_friendsView, canvas.transform);
             builder.RegisterUiView<MailController, MailView>(_mailView, canvas.transform);
             builder.RegisterUiView<GoldHeapController, GoldHeapView>(_goldHeapView, canvas.transform);

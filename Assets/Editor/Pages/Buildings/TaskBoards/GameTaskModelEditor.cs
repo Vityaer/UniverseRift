@@ -14,7 +14,7 @@ namespace Editor.Pages.Buildings.TaskBoards
             _dictionaries = dictionaries;
             _model = model;
 
-            model.Reward._dictionaries = _dictionaries;
+            model.Reward.CommonDictionaries = _dictionaries;
         }
 
         [ShowInInspector]

@@ -1,6 +1,7 @@
 ﻿using Models.Data.Buildings.FortuneWheels;
 using Models.Data.Buildings.Markets;
 using Models.Data.Buildings.Taskboards;
+using Models.TravelRaceDatas;
 using System;
 
 namespace Models
@@ -13,7 +14,7 @@ namespace Models
         public MarketData MallSave = new MarketData();
         public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
         public BuildingWithFightTeamsData MainCampaignSave = new BuildingWithFightTeamsData();
-        public BuildingWithFightTeamsData TravelCircleSave = new BuildingWithFightTeamsData();
+        public TravelBuildingData TravelCircleSave = new TravelBuildingData();
         public VoyageBuildingData VoyageSave = new VoyageBuildingData();
         public ArenaBuildingModel ArenaSave = new ArenaBuildingModel();
         public SimpleBuildingData Tutorial = new SimpleBuildingData();

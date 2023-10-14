@@ -22,9 +22,7 @@ namespace City.Buildings.Market
     {
         [Inject] private readonly CommonGameData _сommonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly InventoryController _inventoryController;
 
         public CycleRecover cycle;

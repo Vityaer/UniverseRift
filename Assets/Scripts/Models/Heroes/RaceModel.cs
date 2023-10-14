@@ -2,6 +2,6 @@
 {
     public class RaceModel : BaseModel
     {
-        public string Name { get; set; }
+        public string SpritePath;
     }
 }

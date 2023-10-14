@@ -24,7 +24,7 @@ namespace Models.Fights.Campaign
         public MissionModel(CommonDictionaries dictionaries)
         {
             Dictionaries = dictionaries;
-            WinReward._dictionaries = dictionaries;
+            WinReward.CommonDictionaries = dictionaries;
         }
 
         protected void AddHero()

@@ -69,7 +69,6 @@ namespace City.Buildings.Mines
 
         public void OnDestroy()
         {
-            Debug.Log("dispose place mine");
             _disposables.Dispose();
         }
     }

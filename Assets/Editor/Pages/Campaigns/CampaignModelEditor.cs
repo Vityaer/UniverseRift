@@ -27,7 +27,7 @@ namespace Editor.Pages.Campaigns
                         unit.CommonDictionaries = _commonDictionaries;
                     }
 
-                mission.WinReward._dictionaries = _commonDictionaries;
+                mission.WinReward.CommonDictionaries = _commonDictionaries;
                 if (mission.WinReward.Items != null)
                     foreach (var item in mission.WinReward.Items)
                         item.CommonDictionaries = _commonDictionaries;
