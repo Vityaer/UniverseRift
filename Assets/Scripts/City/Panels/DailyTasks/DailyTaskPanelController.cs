@@ -15,7 +15,7 @@ using VContainer.Unity;
 
 namespace City.Buildings.CityButtons.EventAgent
 {
-    public class DailyTaskPanelController : UiPanelController<DailyTaskPanelView>, IInitializable
+    public class DailyTaskPanelController : UiPanelController<DailyTaskPanelView>, IStartable
     {
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonGameData _ñommonGameData;
@@ -42,10 +42,10 @@ namespace City.Buildings.CityButtons.EventAgent
             View.miniSliderAmount.SetAmount(OverMonet(), 100);
         }
 
-        public void Initialize()
+        public override void Start()
         {
             _resourceStorageController.Subscribe(ResourceType.EventAgentMonet, OnGetMonet).AddTo(Disposables);
-
+            base.Start();
             //for (var i = 0; i < REWARD_COUNT; i++)
             //{
             //    var rewardUi = UnityEngine.Object.Instantiate(View.PrefabRewardUi);
@@ -55,35 +55,35 @@ namespace City.Buildings.CityButtons.EventAgent
 
         protected override void OnLoadGame()
         {
-            progressObjectSave = _ñommonGameData.Player.Requirements.EventAgentProgress;
-            _sumReward = progressObjectSave.IntRecords.GetRecord(SUM_RECEIVIED_REWARD);
-            RepackReceivedReward(_sumReward);
-            var statusReward = DailyTaskRewardStatus.Close;
-            var countOpenLevel = GetOpenLevel();
+            //progressObjectSave = _ñommonGameData.Requirements.EventAgentProgress;
+            //_sumReward = progressObjectSave.IntRecords.GetRecord(SUM_RECEIVIED_REWARD);
+            //RepackReceivedReward(_sumReward);
+            //var statusReward = DailyTaskRewardStatus.Close;
+            //var countOpenLevel = GetOpenLevel();
 
-            for (int i = 0; i < listRewards.Count; i++)
-            {
-                if (i < countOpenLevel)
-                {
-                    if (idReceivedReward.Contains(i))
-                    {
-                        statusReward = DailyTaskRewardStatus.Received;
-                    }
-                    else
-                    {
-                        statusReward = DailyTaskRewardStatus.Open;
-                    }
-                }
-                else
-                {
-                    statusReward = DailyTaskRewardStatus.Close;
-                }
+            //for (int i = 0; i < listRewards.Count; i++)
+            //{
+            //    if (i < countOpenLevel)
+            //    {
+            //        if (idReceivedReward.Contains(i))
+            //        {
+            //            statusReward = DailyTaskRewardStatus.Received;
+            //        }
+            //        else
+            //        {
+            //            statusReward = DailyTaskRewardStatus.Open;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        statusReward = DailyTaskRewardStatus.Close;
+            //    }
 
-                _rewardsUi[i].SetStatus(statusReward);
-            }
+            //    _rewardsUi[i].SetStatus(statusReward);
+            //}
 
-            OnGetMonet(_resourceStorageController.GetResource(ResourceType.EventAgentMonet));
-            View.mainSliderController.SetValue(_currentProgress, MaxCount);
+            //OnGetMonet(_resourceStorageController.GetResource(ResourceType.EventAgentMonet));
+            //View.mainSliderController.SetValue(_currentProgress, MaxCount);
         }
 
         private void RepackReceivedReward(int sum)
@@ -127,6 +127,7 @@ namespace City.Buildings.CityButtons.EventAgent
             //        _rewardsUi[i].SetData(listRewards[i], View.Scroll);
             //    isFillData = true;
             //}
+            base.OnShow();
         }
 
         public int GetMaxLevelReceivedReward()

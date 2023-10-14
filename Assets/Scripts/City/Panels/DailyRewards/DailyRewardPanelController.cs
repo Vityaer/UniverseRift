@@ -2,25 +2,21 @@ using City.Buildings.CityButtons.DailyReward;
 using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Market;
 using City.Panels.DailyRewards;
-using Common;
-using Common.Inventories.Splinters;
-using Common.Resourses;
 using Models;
-using Sirenix.OdinInspector;
+using Models.Common;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using UIController;
-using UIController.GameSystems;
-using UIController.Inventory;
 using UiExtensions.Scroll.Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.CityButtons
 {
     public class DailyRewardPanelController : UiPanelController<DailyRewardPanelView>
     {
+        [Inject] private readonly CommonGameData _commonGameData;
+
         private const char SYMBOL_1 = '1';
         private const string SUM_RECEIVIED_REWARD = "SumReward";
         private const string ID_CURRENT_REWARD = "IDCurReward";
@@ -29,9 +25,7 @@ namespace City.Buildings.CityButtons
         private List<int> idReceivedReward = new List<int>();
 
         private SimpleBuildingData dailyReward = null;
-        [OdinSerialize] private List<BaseMarketProduct> listRewards = new List<BaseMarketProduct>();
-        public List<DailyRewardUI> dailyRewardUI = new List<DailyRewardUI>();
-        public SliderTime sliderTime;
+        public List<DailyRewardUI> _rewardControllers = new List<DailyRewardUI>();
         private int sumReward = 0, IDCurReward = 0;
         private DateTime dateLastCheck;
         private TimeSpan timeForNextOpenReward = new TimeSpan(1, 0, 0, 0);
@@ -39,12 +33,11 @@ namespace City.Buildings.CityButtons
 
         protected override void OnLoadGame()
         {
-            //dailyReward = GameController.GetCitySave.DailyReward;
+            //dailyReward = _commonGameData.City.DailyReward;
             //sumReward = dailyReward.IntRecords.GetRecord(SUM_RECEIVIED_REWARD, 0);
             //IDCurReward = dailyReward.IntRecords.GetRecord(ID_CURRENT_REWARD, 1);
             //dateLastCheck = dailyReward.DateRecords.GetRecord(DATA_LAST_CHECK);
             //RepackReceivedReward(sumReward);
-            //TimeControllerSystem.Instance.RegisterOnNewCycle(OpenNextReward, CycleRecover.Day);
             //sliderTime.SetData(dateLastCheck, timeForNextOpenReward);
             //SetAllRewardsAvailable();
         }
@@ -53,12 +46,12 @@ namespace City.Buildings.CityButtons
         {
             for (int i = 0; i < IDCurReward; i++)
             {
-                dailyRewardUI[i].SetStatus(DailyTaskRewardStatus.Open);
+                _rewardControllers[i].SetStatus(DailyTaskRewardStatus.Open);
             }
 
             for (int i = 0; i < idReceivedReward.Count; i++)
             {
-                dailyRewardUI[idReceivedReward[i]].SetStatus(DailyTaskRewardStatus.Received);
+                _rewardControllers[idReceivedReward[i]].SetStatus(DailyTaskRewardStatus.Received);
             }
         }
 
@@ -90,21 +83,5 @@ namespace City.Buildings.CityButtons
             dailyReward.IntRecords.SetRecord(SUM_RECEIVIED_REWARD, sumReward);
             //SaveGame();
         }
-
-        //protected override void OpenPage()
-        //{
-        //    if (isFillData == false)
-        //    {
-        //        for (int i = 0; i < listRewards.Count; i++)
-        //        {
-        //            dailyRewardUI[i].SetData(listRewards[i]);
-        //        }
-        //        isFillData = true;
-        //    }
-        //}
-
-        [Button] public void AddResource() { listRewards.Add(new MarketProduct<GameResource>()); }
-        [Button] public void AddSplinter() { listRewards.Add(new MarketProduct<GameSplinter>()); }
-        [Button] public void AddItem() { listRewards.Add(new MarketProduct<GameItem>()); }
     }
 }

@@ -3,20 +3,17 @@ using City.Buildings.PageCycleEvent.MonthlyEvents.ArenaTasksPanel;
 using City.Buildings.PageCycleEvent.MonthlyEvents.EvolutionTasksPanel;
 using City.Buildings.PageCycleEvent.MonthlyEvents.TaskboardTasksPanel;
 using City.Buildings.PageCycleEvent.MonthlyEvents.TravelTasksPanel;
-using City.Buildings.TravelCircle.PanelMissions;
-using Common;
 using Models;
+using Models.Achievments;
+using Models.Common;
+using Models.Data;
 using System.Collections.Generic;
-using UniRx;
+using Utils;
 using VContainer;
+using VContainerUi.Interfaces;
+using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
-using VContainerUi.Messages;
-using VContainerUi.Interfaces;
-using Models.Achievments;
-using Models.Data;
-using Models.Common;
-using Utils;
 
 namespace City.Buildings.PageCycleEvent.MonthlyEvents
 {

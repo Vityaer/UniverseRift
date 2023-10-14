@@ -14,23 +14,36 @@ using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using City.Buildings.WheelFortune;
 using UiExtensions.MainPages;
+using VContainer;
 using VContainer.Unity;
 
 namespace MainPages.City
 {
     public class CityPageController : UiMainPageController<CityPageView>, IInitializable
     {
+        [Inject] private readonly TavernController _tavernController;
+        [Inject] private readonly MarketController _marketController;
+        [Inject] private readonly ForgeController _forgeController;
+        [Inject] private readonly AltarController _altarController;
+        [Inject] private readonly GuildController _guildController;
+        [Inject] private readonly SanctuaryController _sanctuaryController;
+        [Inject] private readonly FortuneWheelController _fortuneWheelController;
+        [Inject] private readonly PetsZooController _petsZooController;
+        [Inject] private readonly TaskboardController _taskboardController;
+
         public new void Initialize()
         {
-            OpenBuildingOnClick<TavernController>(View.TavernButton);
-            OpenBuildingOnClick<MarketController>(View.MarketButton);
-            OpenBuildingOnClick<ForgeController>(View.ForgeButton);
-            OpenBuildingOnClick<AltarController>(View.AltarButton);
-            OpenBuildingOnClick<GuildController>(View.GuildButton);
-            OpenBuildingOnClick<SanctuaryController>(View.SanctuaryButton);
-            OpenBuildingOnClick<WheelFortuneController>(View.WheelButton);
-            OpenBuildingOnClick<PetsZooController>(View.PetZooButton);
-            OpenBuildingOnClick<TaskboardController>(View.TaskboardButton);
+            RegisterBuilding(_tavernController, View.Tavern);
+            RegisterBuilding(_marketController, View.Market);
+            RegisterBuilding(_forgeController, View.Forge);
+            RegisterBuilding(_altarController, View.Altar);
+            RegisterBuilding(_guildController, View.Guild);
+            RegisterBuilding(_sanctuaryController, View.Sanctuary);
+            RegisterBuilding(_fortuneWheelController, View.Wheel);
+            RegisterBuilding(_petsZooController, View.PetZoo);
+            RegisterBuilding(_taskboardController, View.Taskboard);
         }
+
+
     }
 }

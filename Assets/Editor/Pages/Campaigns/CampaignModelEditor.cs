@@ -24,13 +24,13 @@ namespace Editor.Pages.Campaigns
                 if(mission.Units != null)
                     foreach (var unit in mission.Units)
                     {
-                        unit._commonDictionaries = _commonDictionaries;
+                        unit.CommonDictionaries = _commonDictionaries;
                     }
 
-                mission.WinReward._dictionaries = _commonDictionaries;
+                mission.WinReward.CommonDictionaries = _commonDictionaries;
                 if (mission.WinReward.Items != null)
                     foreach (var item in mission.WinReward.Items)
-                        item._commonDictionaries = _commonDictionaries;
+                        item.CommonDictionaries = _commonDictionaries;
             }
         }
 

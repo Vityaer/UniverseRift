@@ -1,19 +1,49 @@
-﻿using City.Buildings.Abstractions;
-using Common;
+﻿using Assets.Scripts.City.Panels.Arenas;
+using City.Buildings.Abstractions;
+using City.Panels.Arenas;
+using City.Panels.Arenas.SimpleArenas;
+using City.Panels.NewLevels;
 using Fight;
 using Models;
 using Models.City.Arena;
 using Models.Common;
-using Models.Common.BigDigits;
+using UniRx;
 using Utils;
 using VContainer;
+using VContainer.Unity;
+using VContainerUi.Model;
+using VContainerUi.Messages;
 
 namespace City.Buildings.Arena
 {
-    public class ArenaController : BuildingWithFight<ArenaView>
+    public class ArenaController : BuildingWithFight<ArenaView>, IInitializable
     {
-        private ArenaBuildingModel _arenaBuildingSave;
         [Inject] private readonly CommonGameData _сommonGameData;
+
+        private ArenaBuildingModel _arenaBuildingSave;
+
+        public void Initialize()
+        {
+            View.SimpleArenaButton.OnClickAsObservable().Subscribe(_ => OpenSimpleAreana()).AddTo(Disposables);
+            View.RatingArenaButton.OnClickAsObservable().Subscribe(_ => OpenRatingAreana()).AddTo(Disposables);
+            View.TournamentButton.OnClickAsObservable().Subscribe(_ => OpenTournament()).AddTo(Disposables);
+        }
+
+        private void OpenTournament()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<TournamentPanelController>(openType: OpenType.Exclusive);
+        }
+
+        private void OpenRatingAreana()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<RatingArenaPanelController>(openType: OpenType.Exclusive);
+
+        }
+
+        private void OpenSimpleAreana()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SimpleArenaPanelController>(openType: OpenType.Exclusive);
+        }
 
         protected override void OnLoadGame()
         {
@@ -34,6 +64,5 @@ namespace City.Buildings.Arena
             }
             _onTryFight.Execute(1);
         }
-
     }
 }

@@ -67,7 +67,7 @@ namespace City.TrainCamp
         private void DetailsOpen()
         {
             _heroDetailsPanel.SetData(_hero);
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroDetailsPanelController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroDetailsPanelController>(openType: OpenType.Additive);
         }
 
         public void ShowHero(GameHero hero)
@@ -122,14 +122,14 @@ namespace City.TrainCamp
 
         private async UniTaskVoid LevelUpMessage()
         {
-            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.Player.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
+            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
             var result = await DataServer.PostData(message);
             UnityEngine.Debug.Log(result);
         }
 
         private void OpenEvolutionPanel()
         {
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroEvolutionPanelController>(openType: OpenType.Additive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroEvolutionPanelController>(openType: OpenType.Additive);
         }
     }
 }

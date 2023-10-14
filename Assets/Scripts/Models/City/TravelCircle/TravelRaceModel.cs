@@ -4,19 +4,9 @@ using System.Collections.Generic;
 namespace Models.City.TravelCircle
 {
     [System.Serializable]
-    public class TravelRaceModel
+    public class TravelRaceModel : BaseModel
     {
-        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
-        public string race;
-        public TravelSelect controllerUI;
-        public List<MissionWithSmashReward> missions = new List<MissionWithSmashReward>();
-        private int currentMission = 0;
-        public int CurrentMission { get => currentMission; set => currentMission = value; }
-        public string GetNameRecord { get => string.Concat(NAME_RECORD_NUM_CURRENT_MISSION, race.ToString()); }
-
-        public void OpenNextMission()
-        {
-            currentMission += 1;
-        }
+        public string Race;
+        public List<MissionWithSmashReward> Missions = new List<MissionWithSmashReward>();
     }
 }

@@ -2,6 +2,7 @@
 using Common;
 using Common.Resourses;
 using Models.Data;
+using Models.Tasks;
 using System;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace City.Buildings.TaskGiver
 {
     public class GameTask
     {
-        private TaskModel _taskModel;
+        private GameTaskModel _taskModel;
         private TimeSpan _requireTime;
         private DateTime _timeStartTask;
         private TaskData _taskData;
@@ -53,7 +54,7 @@ namespace City.Buildings.TaskGiver
             }
         }
 
-        public GameTask(TaskModel taskModel, TaskData taskData)
+        public GameTask(GameTaskModel taskModel, TaskData taskData)
         {
             _taskModel = taskModel;
             _taskData = taskData;
@@ -62,7 +63,7 @@ namespace City.Buildings.TaskGiver
         public void Start()
         {
             Status = TaskStatusType.InWork;
-            TimeStartTask = DateTime.Now;
+            TimeStartTask = DateTime.UtcNow;
             _taskData.DateTimeStart = TimeStartTask.ToString();
         }
 

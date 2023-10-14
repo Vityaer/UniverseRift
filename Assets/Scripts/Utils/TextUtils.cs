@@ -1,16 +1,15 @@
 ﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Misc.Json;
-using Misc.Json.Impl;
 using Models;
-using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Jsons;
 using Network.Misc;
 using Newtonsoft.Json;
+using Sirenix.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using UniRx;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -18,7 +17,6 @@ namespace Utils
 {
     public static class TextUtils
     {
-        //TODO: Подумать как обойтись без статики
         public static ReactiveCommand<FileLoadingProgress> DownloadProgress = new ReactiveCommand<FileLoadingProgress>();
         private static FileLoadingProgress fileProgress = new FileLoadingProgress(0);
 
@@ -90,21 +88,31 @@ namespace Utils
             Debug.Log($"DownloadJsonData {fileProgress.FileName} {progress}%");
         }
 
+        //public static async UniTask<string> DownloadJsonData(string modelType)
+        //{
+        //    fileProgress.SetNameFile(modelType);
+        //    var url = $"{Constants.Common.GAME_DATA_SERVER_ADDRESS}{modelType}.json";
+        //    Debug.Log(url);
+        //    var progress = Progress.CreateOnlyValueChanged<float>(f => ReportProgress(f));
+        //    var asyncRequest = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
+        //    return asyncRequest.downloadHandler.text;
+        //}
+
         public static async UniTask<string> DownloadJsonData(string modelType)
         {
-            fileProgress.SetNameFile(modelType);
-            var url = $"{Constants.Common.GAME_DATA_SERVER_ADDRESS}{modelType}.json";
-            var progress = Progress.CreateOnlyValueChanged<float>(f => ReportProgress(f));
-            var asyncRequest = await UnityWebRequest.Get(url).SendWebRequest().ToUniTask(progress);
-            return asyncRequest.downloadHandler.text;
+            var message = new GetJsonDataMessage { Name = modelType };
+            var result = await DataServer.GetFileText(message);
+            Debug.Log(result);
+            return result;
         }
 
         public static Dictionary<string, T> FillDictionary<T>(string jsonData, IJsonConverter converter)
             where T : BaseModel
         {
-            Save<T>(jsonData);
-            jsonData = GetTextFromLocalStorage<T>();
-            var fromJson = converter.FromJson<List<T>>(jsonData);
+            //Save<T>(jsonData);
+            //jsonData = GetTextFromLocalStorage<T>();
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            var fromJson = JsonConvert.DeserializeObject<List<T>>(jsonData, settings);
             var result = new Dictionary<string, T>();
 
             if (fromJson == null)

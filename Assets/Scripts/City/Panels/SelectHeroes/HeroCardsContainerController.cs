@@ -5,7 +5,6 @@ using UIController.Cards;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainerUi.Abstraction;
 
 namespace City.Panels.SelectHeroes
 {
@@ -14,49 +13,53 @@ namespace City.Panels.SelectHeroes
         public Transform Content;
         public Card Prefab;
 
-        private List<Card> listCard = new List<Card>();
-        private bool loadedListHeroes = false;
+        private List<Card> _listCard = new List<Card>();
+        private bool _loadedListHeroes = false;
 
-        private List<GameHero> listHeroes = new List<GameHero>();
+        private List<GameHero> _listHeroes = new List<GameHero>();
         private ReactiveCommand<GameHero> _onSelect = new ReactiveCommand<GameHero>();
         private ReactiveCommand<GameHero> _onDiselect = new ReactiveCommand<GameHero>();
         private CompositeDisposable _disposables = new CompositeDisposable();
 
-        public bool LoadedListHeroes => loadedListHeroes;
+        public bool LoadedListHeroes => _loadedListHeroes;
         public IObservable<GameHero> OnSelect => _onSelect;
         public IObservable<GameHero> OnDiselect => _onDiselect;
+        public List<Card> Cards => _listCard;
 
         public void ShowCards(List<GameHero> heroes)
         {
+            if (heroes == null)
+                return;
+
             CheckCountCards(heroes.Count);
 
             for(var i = 0; i < heroes.Count; i++)
             {
-                listCard[i].SetData(heroes[i]);
+                _listCard[i].SetData(heroes[i]);
             }
 
-            for (var i = heroes.Count; i < listCard.Count; i++)
+            for (var i = heroes.Count; i < _listCard.Count; i++)
             {
-                listCard[i].Clear();
+                _listCard[i].Clear();
             }
         }
 
         private void CheckCountCards(int requireCount)
         {
-            if (listCard.Count < requireCount)
+            if (_listCard.Count < requireCount)
             {
-                for (int i = listCard.Count; i < requireCount; i++)
+                for (int i = _listCard.Count; i < requireCount; i++)
                 {
                     var card = Instantiate(Prefab, Content);
                     card.OnClick.Subscribe(OnCardClick).AddTo(_disposables);
-                    listCard.Add(card);
+                    _listCard.Add(card);
                 }
             }
         }
 
         public void ShowRace(string Race)
         {
-            foreach (var card in listCard)
+            foreach (var card in _listCard)
             {
                 card.gameObject.SetActive(card.Hero.Model.General.Race == Race);
             }
@@ -64,7 +67,7 @@ namespace City.Panels.SelectHeroes
 
         public void ShowAllCards()
         {
-            foreach (Card card in listCard)
+            foreach (Card card in _listCard)
             {
                 card.gameObject.SetActive(true);
             }
@@ -126,8 +129,15 @@ namespace City.Panels.SelectHeroes
         {
             foreach (Card card in cardsForRemove)
             {
-                //card.DestroyCard();
+                _listCard.Remove(card);
+                Destroy(card.gameObject);
             }
+        }
+
+        public void RemoveCard(Card cardForRemove)
+        {
+            _listCard.Remove(cardForRemove);
+            Destroy(cardForRemove.gameObject);
         }
 
         public void EventOpen()
@@ -142,7 +152,7 @@ namespace City.Panels.SelectHeroes
 
         public void Clear()
         {
-            listCard.ForEach(card => card.Clear());
+            _listCard.ForEach(card => card.Clear());
         }
 
         private void OnCardClick(Card card)
@@ -159,15 +169,15 @@ namespace City.Panels.SelectHeroes
 
         private void UpdateAllCard()
         {
-            for (int i = 0; i < listCard.Count; i++)
+            for (int i = 0; i < _listCard.Count; i++)
             {
-                listCard[i].SetData(listHeroes[i]);
+                _listCard[i].SetData(_listHeroes[i]);
             }
         }
 
         public void RemoveCardFromList(Card card)
         {
-            listCard.Remove(card);
+            _listCard.Remove(card);
         }
 
         public void SelectCards(List<GameHero> selectedCard)
@@ -177,7 +187,7 @@ namespace City.Panels.SelectHeroes
             for (int i = 0; i < selectedCard.Count; i++)
             {
                 currentHero = selectedCard[i];
-                currentCard = listCard.Find(x => x.Hero == currentHero);
+                currentCard = _listCard.Find(x => x.Hero == currentHero);
                 if (currentCard != null)
                 {
                     currentCard.Select();
@@ -192,7 +202,7 @@ namespace City.Panels.SelectHeroes
             for (int i = 0; i < unselectedCard.Count; i++)
             {
                 currentHero = unselectedCard[i];
-                currentCard = listCard.Find(x => x.Hero == currentHero);
+                currentCard = _listCard.Find(x => x.Hero == currentHero);
                 if (currentCard != null)
                 {
                     currentCard.Unselect();

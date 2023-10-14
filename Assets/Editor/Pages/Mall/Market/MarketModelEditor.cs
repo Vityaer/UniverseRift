@@ -1,4 +1,5 @@
-﻿using Editor.Common;
+﻿using Db.CommonDictionaries;
+using Editor.Common;
 using Models.City.Markets;
 using Sirenix.OdinInspector;
 
@@ -6,19 +7,19 @@ namespace Editor.Pages.Mall.Market
 {
     public class MarketModelEditor : BaseModelEditor<MarketModel>
     {
-        public MarketModelEditor(MarketModel model)
+        public MarketModelEditor(MarketModel model, CommonDictionaries dictionaries)
         {
             _model = model;
+            _model.CommonDictionaries = dictionaries;
         }
 
         [ShowInInspector]
         [HorizontalGroup("1")]
-        [LabelText("Id")]
-        [LabelWidth(50)]
-        public string Id
+        [LabelWidth(150)]
+        public MarketModel Model
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => _model;
+            set => _model = value;
         }
     }
 }

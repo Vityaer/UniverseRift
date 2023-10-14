@@ -25,13 +25,15 @@ namespace UIController.Observers
         public GameObject btnAddResource;
         public Image imageResource;
         public TextMeshProUGUI countResource;
+        public Button ButtonBuyResource;
 
         protected override void Start()
         {
-            //isMyabeBuy = MarketResourceController.Instance.GetCanSellThisResource(typeResource);
+            isMyabeBuy = _buyResourcePanelController.GetCanSellThisResource(typeResource);
             resource = new GameResource(typeResource);
             imageResource.sprite = resource.Image;
             btnAddResource.SetActive(isMyabeBuy);
+            ButtonBuyResource.OnClickAsObservable().Subscribe(_ => OpenPanelForBuyResource()).AddTo(Disposables);
         }
 
         [Inject]
@@ -49,12 +51,7 @@ namespace UIController.Observers
 
         public void OpenPanelForBuyResource()
         {
-            MarketProduct<GameResource> product = null;
-            product = MarketResourceController.Instance.GetProductFromTypeResource(resource.Type);
-            if (product != null)
-                _buyResourcePanelController.Open(
-                    product.subject, product.Cost
-                    );
+            _buyResourcePanelController.Open(typeResource);
         }
 
     }

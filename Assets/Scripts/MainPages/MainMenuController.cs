@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UIController.MenuWindows;
+using Common;
 using System;
 using System.Collections.Generic;
 using Ui.MainMenu.MenuButtons;
@@ -17,12 +18,12 @@ namespace Ui.MainMenu
     public class MainMenuController : IInitializable, IDisposable
     {
 
-        private readonly MenuButtonsController _menuButtonsController;
-        private readonly IUiMessagesPublisherService _messagesPublisher;
-        private readonly IObjectResolver _objectResolver;
-        private readonly CompositeDisposable _disposables = new();
+        [Inject] private readonly MenuButtonsController _menuButtonsController;
+        [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
+        [Inject] private readonly IObjectResolver _objectResolver;
+        [Inject] private readonly GameController _gameController;
 
-        public bool CanSwipe { get; set; } = true;
+        private readonly CompositeDisposable _disposables = new();
 
         public OpenMenuPageType OpenType { get; private set; }
 
@@ -33,19 +34,9 @@ namespace Ui.MainMenu
 
         public IObservable<int> OnPageIndexChange => _onPageIndexChange;
 
-        public MainMenuController(
-            MenuButtonsController menuButtonsController,
-            IUiMessagesPublisherService messagesPublisher,
-            IObjectResolver objectResolver
-            )
-        {
-            _objectResolver = objectResolver;
-            _messagesPublisher = messagesPublisher;
-            _menuButtonsController = menuButtonsController;
-        }
-
         public void Initialize()
         {
+            _gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(_disposables);
             _menuButtonsController.OnSwitchButton.Subscribe(PageSwitch).AddTo(_disposables);
             AddMenuWindow<EventWindow>();
             AddMenuWindow<CityWindow>();
@@ -53,6 +44,10 @@ namespace Ui.MainMenu
             AddMenuWindow<SecondCityWindow>();
             AddMenuWindow<ArmyWindow>();
 
+        }
+
+        public void OpenStartPage()
+        {
             OpenPage<CityWindow>(1);
         }
 

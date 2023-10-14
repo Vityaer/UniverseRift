@@ -1,4 +1,5 @@
 using Campaign;
+using City.Buildings.WheelFortune;
 using City.TrainCamp;
 using Common;
 using Cysharp.Threading.Tasks;
@@ -6,13 +7,19 @@ using Misc.Json;
 using Models;
 using Models.Achievments;
 using Models.City.AbstactBuildingModels;
+using Models.City.FortuneRewards;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
+using Models.City.TravelCircle;
 using Models.Common;
+using Models.Data.Dailies;
+using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
 using Models.Heroes;
 using Models.Items;
+using Models.Tasks;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UIController.Inventory;
 using UIController.Rewards;
@@ -38,7 +45,7 @@ namespace Db.CommonDictionaries
         private Dictionary<string, CampaignChapterModel> _campaignChapters = new Dictionary<string, CampaignChapterModel>();
         private Dictionary<string, LocationModel> _locations = new Dictionary<string, LocationModel>();
         private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
-        private Dictionary<string, ProductModel> _products = new Dictionary<string, ProductModel>();
+        private Dictionary<string, BaseProductModel> _products = new Dictionary<string, BaseProductModel>();
         private Dictionary<string, MarketModel> _markets = new Dictionary<string, MarketModel>();
         private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
         private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
@@ -46,10 +53,15 @@ namespace Db.CommonDictionaries
         private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
         private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new Dictionary<string, CostLevelUpContainer>();
         private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new Dictionary<string, MonthlyTasksModel>();
-        private Dictionary<string, TaskModel> _patternTasks = new Dictionary<string, TaskModel>();
+        private Dictionary<string, GameTaskModel> _gameTaskModels = new Dictionary<string, GameTaskModel>();
         private Dictionary<string, BuildingModel> _buildings = new Dictionary<string, BuildingModel>();
         private Dictionary<string, RewardModel> _rewards = new Dictionary<string, RewardModel>();
-        
+        private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new Dictionary<string, FortuneRewardModel>();
+        private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new Dictionary<string, DailyRewardModel>();
+        private Dictionary<string, DailyTaskModel> _dailyTaskModels = new Dictionary<string, DailyTaskModel>();
+        private Dictionary<string, MineRestrictionModel> _mineRestrictions = new Dictionary<string, MineRestrictionModel>();
+        private Dictionary<string, TravelRaceModel> _travelRaceCampaigns = new Dictionary<string, TravelRaceModel>();
+
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -64,7 +76,7 @@ namespace Db.CommonDictionaries
         public Dictionary<string, CampaignChapterModel> CampaignChapters => _campaignChapters;
         public Dictionary<string, LocationModel> Locations => _locations;
         public Dictionary<string, SplinterModel> Splinters => _splinters;
-        public Dictionary<string, ProductModel> Products => _products;
+        public Dictionary<string, BaseProductModel> Products => _products;
         public Dictionary<string, MarketModel> Markets => _markets;
         public Dictionary<string, MineModel> Mines => _mines;
         public Dictionary<string, StorageChallengeModel> StorageChallenges => _storageChallenges;
@@ -73,36 +85,44 @@ namespace Db.CommonDictionaries
         public Dictionary<string, ItemRelationModel> ItemRelations => _itemRelations;
         public Dictionary<string, CostLevelUpContainer> CostContainers => _heroesCostLevelUps;
         public Dictionary<string, MonthlyTasksModel> MonthlyTasks => _monthlyTasks;
-        public Dictionary<string, TaskModel> PatternTasks => _patternTasks;
+        public Dictionary<string, GameTaskModel> GameTaskModels => _gameTaskModels;
         public Dictionary<string, BuildingModel> Buildings => _buildings;
         public Dictionary<string, RewardModel> Rewards => _rewards;
-
+        public Dictionary<string, FortuneRewardModel> FortuneRewardModels => _fortuneRewardModels;
+        public Dictionary<string, DailyRewardModel> DailyRewardDatas => _dailyRewardDatas;
+        public Dictionary<string, DailyTaskModel> DailyTaskModels => _dailyTaskModels;
+        public Dictionary<string, MineRestrictionModel> MineRestrictions => _mineRestrictions;
+        public Dictionary<string, TravelRaceModel> TravelRaceCampaigns => _travelRaceCampaigns;
+        
         private bool IsDownloadedInLocalStorage
         {
             get
             {
                 var result = TextUtils.IsLoadedToLocalStorage<HeroModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<ItemModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<RarityModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<ItemSet>();
-                result &= TextUtils.IsLoadedToLocalStorage<RatingModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<RaceModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<VocationModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<CampaignChapterModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<LocationModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<SplinterModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<ProductModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<MarketModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<MineModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<StorageChallengeModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<ResistanceModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<AchievmentModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<ItemRelationModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<CostLevelUpContainer>();
-                result &= TextUtils.IsLoadedToLocalStorage<MonthlyTasksModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<TaskModel>();
-                result &= TextUtils.IsLoadedToLocalStorage<BuildingModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<ItemModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<RarityModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<ItemSet>();
+                //result &= TextUtils.IsLoadedToLocalStorage<RatingModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<RaceModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<VocationModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<CampaignChapterModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<LocationModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<SplinterModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<ProductModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<MarketModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<MineModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<StorageChallengeModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<ResistanceModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<AchievmentModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<ItemRelationModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<CostLevelUpContainer>();
+                //result &= TextUtils.IsLoadedToLocalStorage<MonthlyTasksModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<GameTaskModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<BuildingModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<RewardModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<MineRestrictionModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<TravelRaceModel>();
+
                 return result;
             }
         }
@@ -179,7 +199,7 @@ namespace Db.CommonDictionaries
             _campaignChapters = await DownloadModels<CampaignChapterModel>();
             _locations = await DownloadModels<LocationModel>();
             _splinters = await DownloadModels<SplinterModel>();
-            _products = await DownloadModels<ProductModel>();
+            _products = await DownloadModels<BaseProductModel>();
             _markets = await DownloadModels<MarketModel>();
             _mines = await DownloadModels<MineModel>();
             _storageChallenges = await DownloadModels<StorageChallengeModel>();
@@ -188,15 +208,21 @@ namespace Db.CommonDictionaries
             _itemRelations = await DownloadModels<ItemRelationModel>();
             _heroesCostLevelUps = await DownloadModels<CostLevelUpContainer>();
             _monthlyTasks = await DownloadModels<MonthlyTasksModel>();
-            _patternTasks = await DownloadModels<TaskModel>();
+            _gameTaskModels = await DownloadModels<GameTaskModel>();
             _buildings = await DownloadModels<BuildingModel>();
             _rewards = await DownloadModels<RewardModel>();
+            _fortuneRewardModels = await DownloadModels<FortuneRewardModel>();
+            _gameTaskModels = await DownloadModels<GameTaskModel>();
+            _dailyRewardDatas = await DownloadModels<DailyRewardModel>();
+            _dailyTaskModels = await DownloadModels<DailyTaskModel>();
+            _mineRestrictions = await DownloadModels<MineRestrictionModel>();
+            _travelRaceCampaigns = await DownloadModels<TravelRaceModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
         {
             var jsonData = await TextUtils.DownloadJsonData(typeof(T).Name);
-            TextUtils.Save(jsonData);
+            TextUtils.Save<T>(jsonData);
             return TextUtils.FillDictionary<T>(jsonData, _converter);
         }
 
@@ -212,7 +238,7 @@ namespace Db.CommonDictionaries
             _campaignChapters = GetModels<CampaignChapterModel>();
             _locations = GetModels<LocationModel>();
             _splinters = GetModels<SplinterModel>();
-            _products = GetModels<ProductModel>();
+            _products = GetModels<BaseProductModel>();
             _markets = GetModels<MarketModel>();
             _mines = GetModels<MineModel>();
             _storageChallenges = GetModels<StorageChallengeModel>();
@@ -221,9 +247,15 @@ namespace Db.CommonDictionaries
             _itemRelations = GetModels<ItemRelationModel>();
             _heroesCostLevelUps = GetModels<CostLevelUpContainer>();
             _monthlyTasks = GetModels<MonthlyTasksModel>();
-            _patternTasks = GetModels<TaskModel>();
+            _gameTaskModels = GetModels<GameTaskModel>();
             _buildings = GetModels<BuildingModel>();
             _rewards = GetModels<RewardModel>();
+            _fortuneRewardModels = GetModels<FortuneRewardModel>();
+            _gameTaskModels = GetModels<GameTaskModel>();
+            _dailyRewardDatas = GetModels<DailyRewardModel>();
+            _dailyTaskModels = GetModels<DailyTaskModel>();
+            _mineRestrictions = GetModels<MineRestrictionModel>();
+            _travelRaceCampaigns = GetModels<TravelRaceModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

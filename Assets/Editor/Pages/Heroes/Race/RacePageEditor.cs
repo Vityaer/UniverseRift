@@ -28,11 +28,7 @@ namespace Editor.Pages.Heroes.Race
 
         public override void Save()
         {
-            var units = Races.Select(r => new RaceModel
-            {
-                Id = r.Id,
-                Name = r.Name
-            }).ToList();
+            var units = Races.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(units);
             base.Save();
@@ -60,7 +56,7 @@ namespace Editor.Pages.Heroes.Race
             CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]
-        [LabelText("Rating")]
+        [LabelText("Races")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<RaceModelEditor> Races = new List<RaceModelEditor>();

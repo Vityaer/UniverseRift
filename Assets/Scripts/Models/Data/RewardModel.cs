@@ -10,7 +10,7 @@ namespace UIController.Rewards
     [System.Serializable]
     public class RewardModel : BaseModel
     {
-        [NonSerialized] public CommonDictionaries _dictionaries;
+        [NonSerialized] public CommonDictionaries CommonDictionaries;
 
         public List<ResourceData> Resources = new List<ResourceData>();
 
@@ -41,7 +41,7 @@ namespace UIController.Rewards
 
         protected void AddItem()
         {
-            Items.Add(new ItemData(_dictionaries));
+            Items.Add(new ItemData(CommonDictionaries));
         }
 
         private void RemoveItem(ItemData light, object b, List<ItemData> lights)

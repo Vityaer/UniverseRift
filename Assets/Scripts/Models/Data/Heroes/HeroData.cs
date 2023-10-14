@@ -9,11 +9,19 @@ namespace Models
     [Serializable]
     public class HeroData
     {
-        [NonSerialized] public CommonDictionaries _commonDictionaries;
+        [NonSerialized] public CommonDictionaries CommonDictionaries;
 
-        private string[] _allHeroesName => _commonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
+        private string[] _allHeroesName
+        {
+            get
+            {
+                var result = CommonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
+                Debug.Log(result);
+                return result;
+            }
+        }
+        [HideInInspector] public int Id;
         [ValueDropdown(nameof(_allHeroesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
-        public int Id;
         public string HeroId;
 
         public int Level = 1;
@@ -25,7 +33,7 @@ namespace Models
 
         public HeroData(CommonDictionaries commonDictionaries)
         {
-            _commonDictionaries = commonDictionaries;
+            CommonDictionaries = commonDictionaries;
         }
     }
 }

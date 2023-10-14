@@ -1,4 +1,5 @@
-﻿using Models.Common;
+﻿using City.Panels.Registrations;
+using Models.Common;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,6 +11,7 @@ namespace Common.Authentications
         private const string PLAYER_ID_KEY = "PlayerId";
 
         [Inject] private readonly CommonGameData _commonGameData;
+        [Inject] private readonly RegistrationPanelController _registrationPanelController;
 
         public void Initialize()
         {
@@ -17,6 +19,10 @@ namespace Common.Authentications
             if (playerId > 0)
             {
                 _commonGameData.Init(playerId).Forget();
+            }
+            else
+            {
+                _registrationPanelController.OpenPanelRegistration();
             }
         }
 

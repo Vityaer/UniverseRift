@@ -19,7 +19,7 @@ namespace Network.GameServer
 
         public DateTime GetServerTime()
         {
-            return DateTime.Now;
+            return DateTime.UtcNow;
         }
         // public DateTime GetCurrentDay(){
         // 	return currentDay;

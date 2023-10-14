@@ -1,4 +1,5 @@
-﻿using VContainerUi.Interfaces;
+﻿using System;
+using VContainerUi.Interfaces;
 using VContainerUi.Model;
 
 namespace VContainerUi.Abstraction
@@ -7,6 +8,8 @@ namespace VContainerUi.Abstraction
 	{
 		public abstract string Name { get; }
         OpenType IBaseUiController.OpenedType { get; set; }
+
+        public IObservable<bool> OnNews => throw new NotImplementedException();
 
         public abstract void SetState(UiControllerState state, OpenType openedType);
 		public abstract void Back();

@@ -19,6 +19,7 @@ namespace City.Buildings.Abstractions
         protected ReactiveCommand<int> _onWinFight = new ReactiveCommand<int>();
         private CompositeDisposable _disposables = new CompositeDisposable();
         private IDisposable _disposable;
+
         public IObservable<int> OnTryFight => _onTryFight;
         public IObservable<int> OnWinFight => _onWinFight;
 

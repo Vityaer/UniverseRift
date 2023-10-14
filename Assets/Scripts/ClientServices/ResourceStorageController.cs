@@ -20,6 +20,8 @@ namespace Assets.Scripts.ClientServices
         private CompositeDisposable _disposables = new CompositeDisposable();
         private Dictionary<ResourceType, GameResource> _resources = new Dictionary<ResourceType, GameResource>();
 
+        public Dictionary<ResourceType, GameResource> Resources => _resources;
+
         public void Initialize()
         {
             _gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(_disposables);
@@ -62,7 +64,7 @@ namespace Assets.Scripts.ClientServices
                     data.Add(new ResourceData() { Type = resource.Type, Amount = resource.Amount });
             }
 
-            _commonGameData.Player.Resources = data;
+            _commonGameData.Resources = data;
         }
 
         public IDisposable Subscribe(ResourceType type, Action<GameResource> action)
@@ -71,7 +73,6 @@ namespace Assets.Scripts.ClientServices
             {
                 _resources.Add(type, new GameResource(type));
             }
-
             return _resources[type].OnChangeResource.Subscribe(action);
 
         }

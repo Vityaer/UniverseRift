@@ -36,7 +36,7 @@ namespace City.Buildings.Tavern
         private ReactiveCommand<BigDigit> _observerSpecialHire = new ReactiveCommand<BigDigit>();
         private ReactiveCommand<BigDigit> _observerFriendHire = new ReactiveCommand<BigDigit>();
 
-        private ObserverActionWithHero observersHireRace = new ObserverActionWithHero();
+        private ObserverActionWithHero _observersHireRace = new ObserverActionWithHero();
 
         protected override void OnStart()
         {
@@ -61,7 +61,7 @@ namespace City.Buildings.Tavern
 
         private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes, GameResource cost) where T : AbstractHireMessage, new()
         {
-            var message = new T { PlayerId = CommonGameData.Player.PlayerInfoData.Id, Count = count };
+            var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
             var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
             
@@ -76,7 +76,6 @@ namespace City.Buildings.Tavern
             }
             _resourceStorageController.SubtractResource(cost);
             onHireHeroes.Execute(new BigDigit(count));
-            GameController.SaveGame();
         }
 
         private void AddNewHero(GameHero hero)
@@ -86,14 +85,14 @@ namespace City.Buildings.Tavern
 
         public void RegisterOnHireHeroes(Action<BigDigit> d, string ID = "")
         {
-            observersHireRace.Add(d, ID, 1);
+            _observersHireRace.Add(d, ID, 1);
         }
 
         private void OnHireHeroes(GameHero hero)
         {
             //and Rarity
-            observersHireRace.OnAction(string.Empty, 1);
-            observersHireRace.OnAction(hero.Model.General.ViewId, 1);
+            _observersHireRace.OnAction(string.Empty, 1);
+            _observersHireRace.OnAction(hero.Model.General.ViewId, 1);
         }
 
 

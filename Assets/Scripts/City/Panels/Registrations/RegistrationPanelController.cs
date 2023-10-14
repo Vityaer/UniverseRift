@@ -1,8 +1,4 @@
-using Assets.Scripts.ClientServices;
 using ClientServices;
-using Common;
-using Common.Resourses;
-using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Common;
@@ -12,7 +8,6 @@ using Network.DataServer.Messages;
 using System;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -26,26 +21,22 @@ namespace City.Panels.Registrations
         private const int NAME_LENGTH_MIN = 3;
 
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly GameController _gameController;
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
+
         private PlayerData _playerInfo;
 
         public new void Initialize()
         {
             View.InputFieldNewNamePlayer.onValueChanged.AddListener(OnChangeNewName);
             View.StartRegistrationButton.OnClickAsObservable().Subscribe(_ => StartRegistration()).AddTo(Disposables);
-            _gameController.OnLoadedGameData.Subscribe(_ => CheckRegistration()).AddTo(Disposables);
             base.Initialize();
         }
 
-        private void CheckRegistration()
+        public void OpenPanelRegistration()
         {
-            if (_commonGameData.Player.PlayerInfoData.Id == 0)
-            {
-                _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Additive);
-            }
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Additive);
         }
 
         private void OnChangeNewName(string newName)
@@ -76,10 +67,7 @@ namespace City.Panels.Registrations
 
             if (int.TryParse(result, out int id))
             {
-                _commonGameData.Player.PlayerInfoData.Id = id;
-                _commonGameData.Player.PlayerInfoData.Name = name;
-                GetStartPack();
-                _gameController.SaveGame();
+                _commonGameData.Init(id).Forget();
                 Close();
             }
             else
@@ -87,13 +75,6 @@ namespace City.Panels.Registrations
                 View.InputFieldNewNamePlayer.interactable = true;
                 View.StartRegistrationButton.interactable = true;
             }
-        }
-
-        private void GetStartPack()
-        {
-            var rewardData = _commonDictionaries.Rewards["Registration"];
-            var gameReward = new GameReward(rewardData);
-            _clientRewardService.AddReward(gameReward);
         }
 
         public override void Dispose()

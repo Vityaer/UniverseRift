@@ -10,17 +10,18 @@ namespace UiExtensions.Misc
     public abstract class ScrollableUiView<T> : UiView, IBeginDragHandler, IDragHandler, IEndDragHandler, IDisposable
     {
         [SerializeField] protected ScrollRect Scroll;
-        [SerializeField] private Button Button;
+        [SerializeField] protected Button Button;
 
         protected T Data;
-        protected CompositeDisposable Disposable;
-        private ReactiveCommand<ScrollableUiView<T>> _onSelect = new ReactiveCommand<ScrollableUiView<T>>();
+        protected CompositeDisposable Disposable = new();
+        protected ReactiveCommand<ScrollableUiView<T>> _onSelect = new ReactiveCommand<ScrollableUiView<T>>();
 
         public IObservable<ScrollableUiView<T>> OnSelect => _onSelect;
+        public T GetData => Data;
 
-        private void Start()
+        protected override void Start()
         {
-            //Button.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
+            Button.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
         }
 
         public abstract void SetData(T data, ScrollRect scrollRect);

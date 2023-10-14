@@ -8,8 +8,8 @@ namespace Common.ScriptableObjects
     [CreateAssetMenu(fileName = nameof(MenuButtonsDataSo), menuName = "Settings/" + nameof(MenuButtonsDataSo))]
     public class MenuButtonsDataSo : SerializedScriptableObject, IMenuButtonsData
     {
-        [SerializeField] private Dictionary<string, MenuButtonData> _buttonData;
+        [SerializeField] private List<MenuButtonData> _buttonData;
 
-        public Dictionary<string, MenuButtonData> ButtonData => _buttonData;
+        public List<MenuButtonData> ButtonData => _buttonData;
     }
 }

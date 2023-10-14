@@ -9,7 +9,7 @@ namespace Network.DataServer
 {
     public class DataServer
     {
-        public static ReactiveCommand<string> OnError = new ReactiveCommand<string>();
+        //public static ReactiveCommand<string> OnError = new ReactiveCommand<string>();
 
         public static async UniTask<string> PostData<T>(T message) where T : INetworkMessage
         {
@@ -22,10 +22,19 @@ namespace Network.DataServer
             if (!string.IsNullOrEmpty(answer.Error))
             {
                 Debug.LogError($"Server error: {answer.Error}");
-                OnError.Execute(answer.Error);
+                //OnError.Execute(answer.Error);
             }
 
             return answer.Result;
+        }
+
+        public static async UniTask<string> GetFileText<T>(T message) where T : INetworkMessage
+        {
+            var url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
+            Debug.Log(url);
+            UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
+            var asyncRequest = await request.SendWebRequest();
+            return asyncRequest.downloadHandler.text;
         }
     }
 }

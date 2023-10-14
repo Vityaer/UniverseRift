@@ -188,7 +188,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonCloseBuilding: {fileID: 2183814008876750078}
+  AutoInjectObjects: []
   MusterOutButton: {fileID: 51076757005374149}
+  CardsContainer: {fileID: 5045509619609948051}
 --- !u!1 &51076757005374151
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +595,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3722827271881934835, guid: 83497bc3e302fd14bbe2e4f6ea038479, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 7288869972801429059, guid: 83497bc3e302fd14bbe2e4f6ea038479, type: 3}
       propertyPath: m_Name
       value: BtnClose
@@ -857,3 +863,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4578537895841228454, guid: 14dd20f9d16c3374bb18b23c119537ca, type: 3}
   m_PrefabInstance: {fileID: 51076757417676415}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5045509619609948051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5093630887283786220, guid: 14dd20f9d16c3374bb18b23c119537ca, type: 3}
+  m_PrefabInstance: {fileID: 51076757417676415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe358c0654362c142be99b527b9093aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

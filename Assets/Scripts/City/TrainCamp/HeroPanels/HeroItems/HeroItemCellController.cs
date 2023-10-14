@@ -1,13 +1,17 @@
 ﻿using City.Panels.SubjectPanels;
 using City.TrainCamp;
+using Cysharp.Threading.Tasks;
+using Models.Common;
 using Models.Items;
+using Network.DataServer.Messages.Campaigns;
+using Network.DataServer;
 using System;
 using UIController.Inventory;
 using UniRx;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using Network.DataServer.Messages.Items;
 
 namespace UIController.ItemVisual
 {
@@ -17,7 +21,7 @@ namespace UIController.ItemVisual
         [Inject] private ItemPanelController _itemPanelController;
         [Inject] private PageArmyController _trainCamp;
         [Inject] private HeroPanelController _heroPanelController;
-
+        [Inject] private CommonGameData _commonGameData;
 
         [SerializeField] private ItemType _cellType;
         [SerializeField] private Sprite _defaultSprite;
@@ -40,7 +44,7 @@ namespace UIController.ItemVisual
             if (_item != null)
             {
                 _itemPanelController.Open(_item, this, true);
-                _itemPanelController.OnAction.Subscribe(item => TakeOff()).AddTo(_tempDisposables);
+                _itemPanelController.OnAction.Subscribe(item => TakeOff().Forget()).AddTo(_tempDisposables);
                 _itemPanelController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
             }
             else
@@ -51,12 +55,18 @@ namespace UIController.ItemVisual
             }
         }
 
-        private void TakeOff()
+        private async UniTaskVoid TakeOff()
         {
-            _trainCamp.ReturnSelectHero().Costume.TakeOff(_item);
-            _inventoryController.Add(_item);
-            Clear();
-            _heroPanelController.UpdateTextAboutHero();
+            var message = new TakeOffItemMessage { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _heroPanelController.Hero.HeroData.Id, ItemType = _cellType };
+            var result = await DataServer.PostData(message);
+            
+            if (!string.IsNullOrEmpty(result))
+            {
+                _trainCamp.ReturnSelectHero().Costume.TakeOff(_item);
+                _inventoryController.Add(_item);
+                Clear();
+                _heroPanelController.UpdateTextAboutHero();
+            }
         }
 
         public void SetData(GameItem newItem)
@@ -106,20 +116,24 @@ namespace UIController.ItemVisual
             DefaulfView();
         }
 
-        public void SetItem(GameItem newItem)
+        public async UniTaskVoid SetItem(GameItem newItem)
         {
+            var message = new SetItemMessage { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _heroPanelController.Hero.HeroData.Id, ItemId = newItem.Id };
+            var result = await DataServer.PostData(message);
             ClearSubscribe();
-
-            if (_item != null)
+            if (!string.IsNullOrEmpty(result))
             {
-                _inventoryController.Add(_item);
-                _heroPanelController.UpdateTextAboutHero();
-            }
+                if (_item != null)
+                {
+                    _inventoryController.Add(_item);
+                    _heroPanelController.UpdateTextAboutHero();
+                }
 
-            _item = newItem;
-            var item = new GameItem(newItem.Model, 1);
-            _inventoryController.Remove(item);
-            SetData(item);
+                _item = newItem;
+                var item = new GameItem(newItem.Model, 1);
+                _inventoryController.Remove(item);
+                SetData(item);
+            }
         }
 
         public void Dispose()

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Models.Data.Buildings.FortuneWheels;
+using Models.Data.Buildings.Markets;
+using Models.Data.Buildings.Taskboards;
+using Models.TravelRaceDatas;
+using System;
 
 namespace Models
 {
@@ -6,18 +10,19 @@ namespace Models
     public class CityData : BaseModel
     {
         public TimeManagementData TimeManagementSave = new TimeManagementData();
-        public IndustryModel IndustrySave = new IndustryModel();
-        public ShopModel MallSave = new ShopModel();
-        public TaskGiverModel TaskboardSave = new TaskGiverModel();
+        public IndustryData IndustrySave = new IndustryData();
+        public MarketData MallSave = new MarketData();
         public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
         public BuildingWithFightTeamsData MainCampaignSave = new BuildingWithFightTeamsData();
-        public BuildingWithFightTeamsData TravelCircleSave = new BuildingWithFightTeamsData();
+        public TravelBuildingData TravelCircleSave = new TravelBuildingData();
         public VoyageBuildingData VoyageSave = new VoyageBuildingData();
         public ArenaBuildingModel ArenaSave = new ArenaBuildingModel();
         public SimpleBuildingData Tutorial = new SimpleBuildingData();
         public CycleEventsData CycleEvents = new CycleEventsData();
         public SimpleBuildingData DailyReward = new SimpleBuildingData();
         public AchievmentStorageData Achievments = new AchievmentStorageData();
+        public FortuneWheelData FortuneWheelData = new FortuneWheelData();
+        public TaskBoardData TaskBoardData = new TaskBoardData();
 
     }
 }

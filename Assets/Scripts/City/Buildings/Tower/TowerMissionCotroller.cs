@@ -13,7 +13,6 @@ namespace City.Buildings.Tower
 {
     public class TowerMissionCotroller : ScrollableUiView<MissionModel>
     {
-        private MissionModel mission;
         [Header("UI")]
         public TextMeshProUGUI textNumMission;
         public Image backgoundMission, enemyImage;
@@ -27,13 +26,21 @@ namespace City.Buildings.Tower
 
         public IObservable<TowerMissionCotroller> OnClick => _onClick;
 
-        public override void SetData(MissionModel data, ScrollRect scrollRect)
+        protected override void Start()
         {
+            Button.OnClickAsObservable().Subscribe(_ => OnMissionClick()).AddTo(Disposable);
         }
 
-        public void SetData(MissionModel mission, int numMission, bool canOpenMission = false)
+        public override void SetData(MissionModel data, ScrollRect scrollRect)
         {
-            this.mission = mission;
+            Scroll = scrollRect;
+            Data = data;
+        }
+
+        public void SetData(MissionModel mission, ScrollRect scrollRect, int numMission, bool canOpenMission = false)
+        {
+            SetData(mission, scrollRect);
+            Data = mission;
             this.numMission = numMission;
             this.canOpenMission = canOpenMission;
             UpdateUI();
@@ -42,23 +49,18 @@ namespace City.Buildings.Tower
         private void UpdateUI()
         {
             textNumMission.text = numMission.ToString();
-            //if (mission != null)
-            //    rewardController.ShowReward(mission.WinReward);
+            if (Data?.WinReward != null)
+                rewardController.ShowReward(Data.WinReward);
+
             blockPanel.SetActive(canOpenMission == false);
         }
 
-        public void OpenMission()
+        private void OnMissionClick()
         {
             if (canOpenMission)
             {
                 _onClick.Execute(this);
             }
-            else
-            {
-                //MessageController.Instance.AddMessage("Миссия ещё не открыта");
-            }
         }
-
-
     }
 }

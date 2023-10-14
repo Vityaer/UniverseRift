@@ -2,8 +2,10 @@
 
 namespace Network.DataServer.Messages.Common
 {
-    public class GetPlayerSaveMessage : AbstractMessage
+    public class GetPlayerSaveMessage : INetworkMessage
     {
+        public int PlayerId;
+
         public new string Route => "GameController/GetPlayerSave";
 
         public new WWWForm Form

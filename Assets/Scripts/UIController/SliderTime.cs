@@ -28,7 +28,7 @@ namespace UIController
             switch (typeSlider)
             {
                 case TypeSliderTime.Remainder:
-                    interval = generalInterval - (DateTime.Now - startTime);
+                    interval = generalInterval - (DateTime.UtcNow - startTime);
                     waitSeconds = (int)interval.TotalSeconds;
                     t = waitSeconds / secondsInterval;
                     if (waitSeconds <= 0)
@@ -36,7 +36,7 @@ namespace UIController
                     break;
 
                 case TypeSliderTime.Accumulation:
-                    interval = DateTime.Now - startTime;
+                    interval = DateTime.UtcNow - startTime;
                     waitSeconds = (int)interval.TotalSeconds;
                     t = waitSeconds / secondsInterval;
                     if (t >= 1)
@@ -71,7 +71,11 @@ namespace UIController
             secondsInterval = (float)requireTime.TotalSeconds;
             ChangeValue();
             isSetData = true;
-
+            if (coroutineTimer != null)
+            {
+                StopCoroutine(coroutineTimer);
+                coroutineTimer = null;
+            }
             if (gameObject.activeInHierarchy)
                 StartTimer();
         }

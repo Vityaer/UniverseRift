@@ -1,11 +1,18 @@
-﻿using City.Buildings.Abstractions;
+﻿using Assets.Scripts.ClientServices;
+using City.Buildings.Abstractions;
 using Common.Heroes;
 using Common.Resourses;
+using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using Hero;
+using Misc.Json;
 using Models;
 using Models.Heroes;
+using Network.DataServer;
+using Network.DataServer.Messages;
+using Network.DataServer.Messages.Hires;
 using System.Collections.Generic;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using VContainer;
 
@@ -16,7 +23,9 @@ namespace City.Buildings.MagicCircle
         private const string DEFAULT_RACE_NAME = "People";
 
         [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly IObjectResolver _resolver;
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         [SerializeField] private string _selectedRace;
         private List<HeroModel> _listHeroes = new List<HeroModel>();
@@ -29,13 +38,13 @@ namespace City.Buildings.MagicCircle
                 button.Value.OnClickAsObservable().Subscribe(_ => ChangeHireRace(button.Key)).AddTo(Disposables);
             }
 
-            _resolver.Inject(View.ObserverRaceHireCard);
+            //_resolver.Inject(View.ObserverRaceHireCard);
 
-            _resolver.Inject(View.ResourceObjectCostOneHire);
-            _resolver.Inject(View.ResourceObjectCostManyHire);
+            //_resolver.Inject(View.ResourceObjectCostOneHire);
+            //_resolver.Inject(View.ResourceObjectCostManyHire);
 
-            View.OneHire.ChangeCost(RaceHireCost, () => HireHero(1));
-            View.ManyHire.ChangeCost(RaceHireCost * 10, () => HireHero(10));
+            View.OneHire.ChangeCost(RaceHireCost, () => HireHero(1).Forget());
+            View.ManyHire.ChangeCost(RaceHireCost * 10, () => HireHero(10).Forget());
 
             ChangeHireRace(DEFAULT_RACE_NAME);
         }
@@ -45,43 +54,26 @@ namespace City.Buildings.MagicCircle
             _selectedRace = stringRace;
         }
 
-        private void HireHero(int count = 1)
+        private async UniTaskVoid HireHero(int count = 1)
         {
-            float rand = 0f;
-            HeroModel hero = null;
-            List<HeroModel> workList = new List<HeroModel>();
-            for (int i = 0; i < count; i++)
-            {
-                rand = UnityEngine.Random.Range(0f, 100f);
-                if (rand < 96f)
-                {
-                    workList = workList.FindAll(x => x.General.Rating == 4 && x.General.Race == _selectedRace);
-                }
-                else
-                {
-                    workList = workList.FindAll(x => x.General.Rating == 5 && x.General.Race == _selectedRace);
-                }
-                //hero = (HeroModel)workList[UnityEngine.Random.Range(0, workList.Count)].Clone();
+            var message = new MagicCircleHire { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
+            var result = await DataServer.PostData(message);
+            var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
 
-                if (hero != null)
-                {
-                    hero.General.Name = hero.General.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();
-                    AddNewHero(hero);
-                }
+            for (int i = 0; i < newHeroes.Count; i++)
+            {
+                Debug.Log($"{newHeroes[i].Id}");
+                var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
+                var hero = new GameHero(model, newHeroes[i]);
+                hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+                AddNewHero(hero);
             }
+            _resourceStorageController.SubtractResource(RaceHireCost * count);
         }
 
-        private void AddNewHero(HeroModel newHeroModel)
+        private void AddNewHero(GameHero hero)
         {
-            var newHero = new HeroData()
-            {
-                HeroId = newHeroModel.Id,
-                Level = 1,
-                Rating = 1,
-                CurrentBreakthrough = 0
-            };
-
-            //_heroesStorageController.AddHero(newHero);
+            _heroesStorageController.AddHero(hero);
         }
     }
 }

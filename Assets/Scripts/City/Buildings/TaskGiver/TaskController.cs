@@ -1,66 +1,125 @@
 ﻿using City.TaskBoard;
 using Common.Resourses;
 using Models.Data;
+using Models.Tasks;
+using System;
 using TMPro;
 using UIController;
-using UIController.ItemVisual;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
+using Cysharp.Threading.Tasks;
+using Models.Common;
+using Network.DataServer;
+using Network.DataServer.Messages.City.Taskboards;
+using VContainer;
+using Assets.Scripts.ClientServices;
+using ClientServices;
+using Common.Rewards;
+using System.Globalization;
+using Sirenix.Utilities;
 
 namespace City.Buildings.TaskGiver
 {
     public class TaskController : ScrollableUiView<TaskData>
     {
-        private TaskData _data;
-        private TaskModel _model;
+        [Inject] private CommonGameData _commonGameData;
+        [Inject] private ResourceStorageController _resourceStorageController;
+        [Inject] private ClientRewardService _clientRewardService;
 
         [Header("UI")]
         public TextMeshProUGUI Name;
         public GameObject objectCurrentTime;
         public SliderTime sliderTime;
-        public ButtonCostController buttonCostScript;
+        public ButtonCostController TaskControllerButton;
         public RatingHero ratingController;
-        public SubjectCell RewardUIController;
+        public RewardUIController RewardUIController;
 
-        public TaskData GetTask => _data;
+        private IDisposable _disposable;
+        private GameTaskModel _model;
+        private ReactiveCommand<TaskData> _onGetReward = new ReactiveCommand<TaskData>(); 
+        
+        public TaskData GetTask => Data;
+        public IObservable<TaskData> OnGetReward => _onGetReward;
+ 
+
+        public void SetData(TaskData data, ScrollRect scrollRect, GameTaskModel model)
+        {
+            SetData(data, scrollRect);
+            _model = model;
+
+            Name.text = _model.Id;
+            ratingController.ShowRating(_model.Rating);
+            RewardUIController.ShowReward(_model.Reward);
+            UpdateStatus();
+
+        }
 
         public override void SetData(TaskData data, ScrollRect scrollRect)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetData(TaskData data, TaskModel model)
-        {
-            _data = data;
-            _model = model;
-
-            Name.text = _model.Name;
-            ratingController.ShowRating(_model.Rating);
-            //RewardUIController.SetItem(task.Reward);
-            UpdateStatus();
+            Data = data;
+            Scroll = scrollRect;
         }
 
         private void UpdateStatus()
         {
-            buttonCostScript.Clear();
-            //switch (task.status)
-            //{
-            //    case TaskStatusType.NotStart:
-            //        sliderTime.SetMaxValue(task.requireTime);
-            //        buttonCostScript.UpdateLabel(StartTask, "Начать");
-            //        break;
-            //    case TaskStatusType.InWork:
-            //        sliderTime.RegisterOnFinish(FinishFromSlider);
-            //        buttonCostScript.UpdateCost(new GameResource(ResourceType.Diamond, task.Rating * 10, 0), BuyProgress);
-            //        sliderTime.SetData(task.timeStartTask, task.requireTime);
-            //        break;
-            //    case TaskStatusType.Done:
-            //        sliderTime.SetData(task.timeStartTask, task.requireTime);
-            //        sliderTime.UnregisterOnFinish(FinishFromSlider);
-            //        buttonCostScript.UpdateLabel(GetReward, "Завершить");
-            //        break;
-            //}
+            TaskControllerButton.Clear();
+
+            var requireTime = new TimeSpan(_model.RequireHour, 0, 0);
+
+            _disposable?.Dispose();
+            DateTime startDateTime = new();
+            //Debug.Log($"start time: {Data.DateTimeStart}");
+
+            if (!Data.DateTimeStart.IsNullOrWhitespace())
+            {
+                try
+                {
+                    startDateTime = DateTime.ParseExact(
+                    Data.DateTimeStart,
+                    Constants.Common.DateTimeFormat,
+                    CultureInfo.InvariantCulture
+                    );
+                }
+                catch
+                {
+                    startDateTime = DateTime.Parse( Data.DateTimeStart );
+                }
+
+                if (Data.Status == TaskStatusType.InWork)
+                {
+                    var leftTime = DateTime.UtcNow - startDateTime;
+                    if (leftTime > requireTime)
+                    {
+                        Data.Status = TaskStatusType.Done;
+                    }
+                }
+            }
+
+            switch (Data.Status)
+            {
+                case TaskStatusType.NotStart:
+                    sliderTime.SetMaxValue(requireTime);
+                    TaskControllerButton.SetLabel("Start");
+                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
+                    break;
+
+                case TaskStatusType.InWork:
+                    sliderTime.RegisterOnFinish(FinishFromSlider);
+                    var costFastFinish = new GameResource(ResourceType.Diamond, _model.Rating * 10, 0);
+                    TaskControllerButton.SetCost(costFastFinish);
+                    sliderTime.SetData(startDateTime, requireTime);
+                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => BuyProgress().Forget());
+                    break;
+
+                case TaskStatusType.Done:
+                    sliderTime.SetData(startDateTime, requireTime);
+                    sliderTime.UnregisterOnFinish(FinishFromSlider);
+                    TaskControllerButton.SetLabel("Complete");
+                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => GetReward().Forget());
+                    break;
+            }
         }
         public void StopTimer()
         {
@@ -74,29 +133,57 @@ namespace City.Buildings.TaskGiver
         private void FinishTask()
         {
             sliderTime.UnregisterOnFinish(FinishFromSlider);
-            //task.Finish();
             UpdateStatus();
         }
 
         //Action button
-        public void StartTask(int count)
+        public async UniTaskVoid StartTask()
         {
-            //task.Start();
-            objectCurrentTime.SetActive(true);
-            //sliderTime?.SetData(task.timeStartTask, task.requireTime);
-            UpdateStatus();
-            //TaskboardController.Instance.UpdateSave();
+            var message = new StartTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                objectCurrentTime.SetActive(true);
+                var now = DateTime.UtcNow;
+                var requireTime = new TimeSpan(_model.RequireHour, 0, 0);
+                sliderTime?.SetData(now, requireTime);
+                Data.Status = TaskStatusType.InWork;
+                Data.DateTimeStart = DateTime.UtcNow.ToString();
+                UpdateStatus();
+            }
         }
 
-        public void BuyProgress(int count = 1)
+        public async UniTaskVoid BuyProgress()
         {
-            buttonCostScript.Clear();
-            sliderTime.SetFinish();
+            var message = new BuyFastCompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                var cost = new GameResource(ResourceType.Diamond, 10 * _model.Rating, 0);
+                _resourceStorageController.SubtractResource(cost);
+                TaskControllerButton.Clear();
+                sliderTime.SetFinish();
+                Data.Status = TaskStatusType.Done;
+                var reward = new GameReward(_model.Reward);
+                _clientRewardService.ShowReward(reward);
+                _onGetReward.Execute(Data);
+            }
         }
 
-        public void GetReward(int count)
+        public async UniTaskVoid GetReward()
         {
-            //TaskboardController.Instance.FinishTask(this);
+            var message = new CompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                Data.Status = TaskStatusType.Done;
+                var reward = new GameReward(_model.Reward);
+                _clientRewardService.ShowReward(reward);
+                _onGetReward.Execute(Data);
+            }
         }
 
 

@@ -15,7 +15,6 @@ namespace City.Buildings.Requirement
 {
     public class AchievmentsPageController : UiPanelController<AchievmentsPanelView>
     {
-        [Inject] protected readonly CommonGameData CommonGameData;  
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly IObjectResolver _objectResolver;
 
@@ -27,18 +26,18 @@ namespace City.Buildings.Requirement
         {
             //LoadData(GameController.GetPlayerGame.saveMainRequirements);
 
-            _achievments = new List<GameAchievment>(_commonDictionaries.Achievments.Count);
+            //_achievments = new List<GameAchievment>(_commonDictionaries.Achievments.Count);
 
-            foreach (var achievmentModel in _commonDictionaries.Achievments)
-            {
-                var gameAchievment = new GameAchievment(achievmentModel.Value, new AchievmentData());
-                var achievmentUi = Object.Instantiate(View.Prefab, View.Content);
-                achievmentUi.SetData(gameAchievment, View.Scroll);
-                _objectResolver.Inject(achievmentUi);
-                _achievments.Add(gameAchievment);
+            //foreach (var achievmentModel in _commonDictionaries.Achievments)
+            //{
+            //    var gameAchievment = new GameAchievment(achievmentModel.Value, new AchievmentData());
+            //    var achievmentUi = Object.Instantiate(View.Prefab, View.Content);
+            //    achievmentUi.SetData(gameAchievment, View.Scroll);
+            //    _objectResolver.Inject(achievmentUi);
+            //    _achievments.Add(gameAchievment);
 
-                achievmentUi.ObserverOnChange.Subscribe(_ => SaveData()).AddTo(Disposables);
-            }
+            //    achievmentUi.ObserverOnChange.Subscribe(_ => SaveData()).AddTo(Disposables);
+            //}
         }
 
         public void LoadData(List<AchievmentData> achievmentSaves)

@@ -9,6 +9,7 @@ using VContainerUi.Services;
 using VContainerUi.Messages;
 using Common;
 using VContainer.Unity;
+using City.Buildings.UiBuildings;
 
 namespace UiExtensions.MainPages
 {
@@ -24,24 +25,28 @@ namespace UiExtensions.MainPages
             gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(Disposables);
         }
 
-        protected void OpenBuildingOnClick<T>(Button button) where T : IPopUp
+        protected void RegisterBuilding<V>(V controller, BuildingVisual building) where V : IPopUp
         {
-            button.OnClickAsObservable().Subscribe(_ => OpenBuilding<T>()).AddTo(Disposables);
+            building.SubscribeOnNews<V>(controller);
+            OpenBuildingOnClick<V>(building.BuildingButton);
+        }
+
+        private void OpenBuildingOnClick<V>(Button button) where V : IPopUp
+        {
+            button.OnClickAsObservable().Subscribe(_ => OpenBuilding<V>()).AddTo(Disposables);
         }
 
         private void OpenBuilding<T>() where T : IPopUp
         {
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Additive);
+            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Exclusive);
         }
 
         public override void OnShow()
         {
-            UnityEngine.Debug.Log($"open  {View.gameObject.name}");
             base.OnShow();
         }
         public override void OnHide()
         {
-            UnityEngine.Debug.Log($"close  {View.gameObject.name}");
             base.OnHide();
         }
         public void Dispose()

@@ -7,10 +7,11 @@ using UIController.Inventory;
 
 namespace Models.Data.Inventories
 {
+    [System.Serializable]
     public class ItemData : InventoryBaseItem
     {
-        [NonSerialized] public CommonDictionaries _commonDictionaries;
-        private string[] _allItemName => _commonDictionaries.Items.Values.Select(r => r.Id).ToArray();
+        [NonSerialized] public CommonDictionaries CommonDictionaries;
+        private string[] _allItemName => CommonDictionaries.Items.Values.Select(r => r.Id).ToArray();
         [ValueDropdown(nameof(_allItemName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string Id;
 
@@ -26,7 +27,7 @@ namespace Models.Data.Inventories
 
         public ItemData(CommonDictionaries dictionaries)
         {
-            _commonDictionaries = dictionaries;
+            CommonDictionaries = dictionaries;
         }
 
         public override BaseObject CreateGameObject()

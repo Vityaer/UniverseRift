@@ -1,14 +1,15 @@
-using City.Buildings.BaseObjectsUI;
-using City.Panels.Messages;
 using Models.Fights.Campaign;
+using System;
 using TMPro;
 using UIController;
+using UiExtensions.Misc;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace City.Buildings.TravelCircle
 {
-    public class TravelCircleMissionController : BaseMissionController
+    public class TravelCircleMissionController : ScrollableUiView<MissionWithSmashReward>
     {
         [Header("UI")]
         public RewardUIController rewardController;
@@ -17,43 +18,57 @@ namespace City.Buildings.TravelCircle
         public Image backgoundMission;
         [SerializeField] private Button mainButton;
 
-        private MissionWithSmashReward mission;
-        private StatusMission status = StatusMission.NotOpen;
-        private int numMission = 0;
+        private MissionWithSmashReward _mission;
+        private StatusMission _status = StatusMission.NotOpen;
+        private int _numMission = 0;
 
-        private void Start()
+        private new ReactiveCommand<TravelCircleMissionController> _onSelect = new();
+
+        public new IObservable<TravelCircleMissionController> OnSelect => _onSelect;
+        public StatusMission Status => _status;
+        public int Index => _numMission;
+
+        private new void Start()
         {
             mainButton.onClick.AddListener(OpenMission);
+            base.Start();
         }
 
-        public void SetData(MissionWithSmashReward mission, int numMission)
+        public override void SetData(MissionWithSmashReward data, ScrollRect scrollRect)
         {
+            Scroll = scrollRect;
+            Data = data;
+        }
+
+        public void SetData(MissionWithSmashReward mission, ScrollRect scrollRect, int numMission, bool canOpenMission = false)
+        {
+            SetData(mission, scrollRect);
             gameObject.SetActive(true);
-            status = StatusMission.NotOpen;
-            this.mission = mission;
-            this.numMission = numMission;
+            _status = StatusMission.NotOpen;
+            this._mission = mission;
+            this._numMission = numMission;
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            textNumMission.text = numMission.ToString();
-            switch (status)
+            textNumMission.text = $"{_numMission}";
+            switch (_status)
             {
                 case StatusMission.Open:
-                    //rewardController.ShowReward(mission.WinReward);
+                    rewardController.ShowReward(_mission.WinReward);
                     textOnButtonSelect.text = "Вызвать";
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.InAutoFight:
-                    //rewardController.ShowReward(mission.SmashReward);
+                    rewardController.ShowReward(_mission.SmashReward);
                     textOnButtonSelect.text = "Рейд";
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.NotOpen:
-                    //rewardController.ShowReward(mission.WinReward);
+                    rewardController.ShowReward(_mission.WinReward);
                     buttonSelect.SetActive(false);
                     imageCloseMission.SetActive(true);
                     break;
@@ -62,35 +77,26 @@ namespace City.Buildings.TravelCircle
 
         public void OpenForFight()
         {
-            status = StatusMission.Open;
+            _status = StatusMission.Open;
             UpdateUI();
         }
 
         public void Hide()
         {
-            status = StatusMission.Complete;
+            _status = StatusMission.Complete;
             gameObject.SetActive(false);
         }
 
         public void SetCanSmash()
         {
-            status = StatusMission.InAutoFight;
+            Debug.Log("SetCanSmash");
+            _status = StatusMission.InAutoFight;
             UpdateUI();
         }
 
         public void OpenMission()
         {
-            switch (status)
-            {
-                case StatusMission.Open:
-                    //TravelCircleController.Instance.OpenMission(mission);
-                    break;
-                case StatusMission.InAutoFight:
-                    break;
-                case StatusMission.NotOpen:
-                    //MessageController.Instance.AddMessage("Миссия ещё не открыта");
-                    break;
-            }
+            _onSelect.Execute(this);
         }
     }
 }

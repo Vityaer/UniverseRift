@@ -1,12 +1,19 @@
-﻿using Campaign;
+﻿using Assets.Scripts.City.Panels.Arenas;
+using Campaign;
 using Campaign.GoldHeaps;
 using City.Buildings.CityButtons;
 using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Friends;
 using City.Buildings.Mails;
+using City.Buildings.Mines;
+using City.Buildings.Mines.Panels;
+using City.Buildings.Mines.Panels.CreateMines;
 using City.Buildings.PlayerPanels;
 using City.Buildings.Requirement;
-using City.Buildings.TravelCircle.PanelMissions;
+using City.Panels.Arenas;
+using City.Panels.Arenas.RatingArenas;
+using City.Panels.Arenas.SimpleArenas;
+using City.Panels.Arenas.Tournaments;
 using City.Panels.AutoFights;
 using City.Panels.BoxRewards;
 using City.Panels.DailyRewards;
@@ -16,6 +23,7 @@ using City.Panels.NewLevels;
 using City.Panels.PosibleHeroes;
 using City.Panels.RatingUps;
 using City.Panels.Registrations;
+using City.Panels.Rewards;
 using City.Panels.SubjectPanels;
 using City.Panels.SubjectPanels.Resources;
 using City.Panels.SubjectPanels.Splinters;
@@ -59,12 +67,17 @@ namespace Installers
         [SerializeField] private PlayerNewNamePanelView _playerNewNamePanelView;
         [SerializeField] private SplinterSelectCountPanelView _splinterSelectCountPanelView;
         [SerializeField] private AutoFightRewardPanelView _autoFightRewardPanelView;
-        [SerializeField] private TravelMissionsPanelView _travelMissionsPanelView;
         [SerializeField] private FriendsView _friendsView;
         [SerializeField] private MailView _mailView;
         [SerializeField] private GoldHeapView _goldHeapView;
         [SerializeField] private InventoryView _inventoryView;
-
+        [SerializeField] private RewardPanelView _rewardPanelView;
+        [SerializeField] private RatingArenaPanelView _ratingArenaPanelView;
+        [SerializeField] private SimpleArenaPanelView _simpleArenaPanelView;
+        [SerializeField] private TournamentPanelView _tournamentPanelView;
+        [SerializeField] private InfoMinePanelView _infoMinePanelView;
+        [SerializeField] private CreateMinePanelView _createMinePanelView;
+        
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
@@ -89,11 +102,19 @@ namespace Installers
             builder.RegisterUiView<PlayerNewNamePanelController, PlayerNewNamePanelView>(_playerNewNamePanelView, canvas.transform);
             builder.RegisterUiView<SplinterSelectCountPanelController, SplinterSelectCountPanelView>(_splinterSelectCountPanelView, canvas.transform);
             builder.RegisterUiView<AutoFightRewardPanelController, AutoFightRewardPanelView>(_autoFightRewardPanelView, canvas.transform);
-            builder.RegisterUiView<TravelMissionsPanelController, TravelMissionsPanelView>(_travelMissionsPanelView, canvas.transform);
             builder.RegisterUiView<FriendsController, FriendsView>(_friendsView, canvas.transform);
             builder.RegisterUiView<MailController, MailView>(_mailView, canvas.transform);
             builder.RegisterUiView<GoldHeapController, GoldHeapView>(_goldHeapView, canvas.transform);
             builder.RegisterUiView<InventoryController, InventoryView>(_inventoryView, canvas.transform);
+            builder.RegisterUiView<RewardPanelController, RewardPanelView>(_rewardPanelView, canvas.transform);
+
+            builder.RegisterUiView<InfoMinePanelController, InfoMinePanelView>(_infoMinePanelView, canvas.transform);
+            builder.RegisterUiView<CreateMinePanelController, CreateMinePanelView>(_createMinePanelView, canvas.transform);
+            
+            builder.RegisterUiView<RatingArenaPanelController, RatingArenaPanelView>(_ratingArenaPanelView, canvas.transform);
+            builder.RegisterUiView<SimpleArenaPanelController, SimpleArenaPanelView>(_simpleArenaPanelView, canvas.transform);
+            builder.RegisterUiView<TournamentPanelController, TournamentPanelView>(_tournamentPanelView, canvas.transform);
+            
         }
     }
 }

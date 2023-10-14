@@ -1,10 +1,13 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Editor.Pages.Locations;
-using Models;
-using Models.Fights.Misc;
+using Models.City.Markets;
+using Models.Data.Inventories;
+using Models.Items;
+using Pages.Items.Relations;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Utils;
 
@@ -14,7 +17,7 @@ namespace Editor.Pages.Mall.Products
     {
         private CommonDictionaries _dictionaries;
 
-        private List<ProductModel> _products => _dictionaries.Products.Select(l => l.Value).ToList();
+        private List<BaseProductModel> _products => _dictionaries.Products.Select(l => l.Value).ToList();
 
         public ProductPageEditor(CommonDictionaries commonDictionaries)
         {
@@ -25,46 +28,59 @@ namespace Editor.Pages.Mall.Products
         public override void Init()
         {
             base.Init();
-            Products = _products.Select(f => new ProductModelEditor(f)).ToList();
+
+            ResourseProducts = _products
+                .Where(product => product is ResourceProductModel)
+                .Select(product => product as ResourceProductModel)
+                .ToList();
+
+            ItemProducts = _products
+                .Where(product => product is ItemProductModel)
+                .Select(product => product as ItemProductModel)
+                .ForEach(product => product.Subject.CommonDictionaries = _dictionaries)
+                .ToList();
+
             DataExist = true;
         }
 
         public override void Save()
         {
-            var units = Products.Select(r => new LocationModel
-            {
-                Id = r.Id
-            }).ToList();
-
-            EditorUtils.Save(units);
+            var products = new List<BaseProductModel>();
+            products.AddRange(ResourseProducts);
+            products.AddRange(ItemProducts);
+            EditorUtils.Save(products);
             base.Save();
         }
 
-        protected override void AddElement()
-        {
-            base.AddElement();
-            var id = UnityEngine.Random.Range(0, 99999).ToString();
-            _dictionaries.Products.Add(id, new ProductModel() { Id = id });
-            Products.Add(new ProductModelEditor(_dictionaries.Products[id]));
-        }
-
-        private void RemoveElements(ProductModelEditor light, object b, List<ProductModelEditor> lights)
-        {
-            var targetElement = Products.First(e => e == light);
-            var id = targetElement.Id;
-            _dictionaries.Products.Remove(id);
-            Products.Remove(targetElement);
-        }
-
         [ShowInInspector]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
-            NumberOfItemsPerPage = 20,
-            CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]
-        [LabelText("Rarity")]
+        [LabelText("Resource")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
-        public List<ProductModelEditor> Products = new List<ProductModelEditor>();
+        [ListDrawerSettings(DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4)]
+        public List<ResourceProductModel> ResourseProducts = new List<ResourceProductModel>();
+
+        [ShowInInspector]
+        [ShowIf(nameof(DataExist))]
+        [HorizontalGroup("4")]
+        [LabelText("Item")]
+        [PropertyOrder(2)]
+        [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4,
+    CustomAddFunction = nameof(AddItemElement), CustomRemoveElementFunction = nameof(RemoveItemElements))]
+        public List<ItemProductModel> ItemProducts = new List<ItemProductModel>();
+
+        private void AddItemElement()
+        {
+            var item = new ItemProductModel(_dictionaries);
+            ItemProducts.Add(item);
+        }
+
+        private void RemoveItemElements(ItemProductModel light, object b, List<ItemProductModel> lights)
+        {
+            var targetElement = ItemProducts.First(e => e == light);
+            ItemProducts.Remove(targetElement);
+        }
     }
 }

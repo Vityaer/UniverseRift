@@ -5,11 +5,13 @@ using UIController;
 using UIController.Buttons;
 using UIController.Observers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace City.Buildings.TaskGiver
 {
     public class TaskboardView : BaseBuildingView
     {
+        public ScrollRect Scroll;
         public RectTransform Content;
         public TaskController Prefab;
         public ButtonWithObserverResource BuySimpleTaskButton;

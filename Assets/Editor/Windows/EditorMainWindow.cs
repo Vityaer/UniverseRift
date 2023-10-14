@@ -2,8 +2,13 @@ using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
+using Editor.Pages.Achievments;
+using Editor.Pages.Buildings.Mines.MineRestrictions;
+using Editor.Pages.Buildings.TaskBoards;
+using Editor.Pages.Buildings.TravelRaceCampaigns;
 using Editor.Pages.Campaigns;
 using Editor.Pages.City.Mines;
+using Editor.Pages.DailyRewards;
 using Editor.Pages.Heroes;
 using Editor.Pages.Heroes.Race;
 using Editor.Pages.Items;
@@ -16,6 +21,7 @@ using Editor.Pages.Splinters;
 using Editor.Units;
 using Misc.Json.Impl;
 using Pages.Buildings.Forge;
+using Pages.Buildings.FortuneWheels;
 using Pages.City.ChallengeTower;
 using Pages.Heroes.CostLevelUp;
 using Pages.Heroes.Vocation;
@@ -52,7 +58,12 @@ namespace Editor.Windows
         private CostLevelUpContainerPageEditor _costLevelUpContainerPageEditor;
         private ForgePageEditor _forgePageEditor;
         private RewardPageEditor _rewardPageEditor;
-        
+        private GameTaskEditor _gameTaskModelEditor;
+        private FortuneRewardEditor _fortuneRewardEditor;
+        private AchievementPageEditor _achievementPageEditor;
+        private DailyRewardPageEditor _dailyRewardPageEditor;
+        private MineRestrictionPageEditor _mineRestrictionPageEditor;
+        private TravelRaceCircleEditor _travelRaceCircleEditor;
 
         private OdinMenuTree _tree;
 
@@ -107,9 +118,14 @@ namespace Editor.Windows
             _tree.Add("Fights/Location", _locationPageEditor);
             _tree.Add("Mall/Markets", _marketPageEditor);
             _tree.Add("Mall/Products", _productPageEditor);
-            _tree.Add("City/Mines", _minePageEditor);
+            _tree.Add("City/Mines/Main Editor", _minePageEditor);
+            _tree.Add("City/Mines/restrictions", _mineRestrictionPageEditor);
             _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
-            
+            _tree.Add("Taskboard/Task Editor", _gameTaskModelEditor);
+            _tree.Add("FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
+            _tree.Add("Achievements/Achievement Editor", _achievementPageEditor);
+            _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
+            _tree.Add("Travel/Main Editor", _travelRaceCircleEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
 
@@ -128,10 +144,10 @@ namespace Editor.Windows
             await _dictionaries.Init();
 
             _allPages = new List<BasePageEditor>();
-            
+
             _heroPageEditor = new HeroPageEditor(_dictionaries);
             _allPages.Add(_heroPageEditor);
-            
+
             _itemPageEditor = new ItemPageEditor(_dictionaries);
             _allPages.Add(_itemPageEditor);
 
@@ -147,7 +163,7 @@ namespace Editor.Windows
             _racePageEditor = new RacePageEditor(_dictionaries);
             _allPages.Add(_racePageEditor);
 
-            _vocationPageEditor =  new VocationPageEditor(_dictionaries);
+            _vocationPageEditor = new VocationPageEditor(_dictionaries);
             _allPages.Add(_vocationPageEditor);
 
             _campaignPageEditor = new CampaignPageEditor(_dictionaries);
@@ -174,8 +190,28 @@ namespace Editor.Windows
             _rewardPageEditor = new RewardPageEditor(_dictionaries);
             _allPages.Add(_rewardPageEditor);
 
+            _gameTaskModelEditor = new GameTaskEditor(_dictionaries);
+            _allPages.Add(_gameTaskModelEditor);
+
+            _fortuneRewardEditor = new FortuneRewardEditor(_dictionaries);
+            _allPages.Add(_fortuneRewardEditor);
             //_forgePageEditor = new ForgePageEditor(_dictionaries);
             //_allPages.Add(_forgePageEditor);
+
+            _achievementPageEditor = new AchievementPageEditor(_dictionaries);
+            _allPages.Add(_achievementPageEditor);
+
+            _dailyRewardPageEditor = new DailyRewardPageEditor(_dictionaries);
+            _allPages.Add(_dailyRewardPageEditor);
+
+            _storageChallangePageEditor = new StorageChallangePageEditor(_dictionaries);
+            _allPages.Add(_storageChallangePageEditor);
+
+            _mineRestrictionPageEditor = new MineRestrictionPageEditor(_dictionaries);
+            _allPages.Add(_mineRestrictionPageEditor);
+
+            _travelRaceCircleEditor = new TravelRaceCircleEditor(_dictionaries);
+            _allPages.Add(_travelRaceCircleEditor);
 
         }
 
