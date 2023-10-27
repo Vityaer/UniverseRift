@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Buildings.Abstractions;
+﻿using City.Buildings.Abstractions;
 using City.TaskBoard;
+using ClientServices;
 using Common;
 using Common.Observers;
 using Common.Resourses;

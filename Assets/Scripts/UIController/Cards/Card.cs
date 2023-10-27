@@ -19,13 +19,13 @@ namespace UIController.Cards
         [SerializeField] private TextMeshProUGUI _levelUI;
         [SerializeField] private Image _panelSelect;
         [SerializeField] private VocationView _vocationUI;
-        [SerializeField] private TravelRaceCampaignButton _raceUI;
         [SerializeField] private Button Button;
 
         private RatingHero _ratingController;
         private ReactiveCommand<Card> _onClick = new ReactiveCommand<Card>();
         private CompositeDisposable _disposables = new CompositeDisposable();
         private IDisposable _heroSubscribe;
+
         public IObservable<Card> OnClick => _onClick;
 
         private void Awake()

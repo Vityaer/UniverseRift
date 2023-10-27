@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Buildings.Abstractions;
+﻿using City.Buildings.Abstractions;
+using ClientServices;
 using Common;
 using Common.Heroes;
 using Common.Resourses;
@@ -35,8 +35,11 @@ namespace City.Buildings.Tavern
         private ReactiveCommand<BigDigit> _observerSimpleHire = new ReactiveCommand<BigDigit>();
         private ReactiveCommand<BigDigit> _observerSpecialHire = new ReactiveCommand<BigDigit>();
         private ReactiveCommand<BigDigit> _observerFriendHire = new ReactiveCommand<BigDigit>();
-
         private ObserverActionWithHero _observersHireRace = new ObserverActionWithHero();
+
+        public IObservable<BigDigit> ObserverSimpleHire => _observerSimpleHire;
+        public IObservable<BigDigit> ObserverSpecialHire => _observerSpecialHire;
+        public IObservable<BigDigit> ObserverFriendHire => _observerFriendHire;
 
         protected override void OnStart()
         {
@@ -46,7 +49,7 @@ namespace City.Buildings.Tavern
             _resolver.Inject(View.ResourceObjectCostOneHire);
             _resolver.Inject(View.ResourceObjectCostManyHire);
 
-            SelectHire<SpecialHire>(_simpleHireCost, _observerSpecialHire);
+            SelectHire<SpecialHire>(_simpleHireCost, _observerSimpleHire);
 
             View.SimpleHireButton.OnClickAsObservable().Subscribe(_ => SelectHire<SimpleHire>(_simpleHireCost, _observerSimpleHire));
             View.SpecialHireButton.OnClickAsObservable().Subscribe(_ => SelectHire<SpecialHire>(_specialHireCost, _observerSpecialHire));
@@ -67,7 +70,6 @@ namespace City.Buildings.Tavern
             
             for (int i = 0; i < newHeroes.Count; i++)
             {
-                Debug.Log($"{newHeroes[i].Id}");
                 var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
                 var hero = new GameHero(model, newHeroes[i]);
                 OnHireHeroes(hero);
@@ -75,6 +77,7 @@ namespace City.Buildings.Tavern
                 AddNewHero(hero);
             }
             _resourceStorageController.SubtractResource(cost);
+
             onHireHeroes.Execute(new BigDigit(count));
         }
 

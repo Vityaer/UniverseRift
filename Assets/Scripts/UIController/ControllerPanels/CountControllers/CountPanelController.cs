@@ -17,7 +17,7 @@ namespace UIController.ControllerPanels.CountControllers
         private int _count = 1;
         private int _minCount = 1;
         private int _maxCount = 10;
-        private int delta = 1;
+        private int _delta = 1;
 
         private ReactiveCommand<int> _onChangeCount = new ReactiveCommand<int>();
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -27,12 +27,11 @@ namespace UIController.ControllerPanels.CountControllers
         public int MaxCount { get => _maxCount; }
         public IObservable<int> OnChangeCount => _onChangeCount;
 
-        public void Initialize()
+        public void Start()
         {
-            _count = _minCount;
             CountInputField.onEndEdit.AddListener(OnEndEditCount);
-            //DeacreaseCountButton.OnClickAsObservable().Subscribe(_ => DecreaseCount()).AddTo(_disposables);
-            //IncereaseCountButton.OnClickAsObservable().Subscribe(_ => IncreaseCount()).AddTo(_disposables);
+            DeacreaseCountButton.OnClickAsObservable().Subscribe(_ => DecreaseCount()).AddTo(_disposables);
+            IncereaseCountButton.OnClickAsObservable().Subscribe(_ => IncreaseCount()).AddTo(_disposables);
         }
 
         private void OnEndEditCount(string text)
@@ -40,30 +39,28 @@ namespace UIController.ControllerPanels.CountControllers
             if (int.TryParse(text, out var count))
             {
                 var check = (count >= _minCount) && (count <= _maxCount);
-
             }
         }
 
         private void IncreaseCount()
         {
-            if (_count == _minCount) DeacreaseCountButton.interactable = true;
-            if (_count < _maxCount) _count += delta;
+            if (_count < _maxCount) _count += _delta;
             if (_count > _maxCount) _count = _maxCount;
-            if (_count == _maxCount) IncereaseCountButton.interactable = false;
             ChangeCount();
         }
 
         private void DecreaseCount()
         {
-            if (_count == _maxCount) IncereaseCountButton.interactable = true;
-            if (_count > _minCount) _count -= delta;
+            if (_count > _minCount) _count -= _delta;
             if (_count < _minCount) _count = _minCount;
-            if (_count == _minCount) DeacreaseCountButton.interactable = false;
             ChangeCount();
         }
 
         private void ChangeCount()
         {
+            IncereaseCountButton.interactable = (_count != _maxCount);
+            DeacreaseCountButton.interactable = (_count != _minCount);
+
             _onChangeCount.Execute(_count);
             UpdateUI();
         }
@@ -76,7 +73,7 @@ namespace UIController.ControllerPanels.CountControllers
         public void SetMax(int newMax)
         {
             _maxCount = newMax;
-            if (_count > newMax) _count = newMax;
+            _count = _maxCount;
             ChangeCount();
         }
 

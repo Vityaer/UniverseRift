@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.ClientServices;
-using ClientServices;
+﻿using ClientServices;
 using Common.Authentications;
 using Common.Heroes;
 using MessagePipe;

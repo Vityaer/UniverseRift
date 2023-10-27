@@ -17,7 +17,9 @@ using Models.Data.Dailies;
 using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
 using Models.Heroes;
+using Models.Inventory.Splinters;
 using Models.Items;
+using Models.Rewards;
 using Models.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -50,7 +52,6 @@ namespace Db.CommonDictionaries
         private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
         private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
         private Dictionary<string, ResistanceModel> _resistances = new Dictionary<string, ResistanceModel>();
-        private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
         private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new Dictionary<string, CostLevelUpContainer>();
         private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new Dictionary<string, MonthlyTasksModel>();
         private Dictionary<string, GameTaskModel> _gameTaskModels = new Dictionary<string, GameTaskModel>();
@@ -58,10 +59,11 @@ namespace Db.CommonDictionaries
         private Dictionary<string, RewardModel> _rewards = new Dictionary<string, RewardModel>();
         private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new Dictionary<string, FortuneRewardModel>();
         private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new Dictionary<string, DailyRewardModel>();
-        private Dictionary<string, DailyTaskModel> _dailyTaskModels = new Dictionary<string, DailyTaskModel>();
         private Dictionary<string, MineRestrictionModel> _mineRestrictions = new Dictionary<string, MineRestrictionModel>();
         private Dictionary<string, TravelRaceModel> _travelRaceCampaigns = new Dictionary<string, TravelRaceModel>();
-
+        private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
+        private Dictionary<string, AchievmentContainerModel> _achievmentContainers = new Dictionary<string, AchievmentContainerModel>();
+        private Dictionary<string, RewardContainerModel> _rewardContainerModels = new();
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -90,10 +92,12 @@ namespace Db.CommonDictionaries
         public Dictionary<string, RewardModel> Rewards => _rewards;
         public Dictionary<string, FortuneRewardModel> FortuneRewardModels => _fortuneRewardModels;
         public Dictionary<string, DailyRewardModel> DailyRewardDatas => _dailyRewardDatas;
-        public Dictionary<string, DailyTaskModel> DailyTaskModels => _dailyTaskModels;
+        public Dictionary<string, AchievmentContainerModel> AchievmentContainers => _achievmentContainers;
         public Dictionary<string, MineRestrictionModel> MineRestrictions => _mineRestrictions;
         public Dictionary<string, TravelRaceModel> TravelRaceCampaigns => _travelRaceCampaigns;
-        
+        public Dictionary<string, RewardContainerModel> RewardContainerModels => _rewardContainerModels;
+
+
         private bool IsDownloadedInLocalStorage
         {
             get
@@ -122,6 +126,7 @@ namespace Db.CommonDictionaries
                 //result &= TextUtils.IsLoadedToLocalStorage<RewardModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<MineRestrictionModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<TravelRaceModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<_rewardContainerModels>();
 
                 return result;
             }
@@ -214,9 +219,10 @@ namespace Db.CommonDictionaries
             _fortuneRewardModels = await DownloadModels<FortuneRewardModel>();
             _gameTaskModels = await DownloadModels<GameTaskModel>();
             _dailyRewardDatas = await DownloadModels<DailyRewardModel>();
-            _dailyTaskModels = await DownloadModels<DailyTaskModel>();
+            _achievmentContainers = await DownloadModels<AchievmentContainerModel>();
             _mineRestrictions = await DownloadModels<MineRestrictionModel>();
             _travelRaceCampaigns = await DownloadModels<TravelRaceModel>();
+            _rewardContainerModels = await DownloadModels<RewardContainerModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -253,9 +259,10 @@ namespace Db.CommonDictionaries
             _fortuneRewardModels = GetModels<FortuneRewardModel>();
             _gameTaskModels = GetModels<GameTaskModel>();
             _dailyRewardDatas = GetModels<DailyRewardModel>();
-            _dailyTaskModels = GetModels<DailyTaskModel>();
+            _achievmentContainers = GetModels<AchievmentContainerModel>();
             _mineRestrictions = GetModels<MineRestrictionModel>();
             _travelRaceCampaigns = GetModels<TravelRaceModel>();
+            _rewardContainerModels = GetModels<RewardContainerModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

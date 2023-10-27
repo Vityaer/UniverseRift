@@ -10,7 +10,7 @@ using UniRx;
 using VContainer;
 using VContainer.Unity;
 
-namespace Assets.Scripts.ClientServices
+namespace ClientServices
 {
     public class ResourceStorageController : IInitializable, IDisposable
     {

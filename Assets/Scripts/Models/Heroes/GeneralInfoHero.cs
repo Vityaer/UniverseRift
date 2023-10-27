@@ -14,7 +14,7 @@ namespace Models.Heroes
         public int Rating = 1;
         public string ViewId;
         public string Rarity;
-        private string AvatarPath;
+        public string AvatarPath;
 
         public GeneralInfoHero Clone()
         {

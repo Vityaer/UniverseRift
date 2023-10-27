@@ -1,34 +1,38 @@
 ﻿using Common;
 using Common.Inventories.Splinters;
 using Db.CommonDictionaries;
-using Models;
+using Models.Common;
 using Models.Items;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
+using VContainer;
+using VContainer.Unity;
 
 namespace UIController.Inventory
 {
     [Serializable]
-    public class GameInventory
+    public class GameInventory : IInitializable, IDisposable
     {
-        private CommonDictionaries _commonDictionaries;
-        private Dictionary<string, BaseObject> _items = new Dictionary<string, BaseObject>();
+        [Inject] private readonly CommonGameData _commonGameData;
+        [Inject] private readonly GameController _gameController;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
+        private Dictionary<string, BaseObject> _items = new Dictionary<string, BaseObject>();
+        private CompositeDisposable _disposables = new();
         private ReactiveCommand<BaseObject> _onChange = new ReactiveCommand<BaseObject>();
 
-        public IReadOnlyDictionary<string, BaseObject> InventoryObjects => _items;
+        public Dictionary<string, BaseObject> InventoryObjects => _items;
         public IObservable<BaseObject> OnChange => _onChange;
 
-        public GameInventory() { }
-
-        public GameInventory(CommonDictionaries commonDictionaries, InventoryData inventoryData)
+        public void Initialize()
         {
-            _commonDictionaries = commonDictionaries;
+            _gameController.OnLoadedGameData.Subscribe(_ => OnLoadData()).AddTo(_disposables);
+        }
 
-            if (inventoryData == null)
-                return;
+        private void OnLoadData()
+        {
+            var inventoryData = _commonGameData.InventoryData;
 
             foreach (var item in inventoryData.Items)
             {
@@ -39,14 +43,15 @@ namespace UIController.Inventory
 
             foreach (var splinter in inventoryData.Splinters)
             {
-                var gameSplinter = new GameSplinter(splinter.Id, splinter.Amount);
+                var model = _commonDictionaries.Splinters[splinter.Id];
+                var gameSplinter = new GameSplinter(model, _commonDictionaries, splinter.Amount);
                 _items.Add(splinter.Id, gameSplinter);
             }
         }
 
         public void GetObjectByType<T>(List<T> values) where T : BaseObject
         {
-            if(values == null)
+            if (values == null)
                 values = new List<T>();
 
             foreach (var item in _items)
@@ -86,6 +91,23 @@ namespace UIController.Inventory
             }
 
             _onChange.Execute(inventoryObject);
+        }
+
+        public void Remove(string id, int amount)
+        {
+            var changedItem = _items[id];
+            changedItem.Remove(amount);
+            if (changedItem.EqualsZero)
+            {
+                _items.Remove(id);
+            }
+
+            _onChange.Execute(changedItem);
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
     }
 }

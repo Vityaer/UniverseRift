@@ -1,95 +1,131 @@
 ﻿using City.Acievements;
+using ClientServices;
 using Common.Rewards;
 using Models.Achievments;
 using Models.Common.BigDigits;
 using Models.Data;
-using UIController.Rewards;
+using System;
+using UniRx;
+using VContainer;
 
 namespace City.Achievements
 {
-    public class GameAchievment
+    public abstract class GameAchievment : IDisposable
     {
-        private AchievmentModel _model;
-        private AchievmentData _data;
+        [Inject] protected readonly ClientRewardService ClientRewardService;
 
-        public int CurrentStage => _data.CurrentStage;
-        public int CountStage => _model.Stages.Count;
-        public bool IsComplete => _data.IsComplete;
-        public BigDigit Progress => _data.Progress;
-        public string Id => _model.Id;
+        protected AchievmentModel Model;
+        protected AchievmentData Data;
 
-        public GameAchievment(AchievmentModel model, AchievmentData data)
+        protected CompositeDisposable Disposables = new CompositeDisposable();
+        protected BigDigit CurrentProgress;
+
+        public int CurrentStage => Data.CurrentStage;
+        public int CountStage => Model.Stages.Count;
+        public bool IsComplete => Data.IsComplete;
+        public BigDigit Progress => CurrentProgress;
+        public int Id => Data.Id;
+        public string ModelId => Model.Id;
+        public ReactiveCommand OnChangeData = new();
+
+        public void SetData(AchievmentModel model, AchievmentData data)
         {
-            _model = model;
-            _data = data;
+            Model = model;
+            Data = data;
+            CurrentProgress = new BigDigit(Data.Amount, Data.E10);
+            Subscribe();
+        }
+
+        protected abstract void Subscribe();
+
+        protected void Unsubscribe()
+        {
+            Disposables.Dispose();
         }
 
         public void AddProgress(BigDigit amount)
         {
             if (!IsComplete)
             {
-                switch (_model.ProgressType)
+                switch (Model.ProgressType)
                 {
                     case ProgressType.StorageAmount:
-                        _data.Progress.Add(amount);
+                        CurrentProgress.Add(amount);
                         break;
                     case ProgressType.MaxAmount:
-                        if (_data.Progress > amount)
-                            _data.Progress = amount;
+                        if (CurrentProgress > amount)
+                            CurrentProgress = amount;
                         break;
                     case ProgressType.CurrentAmount:
-                        _data.Progress = amount;
+                        CurrentProgress = amount;
                         break;
                 }
 
-                if (_data.Progress.CheckCount(GetRequireFinishCount()))
+                if (CurrentProgress.CheckCount(GetRequireFinishCount()))
                 {
-                    _data.Progress = new BigDigit(GetRequireFinishCount().Mantissa, GetRequireFinishCount().E10);
-                    _data.IsComplete = true;
+                    CurrentProgress = new BigDigit(GetRequireFinishCount().Mantissa, GetRequireFinishCount().E10);
+                    Data.IsComplete = true;
                 }
+
+                OnChangeData.Execute();
             }
         }
 
         public void SetProgress(int newCurrentStage, BigDigit newProgress)
         {
-            _data.CurrentStage = newCurrentStage;
-            _data.Progress = newProgress;
-            if (_data.Progress.CheckCount(GetRequireFinishCount()))
+            Data.CurrentStage = newCurrentStage;
+            CurrentProgress = newProgress;
+            if (CurrentProgress.CheckCount(GetRequireFinishCount()))
             {
-                _data.IsComplete = true;
+                Data.IsComplete = true;
             }
         }
 
         private BigDigit GetRequireFinishCount()
         {
-            return _model.GetRequireFinishCount();
+            return Model.GetRequireFinishCount();
         }
 
         public bool CheckCount()
         {
-            return _data.Progress.CheckCount(GetRequireCount());
+            return CurrentProgress.CheckCount(GetRequireCount());
         }
 
         public BigDigit GetRequireCount()
         {
-            return _model.GetRequireCount(_data.CurrentStage);
+            return Model.GetRequireCount(Data.CurrentStage);
         }
 
         public void NextStage()
         {
-            _data.CurrentStage++;
+            Data.CurrentStage++;
         }
 
         public GameReward GetReward()
         {
-            var reward = new GameReward();
-            //return _model.GetReward(_data.CurrentStage);
-            return reward;
+            var currentStage = Data.CurrentStage;
+            if(currentStage >= Model.Stages.Count)
+                currentStage = Model.Stages.Count - 1;
+
+            var rewardModel = Model.GetReward(currentStage);
+            return new GameReward(rewardModel);
+        }
+
+        public void GiveReward()
+        {
+            var reward = GetReward();
+            ClientRewardService.ShowReward(reward);
         }
 
         public void ClearProgress()
         {
-            _data.Clear();
+            //_data.Clear();
+        }
+
+        public void Dispose()
+        {
+            if (!Disposables.IsDisposed)
+                Disposables.Dispose();
         }
     }
 }

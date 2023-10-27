@@ -9,6 +9,7 @@ using Editor.Pages.Buildings.TravelRaceCampaigns;
 using Editor.Pages.Campaigns;
 using Editor.Pages.City.Mines;
 using Editor.Pages.DailyRewards;
+using Editor.Pages.DailyTasks;
 using Editor.Pages.Heroes;
 using Editor.Pages.Heroes.Race;
 using Editor.Pages.Items;
@@ -20,6 +21,7 @@ using Editor.Pages.Rewards;
 using Editor.Pages.Splinters;
 using Editor.Units;
 using Misc.Json.Impl;
+using Pages.BattlePases;
 using Pages.Buildings.Forge;
 using Pages.Buildings.FortuneWheels;
 using Pages.City.ChallengeTower;
@@ -64,6 +66,8 @@ namespace Editor.Windows
         private DailyRewardPageEditor _dailyRewardPageEditor;
         private MineRestrictionPageEditor _mineRestrictionPageEditor;
         private TravelRaceCircleEditor _travelRaceCircleEditor;
+        private AchievmentContainersPageEditor _achievmentContainersPageEditor;
+        private RewardContrainerPageEditor _rewardContrainerPageEditor;
 
         private OdinMenuTree _tree;
 
@@ -124,8 +128,11 @@ namespace Editor.Windows
             _tree.Add("Taskboard/Task Editor", _gameTaskModelEditor);
             _tree.Add("FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             _tree.Add("Achievements/Achievement Editor", _achievementPageEditor);
+            _tree.Add("Achievements/Achievements container", _achievmentContainersPageEditor);
             _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
             _tree.Add("Travel/Main Editor", _travelRaceCircleEditor);
+            _tree.Add("Rewards/Containers", _rewardContrainerPageEditor);
+            
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
 
@@ -213,6 +220,14 @@ namespace Editor.Windows
             _travelRaceCircleEditor = new TravelRaceCircleEditor(_dictionaries);
             _allPages.Add(_travelRaceCircleEditor);
 
+            _splinterPageEditor = new SplinterPageEditor(_dictionaries);
+            _allPages.Add(_splinterPageEditor);
+
+            _achievmentContainersPageEditor = new AchievmentContainersPageEditor(_dictionaries);
+            _allPages.Add(_achievmentContainersPageEditor);
+
+            _rewardContrainerPageEditor = new RewardContrainerPageEditor(_dictionaries);
+            _allPages.Add(_rewardContrainerPageEditor);
         }
 
         private void OnValueSaved()

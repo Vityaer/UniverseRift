@@ -1,23 +1,39 @@
 using City.Panels.PosibleArtifacts;
 using City.Panels.PosibleHeroes;
 using City.Panels.SubjectPanels.Splinters;
+using ClientServices;
+using Common.Heroes;
 using Common.Inventories.Splinters;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
-using System;
-using TMPro;
+using Db.CommonDictionaries;
+using Hero;
+using Misc.Json;
+using Models;
+using Models.Inventory.Splinters;
+using Network.DataServer;
+using Network.DataServer.Messages.Inventories.Splinters;
+using System.Collections.Generic;
 using UIController.ControllerPanels.SelectCount;
+using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 using VContainer.Unity;
+using VContainerUi.Messages;
+using VContainerUi.Model;
 
 namespace UIController.Inventory
 {
     public class SplinterPanelController : UiPanelController<SplinterPanelView>, IInitializable
     {
         [Inject] private readonly SplinterSelectCountPanelController _selectCountPanelController;
+        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly HeroesStorageController _heroesStorageController;
+        [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly GameInventory _gameInventory;
 
         private GameItem _selectItem = null;
 
@@ -26,9 +42,11 @@ namespace UIController.Inventory
         public PosibleArtifactPanelController PanelPosibleArtifact;
         GameSplinter _splinter;
 
-        public void Initialize()
+        public new void Initialize()
         {
+            View.ActionButton.OnClickAsObservable().Subscribe(_ => OpenCountPanel()).AddTo(Disposables);
             _selectCountPanelController.ActionAfterUse.Subscribe(_ => Close()).AddTo(Disposables);
+            _selectCountPanelController.ActionOnSelectedCount.Subscribe(count => OnStartUseSplinters(count).Forget()).AddTo(Disposables);
         }
 
         public void OpenInfoAboutSplinter(GameSplinter splinterController, bool withControl = false)
@@ -38,20 +56,56 @@ namespace UIController.Inventory
             View.PosibilityButton.SetActive(splinterController.CountReward > 1);
             View.ActionButton.interactable = splinterController.IsCanUse;
             View.ActionButton.gameObject.SetActive(withControl);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SplinterPanelController>(openType: OpenType.Exclusive);
         }
 
-        public void ShowData(GameSplinter spliter)
+        private void OpenCountPanel()
         {
+            _selectCountPanelController.Open(_splinter);
+        }
+
+        private async UniTaskVoid OnStartUseSplinters(int count)
+        {
+            var message = new UseSplinterMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                SplinterId = _splinter.Id,
+                Count = count
+            };
+
+            var result = await DataServer.PostData(message);
+            if (!string.IsNullOrEmpty(result))
+            {
+                switch (_splinter.typeSplinter)
+                {
+                    case SplinterType.Hero:
+                        var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
+                        for (var i = 0; i < newHeroes.Count; i++)
+                        {
+                            var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
+                            var hero = new GameHero(model, newHeroes[i]);
+                            _heroesStorageController.AddHero(hero);
+                        }
+                        break;
+                    case SplinterType.Item:
+                        var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+                        var reward = new GameReward(rewardModel);
+                        _clientRewardService.ShowReward(reward);
+                        break;
+                }
+
+                _gameInventory.Remove(_splinter.Id, _splinter.RequireAmount * count);
+            }
         }
 
         public void OpenPosibleRewards()
         {
             switch (_splinter.typeSplinter)
             {
-                case TypeSplinter.Hero:
+                case SplinterType.Hero:
                     panelPosibleHeroes.SetData(_splinter.reward);
                     break;
-                case TypeSplinter.Artifact:
+                case SplinterType.Item:
                     PanelPosibleArtifact.SetData(_splinter.reward);
                     break;
             }

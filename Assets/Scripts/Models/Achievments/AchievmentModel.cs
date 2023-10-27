@@ -1,9 +1,11 @@
+using City.Achievements;
 using City.Acievements;
-using Common;
 using Models.Common.BigDigits;
-using System;
+using Newtonsoft.Json;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UIController.Rewards;
+using Utils;
 
 namespace Models.Achievments
 {
@@ -12,10 +14,12 @@ namespace Models.Achievments
         public AchievmentType Type;
         public ProgressType ProgressType;
         public List<AchievmentStageModel> Stages;
+        public string ImplementationName;
+
 
         public BigDigit GetRequireFinishCount()
         {
-            return Stages[Stages.Count - 1].RequireCount;
+            return Stages[^1].RequireCount;
         }
 
         public BigDigit GetRequireCount(int stage)

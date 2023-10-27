@@ -1,22 +1,14 @@
-﻿using Models.Common.BigDigits;
-using System;
-using System.Xml.Linq;
-
-namespace Models.Data
+﻿namespace Models.Data
 {
     [System.Serializable]
     public class AchievmentData : BaseDataModel
     {
+        public int Id;
+        public int PlayerId;
         public string ModelId;
         public int CurrentStage;
-        public BigDigit Progress;
+        public float Amount;
+        public int E10;
         public bool IsComplete;
-
-        public void Clear()
-        {
-            CurrentStage = 0;
-            Progress.Clear();
-            IsComplete = false;
-        }
     }
 }

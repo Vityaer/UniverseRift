@@ -12,7 +12,7 @@ namespace City.Panels.SubjectPanels
 {
     public class ItemPanelController : UiPanelController<ItemPanelView>, IInitializable
     {
-        [Inject] private readonly InventoryController _inventoryController;
+        //[Inject] private readonly InventoryController _inventoryController;
         
         private HeroItemCellController _cellItem;
         private GameItem _selectItem;
@@ -24,7 +24,7 @@ namespace City.Panels.SubjectPanels
         public new void Initialize()
         {
             View.ActionButton.OnClickAsObservable().Subscribe(_ => OnClickButtonAction()).AddTo(Disposables);
-            View.OpenInventoryButton.OnClickAsObservable().Subscribe(_ => OpenInventory()).AddTo(Disposables);
+            //View.OpenInventoryButton.OnClickAsObservable().Subscribe(_ => OpenInventory()).AddTo(Disposables);
             base.Initialize();
         }
 
@@ -41,9 +41,17 @@ namespace City.Panels.SubjectPanels
             {
                 View.ActionButtonText.text = "Снять";
             }
+            View.ActionButton.interactable = true;
 
             View.MainImage.SetData(item);
             MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
+        }
+
+        public void OpenItemDetails(GameItem item)
+        {
+            View.ActionButton.interactable = false;
+            View.MainImage.SetData(item);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Exclusive);
         }
 
         private void OnClickButtonAction()
@@ -60,7 +68,7 @@ namespace City.Panels.SubjectPanels
 
         private void OpenInventory()
         {
-            _inventoryController.Open(_cellItem.CellType, _cellItem);
+            //_inventoryController.Open(_cellItem.CellType, _cellItem);
         }
 
         private void SelectItem()
@@ -71,7 +79,7 @@ namespace City.Panels.SubjectPanels
 
         private void TakeOff()
         {
-            _inventoryController.Add(_selectItem);
+            //_inventoryController.Add(_selectItem);
             _cellItem.Clear();
         }
     }

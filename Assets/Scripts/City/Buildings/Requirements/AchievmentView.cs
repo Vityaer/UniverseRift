@@ -1,11 +1,16 @@
 ﻿using City.Achievements;
+using Cysharp.Threading.Tasks;
+using Models.Common;
 using Models.Common.BigDigits;
+using Network.DataServer;
+using Network.DataServer.Messages.Achievments;
 using System;
 using TMPro;
 using UIController;
 using UIController.ItemVisual;
 using UiExtensions.Misc;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
@@ -13,12 +18,13 @@ namespace City.Buildings.Requirement
 {
     public class AchievmentView : ScrollableUiView<GameAchievment>, IDisposable
     {
-        [Inject] private IObjectResolver _objectResolver;
-        
-        public Button GetRewardButton;
+        [Inject] private readonly CommonGameData _commonGameData;
+
         public ItemSliderController SliderAmount;
         public RewardUIController RewardController;
+        public TextMeshProUGUI Name;
         public TextMeshProUGUI Description;
+        public GameObject DonePanel;
 
         public ReactiveCommand ObserverOnChange = new ReactiveCommand();
         public ReactiveCommand ObserverComplete = new ReactiveCommand();
@@ -26,49 +32,50 @@ namespace City.Buildings.Requirement
         public bool IsEmpty { get => Data == null; }
         public bool IsComplete { get => !IsEmpty & Data.IsComplete; }
 
-        private void Start()
+        protected override void Start()
         {
-            //GetRewardButton.OnClickAsObservable().Subscribe(_ => GetReward()).AddTo(Disposable);   
+            Button.OnClickAsObservable().Subscribe(_ => GetReward().Forget()).AddTo(Disposable);
         }
 
         public override void SetData(GameAchievment data, ScrollRect scroll)
         {
             Data = data;
             Scroll = scroll;
-            if (!data.IsComplete)
+            Name.text = Data.ModelId;
+            UpdateUI();
+            Data.OnChangeData.Subscribe(_ => UpdateUI()).AddTo(Disposable);
+        }
+
+        public async UniTaskVoid GetReward()
+        {
+            var message = new AchievmentGetRewardMessage { PlayerId = _commonGameData.PlayerInfoData.Id, AchievmentId = Data.Id };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
             {
-                SubscribeAction();
+                Data.GiveReward();
+                Data.NextStage();
+                ObserverOnChange.Execute();
+                UpdateUI();
             }
-
-            UpdateUI();
-        }
-
-        public void ChangeProgress(BigDigit amount)
-        {
-            Data.AddProgress(amount);
-            UpdateUI();
-        }
-
-        public void GetReward()
-        {
-            var reward = Data.GetReward();
-            Data.NextStage();
-            ObserverOnChange.Execute();
-            UpdateUI();
         }
 
         public void UpdateUI()
         {
-            RewardController.ShowReward(Data.GetReward());
+            var reward = Data.GetReward();
+            RewardController.ShowReward(reward);
+
             if (Data.CurrentStage < Data.CountStage)
             {
-                GetRewardButton.interactable = Data.CheckCount();
+                Button.interactable = Data.CheckCount();
                 SliderAmount.SetAmount(Data.Progress, Data.GetRequireCount());
-                GetRewardButton.gameObject.SetActive(true);
+                Button.gameObject.SetActive(true);
+                DonePanel.SetActive(false);
             }
             else
             {
-                GetRewardButton.gameObject.SetActive(false);
+                DonePanel.SetActive(true);
+                Button.gameObject.SetActive(false);
                 SliderAmount.Hide();
             }
         }

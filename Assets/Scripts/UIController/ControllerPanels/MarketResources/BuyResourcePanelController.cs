@@ -1,4 +1,3 @@
-using Assets.Scripts.ClientServices;
 using Common;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
@@ -16,6 +15,7 @@ using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using UnityEngine;
+using ClientServices;
 
 namespace UIController
 {

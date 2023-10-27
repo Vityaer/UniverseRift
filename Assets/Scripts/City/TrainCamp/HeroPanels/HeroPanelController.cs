@@ -1,4 +1,3 @@
-using Assets.Scripts.ClientServices;
 using City.SliderCity;
 using City.TrainCamp.HeroPanels;
 using City.TrainCamp.HeroPanels.HeroDetails;
@@ -22,6 +21,7 @@ using VContainerUi.Model;
 using Network.DataServer.Messages.HeroPanels;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
+using ClientServices;
 
 namespace City.TrainCamp
 {

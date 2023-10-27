@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Panels.NewLevels;
+﻿using City.Panels.NewLevels;
+using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;

@@ -1,21 +1,20 @@
 ﻿using City.Panels.Inventories;
+using City.Panels.SubjectPanels;
 using Common;
 using Common.Inventories.Splinters;
+using Db.CommonDictionaries;
+using Models;
 using Models.Common;
 using Models.Items;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UIController.ItemVisual;
 using UiExtensions.Scroll.Interfaces;
-using UnityEngine;
+using UniRx;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
-using UniRx;
-using Models;
 using VContainerUi.Model;
-using Db.CommonDictionaries;
-using System;
 
 namespace UIController.Inventory
 {
@@ -24,14 +23,18 @@ namespace UIController.Inventory
         private const int CELLS_COUNT = 40;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly CommonGameData _commonGameData;
+        [Inject] private readonly SplinterPanelController _splinterPanelController;
+        [Inject] private readonly ItemPanelController _itemPanelController;
+        [Inject] private readonly GameInventory _gameInventory;
+        public bool WaitSelected;
 
-        private GameInventory _gameInventory;
+        private bool _isOpen;
         private List<SubjectCell> _cells = new List<SubjectCell>();
         private ReactiveCommand<BaseObject> _onObjectSelect = new ReactiveCommand<BaseObject>();
 
-        public IObservable<BaseObject> OnObjectSelect => _onObjectSelect;
-        public GameInventory GameInventory => _gameInventory;
         public ReactiveCommand OnClose = new ReactiveCommand();
+        public GameInventory GameInventory => _gameInventory;
+        public IObservable<BaseObject> OnObjectSelect => _onObjectSelect;
 
         public new void Initialize()
         {
@@ -43,30 +46,51 @@ namespace UIController.Inventory
             }
 
             base.Initialize();
+
+            _gameInventory.OnChange.Subscribe(_ => RefreshUi()).AddTo(Disposables);
+        }
+
+        private void RefreshUi()
+        {
+            ShowAll();
         }
 
         private void OnCellClick(SubjectCell cell)
         {
-            _onObjectSelect.Execute(cell.Subject);
-            Close();
-        }
-
-        protected override void OnLoadGame()
-        {
-            _gameInventory = new GameInventory(_commonDictionaries, _commonGameData.InventoryData);
-            GameController.OnGameSave.Subscribe(_ => OnSaveGame()).AddTo(Disposables);
-        }
-
-        private void OnSaveGame()
-        {
-            _commonGameData.InventoryData = new InventoryData(_gameInventory);
+            if (!WaitSelected)
+            {
+                switch (cell.Subject)
+                {
+                    case GameItem item:
+                        _itemPanelController.OpenItemDetails(item);
+                        break;
+                    case GameSplinter splinter:
+                        _splinterPanelController.OpenInfoAboutSplinter(splinter, true);
+                        break;
+                }
+            }
+            else
+            {
+                _onObjectSelect.Execute(cell.Subject);
+                Close();
+            }
         }
 
         public void ShowAll()
         {
             var items = new List<GameItem>();
+            var splinters = new List<GameSplinter>();
+
             _gameInventory.GetObjectByType(items);
-            ShowItems(items);
+            _gameInventory.GetObjectByType(splinters);
+
+            var allObjects = new List<BaseObject>();
+
+            allObjects.AddRange(items);
+            allObjects.AddRange(splinters);
+
+            ShowItems(allObjects);
+
             OpenWindow();
         }
 
@@ -124,9 +148,14 @@ namespace UIController.Inventory
 
         private void OpenWindow()
         {
+            _isOpen = true;
             MessagesPublisher.OpenWindowPublisher.OpenWindow<InventoryController>(openType: OpenType.Additive);
         }
 
-
+        protected override void Close()
+        {
+            _isOpen = false;
+            base.Close();
+        }
     }
 }

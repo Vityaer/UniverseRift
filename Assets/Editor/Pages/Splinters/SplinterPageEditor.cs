@@ -1,6 +1,6 @@
 ﻿using Db.CommonDictionaries;
 using Editor.Common;
-using Models;
+using Models.Inventory.Splinters;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,16 +24,13 @@ namespace Editor.Pages.Splinters
         public override void Init()
         {
             base.Init();
-            Splinters = _splinters.Select(f => new SplinterModelEditor(f)).ToList();
+            Splinters = _splinters.Select(f => new SplinterModelEditor(f, _dictionaries)).ToList();
             DataExist = true;
         }
 
         public override void Save()
         {
-            var units = Splinters.Select(r => new SplinterModel
-            {
-                Id = r.Id
-            }).ToList();
+            var units = Splinters.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(units);
             base.Save();
@@ -44,7 +41,7 @@ namespace Editor.Pages.Splinters
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
             _dictionaries.Splinters.Add(id, new SplinterModel() { Id = id });
-            Splinters.Add(new SplinterModelEditor(_dictionaries.Splinters[id]));
+            Splinters.Add(new SplinterModelEditor(_dictionaries.Splinters[id], _dictionaries));
         }
 
         private void RemoveElements(SplinterModelEditor light, object b, List<SplinterModelEditor> lights)

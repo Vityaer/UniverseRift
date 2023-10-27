@@ -1,9 +1,6 @@
-﻿using City.Achievements;
-using City.Buildings.Mines;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Misc.Json;
-using Models.City.Markets;
-using Models.City.Mines;
+using Models.Battlepases;
 using Models.Data;
 using Models.Data.Heroes;
 using Models.Data.Inventories;
@@ -27,11 +24,12 @@ namespace Models.Common
         public CityData City = new CityData();
         public PlayerData PlayerInfoData = new PlayerData();
         public List<TaskData> ListTasks = new();
-        public AchievmentStorageData Requirements = new();
+        public AchievmentStorageData AchievmentStorage = new();
         public CycleEventsData CycleEventsData = new CycleEventsData();
         public HeroesStorage HeroesStorage = new HeroesStorage();
         public List<ResourceData> Resources = new();
         public InventoryData InventoryData = new();
+        public BattlepasData BattlepasData = new();
 
         public bool IsInited { get; private set; } = false;
 
@@ -41,13 +39,13 @@ namespace Models.Common
             var result = await DataServer.PostData(message);
             if (result.IsNullOrWhitespace())
                 return;
-            
+
             var data = _jsonConverter.FromJson<CommonGameData>(result);
 
             City = data.City;
             PlayerInfoData = data.PlayerInfoData;
             ListTasks = data.ListTasks;
-            Requirements = data.Requirements;
+            AchievmentStorage = data.AchievmentStorage;
             CycleEventsData = data.CycleEventsData;
             HeroesStorage = data.HeroesStorage;
             InventoryData = data.InventoryData;

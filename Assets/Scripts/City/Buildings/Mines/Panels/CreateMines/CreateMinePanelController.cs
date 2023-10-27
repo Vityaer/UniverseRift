@@ -1,5 +1,5 @@
-using Assets.Scripts.ClientServices;
 using City.Buildings.Mines.Panels.CreateMines;
+using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;

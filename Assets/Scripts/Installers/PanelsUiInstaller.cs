@@ -15,6 +15,7 @@ using City.Panels.Arenas.RatingArenas;
 using City.Panels.Arenas.SimpleArenas;
 using City.Panels.Arenas.Tournaments;
 using City.Panels.AutoFights;
+using City.Panels.BatllepasPanels;
 using City.Panels.BoxRewards;
 using City.Panels.DailyRewards;
 using City.Panels.DailyTasks;
@@ -77,6 +78,7 @@ namespace Installers
         [SerializeField] private TournamentPanelView _tournamentPanelView;
         [SerializeField] private InfoMinePanelView _infoMinePanelView;
         [SerializeField] private CreateMinePanelView _createMinePanelView;
+        [SerializeField] private BattlepasPanelView _battlepasPanelView;
         
         public override void Install(IContainerBuilder builder)
         {
@@ -114,6 +116,9 @@ namespace Installers
             builder.RegisterUiView<RatingArenaPanelController, RatingArenaPanelView>(_ratingArenaPanelView, canvas.transform);
             builder.RegisterUiView<SimpleArenaPanelController, SimpleArenaPanelView>(_simpleArenaPanelView, canvas.transform);
             builder.RegisterUiView<TournamentPanelController, TournamentPanelView>(_tournamentPanelView, canvas.transform);
+            
+            builder.RegisterUiView<BattlepasPanelController, BattlepasPanelView>(_battlepasPanelView, canvas.transform);
+
             
         }
     }

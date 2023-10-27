@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Buildings.Abstractions;
+﻿using City.Buildings.Abstractions;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;

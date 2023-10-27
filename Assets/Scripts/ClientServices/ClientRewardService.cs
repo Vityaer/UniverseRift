@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Panels.Rewards;
+﻿using City.Panels.Rewards;
 using Common.Resourses;
 using Common.Rewards;
 using Db.CommonDictionaries;
@@ -13,7 +12,7 @@ namespace ClientServices
 {
     public class ClientRewardService
     {
-        [Inject] private readonly InventoryController _inventoryController;
+        [Inject] private readonly GameInventory _gameInventory;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly RewardPanelController _rewardPanelController;
@@ -42,7 +41,10 @@ namespace ClientServices
                 item.Model = _commonDictionaries.Items[item.Id];
             }
 
-            _inventoryController.Add(items);
+            foreach (var item in items)
+            {
+                _gameInventory.Add(item);
+            }
             OnGetReward.Execute();
         }
     }

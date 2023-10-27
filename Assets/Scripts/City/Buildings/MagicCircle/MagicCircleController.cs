@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.ClientServices;
-using City.Buildings.Abstractions;
+﻿using City.Buildings.Abstractions;
+using ClientServices;
 using Common.Heroes;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;

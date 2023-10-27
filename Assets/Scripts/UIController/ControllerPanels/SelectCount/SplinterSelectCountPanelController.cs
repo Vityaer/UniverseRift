@@ -3,6 +3,8 @@ using System;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer.Unity;
+using VContainerUi.Model;
+using VContainerUi.Messages;
 
 namespace UIController.ControllerPanels.SelectCount
 {
@@ -19,8 +21,9 @@ namespace UIController.ControllerPanels.SelectCount
 
         public override void Start()
         {
+            base.Start();
             View.CountController.OnChangeCount.Subscribe(ChangeCount).AddTo(Disposables);
-            //View.ActionButton.OnClickAsObservable().Subscribe(_ => SelectedCountDone()).AddTo(Disposables);
+            View.ActionButton.OnClickAsObservable().Subscribe(_ => SelectedCountDone()).AddTo(Disposables);
         }
 
         public void ChangeCount(int count)
@@ -37,11 +40,12 @@ namespace UIController.ControllerPanels.SelectCount
             View.MainImage.SetData(splinter);
             View.CountController.SetMax(_storeCount / _requireCount);
             ChangeCount(count: _storeCount / _requireCount);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SplinterSelectCountPanelController>(openType: OpenType.Exclusive);
         }
 
         void SelectedCountDone()
         {
-            _splinter.GetReward(_selectedCount);
+            //_splinter.GetReward(_selectedCount);
             _actionOnSelectedCount.Execute(_selectedCount);
             ActionAfterUse.Execute();
             Close();

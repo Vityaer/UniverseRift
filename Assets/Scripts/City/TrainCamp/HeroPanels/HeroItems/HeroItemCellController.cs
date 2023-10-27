@@ -50,8 +50,9 @@ namespace UIController.ItemVisual
             else
             {
                 _inventoryController.Open(_cellType, this);
-                _inventoryController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem)).AddTo(_tempDisposables);
+                _inventoryController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem).Forget()).AddTo(_tempDisposables);
                 _inventoryController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
+                _inventoryController.WaitSelected = true;
             }
         }
 
@@ -87,6 +88,7 @@ namespace UIController.ItemVisual
         {
             _tempDisposables.Dispose();
             _tempDisposables = new CompositeDisposable();
+            _inventoryController.WaitSelected = false;
         }
 
         public void DefaulfView()

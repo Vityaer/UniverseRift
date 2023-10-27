@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.ClientServices;
+﻿using ClientServices;
 using Common.Resourses;
 using System;
 using TMPro;

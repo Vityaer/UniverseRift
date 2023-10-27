@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 using UniRx;
-using Assets.Scripts.ClientServices;
+using ClientServices;
 
 namespace UIController.Observers
 {

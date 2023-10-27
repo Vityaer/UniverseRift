@@ -62,5 +62,6 @@ namespace UIController.ItemVisual
             _disposables.Dispose();
             base.Dispose();
         }
+
     }
 }

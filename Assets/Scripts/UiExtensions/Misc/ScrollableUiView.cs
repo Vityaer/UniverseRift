@@ -1,4 +1,5 @@
-﻿using System;
+﻿using City.Buildings.CityButtons.EventAgent;
+using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -41,9 +42,13 @@ namespace UiExtensions.Misc
             Scroll.OnEndDrag(eventData);
         }
 
+        public virtual void SetStatus(ScrollableViewStatus received) { }
+
+
         public void Dispose()
         {
             Disposable.Dispose();
         }
+
     }
 }

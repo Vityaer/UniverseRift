@@ -42,20 +42,20 @@ namespace City.Buildings.Requirement
 
         public void LoadData(List<AchievmentData> achievmentSaves)
         {
-            for (int i = 0; i < achievmentSaves.Count; i++)
-            {
-                var achievment = _achievments.Find(achiev => achiev.Id == achievmentSaves[i].ModelId);
-                if (achievment != null)
-                {
-                    achievment.SetProgress(achievmentSaves[i].CurrentStage, achievmentSaves[i].Progress);
-                }
-                else
-                {
-                    achievmentSaves.Remove(achievmentSaves[i]);
-                }
-            }
-            CreateRequrements();
-            OnAfterLoadData();
+            //for (int i = 0; i < achievmentSaves.Count; i++)
+            //{
+            //    var achievment = _achievments.Find(achiev => achiev.Id == achievmentSaves[i].ModelId);
+            //    if (achievment != null)
+            //    {
+            //        achievment.SetProgress(achievmentSaves[i].CurrentStage, achievmentSaves[i].Progress);
+            //    }
+            //    else
+            //    {
+            //        achievmentSaves.Remove(achievmentSaves[i]);
+            //    }
+            //}
+            //CreateRequrements();
+            //OnAfterLoadData();
         }
 
         protected virtual void SaveData()

@@ -1,8 +1,11 @@
-﻿using City.Acievements;
+﻿using City.Achievements;
+using City.Acievements;
 using Editor.Common;
 using Models.Achievments;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Utils;
 
 namespace Editor.Pages.Achievments
 {
@@ -53,5 +56,16 @@ namespace Editor.Pages.Achievments
             set => _model.Stages = value;
         }
 
+        [ShowInInspector]
+        [HorizontalGroup("5")]
+        [LabelText("ImplementationName")]
+        [LabelWidth(200)]
+        [ValueDropdown(nameof(_allAbilitiesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public string ImplementationName
+        {
+            get => _model.ImplementationName;
+            set => _model.ImplementationName = value;
+        }
+        [JsonIgnore] private string[] _allAbilitiesName => InheritanceUtils.GetAllTypeNames<GameAchievment>();
     }
 }

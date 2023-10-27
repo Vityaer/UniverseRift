@@ -58,7 +58,7 @@ namespace Editor.Pages.Achievments
             CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]
-        [LabelText("CampaignChapters")]
+        [LabelText("Achievments")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<AchievmentModelEditor> Achievments = new List<AchievmentModelEditor>();

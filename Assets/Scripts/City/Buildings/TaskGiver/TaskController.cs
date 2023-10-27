@@ -14,7 +14,6 @@ using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Taskboards;
 using VContainer;
-using Assets.Scripts.ClientServices;
 using ClientServices;
 using Common.Rewards;
 using System.Globalization;

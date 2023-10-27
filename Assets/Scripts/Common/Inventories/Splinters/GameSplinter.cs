@@ -1,39 +1,45 @@
-﻿using City.Buildings.Tavern;
-using City.Panels.Messages;
-using Hero;
-using Models.Common.BigDigits;
+﻿using Db.CommonDictionaries;
+using Fight.HeroControllers.Generals;
+using Models;
 using Models.Heroes;
+using Models.Inventory.Splinters;
 using System;
-using UIController.GameSystems;
+using System.Linq;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards.PosibleRewards;
 using UnityEngine;
+using Utils;
 
 namespace Common.Inventories.Splinters
 {
     [Serializable]
     public class GameSplinter : BaseObject
     {
-        public TypeSplinter typeSplinter;
+        public SplinterType typeSplinter;
         public RaceSplinter race;
-        [SerializeField] private int requireAmount;
+        [SerializeField] private int requireCount;
         [Header("rewards")]
         public PosibleRewardData reward = new PosibleRewardData();
         public string Rarity;
 
+        private SplinterModel _model;
+        private CommonDictionaries _commonDictionaries;
+        private BaseModel _dataModel;
+
         //public int CountReward => reward.PosibilityObjectRewards.Count;
         public int CountReward => 1;
         public bool IsCanUse => Amount >= RequireAmount;
-        public string GetTextType  => typeSplinter.ToString();
-        public string GetTextDescription  => string.Empty;
+        public string GetTextType => typeSplinter.ToString();
+        public string GetTextDescription => string.Empty;
+        public SplinterModel Model => _model;
 
         public int RequireAmount
         {
             get
             {
-                if (requireAmount <= 0) requireAmount = CalculateRequire();
-                return requireAmount;
+                if (requireCount <= 0) requireCount = CalculateRequire();
+                return requireCount;
             }
         }
 
@@ -49,133 +55,66 @@ namespace Common.Inventories.Splinters
             {
                 if (sprite == null)
                 {
-                    Debug.Log("ID: " + Id.ToString() + " splinter is founding image...");
-                    switch (typeSplinter)
-                    {
-                        case TypeSplinter.Hero:
-                            sprite = SystemSprites.Instance.GetSprite((SpriteName)Enum.Parse(typeof(SpriteName), Id));
-                            break;
-                    }
+                    //Debug.Log("ID: " + Id.ToString() + " splinter is founding image...");
+                    //switch (typeSplinter)
+                    //{
+                    //    case TypeSplinter.Hero:
+                    //        //sprite = SystemSprites.Instance.GetSprite((SpriteName)Enum.Parse(typeof(SpriteName), Id));
+                    //        break;
+                    //}
                 }
                 // Debug.Log("splinter was founded: " + (sprite == null).ToString() );
                 return sprite;
             }
         }
-
-        public void GetReward(int countReward)
-        {
-            for (int i = 0; i < countReward; i++)
-            {
-                switch (typeSplinter)
-                {
-                    case TypeSplinter.Hero:
-                        AddHero(GetRandomHero());
-                        break;
-                }
-            }
-            //Amount -= requireAmount * countReward;
-            //if (Amount > 0)
-            //{
-            //    UpdateUI();
-            //}
-            //else
-            //{
-            //    ClearData();
-            //}
-            //InventoryController.Instance.Refresh();
-        }
-
-        public void SetAmount(int amount)
-        {
-            //Amount = amount;
-            //requireAmount = CalculateRequire();
-        }
-
-        public void AddAmount(int count)
-        {
-            //Amount = Amount + count;
-        }
-
         public GameSplinter() { }
         //Constructors
-        public GameSplinter(string ID, int count = 0)
+        public GameSplinter(SplinterModel model, CommonDictionaries commonDictionaries, int count = 0)
         {
-            Id = ID;
+            _commonDictionaries = commonDictionaries;
+            _model = model;
+            Id = model.Id;
             GetDefaultData();
-            //Amount = count > 0 ? count : requireAmount;
+            Amount = count > 0 ? count : requireCount;
+        }
+
+        public GameSplinter(string id, int count = 0)
+        {
+            Id = id;
+            GetDefaultData();
+            Amount = count > 0 ? count : requireCount;
         }
 
         public GameSplinter(HeroModel hero)
         {
-            typeSplinter = TypeSplinter.Hero;
+            typeSplinter = SplinterType.Hero;
             //sprite = hero.General.ImageHero;
             Rarity = hero.General.Rarity;
             Id = hero.General.ViewId;
             reward = new PosibleRewardData();
             //reward.Add<GameHero>(Id);
-            requireAmount = CalculateRequire();
+            requireCount = CalculateRequire();
         }
 
         private void GetDefaultData()
         {
-            //GameSplinter data = SplinterSystem.Instance.GetSplinter(Id);
-            //typeSplinter = data.typeSplinter;
-            //sprite = data.Image;
-            //reward = data.reward;
-            //Rarity = data.Rarity;
-            //requireAmount = data.RequireAmount;
-        }
-
-        //public override BaseObject Clone()
-        //{
-        //    return new GameSplinter(Id, Amount);
-        //}
-
-        private SpriteName GetSpriteName()
-        {
-            SpriteName result = SpriteName.BaseSplinterHero;
-            switch (typeSplinter)
+            switch (_model.SplinterType)
             {
-                case TypeSplinter.Hero:
-                    result = SpriteName.BaseSplinterHero;
+                case SplinterType.Hero:
+                    var prefab = Resources.Load<HeroController>($"{Constants.ResourcesPath.HEROES_PATH}{_model.ModelId}");
+                    sprite = prefab.GetSprite;
+                    break;
+                case SplinterType.Item:
+                    var itemModel = _commonDictionaries.Items[_model.ModelId];
+                    var spriteAtlas = Resources.LoadAll<Sprite>("Items/Items");
+                    sprite = spriteAtlas.ToList().Find(icon => icon.name.Equals(itemModel.SetName));
                     break;
             }
-            return result;
+            typeSplinter = _model.SplinterType;
+            requireCount = _model.RequireCount;
         }
 
         //Rewards
-        private HeroModel GetRandomHero()
-        {
-            HeroModel hero = null;
-            int selectNumber = 0;
-            //float rand = UnityEngine.Random.Range(0, reward.GetAllSum);
-            //for (int i = 0; i < CountReward; i++)
-            //{
-                //rand -= reward.PosibilityObjectRewards[i].Posibility;
-                //if (rand <= 0)
-                //{
-                    //selectNumber = i;
-                    //break;
-                //}
-            //}
-            Debug.Log("selectNumber: " + selectNumber);
-            //hero = TavernController.Instance.GetInfoHero(reward.posibilityObjectRewards[selectNumber].ID);
-            return hero;
-        }
-        private void AddHero(HeroModel newHero)
-        {
-            if (newHero != null)
-            {
-                newHero.General.Name = newHero.General.Name + " №" + UnityEngine.Random.Range(0, 1000).ToString();
-                //MessageController.Instance.AddMessage("Новый герой! Это - " + newHero.General.Name);
-                //GameController.Instance.AddHero(newHero);
-            }
-            else
-            {
-                Debug.Log("newHero null");
-            }
-        }
-
         public static GameSplinter operator *(GameSplinter item, int k)
         {
             return new GameSplinter(item.Id, k);

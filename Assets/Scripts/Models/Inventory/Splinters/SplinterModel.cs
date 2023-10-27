@@ -1,9 +1,12 @@
-﻿namespace Models
+﻿using Models;
+
+namespace Models.Inventory.Splinters
 {
     [System.Serializable]
     public class SplinterModel : BaseModel
     {
-        public string Race;
+        public SplinterType SplinterType;
+        public string ModelId;
         public int RequireCount;
     }
 }

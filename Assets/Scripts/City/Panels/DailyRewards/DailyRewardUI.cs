@@ -1,48 +1,32 @@
 using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Market;
+using City.Panels.BatllepasPanels;
 using City.Panels.Messages;
 using Common.Inventories.Splinters;
 using Common.Resourses;
+using Common.Rewards;
 using UIController.Inventory;
 using UIController.ItemVisual;
+using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace City.Buildings.CityButtons.DailyReward
 {
-    public class DailyRewardUI : MonoBehaviour
+    public class DailyRewardUI : ScrollableUiView<GameReward>
     {
         public int ID;
         public GameObject blockPanel, readyForGet;
         public SubjectCell rewardController;
         private BaseMarketProduct reward;
-        private DailyTaskRewardStatus statusReward = DailyTaskRewardStatus.Close;
+        private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
 
         void Start()
         {
             ID = transform.GetSiblingIndex();
         }
 
-        public void SetData(BaseMarketProduct newProduct)
-        {
-            switch (newProduct)
-            {
-                case MarketProduct<GameResource> product:
-                    reward = product;
-                    //rewardController.SetItem(product.subject);
-                    break;
-                case MarketProduct<GameItem> product:
-                    reward = product;
-                    //rewardController.SetItem(product.subject);
-                    break;
-                case MarketProduct<GameSplinter> product:
-                    reward = product;
-                    //rewardController.SetItem(product.subject);
-                    break;
-            }
-        }
-
-        public void SetStatus(DailyTaskRewardStatus newStatusReward)
+        public override void SetStatus(ScrollableViewStatus newStatusReward)
         {
             statusReward = newStatusReward;
             UpdateUI();
@@ -52,15 +36,15 @@ namespace City.Buildings.CityButtons.DailyReward
         {
             switch (statusReward)
             {
-                case DailyTaskRewardStatus.Received:
+                case ScrollableViewStatus.Completed:
                     blockPanel.SetActive(true);
                     readyForGet.SetActive(false);
                     break;
-                case DailyTaskRewardStatus.Close:
+                case ScrollableViewStatus.Close:
                     blockPanel.SetActive(false);
                     readyForGet.SetActive(false);
                     break;
-                case DailyTaskRewardStatus.Open:
+                case ScrollableViewStatus.Open:
                     blockPanel.SetActive(false);
                     readyForGet.SetActive(true);
                     break;
@@ -71,16 +55,16 @@ namespace City.Buildings.CityButtons.DailyReward
         {
             switch (statusReward)
             {
-                case DailyTaskRewardStatus.Close:
+                case ScrollableViewStatus.Close:
                     //MessageController.Instance.AddMessage("Награда не открыта, приходите позже");
                     break;
-                case DailyTaskRewardStatus.Received:
+                case ScrollableViewStatus.Completed:
                     //MessageController.Instance.AddMessage("Вы уже получали эту награду");
                     break;
-                case DailyTaskRewardStatus.Open:
+                case ScrollableViewStatus.Open:
                     reward.GetProduct(1);
                     //DailyRewardPanelController.Instance.OnGetReward(transform.GetSiblingIndex());
-                    SetStatus(DailyTaskRewardStatus.Received);
+                    SetStatus(ScrollableViewStatus.Completed);
                     break;
             }
         }

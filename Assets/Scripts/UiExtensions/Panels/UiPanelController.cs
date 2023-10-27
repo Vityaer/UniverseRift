@@ -20,7 +20,7 @@ namespace UiExtensions.Scroll.Interfaces
         [Inject] protected readonly CommonGameData CommonGameData;
         [Inject] protected readonly GameController GameController;
         [Inject] protected readonly IUiMessagesPublisherService MessagesPublisher;
-        [Inject] protected readonly IObjectResolver _resolver;
+        [Inject] protected readonly IObjectResolver Resolver;
         protected readonly CompositeDisposable Disposables = new CompositeDisposable();
 
         public void Initialize()
@@ -40,9 +40,9 @@ namespace UiExtensions.Scroll.Interfaces
         {
             foreach (var obj in View.AutoInjectObjects)
             {
-                if (_resolver == null)
+                if (Resolver == null)
                     UnityEngine.Debug.Log($"{View.gameObject.name}");
-                _resolver.Inject(obj);
+                Resolver.Inject(obj);
             }
         }
 

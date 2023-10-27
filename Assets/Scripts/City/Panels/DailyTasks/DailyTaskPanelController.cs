@@ -1,40 +1,47 @@
-using Assets.Scripts.ClientServices;
+using City.Achievements;
+using City.Buildings.Requirement;
+using City.Panels.BatllepasPanels;
 using City.Panels.DailyTasks;
-using City.Panels.Messages;
+using ClientServices;
 using Common;
 using Common.Resourses;
+using Db.CommonDictionaries;
 using Models;
 using Models.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using VContainerUi.Messages;
+using VContainerUi.Model;
 
 namespace City.Buildings.CityButtons.EventAgent
 {
     public class DailyTaskPanelController : UiPanelController<DailyTaskPanelView>, IStartable
     {
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly CommonGameData _ñommonGameData;
+        private const string DAILY_TASKS = "DailyTasks";
 
         private const int REWARD_COUNT = 30;
         private const int REWARD_MONET_COST = 100;
-
-        private static string SUM_RECEIVIED_REWARD = "SumReward";
+        private const string SUM_RECEIVIED_REWARD = "SumReward";
         private const char SYMBOL_1 = '1';
+
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         private int _currentProgress = 0;
         private int _sumReward = 0;
-        private List<RewardModel> listRewards;
-        private List<int> idReceivedReward = new List<int>(REWARD_COUNT);
-        private List<DailyTaskRewardView> _rewardsUi = new List<DailyTaskRewardView>(REWARD_COUNT);
-        private SimpleBuildingData progressObjectSave;
-        private bool isFillData = false;
+        private List<RewardModel> _listRewards;
+        private List<int> _idReceivedReward = new List<int>(REWARD_COUNT);
+        private List<DailyTaskUi> _rewardsUi = new List<DailyTaskUi>(REWARD_COUNT);
+        private SimpleBuildingData _progressObjectSave;
 
-        private int MaxCount => REWARD_COUNT * REWARD_MONET_COST;
+        private List<AchievmentView> _achievmentViews = new();
 
         public void OnGetMonet(GameResource res)
         {
@@ -45,99 +52,61 @@ namespace City.Buildings.CityButtons.EventAgent
         public override void Start()
         {
             _resourceStorageController.Subscribe(ResourceType.EventAgentMonet, OnGetMonet).AddTo(Disposables);
+            View.OpenBattlePasPanelButton.OnClickAsObservable().Subscribe(_ => OpenBattlePasPanel()).AddTo(Disposables);
             base.Start();
-            //for (var i = 0; i < REWARD_COUNT; i++)
-            //{
-            //    var rewardUi = UnityEngine.Object.Instantiate(View.PrefabRewardUi);
-            //    _rewardsUi.Add(rewardUi);
-            //}
+        }
+
+        private void OpenBattlePasPanel()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<BattlepasPanelController>(openType: OpenType.Exclusive);
         }
 
         protected override void OnLoadGame()
         {
-            //progressObjectSave = _ñommonGameData.Requirements.EventAgentProgress;
-            //_sumReward = progressObjectSave.IntRecords.GetRecord(SUM_RECEIVIED_REWARD);
-            //RepackReceivedReward(_sumReward);
-            //var statusReward = DailyTaskRewardStatus.Close;
-            //var countOpenLevel = GetOpenLevel();
-
-            //for (int i = 0; i < listRewards.Count; i++)
-            //{
-            //    if (i < countOpenLevel)
-            //    {
-            //        if (idReceivedReward.Contains(i))
-            //        {
-            //            statusReward = DailyTaskRewardStatus.Received;
-            //        }
-            //        else
-            //        {
-            //            statusReward = DailyTaskRewardStatus.Open;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        statusReward = DailyTaskRewardStatus.Close;
-            //    }
-
-            //    _rewardsUi[i].SetStatus(statusReward);
-            //}
-
-            //OnGetMonet(_resourceStorageController.GetResource(ResourceType.EventAgentMonet));
-            //View.mainSliderController.SetValue(_currentProgress, MaxCount);
+            CreateTaskViews();
         }
 
-        private void RepackReceivedReward(int sum)
+        private void CreateTaskViews()
         {
-            string binaryCode = Convert.ToString(sum, 2);
-            for (int i = 0; i < binaryCode.Length; i++)
-                if (binaryCode[i].Equals(SYMBOL_1))
-                    idReceivedReward.Add(i);
-        }
+            var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList();
 
-        private int GetOpenLevel()
-        {
-            return _currentProgress / 100;
-        }
-
-        public void GetReward(DailyTaskRewardView dailyTaskRewardView)
-        {
-            switch (dailyTaskRewardView.Status)
+            foreach (var taskId in _commonDictionaries.AchievmentContainers[DAILY_TASKS].TaskIds)
             {
-                case DailyTaskRewardStatus.Close:
-                    //MessageController.Instance.AddMessage("Íàãðàäó åù¸ íóæíî çàñëóæèòü, ïðèõîäèòå ïîçæå");
-                    break;
-                case DailyTaskRewardStatus.Received:
-                    //MessageController.Instance.AddMessage("Âû óæå ïîëó÷àëè ýòó íàãðàäó");
-                    break;
-                case DailyTaskRewardStatus.Open:
-                    //GameController.Instance.AddReward(_reward);
-                    var index = _rewardsUi.FindIndex(rewardUi => rewardUi == dailyTaskRewardView);
-                    OnGetReward(index);
-                    dailyTaskRewardView.SetStatus(DailyTaskRewardStatus.Received);
-                    break;
-            }
-        }
+                var taskModel = _commonDictionaries.Achievments[taskId];
+                var taskData = CommonGameData.AchievmentStorage.Achievments
+                    .Find(data => data.ModelId.Equals(taskId));
 
-        public override void OnShow()
-        {
-            //View.mainSliderController.SetNewValueWithAnim(_currentProgress);
-            //if (isFillData == false)
-            //{
-            //    for (int i = 0; i < listRewards.Count; i++)
-            //        _rewardsUi[i].SetData(listRewards[i], View.Scroll);
-            //    isFillData = true;
-            //}
-            base.OnShow();
+                if (taskData == null)
+                {
+                    UnityEngine.Debug.LogError($"Not found data: {taskId}");
+                    continue;
+                }
+
+                var taskPrefab = UnityEngine.Object.Instantiate(View.AchievmentViewPrefab, View.Content);
+                
+                var type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
+                var gameTask = Activator.CreateInstance(type) as GameAchievment;
+
+                Debug.Log(gameTask.GetType());
+                
+                Resolver.Inject(gameTask);
+                gameTask.SetData(taskModel, taskData);
+
+                Resolver.Inject(taskPrefab);
+                taskPrefab.SetData(gameTask, View.Scroll);
+
+                _achievmentViews.Add(taskPrefab);
+            }
         }
 
         public int GetMaxLevelReceivedReward()
         {
             int result = 0;
-            for (int i = 0; i < idReceivedReward.Count; i++)
+            for (int i = 0; i < _idReceivedReward.Count; i++)
             {
-                if (idReceivedReward[i] > result)
+                if (_idReceivedReward[i] > result)
                 {
-                    result = idReceivedReward[i];
+                    result = _idReceivedReward[i];
                 }
             }
             return result;
@@ -151,16 +120,8 @@ namespace City.Buildings.CityButtons.EventAgent
 
         private void OnGetReward(int index)
         {
-            idReceivedReward.Add(index);
+            _idReceivedReward.Add(index);
             _sumReward += (int)Math.Pow(2, index);
-            SaveData(_sumReward);
         }
-
-        public void SaveData(int sum)
-        {
-            progressObjectSave.IntRecords.SetRecord(SUM_RECEIVIED_REWARD, sum);
-            //GameController.Instance.SaveGame();
-        }
-
     }
 }
