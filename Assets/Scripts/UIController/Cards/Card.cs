@@ -20,8 +20,8 @@ namespace UIController.Cards
         [SerializeField] private Image _panelSelect;
         [SerializeField] private VocationView _vocationUI;
         [SerializeField] private Button Button;
-
-        private RatingHero _ratingController;
+        [SerializeField] private RatingHero _ratingController;
+        
         private ReactiveCommand<Card> _onClick = new ReactiveCommand<Card>();
         private CompositeDisposable _disposables = new CompositeDisposable();
         private IDisposable _heroSubscribe;
@@ -37,10 +37,9 @@ namespace UIController.Cards
         {
             gameObject.SetActive(true);
             _levelUI.text = string.Empty;
-            _ratingController.ShowRating(requirementHero.rating);
+            _ratingController.ShowRating(requirementHero.Rating);
             // vocationUI.SetData(requirementHero.);
             // raceUI.SetData(requirementHero.);
-            SetImage(requirementHero.GetData);
         }
 
         public void SetData(GameHero hero)
@@ -57,13 +56,8 @@ namespace UIController.Cards
         {
             _imageUI.sprite = Hero.Avatar;
             _levelUI.text = $"{Hero.HeroData.Level}";
-            //_ratingController.ShowRating(Hero.General.RatingHero);
+            _ratingController.ShowRating(Hero.HeroData.Rating);
 
-        }
-
-        private void SetImage(HeroModel data)
-        {
-            //_imageUI.sprite = data.General.ImageHero;
         }
 
         //API

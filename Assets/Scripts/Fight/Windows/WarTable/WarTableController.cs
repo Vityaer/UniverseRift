@@ -2,8 +2,11 @@
 using Common.Heroes;
 using Db.CommonDictionaries;
 using Hero;
+using Models.Arenas;
 using Models.Fights.Campaign;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UniRx;
 using VContainer;
@@ -23,6 +26,9 @@ namespace Fight.WarTable
         private CompositeDisposable _disposables = new CompositeDisposable();
         public ReactiveCommand OnStartMission = new ReactiveCommand();
         public ReactiveCommand OnClose = new ReactiveCommand();
+        private IDisposable _buttonAction;
+        private Action<TeamContainer> _callback;
+        private TeamContainer _playerTeam;
 
         public void Initialize()
         {
@@ -36,7 +42,7 @@ namespace Fight.WarTable
             {
                 place.OnClick.Subscribe(OnPlaceSelect).AddTo(_disposables);
             }
-            View.StartFightButton.OnClickAsObservable().Subscribe(_ => StartFight()).AddTo(_disposables);
+
         }
 
         private void OnPlaceSelect(WarriorPlace place)
@@ -182,9 +188,62 @@ namespace Fight.WarTable
             //}
             View.StartFightButton.interactable = View.LeftTeam.FindAll(place => place.Hero != null).Count > 0;
         }
+
         //API
+        public void OpenTeamComposition(TeamContainer team, Action<TeamContainer> callback)
+        {
+            DisposeMainAction();
+            _playerTeam = team;
+            _callback = callback;
+            _buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => SaveTeam());
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
+            ClearPlaces(View.LeftTeam);
+            ClearPlaces(View.RightTeam);
+            FillListHeroes(_heroesStorageController.ListHeroes);
+
+            FillTeam(_playerTeam, View.LeftTeam);
+            UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
+            Open();
+        }
+
+        private void FillTeam(TeamContainer team, List<WarriorPlace> teamPlaces)
+        {
+            List<GameHero> heroes = new(team.Heroes.Count);
+
+            foreach (var heroKeyValuePair in team.Heroes)
+            {
+                var suitablePlace = teamPlaces.Find(place => place.Id == heroKeyValuePair.Key);
+                if (suitablePlace == null)
+                    continue;
+
+                var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                if(suitableHero == null)
+                    continue;
+
+                suitablePlace.SetHero(suitableHero);
+                heroes.Add(suitableHero);
+            }
+
+            View.ListCardPanel.SelectCards(heroes);
+        }
+
+        private void SaveTeam()
+        {
+            _playerTeam.Heroes.Clear();
+            foreach (var place in View.LeftTeam)
+            {
+                if (!place.IsEmpty)
+                    _playerTeam.Heroes.Add(place.Id, place.Hero.HeroData.Id);
+            }
+
+            _callback.Invoke(_playerTeam);
+            Close();
+        }
+
         public void OpenMission(MissionModel mission, List<GameHero> listHeroes)
         {
+            DisposeMainAction();
+            _buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => StartFight());
             MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
@@ -206,6 +265,15 @@ namespace Fight.WarTable
 
             FillListHeroes(listHeroes);
             Open();
+        }
+
+        private void DisposeMainAction()
+        {
+            if(_buttonAction != null)
+            {
+                _buttonAction.Dispose();
+                _buttonAction = null;
+            }
         }
 
         public void OpenMission(MissionModel mission)

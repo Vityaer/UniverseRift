@@ -20,6 +20,7 @@ using ClientServices;
 using Utils;
 using UnityEngine;
 using System.Threading;
+using Db.CommonDictionaries;
 
 namespace City.Buildings.Mines
 {
@@ -32,6 +33,7 @@ namespace City.Buildings.Mines
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         private PlaceForMine _place;
         private List<GameResource> _cost;
@@ -89,7 +91,7 @@ namespace City.Buildings.Mines
             if (!string.IsNullOrEmpty(result))
             {
                 var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-                var calculatedReward = new GameReward(rewardModel);
+                var calculatedReward = new GameReward(rewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(calculatedReward);
                 _place.MineData.LastDateTimeGetIncome = DateTime.UtcNow.ToString();
                 UpdateUI();

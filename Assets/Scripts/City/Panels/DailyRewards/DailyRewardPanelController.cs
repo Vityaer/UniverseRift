@@ -1,18 +1,15 @@
 using City.Buildings.CityButtons.DailyReward;
 using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.Market;
-using City.Panels.BatllepasPanels;
 using City.Panels.DailyRewards;
 using ClientServices;
 using Common.Rewards;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
-using Models;
 using Models.Common;
-using Sirenix.Serialization;
-using System;
+using Network.DataServer;
+using Network.DataServer.Messages.DailyRewards;
 using System.Collections.Generic;
 using UiExtensions.Scroll.Interfaces;
-using UnityEngine;
 using VContainer;
 
 namespace City.Buildings.CityButtons
@@ -22,9 +19,9 @@ namespace City.Buildings.CityButtons
         private const string DAILY_REWARDS_CONTAIER_NAME = "DailyRewards";
 
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] protected readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly ClientRewardService _clientRewardService;
 
-        public List<DailyRewardUI> _rewardControllers = new List<DailyRewardUI>();
+        private List<DailyRewardUI> _rewardControllers = new List<DailyRewardUI>();
 
         protected override void OnLoadGame()
         {
@@ -33,9 +30,9 @@ namespace City.Buildings.CityButtons
             {
                 var rewardViewPrefab = UnityEngine.Object.Instantiate(View.RewardPrefab, View.Content);
 
-                var data = new GameReward(rewardModel);
+                var data = new GameReward(rewardModel, _commonDictionaries);
                 rewardViewPrefab.SetData(data, View.Scroll);
-                var status = (index <= CommonGameData.BattlepasData.CurrentDailyBattlepasStage)
+                var status = (index <= CommonGameData.City.DailyReward.CurrentDailyReward)
                     ?
                     ScrollableViewStatus.Completed
                     :
@@ -43,7 +40,28 @@ namespace City.Buildings.CityButtons
 
                 rewardViewPrefab.SetStatus(status);
                 _rewardControllers.Add(rewardViewPrefab);
+                index++;
+            }
 
+            if (CommonGameData.City.DailyReward.CanGetDailyReward)
+            {
+                TryGetNextDailyReward().Forget();
+            }
+        }
+
+        private async UniTaskVoid TryGetNextDailyReward()
+        {
+            var message = new GetDailyRewardMessage { PlayerId = CommonGameData.PlayerInfoData.Id };
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                CommonGameData.City.DailyReward.CurrentDailyReward += 1;
+                var index = CommonGameData.City.DailyReward.CurrentDailyReward;
+                var reward = new GameReward(_commonDictionaries.RewardContainerModels[DAILY_REWARDS_CONTAIER_NAME].Rewards[index], _commonDictionaries);
+                _clientRewardService.GetReward(reward);
+                _rewardControllers[index].SetStatus(ScrollableViewStatus.Completed);
+                CommonGameData.City.DailyReward.CanGetDailyReward = false;
             }
         }
     }

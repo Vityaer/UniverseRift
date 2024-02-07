@@ -3,6 +3,7 @@ using Fight.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -51,6 +52,12 @@ namespace Hero
                 }
             }
 
+            OnChangeData.Execute();
+        }
+
+        public void UpRating()
+        {
+            _heroData.Rating += 1;
             OnChangeData.Execute();
         }
 
@@ -115,6 +122,5 @@ namespace Hero
             result += Costume.GetBonus(typeBonus);
             return result;
         }
-
     }
 }

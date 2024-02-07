@@ -1,4 +1,5 @@
-﻿using Models.Data.Rewards;
+﻿using Db.CommonDictionaries;
+using Models.Data.Rewards;
 using System.Collections.Generic;
 using System.Linq;
 using UIController.Rewards;
@@ -11,13 +12,15 @@ namespace Common.Rewards
 
         public GameReward() { }
         
-        public GameReward(RewardModel rewardData)
+        public GameReward(RewardModel rewardData, CommonDictionaries commonDictionaries)
         {
+            rewardData.Splinters.ForEach(x => x.CommonDictionaries = commonDictionaries);
             Objects = rewardData.Objects.Select(obj => obj.CreateGameObject()).ToList();
         }
 
-        public GameReward(AutoRewardData autoReward)
+        public GameReward(AutoRewardData autoReward, CommonDictionaries commonDictionaries)
         {
+            autoReward.Splinters.ForEach(x => x.CommonDictionaries = commonDictionaries);
             Objects = autoReward.Objects.Select(obj => obj.CreateGameObject()).ToList();
         }
     }

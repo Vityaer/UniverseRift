@@ -1,7 +1,6 @@
 ﻿using City.Buildings.Tavern;
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 using VContainer;
 
 namespace City.Achievements.ActionGameAchievments

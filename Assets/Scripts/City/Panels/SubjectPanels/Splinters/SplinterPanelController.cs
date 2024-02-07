@@ -89,7 +89,7 @@ namespace UIController.Inventory
                         break;
                     case SplinterType.Item:
                         var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-                        var reward = new GameReward(rewardModel);
+                        var reward = new GameReward(rewardModel, _commonDictionaries);
                         _clientRewardService.ShowReward(reward);
                         break;
                 }

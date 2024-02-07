@@ -17,5 +17,6 @@ namespace City.Buildings.PlayerPanels
         public CostLevelUpContainer RewardForLevelUp;
         public Image Avatar;
         public Image OutlineAvatar;
+        public Button AvatarButton;
     }
 }

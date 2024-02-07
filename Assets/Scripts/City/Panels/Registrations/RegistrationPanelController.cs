@@ -19,6 +19,7 @@ namespace City.Panels.Registrations
     public class RegistrationPanelController : UiPanelController<RegistrationPanelView>, IInitializable, IStartable, IDisposable
     {
         private const int NAME_LENGTH_MIN = 3;
+        private const string DEFAULT_AVATAR_PATH = "Assets/Resources/UI/HeroIcons/1129.png";
 
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly CommonGameData _commonGameData;
@@ -62,7 +63,7 @@ namespace City.Panels.Registrations
 
         public async UniTaskVoid CreateAccount(string name)
         {
-            var message = new PlayerRegistration { Name = name };
+            var message = new PlayerRegistration { Name = name, AvatarPath = DEFAULT_AVATAR_PATH };
             var result = await DataServer.PostData(message);
 
             if (int.TryParse(result, out int id))

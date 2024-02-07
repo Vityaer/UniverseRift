@@ -152,7 +152,7 @@ namespace City.Buildings.Forge
 
                 var newItem = new ItemData() { Id = _currentItem.Model.ResultItemName, Amount = createdCount };
                 rewardModel.Items.Add(newItem);
-                var gameReward = new GameReward(rewardModel);
+                var gameReward = new GameReward(rewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(gameReward);
                 _onGetReward = _clientRewardService.OnGetReward.Subscribe(_ => Refresh());
             }

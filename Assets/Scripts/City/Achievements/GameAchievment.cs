@@ -1,6 +1,7 @@
 ﻿using City.Acievements;
 using ClientServices;
 using Common.Rewards;
+using Db.CommonDictionaries;
 using Models.Achievments;
 using Models.Common.BigDigits;
 using Models.Data;
@@ -13,6 +14,7 @@ namespace City.Achievements
     public abstract class GameAchievment : IDisposable
     {
         [Inject] protected readonly ClientRewardService ClientRewardService;
+        [Inject] protected readonly CommonDictionaries CommonDictionaries;
 
         protected AchievmentModel Model;
         protected AchievmentData Data;
@@ -67,8 +69,8 @@ namespace City.Achievements
                     Data.IsComplete = true;
                 }
 
-                OnChangeData.Execute();
             }
+            OnChangeData.Execute();
         }
 
         public void SetProgress(int newCurrentStage, BigDigit newProgress)
@@ -108,7 +110,7 @@ namespace City.Achievements
                 currentStage = Model.Stages.Count - 1;
 
             var rewardModel = Model.GetReward(currentStage);
-            return new GameReward(rewardModel);
+            return new GameReward(rewardModel, CommonDictionaries);
         }
 
         public void GiveReward()

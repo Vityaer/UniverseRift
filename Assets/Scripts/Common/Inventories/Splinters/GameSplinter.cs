@@ -5,9 +5,11 @@ using Models.Heroes;
 using Models.Inventory.Splinters;
 using System;
 using System.Linq;
+using System.Reflection;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards.PosibleRewards;
+using Unity.Barracuda;
 using UnityEngine;
 using Utils;
 
@@ -81,7 +83,6 @@ namespace Common.Inventories.Splinters
         public GameSplinter(string id, int count = 0)
         {
             Id = id;
-            GetDefaultData();
             Amount = count > 0 ? count : requireCount;
         }
 
@@ -96,8 +97,17 @@ namespace Common.Inventories.Splinters
             requireCount = CalculateRequire();
         }
 
+        public void SetCommonDictionaries(CommonDictionaries commonDictionaries)
+        {
+            _commonDictionaries = commonDictionaries;
+            _model = _commonDictionaries.Splinters[Id];
+            GetDefaultData();
+        }
+
         private void GetDefaultData()
         {
+            if (_model == null)
+                Debug.Log("_model null");
             switch (_model.SplinterType)
             {
                 case SplinterType.Hero:

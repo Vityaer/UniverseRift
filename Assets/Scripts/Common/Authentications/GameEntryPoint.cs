@@ -12,17 +12,25 @@ namespace Common.Authentications
 
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly RegistrationPanelController _registrationPanelController;
+        [Inject] private readonly RegistrationPanelView _registrationPanelView;
 
         public void Initialize()
         {
-            var playerId = GetPlayerId();
-            if (playerId > 0)
+            if (!_registrationPanelView.OverrideId)
             {
-                _commonGameData.Init(playerId).Forget();
+                var playerId = GetPlayerId();
+                if (playerId > 0)
+                {
+                    _commonGameData.Init(playerId).Forget();
+                }
+                else
+                {
+                    _registrationPanelController.OpenPanelRegistration();
+                }
             }
             else
             {
-                _registrationPanelController.OpenPanelRegistration();
+                _commonGameData.Init(_registrationPanelView.PlayerId).Forget();
             }
         }
 

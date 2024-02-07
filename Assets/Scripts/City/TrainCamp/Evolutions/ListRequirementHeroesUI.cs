@@ -1,50 +1,68 @@
+using Cysharp.Threading.Tasks;
 using Models.City.TrainCamp;
+using System;
 using System.Collections.Generic;
 using UIController;
+using UniRx;
 using UnityEngine;
 
 namespace City.TrainCamp
 {
     public class ListRequirementHeroesUI : MonoBehaviour
     {
-        public HeroEvolutionPanelController mainController;
+        public HeroEvolutionPanelController MainController;
 
-        [SerializeField] private List<RequireCard> requireCards = new List<RequireCard>();
-        private List<RequirementHeroModel> requirementHeroes = new List<RequirementHeroModel>();
+        [SerializeField] private List<RequireCard> _requireCards = new List<RequireCard>();
+        private List<RequirementHeroModel> _requirementHeroes = new List<RequirementHeroModel>();
+        private CompositeDisposable _disposables = new();
+        private ReactiveCommand<RequireCard> _onSelectRequireCard = new();
+
+        public List<RequirementHeroModel> SelectedHeroes => _requirementHeroes;
+
+
+        public IObservable<RequireCard> OnSelectRequireCard => _onSelectRequireCard;
+        public List<RequireCard> RequireCards => _requireCards;
+
+        private void Start()
+        {
+            foreach (var card in _requireCards)
+            {
+                card.OnClick.Subscribe(SelectRequireCard).AddTo(_disposables);
+            }
+        }
+
+        private void SelectRequireCard(RequireCard card)
+        {
+            _onSelectRequireCard.Execute(card);
+        }
 
         public void SetData(List<RequirementHeroModel> requirementHeroes)
         {
-            this.requirementHeroes = requirementHeroes;
-            for (int i = 0; i < requireCards.Count; i++)
+            _requirementHeroes = requirementHeroes;
+            for (int i = 0; i < _requireCards.Count; i++)
             {
                 if (i < requirementHeroes.Count)
                 {
-                    requireCards[i].SetData(requirementHeroes[i]);
+                    _requireCards[i].SetData(requirementHeroes[i]);
                 }
                 else
                 {
-                    requireCards[i].Hide();
+                    _requireCards[i].Hide();
                 }
             }
         }
 
-        public bool GetCanLevelUpRating()
-        {
-            bool result = false;
-            return result;
-        }
-
         public void HeroSelectDiselect()
         {
-            mainController.CheckHeroes();
+            MainController.CheckHeroes();
         }
 
         public bool IsAllDone()
         {
             bool result = true;
-            for (int i = 0; i < requirementHeroes.Count; i++)
+            for (int i = 0; i < _requirementHeroes.Count; i++)
             {
-                if (requireCards[i].CheckHeroes())
+                if (_requireCards[i].CheckHeroes())
                 {
                     result = false;
                     break;
@@ -55,17 +73,15 @@ namespace City.TrainCamp
 
         public void ClearData()
         {
-            foreach (RequireCard requireCard in requireCards)
+            foreach (RequireCard requireCard in _requireCards)
             {
                 requireCard.ClearData();
             }
         }
-        public void DeleteSelectedHeroes()
+
+        private void OnDestroy()
         {
-            for (int i = 0; i < requirementHeroes.Count; i++)
-            {
-                requireCards[i].DeleteSelectedHeroes();
-            }
+            _disposables?.Dispose();
         }
     }
 }

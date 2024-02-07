@@ -81,7 +81,7 @@ namespace Campaign
         {
             for (int i = 0; i < missionControllers.Count; i++)
             {
-                missionControllers[i].SetMission(chapter.Missions[i], chapter.numChapter * CHAPTER_MISSION_COUNT + i + 1);
+                missionControllers[i].SetMission(chapter.Missions[i], chapter.numChapter * CHAPTER_MISSION_COUNT + i + 1, _commonDictionaries);
             }
 
             if (chapter.numChapter * CHAPTER_MISSION_COUNT <= _maxMission)
@@ -141,7 +141,7 @@ namespace Campaign
             if (result == FightResultType.Win)
             {
                 _infoMission.MissionWin();
-                var reward = new GameReward(_infoMission.mission.WinReward);
+                var reward = new GameReward(_infoMission.mission.WinReward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
                 SetAutoFightMission(_infoMission);
                 OpenNextMission();

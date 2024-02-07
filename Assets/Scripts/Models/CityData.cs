@@ -1,7 +1,10 @@
-﻿using Models.Data.Buildings.FortuneWheels;
+﻿using Models.City.LongTravels;
+using Models.Data.Buildings.FortuneWheels;
 using Models.Data.Buildings.Markets;
 using Models.Data.Buildings.Taskboards;
+using Models.Data.Dailies;
 using Models.TravelRaceDatas;
+using Network.DataServer.Models;
 using System;
 
 namespace Models
@@ -19,10 +22,11 @@ namespace Models
         public ArenaBuildingModel ArenaSave = new ArenaBuildingModel();
         public SimpleBuildingData Tutorial = new SimpleBuildingData();
         public CycleEventsData CycleEvents = new CycleEventsData();
-        public SimpleBuildingData DailyReward = new SimpleBuildingData();
+        public DailyRewardContainer DailyReward = new DailyRewardContainer();
         public AchievmentStorageData Achievments = new AchievmentStorageData();
         public FortuneWheelData FortuneWheelData = new FortuneWheelData();
         public TaskBoardData TaskBoardData = new TaskBoardData();
-
+        public GuildData GildSave = new GuildData();
+        public LongTravelData LongTravelData = new();
     }
 }

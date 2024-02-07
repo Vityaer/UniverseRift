@@ -1,45 +1,51 @@
 using City.Buildings.Voyage.Panels;
 using Common.Rewards;
 using Models.Fights.Campaign;
-using TMPro;
-using UIController;
-using UIController.Rewards;
+using System;
 using UiExtensions.Scroll.Interfaces;
+using UniRx;
 using UnityEngine;
+using VContainerUi.Messages;
+using VContainerUi.Model;
 
 namespace City.Buildings.Voyage
 {
     public class VoyageMissionPanelController : UiPanelController<VoyageMissionPanelView>
     {
-        private VoyageMissionController _controller;
+        private Action _action;
 
-        public void ShowInfo(VoyageMissionController controller, GameReward winReward, StatusMission status)
+        public override void Start()
         {
-            this._controller = controller;
+            View.MainButton.OnClickAsObservable().Subscribe(_ => OpenMission()).AddTo(Disposables);
+            base.Start();
+        }
+
+        public void ShowInfo(GameReward winReward, StatusMission status, int index, Action action)
+        {
+            _action = action;
             View.rewardController.ShowReward(winReward);
-            View.currentObject?.SetActive(false);
+
+            View.textNameMission.text = $"Mission {index + 1}";
+            View.StatusMissionText.text = $"{status}";
             switch (status)
             {
                 case StatusMission.NotOpen:
-                    View.currentObject = View.textNotOpenMission;
+                    View.MainButton.interactable = false;
                     break;
                 case StatusMission.Open:
-                    View.currentObject = View.btnOpenMission;
+                    View.MainButton.interactable = true;
                     break;
                 case StatusMission.Complete:
-                    View.currentObject = View.textCompleteMission;
-                    break;
-                default:
-                    Debug.Log("Error");
+                    View.MainButton.interactable = false;
                     break;
             }
-            View.currentObject?.SetActive(true);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<VoyageMissionPanelController>(openType: OpenType.Exclusive);
         }
 
         public void OpenMission()
         {
             Close();
-            _controller.OpenMission();
+            _action?.Invoke();
         }
     }
 }

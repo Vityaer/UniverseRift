@@ -4,6 +4,7 @@ using City.Buildings.Arena;
 using City.Buildings.Forge;
 using City.Buildings.Friends;
 using City.Buildings.Guild;
+using City.Buildings.LongTravels;
 using City.Buildings.MagicCircle;
 using City.Buildings.Mails;
 using City.Buildings.Market;
@@ -48,9 +49,8 @@ namespace Installers
         [SerializeField] private PetsZooView _petsZooView;
         [SerializeField] private TravelCircleView _travelCircleView;
         [SerializeField] private TaskboardView _taskboardView;
-        //[SerializeField] private FriendsView _friendsView;
-        //[SerializeField] private MailView _mailView;
-
+        [SerializeField] private LongTravelView _longTravelView;
+        
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
@@ -71,13 +71,12 @@ namespace Installers
             builder.RegisterUiView<VoyageController, VoyageView>(_voyageView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<FortuneWheelController, FortuneWheelView>(_wheelFortuneView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<MagicCircleController, MagicCircleView>(_magicCircleView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<LongTravelController, LongTravelView>(_longTravelView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<MinesPageController, MinesView>(_minesView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<ArenaController, ArenaView>(_arenaView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<PetsZooController, PetsZooView>(_petsZooView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<TravelCircleController, TravelCircleView>(_travelCircleView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<TaskboardController, TaskboardView>(_taskboardView, safeArea.RootTemporallyWindows);
-            //builder.RegisterUiView<FriendsController, FriendsView>(_friendsView, safeArea.RootTemporallyWindows);
-            //builder.RegisterUiView<MailController, MailView>(_mailView, safeArea.RootTemporallyWindows);
         }
     }
 }

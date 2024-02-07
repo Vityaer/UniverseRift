@@ -11,6 +11,7 @@ using Models.Heroes;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using Network.DataServer.Messages.Hires;
+using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -27,9 +28,12 @@ namespace City.Buildings.MagicCircle
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
 
-        [SerializeField] private string _selectedRace;
+        private string _selectedRace;
         private List<HeroModel> _listHeroes = new List<HeroModel>();
-        private GameResource RaceHireCost = new GameResource(ResourceType.RaceHireCard, 1, 0);
+        private GameResource _raceHireCost = new GameResource(ResourceType.RaceHireCard, 1, 0);
+        private ReactiveCommand<int> _onRaceHire = new();
+
+        public IObservable<int> OnRaceHire => _onRaceHire;
 
         protected override void OnStart()
         {
@@ -38,13 +42,8 @@ namespace City.Buildings.MagicCircle
                 button.Value.OnClickAsObservable().Subscribe(_ => ChangeHireRace(button.Key)).AddTo(Disposables);
             }
 
-            //_resolver.Inject(View.ObserverRaceHireCard);
-
-            //_resolver.Inject(View.ResourceObjectCostOneHire);
-            //_resolver.Inject(View.ResourceObjectCostManyHire);
-
-            View.OneHire.ChangeCost(RaceHireCost, () => HireHero(1).Forget());
-            View.ManyHire.ChangeCost(RaceHireCost * 10, () => HireHero(10).Forget());
+            View.OneHire.ChangeCost(_raceHireCost, () => HireHero(1).Forget());
+            View.ManyHire.ChangeCost(_raceHireCost * 10, () => HireHero(10).Forget());
 
             ChangeHireRace(DEFAULT_RACE_NAME);
         }
@@ -58,17 +57,22 @@ namespace City.Buildings.MagicCircle
         {
             var message = new MagicCircleHire { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
-            var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
-
-            for (int i = 0; i < newHeroes.Count; i++)
+            if(!string.IsNullOrEmpty(result))
             {
-                Debug.Log($"{newHeroes[i].Id}");
-                var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
-                var hero = new GameHero(model, newHeroes[i]);
-                hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
-                AddNewHero(hero);
+                var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
+
+                for (int i = 0; i < newHeroes.Count; i++)
+                {
+                    Debug.Log($"{newHeroes[i].Id}");
+                    var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
+                    var hero = new GameHero(model, newHeroes[i]);
+                    hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+                    AddNewHero(hero);
+                }
+                _resourceStorageController.SubtractResource(_raceHireCost * count);
+
+                _onRaceHire.Execute(count);
             }
-            _resourceStorageController.SubtractResource(RaceHireCost * count);
         }
 
         private void AddNewHero(GameHero hero)

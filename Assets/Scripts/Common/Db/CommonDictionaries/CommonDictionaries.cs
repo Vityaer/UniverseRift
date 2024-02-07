@@ -16,9 +16,12 @@ using Models.Common;
 using Models.Data.Dailies;
 using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
+using Models.Guilds;
 using Models.Heroes;
+using Models.Heroes.PowerUps;
 using Models.Inventory.Splinters;
 using Models.Items;
+using Models.Misc.Avatars;
 using Models.Rewards;
 using Models.Tasks;
 using Newtonsoft.Json;
@@ -64,6 +67,10 @@ namespace Db.CommonDictionaries
         private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
         private Dictionary<string, AchievmentContainerModel> _achievmentContainers = new Dictionary<string, AchievmentContainerModel>();
         private Dictionary<string, RewardContainerModel> _rewardContainerModels = new();
+        private Dictionary<string, GuildBossContainer> _guildBossContainers = new();
+        private Dictionary<string, AvatarModel> _avatarModels = new();
+        private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
+
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -96,7 +103,9 @@ namespace Db.CommonDictionaries
         public Dictionary<string, MineRestrictionModel> MineRestrictions => _mineRestrictions;
         public Dictionary<string, TravelRaceModel> TravelRaceCampaigns => _travelRaceCampaigns;
         public Dictionary<string, RewardContainerModel> RewardContainerModels => _rewardContainerModels;
-
+        public Dictionary<string, GuildBossContainer> GuildBossContainers => _guildBossContainers;
+        public Dictionary<string, AvatarModel> AvatarModels => _avatarModels;
+        public Dictionary<string, RatingUpContainer> RatingUpContainers => _ratingUpContainers;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -126,7 +135,10 @@ namespace Db.CommonDictionaries
                 //result &= TextUtils.IsLoadedToLocalStorage<RewardModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<MineRestrictionModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<TravelRaceModel>();
-                //result &= TextUtils.IsLoadedToLocalStorage<_rewardContainerModels>();
+                //result &= TextUtils.IsLoadedToLocalStorage<RewardContainerModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<GuildBossContainer>();
+                //result &= TextUtils.IsLoadedToLocalStorage<AvatarModel>();
+                //result &= TextUtils.IsLoadedToLocalStorage<CostRatingUpContainer>();
 
                 return result;
             }
@@ -223,6 +235,9 @@ namespace Db.CommonDictionaries
             _mineRestrictions = await DownloadModels<MineRestrictionModel>();
             _travelRaceCampaigns = await DownloadModels<TravelRaceModel>();
             _rewardContainerModels = await DownloadModels<RewardContainerModel>();
+            _guildBossContainers = await DownloadModels<GuildBossContainer>();
+            _avatarModels = await DownloadModels<AvatarModel>();
+            _ratingUpContainers = await DownloadModels<RatingUpContainer>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -263,6 +278,9 @@ namespace Db.CommonDictionaries
             _mineRestrictions = GetModels<MineRestrictionModel>();
             _travelRaceCampaigns = GetModels<TravelRaceModel>();
             _rewardContainerModels = GetModels<RewardContainerModel>();
+            _guildBossContainers = GetModels<GuildBossContainer>();
+            _avatarModels = GetModels<AvatarModel>();
+            _ratingUpContainers = GetModels<RatingUpContainer>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

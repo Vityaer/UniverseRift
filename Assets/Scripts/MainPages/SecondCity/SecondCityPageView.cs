@@ -13,5 +13,6 @@ namespace MainPages.SecondCity
         [field: SerializeField] public BuildingVisual Mines { get; private set; }
         [field: SerializeField] public BuildingVisual Voyage { get; private set; }
         [field: SerializeField] public BuildingVisual Arena { get; private set; }
+        [field: SerializeField] public BuildingVisual RaidTravels { get; private set; }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using City.Buildings.Abstractions;
 using City.TaskBoard;
 using ClientServices;
-using Common;
-using Common.Observers;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
-using Misc.Json;
 using Models.Data;
 using Models.Data.Buildings.Taskboards;
 using Network.DataServer;
@@ -14,7 +11,6 @@ using Network.DataServer.Messages;
 using Network.DataServer.Messages.City.Taskboards;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -34,7 +30,9 @@ namespace City.Buildings.TaskGiver
         private GameResource _costReplacement = new GameResource(ResourceType.Diamond, 10f);
 
         private TaskBoardData _taskBoardData;
-        private ObserverDoneTask observerDoneTasks = new ObserverDoneTask();
+        private ReactiveCommand<int> _onCompleteTask = new();
+
+        public IObservable<int> OnCompleteTask => _onCompleteTask;
 
         protected override void OnStart()
         {
@@ -72,6 +70,7 @@ namespace City.Buildings.TaskGiver
             _taskControllers.Remove(controller);
             UnityEngine.Object.Destroy(controller.gameObject);
             _taskBoardData.ListTasks.Remove(task);
+            _onCompleteTask.Execute(1);
         }
 
         public override void OnHide()
@@ -83,7 +82,7 @@ namespace City.Buildings.TaskGiver
                 task.StopTimer();
             }
         }
-       
+
         public async UniTaskVoid BuyTask<T>(GameResource cost) where T : AbstractMessage, new()
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id };

@@ -28,7 +28,6 @@ namespace Editor.Pages.Heroes
                 _model.Evolutions = new Evolution();
                 _model.Resistances = new StorageResistances();
             }
-
         }
 
         [ShowInInspector]

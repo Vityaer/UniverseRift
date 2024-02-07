@@ -1,8 +1,10 @@
+using Assets.Editor.Pages.Avatars;
 using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
 using Editor.Pages.Achievments;
+using Editor.Pages.Bosses;
 using Editor.Pages.Buildings.Mines.MineRestrictions;
 using Editor.Pages.Buildings.TaskBoards;
 using Editor.Pages.Buildings.TravelRaceCampaigns;
@@ -26,6 +28,7 @@ using Pages.Buildings.Forge;
 using Pages.Buildings.FortuneWheels;
 using Pages.City.ChallengeTower;
 using Pages.Heroes.CostLevelUp;
+using Pages.Heroes.RatingUps;
 using Pages.Heroes.Vocation;
 using Pages.Items.Relations;
 using Sirenix.OdinInspector.Editor;
@@ -68,6 +71,9 @@ namespace Editor.Windows
         private TravelRaceCircleEditor _travelRaceCircleEditor;
         private AchievmentContainersPageEditor _achievmentContainersPageEditor;
         private RewardContrainerPageEditor _rewardContrainerPageEditor;
+        private GuildBossPageEditor _guildBossPageEditor;
+        private AvatarPageEditor _avatarPageEditor;
+        private RatingUpPageEditor _ratingUpPageEditor;
 
         private OdinMenuTree _tree;
 
@@ -108,9 +114,10 @@ namespace Editor.Windows
         {
             _tree.Selection.SupportsMultiSelect = false;
             _tree.Add("Heroes/Heroes", _heroPageEditor);
-            _tree.Add("Heroes/Race", _racePageEditor);
-            _tree.Add("Costs/Costs Editor", _costLevelUpContainerPageEditor);
             _tree.Add("Heroes/Vocation", _vocationPageEditor);
+            _tree.Add("Heroes/Race", _racePageEditor);
+            _tree.Add("Heroes/Rating Requrement", _ratingUpPageEditor);
+            _tree.Add("Costs/Costs Editor", _costLevelUpContainerPageEditor);
             _tree.Add("Inventory/Items/Items", _itemPageEditor);
             _tree.Add("Inventory/Items/Set", _itemSetPageEditor);
             _tree.Add("Inventory/Items/Item Relation", _itemRelationPageEditor);
@@ -132,6 +139,9 @@ namespace Editor.Windows
             _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
             _tree.Add("Travel/Main Editor", _travelRaceCircleEditor);
             _tree.Add("Rewards/Containers", _rewardContrainerPageEditor);
+            _tree.Add("Guild/Bosses", _guildBossPageEditor);
+            _tree.Add("Players/Avatars", _avatarPageEditor);
+
             
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
         }
@@ -228,6 +238,16 @@ namespace Editor.Windows
 
             _rewardContrainerPageEditor = new RewardContrainerPageEditor(_dictionaries);
             _allPages.Add(_rewardContrainerPageEditor);
+
+            _guildBossPageEditor = new GuildBossPageEditor(_dictionaries);
+            _allPages.Add(_guildBossPageEditor);
+
+            _avatarPageEditor = new AvatarPageEditor(_dictionaries);
+            _allPages.Add(_avatarPageEditor);
+
+            _ratingUpPageEditor = new RatingUpPageEditor(_dictionaries);
+            _allPages.Add(_ratingUpPageEditor);
+
         }
 
         private void OnValueSaved()

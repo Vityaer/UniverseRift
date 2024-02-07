@@ -1,10 +1,12 @@
 ﻿using City.Achievements;
 using City.Buildings.CityButtons.EventAgent;
+using Db.CommonDictionaries;
 using TMPro;
 using UIController;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Panels.BatllepasPanels
 {
@@ -14,11 +16,13 @@ namespace City.Panels.BatllepasPanels
         [SerializeField] private RewardUIController _rewardController;
         [SerializeField] private TMP_Text NumberText;
 
+        [Inject] private CommonDictionaries _commonDictionaries;
+
         public override void SetData(GameBattlepasReward data, ScrollRect scrollRect)
         {
             Data = data;
             Scroll = scrollRect;
-            _rewardController.ShowReward(data.RewardModel);
+            _rewardController.ShowReward(data.RewardModel, _commonDictionaries);
             NumberText.text = $"{transform.GetSiblingIndex()}";
             UpdateUI();
         }

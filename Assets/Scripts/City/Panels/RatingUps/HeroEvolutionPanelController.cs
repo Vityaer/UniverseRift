@@ -1,58 +1,126 @@
-using City.Buildings.Abstractions;
 using City.Panels.RatingUps;
-using Common;
+using ClientServices;
+using Common.Heroes;
 using Common.Resourses;
+using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using Hero;
 using IdleGame.AdvancedObservers;
+using Misc.Json;
 using Models.City.TrainCamp;
 using Models.Common.BigDigits;
-using Models.Heroes;
+using Models.Heroes.PowerUps;
+using Network.DataServer;
+using Network.DataServer.Messages.HeroPanels;
 using System;
+using System.Collections.Generic;
+using UIController;
 using UiExtensions.Scroll.Interfaces;
-using UnityEngine;
-using UnityEngine.UI;
+using UniRx;
+using VContainer;
 
 namespace City.TrainCamp
 {
     public class HeroEvolutionPanelController : UiPanelController<HeroEvolutionPanelView>
     {
-        [Header("Data")]
-        public LevelUpRatingHeroes listCost;
+        [Inject] private readonly HeroesStorageController _heroesStorageController;
+        [Inject] private readonly HeroPanelController _heroPanelController;
+        [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly IJsonConverter _jsonConverter;
 
-        [Header("UI")]
-        public Button buttonLevelUP;
-        public ListRequirementHeroesUI listRequirementHeroes;
+        private GameHero _currentHero;
+        private RatingUpContainer _data;
+        private List<GameResource> _cost = new();
 
-        [SerializeField] private ResourceObjectCost objectCost;
+        private ObserverActionWithHero _observersRatingUp = new ObserverActionWithHero();
 
-        private HeroModel currentHero;
-        private LevelUpRaitingModel data;
-        private bool resourceDone = false;
-        private bool requireHeroesDone = false;
-        private ObserverActionWithHero observersRatingUp = new ObserverActionWithHero();
-
-        protected void OpenPage()
+        public override void Start()
         {
-            //currentHero = TrainCamp.Instance.ReturnSelectHero();
-            //data = listCost.GetRequirements(currentHero);
-            //listRequirementHeroes.SetData(data.RequirementHeroes);
-            //GameController.Instance.RegisterOnChangeResource(CheckResource, ResourceType.ContinuumStone);
-            //CheckCanUpdateRating();
+            View.ListRequirementHeroes.MainController = this;
+            View.ButtonLevelUP.OnClickAsObservable().Subscribe(_ => RatingUp()).AddTo(Disposables);
+            View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
+            View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+            View.DimmedSelectedPanelButton.OnClickAsObservable().Subscribe(_ => CloseSelectedPanel()).AddTo(Disposables);
+            base.Start();
+
+            View.ListRequirementHeroes.OnSelectRequireCard.Subscribe(SelectRequireCard).AddTo(Disposables);
         }
 
-        public void RatingUp(int count = 1)
+        public override void OnShow()
         {
-            //GameController.Instance.SubtractResource(data.Cost);
-            //currentHero.UpRating();
-            //OnRatingUp();
-            //listRequirementHeroes.DeleteSelectedHeroes();
-            //Close();
+            _currentHero = _heroPanelController.Hero;
+            _data = _commonDictionaries.RatingUpContainers[$"{_currentHero.HeroData.Rating + 1}"];
+            View.ListRequirementHeroes.SetData(_data.RequirementHeroes);
+
+            _cost.Clear();
+            _cost = new List<GameResource>(_data.Cost.Count);
+            foreach (var resource in _data.Cost)
+                _cost.Add(new GameResource(resource));
+
+            View.CostController.ShowCosts(_cost);
+            CheckCanUpdateRating();
+        }
+
+        private void SelectRequireCard(RequireCard card)
+        {
+            var currentHeroes = _heroesStorageController.ListHeroes;
+            currentHeroes = currentHeroes.FindAll(hero => CheckÑonformity(hero, card.RequirementHero));
+            currentHeroes.Remove(_currentHero);
+
+            View.CardsContainer.ShowCards(currentHeroes);
+            View.CardsContainer.SelectCards(card.SelectedHeroes);
+            View.SelectHeroesPanel.SetActive(true);
+            View.RequireCardInfo.SetData(card.RequirementHero, card.SelectedHeroes);
+            View.RequireCardInfo.OpenListCard();
+        }
+
+        private void CloseSelectedPanel()
+        {
+            foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
+            {
+                requireCard.OnCloseListCard();
+            }
+            View.RequireCardInfo.OnCloseListCard();
+
+            View.SelectHeroesPanel.SetActive(false);
+            CheckCanUpdateRating();
+            
+        }
+
+        private bool CheckÑonformity(GameHero hero, RequirementHeroModel requirementHero)
+        {
+            if (!hero.Model.General.Race.Equals(_currentHero.Model.General.Race))
+                return false;
+
+            if (!hero.HeroData.Rating.Equals(requirementHero.Rating))
+                return false;
+
+            return true;
+        }
+
+        public void SelectHero(GameHero hero)
+        {
+            var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
+            selectedCard.Select();
+        }
+
+        public void UnselectHero(GameHero hero)
+        {
+            var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
+            selectedCard.Unselect();
+        }
+
+        public void RatingUp()
+        {
+            HeroRatingUp().Forget();
         }
 
         public void CheckCanUpdateRating()
         {
-            //resourceDone = GameController.Instance.CheckResource(data.Cost.GetResource(ResourceType.ContinuumStone));
-            //requireHeroesDone = listRequirementHeroes.IsAllDone();
-            //buttonLevelUP.interactable = resourceDone && requireHeroesDone;
+            var resourceDone = _resourceStorageController.CheckResource(_cost);
+            var requireHeroesDone = View.ListRequirementHeroes.IsAllDone();
+            View.ButtonLevelUP.interactable = resourceDone && requireHeroesDone;
         }
 
         public void CheckResource(GameResource res)
@@ -67,32 +135,66 @@ namespace City.TrainCamp
 
         protected void ClosePage()
         {
-            //GameController.Instance.UnregisterOnChangeResource(CheckResource, ResourceType.ContinuumStone);
-            //listRequirementHeroes.ClearData();
-        }
-
-        public void Close()
-        {
-            //ClosePage();
-            //CanvasBuildingsUI.Instance.CloseBuilding(building);
+            View.ListRequirementHeroes.ClearData();
         }
 
         public void RegisterOnRatingUp(Action<BigDigit> d, int rating, string ID = "")
         {
-            observersRatingUp.Add(d, ID, rating);
+            _observersRatingUp.Add(d, ID, rating);
         }
 
         public void UnregisterOnRatingUp(Action<BigDigit> d, int rating, string ID)
         {
-            observersRatingUp.Remove(d, ID, rating);
+            _observersRatingUp.Remove(d, ID, rating);
         }
 
         private void OnRatingUp()
         {
-            observersRatingUp.OnAction(string.Empty, currentHero.General.Rating);
-            observersRatingUp.OnAction(currentHero.General.ViewId, currentHero.General.Rating);
-            //TrainCamp.Instance.HeroPanel.UpdateInfoAbountHero();
+            _observersRatingUp.OnAction(string.Empty, _currentHero.Model.General.Rating);
+            _observersRatingUp.OnAction(_currentHero.Model.General.ViewId, _currentHero.Model.General.Rating);
+            _heroPanelController.UpdateInfoAboutHero();
         }
 
+        private async UniTaskVoid HeroRatingUp()
+        {
+            UnityEngine.Debug.Log("HeroRatingUp start");
+            var heroesPayment = new List<int>(View.ListRequirementHeroes.SelectedHeroes.Count);
+
+            foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
+            {
+                foreach (var hero in requireCard.SelectedHeroes)
+                {
+                    heroesPayment.Add(hero.HeroData.Id);
+                }
+                _heroesStorageController.RemoveHeroes(requireCard.SelectedHeroes);
+            }
+
+            var message = new HeroRatingUpMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                HeroId = _currentHero.HeroData.Id,
+                HeroesPaymentContainer = _jsonConverter.ToJson(heroesPayment)
+            };
+
+            var result = await DataServer.PostData(message);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                _resourceStorageController.SubtractResource(_cost);
+                _currentHero.UpRating();
+                OnRatingUp();
+
+                foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
+                    _heroesStorageController.RemoveHeroes(requireCard.SelectedHeroes);
+
+                Close();
+            }
+        }
+
+        protected override void Close()
+        {
+            _cost.Clear();
+            base.Close();
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace MainPages.MenuHud
 
         public void Initialize()
         {
-            OpenPanelOnClick<FriendsController>(View.FriendlistButton);
+            OpenPanelOnClick<FriendsPanelController>(View.FriendlistButton);
             OpenPanelOnClick<MailController>(View.MailButton);
             OpenPanelOnClick<DailyRewardPanelController>(View.DailyRewardButton);
             OpenPanelOnClick<DailyTaskPanelController>(View.DailyTaskButton);

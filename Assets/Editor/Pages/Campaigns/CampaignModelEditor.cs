@@ -31,6 +31,8 @@ namespace Editor.Pages.Campaigns
                 if (mission.WinReward.Items != null)
                     foreach (var item in mission.WinReward.Items)
                         item.CommonDictionaries = _commonDictionaries;
+
+                mission.AutoFightReward.SetCommonDictionaries(_commonDictionaries);
             }
         }
 

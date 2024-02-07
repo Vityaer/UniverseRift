@@ -1,15 +1,12 @@
-﻿using Ui.Misc.Widgets;
+﻿using City.Panels.MonthTasks.Abstractions;
+using Ui.Misc.Widgets;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace City.Buildings.Requirement
 {
-    public class AchievmentsPanelView : BasePanel
+    public class AchievmentsPanelView : BaseAchievmentPanelView
     {
-        public Transform Content;
-        public ScrollRect Scroll;
-        public AchievmentView Prefab;
-
     }
 }

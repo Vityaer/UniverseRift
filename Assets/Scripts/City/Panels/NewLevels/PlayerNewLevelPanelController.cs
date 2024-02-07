@@ -6,6 +6,7 @@ using UiExtensions.Scroll.Interfaces;
 using VContainer;
 using VContainerUi.Model;
 using VContainerUi.Messages;
+using Db.CommonDictionaries;
 
 namespace City.Panels.NewLevels
 {
@@ -13,13 +14,13 @@ namespace City.Panels.NewLevels
     {
         [Inject] private readonly CommonGameData _ñommonGameData;
         [Inject] private readonly ClientRewardService _clientRewardService;
-
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
         private GameReward _gameReward;
 
         public void SetData(RewardModel reward)
         {
-            View.RewardUIController.ShowReward(reward);
-            _gameReward = new GameReward(reward);
+            View.RewardUIController.ShowReward(reward, _commonDictionaries);
+            _gameReward = new GameReward(reward, _commonDictionaries);
             var newLevel = _ñommonGameData.PlayerInfoData.Level;
             View.NewLevelLabel.text = $"{newLevel}";
             MessagesPublisher.OpenWindowPublisher.OpenWindow<PlayerNewLevelPanelController>(openType: OpenType.Exclusive);

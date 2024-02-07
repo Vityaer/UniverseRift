@@ -22,7 +22,7 @@ namespace Editor.Pages.DailyRewards
         public override void Init()
         {
             base.Init();
-            DailyRewardDatas = _achievments.Select(f => new DailyRewardModelEditor(f)).ToList();
+            DailyRewardDatas = _achievments.Select(f => new DailyRewardModelEditor(f, _dictionaries)).ToList();
             DataExist = true;
         }
 
@@ -39,7 +39,7 @@ namespace Editor.Pages.DailyRewards
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
             _dictionaries.DailyRewardDatas.Add(id, new DailyRewardModel() { Id = id });
-            DailyRewardDatas.Add(new DailyRewardModelEditor(_dictionaries.DailyRewardDatas[id]));
+            DailyRewardDatas.Add(new DailyRewardModelEditor(_dictionaries.DailyRewardDatas[id], _dictionaries));
         }
 
         private void RemoveElements(DailyRewardModelEditor light, object b, List<DailyRewardModelEditor> lights)

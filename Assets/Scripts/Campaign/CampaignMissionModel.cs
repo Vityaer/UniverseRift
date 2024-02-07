@@ -14,6 +14,8 @@ namespace Campaign
 
         public CampaignMissionModel(CommonDictionaries dictionaries) : base(dictionaries)
         {
+            if(AutoFightReward != null)
+                AutoFightReward.SetCommonDictionaries(dictionaries);
         }
     }
 }

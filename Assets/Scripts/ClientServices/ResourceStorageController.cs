@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using UIController.ControllerPanels.AlchemyPanels;
 using UniRx;
 using VContainer;
 using VContainer.Unity;

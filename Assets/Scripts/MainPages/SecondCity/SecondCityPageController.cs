@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Arena;
+using City.Buildings.LongTravels;
 using City.Buildings.MagicCircle;
 using City.Buildings.Mines;
 using City.Buildings.Tower;
@@ -18,6 +19,7 @@ namespace MainPages.SecondCity
         [Inject] private readonly ArenaController _arenaController;
         [Inject] private readonly VoyageController _voyageController;
         [Inject] private readonly TravelCircleController _travelCircleController;
+        [Inject] private readonly LongTravelController _longTravelController;
 
         public new void Initialize()
         {
@@ -27,6 +29,7 @@ namespace MainPages.SecondCity
             RegisterBuilding(_arenaController, View.Arena);
             RegisterBuilding(_voyageController, View.Voyage);
             RegisterBuilding(_travelCircleController, View.TravelCirle);
+            RegisterBuilding(_longTravelController, View.RaidTravels);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using TMPro;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
@@ -31,7 +32,7 @@ namespace UIController.ItemVisual
             Image.sprite = baseObject.Image;
             //Background.sprite = baseObject.Rating;
             Amount.text = baseObject.EqualsZero ? string.Empty : baseObject.ToString();
-
+            //Backlight?.backlight?.SetActive(true);
             if (!gameObject.activeSelf)
             {
                 gameObject.SetActive(true);
@@ -49,6 +50,7 @@ namespace UIController.ItemVisual
             Image.enabled = false;
             Amount.text = string.Empty;
             Subject = null;
+            //Backlight?.backlight?.SetActive(false);
         }
 
         public void Disable()

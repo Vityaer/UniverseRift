@@ -2,6 +2,7 @@
 using Ui.Misc.Widgets;
 using UIController;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace City.Buildings.Voyage.Panels
 {
@@ -9,9 +10,7 @@ namespace City.Buildings.Voyage.Panels
     {
         public TextMeshProUGUI textNameMission;
         public RewardUIController rewardController;
-        public GameObject btnOpenMission;
-        public GameObject textNotOpenMission;
-        public GameObject textCompleteMission;
-        public GameObject currentObject;
+        public TMP_Text StatusMissionText;
+        public Button MainButton;
     }
 }

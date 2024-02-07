@@ -4,6 +4,7 @@ using ClientServices;
 using Common;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
 using DG.Tweening;
 using Misc.Json;
 using Models.Common;
@@ -26,7 +27,6 @@ namespace Campaign
     public class GoldHeapController : UiController<GoldHeapView>, IInitializable, IDisposable
     {
         private const string NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME = "AutoFight";
-
         private const float ANIMATION_TIME = 0.25f;
         private const int TACT_MIN_COUNT = 2;
         private TimeSpan maxTime = new TimeSpan(12, 0, 0);
@@ -35,18 +35,19 @@ namespace Campaign
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly GameController _gameController;
         [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         private DateTime _previousDateTime;
         private AutoRewardData _autoReward;
         private GameReward _calculatedReward;
         private Tween _tween;
-        private ReactiveCommand<BigDigit> _observerGetHour = new ReactiveCommand<BigDigit>();
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private ReactiveCommand<BigDigit> _observerGetHour = new();
+        private CancellationTokenSource _cancellationTokenSource = new();
+        private CompositeDisposable _disposables = new();
         private IDisposable _disposable;
         private int _missionIndex;
 
-        public IObservable<BigDigit> ObserverGetHour => _observerGetHour;
+        public IObservable<BigDigit> OnRewardGetHour => _observerGetHour;
 
         public void Initialize()
         {
@@ -93,6 +94,8 @@ namespace Campaign
 
         public void GetReward()
         {
+            var delta = DateTime.UtcNow - _previousDateTime;
+            _observerGetHour.Execute(new BigDigit((float) delta.TotalHours));
             _disposable.Dispose();
             _previousDateTime = DateTime.UtcNow;
             _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, _previousDateTime);
@@ -106,7 +109,7 @@ namespace Campaign
             var result = await DataServer.PostData(message);
 
             var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-            _calculatedReward = new GameReward(rewardModel);
+            _calculatedReward = new GameReward(rewardModel, _commonDictionaries);
 
             _disposable = _autoFightRewardPanelController.OnClose.Subscribe(_ => GetReward());
             _autoFightRewardPanelController.Open(_autoReward, _calculatedReward, _previousDateTime);

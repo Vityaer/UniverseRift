@@ -13,7 +13,7 @@ namespace UIController.Buttons
         public GameResource cost;
         private CompositeDisposable _disposable = new CompositeDisposable();
 
-        private event Action OnClick; 
+        public event Action OnClick; 
 
         private void Awake()
         {

@@ -3,18 +3,17 @@ using City.Buildings.Requirement;
 using City.Panels.BatllepasPanels;
 using City.Panels.DailyTasks;
 using ClientServices;
-using Common;
 using Common.Resourses;
 using Db.CommonDictionaries;
 using Models;
 using Models.Common;
+using Models.Data.Inventories;
+using Models.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -24,6 +23,7 @@ namespace City.Buildings.CityButtons.EventAgent
 {
     public class DailyTaskPanelController : UiPanelController<DailyTaskPanelView>, IStartable
     {
+        private const int CANDY_COUNT = 6;
         private const string DAILY_TASKS = "DailyTasks";
 
         private const int REWARD_COUNT = 30;
@@ -35,25 +35,21 @@ namespace City.Buildings.CityButtons.EventAgent
         [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         private int _currentProgress = 0;
-        private int _sumReward = 0;
-        private List<RewardModel> _listRewards;
         private List<int> _idReceivedReward = new List<int>(REWARD_COUNT);
-        private List<DailyTaskUi> _rewardsUi = new List<DailyTaskUi>(REWARD_COUNT);
-        private SimpleBuildingData _progressObjectSave;
 
         private List<AchievmentView> _achievmentViews = new();
-
-        public void OnGetMonet(GameResource res)
-        {
-            _currentProgress = res.ConvertToInt();
-            View.miniSliderAmount.SetAmount(OverMonet(), 100);
-        }
 
         public override void Start()
         {
             _resourceStorageController.Subscribe(ResourceType.EventAgentMonet, OnGetMonet).AddTo(Disposables);
             View.OpenBattlePasPanelButton.OnClickAsObservable().Subscribe(_ => OpenBattlePasPanel()).AddTo(Disposables);
             base.Start();
+        }
+
+        public void OnGetMonet(GameResource res)
+        {
+            _currentProgress = res.ConvertToInt();
+            View.miniSliderAmount.SetAmount(OverMonet(), 100);
         }
 
         private void OpenBattlePasPanel()
@@ -68,11 +64,26 @@ namespace City.Buildings.CityButtons.EventAgent
 
         private void CreateTaskViews()
         {
-            var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList();
+            var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList();//class not matter
 
             foreach (var taskId in _commonDictionaries.AchievmentContainers[DAILY_TASKS].TaskIds)
             {
                 var taskModel = _commonDictionaries.Achievments[taskId];
+
+                if (CommonGameData.CycleEventsData.CurrentEventType == GameEventType.Sweet)
+                {
+                    foreach (var stage in taskModel.Stages)
+                    {
+                        stage.Reward.Resources.Add(
+                            new ResourceData
+                            {
+                                Type = ResourceType.Candy,
+                                Amount = new(CANDY_COUNT)
+                            }
+                        );
+                    }
+                }
+
                 var taskData = CommonGameData.AchievmentStorage.Achievments
                     .Find(data => data.ModelId.Equals(taskId));
 
@@ -83,12 +94,10 @@ namespace City.Buildings.CityButtons.EventAgent
                 }
 
                 var taskPrefab = UnityEngine.Object.Instantiate(View.AchievmentViewPrefab, View.Content);
-                
+
                 var type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
                 var gameTask = Activator.CreateInstance(type) as GameAchievment;
 
-                Debug.Log(gameTask.GetType());
-                
                 Resolver.Inject(gameTask);
                 gameTask.SetData(taskModel, taskData);
 
@@ -116,12 +125,6 @@ namespace City.Buildings.CityButtons.EventAgent
         {
             int maxLevel = GetMaxLevelReceivedReward();
             return _currentProgress - maxLevel * 100;
-        }
-
-        private void OnGetReward(int index)
-        {
-            _idReceivedReward.Add(index);
-            _sumReward += (int)Math.Pow(2, index);
         }
     }
 }

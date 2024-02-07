@@ -75,7 +75,7 @@ namespace City.Buildings.WheelFortune
             if (!string.IsNullOrEmpty(result))
             {
                 var rewardContainer = _jsonConverter.FromJson<FortuneRewardContainer>(result);
-                _reward = new GameReward(rewardContainer.Reward);
+                _reward = new GameReward(rewardContainer.Reward, _commonDictionaries);
 
                 _resourceStorageController.SubtractResource(cost);
 

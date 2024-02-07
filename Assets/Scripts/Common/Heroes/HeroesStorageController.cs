@@ -1,13 +1,11 @@
 ﻿using Db.CommonDictionaries;
 using Hero;
-using Models;
 using Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UIController.Inventory;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -78,6 +76,16 @@ namespace Common.Heroes
         {
             _listHeroes.Remove(hero);
             OnChangeListHeroes(hero);
+            OnSave();
+        }
+
+        public void RemoveHeroes(List<GameHero> heroes)
+        {
+            foreach (var hero in heroes)
+            {
+                _listHeroes.Remove(hero);
+                OnChangeListHeroes(hero);
+            }
             OnSave();
         }
 

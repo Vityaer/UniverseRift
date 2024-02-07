@@ -1,4 +1,5 @@
 using City.Panels.Messages;
+using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using System;
 using TMPro;
@@ -8,11 +9,14 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.Tower
 {
     public class TowerMissionCotroller : ScrollableUiView<MissionModel>
     {
+        [Inject] private CommonDictionaries _commonDictionaries;
+
         [Header("UI")]
         public TextMeshProUGUI textNumMission;
         public Image backgoundMission, enemyImage;
@@ -50,7 +54,7 @@ namespace City.Buildings.Tower
         {
             textNumMission.text = numMission.ToString();
             if (Data?.WinReward != null)
-                rewardController.ShowReward(Data.WinReward);
+                rewardController.ShowReward(Data.WinReward, _commonDictionaries);
 
             blockPanel.SetActive(canOpenMission == false);
         }

@@ -85,6 +85,43 @@ namespace Fight.Grid
 
         }
 
+        //private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
+        //{
+        //    RaycastHit2D hit;
+        //    var cellLayer = LayerMask.GetMask("Grid");
+        //    while (!cancellationToken.IsCancellationRequested)
+        //    {
+        //        if (Input.GetMouseButtonDown(0) && PlayerCanController)
+        //        {
+        //            var direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //            if (Physics.Raycast(Camera.main.transform.position, direction, out var raycast, Mathf.Infinity, cellLayer))
+        //            {
+        //                if (raycast.collider.TryGetComponent<HexagonCell>(out var HexagonCell))
+        //                {
+        //                    HexagonCell.ClickOnMe();
+        //                }
+        //            }
+
+        //            hit = Physics2D.Raycast(direction, Vector3.down);
+        //            if (hit.transform != null)
+        //            {
+        //                //if (hit.transform.CompareTag("HexagonCell"))
+        //                //{
+        //                //    HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
+        //                //    HexagonCell.ClickOnMe();
+        //                //}
+        //                if (hit.transform.CompareTag("Hero"))
+        //                {
+        //                    hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
+        //                }
+        //            }
+        //        }
+        //        await UniTask.Yield(cancellationToken: cancellationToken);
+        //    }
+
+        //}
+
         public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
         {
             _way.Clear();

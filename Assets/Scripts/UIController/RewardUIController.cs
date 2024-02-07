@@ -1,5 +1,6 @@
 ﻿using City.Panels.BoxRewards;
 using Common.Rewards;
+using Db.CommonDictionaries;
 using Models.Data.Rewards;
 using System.Collections.Generic;
 using UIController.Inventory;
@@ -16,26 +17,36 @@ namespace UIController
         public GameObject btnAllReward;
         private GameReward _reward;
 
-        public void ShowReward(RewardModel rewardData)
+        public void ShowReward(RewardModel rewardData, CommonDictionaries commonDictionaries)
         {
-            _reward = new GameReward(rewardData);
+            _reward = new GameReward(rewardData, commonDictionaries);
             ShowReward(_reward);
         }
 
-        public void ShowAutoReward(AutoRewardData autoReward)
+        public void ShowAutoReward(AutoRewardData autoReward, CommonDictionaries commonDictionaries)
         {
-            _reward = new GameReward(autoReward);
+            _reward = new GameReward(autoReward, commonDictionaries);
             ShowReward(_reward);
         }
 
         public void ShowReward(GameReward reward, bool lengthReward = false)
         {
-            this._reward = reward;
+            _reward = reward;
+            var count = 0;
+
+            if (lengthReward)
+            {
+                count = reward.Objects.Count;
+            }
+            else
+            {
+                count = Mathf.Min(4, reward.Objects.Count);
+            }
 
             if (btnAllReward != null)
                 btnAllReward.SetActive(reward.Objects.Count > 4 && lengthReward == false);
 
-            for (int i = 0; i < 4 && i < reward.Objects.Count; i++) 
+            for (int i = 0; i < count; i++) 
                 Cells[i].SetData(reward.Objects[i]);
 
             for (int i = reward.Objects.Count; i < Cells.Count; i++)

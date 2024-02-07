@@ -10,9 +10,9 @@ namespace UiExtensions.Misc
 {
     public abstract class ScrollableUiView<T> : UiView, IBeginDragHandler, IDragHandler, IEndDragHandler, IDisposable
     {
-        [SerializeField] protected ScrollRect Scroll;
         [SerializeField] protected Button Button;
 
+        protected ScrollRect Scroll;
         protected T Data;
         protected CompositeDisposable Disposable = new();
         protected ReactiveCommand<ScrollableUiView<T>> _onSelect = new ReactiveCommand<ScrollableUiView<T>>();
@@ -22,7 +22,7 @@ namespace UiExtensions.Misc
 
         protected override void Start()
         {
-            Button.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
+            Button?.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
         }
 
         public abstract void SetData(T data, ScrollRect scrollRect);
@@ -45,9 +45,10 @@ namespace UiExtensions.Misc
         public virtual void SetStatus(ScrollableViewStatus received) { }
 
 
-        public void Dispose()
+        public new void Dispose()
         {
             Disposable.Dispose();
+            base.Dispose();
         }
 
     }

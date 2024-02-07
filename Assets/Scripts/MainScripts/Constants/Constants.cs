@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 public class Constants
@@ -54,6 +55,8 @@ public class Constants
     public static class Game
     {
         public const int TACT_TIME = 5;
+        public const int MAX_FRIENDS_COUNT = 30;
+        public static TimeSpan GameCycleTime = new TimeSpan(5, 0, 0, 0);
     }
 
     public static class Fight
@@ -76,4 +79,5 @@ public class Constants
         public static string HERO_TEMPLATE_PATH = "Heroes/HeroTemplate";
         public static string SFX_PREFAB = "Sounds/ButtonClick";
     }
+
 }

@@ -32,6 +32,7 @@
         CountDoneTasks = 27,
         CountDoneTravel = 28,
         CountTryArenaFight = 29,
-        CountHourAutoFightReward = 30
+        CountHourAutoFightReward = 30,
+        DoneTravel = 31,
     }
 }

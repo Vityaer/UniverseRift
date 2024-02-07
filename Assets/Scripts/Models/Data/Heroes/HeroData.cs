@@ -16,10 +16,10 @@ namespace Models
             get
             {
                 var result = CommonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
-                Debug.Log(result);
                 return result;
             }
         }
+
         [HideInInspector] public int Id;
         [ValueDropdown(nameof(_allHeroesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string HeroId;

@@ -29,6 +29,8 @@ namespace City.Buildings.Mines
 
         private List<MineData> _mineDatas = new List<MineData>();
 
+        public ReactiveCommand OnGetResource = new();
+
         protected override void OnStart()
         {
             foreach (var place in View.MinePlaces)
@@ -133,7 +135,7 @@ namespace City.Buildings.Mines
             if (!string.IsNullOrEmpty(result))
             {
                 var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-                var calculatedReward = new GameReward(rewardModel);
+                var calculatedReward = new GameReward(rewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(calculatedReward);
 
                 foreach (var mineData in CommonGameData.City.IndustrySave.Mines)
@@ -142,6 +144,9 @@ namespace City.Buildings.Mines
                 }
 
                 OnLoadGame();
+
+                if(CommonGameData.City.IndustrySave.Mines.Count > 0)
+                    OnGetResource.Execute();
             }
         }
     }

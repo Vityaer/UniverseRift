@@ -1,8 +1,12 @@
-﻿namespace Models
+﻿using Models.Events;
+
+namespace Models
 {
     [System.Serializable]
     public class CycleEventsData : SimpleBuildingData
     {
-        public MonthlyRequirementsModel monthlyRequirements = new MonthlyRequirementsModel();
+        public GameEventType CurrentEventType;
+        public string StartGameCycleDateTime = string.Empty;
+        public string LastGetAlchemyDateTime = string.Empty;
     }
 }

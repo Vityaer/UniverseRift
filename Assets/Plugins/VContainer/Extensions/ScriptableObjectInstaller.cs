@@ -10,5 +10,5 @@ namespace VContainer.Extensions
 		{
 			throw new NotImplementedException();
 		}
-	}
+    }
 }

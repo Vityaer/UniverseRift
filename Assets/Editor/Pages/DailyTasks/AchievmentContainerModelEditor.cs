@@ -16,6 +16,7 @@ namespace Editor.Pages.DailyTasks
         {
             _model = model;
             _dictionaries = dictionaries;
+            _model.CommonDictionaries = _dictionaries;
 
         }
         [ShowInInspector]

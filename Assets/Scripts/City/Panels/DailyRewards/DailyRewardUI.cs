@@ -1,29 +1,30 @@
 using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.Market;
-using City.Panels.BatllepasPanels;
-using City.Panels.Messages;
-using Common.Inventories.Splinters;
-using Common.Resourses;
 using Common.Rewards;
-using UIController.Inventory;
-using UIController.ItemVisual;
+using TMPro;
+using UIController;
 using UiExtensions.Misc;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace City.Buildings.CityButtons.DailyReward
 {
     public class DailyRewardUI : ScrollableUiView<GameReward>
     {
-        public int ID;
-        public GameObject blockPanel, readyForGet;
-        public SubjectCell rewardController;
-        private BaseMarketProduct reward;
-        private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
+        public GameObject blockPanel;
+        public GameObject readyForGet;
+        public TMP_Text Label;
+        public RewardUIController RewardController;
 
-        void Start()
+        private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
+        private int _id;
+
+        public override void SetData(GameReward data, ScrollRect scrollRect)
         {
-            ID = transform.GetSiblingIndex();
+            Data = data;
+            Scroll = scrollRect;
+            RewardController.ShowReward(data);
+            _id = transform.GetSiblingIndex();
+            Label.text = $"Day {_id + 1}";
         }
 
         public override void SetStatus(ScrollableViewStatus newStatusReward)
@@ -38,15 +39,15 @@ namespace City.Buildings.CityButtons.DailyReward
             {
                 case ScrollableViewStatus.Completed:
                     blockPanel.SetActive(true);
-                    readyForGet.SetActive(false);
+                    //readyForGet.SetActive(false);
                     break;
                 case ScrollableViewStatus.Close:
                     blockPanel.SetActive(false);
-                    readyForGet.SetActive(false);
+                    //readyForGet.SetActive(false);
                     break;
                 case ScrollableViewStatus.Open:
                     blockPanel.SetActive(false);
-                    readyForGet.SetActive(true);
+                    //readyForGet.SetActive(true);
                     break;
             }
         }
@@ -62,7 +63,6 @@ namespace City.Buildings.CityButtons.DailyReward
                     //MessageController.Instance.AddMessage("Вы уже получали эту награду");
                     break;
                 case ScrollableViewStatus.Open:
-                    reward.GetProduct(1);
                     //DailyRewardPanelController.Instance.OnGetReward(transform.GetSiblingIndex());
                     SetStatus(ScrollableViewStatus.Completed);
                     break;

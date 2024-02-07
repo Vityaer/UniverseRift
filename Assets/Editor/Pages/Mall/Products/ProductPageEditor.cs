@@ -65,7 +65,7 @@ namespace Editor.Pages.Mall.Products
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("4")]
         [LabelText("Item")]
-        [PropertyOrder(2)]
+        [PropertyOrder(3)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4,
     CustomAddFunction = nameof(AddItemElement), CustomRemoveElementFunction = nameof(RemoveItemElements))]

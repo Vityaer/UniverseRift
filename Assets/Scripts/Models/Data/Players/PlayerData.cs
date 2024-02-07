@@ -8,7 +8,7 @@
         public string Name = string.Empty;
         public int Level = 1;
         public int VipLevel;
-        public int IDGuild;
+        public int GuildId;
         public string AvatarPath;
     }
 }

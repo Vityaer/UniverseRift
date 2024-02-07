@@ -1,4 +1,5 @@
 ﻿using Common.Resourses;
+using Db.CommonDictionaries;
 using Fight;
 using Models.Fights.Campaign;
 using System;
@@ -29,11 +30,13 @@ namespace Campaign
         public CampaignMissionModel mission;
         public int numMission;
         private ReactiveCommand<MissionController> _onClickMission = new ReactiveCommand<MissionController>();
+        private CommonDictionaries _commonDictionaries;
 
         public IObservable<MissionController> OnClickMission => _onClickMission;
 
-        public void SetMission(CampaignMissionModel mission, int numMission)
+        public void SetMission(CampaignMissionModel mission, int numMission, CommonDictionaries commonDictionaries)
         {
+            _commonDictionaries = commonDictionaries;
             this.mission = mission;
             this.numMission = numMission;
             //backgoundMission.sprite = LocationController.Instance.GetBackgroundForMission(this.mission.Location);
@@ -107,13 +110,13 @@ namespace Campaign
                     rewardController.CloseReward();
                     break;
                 case StatusMission.Open:
-                    rewardController.ShowReward(mission.WinReward);
+                    rewardController.ShowReward(mission.WinReward, _commonDictionaries);
                     rewardController.OpenReward();
                     textBtnGoFight.text = "Вызвать";
                     break;
                 case StatusMission.Complete:
                 case StatusMission.InAutoFight:
-                    rewardController.ShowAutoReward(mission.AutoFightReward);
+                    rewardController.ShowAutoReward(mission.AutoFightReward, _commonDictionaries);
                     rewardController.OpenReward();
                     textBtnGoFight.text = "Авто";
                     break;

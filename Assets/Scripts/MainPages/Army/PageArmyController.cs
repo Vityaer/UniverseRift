@@ -25,7 +25,7 @@ namespace UIController
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
 
         private int numSelectHero = 0;
-        private List<GameHero> _listHeroes;
+        private List<GameHero> _listHeroes = new();
         private GameHero hero;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private bool _created;

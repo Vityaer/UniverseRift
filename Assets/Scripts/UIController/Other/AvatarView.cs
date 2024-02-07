@@ -1,16 +1,21 @@
+using Models.Data.Players;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace UController.Other
 {
     public class AvatarView : MonoBehaviour
     {
-        public Image mainImage, borderImage;
-        public int levelVip;
+        [SerializeField] private Image _mainImage;
+        [SerializeField] private Image _borderImage;
+        [SerializeField] private TMP_Text _level;
 
-        public void SetAvatar(Sprite newAvatar)
+        public void SetData(PlayerData playerInfoData)
         {
-            mainImage.sprite = newAvatar;
+            _level.text = $"{playerInfoData.Level}";
+            _mainImage.sprite = SpriteUtils.LoadSprite(playerInfoData.AvatarPath);
         }
     }
 }

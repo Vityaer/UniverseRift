@@ -210,6 +210,15 @@ namespace City.Panels.SelectHeroes
             }
         }
 
+        public void UnselectCard(GameHero hero)
+        {
+            var card = _listCard.Find(x => x.Hero == hero);
+            if (card != null)
+            {
+                card.Unselect();
+            }
+        }
+
         public void Dispose()
         {
             _disposables.Dispose();

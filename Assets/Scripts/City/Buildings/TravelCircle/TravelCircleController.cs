@@ -10,9 +10,7 @@ using Models.TravelRaceDatas;
 using Network.DataServer;
 using Network.DataServer.Messages.TravelCircles;
 using System.Collections.Generic;
-using System.Reflection;
 using UIController.Cards;
-using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -24,10 +22,11 @@ namespace City.Buildings.TravelCircle
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly IObjectResolver _objectResolver;
 
         private const int SHOW_MISSION_COUNT = 10;
 
-        private List<TravelCircleMissionController> _missionsUI = new List<TravelCircleMissionController>();
+        private List<TravelCircleMissionController> _missionsUI = new();
         private TravelRaceCampaignButton _currentCampaingSelector;
         private bool _loadCurrentTravel;
         private TravelBuildingData _travelCircleSave;
@@ -39,6 +38,8 @@ namespace City.Buildings.TravelCircle
             for (var i = 0; i < SHOW_MISSION_COUNT; i++)
             {
                 var missionUi = UnityEngine.Object.Instantiate(View.MissionPrefab, View.Content);
+                _objectResolver.Inject(missionUi);
+
                 missionUi.OnSelect.Subscribe(OnMissionSelect).AddTo(Disposables);
                 _missionsUI.Add(missionUi);
                 missionUi.SetData(null, View.ScrollRect);
@@ -152,7 +153,7 @@ namespace City.Buildings.TravelCircle
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(mission.GetData.SmashReward);
+                var reward = new GameReward(mission.GetData.SmashReward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
             }
         }
@@ -179,7 +180,7 @@ namespace City.Buildings.TravelCircle
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(_selectedMissionUi.GetData.WinReward);
+                var reward = new GameReward(_selectedMissionUi.GetData.WinReward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
             }
         }

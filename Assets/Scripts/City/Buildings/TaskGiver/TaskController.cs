@@ -18,6 +18,7 @@ using ClientServices;
 using Common.Rewards;
 using System.Globalization;
 using Sirenix.Utilities;
+using Db.CommonDictionaries;
 
 namespace City.Buildings.TaskGiver
 {
@@ -26,6 +27,7 @@ namespace City.Buildings.TaskGiver
         [Inject] private CommonGameData _commonGameData;
         [Inject] private ResourceStorageController _resourceStorageController;
         [Inject] private ClientRewardService _clientRewardService;
+        [Inject] private CommonDictionaries _commonDictionaries;
 
         [Header("UI")]
         public TextMeshProUGUI Name;
@@ -50,7 +52,7 @@ namespace City.Buildings.TaskGiver
 
             Name.text = _model.Id;
             ratingController.ShowRating(_model.Rating);
-            RewardUIController.ShowReward(_model.Reward);
+            RewardUIController.ShowReward(_model.Reward, _commonDictionaries);
             UpdateStatus();
 
         }
@@ -165,7 +167,7 @@ namespace City.Buildings.TaskGiver
                 TaskControllerButton.Clear();
                 sliderTime.SetFinish();
                 Data.Status = TaskStatusType.Done;
-                var reward = new GameReward(_model.Reward);
+                var reward = new GameReward(_model.Reward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
                 _onGetReward.Execute(Data);
             }
@@ -179,7 +181,7 @@ namespace City.Buildings.TaskGiver
             if (!string.IsNullOrEmpty(result))
             {
                 Data.Status = TaskStatusType.Done;
-                var reward = new GameReward(_model.Reward);
+                var reward = new GameReward(_model.Reward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
                 _onGetReward.Execute(Data);
             }

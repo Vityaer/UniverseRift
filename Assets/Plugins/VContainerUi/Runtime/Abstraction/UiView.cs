@@ -62,7 +62,7 @@ namespace VContainerUi.Abstraction
             TweenSequence.Kill();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             TweenSequence.Kill();
         }

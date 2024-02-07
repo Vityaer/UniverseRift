@@ -72,7 +72,7 @@ namespace City.Buildings.Abstractions
         virtual protected void OpenPage() { }
         virtual protected void ClosePage() { }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Disposables.Dispose();
         }

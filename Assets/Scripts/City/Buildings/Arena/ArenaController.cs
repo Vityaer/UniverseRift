@@ -2,10 +2,8 @@
 using City.Buildings.Abstractions;
 using City.Panels.Arenas;
 using City.Panels.Arenas.SimpleArenas;
-using City.Panels.NewLevels;
 using Fight;
 using Models;
-using Models.City.Arena;
 using Models.Common;
 using UniRx;
 using Utils;
@@ -29,9 +27,9 @@ namespace City.Buildings.Arena
             View.TournamentButton.OnClickAsObservable().Subscribe(_ => OpenTournament()).AddTo(Disposables);
         }
 
-        private void OpenTournament()
+        private void OpenSimpleAreana()
         {
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<TournamentPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SimpleArenaPanelController>(openType: OpenType.Exclusive);
         }
 
         private void OpenRatingAreana()
@@ -40,9 +38,9 @@ namespace City.Buildings.Arena
 
         }
 
-        private void OpenSimpleAreana()
+        private void OpenTournament()
         {
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<SimpleArenaPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<TournamentPanelController>(openType: OpenType.Exclusive);
         }
 
         protected override void OnLoadGame()
@@ -50,10 +48,10 @@ namespace City.Buildings.Arena
             _arenaBuildingSave = _сommonGameData.City.ArenaSave;
         }
 
-        public void FightWithOpponentUseAI(ArenaOpponentModel opponent)
-        {
-            OpenMission(opponent.Mission);
-        }
+        //public void FightWithOpponentUseAI(ArenaOpponentModel opponent)
+        //{
+        //    OpenMission(opponent.Mission);
+        //}
 
         protected override void OnResultFight(FightResultType result)
         {

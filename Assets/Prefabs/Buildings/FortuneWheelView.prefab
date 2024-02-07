@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98c3b3e2950041488323ab740deacdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoInjectObjects: []
   _costText: {fileID: 8714002868337128002}
   _button: {fileID: 2927402914126506332}
   _mainImage: {fileID: 5182866767059887699}
@@ -285,12 +286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a6d1597dc16404595753150585cf89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonCloseBuilding: {fileID: 4097638737053724516}
   AutoInjectObjects:
   - {fileID: 3305821863936225719}
   - {fileID: 3305821862338455002}
   - {fileID: 731111366302775087}
   - {fileID: 2493848651689834011}
+  ButtonCloseBuilding: {fileID: 4097638737053724516}
   <OneRotateButton>k__BackingField: {fileID: 3305821863936225719}
   <ManyRotateButton>k__BackingField: {fileID: 3305821862338455002}
   <RefreshWheelButton>k__BackingField: {fileID: 731111366302775087}
@@ -304,7 +305,6 @@ MonoBehaviour:
   - {fileID: 5357048426122753042}
   - {fileID: 5357048427432269457}
   - {fileID: 5357048425865075401}
-  TargetTilt: 0
 --- !u!1 &2749093493683777016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9144922397897199125, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
       propertyPath: m_fontSize
-      value: 43
+      value: 72
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
@@ -1532,7 +1532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3722827271881934835, guid: 83497bc3e302fd14bbe2e4f6ea038479, type: 3}
       propertyPath: m_fontSize
-      value: 71.65
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 7288869972801429059, guid: 83497bc3e302fd14bbe2e4f6ea038479, type: 3}
       propertyPath: m_Name
@@ -1883,7 +1883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9144922397897199125, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
       propertyPath: m_fontSize
-      value: 43
+      value: 72
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
@@ -2023,13 +2023,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2749093495104253577}
     m_Modifications:
+    - target: {fileID: 341521322321499732, guid: af3f986f82ae8ee459675dc594f9848c, type: 3}
+      propertyPath: TypeResource
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1617518700945175404, guid: af3f986f82ae8ee459675dc594f9848c, type: 3}
       propertyPath: m_Name
       value: ObserverCoinFortune
       objectReference: {fileID: 0}
     - target: {fileID: 3965752579700074795, guid: af3f986f82ae8ee459675dc594f9848c, type: 3}
       propertyPath: m_fontSize
-      value: 26.85
+      value: 50.35
       objectReference: {fileID: 0}
     - target: {fileID: 4534259817012045881, guid: af3f986f82ae8ee459675dc594f9848c, type: 3}
       propertyPath: m_AnchorMax.x

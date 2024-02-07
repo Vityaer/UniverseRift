@@ -22,6 +22,7 @@ namespace City.Panels.AutoFights
         private TimeSpan maxTime = new TimeSpan(12, 0, 0);
         public ReactiveCommand OnClose = new ReactiveCommand();
         private GameReward _calculatedReward;
+
         public void Open(AutoRewardData autoReward, GameReward calculatedReward, DateTime previousDateTime)
         {
             _calculatedReward = calculatedReward;
@@ -29,13 +30,14 @@ namespace City.Panels.AutoFights
             View.textAutoRewardStone.text = $"{autoReward.BaseResource[ResourceType.ContinuumStone].Amount} /{Constants.Game.TACT_TIME}sec.";
             View.textAutoRewardExperience.text = $"{autoReward.BaseResource[ResourceType.Exp].Amount} /{Constants.Game.TACT_TIME}sec.";
 
-            View.RewardUIController.ShowReward(calculatedReward);
+            View.RewardUIController.ShowReward(calculatedReward, lengthReward: true);
             View.sliderAccumulation.SetData(previousDateTime, maxTime);
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<AutoFightRewardPanelController>(openType: OpenType.Exclusive);
         }
 
         protected override void Close()
         {
+            UnityEngine.Debug.Log("close");
             OnClose.Execute();
             base.Close();
             _clientRewardService.GetReward(_calculatedReward);

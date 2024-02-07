@@ -51,6 +51,7 @@ namespace City.Panels.BatllepasPanels
                     :
                     ScrollableViewStatus.Open;
 
+                Resolver.Inject(rewardViewPrefab);
                 rewardViewPrefab.SetStatus(status);
                 _rewardsUi.Add(rewardViewPrefab);
 
@@ -77,7 +78,7 @@ namespace City.Panels.BatllepasPanels
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(rewardView.GetData.RewardModel);
+                var reward = new GameReward(rewardView.GetData.RewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
                 CommonGameData.BattlepasData.CurrentDailyBattlepasStage += 1;
                 rewardView.SetStatus(ScrollableViewStatus.Completed);

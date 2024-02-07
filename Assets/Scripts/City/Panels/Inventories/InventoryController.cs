@@ -35,6 +35,7 @@ namespace UIController.Inventory
         public ReactiveCommand OnClose = new ReactiveCommand();
         public GameInventory GameInventory => _gameInventory;
         public IObservable<BaseObject> OnObjectSelect => _onObjectSelect;
+        private IDisposable _inventoryChangeDisposable;
 
         public new void Initialize()
         {
@@ -47,7 +48,12 @@ namespace UIController.Inventory
 
             base.Initialize();
 
-            _gameInventory.OnChange.Subscribe(_ => RefreshUi()).AddTo(Disposables);
+        }
+
+        public override void OnShow()
+        {
+            _inventoryChangeDisposable = _gameInventory.OnChange.Subscribe(_ => RefreshUi());
+            base.OnShow();
         }
 
         private void RefreshUi()
@@ -154,6 +160,7 @@ namespace UIController.Inventory
 
         protected override void Close()
         {
+            _inventoryChangeDisposable?.Dispose();
             _isOpen = false;
             base.Close();
         }

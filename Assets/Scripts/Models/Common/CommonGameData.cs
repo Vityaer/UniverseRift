@@ -5,6 +5,8 @@ using Models.Data;
 using Models.Data.Heroes;
 using Models.Data.Inventories;
 using Models.Data.Players;
+using Models.Misc;
+using Models.Misc.Temp;
 using Network.DataServer;
 using Network.DataServer.Messages.Common;
 using Sirenix.Utilities;
@@ -21,15 +23,18 @@ namespace Models.Common
 
         [Inject] private readonly IJsonConverter _jsonConverter;
 
-        public CityData City = new CityData();
-        public PlayerData PlayerInfoData = new PlayerData();
+        public CityData City = new();
+        public PlayerData PlayerInfoData = new();
         public List<TaskData> ListTasks = new();
         public AchievmentStorageData AchievmentStorage = new();
-        public CycleEventsData CycleEventsData = new CycleEventsData();
-        public HeroesStorage HeroesStorage = new HeroesStorage();
+        public CycleEventsData CycleEventsData = new();
+        public HeroesStorage HeroesStorage = new();
         public List<ResourceData> Resources = new();
         public InventoryData InventoryData = new();
         public BattlepasData BattlepasData = new();
+        public CommunicationData CommunicationData = new();
+
+        public TemporallyData TemporallyData = new(); 
 
         public bool IsInited { get; private set; } = false;
 
@@ -50,6 +55,8 @@ namespace Models.Common
             HeroesStorage = data.HeroesStorage;
             InventoryData = data.InventoryData;
             Resources = data.Resources;
+            BattlepasData = data.BattlepasData;
+            CommunicationData = data.CommunicationData;
 
             if (!PlayerPrefs.HasKey(PLAYER_ID_KEY))
             {

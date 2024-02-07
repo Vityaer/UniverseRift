@@ -1,3 +1,4 @@
+using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using System;
 using TMPro;
@@ -6,11 +7,14 @@ using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.TravelCircle
 {
     public class TravelCircleMissionController : ScrollableUiView<MissionWithSmashReward>
     {
+        [Inject] private CommonDictionaries _commonDictionaries;
+
         [Header("UI")]
         public RewardUIController rewardController;
         public TextMeshProUGUI textNumMission, textOnButtonSelect;
@@ -56,19 +60,19 @@ namespace City.Buildings.TravelCircle
             switch (_status)
             {
                 case StatusMission.Open:
-                    rewardController.ShowReward(_mission.WinReward);
+                    rewardController.ShowReward(_mission.WinReward, _commonDictionaries);
                     textOnButtonSelect.text = "Вызвать";
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.InAutoFight:
-                    rewardController.ShowReward(_mission.SmashReward);
+                    rewardController.ShowReward(_mission.SmashReward, _commonDictionaries);
                     textOnButtonSelect.text = "Рейд";
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.NotOpen:
-                    rewardController.ShowReward(_mission.WinReward);
+                    rewardController.ShowReward(_mission.WinReward, _commonDictionaries);
                     buttonSelect.SetActive(false);
                     imageCloseMission.SetActive(true);
                     break;

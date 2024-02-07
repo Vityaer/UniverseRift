@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7233235928878240870}
   - component: {fileID: 7576939063207288339}
   - component: {fileID: 4332871969154858008}
-  - component: {fileID: 8045960606843385139}
   - component: {fileID: 2733436535390549002}
+  - component: {fileID: 1088937788735088889}
   m_Layer: 5
   m_Name: RequireCard
   m_TagString: Untagged
@@ -95,38 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 4547519243848573927}
   textCountRequirement: {fileID: 2278378760609661820}
-  panelListHeroes: {fileID: 0}
   listCard: {fileID: 0}
   requireCardInfo: {fileID: 0}
---- !u!114 &8045960606843385139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6153662857478261791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4332871969154858008}
-          m_TargetAssemblyTypeName: RequireCardScript, Assembly-CSharp
-          m_MethodName: OpenListCard
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  Button: {fileID: 1088937788735088889}
 --- !u!114 &2733436535390549002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +112,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 2
   m_AspectRatio: 0.703125
+--- !u!114 &1088937788735088889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6153662857478261791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 7576939063207288339}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7721215058644762441
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,11 +316,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5500628537622919175, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5500628537622919175, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5500628537622919175, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_SizeDelta.x
@@ -313,11 +328,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5500628537622919175, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 85.3125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5500628537622919175, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5815543646105460760, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_Pivot.x
@@ -409,11 +424,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533263388827522084, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7533263388827522084, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7533263388827522084, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_SizeDelta.x
@@ -421,19 +436,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533263388827522084, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 55.3125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7533263388827522084, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9008276131163435414, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9008276131163435414, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9008276131163435414, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_SizeDelta.x
@@ -441,11 +456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9008276131163435414, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 70.3125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9008276131163435414, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8ee7b4d2b2f1049b48c11c46e91bbd, type: 3}

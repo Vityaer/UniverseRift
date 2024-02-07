@@ -23,6 +23,9 @@ namespace ClientServices
 
         public void ShowReward(GameReward reward)
         {
+            if (reward.Objects.Count == 0)
+                return;
+
             _disposable = _rewardPanelController.OnClose.Subscribe(_ => GetReward(reward));
             _rewardPanelController.Open(reward);
         }

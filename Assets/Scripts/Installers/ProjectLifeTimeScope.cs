@@ -4,12 +4,14 @@ using Initializable;
 using Misc.Json;
 using Misc.Json.Impl;
 using Models.Common;
+using System;
 using UIController.Inventory;
 using VContainer;
 using VContainer.Unity;
 
 namespace Installer
 {
+    [Serializable]
     public class ProjectLifeTimeScope : LifetimeScope
     {
         protected override void Configure(IContainerBuilder builder)

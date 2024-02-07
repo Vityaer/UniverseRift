@@ -3,7 +3,6 @@ using Models;
 using Models.Heroes.HeroCharacteristics;
 using Models.Items;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UIController.Inventory

@@ -1,5 +1,4 @@
-﻿using Models.Heroes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UIController.Cards;
 using UnityEngine;
@@ -13,13 +12,13 @@ using Common.Heroes;
 using VContainer;
 using Hero;
 using Cysharp.Threading.Tasks;
-using Network.DataServer.Messages.Hires;
 using Network.DataServer.Models;
 using Network.DataServer;
 using ClientServices;
 using Common.Rewards;
 using Misc.Json;
 using Network.DataServer.Messages;
+using Db.CommonDictionaries;
 
 namespace Altar
 {
@@ -28,13 +27,14 @@ namespace Altar
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
 
         private readonly ReactiveCommand<BigDigit> _onDissamble = new ReactiveCommand<BigDigit>();
 
         private List<GameHero> _listHeroes;
-        private List<Card> _selectedHeroCards = new List<Card>();
+        private List<Card> _selectedHeroCards = new();
 
         public IObservable<BigDigit> OnDissamble => _onDissamble;
 
@@ -69,7 +69,7 @@ namespace Altar
             var result = await DataServer.PostData(message);
 
             var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
-            var reward = new GameReward(rewardModel);
+            var reward = new GameReward(rewardModel, _commonDictionaries);
             _clientRewardService.ShowReward(reward);
 
             var heroes = new List<GameHero>();

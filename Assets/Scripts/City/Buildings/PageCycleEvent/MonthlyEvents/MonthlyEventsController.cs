@@ -40,7 +40,7 @@ namespace City.Buildings.PageCycleEvent.MonthlyEvents
 
         protected override void OnLoadGame()
         {
-            monthlyRequirements = _ñommonGameData.City.CycleEvents.monthlyRequirements;
+            //monthlyRequirements = _ñommonGameData.City.CycleEvents.monthlyRequirements;
             LoadTasks();
         }
 

@@ -1,14 +1,14 @@
 using City.Panels.SelectHeroes;
 using Hero;
 using Models.City.TrainCamp;
-using Models.Heroes;
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UIController.Animations;
 using UIController.Cards;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
+using Utils;
 
 namespace UIController
 {
@@ -16,51 +16,80 @@ namespace UIController
     {
         [SerializeField] private Card card;
         [SerializeField] private TextMeshProUGUI textCountRequirement;
+        [SerializeField] private Image _icon;
 
         [Header("Panel select heroes")]
-        public OpenClosePanel panelListHeroes;
         public HeroCardsContainerController listCard;
-        public RequireCard requireCardInfo;
+        public Button Button;
 
-        private int requireSelectCount = 0;
-        private RequirementHeroModel requirementHero;
-        private List<GameHero> selectedHeroes = new List<GameHero>();
+        private int _requireSelectCount = 0;
+        private RequirementHeroModel _requirementHero;
+        private List<GameHero> _selectedHeroes = new();
 
-        private readonly CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposables;
+        private IDisposable _buttonDisposed;
+
+        private ReactiveCommand<RequireCard> _onClick = new();
+
+        public IObservable<RequireCard> OnClick => _onClick;
+        public RequirementHeroModel RequirementHero => _requirementHero;
+        public List<GameHero> SelectedHeroes => _selectedHeroes;
+
+        private void Start()
+        {
+            _buttonDisposed = Button?.OnClickAsObservable().Subscribe(_ => OpenListCard());
+        }
+
         public void SetData(RequirementHeroModel requirementHero)
         {
+            _icon.sprite = SpriteUtils.LoadSprite(requirementHero.IconPath);
             ClearData();
-            this.requirementHero = requirementHero;
-            requireSelectCount = requirementHero.count;
+            _requirementHero = requirementHero;
+            _requireSelectCount = requirementHero.Count;
             card.SetData(requirementHero);
             UpdateUI();
         }
 
-        public void AddHero(Card card)
+        public void SetData(RequirementHeroModel requirementHero, List<GameHero> selectedHeroes)
         {
-            if (selectedHeroes.Count < requireSelectCount)
+            _icon.sprite = SpriteUtils.LoadSprite(requirementHero.IconPath);
+            _selectedHeroes = new();
+            foreach (var hero in selectedHeroes)
+                _selectedHeroes.Add(hero);
+
+            _requirementHero = requirementHero;
+            _requireSelectCount = requirementHero.Count;
+            card.SetData(requirementHero);
+            UpdateUI();
+        }
+
+        private void AddHero(GameHero hero)
+        {
+            Debug.Log($"add hero, current: {_selectedHeroes.Count}");
+            if (_selectedHeroes.Count < _requireSelectCount)
             {
-                card.Select();
-                selectedHeroes.Add(card.Hero);
+                _selectedHeroes.Add(hero);
                 UpdateUI();
-                requireCardInfo.UpdateUI();
+            }
+            else
+            {
+                listCard.UnselectCard(hero);
             }
         }
 
-        public void RemoveHero(Card card)
+        private void RemoveHero(GameHero hero)
         {
-            if (selectedHeroes.Count > 0)
+            Debug.Log($"remove hero, current: {_selectedHeroes.Count}");
+            if (_selectedHeroes.Count > 0)
             {
-                card.Unselect();
-                selectedHeroes.Remove(card.Hero);
+                _selectedHeroes.Remove(hero);
                 UpdateUI();
-                requireCardInfo.UpdateUI();
             }
         }
 
-        public void UpdateUI()
+        private void UpdateUI()
         {
-            textCountRequirement.text = $"{selectedHeroes.Count}/{requireSelectCount}";
+            textCountRequirement.text = $"{_selectedHeroes.Count}/{_requireSelectCount}";
         }
 
         public bool CheckHeroes()
@@ -71,28 +100,23 @@ namespace UIController
 
         public void OpenListCard()
         {
-            //listCard.OnSelect.Subscribe(AddHero).AddTo(_disposables);
-            //listCard.OnDiselect.Subscribe(RemoveHero).AddTo(_disposables);
-            //List<HeroModel> currentHeroes = GameController.Instance.ListHeroes;
-            //currentHeroes = currentHeroes.FindAll(x => x.CheckСonformity(requirementHero));
-            //currentHeroes.Remove(TrainCamp.Instance.ReturnSelectHero());
-            //listCard.SetList(currentHeroes);
-            //listCard.SelectCards(selectedHeroes);
-            //panelListHeroes.Open();
-            //requireCardInfo.ShowData(requirementHero, selectedHeroes);
-            //panelListHeroes.RegisterOnClose(OnClosePanelHeroes);
+            _disposables = new();
+            _onClick.Execute(this);
+            listCard.OnSelect.Subscribe(AddHero).AddTo(_disposables);
+            listCard.OnDiselect.Subscribe(RemoveHero).AddTo(_disposables);
         }
 
-        void OnClosePanelHeroes()
+        public void OnCloseListCard()
         {
-            panelListHeroes.UnregisterOnClose(OnClosePanelHeroes);
-            //listCard.UnRegisterOnSelect(AddHero);
-            //listCard.UnRegisterOnUnSelect(RemoveHero);
+            if (_disposables != null && !_disposables.IsDisposed)
+            {
+                _disposables.Dispose();
+            }
         }
 
         public void ClearData()
         {
-            selectedHeroes.Clear();
+            _selectedHeroes.Clear();
         }
 
         public void Hide()
@@ -100,27 +124,15 @@ namespace UIController
             gameObject.SetActive(false);
         }
 
-        public void DeleteSelectedHeroes()
-        {
-            for (int i = 0; i < selectedHeroes.Count; i++)
-            {
-                //GameController.Instance.RemoveHero(selectedHeroes[i]);
-            }
-            ClearData();
-        }
 
-        public void ShowData(RequirementHeroModel requirementHero, List<HeroModel> selectedHeroes)
-        {
-            //this.selectedHeroes = selectedHeroes;
-            this.requirementHero = requirementHero;
-            requireSelectCount = requirementHero.count;
-            card.SetData(requirementHero);
-            UpdateUI();
-        }
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            _buttonDisposed?.Dispose();
+            if (_disposables != null && !_disposables.IsDisposed)
+            {
+                _disposables.Dispose();
+            }
         }
     }
 }

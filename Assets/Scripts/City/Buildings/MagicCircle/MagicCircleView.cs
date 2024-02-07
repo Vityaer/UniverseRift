@@ -1,7 +1,7 @@
 ﻿using City.Buildings.Abstractions;
 using City.TrainCamp;
 using UIController.Buttons;
-using UIController.Observers;
+using UIController.GameObservers;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;

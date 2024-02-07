@@ -7,6 +7,7 @@ using MainPages.Events;
 using MainPages.MenuButtons;
 using MainPages.MenuHud;
 using MainPages.SecondCity;
+using System.Collections.Generic;
 using Ui.MainMenu;
 using Ui.MainMenu.MenuButtons;
 using UIController;
@@ -40,6 +41,7 @@ namespace Installers
         
         [Space(10)]
         [SerializeField] private MenuButtonsDataSo _menuButtonsDataSo;
+
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);

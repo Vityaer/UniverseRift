@@ -31,7 +31,7 @@ namespace City.TrainCamp
         public void SetData(GameResource res)
         {
             if (_resourceStorageController == null)
-                Debug.LogError($"resource storage null, {gameObject.name}", gameObject);
+                Debug.LogError($"You frogot inject ResourceStorageController, {gameObject.name}", gameObject);
 
             _disposable?.Dispose();
             _disposable = _resourceStorageController.Subscribe(res.Type, CheckResource);
