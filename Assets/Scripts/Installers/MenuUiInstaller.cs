@@ -16,15 +16,12 @@ namespace Installers
         [SerializeField] private Canvas _canvas;
 
 
-        //[SerializeField] private StartLoadingView _startLoadingView;
         [SerializeField] private CampaignView _campaignView;
         [SerializeField] private WorldMapView _worldMapView;
 
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
-
-            //builder.RegisterUiView<StartLoadingController, StartLoadingView>(_startLoadingView, _canvas.transform);
             builder.RegisterUiView<CampaignController, CampaignView>(_campaignView, canvas.transform);
             builder.RegisterUiView<WorldMapController, WorldMapView>(_worldMapView, canvas.transform);
 

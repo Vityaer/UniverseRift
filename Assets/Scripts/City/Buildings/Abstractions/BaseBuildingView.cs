@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
 namespace City.Buildings.Abstractions

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using UIController.Cards;
 using UniRx;
 using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 
@@ -70,7 +71,12 @@ namespace City.Buildings.TravelCircle
                 }
 
                 var travelModel = _commonDictionaries.TravelRaceCampaigns[$"{travelData.RaceId}Travel"];
+                var raceContainer = _commonDictionaries.Races[travelData.RaceId];
+
+
+                var icon = SpriteUtils.LoadSprite(raceContainer.SpritePath);
                 campaignSelector.SetData(travelModel, travelData.MissionIndexCompleted);
+                campaignSelector.SetRaceIcon(icon);
             }
 
             var randomIndex = Random.Range(0, View.TravelRaceCampaignButtons.Count);
@@ -154,7 +160,7 @@ namespace City.Buildings.TravelCircle
             if (!string.IsNullOrEmpty(result))
             {
                 var reward = new GameReward(mission.GetData.SmashReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                _clientRewardService.ShowReward(reward, RewardType.Win);
             }
         }
 
@@ -170,6 +176,10 @@ namespace City.Buildings.TravelCircle
 
                 var travelModel = _commonDictionaries.TravelRaceCampaigns[$"{_currentTravelData.RaceId}Travel"];
                 _currentCampaingSelector.SetData(travelModel, _currentTravelData.MissionIndexCompleted);
+            }
+            else
+            {
+                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
             }
         }
 

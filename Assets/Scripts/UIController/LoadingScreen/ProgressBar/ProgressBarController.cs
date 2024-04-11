@@ -11,7 +11,8 @@ namespace Ui.LoadingScreen.ProgressBar
     {
         public void Open()
         {
-            View.Panel.SetActive(true);
+            Debug.Log("open prgress bar");
+            base.Show();
             Reset();
         }
 
@@ -30,7 +31,8 @@ namespace Ui.LoadingScreen.ProgressBar
 
         public void Close()
         {
-            View.Panel.SetActive(false);
+            Debug.Log("Close prgress bar");
+            base.Hide();
         }
     }
 }

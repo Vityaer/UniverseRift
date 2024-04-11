@@ -18,8 +18,6 @@ namespace City.Buildings.Voyage
 {
     public class VoyageController : BuildingWithFight<VoyageView>
     {
-        private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
-
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly VoyageMissionPanelController panelVoyageMission;
@@ -29,9 +27,9 @@ namespace City.Buildings.Voyage
 
         private int _currentMission = 0;
         private VoyageBuildingData voyageBuildingSave = null;
-        public ReactiveCommand<int> _onTravelComplete = new();
         private MissionModel _currentMissionModel;
 
+        public ReactiveCommand<int> _onTravelComplete = new();
         public LocationWithBuildings locationController;
 
         public IObservable<int> OnTravelComplete => _onTravelComplete;
@@ -85,8 +83,7 @@ namespace City.Buildings.Voyage
         {
             var mission = View.MissionViews[index];
             _currentMissionModel = _missions[index];
-            var reward = new GameReward(_missions[index].WinReward, _commonDictionaries);
-            panelVoyageMission.ShowInfo(reward, mission.Status, index, StartOpenMission);
+            panelVoyageMission.ShowInfo(_currentMissionModel, mission.Status, index, StartOpenMission);
         }
 
         private void StartOpenMission()
@@ -105,12 +102,16 @@ namespace City.Buildings.Voyage
                 if (_currentMission < _missions.Count)
                     View.MissionViews[_currentMission].SetStatus(StatusMission.Open);
 
-                voyageBuildingSave.IntRecords.SetRecord(NAME_RECORD_NUM_CURRENT_MISSION, _currentMission);
+                voyageBuildingSave.CurrentMissionIndex = _currentMission;
 
                 if (_currentMission == _missions.Count)
                     _onTravelComplete.Execute(1);
 
                 SendData().Forget();
+            }
+            else
+            {
+                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
             }
         }
 
@@ -122,7 +123,7 @@ namespace City.Buildings.Voyage
             if (!string.IsNullOrEmpty(result))
             {
                 var reward = new GameReward(_currentMissionModel.WinReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                _clientRewardService.ShowReward(reward, RewardType.Win);
             }
         }
     }

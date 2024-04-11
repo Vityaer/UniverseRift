@@ -18,7 +18,7 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly CommonGameData CommonGameData;
         [Inject] protected readonly IUiMessagesPublisherService MessagesPublisher;
         [Inject] protected readonly GameController GameController;
-        [Inject] protected readonly IObjectResolver _resolver;
+        [Inject] protected readonly IObjectResolver Resolver;
 
         protected CompositeDisposable Disposables = new CompositeDisposable();
         private int levelForAvailableBuilding = 0;
@@ -37,9 +37,9 @@ namespace City.Buildings.Abstractions
         {
             foreach (var obj in View.AutoInjectObjects)
             {
-                if (_resolver == null)
+                if (Resolver == null)
                     Debug.Log($"{View.gameObject.name}");
-                _resolver.Inject(obj);
+                Resolver.Inject(obj);
             }
         }
 

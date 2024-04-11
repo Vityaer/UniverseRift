@@ -28,8 +28,7 @@ namespace Assets.Scripts.Installers
             var canvas = Instantiate(_canvas);
             canvas.name = nameof(FightInstaller);
 
-            var rootGrid = new GameObject();
-            rootGrid.name = nameof(rootGrid);
+            var rootGrid = new GameObject("GridRoot");
             builder.RegisterUiView<GridController, GridView>(_gridView, rootGrid.transform);
 
             builder.RegisterUiView<FightController, FightView>(_fightView, canvas.transform);

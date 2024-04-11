@@ -14,7 +14,7 @@ namespace City.TrainCamp
         public void SetInfo(Skill skill)
         {
             this.skill = skill;
-            image.sprite = this.skill.image;
+            image.sprite = this.skill.Icon;
             gameObject.SetActive(true);
         }
 

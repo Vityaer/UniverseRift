@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Fight.Common.Strikes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,24 +17,33 @@ namespace Fight.HeroControllers.Generals
                              ANIMATION_IDLE = "Idle",
                              ANIMATION_DISTANCE_ATTACK = "Shoot",
                              ANIMATION_SPELL = "Spell";
-        [SerializeField] bool flagAnimFinish = false;
-        Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
+
+        private bool _flagAnimFinish = false;
+        private Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
         private Tween _sequenceAnimation;
 
-        protected void PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true)
+        protected IEnumerator PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true, Action onAnimationFinish = null)
         {
             if (withRecord == true)
                 AddFightRecordActionMe();
 
-            flagAnimFinish = false;
+            _flagAnimFinish = false;
             if (CheckExistAnimation(nameAnimation))
             {
                 Animator.Play(nameAnimation);
             }
             else
             {
-                if (defaultAnimation != null)
-                    defaultAnimation();
+                //if (defaultAnimation != null)
+                //    defaultAnimation();
+            }
+
+            if (withRecord)
+            {
+                var state = Animator.GetCurrentAnimatorStateInfo(0);
+                yield return new WaitForSeconds(state.length);
+                RemoveFightRecordActionMe();
+                onAnimationFinish?.Invoke();
             }
         }
 
@@ -54,43 +64,10 @@ namespace Fight.HeroControllers.Generals
             return result;
         }
 
-        private Arrow prefabArrow;
-        private void DefaultAnimDistanceAttack(List<HeroController> enemies)
-        {
-            hitCount = 0;
-            this.listTarget = enemies;
-            prefabArrow ??= Resources.Load<Arrow>("CreateObjects/Bullet");
-
-            foreach (HeroController target in listTarget)
-            {
-                var arrow = Instantiate(prefabArrow, transform.position, Quaternion.identity);
-                arrow.SetTarget(target, new Strike(hero.Model.Characteristics.Damage, hero.Model.Characteristics.Main.Attack, typeStrike: typeStrike, isMellee: false));
-                arrow.RegisterOnCollision(HitCount);
-            }
-        }
-
-        protected void DefaultAnimAttack(HeroController enemy)
-        {
-            _sequenceAnimation?.Kill();
-            Vector3 rotateAttack = Vector3.zero;
-            rotateAttack = new Vector3(0, 0, isFacingRight ? 45 : -45);
-            _sequenceAnimation = DOTween.Sequence()
-                        .Append(Self.DORotate(rotateAttack, 0.25f))
-                        .Append(Self.DORotate(Vector3.zero, 0.25f).OnComplete(() => { GiveDamage(enemy); FinishAnimation(); }));
-        }
-
-        private void DefaultAnimIdle()
-        {
-        }
-
-        private void DefaultAnimMove()
-        {
-        }
-
         private void FinishAnimation()
         {
             RemoveFightRecordActionMe();
-            flagAnimFinish = true;
+            _flagAnimFinish = true;
         }
 
         private void DefaultAnimGetDamage(Strike strike)
@@ -107,7 +84,7 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimDeath()
         {
-            isDeath = true;
+            _isDeath = true;
             _sequenceAnimation?.Kill();
             _sequenceAnimation = DOTween.Sequence()
                 .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));

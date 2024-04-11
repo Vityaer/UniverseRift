@@ -6,6 +6,7 @@ using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
+using System.Diagnostics;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
@@ -18,13 +19,11 @@ namespace City.Panels.Registrations
 {
     public class RegistrationPanelController : UiPanelController<RegistrationPanelView>, IInitializable, IStartable, IDisposable
     {
-        private const int NAME_LENGTH_MIN = 3;
+        private const int NAME_LENGTH_MIN = 5;
         private const string DEFAULT_AVATAR_PATH = "Assets/Resources/UI/HeroIcons/1129.png";
 
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly ClientRewardService _clientRewardService;
 
         private PlayerData _playerInfo;
 

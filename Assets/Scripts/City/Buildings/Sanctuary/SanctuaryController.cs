@@ -40,6 +40,7 @@ namespace City.Buildings.Sanctuary
             View.ReplacementButton.OnClickAsObservable().Subscribe(_ => ReplacementHero().Forget()).AddTo(Disposables);
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
             View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+            Resolver.Inject(View.CardsContainer);
         }
 
         protected override void OnLoadGame()

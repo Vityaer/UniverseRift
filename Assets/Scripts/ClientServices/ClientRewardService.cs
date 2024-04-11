@@ -21,13 +21,13 @@ namespace ClientServices
         private IDisposable _disposable;
         public ReactiveCommand OnGetReward = new ReactiveCommand();
 
-        public void ShowReward(GameReward reward)
+        public void ShowReward(GameReward reward, RewardType rewardType = RewardType.Simple)
         {
-            if (reward.Objects.Count == 0)
+            if (rewardType == RewardType.Simple && reward.Objects.Count == 0)
                 return;
 
             _disposable = _rewardPanelController.OnClose.Subscribe(_ => GetReward(reward));
-            _rewardPanelController.Open(reward);
+            _rewardPanelController.Open(reward, rewardType);
         }
 
         public void GetReward(GameReward reward)

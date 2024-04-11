@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using Ui.Misc.Widgets;
+using UIController;
 using UIController.ItemVisual;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ namespace City.TrainCamp.HeroPanels
         public TextMeshProUGUI textInitiative;
         public TextMeshProUGUI textStrengthHero;
         public CostUIList CostController;
+        public RatingHero RatingHeroController;
 
         [Header("Items")]
         public List<HeroItemCellController> CellsForItem = new List<HeroItemCellController>();

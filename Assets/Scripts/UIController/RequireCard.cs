@@ -1,5 +1,8 @@
 using City.Panels.SelectHeroes;
+using City.TrainCamp;
+using Db.CommonDictionaries;
 using Hero;
+using Models;
 using Models.City.TrainCamp;
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,8 @@ namespace UIController
         [SerializeField] private Card card;
         [SerializeField] private TextMeshProUGUI textCountRequirement;
         [SerializeField] private Image _icon;
+        [SerializeField] private TMP_Text _level;
+        [SerializeField] private RatingHero _ratingController;
 
         [Header("Panel select heroes")]
         public HeroCardsContainerController listCard;
@@ -30,27 +35,41 @@ namespace UIController
         private IDisposable _buttonDisposed;
 
         private ReactiveCommand<RequireCard> _onClick = new();
+        private GameHero _currentHero;
 
         public IObservable<RequireCard> OnClick => _onClick;
         public RequirementHeroModel RequirementHero => _requirementHero;
         public List<GameHero> SelectedHeroes => _selectedHeroes;
+        public Card Card => card;
 
         private void Start()
         {
             _buttonDisposed = Button?.OnClickAsObservable().Subscribe(_ => OpenListCard());
         }
 
-        public void SetData(RequirementHeroModel requirementHero)
+        public void SetData(GameHero currentHero, RequirementHeroModel requirementHero)
         {
-            _icon.sprite = SpriteUtils.LoadSprite(requirementHero.IconPath);
+            _currentHero = currentHero;
+            switch (requirementHero.RequireRace)
+            {
+                case EvolutionRequireType.EqualHero:
+                    var stage = (requirementHero.Rating / 5);
+                    _icon.sprite = currentHero.Prefab.Stages[stage].Avatar;
+                    break;
+                default:
+                    _icon.sprite = SpriteUtils.LoadSprite(requirementHero.IconPath);
+                    break;
+            }
             ClearData();
             _requirementHero = requirementHero;
             _requireSelectCount = requirementHero.Count;
-            card.SetData(requirementHero);
+            _level.text = string.Empty;
+            _ratingController.ShowRating(requirementHero.Rating);
+            card.SetRace(currentHero.Model.General.Race);
             UpdateUI();
         }
 
-        public void SetData(RequirementHeroModel requirementHero, List<GameHero> selectedHeroes)
+        public void SetProgress(RequirementHeroModel requirementHero, List<GameHero> selectedHeroes)
         {
             _icon.sprite = SpriteUtils.LoadSprite(requirementHero.IconPath);
             _selectedHeroes = new();
@@ -59,7 +78,6 @@ namespace UIController
 
             _requirementHero = requirementHero;
             _requireSelectCount = requirementHero.Count;
-            card.SetData(requirementHero);
             UpdateUI();
         }
 
@@ -98,10 +116,15 @@ namespace UIController
             return result;
         }
 
-        public void OpenListCard()
+        private void OpenListCard()
+        {
+            OnOpenList();
+            _onClick.Execute(this);
+        }
+
+        public void OnOpenList()
         {
             _disposables = new();
-            _onClick.Execute(this);
             listCard.OnSelect.Subscribe(AddHero).AddTo(_disposables);
             listCard.OnDiselect.Subscribe(RemoveHero).AddTo(_disposables);
         }

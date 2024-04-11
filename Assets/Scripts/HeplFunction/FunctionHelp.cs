@@ -147,19 +147,19 @@ public static class FunctionHelp
         string result = string.Empty;
         if (interval.Days > 0)
         {
-            result = String.Concat(interval.Days.ToString(), "d ", interval.Hours.ToString(), "h");
+            result = $"{interval.Days}d {interval.Hours}h";
         }
         else if (interval.Hours > 0)
         {
-            result = String.Concat(interval.Hours.ToString(), "h ", interval.Minutes.ToString(), "m");
+            result = $"{interval.Hours}h {interval.Minutes}m";
         }
         else if (interval.Minutes > 0)
         {
-            result = String.Concat(interval.Minutes.ToString(), "m ", interval.Seconds.ToString(), "s");
+            result = $"{interval.Minutes}m {interval.Seconds}s";
         }
         else
         {
-            result = String.Concat(interval.Seconds.ToString(), "s");
+            result = $"{interval.Seconds}s";
         }
         return result;
     }

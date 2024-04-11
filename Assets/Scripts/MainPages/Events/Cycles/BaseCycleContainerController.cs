@@ -1,5 +1,6 @@
 ﻿using Db.CommonDictionaries;
 using Models.Common;
+using System;
 using UIController;
 using UniRx;
 using UnityEngine;
@@ -19,6 +20,11 @@ namespace MainPages.Events.Cycles
 
         [SerializeField] protected SliderTime CycleGameEventSliderTime;
         [SerializeField] protected Button MainPanelButton;
+
+        public void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
+        {
+            CycleGameEventSliderTime.SetData(startDateTime, gameCycleTime);
+        }
 
         private void OnDestroy()
         {

@@ -1,15 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
-using Models.Common;
-using UnityEngine;
-using VContainer;
+﻿using UnityEngine;
 using VContainer.Unity;
 
 namespace Initializable
 {
     public class ProjectInitialize : IInitializable
     {
-        [Inject] private readonly CommonDictionaries _dictionaries;
 
         public void Initialize()
         {
@@ -17,7 +12,6 @@ namespace Initializable
 #if !UNITY_EDITOR
             Application.targetFrameRate = 60;
 #endif
-            _dictionaries.Init().Forget();
         }
     }
 }

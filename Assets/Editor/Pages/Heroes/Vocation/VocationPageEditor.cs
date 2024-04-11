@@ -30,11 +30,7 @@ namespace Pages.Heroes.Vocation
 
         public override void Save()
         {
-            var units = Vocations.Select(r => new VocationModel
-            {
-                Id = r.Id,
-                Name = r.Name
-            }).ToList();
+            var units = Vocations.Select(r => r.GetModel()).ToList();
 
             EditorUtils.Save(units);
             base.Save();
@@ -62,7 +58,7 @@ namespace Pages.Heroes.Vocation
             CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]
-        [LabelText("Rating")]
+        [LabelText("Vocations")]
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<VocationModelEditor> Vocations = new List<VocationModelEditor>();

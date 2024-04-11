@@ -29,19 +29,7 @@ namespace Models.Heroes.Evolutions
 
         public IncreaseCharacteristicsModel GetGrowth(int rating)
         {
-            return Stages[rating].IncCharacts;
-        }
-
-        public void ChangeData(GeneralInfoHero generalInfo)
-        {
-            var evolve = Stages[CurrentBreakthrough];
-            if (evolve.IsSeriousChange)
-            {
-                if (!evolve.NewName.IsNullOrWhitespace()) generalInfo.Name = evolve.NewName;
-                if (!evolve.NewModelId.IsNullOrWhitespace()) generalInfo.ViewId = evolve.NewModelId;
-                generalInfo.Race = evolve.NewRace;
-                generalInfo.ClassHero = evolve.NewClassHero;
-            }
+            return Stages[rating - 1].IncCharacts;
         }
 
         public Evolution Clone()

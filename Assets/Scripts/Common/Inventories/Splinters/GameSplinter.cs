@@ -5,13 +5,9 @@ using Models.Heroes;
 using Models.Inventory.Splinters;
 using System;
 using System.Linq;
-using System.Reflection;
 using UIController.Inventory;
-using UIController.ItemVisual;
 using UIController.Rewards.PosibleRewards;
-using Unity.Barracuda;
 using UnityEngine;
-using Utils;
 
 namespace Common.Inventories.Splinters
 {
@@ -23,7 +19,7 @@ namespace Common.Inventories.Splinters
         [SerializeField] private int requireCount;
         [Header("rewards")]
         public PosibleRewardData reward = new PosibleRewardData();
-        public string Rarity;
+        public Rare Rare;
 
         private SplinterModel _model;
         private CommonDictionaries _commonDictionaries;
@@ -35,7 +31,6 @@ namespace Common.Inventories.Splinters
         public string GetTextType => typeSplinter.ToString();
         public string GetTextDescription => string.Empty;
         public SplinterModel Model => _model;
-
         public int RequireAmount
         {
             get
@@ -43,12 +38,6 @@ namespace Common.Inventories.Splinters
                 if (requireCount <= 0) requireCount = CalculateRequire();
                 return requireCount;
             }
-        }
-
-        private int CalculateRequire()
-        {
-            //return (20 + ((int)this.rare * 10));
-            return 20;
         }
 
         public override Sprite Image
@@ -90,11 +79,24 @@ namespace Common.Inventories.Splinters
         {
             typeSplinter = SplinterType.Hero;
             //sprite = hero.General.ImageHero;
-            Rarity = hero.General.Rarity;
-            Id = hero.General.ViewId;
+            Rare = hero.General.Rare;
+            Id = hero.General.HeroId;
             reward = new PosibleRewardData();
             //reward.Add<GameHero>(Id);
             requireCount = CalculateRequire();
+        }
+
+        public GameSplinter(SplinterModel splinterModel, int amount)
+        {
+            _model = splinterModel;
+            Amount = amount;
+            GetDefaultData();
+        }
+
+        private int CalculateRequire()
+        {
+            //return (20 + ((int)this.rare * 10));
+            return 20;
         }
 
         public void SetCommonDictionaries(CommonDictionaries commonDictionaries)
@@ -111,8 +113,9 @@ namespace Common.Inventories.Splinters
             switch (_model.SplinterType)
             {
                 case SplinterType.Hero:
-                    var prefab = Resources.Load<HeroController>($"{Constants.ResourcesPath.HEROES_PATH}{_model.ModelId}");
-                    sprite = prefab.GetSprite;
+                    var path = $"{Constants.ResourcesPath.HEROES_PATH}{_model.ModelId}";
+                    var prefab = Resources.Load<HeroController>(path);
+                    sprite = prefab.Stages[0].Avatar;
                     break;
                 case SplinterType.Item:
                     var itemModel = _commonDictionaries.Items[_model.ModelId];

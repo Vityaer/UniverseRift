@@ -1,4 +1,5 @@
-﻿using Models.Grid;
+﻿using Cinemachine;
+using Models.Grid;
 using UnityEngine;
 using VContainerUi.Abstraction;
 
@@ -9,5 +10,6 @@ namespace Fight.Grid
         public BaseGrid Prefab;
         public Transform ParentTemplateObjects;
         public Transform GridParent;
+        public CinemachineVirtualCamera CinemachineVirtual;
     }
 }

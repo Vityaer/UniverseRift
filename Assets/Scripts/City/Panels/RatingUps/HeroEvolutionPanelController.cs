@@ -1,4 +1,6 @@
 using City.Panels.RatingUps;
+using City.Panels.RatingUps.EvolutionResultPanels;
+using City.TrainCamp.HeroInstances;
 using ClientServices;
 using Common.Heroes;
 using Common.Resourses;
@@ -28,6 +30,8 @@ namespace City.TrainCamp
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly HeroInstancesController _heroInstancesController;
+        [Inject] private readonly EvolutionResultPanelController _evolutionResultPanelController;
 
         private GameHero _currentHero;
         private RatingUpContainer _data;
@@ -45,13 +49,20 @@ namespace City.TrainCamp
             base.Start();
 
             View.ListRequirementHeroes.OnSelectRequireCard.Subscribe(SelectRequireCard).AddTo(Disposables);
+
+            foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
+            {
+                Resolver.Inject(requireCard.Card);
+            }
+            Resolver.Inject(View.RequireCardInfo.Card);
+            Resolver.Inject(View.CardsContainer);
         }
 
         public override void OnShow()
         {
             _currentHero = _heroPanelController.Hero;
             _data = _commonDictionaries.RatingUpContainers[$"{_currentHero.HeroData.Rating + 1}"];
-            View.ListRequirementHeroes.SetData(_data.RequirementHeroes);
+            View.ListRequirementHeroes.SetData(_currentHero, _data.RequirementHeroes);
 
             _cost.Clear();
             _cost = new List<GameResource>(_data.Cost.Count);
@@ -60,6 +71,8 @@ namespace City.TrainCamp
 
             View.CostController.ShowCosts(_cost);
             CheckCanUpdateRating();
+            _heroInstancesController.ShowHero(_currentHero);
+            View.RatingHeroController.ShowRating(_currentHero.HeroData.Rating);
         }
 
         private void SelectRequireCard(RequireCard card)
@@ -71,8 +84,9 @@ namespace City.TrainCamp
             View.CardsContainer.ShowCards(currentHeroes);
             View.CardsContainer.SelectCards(card.SelectedHeroes);
             View.SelectHeroesPanel.SetActive(true);
-            View.RequireCardInfo.SetData(card.RequirementHero, card.SelectedHeroes);
-            View.RequireCardInfo.OpenListCard();
+            View.RequireCardInfo.SetData(_currentHero, card.RequirementHero);
+            View.RequireCardInfo.SetProgress(card.RequirementHero, card.SelectedHeroes);
+            View.RequireCardInfo.OnOpenList();
         }
 
         private void CloseSelectedPanel()
@@ -85,7 +99,7 @@ namespace City.TrainCamp
 
             View.SelectHeroesPanel.SetActive(false);
             CheckCanUpdateRating();
-            
+
         }
 
         private bool Check—onformity(GameHero hero, RequirementHeroModel requirementHero)
@@ -150,8 +164,8 @@ namespace City.TrainCamp
 
         private void OnRatingUp()
         {
-            _observersRatingUp.OnAction(string.Empty, _currentHero.Model.General.Rating);
-            _observersRatingUp.OnAction(_currentHero.Model.General.ViewId, _currentHero.Model.General.Rating);
+            //_observersRatingUp.OnAction(string.Empty, _currentHero.Model.General.Rating);
+            //_observersRatingUp.OnAction(_currentHero.Model.General.ViewId, _currentHero.Model.General.Rating);
             _heroPanelController.UpdateInfoAboutHero();
         }
 
@@ -181,13 +195,13 @@ namespace City.TrainCamp
             if (!string.IsNullOrEmpty(result))
             {
                 _resourceStorageController.SubtractResource(_cost);
-                _currentHero.UpRating();
-                OnRatingUp();
 
                 foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
                     _heroesStorageController.RemoveHeroes(requireCard.SelectedHeroes);
 
                 Close();
+                _evolutionResultPanelController.OpenEvolvedHero(_currentHero);
+                OnRatingUp();
             }
         }
 

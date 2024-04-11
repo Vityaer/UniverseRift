@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 947086364882534050}
   - component: {fileID: 4565230538200950951}
   - component: {fileID: 857876655598678261}
-  - component: {fileID: 7980155565467180793}
-  m_Layer: 0
+  - component: {fileID: 1343167596335175528}
+  m_Layer: 7
   m_Name: hexagon
   m_TagString: HexagonCell
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1231748226215380614}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 5866526696664877878}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!212 &4565230538200950951
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -108,37 +108,19 @@ MonoBehaviour:
   neighbours: []
   heroScript: {fileID: 0}
   tr: {fileID: 947086364882534050}
---- !u!60 &7980155565467180793
-PolygonCollider2D:
+--- !u!65 &1343167596335175528
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1231748226215380614}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.85, y: 0.98}
-    newSize: {x: 8.5, y: 9.8}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.40786391, y: -0.23826623}
-      - {x: -0.42, y: 0.23016809}
-      - {x: 0.00403779, y: 0.4765326}
-      - {x: 0.41210845, y: 0.23744044}
-      - {x: 0.41400567, y: -0.23781775}
-      - {x: 0, y: -0.47657144}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.85, y: 0.99999994, z: 0.99999994}
+  m_Center: {x: 0, y: 0, z: -0.5}
 --- !u!1 &2744528995283099526
 GameObject:
   m_ObjectHideFlags: 0

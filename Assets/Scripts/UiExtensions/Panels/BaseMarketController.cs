@@ -13,6 +13,7 @@ using UIController.Inventory;
 using UIController.Misc.Widgets;
 using UnityEngine;
 using VContainer;
+using Common.Inventories.Splinters;
 
 namespace UiExtensions.Panels
 {
@@ -48,11 +49,16 @@ namespace UiExtensions.Panels
                         var item = new GameItem(itemModel, itemProductModel.Subject.Amount);
                         baseMarketProduct = new MarketProduct<GameItem>(itemProductModel, item);
                         break;
+                    case SplinterProductModel splinterProductModel:
+                        var splinterModel = _commonDictionaries.Splinters[splinterProductModel.Subject.Id];
+                        var splinter = new GameSplinter(splinterModel, splinterProductModel.Subject.Amount);
+                        baseMarketProduct = new MarketProduct<GameSplinter>(splinterProductModel, splinter);
+                        break;
                 }
 
                 var controller = Object.Instantiate(View.Prefab, View.Content);
                 productControllers.Add(controller);
-                _resolver.Inject(controller.ButtonCost);
+                Resolver.Inject(controller.ButtonCost);
                 controller.SetData(productId, baseMarketProduct, () => TryBuyProductOnServer(productId, 1).Forget());
             }
         }

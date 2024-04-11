@@ -1,14 +1,7 @@
-﻿using City.Buildings.Tavern;
-using Fight;
-using Hero;
-using Models.City.TrainCamp;
-using Models.Heroes.Evolutions;
+﻿using Models.Heroes.Evolutions;
 using Models.Heroes.HeroCharacteristics;
 using Models.Heroes.Skills;
-using System;
 using System.Collections.Generic;
-using UIController.Localization.Languages;
-using UnityEngine;
 
 namespace Models.Heroes
 {

@@ -1,4 +1,6 @@
 using City.Buildings.Abstractions;
+using City.Buildings.Mines.Panels.Travels;
+using City.TrainCamp.HeroPanels.HeroDetails;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;
@@ -14,6 +16,8 @@ using UIController.Rewards;
 using UniRx;
 using UnityEngine;
 using VContainer;
+using VContainerUi.Model;
+using VContainerUi.Messages;
 
 namespace City.Buildings.Mines
 {
@@ -27,7 +31,7 @@ namespace City.Buildings.Mines
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ClientRewardService _clientRewardService;
 
-        private List<MineData> _mineDatas = new List<MineData>();
+        private List<MineData> _mineDatas = new();
 
         public ReactiveCommand OnGetResource = new();
 
@@ -40,6 +44,7 @@ namespace City.Buildings.Mines
             _panelNewMineCreate.OnMineCreate.Subscribe(OnCreateNewMine).AddTo(Disposables);
             _panelMineInfo.OnMineDestroy.Subscribe(OnMineDestroy).AddTo(Disposables);
 
+            View.MineTavelOpenButton.OnClickAsObservable().Subscribe(_ => OpenMineTravelPage()).AddTo(Disposables);
             View.CollectAllButton.OnClickAsObservable().Subscribe(_ => GetResources().Forget()).AddTo(Disposables);
         }
 
@@ -126,6 +131,11 @@ namespace City.Buildings.Mines
                     break;
             }
             return result;
+        }
+
+        private void OpenMineTravelPage()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<MineTravelPanelController>(openType: OpenType.Exclusive);
         }
 
         private async UniTaskVoid GetResources()

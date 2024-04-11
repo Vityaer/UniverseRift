@@ -1,6 +1,9 @@
 ﻿using Editor.Common;
 using Models.Heroes;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using UnityEditor;
+using UnityEngine;
 
 namespace Editor.Pages.Heroes.Vocation
 {
@@ -22,14 +25,29 @@ namespace Editor.Pages.Heroes.Vocation
             set => _model.Id = value;
         }
 
+        private Sprite _sprite;
+
         [ShowInInspector]
-        [HorizontalGroup("1")]
-        [LabelText("Name")]
-        [LabelWidth(50)]
-        public string Name
+        [HorizontalGroup("3")]
+        [LabelText("SpritePath")]
+        [PreviewField(100, ObjectFieldAlignment.Left)]
+        public Sprite SpritePath
         {
-            get => _model.Name;
-            set => _model.Name = value;
+            get
+            {
+                if (_sprite == null)
+                {
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.SpritePath);
+                }
+
+                return _sprite;
+            }
+            set
+            {
+                _sprite = value;
+                var path = AssetDatabase.GetAssetPath(_sprite);
+                _model.SpritePath = path;
+            }
         }
     }
 }

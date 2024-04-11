@@ -32,14 +32,14 @@ namespace Fight.Grid
         {
             CellDirectionType direction = CellDirectionType.UpLeft;
             float deltaX = neighbourCell.Position.x - mainCell.Position.x;
-            float deltaY = neighbourCell.Position.y - mainCell.Position.y;
+            float deltaZ = neighbourCell.Position.z - mainCell.Position.z;
             if (deltaX > 0)
             {
-                if (deltaY > 0.1f)
+                if (deltaZ > 0.1f)
                 {
                     direction = CellDirectionType.UpRight;
                 }
-                else if (deltaY < -0.1f)
+                else if (deltaZ < -0.1f)
                 {
                     direction = CellDirectionType.BottomRight;
                 }
@@ -50,11 +50,11 @@ namespace Fight.Grid
             }
             else
             {
-                if (deltaY > 0.1f)
+                if (deltaZ > 0.1f)
                 {
                     direction = CellDirectionType.UpLeft;
                 }
-                else if (deltaY < -0.1f)
+                else if (deltaZ < -0.1f)
                 {
                     direction = CellDirectionType.BottomLeft;
                 }

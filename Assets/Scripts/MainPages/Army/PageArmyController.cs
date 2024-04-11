@@ -19,6 +19,7 @@ namespace UIController
 {
     public class PageArmyController : UiMainPageController<PageArmyView>, IInitializable
     {
+        [Inject] private IObjectResolver _resolver;
         [Inject] private readonly HeroPanelController _heroPanel;
         //[Inject] private readonly MainSwipeController _mainSwipeController;
         [Inject] private readonly HeroesStorageController _heroesStorageController;
@@ -35,6 +36,7 @@ namespace UIController
             base.Initialize();
             _heroPanel.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(_disposables);
+            _resolver.Inject(View.CardsContainer);
         }
 
         protected override void OnLoadGame()

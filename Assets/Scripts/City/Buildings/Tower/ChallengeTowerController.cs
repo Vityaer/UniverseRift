@@ -10,6 +10,7 @@ using Network.DataServer;
 using Network.DataServer.Messages.ChallengeTowers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -110,18 +111,20 @@ namespace City.Buildings.Tower
             if (!string.IsNullOrEmpty(result))
             {
                 var reward = new GameReward(missionModel.WinReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                _clientRewardService.ShowReward(reward, RewardType.Win);
             }
         }
 
         private async UniTaskVoid SendTryMissionData()
         {
+            UnityEngine.Debug.Log("SendTryMissionData");
             var message = new ChallengeTowerTryMissionMessage { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
             }
+            _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
         }
     }
 }

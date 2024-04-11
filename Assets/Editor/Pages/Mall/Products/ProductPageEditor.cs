@@ -40,6 +40,12 @@ namespace Editor.Pages.Mall.Products
                 .ForEach(product => product.Subject.CommonDictionaries = _dictionaries)
                 .ToList();
 
+            SplinterProducts = _products
+                .Where(product => product is SplinterProductModel)
+                .Select(product => product as SplinterProductModel)
+                .ForEach(product => product.Subject.CommonDictionaries = _dictionaries)
+                .ToList();
+
             DataExist = true;
         }
 
@@ -48,6 +54,7 @@ namespace Editor.Pages.Mall.Products
             var products = new List<BaseProductModel>();
             products.AddRange(ResourseProducts);
             products.AddRange(ItemProducts);
+            products.AddRange(SplinterProducts);
             EditorUtils.Save(products);
             base.Save();
         }
@@ -81,6 +88,28 @@ namespace Editor.Pages.Mall.Products
         {
             var targetElement = ItemProducts.First(e => e == light);
             ItemProducts.Remove(targetElement);
+        }
+
+        [ShowInInspector]
+        [ShowIf(nameof(DataExist))]
+        [HorizontalGroup("5")]
+        [LabelText("Splinter")]
+        [PropertyOrder(3)]
+        [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4,
+CustomAddFunction = nameof(AddSplinterElement), CustomRemoveElementFunction = nameof(RemoveSplinterElements))]
+        public List<SplinterProductModel> SplinterProducts = new List<SplinterProductModel>();
+
+        private void AddSplinterElement()
+        {
+            var item = new SplinterProductModel(_dictionaries);
+            SplinterProducts.Add(item);
+        }
+
+        private void RemoveSplinterElements(SplinterProductModel light, object b, List<SplinterProductModel> lights)
+        {
+            var targetElement = SplinterProducts.First(e => e == light);
+            SplinterProducts.Remove(targetElement);
         }
     }
 }

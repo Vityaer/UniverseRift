@@ -5,37 +5,43 @@ using UniRx;
 using Utils;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
-using VContainerUi.Interfaces;
 
 namespace Ui.LoadingScreen.Loading
 {
-    public class LoadingController : UiController<LoadingView>, IStartable
+    public class LoadingController : UiController<LoadingView>, IInitializable
     {
         private readonly ProgressBarController _progressBarController;
-        private readonly ProgressBarView _progressBarView;
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private readonly CommonDictionaries _commonDictionaries;
+
 #if UNITY_EDITOR
         private const int FILES_COUNT = 29;
 #else
         private const int FILES_COUNT = 30;
 #endif
         private float _progressFileDelta;
+        private bool _isOpen;
 
-        public LoadingController(CommonDictionaries _commonDictionaries, ProgressBarController progressBarController, ProgressBarView progressBarView)
+        public LoadingController(CommonDictionaries commonDictionaries, ProgressBarController progressBarController)
         {
-            _progressBarView = progressBarView;
             _progressBarController = progressBarController;
+            _commonDictionaries = commonDictionaries;
+        }
+
+        public void Initialize()
+        {
             _commonDictionaries.OnStartDownloadFiles.Subscribe(_ => OnStartDownload()).AddTo(_disposable);
             _commonDictionaries.OnFinishDownloadFiles.Subscribe(_ => OnFinishDownLoad()).AddTo(_disposable);
         }
 
-        public void Start()
-        {
-            ((IUiView)_progressBarView).SetParent(View.transform);
-        }
-
         public void OnStartDownload()
         {
+            if (_isOpen)
+                return;
+
+            _isOpen = true;
+
+            Show();
             TextUtils.DownloadProgress.Subscribe(ShowDownloadProgress).AddTo(_disposable);
             _progressBarController.Open();
             _progressFileDelta = 1f / FILES_COUNT;
@@ -49,6 +55,7 @@ namespace Ui.LoadingScreen.Loading
 
         private void OnFinishDownLoad()
         {
+            Hide();
             _progressBarController.Close();
         }
 
@@ -56,7 +63,6 @@ namespace Ui.LoadingScreen.Loading
         {
             _disposable?.Dispose();
         }
-
 
     }
 }

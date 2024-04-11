@@ -1,29 +1,31 @@
 ﻿using Fight.Common.Strikes;
 using Fight.HeroControllers.Generals;
+using System;
+using UniRx;
 using UnityEngine;
 
 namespace Fight
 {
     public class Arrow : MonoBehaviour
     {
-        protected Rigidbody2D rb;
+        protected Rigidbody rb;
         protected Transform tr;
         private bool isDone = false;
 
         protected HeroController target;
-        protected Strike strike = null;
         public float speed = 10f;
 
-        public delegate void Del();
-        protected Del delsCollision;
+        private ReactiveCommand<HeroController> _onReachTarget = new();
+
+        public IObservable<HeroController> OnReachTarget => _onReachTarget;
 
         void Awake()
         {
             tr = GetComponent<Transform>();
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<HeroController>() == target)
             {
@@ -37,12 +39,7 @@ namespace Fight
 
         protected virtual void CollisionTarget(HeroController target)
         {
-            if (strike != null)
-                target.ApplyDamage(strike);
-
-            if (delsCollision != null)
-                delsCollision();
-
+            _onReachTarget.Execute(target);
             OffArrow();
         }
 
@@ -51,23 +48,12 @@ namespace Fight
             Destroy(gameObject);
         }
 
-        public virtual void SetTarget(HeroController target, Strike strike)
+        public virtual void SetTarget(HeroController target)
         {
             this.target = target;
-            this.strike = strike;
-            Vector3 dir = target.GetPosition - tr.position;
-            dir.Normalize();
+            Vector3 dir = (target.transform.position - tr.position).normalized;
             rb.velocity = dir * speed;
-        }
-
-        public void RegisterOnCollision(Del d)
-        {
-            delsCollision += d;
-        }
-
-        public void UnRegisterOnCollision(Del d)
-        {
-            delsCollision -= d;
+            tr.forward = dir;
         }
     }
 }

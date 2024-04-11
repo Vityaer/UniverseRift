@@ -8,5 +8,6 @@ namespace City.Buildings.Mines
     {
         public List<PlaceForMine> MinePlaces = new List<PlaceForMine>();
         public Button CollectAllButton;
+        public Button MineTavelOpenButton;
     }
 }

@@ -11,6 +11,7 @@ using Network.DataServer;
 using Network.DataServer.Messages.Common;
 using Sirenix.Utilities;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using VContainer;
 
@@ -34,17 +35,23 @@ namespace Models.Common
         public BattlepasData BattlepasData = new();
         public CommunicationData CommunicationData = new();
 
-        public TemporallyData TemporallyData = new(); 
+        public TemporallyData TemporallyData = new();
 
+        public ReactiveCommand OnStartLoadData = new();
+        public ReactiveCommand OnFinishLoadData = new();
+        public ReactiveCommand OnLoadedData = new();
         public bool IsInited { get; private set; } = false;
 
         public async UniTaskVoid Init(int playerId)
         {
             var message = new GetPlayerSaveMessage { PlayerId = playerId };
+            OnStartLoadData.Execute();
+            
             var result = await DataServer.PostData(message);
             if (result.IsNullOrWhitespace())
                 return;
 
+            OnFinishLoadData.Execute();
             var data = _jsonConverter.FromJson<CommonGameData>(result);
 
             City = data.City;
@@ -64,6 +71,7 @@ namespace Models.Common
             }
 
             IsInited = true;
+            OnLoadedData.Execute();
             Debug.Log($"data loaded, PLAYER_ID: {PlayerInfoData.Id}");
         }
     }

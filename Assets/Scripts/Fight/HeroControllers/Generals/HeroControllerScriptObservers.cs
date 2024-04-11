@@ -33,7 +33,7 @@ namespace Fight.HeroControllers.Generals
         public void RegisterOnGetListForSpell(DelListTarget d) { delsOnListSpell += d; }
         //Action event	
         protected void OnStartFight() { if (delsOnStartFight != null) delsOnStartFight(); }
-        protected void OnStrike() { if (delsOnStrike != null) delsOnStrike(listTarget); }
+        protected void OnStrike() { if (delsOnStrike != null) delsOnStrike(ListTarget); }
         protected void OnTakingDamage() { if (delsOnTakingDamage != null) delsOnTakingDamage(); }
         protected void OnDeathHero() { if (delsOnDeathHero != null) delsOnDeathHero(); }
         protected void OnHeal() { if (delsOnHeal != null) delsOnHeal(); }

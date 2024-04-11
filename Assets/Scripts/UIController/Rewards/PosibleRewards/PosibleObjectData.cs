@@ -1,5 +1,4 @@
 ﻿using Common;
-using Common.Inventories.Splinters;
 using Db.CommonDictionaries;
 using Models.Data.Inventories;
 using Newtonsoft.Json;
@@ -20,7 +19,7 @@ namespace UIController.Rewards.PosibleRewards
         where T : InventoryBaseItem
     {
         public T Value;
-        [JsonIgnore] public CommonDictionaries CommonDictionaries;
+        [JsonIgnore] public CommonDictionaries CommonDictionaries { get; set; }
 
         public override BaseObject CreateGameObject()
         {

@@ -54,26 +54,38 @@ namespace Fight.Grid
 
         private void StartFight()
         {
+            Camera.main.orthographic = false;
+            View.CinemachineVirtual.Priority = 11;
             _tokenSource = new CancellationTokenSource();
             CheckClick(_tokenSource.Token).Forget();
         }
 
         private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
         {
-            Debug.Log("start check click");
             RaycastHit2D hit;
-            while (true)
+            var cellLayer = LayerMask.GetMask("Grid");
+            while (!cancellationToken.IsCancellationRequested)
             {
                 if (Input.GetMouseButtonDown(0) && PlayerCanController)
                 {
-                    hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.down);
+                    var direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out var raycast, Mathf.Infinity, cellLayer))
+                    {
+                        if (raycast.collider.TryGetComponent<HexagonCell>(out var hexagonCell))
+                        {
+                            hexagonCell.ClickOnMe();
+                        }
+                    }
+
+                    hit = Physics2D.Raycast(direction, Vector3.down);
                     if (hit.transform != null)
                     {
-                        if (hit.transform.CompareTag("HexagonCell"))
-                        {
-                            HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
-                            HexagonCell.ClickOnMe();
-                        }
+                        //if (hit.transform.CompareTag("HexagonCell"))
+                        //{
+                        //    HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
+                        //    HexagonCell.ClickOnMe();
+                        //}
                         if (hit.transform.CompareTag("Hero"))
                         {
                             hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
@@ -84,43 +96,6 @@ namespace Fight.Grid
             }
 
         }
-
-        //private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
-        //{
-        //    RaycastHit2D hit;
-        //    var cellLayer = LayerMask.GetMask("Grid");
-        //    while (!cancellationToken.IsCancellationRequested)
-        //    {
-        //        if (Input.GetMouseButtonDown(0) && PlayerCanController)
-        //        {
-        //            var direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        //            if (Physics.Raycast(Camera.main.transform.position, direction, out var raycast, Mathf.Infinity, cellLayer))
-        //            {
-        //                if (raycast.collider.TryGetComponent<HexagonCell>(out var HexagonCell))
-        //                {
-        //                    HexagonCell.ClickOnMe();
-        //                }
-        //            }
-
-        //            hit = Physics2D.Raycast(direction, Vector3.down);
-        //            if (hit.transform != null)
-        //            {
-        //                //if (hit.transform.CompareTag("HexagonCell"))
-        //                //{
-        //                //    HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
-        //                //    HexagonCell.ClickOnMe();
-        //                //}
-        //                if (hit.transform.CompareTag("Hero"))
-        //                {
-        //                    hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
-        //                }
-        //            }
-        //        }
-        //        await UniTask.Yield(cancellationToken: cancellationToken);
-        //    }
-
-        //}
 
         public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
         {
@@ -145,11 +120,14 @@ namespace Fight.Grid
         {
             _tokenSource.Cancel();
             _grid.CloseGrid();
+
+            Camera.main.orthographic = true;
+            View.CinemachineVirtual.Priority = 0;
         }
 
         public void ShowAttackDirections(Action<CellDirectionType> action, HexagonCell cell, List<NeighbourCell> neighbours)
         {
-            Debug.Log($"show attack directions: {neighbours.Count}");
+            //Debug.Log($"show attack directions: {neighbours.Count}");
             _fightDirectionController.MelleeAttackController.RegisterOnSelectDirection(action, cell, neighbours);
         }
 

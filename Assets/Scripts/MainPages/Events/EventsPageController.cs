@@ -6,6 +6,7 @@ using Models.Common;
 using UiExtensions.MainPages;
 using UniRx;
 using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Interfaces;
@@ -51,9 +52,10 @@ namespace MainPages.Events
             _resolver.Inject(containerController);
             eventContainer.Active();
             View.EventCycleName.text = $"{_commonGameData.CycleEventsData.CurrentEventType}";
-
-            //var startDateTime = TimeUtils.ParseTime(_commonGameData.CycleEventsData.StartGameCycleDateTime);
-            //View.CycleGameEventSliderTime.SetData(startDateTime, GameCycleTime);
+            Debug.Log(_commonGameData.CycleEventsData.StartGameCycleDateTime);
+            var startDateTime = TimeUtils.ParseTime(_commonGameData.CycleEventsData.StartGameCycleDateTime) - Constants.Game.GameCycleTime;
+            View.SliderEventLeftTime.SetData(startDateTime, Constants.Game.GameCycleTime);
+            containerController.SetData(startDateTime, Constants.Game.GameCycleTime);
         }
     }
 }

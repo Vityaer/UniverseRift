@@ -1,27 +1,31 @@
-﻿using City.Panels.SelectHeroes;
+﻿using Db.CommonDictionaries;
 using Hero;
 using Models.City.TrainCamp;
-using Models.Heroes;
 using System;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace UIController.Cards
 {
     public class Card : MonoBehaviour, IDisposable
     {
+        [Inject] private CommonDictionaries _commonDictionaries;
+
         public GameHero Hero;
         public bool Selected = false;
 
         [SerializeField] private Image _imageUI;
         [SerializeField] private TextMeshProUGUI _levelUI;
         [SerializeField] private Image _panelSelect;
-        [SerializeField] private VocationView _vocationUI;
+        [SerializeField] private CardDetailImageView _vocationUI;
         [SerializeField] private Button Button;
         [SerializeField] private RatingHero _ratingController;
-        
+        [SerializeField] private CardDetailImageView _vocation;
+        [SerializeField] private CardDetailImageView _race;
+
         private ReactiveCommand<Card> _onClick = new ReactiveCommand<Card>();
         private CompositeDisposable _disposables = new CompositeDisposable();
         private IDisposable _heroSubscribe;
@@ -33,17 +37,8 @@ namespace UIController.Cards
             Button.OnClickAsObservable().Subscribe(_ => ClickOnCard()).AddTo(_disposables);
         }
 
-        public void SetData(RequirementHeroModel requirementHero)
-        {
-            gameObject.SetActive(true);
-            _levelUI.text = string.Empty;
-            _ratingController.ShowRating(requirementHero.Rating);
-            // vocationUI.SetData(requirementHero.);
-            // raceUI.SetData(requirementHero.);
-        }
-
         public void SetData(GameHero hero)
-        {   
+        {
             if (Selected)
                 Unselect();
 
@@ -55,6 +50,8 @@ namespace UIController.Cards
         private void UpdateUI()
         {
             _imageUI.sprite = Hero.Avatar;
+            _vocation.SetData(_commonDictionaries.Vocations[Hero.Model.General.Vocation].SpritePath);
+            _race.SetData(_commonDictionaries.Races[Hero.Model.General.Race].SpritePath);
             _levelUI.text = $"{Hero.HeroData.Level}";
             _ratingController.ShowRating(Hero.HeroData.Rating);
 
@@ -91,6 +88,11 @@ namespace UIController.Cards
         {
             _heroSubscribe.Dispose();
             _disposables.Dispose();
+        }
+
+        public void SetRace(string race)
+        {
+            _race.SetData(_commonDictionaries.Races[race].SpritePath);
         }
     }
 }

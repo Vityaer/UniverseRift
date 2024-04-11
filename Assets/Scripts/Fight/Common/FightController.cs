@@ -40,6 +40,7 @@ namespace Fight
         public ReactiveCommand OnEndRound = new ReactiveCommand();
         public ReactiveCommand OnStartFight = new ReactiveCommand();
         public ReactiveCommand OnFinishFight = new ReactiveCommand();
+        public ReactiveCommand AfterCreateFight = new();
 
         private bool _isFightFinish = false;
         private int _currentHeroIndex = -1;
@@ -71,6 +72,9 @@ namespace Fight
 
         private async UniTaskVoid WaitDelayBeforeStartFight()
         {
+            await UniTask.Delay(1000);
+            AfterCreateFight.Execute();
+
             for (int i = 3; i > 0; i--)
             {
                 View.NumRoundText.text = $"{i}";
@@ -110,11 +114,13 @@ namespace Fight
         public void AddHeroWithAction(HeroController newHero)
         {
             _listHeroesWithAction.Add(newHero);
+            //Debug.Log($"AddHeroWithAction {newHero.name} стало: {_listHeroesWithAction.Count}");
         }
 
         public void RemoveHeroWithAction(HeroController removeHero)
         {
             _listHeroesWithAction.Remove(removeHero);
+            //Debug.Log($"RemoveHeroWithAction {removeHero.name} осталось: {_listHeroesWithAction.Count}");
             if (_listHeroesWithAction.Count == 0)
                 NextHero();
         }
@@ -122,6 +128,7 @@ namespace Fight
         public void RemoveHeroWithActionAll(HeroController removeHero)
         {
             _listHeroesWithAction.RemoveAll(x => x == removeHero);
+            //Debug.Log($"RemoveHeroWithActionAll {removeHero.name}, осталось: {_listHeroesWithAction.Count}");
 
             if (_listHeroesWithAction.Count == 0)
                 NextHero();
@@ -207,10 +214,23 @@ namespace Fight
         private void Win(Side side)
         {
             _isFightFinish = true;
-            OnFinishFight.Execute();
             _fightDirectionController.CloseControllers();
             FinishFightCountdown(side).Forget();
+        }
 
+        private async UniTaskVoid FinishFightCountdown(Side side)
+        {
+            View.NumRoundText.text = "Конец боя!";
+
+            if (side == Side.Right) CheckSaveResult();
+            await UniTask.Delay(2500);
+
+            var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
+            OnFinishFight.Execute();
+            View.NumRoundText.text = string.Empty;
+            ClearAll();
+
+            _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
             if (side == Side.Left)
             {
                 //MessageController.Instance.AddMessage("Ты выиграл!");
@@ -221,23 +241,6 @@ namespace Fight
                 //MessageController.Instance.AddMessage("Ты проиграл!");
                 _onFightResult.Execute(FightResultType.Defeat);
             }
-
-
-        }
-
-        private async UniTaskVoid FinishFightCountdown(Side side)
-        {
-            Debug.Log("finish fight");
-            View.NumRoundText.text = "Конец боя!";
-
-            if (side == Side.Right) CheckSaveResult();
-            await UniTask.Delay(2500);
-
-            var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
-            OnFinishFight.Execute();
-            View.NumRoundText.text = string.Empty;
-            _messagesPublisher.BackWindowPublisher.BackWindow();
-            ClearAll();
         }
 
         void ClearAll()

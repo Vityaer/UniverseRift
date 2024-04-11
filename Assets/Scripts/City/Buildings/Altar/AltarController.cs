@@ -43,6 +43,7 @@ namespace Altar
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
             View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
             View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes().Forget()).AddTo(Disposables);
+            Resolver.Inject(View.CardsContainer);
         }
 
         protected override void OnLoadGame()

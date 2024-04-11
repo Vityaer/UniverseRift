@@ -1,7 +1,8 @@
-﻿using TMPro;
+﻿using City.Panels.Units;
+using System.Collections.Generic;
+using TMPro;
 using Ui.Misc.Widgets;
 using UIController;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace City.Buildings.Voyage.Panels
@@ -12,5 +13,7 @@ namespace City.Buildings.Voyage.Panels
         public RewardUIController rewardController;
         public TMP_Text StatusMissionText;
         public Button MainButton;
+
+        public List<UnitCell> UnitCells;
     }
 }

@@ -79,12 +79,15 @@ namespace UIController.Inventory
                 switch (_splinter.typeSplinter)
                 {
                     case SplinterType.Hero:
-                        var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
-                        for (var i = 0; i < newHeroes.Count; i++)
+                        var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
+
+                        var heroes = new List<GameHero>(newHeroDatas.Count);
+                        for (var i = 0; i < newHeroDatas.Count; i++)
                         {
-                            var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
-                            var hero = new GameHero(model, newHeroes[i]);
+                            var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
+                            var hero = new GameHero(model, newHeroDatas[i]);
                             _heroesStorageController.AddHero(hero);
+                            heroes.Add(hero);
                         }
                         break;
                     case SplinterType.Item:

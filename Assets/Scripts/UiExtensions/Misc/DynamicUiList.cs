@@ -4,7 +4,6 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
-using static UnityEditor.Rendering.FilterWindow;
 
 namespace UiExtensions.Misc
 {

@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Abstractions;
+using City.Panels.HeroesHireResultPanels;
 using ClientServices;
 using Common.Heroes;
 using Common.Resourses;
@@ -27,6 +28,7 @@ namespace City.Buildings.MagicCircle
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly HeroesHireResultPanelController _heroesHireResultPanelController;
 
         private string _selectedRace;
         private List<HeroModel> _listHeroes = new List<HeroModel>();
@@ -59,19 +61,21 @@ namespace City.Buildings.MagicCircle
             var result = await DataServer.PostData(message);
             if(!string.IsNullOrEmpty(result))
             {
-                var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
+                var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
 
-                for (int i = 0; i < newHeroes.Count; i++)
+                var heroes = new List<GameHero>(newHeroDatas.Count);
+                for (int i = 0; i < newHeroDatas.Count; i++)
                 {
-                    Debug.Log($"{newHeroes[i].Id}");
-                    var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
-                    var hero = new GameHero(model, newHeroes[i]);
-                    hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+                    var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
+                    var hero = new GameHero(model, newHeroDatas[i]);
+                    hero.Model.General.HeroId = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
                     AddNewHero(hero);
+                    heroes.Add(hero);
                 }
                 _resourceStorageController.SubtractResource(_raceHireCost * count);
 
                 _onRaceHire.Execute(count);
+                _heroesHireResultPanelController.ShowHeroes(heroes);
             }
         }
 

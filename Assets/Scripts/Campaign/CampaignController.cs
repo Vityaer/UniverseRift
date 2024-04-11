@@ -142,9 +142,13 @@ namespace Campaign
             {
                 _infoMission.MissionWin();
                 var reward = new GameReward(_infoMission.mission.WinReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                _clientRewardService.ShowReward(reward, RewardType.Win);
                 SetAutoFightMission(_infoMission);
                 OpenNextMission();
+            }
+            else if (result == FightResultType.Defeat)
+            {
+                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
             }
 
             base.OnResultFight(result);

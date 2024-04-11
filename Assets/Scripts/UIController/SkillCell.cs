@@ -19,7 +19,7 @@ namespace UIController
             textNameSkill.text = skill.Name;
             textDescriptionSkill.text = skill.Description;
             textLevelSkill.text = string.Concat("Уровень ", (skill.Level + 1).ToString());
-            imageSkill.sprite = skill.image;
+            imageSkill.sprite = skill.Icon;
             mainPanel.SetActive(true);
         }
 

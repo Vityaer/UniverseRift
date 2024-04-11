@@ -3,7 +3,9 @@ using Editor.Common;
 using Models.Heroes;
 using Models.Heroes.Evolutions;
 using Models.Heroes.HeroCharacteristics;
+using Models.Heroes.Skills;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Editor.Pages.Heroes
@@ -14,6 +16,8 @@ namespace Editor.Pages.Heroes
         private CommonDictionaries _dictionaries;
 
         private string[] _allResistances => _dictionaries.Resistances.Select(c => c.Value).Select(r => r.Id).ToArray();
+        private string[] _allRaces => _dictionaries.Races.Select(c => c.Value).Select(r => r.Id).ToArray();
+        private string[] _allVocations => _dictionaries.Vocations.Select(c => c.Value).Select(r => r.Id).ToArray();
 
         public HeroModelEditor(HeroModel model, CommonDictionaries commonDictionaries)
         {
@@ -39,13 +43,37 @@ namespace Editor.Pages.Heroes
             set => _model.Id = value;
         }
 
-        [ShowInInspector]
-        [LabelText("GeneralInfo")]
-        [LabelWidth(150)]
-        public GeneralInfoHero General
+        [FoldoutGroup("GeneralInfo", expanded: true)]
+        public string HeroId
         {
-            get => _model.General;
-            set => _model.General = value;
+            get => _model.General.HeroId;
+            set => _model.General.HeroId = value;
+        }
+
+        [ShowInInspector]
+        [FoldoutGroup("GeneralInfo")]
+        [ValueDropdown(nameof(_allRaces), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public string Race
+        {
+            get => _model.General.Race;
+            set => _model.General.Race = value;
+        }
+
+        [ShowInInspector]
+        [FoldoutGroup("GeneralInfo")]
+        [ValueDropdown(nameof(_allVocations), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public string ClassHero
+        {
+            get => _model.General.Vocation;
+            set => _model.General.Vocation = value;
+        }
+
+        [ShowInInspector]
+        [FoldoutGroup("GeneralInfo")]
+        public Rare Rare
+        {
+            get => _model.General.Rare;
+            set => _model.General.Rare = value;
         }
 
         [ShowInInspector]
@@ -84,6 +112,14 @@ namespace Editor.Pages.Heroes
             get => _model.Resistances;
             set => _model.Resistances = value;
         }
-        
+
+        [ShowInInspector]
+        [LabelText("Skills")]
+        [LabelWidth(150)]
+        public List<Skill> Skills
+        {
+            get => _model.Skills;
+            set => _model.Skills = value;
+        }
     }
 }

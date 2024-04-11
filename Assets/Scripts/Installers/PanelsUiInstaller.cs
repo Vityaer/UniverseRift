@@ -16,6 +16,7 @@ using City.Buildings.Mails.LetterPanels;
 using City.Buildings.Mines;
 using City.Buildings.Mines.Panels;
 using City.Buildings.Mines.Panels.CreateMines;
+using City.Buildings.Mines.Panels.Travels;
 using City.Buildings.PlayerPanels;
 using City.Buildings.PlayerPanels.AvatarPanels;
 using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
@@ -36,6 +37,7 @@ using City.Panels.Events.FortuneCycles;
 using City.Panels.Events.RaceCircleCycles;
 using City.Panels.Events.SweetCycles;
 using City.Panels.Events.TavernCycleMainPanels;
+using City.Panels.HeroesHireResultPanels;
 using City.Panels.Inventories;
 using City.Panels.MonthTasks.Abstractions;
 using City.Panels.MonthTasks.Arena;
@@ -46,6 +48,7 @@ using City.Panels.NewLevels;
 using City.Panels.OtherPlayers.MainPanels;
 using City.Panels.PosibleHeroes;
 using City.Panels.RatingUps;
+using City.Panels.RatingUps.EvolutionResultPanels;
 using City.Panels.Registrations;
 using City.Panels.Rewards;
 using City.Panels.SubjectPanels;
@@ -55,13 +58,17 @@ using City.TrainCamp;
 using City.TrainCamp.HeroPanels;
 using City.TrainCamp.HeroPanels.HeroDetails;
 using MainPages.Events.Cycles.TavernCycles.Panels;
+using Ui.LoadingScreen.Loading;
+using Ui.LoadingScreen.ProgressBar;
 using UIController;
 using UIController.Common;
 using UIController.ControllerPanels.AlchemyPanels;
 using UIController.ControllerPanels.MarketResources;
 using UIController.ControllerPanels.PlayerNames;
 using UIController.ControllerPanels.SelectCount;
+using UIController.FadeInOutPanels;
 using UIController.Inventory;
+using UIController.LoadingUI;
 using UnityEngine;
 using VContainer;
 using VContainer.Extensions;
@@ -114,6 +121,7 @@ namespace Installers
         [SerializeField] private ConfirmationPanelView _confirmationPanelView;
         [SerializeField] private VoyageMissionPanelView _voyageMissionPanelView;
         [SerializeField] private AlchemyPanelView _alchemyPanelView;
+        [SerializeField] private EvolutionResultPanelView _evolutionResultPanelView;
         
         [Header("Month Tasks")]
         [SerializeField] private MonthArenaPanelView _monthArenaPanelView;
@@ -136,19 +144,36 @@ namespace Installers
         [SerializeField] private FortuneCycleMainPanelView _fortuneCycleMainPanelView;
         [SerializeField] private SweetCycleMainPanelView _sweetCycleMainPanelView;
         [SerializeField] private RaceCicrleCycleMainPanelView _raceCicrleCycleMainPanelView;
-        
-            
+
+        [Header("Heroes")]
+        [SerializeField] private HeroesHireResultPanelView _heroesHireResultPanelView;
+
+        [Header("Mines")]
+        [SerializeField] private MineTravelPanelView _mineTravelPanelView;
+
+        [Header("FideInOut")]
+        [SerializeField] private FadeInOutPanelView _fadeInOutPanelView;
+
+        [Header("Misc")]
+        [SerializeField] private StartLoadingView _startLoadingView;
+        [SerializeField] private LoadingView _loadingView;
+        [SerializeField] private ProgressBarView _progressBarView;
+
+
+
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
             canvas.gameObject.name = MAIN_PANELS;
             canvas.GetComponent<Canvas>().sortingOrder = CANVAS_ORDER;
 
+
             builder.RegisterUiView<DailyRewardPanelController, DailyRewardPanelView>(_dailyRewardPanelView, canvas.transform);
             builder.RegisterUiView<DailyTaskPanelController, DailyTaskPanelView>(_dailyTaskPanelView, canvas.transform);
             builder.RegisterUiView<PlayerPanelController, PlayerPanelView>(_playerPanelView, canvas.transform);
             builder.RegisterUiView<RegistrationPanelController, RegistrationPanelView>(_registrationPanelView, canvas.transform);
             builder.RegisterUiView<HeroEvolutionPanelController, HeroEvolutionPanelView>(_ratingUpPanelView, canvas.transform);
+            builder.RegisterUiView<EvolutionResultPanelController, EvolutionResultPanelView>(_evolutionResultPanelView, canvas.transform);
             builder.RegisterUiView<PosibleHeroesPanelController, PosibleHeroesPanelView>(_posibleHeroesPanelView, canvas.transform);
             builder.RegisterUiView<ItemPanelController, ItemPanelView>(_itemPanelView, canvas.transform);
             builder.RegisterUiView<ResourcePanelController, ResourcePanelView>(_resourcePanelView, canvas.transform);
@@ -169,7 +194,8 @@ namespace Installers
 
             builder.RegisterUiView<InfoMinePanelController, InfoMinePanelView>(_infoMinePanelView, canvas.transform);
             builder.RegisterUiView<CreateMinePanelController, CreateMinePanelView>(_createMinePanelView, canvas.transform);
-            
+            builder.RegisterUiView<MineTravelPanelController, MineTravelPanelView>(_mineTravelPanelView, canvas.transform);
+
             builder.RegisterUiView<RatingArenaPanelController, RatingArenaPanelView>(_ratingArenaPanelView, canvas.transform);
             builder.RegisterUiView<SimpleArenaPanelController, SimpleArenaPanelView>(_simpleArenaPanelView, canvas.transform);
             builder.RegisterUiView<TournamentPanelController, TournamentPanelView>(_tournamentPanelView, canvas.transform);
@@ -208,7 +234,12 @@ namespace Installers
             
             builder.RegisterUiView<AlchemyPanelController, AlchemyPanelView>(_alchemyPanelView, canvas.transform);
 
-            
+            builder.RegisterUiView<HeroesHireResultPanelController, HeroesHireResultPanelView>(_heroesHireResultPanelView, canvas.transform);
+
+            builder.RegisterUiView<StartLoadingController, StartLoadingView>(_startLoadingView, canvas.transform);
+            builder.RegisterUiView<LoadingController, LoadingView>(_loadingView, canvas.transform);
+            builder.RegisterUiView<ProgressBarController, ProgressBarView>(_progressBarView, canvas.transform);
+            builder.RegisterUiView<FadeInOutPanelController, FadeInOutPanelView>(_fadeInOutPanelView, canvas.transform);
         }
     }
 }

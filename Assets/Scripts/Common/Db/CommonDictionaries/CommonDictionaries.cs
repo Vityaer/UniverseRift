@@ -160,7 +160,7 @@ namespace Db.CommonDictionaries
 #else
             var needUpdateConfig = await IsNeedUpdateConfig();
 #endif
-                if (!IsDownloadedInLocalStorage || needUpdateConfig)
+            if (!IsDownloadedInLocalStorage || needUpdateConfig)
             {
                 OnStartDownloadFiles.Execute();
                 await LoadFromRemoteDirectory();

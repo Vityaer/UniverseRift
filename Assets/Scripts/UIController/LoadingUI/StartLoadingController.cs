@@ -1,30 +1,67 @@
-using TMPro;
-using UnityEngine;
+using DG.Tweening;
+using Models.Common;
+using System;
+using UniRx;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
 namespace UIController.LoadingUI
 {
-    public class StartLoadingController : UiController<StartLoadingView>, IStartable
+    public class StartLoadingController : UiController<StartLoadingView>, IInitializable, IDisposable
     {
-        private const float LOADING_TIME = 2f;
+        private readonly CompositeDisposable _disposable = new();
+        private readonly CommonGameData _commonGameData;
 
-        [SerializeField] private Vector2Int data = new Vector2Int(0, 0);
+        private bool _isOpen;
+        private Tween _tween;
 
-        public void Start()
+        public StartLoadingController(CommonGameData commonGameData)
         {
-#if UNITY_EDITOR_WIN
-            View.gameObject.SetActive(false);
-#else
-            View.gameObject.SetActive(false);
-#endif
+            _commonGameData = commonGameData;
         }
 
-        private void ChangeLoadedStage(Vector2Int newData)
+        public void Initialize()
         {
-            Debug.Log("load");
-            data = newData;
-            View.LoadingGameSlider.SetData(newData.x, newData.y);
+            View.LoadingSlider.value = 0f;
+            _commonGameData.OnStartLoadData.Subscribe(_ => OnStartDownload()).AddTo(_disposable);
+            _commonGameData.OnFinishLoadData.Subscribe(_ => OnFinishDownLoad()).AddTo(_disposable);
+        }
+
+        public void OnStartDownload()
+        {
+            if (_isOpen)
+                return;
+
+            _isOpen = true;
+            Show();
+        }
+
+        protected override void Show()
+        {
+            base.Show();
+            View.LoadingText.text = "Loading account data...";
+            _tween.Kill();
+            _tween = View.LoadingSlider.DOValue(1f, View.AnimationTime);
+        }
+
+        private void OnFinishDownLoad()
+        {
+            Hide();
+        }
+
+        protected override void Hide()
+        {
+            View.LoadingText.text = "Loading complete!";
+            _tween.Kill();
+            var time = (1f - View.LoadingSlider.value) * View.AnimationFinishTime;
+            _tween  = DOTween.Sequence()
+                .Append(View.LoadingSlider.DOValue(1f, time).OnComplete(() => base.Hide()));
+        }
+
+        public void Dispose()
+        {
+            _tween.Kill();
+            _disposable?.Dispose();
         }
 
     }

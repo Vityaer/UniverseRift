@@ -1,8 +1,12 @@
 using Effects;
 using Fight.FightInterface;
 using Fight.Grid;
+using Fight.HeroControllers.VisualModels;
 using Fight.Misc;
+using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
+using Utils;
 using VContainer;
 
 namespace Fight.HeroControllers.Generals
@@ -14,11 +18,17 @@ namespace Fight.HeroControllers.Generals
         [SerializeField] bool isFacingRight = true;
 
         [SerializeField] private Transform BodyParent;
-        public OutlineController outlineController;
+
+        [SerializeField] private List<HeroVisualModel> _stages = new(); 
 
         private SpriteRenderer _spriteRenderer;
-        public Sprite GetSprite => GetSpriteRenderer.sprite;
+        private HeroVisualModel _currentHeroVisualModel;
+
+        public Sprite Avatar => _currentHeroVisualModel.Avatar;
+        public OutlineController OutlineController => _currentHeroVisualModel.OutlineController;
+        public Animator Animator => _currentHeroVisualModel.Animator;
         public bool SpellExist => CheckExistAnimation(ANIMATION_SPELL);
+        public List<HeroVisualModel> Stages => _stages;
 
         public SpriteRenderer GetSpriteRenderer
         {
@@ -30,16 +40,26 @@ namespace Fight.HeroControllers.Generals
             }
         }
 
+        public void SetStage(int index)
+        {
+            if (!ReferenceEquals(_currentHeroVisualModel, null))
+                _currentHeroVisualModel.Deactivate();
+
+            index = Mathf.Clamp(index, 0, _stages.Count);
+            _currentHeroVisualModel = _stages[index];
+            _currentHeroVisualModel.Activate();
+        }
+
         protected virtual void PrepareOnStartTurn()
         {
             needFlip = false;
             FindAvailableCells();
-            listTarget.Clear();
+            ListTarget.Clear();
 
             if (this.Side == Side.Left)
             {
                 _directionController.OpenControllers(this);
-                outlineController.SwitchOn();
+                OutlineController.SwitchOn();
                 WaitingSelectTarget();
             }
             else
@@ -75,7 +95,7 @@ namespace Fight.HeroControllers.Generals
         {
             isFacingRight = !isFacingRight;
             Vector3 locScale = BodyParent.localScale;
-            locScale.x *= -1;
+            locScale.z *= -1;
             BodyParent.localScale = locScale;
         }
 
@@ -84,7 +104,7 @@ namespace Fight.HeroControllers.Generals
 
         protected void RefreshOnEndRound()
         {
-            currentCountCounterAttack = hero.GetBaseCharacteristic.CountCouterAttack;
+            CurrentCountCounterAttack = hero.GetBaseCharacteristic.CountCouterAttack;
         }
 
         protected void ShakeCamera()
@@ -102,7 +122,7 @@ namespace Fight.HeroControllers.Generals
         protected bool CanCounterAttack(HeroController heroForCounterAttack, HeroController heroWasAttack)
         {
             bool result = false;
-            if ((currentCountCounterAttack > 0) && (statusState.PermissionAction() == true) && !isDeath)
+            if ((CurrentCountCounterAttack > 0) && (statusState.PermissionAction() == true) && !_isDeath)
             {
                 result = true;
             }
@@ -111,8 +131,8 @@ namespace Fight.HeroControllers.Generals
 
         private void CreateSpell()
         {
-            listTarget.Clear();
-            OnSpell(listTarget);
+            ListTarget.Clear();
+            OnSpell(ListTarget);
             EndTurn();
         }
 

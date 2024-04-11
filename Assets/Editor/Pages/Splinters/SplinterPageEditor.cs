@@ -54,7 +54,7 @@ namespace Editor.Pages.Splinters
 
         [ShowInInspector]
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
-            NumberOfItemsPerPage = 20,
+            NumberOfItemsPerPage = 5,
             CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]

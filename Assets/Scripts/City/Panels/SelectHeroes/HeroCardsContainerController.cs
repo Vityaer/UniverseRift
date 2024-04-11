@@ -5,11 +5,14 @@ using UIController.Cards;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Panels.SelectHeroes
 {
     public class HeroCardsContainerController : MonoBehaviour, IDisposable
     {
+        [Inject] private IObjectResolver _resolver;
+
         public Transform Content;
         public Card Prefab;
 
@@ -51,6 +54,7 @@ namespace City.Panels.SelectHeroes
                 for (int i = _listCard.Count; i < requireCount; i++)
                 {
                     var card = Instantiate(Prefab, Content);
+                    _resolver.Inject(card);
                     card.OnClick.Subscribe(OnCardClick).AddTo(_disposables);
                     _listCard.Add(card);
                 }

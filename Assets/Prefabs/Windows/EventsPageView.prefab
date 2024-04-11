@@ -138,7 +138,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 60
-    m_Bottom: 0
+    m_Bottom: 200
   m_ChildAlignment: 1
   m_Spacing: 30
   m_ChildForceExpandWidth: 1
@@ -1094,6 +1094,7 @@ MonoBehaviour:
   AutoInjectObjects: []
   Background: {fileID: 0}
   BasePanel: {fileID: 0}
+  SliderEventLeftTime: {fileID: 8406885906510690703}
   ArenaButton: {fileID: 1077348858596125535}
   TravelButton: {fileID: 1077348859827747329}
   TableTasksButton: {fileID: 1077348858623034085}
@@ -1910,7 +1911,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1077348858631499711}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7356322
+  m_Size: 0.68327403
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3720,6 +3721,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3520414753421941902}
     m_Modifications:
+    - target: {fileID: 1484263784007861000, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
+      propertyPath: typeSlider
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2331469236232716296, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
       propertyPath: m_Name
       value: TimerProgress
@@ -3827,3 +3832,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2818049398898668535, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
   m_PrefabInstance: {fileID: 6931717385834117767}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8406885906510690703 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1484263784007861000, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
+  m_PrefabInstance: {fileID: 6931717385834117767}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e40abf20843d8344a3aa9a831a43e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

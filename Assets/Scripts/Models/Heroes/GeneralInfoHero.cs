@@ -7,27 +7,21 @@ namespace Models.Heroes
     [System.Serializable]
     public class GeneralInfoHero
     {
-        public string Name;
         public string HeroId;
         public string Race;
-        public string ClassHero;
+        public string Vocation;
         public int Rating = 1;
-        public string ViewId;
-        public string Rarity;
-        public string AvatarPath;
+        public Rare Rare = Rare.C;
 
         public GeneralInfoHero Clone()
         {
             return new GeneralInfoHero()
             {
-                Name = this.Name,
                 HeroId = this.HeroId,
                 Race = this.Race,
-                ClassHero = this.ClassHero,
+                Vocation = this.Vocation,
                 Rating = this.Rating,
-                ViewId = this.ViewId,
-                Rarity = this.Rarity,
-                AvatarPath = this.AvatarPath
+                Rare = this.Rare
             };
         }
     }

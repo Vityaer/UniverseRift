@@ -28,7 +28,7 @@ namespace City.Buildings.Mines
     {
         private const int INCOME_MAX_SECONDS = 36000;
         private const int INCOME_MIN_SECONDS = 10;
-
+        private const string MAIN_BUILDING_MINE_ID = "MainMineBuilding";
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -58,6 +58,10 @@ namespace City.Buildings.Mines
         {
             _mainMineData = mainMineData;
             _place = place;
+
+            var canDestroasble = !place.MineModel.Id.Equals(MAIN_BUILDING_MINE_ID);
+            View.OpenPanelDestroyMineButton.gameObject.SetActive(canDestroasble);
+
             UpdateUI();
             _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<InfoMinePanelController>(openType: OpenType.Additive);
         }

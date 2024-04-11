@@ -1,7 +1,6 @@
 using Models.City.TravelCircle;
 using System;
 using TMPro;
-using UIController.ItemVisual;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +31,11 @@ namespace UIController.Cards
             _progressText.text = $"{currentMission} / {travelModel.Missions.Count}";
         }
 
+        public void SetRaceIcon(Sprite icon)
+        {
+            _imageRace.sprite = icon;
+        }
+
         public void Select()
         {
             _outLine.SetActive(true);
@@ -41,6 +45,5 @@ namespace UIController.Cards
         {
             _outLine.SetActive(false);
         }
-
     }
 }

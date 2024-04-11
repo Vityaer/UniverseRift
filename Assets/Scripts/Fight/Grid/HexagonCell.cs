@@ -34,18 +34,18 @@ namespace Fight.Grid
         private HexagonCell _previousCell = null;
         private IDisposable _disposable;
 
-        public HexagonCell PreviousCell { get => _previousCell; }
-        bool checkNext = false;
-        List<NeighbourCell> asumptionNeighbourCell = new List<NeighbourCell>();
+        private bool checkNext = false;
+        List<NeighbourCell> asumptionNeighbourCell = new();
         CellDirectionType directionToTarget;
 
-        public int GetDist { get => _dist; }
-        public Vector3 Position { get => transform.position; }
-        public List<NeighbourCell> GetAvailableNeighbours { get => neighbours.FindAll(x => x.available == true); }
-        public bool CanStand { get => availableMove && heroScript == null; }
-        public HeroController Hero { get => heroScript; }
-        public bool GetCanAttackCell { get => neighbours.Find(x => x.achievableMove == true) != null; }
         private Vector2 deltaSize => Constants.Fight.CellDeltaStep;
+        public int GetDist => _dist;
+        public Vector3 Position => transform.position;
+        public List<NeighbourCell> GetAvailableNeighbours => neighbours.FindAll(x => x.available == true);
+        public bool CanStand => availableMove && heroScript == null;
+        public HeroController Hero => heroScript;
+        public bool GetCanAttackCell => neighbours.Find(x => x.achievableMove == true) != null;
+        public HexagonCell PreviousCell => _previousCell;
 
         void Awake()
         {
@@ -125,6 +125,7 @@ namespace Fight.Grid
 
         private void SelectDirection(CellDirectionType direction)
         {
+            Debug.Log($"SelectDirection: {direction}");
             if (observerSelectDirection != null)
             {
                 observerSelectDirection(GetNeighbourCellOnDirection(direction));

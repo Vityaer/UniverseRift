@@ -1,13 +1,12 @@
-﻿using ClientServices;
+﻿using City.TrainCamp.HeroInstances;
+using ClientServices;
 using Common.Authentications;
 using Common.Heroes;
 using MessagePipe;
-using Ui.LoadingScreen;
-using UIController.GameSystems;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi;
-using VContainerUi.Interfaces;
 using VContainerUi.Model;
 using VContainerUi.Services.Impl;
 
@@ -15,18 +14,21 @@ namespace Installers
 {
     public class GameUiScope : IdleGameLifetimeScope
     {
+        [SerializeField] HeroInstancesController _heroInstancesController;
+
         protected override void Configure(IContainerBuilder builder)
         {
             ConfigureMessagePipe(builder);
             ConfigureWindows(builder);
-            
-            builder.Register<GameEntryPoint>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
             builder.Register<ClientRewardService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<ResourceStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<HeroesStorageController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
-
+            builder.RegisterComponent(_heroInstancesController).AsSelf();
             base.Configure(builder);
+
+            builder.Register<GameEntryPoint>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
 
         private void ConfigureWindows(IContainerBuilder builder)

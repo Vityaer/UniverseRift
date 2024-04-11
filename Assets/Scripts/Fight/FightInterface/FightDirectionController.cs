@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 

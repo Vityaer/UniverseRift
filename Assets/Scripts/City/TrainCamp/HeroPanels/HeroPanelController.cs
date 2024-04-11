@@ -1,27 +1,23 @@
 using City.SliderCity;
+using City.TrainCamp.HeroInstances;
 using City.TrainCamp.HeroPanels;
 using City.TrainCamp.HeroPanels.HeroDetails;
+using ClientServices;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Hero;
+using Misc.Json;
 using Models.Common;
-using Models;
 using Models.Heroes.HeroCharacteristics;
 using Network.DataServer;
+using Network.DataServer.Messages.HeroPanels;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using UIController.Inventory;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
-using Network.DataServer.Messages.HeroPanels;
-using Cysharp.Threading.Tasks;
-using Misc.Json;
-using ClientServices;
 
 namespace City.TrainCamp
 {
@@ -30,13 +26,14 @@ namespace City.TrainCamp
         [Inject] private readonly CommonDictionaries _dictionaries;
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly HeroInstancesController _heroInstancesController;
         [Inject] private readonly HeroDetailsPanelController _heroDetailsPanel;
-        [Inject] private IObjectResolver _objectResolver;
+        [Inject] private readonly IObjectResolver _objectResolver;
         [Inject] private readonly IJsonConverter _jsonConverter;
 
-        private CostLevelUpContainer costLevelObject;
+        private CostLevelUpContainer _costLevelObject;
 
-        private ReactiveCommand<SwipeType> _onSwipe = new ReactiveCommand<SwipeType>();
+        private ReactiveCommand<SwipeType> _onSwipe = new();
         private GameHero _hero;
 
         public GameHero Hero => _hero;
@@ -61,7 +58,7 @@ namespace City.TrainCamp
 
         protected override void OnLoadGame()
         {
-            costLevelObject = _dictionaries.CostContainers["Heroes"];
+            _costLevelObject = _dictionaries.CostContainers["Heroes"];
         }
 
         private void DetailsOpen()
@@ -74,12 +71,13 @@ namespace City.TrainCamp
         {
             _hero = hero;
             UpdateInfoAboutHero();
+            _heroInstancesController.ShowHero(hero);
         }
 
         public void UpdateInfoAboutHero()
         {
             View.imageHero.sprite = _hero.Avatar;
-            View.textNameHero.text = _hero.Model.General.Name;
+            View.textNameHero.text = _hero.Model.General.HeroId;
             UpdateTextAboutHero();
             foreach (var cell in View.CellsForItem)
             {
@@ -87,6 +85,7 @@ namespace City.TrainCamp
                 cell.SetData(_hero.Costume.GetItem(cell.CellType));
             }
             CheckResourceForLevelUP();
+            View.RatingHeroController.ShowRating(_hero.HeroData.Rating);
         }
 
         public void UpdateTextAboutHero()
@@ -99,24 +98,25 @@ namespace City.TrainCamp
             View.textStrengthHero.text = _hero.Strength.ToString();
             //_hero.PrepareSkillLocalization();
             View.skillController.ShowSkills(_hero.Model.Skills);
-            View.CostController.ShowCosts(costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
+            View.CostController.ShowCosts(_costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
             // _heroDetailsPanel.ShowDetails(_hero);
         }
 
         private void CheckResourceForLevelUP()
         {
-            View.LevelUpButton.interactable = _resourceStorageController.CheckResource(costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
+            View.LevelUpButton.interactable = _resourceStorageController.CheckResource(_costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
         }
 
         public void LevelUp()
         {
-            var cost = costLevelObject.GetCostForLevelUp(_hero.HeroData.Level);
+            var cost = _costLevelObject.GetCostForLevelUp(_hero.HeroData.Level);
             if (_resourceStorageController.CheckResource(cost))
             {
                 LevelUpMessage().Forget();
                 _resourceStorageController.SubtractResource(cost);
                 _hero.LevelUp();
                 UpdateInfoAboutHero();
+                _heroInstancesController.ShowAnimation();
             }
         }
 

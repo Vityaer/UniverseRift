@@ -20,5 +20,6 @@ namespace City.Panels.RatingUps
         public HeroCardsContainerController CardsContainer;
         public RequireCard RequireCardInfo;
         public Button DimmedSelectedPanelButton;
+        public RatingHero RatingHeroController;
     }
 }

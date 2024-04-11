@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace Models.Heroes.Skills
 {
-    [System.Serializable]
     public class SkillLevel
     {
-        public int requireNumBreakthrough;
-        public List<Effect> effects = new List<Effect>();
+        public int RequireNumBreakthrough;
+        public List<Effect> Effects = new();
     }
 }

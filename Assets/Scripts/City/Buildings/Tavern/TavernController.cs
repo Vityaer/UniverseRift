@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Abstractions;
+using City.Panels.HeroesHireResultPanels;
 using ClientServices;
 using Common;
 using Common.Heroes;
@@ -27,7 +28,8 @@ namespace City.Buildings.Tavern
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
-
+        [Inject] private readonly HeroesHireResultPanelController _heroesHireResultPanelController;
+        
         private GameResource _simpleHireCost = new GameResource(ResourceType.SimpleHireCard, 1, 0);
         private GameResource _specialHireCost = new GameResource(ResourceType.SpecialHireCard, 1, 0);
         private GameResource _friendHireCost = new GameResource(ResourceType.FriendHeart, 10, 0);
@@ -43,11 +45,11 @@ namespace City.Buildings.Tavern
 
         protected override void OnStart()
         {
-            _resolver.Inject(View.ObserverSimpleHire);
-            _resolver.Inject(View.ObserverSpecialHire);
+            Resolver.Inject(View.ObserverSimpleHire);
+            Resolver.Inject(View.ObserverSpecialHire);
 
-            _resolver.Inject(View.ResourceObjectCostOneHire);
-            _resolver.Inject(View.ResourceObjectCostManyHire);
+            Resolver.Inject(View.ResourceObjectCostOneHire);
+            Resolver.Inject(View.ResourceObjectCostManyHire);
 
             SelectHire<SpecialHire>(_simpleHireCost, _observerSimpleHire);
 
@@ -66,19 +68,21 @@ namespace City.Buildings.Tavern
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
-            var newHeroes = _jsonConverter.FromJson<List<HeroData>>(result);
-            
-            for (int i = 0; i < newHeroes.Count; i++)
+            var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
+
+            var heroes = new List<GameHero>(newHeroDatas.Count);
+            for (int i = 0; i < newHeroDatas.Count; i++)
             {
-                var model = _commonDictionaries.Heroes[newHeroes[i].HeroId];
-                var hero = new GameHero(model, newHeroes[i]);
-                OnHireHeroes(hero);
-                hero.Model.General.Name = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
+                var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
+                var hero = new GameHero(model, newHeroDatas[i]);
                 AddNewHero(hero);
+                heroes.Add(hero);
             }
             _resourceStorageController.SubtractResource(cost);
 
             onHireHeroes.Execute(new BigDigit(count));
+
+            _heroesHireResultPanelController.ShowHeroes(heroes);
         }
 
         private void AddNewHero(GameHero hero)
@@ -90,14 +94,5 @@ namespace City.Buildings.Tavern
         {
             _observersHireRace.Add(d, ID, 1);
         }
-
-        private void OnHireHeroes(GameHero hero)
-        {
-            //and Rarity
-            _observersHireRace.OnAction(string.Empty, 1);
-            _observersHireRace.OnAction(hero.Model.General.ViewId, 1);
-        }
-
-
     }
 }

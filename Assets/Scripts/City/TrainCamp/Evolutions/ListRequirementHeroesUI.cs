@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Hero;
 using Models.City.TrainCamp;
 using System;
 using System.Collections.Generic;
@@ -33,17 +34,18 @@ namespace City.TrainCamp
 
         private void SelectRequireCard(RequireCard card)
         {
+            Debug.Log("SelectRequireCard");
             _onSelectRequireCard.Execute(card);
         }
 
-        public void SetData(List<RequirementHeroModel> requirementHeroes)
+        public void SetData(GameHero currentHero, List<RequirementHeroModel> requirementHeroes)
         {
             _requirementHeroes = requirementHeroes;
             for (int i = 0; i < _requireCards.Count; i++)
             {
                 if (i < requirementHeroes.Count)
                 {
-                    _requireCards[i].SetData(requirementHeroes[i]);
+                    _requireCards[i].SetData(currentHero, requirementHeroes[i]);
                 }
                 else
                 {

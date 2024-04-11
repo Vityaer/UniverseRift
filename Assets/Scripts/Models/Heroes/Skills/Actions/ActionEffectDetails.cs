@@ -11,59 +11,59 @@ namespace Models.Heroes.Actions
     {
         private void ExecuteSimpleAction()
         {
-            Debug.Log("simple action: " + simpleAction.ToString());
-            switch (simpleAction)
+            Debug.Log("simple action: " + SimpleAction.ToString());
+            switch (SimpleAction)
             {
                 case EffectSimpleAction.Damage:
                     foreach (HeroController heroController in listTarget)
-                        heroController.ApplyDamage(new Strike(amount, heroController.hero.Model.Characteristics.Main.Attack, typeNumber: typeNumber));
+                        heroController.ApplyDamage(new Strike(Amount, heroController.hero.Model.Characteristics.Main.Attack, typeNumber: TypeNumber));
                     break;
                 case EffectSimpleAction.Heal:
                     foreach (HeroController heroController in listTarget)
-                        heroController.GetHeal((int)Mathf.Floor(amount), typeNumber);
+                        heroController.GetHeal((int)Mathf.Floor(Amount), TypeNumber);
                     break;
                 case EffectSimpleAction.HealFromDamage:
                     foreach (HeroController heroController in listTarget)
-                        heroController.GetHeal((int)Mathf.Floor(amount), typeNumber);
+                        heroController.GetHeal((int)Mathf.Floor(Amount), TypeNumber);
                     break;
             }
         }
 
         private void ExecuteBuff()
         {
-            switch (effectBuff)
+            switch (EffectBuff)
             {
                 case EffectBuff.HateGood:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.Good, amount);
+                        heroController.hero.SetHate(Attachment.Good, Amount);
                     break;
                 case EffectBuff.HateBad:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.Bad, amount);
+                        heroController.hero.SetHate(Attachment.Bad, Amount);
                     break;
                 case EffectBuff.HateUndead:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.Undead, amount);
+                        heroController.hero.SetHate(Attachment.Undead, Amount);
                     break;
                 case EffectBuff.HateElf:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.Elf, amount);
+                        heroController.hero.SetHate(Attachment.Elf, Amount);
                     break;
                 case EffectBuff.HatePeople:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.People, amount);
+                        heroController.hero.SetHate(Attachment.People, Amount);
                     break;
                 case EffectBuff.HateGods:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.God, amount);
+                        heroController.hero.SetHate(Attachment.God, Amount);
                     break;
                 case EffectBuff.HateDarkGods:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.DarkGod, amount);
+                        heroController.hero.SetHate(Attachment.DarkGod, Amount);
                     break;
                 case EffectBuff.HateBoss:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.SetHate(Attachment.Boss, amount);
+                        heroController.hero.SetHate(Attachment.Boss, Amount);
                     break;
             }
         }
@@ -72,118 +72,118 @@ namespace Models.Heroes.Actions
         }
         private void ExecuteDots()
         {
-            switch (effectDots)
+            switch (EffectDots)
             {
                 case EffectDots.Poison:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDot(DotType.Poison, amount, typeNumber, rounds);
+                        heroController.statusState.SetDot(DotType.Poison, Amount, TypeNumber, Rounds);
                     break;
                 case EffectDots.Bleending:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDot(DotType.Bleending, amount, typeNumber, rounds);
+                        heroController.statusState.SetDot(DotType.Bleending, Amount, TypeNumber, Rounds);
                     break;
                 case EffectDots.Rot:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDot(DotType.Rot, amount, typeNumber, rounds);
+                        heroController.statusState.SetDot(DotType.Rot, Amount, TypeNumber, Rounds);
                     break;
                 case EffectDots.Corrosion:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDot(DotType.Corrosion, amount, typeNumber, rounds);
+                        heroController.statusState.SetDot(DotType.Corrosion, Amount, TypeNumber, Rounds);
                     break;
                 case EffectDots.Combustion:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDot(DotType.Combustion, amount, typeNumber, rounds);
+                        heroController.statusState.SetDot(DotType.Combustion, Amount, TypeNumber, Rounds);
                     break;
             }
         }
         private void ExecuteChangeCharacteristic()
         {
-            switch (effectChangeCharacteristic)
+            switch (EffectChangeCharacteristic)
             {
                 case EffectChangeCharacteristic.ChangeMaxHP:
                     foreach (HeroController heroController in listTarget)
-                        heroController.ChangeMaxHP((int)Mathf.Floor(amount), typeNumber);
+                        heroController.ChangeMaxHP((int)Mathf.Floor(Amount), TypeNumber);
                     break;
                 case EffectChangeCharacteristic.ChangeAttack:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangePhysicalAttack((int)Mathf.Floor(amount), typeNumber, rounds);
+                        heroController.hero.ChangePhysicalAttack((int)Mathf.Floor(Amount), TypeNumber, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeArmor:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeArmor((int)Mathf.Floor(amount), typeNumber, rounds);
+                        heroController.hero.ChangeArmor((int)Mathf.Floor(Amount), TypeNumber, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeInitiative:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeInitiative((int)Mathf.Floor(amount), typeNumber, rounds);
+                        heroController.hero.ChangeInitiative((int)Mathf.Floor(Amount), TypeNumber, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeMagicResistance:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeMagicResistance(amount, rounds);
+                        heroController.hero.ChangeMagicResistance(Amount, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeCountTargetForSimpleAttack:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeCountTargetForSimpleAttack((int)Mathf.Floor(amount), rounds);
+                        heroController.hero.ChangeCountTargetForSimpleAttack((int)Mathf.Floor(Amount), Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeCountTargetForSpell:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeCountTargetForSpell((int)Mathf.Floor(amount), rounds);
+                        heroController.hero.ChangeCountTargetForSpell((int)Mathf.Floor(Amount), Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeProbabilityCriticalAttack:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeProbabilityCriticalAttack(amount, rounds);
+                        heroController.hero.ChangeProbabilityCriticalAttack(Amount, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeEfficiencyHeal:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeEfficiencyHeal(amount, rounds);
+                        heroController.hero.ChangeEfficiencyHeal(Amount, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeDodge:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeDodge(amount, rounds);
+                        heroController.hero.ChangeDodge(Amount, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeAccuracy:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeAccuracy(amount, rounds);
+                        heroController.hero.ChangeAccuracy(Amount, Rounds);
                     break;
                 case EffectChangeCharacteristic.ChangeStamina:
                     foreach (HeroController heroController in listTarget)
-                        heroController.hero.ChangeStamina((int)Mathf.Floor(amount), rounds);
+                        heroController.hero.ChangeStamina((int)Mathf.Floor(Amount), Rounds);
                     break;
             }
         }
         private void ExecuteStatusHero()
         {
-            Debug.Log("effectStatus: " + effectStatus.ToString() + " on listTarget.Count:" + listTarget.Count.ToString());
-            switch (effectStatus)
+            Debug.Log("effectStatus: " + EffectStatus.ToString() + " on listTarget.Count:" + listTarget.Count.ToString());
+            switch (EffectStatus)
             {
                 case EffectStatus.Stun:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDebuff(State.Stun, (int)amount);
+                        heroController.statusState.SetDebuff(State.Stun, (int)Amount);
                     break;
                 case EffectStatus.Petrification:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDebuff(State.Petrification, (int)amount);
+                        heroController.statusState.SetDebuff(State.Petrification, (int)Amount);
                     break;
                 case EffectStatus.Freezing:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDebuff(State.Freezing, (int)amount);
+                        heroController.statusState.SetDebuff(State.Freezing, (int)Amount);
                     break;
                 case EffectStatus.Astral:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDebuff(State.Astral, (int)amount);
+                        heroController.statusState.SetDebuff(State.Astral, (int)Amount);
                     break;
                 case EffectStatus.Silence:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetDebuff(State.Silence, (int)amount);
+                        heroController.statusState.SetDebuff(State.Silence, (int)Amount);
                     break;
             }
         }
         private void ExecuteMark()
         {
-            switch (effectMark)
+            switch (EffectMark)
             {
                 case EffectMark.Hellish:
                     foreach (HeroController heroController in listTarget)
-                        heroController.statusState.SetMark(MarkType.Hellish, amount, rounds);
+                        heroController.statusState.SetMark(MarkType.Hellish, Amount, Rounds);
                     break;
             }
         }

@@ -13,7 +13,7 @@ namespace Fight.Grid
 
         public BaseGrid CreateGrid(BaseGrid Prefab, Transform SpawnPoint)
 	    {
-            var grid = Object.Instantiate(Prefab, SpawnPoint.position, Quaternion.identity, SpawnPoint);
+            var grid = Object.Instantiate(Prefab, SpawnPoint.position, Prefab.transform.rotation, SpawnPoint);
             return grid;
 	    }
     }

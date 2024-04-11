@@ -10,10 +10,13 @@ namespace Fight.WarTable
 {
     public class WarriorPlace : MonoBehaviour, IDisposable
     {
+        public int Id;
+
         [SerializeField] private Button _button;
         [SerializeField] private Image _background;
         [SerializeField] private Image _imageHero;
         [SerializeField] private TextMeshProUGUI _levelText;
+
 
         private ReactiveCommand<WarriorPlace> _onClick = new ReactiveCommand<WarriorPlace>();
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -21,7 +24,6 @@ namespace Fight.WarTable
         public bool IsEmpty => Hero == null;
         public IObservable<WarriorPlace> OnClick => _onClick;
         public GameHero Hero { get; private set; }
-        public int Id { get; private set; }
 
         private void Start()
         {

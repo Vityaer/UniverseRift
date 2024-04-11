@@ -26,6 +26,8 @@ namespace Models
 
         public int Level = 1;
         public int Rating = 1;
+        public int Stage = 0;
+
         [HideInInspector] public int CurrentBreakthrough = 0;
         [HideInInspector] public CostumeData Costume = new CostumeData();
 

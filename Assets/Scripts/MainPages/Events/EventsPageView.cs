@@ -12,6 +12,7 @@ namespace MainPages.Events
     public class EventsPageView : MainPage
     {
         public GameObject BasePanel;
+        public SliderTime SliderEventLeftTime;
         public Button ArenaButton;
         public Button TravelButton;
         public Button TableTasksButton;

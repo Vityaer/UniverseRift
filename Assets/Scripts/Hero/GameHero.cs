@@ -1,9 +1,7 @@
-﻿using Db.CommonDictionaries;
-using Fight.HeroControllers.Generals;
+﻿using Fight.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
-using System;
 using UniRx;
 using UnityEngine;
 
@@ -19,19 +17,24 @@ namespace Hero
         public ReactiveCommand OnChangeData => new ReactiveCommand();
         public GameCostumeHero Costume = new GameCostumeHero();
 
-        public Sprite Avatar => _prefab.GetSprite;
+        public Sprite Avatar => _prefab.Stages[_heroData.Stage].Avatar;
         public HeroModel Model => _model;
-        public HeroController Prefab => _prefab;
         public HeroData HeroData => _heroData;
         public BaseCharacteristicModel GetBaseCharacteristic => _model.Characteristics.Main;
         public float MaxHP => _model.Characteristics.HP;
         public int Strength => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.HP) / 6 + GetCharacteristic(TypeCharacteristic.Damage));
+        public HeroController Prefab => _prefab;
 
         public GameHero(HeroModel hero, HeroData data)
         {
             _model = hero.Clone();
             _heroData = data;
-            _prefab = Resources.Load<HeroController>($"{Constants.ResourcesPath.HEROES_PATH}{_heroData.HeroId}");
+
+            var stage = (_heroData.Rating / 5);
+            _heroData.Stage = stage;
+            var path = $"{Constants.ResourcesPath.HEROES_PATH}{_model.General.HeroId}";
+            _prefab = Resources.Load<HeroController>(path);
+
             PrepareHero();
             PrepareCharacts(hero);
         }
@@ -58,6 +61,8 @@ namespace Hero
         public void UpRating()
         {
             _heroData.Rating += 1;
+            var increaseStatsContainer = _model.Evolutions.GetGrowth(_heroData.Rating);
+            Growth.GrowHero(_model.Characteristics, _model.Resistances, increaseStatsContainer);
             OnChangeData.Execute();
         }
 

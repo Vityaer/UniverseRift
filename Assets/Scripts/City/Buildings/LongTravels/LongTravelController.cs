@@ -82,8 +82,7 @@ namespace City.Buildings.LongTravels
             _currentMissionIndex = index;
             var mission = View.MissionViews[index];
             _currentMissionModel = _currentMissionContainer.Missions[index];
-            var reward = new GameReward(_currentMissionModel.WinReward, _commonDictionaries);
-            _panelVoyageMission.ShowInfo(reward, mission.Status, index, StartOpenMission);
+            _panelVoyageMission.ShowInfo(_currentMissionModel, mission.Status, index, StartOpenMission);
         }
 
         private void StartOpenMission()
@@ -174,8 +173,12 @@ namespace City.Buildings.LongTravels
                 if (!string.IsNullOrEmpty(result))
                 {
                     var reward = new GameReward(_currentMissionModel.WinReward, _commonDictionaries);
-                    _clientRewardService.ShowReward(reward);
+                    _clientRewardService.ShowReward(reward, RewardType.Win);
                 }
+            }
+            else
+            {
+                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
             }
         }
     }

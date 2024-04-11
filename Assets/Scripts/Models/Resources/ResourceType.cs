@@ -26,5 +26,6 @@
         VoyageToken = 21,
         AdvancedDarkStone = 22,
         Candy = 23,
+        MineMissionEnergy = 24,
     }
 }

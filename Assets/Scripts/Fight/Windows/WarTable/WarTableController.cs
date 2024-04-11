@@ -1,5 +1,6 @@
 ﻿using City.Buildings.Abstractions;
 using Common.Heroes;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Hero;
 using Models.Arenas;
@@ -42,7 +43,7 @@ namespace Fight.WarTable
             {
                 place.OnClick.Subscribe(OnPlaceSelect).AddTo(_disposables);
             }
-
+            Resolver.Inject(View.ListCardPanel);
         }
 
         private void OnPlaceSelect(WarriorPlace place)
@@ -236,6 +237,7 @@ namespace Fight.WarTable
                     _playerTeam.Heroes.Add(place.Id, place.Hero.HeroData.Id);
             }
 
+            UnityEngine.Debug.Log($"_playerTeam.Heroes: {_playerTeam.Heroes.Count}");
             _callback.Invoke(_playerTeam);
             Close();
         }
@@ -294,9 +296,10 @@ namespace Fight.WarTable
             View.ListCardPanel.ShowCards(listHeroes);
         }
 
-        public void StartFight()
+        public async UniTaskVoid StartFight()
         {
             OnStartMission.Execute();
+            await UniTask.Delay(200);
             base.Close();
             _fightController.SetMission(_mission, View.LeftTeam, View.RightTeam);
         }

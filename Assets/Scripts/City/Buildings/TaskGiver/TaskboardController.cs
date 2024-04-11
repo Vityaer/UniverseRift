@@ -48,8 +48,8 @@ namespace City.Buildings.TaskGiver
             {
                 var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
                 _taskControllers.Add(newTaskController);
-                _resolver.Inject(newTaskController);
-                _resolver.Inject(newTaskController.TaskControllerButton);
+                Resolver.Inject(newTaskController);
+                Resolver.Inject(newTaskController.TaskControllerButton);
                 newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
                 newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
             }
@@ -124,8 +124,8 @@ namespace City.Buildings.TaskGiver
                 {
                     var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
                     _taskControllers.Add(newTaskController);
-                    _resolver.Inject(newTaskController);
-                    _resolver.Inject(newTaskController.TaskControllerButton);
+                    Resolver.Inject(newTaskController);
+                    Resolver.Inject(newTaskController.TaskControllerButton);
                     newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
                     newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
                 }
