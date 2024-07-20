@@ -25,11 +25,15 @@ namespace Fight.WarTable
 
         private MissionModel _mission;
         private CompositeDisposable _disposables = new CompositeDisposable();
-        public ReactiveCommand OnStartMission = new ReactiveCommand();
-        public ReactiveCommand OnClose = new ReactiveCommand();
+
         private IDisposable _buttonAction;
         private Action<TeamContainer> _callback;
         private TeamContainer _playerTeam;
+        private ReactiveCommand<TeamContainer> _onChangeTeam = new();
+
+        public ReactiveCommand OnStartMission = new ReactiveCommand();
+        public ReactiveCommand OnClose = new ReactiveCommand();
+        public IObservable<TeamContainer> OnChangeTeam => _onChangeTeam;
 
         public void Initialize()
         {
@@ -75,6 +79,7 @@ namespace Fight.WarTable
         private bool AddHero(GameHero hero)
         {
             var result = false;
+            WarriorPlace selectedPlace = null;
             foreach (var place in View.LeftTeam)
             {
                 if (place.IsEmpty)
@@ -82,10 +87,23 @@ namespace Fight.WarTable
                     place.SetHero(hero);
                     UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
                     result = true;
+                    selectedPlace = place;
                     break;
                 }
             }
-            CheckTeam(View.LeftTeam);
+
+            if (result)
+            {
+                if (_playerTeam != null)
+                {
+                    _playerTeam.Heroes.Add(selectedPlace.Id, hero.HeroData.Id);
+                    UnityEngine.Debug.Log($"AddHero: {hero.HeroData.Id} in team: {_playerTeam.Id}");
+                    _onChangeTeam.Execute(_playerTeam);
+                }
+
+                CheckTeam(View.LeftTeam);
+            }
+
             return result;
         }
 
@@ -97,9 +115,18 @@ namespace Fight.WarTable
             if (place != null)
             {
                 place.ClearPlace();
+
+                if (_playerTeam != null)
+                {
+                    _playerTeam.Heroes.Remove(place.Id);
+                    _onChangeTeam.Execute(_playerTeam);
+                    UnityEngine.Debug.Log($"RemoveHero: {hero.HeroData.Id} in team: {_playerTeam.Id}");
+                }
+
                 CheckTeam(View.LeftTeam);
                 UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
                 result = true;
+
             }
             return result;
         }
@@ -278,13 +305,18 @@ namespace Fight.WarTable
             }
         }
 
-        public void OpenMission(MissionModel mission)
+        public void OpenMission(MissionModel mission, TeamContainer teamContainer)
         {
             OpenMission(mission, _heroesStorageController.ListHeroes);
+            _playerTeam = teamContainer;
+
+            FillTeam(_playerTeam, View.LeftTeam);
+            UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
         }
 
         public override void Close()
         {
+            _playerTeam = null;
             OnClose.Execute();
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);

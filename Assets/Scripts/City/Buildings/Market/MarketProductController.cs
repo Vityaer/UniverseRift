@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using City.Panels.SubjectPanels.Common;
+using Common;
 using Common.Inventories.Splinters;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
@@ -9,21 +10,37 @@ using UIController.Inventory;
 using UIController.ItemVisual;
 using UniRx;
 using UnityEngine;
+using VContainer;
 
 namespace City.Buildings.Market
 {
-    public class MarketProductController : MonoBehaviour, IDisposable
+    public class MarketProductController : MonoBehaviour
     {
         [OdinSerialize] private BaseMarketProduct _marketProduct;
         [SerializeField] private GameObject _soldOutPanel;
+        [SerializeField] private ButtonCostController _buttonCost;
+        [SerializeField] private SubjectCell CellProduct;
 
-        public ButtonCostController ButtonCost;
-        public SubjectCell CellProduct;
+        private SubjectDetailController _subjectDetailController;
+
         private BaseObject _subject;
         private CompositeDisposable _disposables = new CompositeDisposable();
         private Action _callback = null;
 
+        public ButtonCostController ButtonCost => _buttonCost;
         public string SubjectId;
+
+        [Inject]
+        private void Construct(SubjectDetailController subjectDetailController)
+        {
+            _subjectDetailController = subjectDetailController;
+            CellProduct.OnSelect.Subscribe(ShowDataProduct).AddTo(_disposables);
+        }
+
+        private void ShowDataProduct(SubjectCell cell)
+        {
+            _subjectDetailController.ShowData(cell.Subject);
+        }
 
         private void Start()
         {
@@ -93,16 +110,16 @@ namespace City.Buildings.Market
             gameObject.SetActive(false);
         }
 
-        public void Dispose()
-        {
-            _callback = null;
-            _disposables.Dispose();
-        }
-
         public void SetPurchaseCount(int purchaseCount)
         {
             _marketProduct.SetPurchaseCount(purchaseCount);
             UpdateUI();
+        }
+
+        private void OnDestroy()
+        {
+            _callback = null;
+            _disposables.Dispose();
         }
     }
 }

@@ -223,24 +223,16 @@ namespace Fight
             View.NumRoundText.text = "Конец боя!";
 
             if (side == Side.Right) CheckSaveResult();
-            await UniTask.Delay(2500);
-
-            var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
+            await UniTask.Delay(500);
             OnFinishFight.Execute();
+            _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
+
+            await UniTask.Delay(2000);
+            var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
             View.NumRoundText.text = string.Empty;
             ClearAll();
 
-            _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
-            if (side == Side.Left)
-            {
-                //MessageController.Instance.AddMessage("Ты выиграл!");
-                _onFightResult.Execute(FightResultType.Win);
-            }
-            else
-            {
-                //MessageController.Instance.AddMessage("Ты проиграл!");
-                _onFightResult.Execute(FightResultType.Defeat);
-            }
+            _onFightResult.Execute(fightResult);
         }
 
         void ClearAll()

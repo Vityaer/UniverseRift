@@ -51,14 +51,23 @@ namespace City.Buildings.WheelFortune
 
         public void Initialize()
         {
+            View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_oneRotate, ONE_TIME).Forget()).AddTo(Disposables);
+            View.ManyRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_tenRotate, MANY_TIME).Forget()).AddTo(Disposables);
+            //View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
+
+            foreach (var rewardCell in View.RewardCells)
+                rewardCell.OnSelect.Subscribe(_ => SubjectDetailController.ShowData(rewardCell.Subject)).AddTo(Disposables);
+        }
+
+        protected override void OnStart()
+        {
             View.OneRotateButton.SetCost(_oneRotate);
             View.ManyRotateButton.SetCost(_tenRotate);
             View.RefreshWheelButton.SetCost(_refreshCost);
 
-            View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_oneRotate, ONE_TIME).Forget()).AddTo(Disposables);
-            View.ManyRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_tenRotate, MANY_TIME).Forget()).AddTo(Disposables);
-            //View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
+            base.OnStart();
         }
+
 
         protected override void OnLoadGame()
         {
@@ -74,7 +83,7 @@ namespace City.Buildings.WheelFortune
 
             if (!string.IsNullOrEmpty(result))
             {
-                var rewardContainer = _jsonConverter.FromJson<FortuneRewardContainer>(result);
+                var rewardContainer = _jsonConverter.Deserialize<FortuneRewardContainer>(result);
                 _reward = new GameReward(rewardContainer.Reward, _commonDictionaries);
 
                 _resourceStorageController.SubtractResource(cost);
@@ -88,7 +97,7 @@ namespace City.Buildings.WheelFortune
         {
             var message = new FortuneWheelRefresh { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            var rewards = _jsonConverter.FromJson<List<FortuneRewardData>>(result);
+            var rewards = _jsonConverter.Deserialize<List<FortuneRewardData>>(result);
             FillWheelFortune(rewards);
         }
 

@@ -25,7 +25,11 @@ namespace UiExtensions.Misc
             Button?.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
         }
 
-        public abstract void SetData(T data, ScrollRect scrollRect);
+        public virtual void SetData(T data, ScrollRect scrollRect)
+        {
+            Data = data;
+            Scroll = scrollRect;
+        }
 
         public void OnBeginDrag(PointerEventData eventData)
         {

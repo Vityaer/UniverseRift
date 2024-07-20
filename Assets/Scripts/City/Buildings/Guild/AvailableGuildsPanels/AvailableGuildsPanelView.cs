@@ -11,5 +11,6 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
         public RectTransform Content;
         public AvailableGuildView Prefab;
         public TMP_Text MessageText;
+        public Button OpenPanelCreateGuildButton;
     }
 }

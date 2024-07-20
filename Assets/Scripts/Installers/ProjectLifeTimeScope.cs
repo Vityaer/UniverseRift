@@ -1,6 +1,8 @@
 ﻿using Common;
+using Common.Players;
 using Db.CommonDictionaries;
 using Initializable;
+using LocalizationSystems;
 using Misc.Json;
 using Misc.Json.Impl;
 using Models.Common;
@@ -21,6 +23,8 @@ namespace Installer
             builder.Register<CommonGameData>(Lifetime.Singleton);
             builder.Register<GameInventory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<GameController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<LocalizationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PlayersStorage>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<ProjectInitialize>();
             base.Configure(builder);
         }

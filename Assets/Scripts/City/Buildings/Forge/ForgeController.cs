@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Abstractions;
+using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;
@@ -65,6 +66,7 @@ namespace City.Buildings.Forge
                 _listPlace.Add(itemVisual);
             }
             _currentCell = _listPlace[0];
+            base.OnStart();
         }
 
         protected override void OnLoadGame()

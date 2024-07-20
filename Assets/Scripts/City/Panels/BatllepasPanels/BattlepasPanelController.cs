@@ -1,4 +1,5 @@
 ﻿using City.Buildings.CityButtons.EventAgent;
+using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;

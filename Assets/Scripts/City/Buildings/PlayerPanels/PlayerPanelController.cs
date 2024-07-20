@@ -102,7 +102,7 @@ namespace City.Buildings.PlayerPanels
         {
             var message = new PlayerNewLevelMessage { PlayerId = _playerInfo.Id };
             var result = await DataServer.PostData(message);
-            var reward = _jsonConverter.FromJson<RewardModel>(result);
+            var reward = _jsonConverter.Deserialize<RewardModel>(result);
 
             LevelUp();
             _playerNewLevelPanelController.SetData(reward);

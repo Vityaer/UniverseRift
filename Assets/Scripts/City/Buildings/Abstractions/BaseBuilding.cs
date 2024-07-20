@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using City.Panels.SubjectPanels.Common;
+using Common;
 using Models.Common;
 using System;
 using UniRx;
@@ -19,6 +20,7 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly IUiMessagesPublisherService MessagesPublisher;
         [Inject] protected readonly GameController GameController;
         [Inject] protected readonly IObjectResolver Resolver;
+        [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
         protected CompositeDisposable Disposables = new CompositeDisposable();
         private int levelForAvailableBuilding = 0;

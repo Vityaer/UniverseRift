@@ -52,7 +52,6 @@ namespace MainPages.Events
             _resolver.Inject(containerController);
             eventContainer.Active();
             View.EventCycleName.text = $"{_commonGameData.CycleEventsData.CurrentEventType}";
-            Debug.Log(_commonGameData.CycleEventsData.StartGameCycleDateTime);
             var startDateTime = TimeUtils.ParseTime(_commonGameData.CycleEventsData.StartGameCycleDateTime) - Constants.Game.GameCycleTime;
             View.SliderEventLeftTime.SetData(startDateTime, Constants.Game.GameCycleTime);
             containerController.SetData(startDateTime, Constants.Game.GameCycleTime);

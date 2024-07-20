@@ -44,7 +44,6 @@ namespace UIController
 
         public void SetMaxValue(float maxValue)
         {
-            Debug.Log($"set max health {maxValue}");
             if (gameObject.activeSelf == false) gameObject.SetActive(true);
             this.MaxValue = maxValue;
             ChangeValue(this.MaxValue);

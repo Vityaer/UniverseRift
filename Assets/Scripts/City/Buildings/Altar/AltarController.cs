@@ -69,7 +69,7 @@ namespace Altar
             var message = new FireHeroesMessage { PlayerId = CommonGameData.PlayerInfoData.Id, Container = fireContainer };
             var result = await DataServer.PostData(message);
 
-            var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+            var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
             var reward = new GameReward(rewardModel, _commonDictionaries);
             _clientRewardService.ShowReward(reward);
 

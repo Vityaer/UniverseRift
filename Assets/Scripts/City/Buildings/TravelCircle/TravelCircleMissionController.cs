@@ -1,3 +1,4 @@
+using City.Panels.SubjectPanels.Common;
 using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using System;
@@ -31,6 +32,12 @@ namespace City.Buildings.TravelCircle
         public new IObservable<TravelCircleMissionController> OnSelect => _onSelect;
         public StatusMission Status => _status;
         public int Index => _numMission;
+
+        [Inject]
+        private void Construct(SubjectDetailController subjectDetailController)
+        {
+            rewardController.SetDetailsController(subjectDetailController);
+        }
 
         private new void Start()
         {

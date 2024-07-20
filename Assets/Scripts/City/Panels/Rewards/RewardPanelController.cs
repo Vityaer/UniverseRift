@@ -1,4 +1,5 @@
 ﻿using City.Panels.AutoFights;
+using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
@@ -13,10 +14,17 @@ namespace City.Panels.Rewards
     public class RewardPanelController : UiPanelController<RewardPanelView>
     {
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
+        //[Inject] private readonly SubjectDetailController _subjectDetailController;
 
         private GameObject _currentLabel;
 
         public ReactiveCommand OnClose = new ReactiveCommand();
+
+        //public override void Start()
+        //{
+        //    View.RewardUIController.SetDetailsController(_subjectDetailController);
+        //    base.Start();
+        //}
 
         public void Open(GameReward reward, RewardType rewardType)
         {

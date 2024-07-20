@@ -1,5 +1,4 @@
 ﻿using AssetKits.ParticleImage;
-using Fight.Common;
 using Models.Fights.Campaign;
 using System;
 using System.Globalization;

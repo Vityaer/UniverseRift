@@ -1,12 +1,12 @@
+using City.Panels.Arenas.Teams;
 using Fight;
 using Fight.WarTable;
-using Models.Common.BigDigits;
+using Models.Arenas;
 using Models.Fights.Campaign;
 using System;
 using UniRx;
 using UnityEngine;
 using VContainer;
-using VContainerUi.Interfaces;
 
 namespace City.Buildings.Abstractions
 {
@@ -18,21 +18,48 @@ namespace City.Buildings.Abstractions
         protected ReactiveCommand<int> _onTryFight = new ReactiveCommand<int>();
         protected ReactiveCommand<int> _onWinFight = new ReactiveCommand<int>();
         private CompositeDisposable _disposables = new CompositeDisposable();
-        private IDisposable _disposable;
+        private IDisposable _tempDisposable;
+        private IDisposable _teamChangeDisposable;
+
+        protected TeamContainer TeamContainer;
 
         public IObservable<int> OnTryFight => _onTryFight;
         public IObservable<int> OnWinFight => _onWinFight;
 
+        protected override void OnStart()
+        {
+            TeamContainer = TeamUtils.LoadTeam(GetType().Name);
+            base.OnStart();
+        }
+
         public void OpenMission(MissionModel mission)
         {
-            WarTableController.OpenMission(mission);
-            _disposable = WarTableController.OnStartMission.Subscribe(_ => OnStartMission());
+            WarTableController.OpenMission(mission, TeamContainer);
+            _teamChangeDisposable = WarTableController.OnChangeTeam.Subscribe(OnChangeTeam);
+            _tempDisposable = WarTableController.OnStartMission.Subscribe(_ => OnStartMission());
+            WarTableController.OnClose.Subscribe(_ => OnCloseWarTable()).AddTo(_disposables);
+        }
+
+        private void OnCloseWarTable()
+        {
+            _teamChangeDisposable?.Dispose();
+        }
+
+        private void OnChangeTeam(TeamContainer container)
+        {
+            if (!TeamContainer.Id.Equals(container.Id))
+            {
+                Debug.LogError("Try change not my team!");
+            }
+
+            Debug.Log($"Save team: {TeamContainer.Id}, heroes: {TeamContainer.Heroes.Count}");
+            TeamUtils.SaveTeam(TeamContainer);
         }
 
         private void OnStartMission()
         {
-            _disposable.Dispose();
-            _disposable = FightController.OnFigthResult.Subscribe(OnResultFight);
+            _tempDisposable.Dispose();
+            _tempDisposable = FightController.OnFigthResult.Subscribe(OnResultFight);
         }
 
         public void OnAfterFight(bool isOpen)
@@ -51,7 +78,7 @@ namespace City.Buildings.Abstractions
 
         protected virtual void OnResultFight(FightResultType result)
         {
-            _disposable?.Dispose();
+            _tempDisposable?.Dispose();
             if (result == FightResultType.Win)
             {
                 _onWinFight.Execute(1);
@@ -60,6 +87,7 @@ namespace City.Buildings.Abstractions
 
         private void UnregisterFight()
         {
+            _teamChangeDisposable?.Dispose();
             _disposables.Dispose();
         }
     }

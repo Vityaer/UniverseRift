@@ -7,10 +7,8 @@ using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Hero;
-using IdleGame.AdvancedObservers;
 using Misc.Json;
 using Models.City.TrainCamp;
-using Models.Common.BigDigits;
 using Models.Heroes.PowerUps;
 using Network.DataServer;
 using Network.DataServer.Messages.HeroPanels;
@@ -36,8 +34,9 @@ namespace City.TrainCamp
         private GameHero _currentHero;
         private RatingUpContainer _data;
         private List<GameResource> _cost = new();
+        private ReactiveCommand<GameHero> _onRatingUp = new();
 
-        private ObserverActionWithHero _observersRatingUp = new ObserverActionWithHero();
+        public IObservable<GameHero> OnRatingUp => _onRatingUp;
 
         public override void Start()
         {
@@ -152,26 +151,8 @@ namespace City.TrainCamp
             View.ListRequirementHeroes.ClearData();
         }
 
-        public void RegisterOnRatingUp(Action<BigDigit> d, int rating, string ID = "")
-        {
-            _observersRatingUp.Add(d, ID, rating);
-        }
-
-        public void UnregisterOnRatingUp(Action<BigDigit> d, int rating, string ID)
-        {
-            _observersRatingUp.Remove(d, ID, rating);
-        }
-
-        private void OnRatingUp()
-        {
-            //_observersRatingUp.OnAction(string.Empty, _currentHero.Model.General.Rating);
-            //_observersRatingUp.OnAction(_currentHero.Model.General.ViewId, _currentHero.Model.General.Rating);
-            _heroPanelController.UpdateInfoAboutHero();
-        }
-
         private async UniTaskVoid HeroRatingUp()
         {
-            UnityEngine.Debug.Log("HeroRatingUp start");
             var heroesPayment = new List<int>(View.ListRequirementHeroes.SelectedHeroes.Count);
 
             foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
@@ -187,7 +168,7 @@ namespace City.TrainCamp
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
                 HeroId = _currentHero.HeroData.Id,
-                HeroesPaymentContainer = _jsonConverter.ToJson(heroesPayment)
+                HeroesPaymentContainer = _jsonConverter.Serialize(heroesPayment)
             };
 
             var result = await DataServer.PostData(message);
@@ -201,12 +182,15 @@ namespace City.TrainCamp
 
                 Close();
                 _evolutionResultPanelController.OpenEvolvedHero(_currentHero);
-                OnRatingUp();
+
+                _onRatingUp.Execute(_currentHero);
+                _heroPanelController.UpdateInfoAboutHero();
             }
         }
 
         protected override void Close()
         {
+            _heroInstancesController.Hide();
             _cost.Clear();
             base.Close();
         }

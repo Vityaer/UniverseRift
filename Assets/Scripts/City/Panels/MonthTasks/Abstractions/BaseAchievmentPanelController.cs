@@ -1,6 +1,7 @@
 ﻿using City.Achievements;
 using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Requirement;
+using City.Panels.SubjectPanels.Common;
 using Db.CommonDictionaries;
 using Models.Common;
 using System;
@@ -15,6 +16,7 @@ namespace City.Panels.MonthTasks.Abstractions
         where T : BaseAchievmentPanelView
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
         private List<AchievmentView> _achievmentViews = new();
 
@@ -48,6 +50,7 @@ namespace City.Panels.MonthTasks.Abstractions
                 taskPrefab.SetData(gameTask, View.Scroll);
 
                 _achievmentViews.Add(taskPrefab);
+                taskPrefab.RewardController.SetDetailsController(SubjectDetailController);
             }
 
             base.OnLoadGame();

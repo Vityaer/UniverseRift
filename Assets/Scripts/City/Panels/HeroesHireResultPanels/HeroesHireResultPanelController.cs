@@ -74,6 +74,12 @@ namespace City.Panels.HeroesHireResultPanels
             _currentPanel.SetActive(false);
         }
 
+        public override void Close()
+        {
+            _heroInstancesController.Hide();
+            base.Close();
+        }
+
         public override void Dispose()
         {
             _tween.Kill();

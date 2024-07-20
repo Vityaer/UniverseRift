@@ -94,7 +94,7 @@ namespace City.Buildings.Mines
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+                var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
                 var calculatedReward = new GameReward(rewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(calculatedReward);
                 _place.MineData.LastDateTimeGetIncome = DateTime.UtcNow.ToString();

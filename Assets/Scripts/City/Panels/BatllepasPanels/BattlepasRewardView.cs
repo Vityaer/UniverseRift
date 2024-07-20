@@ -1,5 +1,6 @@
 ﻿using City.Achievements;
 using City.Buildings.CityButtons.EventAgent;
+using City.Panels.SubjectPanels.Common;
 using Db.CommonDictionaries;
 using TMPro;
 using UIController;
@@ -17,6 +18,12 @@ namespace City.Panels.BatllepasPanels
         [SerializeField] private TMP_Text NumberText;
 
         [Inject] private CommonDictionaries _commonDictionaries;
+
+        [Inject]
+        private void Construct(SubjectDetailController subjectDetailController)
+        {
+            _rewardController.SetDetailsController(subjectDetailController);
+        }
 
         public override void SetData(GameBattlepasReward data, ScrollRect scrollRect)
         {

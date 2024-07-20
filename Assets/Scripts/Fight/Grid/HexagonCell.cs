@@ -125,7 +125,6 @@ namespace Fight.Grid
 
         private void SelectDirection(CellDirectionType direction)
         {
-            Debug.Log($"SelectDirection: {direction}");
             if (observerSelectDirection != null)
             {
                 observerSelectDirection(GetNeighbourCellOnDirection(direction));

@@ -64,11 +64,12 @@ namespace City.Buildings.Tavern
             View.CostManyHireController.ChangeCost(costOneHire * 10, () => HireHero<T>(10, onHireHeroes, costOneHire * 10).Forget());
         }
 
-        private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes, GameResource cost) where T : AbstractHireMessage, new()
+        private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes, GameResource cost)
+            where T : AbstractHireMessage, new()
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
-            var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
+            var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
 
             var heroes = new List<GameHero>(newHeroDatas.Count);
             for (int i = 0; i < newHeroDatas.Count; i++)

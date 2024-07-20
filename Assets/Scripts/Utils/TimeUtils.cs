@@ -14,7 +14,7 @@ namespace Utils
 
         public static DateTime ParseTime(string timeString)
         {
-            DateTime result;
+            DateTime result = DateTime.UtcNow;
             try
             {
                 result = DateTime.ParseExact(

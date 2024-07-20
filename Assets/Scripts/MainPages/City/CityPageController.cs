@@ -14,6 +14,7 @@ using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using City.Buildings.WheelFortune;
 using UiExtensions.MainPages;
+using UniRx;
 using VContainer;
 using VContainer.Unity;
 
@@ -37,11 +38,14 @@ namespace MainPages.City
             RegisterBuilding(_marketController, View.Market);
             RegisterBuilding(_forgeController, View.Forge);
             RegisterBuilding(_altarController, View.Altar);
-            RegisterBuilding(_guildController, View.Guild);
+            //RegisterBuilding(_guildController, View.Guild);
             RegisterBuilding(_sanctuaryController, View.Sanctuary);
             RegisterBuilding(_fortuneWheelController, View.Wheel);
             RegisterBuilding(_petsZooController, View.PetZoo);
             RegisterBuilding(_taskboardController, View.Taskboard);
+
+
+            View.Guild.BuildingButton.OnClickAsObservable().Subscribe(_ => _guildController.Open()).AddTo(Disposables);
         }
 
 

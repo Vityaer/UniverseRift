@@ -145,14 +145,9 @@ namespace Fight.HeroControllers.Generals
                                 cell.RegisterOnSelectDirection(SelectDirectionAttack);
                                 HexagonCell.UnregisterOnClick(SelectHexagonCell);
                             }
-                            else
-                            {
-                                Debug.Log("i can't attak him");
-                            }
                         }
                         else
                         {
-                            Debug.Log("i can shoot in him");
                             StartDistanceAttackOtherHero(selectHero);
                         }
                     }
@@ -206,8 +201,7 @@ namespace Fight.HeroControllers.Generals
 
         protected virtual IEnumerator IMoveToCellTarget(HexagonCell targetCell)
         {
-            Animator.Play(ANIMATION_MOVE);
-
+            Animator.SetBool("Speed", true);
             var way = _gridController.FindWay(myPlace, targetCell, typeMovement: hero.GetBaseCharacteristic.MovementType);
             Vector3 targetPos, startPos;
             float t = 0f;
@@ -237,6 +231,8 @@ namespace Fight.HeroControllers.Generals
                 myPlace = currentCell;
                 myPlace.SetHero(this);
             }
+
+            Animator.SetBool("Speed", false);
             SetMyPlaceColor();
         }
 
@@ -360,13 +356,21 @@ namespace Fight.HeroControllers.Generals
                 hero.GetDamage(strike);
                 if (hero.Health > 0f)
                 {
-                    StartCoroutine(PlayAnimation(ANIMATION_GET_DAMAGE, () => DefaultAnimGetDamage(strike)));
+                    StartCoroutine(PlayAnimation(ANIMATION_GET_DAMAGE));
                 }
                 else
                 {
-                    StartCoroutine(PlayAnimation(ANIMATION_DEATH, DefaultAnimDeath, true, Death));
+                    _isDeath = true;
+                    StartCoroutine(PlayAnimation(ANIMATION_DEATH, onAnimationFinish: OffAnimator));
                 }
             }
+        }
+
+        private void OffAnimator()
+        {
+            Animator.speed = 0f;
+            Animator.enabled = false;
+            Death();
         }
 
         public virtual void GetHeal(float heal, RoundTypeNumber typeNumber = RoundTypeNumber.Num)

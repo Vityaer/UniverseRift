@@ -23,7 +23,7 @@ namespace City.Panels.Arenas.SimpleArenas
         private ArenaBuildingModel _arenaSave;
         private ReactiveCommand<int> _onCompleteMission = new();
         private ArenaPlayerData _arenaOpponentData;
-        private TeamContainer _teamContainer = new();
+        private TeamContainer _teamContainer;
 
         public ReactiveCommand OnTryMission = new();
         public IObservable<int> OnCompleteMission => _onCompleteMission;
@@ -42,7 +42,7 @@ namespace City.Panels.Arenas.SimpleArenas
 
             if (_teamContainer == null)
             {
-                _teamContainer = new TeamContainer();
+                _teamContainer = new TeamContainer(GetType().Name);
                 _arenaSave.MyData.Team = _teamContainer;
             }
 
@@ -102,7 +102,7 @@ namespace City.Panels.Arenas.SimpleArenas
 
             if (!string.IsNullOrEmpty(result))
             {
-                var newData = _jsonConverter.FromJson<ArenaBuildingModel>(result);
+                var newData = _jsonConverter.Deserialize<ArenaBuildingModel>(result);
                 CommonGameData.City.ArenaSave = newData;
                 _arenaSave = newData;
                 UpdateUi();
@@ -114,7 +114,7 @@ namespace City.Panels.Arenas.SimpleArenas
             var message = new ArenaSetDefendersMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                HeroesIdsContainer = _jsonConverter.ToJson(heroesIdsContainer)
+                HeroesIdsContainer = _jsonConverter.Serialize(heroesIdsContainer)
             };
 
             var result = await DataServer.PostData(message);

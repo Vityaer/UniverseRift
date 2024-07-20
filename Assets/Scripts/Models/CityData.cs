@@ -3,8 +3,9 @@ using Models.Data.Buildings.FortuneWheels;
 using Models.Data.Buildings.Markets;
 using Models.Data.Buildings.Taskboards;
 using Models.Data.Dailies;
+using Models.MainCampaign;
 using Models.TravelRaceDatas;
-using Network.DataServer.Models;
+using Network.DataServer.Models.Guilds;
 using System;
 
 namespace Models
@@ -16,7 +17,7 @@ namespace Models
         public IndustryData IndustrySave = new IndustryData();
         public MarketData MallSave = new MarketData();
         public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
-        public BuildingWithFightTeamsData MainCampaignSave = new BuildingWithFightTeamsData();
+        public MainCampaignBuildingData MainCampaignSave = new();
         public TravelBuildingData TravelCircleSave = new TravelBuildingData();
         public VoyageBuildingData VoyageSave = new VoyageBuildingData();
         public ArenaBuildingModel ArenaSave = new ArenaBuildingModel();
@@ -26,7 +27,7 @@ namespace Models
         public AchievmentStorageData Achievments = new AchievmentStorageData();
         public FortuneWheelData FortuneWheelData = new FortuneWheelData();
         public TaskBoardData TaskBoardData = new TaskBoardData();
-        public GuildData GildSave = new GuildData();
+        public GuildPlayerSaveContainer GuildPlayerSaveContainer = new();
         public LongTravelData LongTravelData = new();
     }
 }

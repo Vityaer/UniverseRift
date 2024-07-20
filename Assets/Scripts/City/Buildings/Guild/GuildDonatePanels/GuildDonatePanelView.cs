@@ -8,7 +8,8 @@ namespace City.Buildings.Guild.GuildDonatePanels
     {
         public TMP_Text GuildMineLevel;
         public Slider DonateSlider;
-        public TMP_Text DotateMineCount;
+        public TMP_Text DonateCurrentProgress;
+        public TMP_Text DonateMineCount;
         public Button DonateButton;
         public Button BigDonateButton;
     }

@@ -1,5 +1,6 @@
 ﻿using City.Buildings.Abstractions;
 using City.TrainCamp;
+using System.Collections.Generic;
 using UIController.Buttons;
 using UIController.GameObservers;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace City.Buildings.MagicCircle
 {
     public class MagicCircleView : BaseBuildingView
     {
-        public SerializableDictionary<string, Button> RaceSelectButtons = new SerializableDictionary<string, Button>();
+        public Dictionary<string, Button> RaceSelectButtons = new();
         public ButtonWithObserverResource OneHire;
         public ButtonWithObserverResource ManyHire;
 

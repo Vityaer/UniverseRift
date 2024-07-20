@@ -74,7 +74,7 @@ namespace City.Buildings.Sanctuary
                     View.CardsContainer.RemoveCard(_selectedCard);
                     _heroesStorageController.RemoveHero(_selectedCard.Hero);
 
-                    var heroData = _jsonConverter.FromJson<HeroData>(result);
+                    var heroData = _jsonConverter.Deserialize<HeroData>(result);
 
                     var model = _commonDictionaries.Heroes[heroData.HeroId];
                     var hero = new GameHero(model, heroData);

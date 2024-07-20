@@ -30,9 +30,9 @@ namespace City.Buildings.TaskGiver
         private GameResource _costReplacement = new GameResource(ResourceType.Diamond, 10f);
 
         private TaskBoardData _taskBoardData;
-        private ReactiveCommand<int> _onCompleteTask = new();
+        private ReactiveCommand<TaskController> _onCompleteTask = new();
 
-        public IObservable<int> OnCompleteTask => _onCompleteTask;
+        public IObservable<TaskController> OnCompleteTask => _onCompleteTask;
 
         protected override void OnStart()
         {
@@ -68,9 +68,9 @@ namespace City.Buildings.TaskGiver
         {
             var controller = _taskControllers.Find(controller => controller.GetTask == task);
             _taskControllers.Remove(controller);
-            UnityEngine.Object.Destroy(controller.gameObject);
             _taskBoardData.ListTasks.Remove(task);
-            _onCompleteTask.Execute(1);
+            _onCompleteTask.Execute(controller);
+            UnityEngine.Object.Destroy(controller.gameObject);
         }
 
         public override void OnHide()

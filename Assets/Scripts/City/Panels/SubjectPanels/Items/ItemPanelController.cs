@@ -1,25 +1,30 @@
-﻿using UIController.Inventory;
+﻿using LocalizationSystems;
+using UIController.Inventory;
 using UIController.ItemVisual;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
-using VContainerUi.Model;
-using VContainerUi.Messages;
-using VContainer;
 using VContainer.Unity;
-using System;
+using VContainerUi.Messages;
+using VContainerUi.Model;
 
 namespace City.Panels.SubjectPanels
 {
     public class ItemPanelController : UiPanelController<ItemPanelView>, IInitializable
     {
         //[Inject] private readonly InventoryController _inventoryController;
-        
+        private readonly ILocalizationSystem _localizationSystem;
+
         private HeroItemCellController _cellItem;
         private GameItem _selectItem;
 
         public ReactiveCommand OnAction = new ReactiveCommand();
         public ReactiveCommand OnDrop = new ReactiveCommand();
         public ReactiveCommand OnClose = new ReactiveCommand();
+
+        public ItemPanelController(ILocalizationSystem localizationSystem)
+        {
+            _localizationSystem = localizationSystem;
+        }
 
         public new void Initialize()
         {
@@ -42,16 +47,24 @@ namespace City.Panels.SubjectPanels
                 View.ActionButtonText.text = "Снять";
             }
             View.ActionButton.interactable = true;
-
-            View.MainImage.SetData(item);
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
+            FillData(item);
         }
 
-        public void OpenItemDetails(GameItem item)
+        public void ShowData(GameItem item)
         {
             View.ActionButton.interactable = false;
+            FillData(item);
+        }
+
+        private void FillData(GameItem item)
+        {
             View.MainImage.SetData(item);
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Exclusive);
+            View.Name.StringReference = _localizationSystem.LocalizationUiContainer
+                .GetLocalizedContainer($"{item.Id}Name");
+
+            View.ItemType.StringReference = _localizationSystem.LocalizationUiContainer
+                .GetLocalizedContainer($"{item.Type}Name");
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
         }
 
         private void OnClickButtonAction()

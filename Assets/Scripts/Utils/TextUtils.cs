@@ -134,7 +134,7 @@ namespace Utils
 
         public static List<T> Save<T>(string jsonData, IJsonConverter converter) where T : BaseModel
         {
-            var fromJson = converter.FromJson<List<T>>(jsonData);
+            var fromJson = converter.Deserialize<List<T>>(jsonData);
             Save(fromJson);
             return fromJson;
         }

@@ -8,6 +8,8 @@ using City.Buildings.Friends;
 using City.Buildings.Friends.Panels.AvailableFriends;
 using City.Buildings.Friends.Panels.FriendRequests;
 using City.Buildings.Guild.AvailableGuildsPanels;
+using City.Buildings.Guild.BossRaid;
+using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.GuildDonatePanels;
 using City.Buildings.Guild.GuildTaskboardPanels;
 using City.Buildings.Guild.NewGuildPanels;
@@ -52,6 +54,7 @@ using City.Panels.RatingUps.EvolutionResultPanels;
 using City.Panels.Registrations;
 using City.Panels.Rewards;
 using City.Panels.SubjectPanels;
+using City.Panels.SubjectPanels.Common;
 using City.Panels.SubjectPanels.Resources;
 using City.Panels.SubjectPanels.Splinters;
 using City.TrainCamp;
@@ -112,8 +115,6 @@ namespace Installers
         [SerializeField] private InfoMinePanelView _infoMinePanelView;
         [SerializeField] private CreateMinePanelView _createMinePanelView;
         [SerializeField] private BattlepasPanelView _battlepasPanelView;
-        [SerializeField] private NewGuildPanelView _newGuildPanelView;
-        [SerializeField] private AvailableGuildsPanelView _availableGuildsPanelView;
         [SerializeField] private FriendRequestsPanelView _friendRequestsPanelView;
         [SerializeField] private AvailableFriendsPanelView _availableFriendsPanelView;
         [SerializeField] private LetterPanelView _letterPanelView;
@@ -133,6 +134,10 @@ namespace Installers
         [Header("Guild")]
         [SerializeField] private GuildDonatePanelView _guildDonatePanelView;
         [SerializeField] private GuildTaskboardPanelView _guildTaskboardPanelView;
+        [SerializeField] private NewGuildPanelView _newGuildPanelView;
+        [SerializeField] private AvailableGuildsPanelView _availableGuildsPanelView;
+        [SerializeField] private GuildBossRaidPanelView _guildBossRaidPanelController;
+        [SerializeField] private GuildAdministrationPanelView _guildAdministrationPanelView;
 
         [Header("General")]
         
@@ -166,7 +171,6 @@ namespace Installers
             var canvas = Instantiate(_canvas);
             canvas.gameObject.name = MAIN_PANELS;
             canvas.GetComponent<Canvas>().sortingOrder = CANVAS_ORDER;
-
 
             builder.RegisterUiView<DailyRewardPanelController, DailyRewardPanelView>(_dailyRewardPanelView, canvas.transform);
             builder.RegisterUiView<DailyTaskPanelController, DailyTaskPanelView>(_dailyTaskPanelView, canvas.transform);
@@ -240,6 +244,8 @@ namespace Installers
             builder.RegisterUiView<LoadingController, LoadingView>(_loadingView, canvas.transform);
             builder.RegisterUiView<ProgressBarController, ProgressBarView>(_progressBarView, canvas.transform);
             builder.RegisterUiView<FadeInOutPanelController, FadeInOutPanelView>(_fadeInOutPanelView, canvas.transform);
+
+            builder.Register<SubjectDetailController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
     }
 }

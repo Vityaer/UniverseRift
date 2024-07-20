@@ -14,6 +14,7 @@ namespace City.TrainCamp.HeroInstances
 
         [SerializeField] private Transform _root;
         [SerializeField] private Camera _camera;
+        [SerializeField] private GameObject _light;
 
         private bool _work;
 
@@ -23,6 +24,7 @@ namespace City.TrainCamp.HeroInstances
             {
                 _camera.enabled = true;
                 _work = true;
+                _light.SetActive(true);
             }
 
             if (_currentHero != null)
@@ -44,6 +46,19 @@ namespace City.TrainCamp.HeroInstances
         public void ShowAnimation()
         {
             _currentHero.HeroAnimator.Play("Attack");
+        }
+
+        public void Hide()
+        {
+            if (_work)
+            {
+                _camera.enabled = false;
+                _work = false;
+                _light.SetActive(false);
+
+                if (_currentHero != null)
+                    Destroy(_currentHero.gameObject);
+            }
         }
     }
 }

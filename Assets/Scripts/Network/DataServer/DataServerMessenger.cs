@@ -19,9 +19,12 @@ namespace Network.DataServer
             var asyncRequest = await request.SendWebRequest();
             var answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
 
+            if (ReferenceEquals(answer, null))
+                return string.Empty;
+
             if (!string.IsNullOrEmpty(answer.Error))
             {
-                Debug.LogError($"Server error: {answer.Error}");
+                Debug.LogError($"message: {message.Route}, Server error: {answer.Error}");
                 OnError.Execute(answer.Error);
             }
 

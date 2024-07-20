@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using City.Panels.SubjectPanels.Common;
+using Common;
 using System;
 using TMPro;
 using UniRx;
@@ -8,15 +9,17 @@ using VContainerUi.Abstraction;
 
 namespace UIController.ItemVisual
 {
-    public class SubjectCell : UiView, IDisposable
+    public class SubjectCell : UiView
     {
         public Image Image;
         public Image Background;
         public Backlight Backlight;
         public TMP_Text Amount;
         public Button Button;
-        private ReactiveCommand<SubjectCell> _onSelect = new ReactiveCommand<SubjectCell>();
-        private CompositeDisposable _disposables = new CompositeDisposable();
+
+        private ReactiveCommand<SubjectCell> _onSelect = new();
+        private CompositeDisposable _disposables = new();
+
         public BaseObject Subject { get; private set; }
         public IObservable<SubjectCell> OnSelect => _onSelect;
 
@@ -42,7 +45,9 @@ namespace UIController.ItemVisual
         private void OnClick()
         {
             if (Subject != null)
+            {
                 _onSelect.Execute(this);
+            }
         }
 
         public void Clear()
@@ -59,11 +64,11 @@ namespace UIController.ItemVisual
             gameObject.SetActive(false);
         }
 
-        public new void Dispose()
+
+        protected override void OnDestroy()
         {
             _disposables.Dispose();
-            base.Dispose();
+            base.OnDestroy();
         }
-
     }
 }

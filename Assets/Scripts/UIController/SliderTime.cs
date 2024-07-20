@@ -16,15 +16,16 @@ namespace UIController
         public Color lowValue, fillValue;
         private int waitSeconds = 0;
         private DateTime deltaTime;
-        private TimeSpan interval, generalInterval;
+        private TimeSpan interval;
+        private TimeSpan generalInterval;
         private float secondsInterval = 1f;
-        private float t = 0f;
         private Coroutine coroutineTimer;
         private bool isSetData = false;
         private bool _isFinish = false;
 
         public void ChangeValue()
         {
+            var t = 0f;
             switch (typeSlider)
             {
                 case TypeSliderTime.Remainder:

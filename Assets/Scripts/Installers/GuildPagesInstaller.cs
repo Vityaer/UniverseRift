@@ -1,4 +1,6 @@
 ﻿using City.Buildings.Guild.AvailableGuildsPanels;
+using City.Buildings.Guild.BossRaid;
+using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.NewGuildPanels;
 using MainPages.Events;
 using UIController.Common;
@@ -18,8 +20,7 @@ namespace Installers
         [SerializeField] private Canvas _canvas;
         [SerializeField] private SafeArea _safeArea;
 
-        [SerializeField] private NewGuildPanelView _newGuildPanelView;
-        [SerializeField] private AvailableGuildsPanelView _availableGuildsPanelView;
+
 
         public override void Install(IContainerBuilder builder)
         {
@@ -35,6 +36,8 @@ namespace Installers
 
             builder.RegisterUiView<NewGuildPanelController, NewGuildPanelView>(_newGuildPanelView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<AvailableGuildsPanelController, AvailableGuildsPanelView>(_availableGuildsPanelView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<GuildBossRaidPanelController, GuildBossRaidPanelView>(_guildBossRaidPanelController, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<GuildAdministrationPanelController, GuildAdministrationPanelView>(_guildAdministrationPanelView, safeArea.RootTemporallyWindows);
         }
     }
 }

@@ -80,7 +80,18 @@
           {
             "Id": 0,
             "HeroId": "Snake",
-            "Level": 50,
+            "Level": 80,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 80,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -176,7 +187,18 @@
           {
             "Id": 0,
             "HeroId": "Wedger",
-            "Level": 50,
+            "Level": 150,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Wedger",
+            "Level": 150,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -199,8 +221,19 @@
         "Units": [
           {
             "Id": 0,
-            "HeroId": "Spike",
-            "Level": 50,
+            "HeroId": "Dragon",
+            "Level": 180,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Dragon",
+            "Level": 180,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -503,11 +536,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 5.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 15.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 5.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 15.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -527,11 +592,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 10.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 20.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 10.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 20.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -551,11 +648,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 15.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 25.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 15.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 25.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -586,11 +715,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 20.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 30.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 20.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 30.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -600,31 +761,18 @@
           {
             "Id": 0,
             "HeroId": "Snake",
-            "Level": 50,
+            "Level": 75,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
               "Items": null
             }
-          }
-        ],
-        "WinReward": {
-          "Resources": [],
-          "Items": [],
-          "Splinters": [],
-          "Id": null,
-          "Objects": []
-        }
-      },
-      {
-        "Name": "ChallengeTowerMission",
-        "Location": null,
-        "Units": [
+          },
           {
             "Id": 0,
-            "HeroId": "Treestor",
-            "Level": 50,
+            "HeroId": "Snake",
+            "Level": 75,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -634,35 +782,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
-          "Items": [],
-          "Splinters": [],
-          "Id": null,
-          "Objects": []
-        }
-      },
-      {
-        "Name": "ChallengeTowerMission",
-        "Location": null,
-        "Units": [
-          {
-            "Id": 0,
-            "HeroId": "Treestor",
-            "Level": 50,
-            "Rating": 1,
-            "Stage": 0,
-            "CurrentBreakthrough": 0,
-            "Costume": {
-              "Items": null
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 40.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 50.0,
+                "E10": 3
+              }
             }
-          }
-        ],
-        "WinReward": {
-          "Resources": [],
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 40.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 50.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -672,7 +828,29 @@
           {
             "Id": 0,
             "HeroId": "Knight",
-            "Level": 50,
+            "Level": 90,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Nosedman",
+            "Level": 90,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Nosedman",
+            "Level": 90,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -682,11 +860,210 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 45.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 55.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 45.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 55.0,
+                "E10": 3
+              }
+            }
+          ]
+        }
+      },
+      {
+        "Name": "ChallengeTowerMission",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Treestor",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Treestor",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Treestor",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 50.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 60.0,
+                "E10": 3
+              }
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 50.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 60.0,
+                "E10": 3
+              }
+            }
+          ]
+        }
+      },
+      {
+        "Name": "ChallengeTowerMission",
+        "Location": null,
+        "Units": [
+          {
+            "Id": 0,
+            "HeroId": "Knight",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Imp",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "PitBoy",
+            "Level": 120,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          }
+        ],
+        "WinReward": {
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 55.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 65.0,
+                "E10": 3
+              }
+            }
+          ],
+          "Items": [],
+          "Splinters": [],
+          "Id": null,
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 55.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 65.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -696,7 +1073,29 @@
           {
             "Id": 0,
             "HeroId": "Catcher",
-            "Level": 50,
+            "Level": 130,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "PitBoy",
+            "Level": 130,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Catcher",
+            "Level": 130,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -706,11 +1105,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 60.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 70.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 60.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 70.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -720,7 +1151,29 @@
           {
             "Id": 0,
             "HeroId": "PitBoy",
-            "Level": 50,
+            "Level": 140,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Treestor",
+            "Level": 140,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Dragon",
+            "Level": 140,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -730,11 +1183,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 80.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 80.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -744,7 +1229,29 @@
           {
             "Id": 0,
             "HeroId": "Fishguard",
-            "Level": 50,
+            "Level": 160,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Nosedman",
+            "Level": 160,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "PracticeDummy",
+            "Level": 155,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -754,11 +1261,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 85.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 110.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 85.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 110.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -768,7 +1307,29 @@
           {
             "Id": 0,
             "HeroId": "Snake",
-            "Level": 50,
+            "Level": 170,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Spike",
+            "Level": 170,
+            "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Dragon",
+            "Level": 170,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -778,11 +1339,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 90.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 120.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 90.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 120.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -792,8 +1385,30 @@
           {
             "Id": 0,
             "HeroId": "Catcher",
-            "Level": 50,
+            "Level": 180,
             "Rating": 1,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Nosedman",
+            "Level": 180,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Treestor",
+            "Level": 200,
+            "Rating": 3,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -802,11 +1417,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 95.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 130.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 95.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 130.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -816,8 +1463,19 @@
           {
             "Id": 0,
             "HeroId": "Nosedman",
-            "Level": 50,
-            "Rating": 1,
+            "Level": 200,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Dragon",
+            "Level": 200,
+            "Rating": 2,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -826,11 +1484,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 140.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 100.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 140.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -840,7 +1530,29 @@
           {
             "Id": 0,
             "HeroId": "Dragon",
-            "Level": 50,
+            "Level": 210,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Catcher",
+            "Level": 210,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "PracticeDummy",
+            "Level": 220,
             "Rating": 1,
             "Stage": 0,
             "CurrentBreakthrough": 0,
@@ -850,11 +1562,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 105.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 145.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 105.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 145.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -864,8 +1608,30 @@
           {
             "Id": 0,
             "HeroId": "Snake",
-            "Level": 50,
-            "Rating": 1,
+            "Level": 220,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Nosedman",
+            "Level": 220,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Fishguard",
+            "Level": 230,
+            "Rating": 3,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -874,11 +1640,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 110.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 110.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -888,8 +1686,8 @@
           {
             "Id": 0,
             "HeroId": "Nosedman",
-            "Level": 50,
-            "Rating": 1,
+            "Level": 260,
+            "Rating": 3,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -898,11 +1696,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 125.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 125.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -912,8 +1742,30 @@
           {
             "Id": 0,
             "HeroId": "Fishguard",
-            "Level": 50,
-            "Rating": 1,
+            "Level": 230,
+            "Rating": 3,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Wolf",
+            "Level": 230,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Wolf",
+            "Level": 230,
+            "Rating": 2,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -922,11 +1774,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 130.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 130.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -936,8 +1820,41 @@
           {
             "Id": 0,
             "HeroId": "Fishguard",
-            "Level": 50,
-            "Rating": 1,
+            "Level": 270,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Fishguard",
+            "Level": 270,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Fishguard",
+            "Level": 270,
+            "Rating": 2,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Fishguard",
+            "Level": 270,
+            "Rating": 2,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -946,11 +1863,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 135.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 135.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 0,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 3
+              }
+            }
+          ]
         }
       },
       {
@@ -959,9 +1908,31 @@
         "Units": [
           {
             "Id": 0,
-            "HeroId": "Catcher",
-            "Level": 50,
-            "Rating": 1,
+            "HeroId": "Wolf",
+            "Level": 300,
+            "Rating": 3,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Wolf",
+            "Level": 300,
+            "Rating": 3,
+            "Stage": 0,
+            "CurrentBreakthrough": 0,
+            "Costume": {
+              "Items": null
+            }
+          },
+          {
+            "Id": 0,
+            "HeroId": "Wolf",
+            "Level": 300,
+            "Rating": 3,
             "Stage": 0,
             "CurrentBreakthrough": 0,
             "Costume": {
@@ -970,11 +1941,43 @@
           }
         ],
         "WinReward": {
-          "Resources": [],
+          "Resources": [
+            {
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 0
+              }
+            },
+            {
+              "Type": 1,
+              "Amount": {
+                "Mantissa": 350.0,
+                "E10": 0
+              }
+            }
+          ],
           "Items": [],
           "Splinters": [],
           "Id": null,
-          "Objects": []
+          "Objects": [
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 21,
+              "Amount": {
+                "Mantissa": 150.0,
+                "E10": 0
+              }
+            },
+            {
+              "$type": "Models.Data.Inventories.ResourceData, Assembly-CSharp",
+              "Type": 1,
+              "Amount": {
+                "Mantissa": 350.0,
+                "E10": 0
+              }
+            }
+          ]
         }
       }
     ],

@@ -48,8 +48,11 @@ namespace UIController
             _cost = res;
             Enable();
 
-            if(_resourceStorageController != null)
-                OnChageStorageResource(_resourceStorageController.Resources[_cost.Type]);
+            if (_resourceStorageController == null)
+                Debug.LogError("You forgot inject this!", gameObject);
+
+            OnChageStorageResource(_resourceStorageController.Resources[_cost.Type]);
+            CheckResource(_cost);
         }
 
         public void SetCostWithoutInfo(GameResource res)
@@ -104,7 +107,7 @@ namespace UIController
             if (disable)
                 return;
 
-            _button.interactable = _resourceStorageController.CheckResource(_cost);
+            _button.interactable = _resourceStorageController.CheckResource(res);
         }
 
         public void Disable()

@@ -1,4 +1,5 @@
 using City.Buildings.Voyage.Panels;
+using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
 using Db.CommonDictionaries;
 using Hero;
@@ -15,11 +16,14 @@ namespace City.Buildings.Voyage
     public class VoyageMissionPanelController : UiPanelController<VoyageMissionPanelView>
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly SubjectDetailController _subjectDetailController;
+
         private Action _action;
 
         public override void Start()
         {
             View.MainButton.OnClickAsObservable().Subscribe(_ => OpenMission()).AddTo(Disposables);
+            View.rewardController.SetDetailsController(_subjectDetailController);
             base.Start();
         }
 

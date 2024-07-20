@@ -1,11 +1,7 @@
 ﻿using City.Buildings.Forge;
 using City.TrainCamp;
-using Common.Resourses;
 using Db.CommonDictionaries;
-using Models;
-using TMPro;
 using UIController.Inventory;
-using UnityEngine;
 using VContainer;
 using VContainerUi.Abstraction;
 

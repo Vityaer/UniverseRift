@@ -1,11 +1,13 @@
 using City.Buildings.Abstractions;
 using City.Buildings.WorldMaps;
+using City.Panels.Arenas.Teams;
 using ClientServices;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Fight;
 using Models;
+using Models.Arenas;
 using Models.Common;
 using Models.Fights.Campaign;
 using Network.DataServer;
@@ -51,6 +53,7 @@ namespace Campaign
                 var missionController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
                 missionControllers.Add(missionController);
                 missionController.OnClickMission.Subscribe(SelectMission).AddTo(Disposables);
+                missionController.rewardController.SetDetailsController(SubjectDetailController);
             }
         }
 
@@ -62,6 +65,7 @@ namespace Campaign
             {
                 _currentMissionIndex = PlayerPrefs.GetInt(NAME_RECORD_NUM_CURRENT_MISSION);
             }
+
 
             _maxMission = campaingSaveObject.IntRecords.GetRecord(NAME_RECORD_NUM_MAX_MISSION, 0);
             if (_currentMissionIndex >= _maxMission) _currentMissionIndex = _maxMission - 1;
@@ -194,7 +198,10 @@ namespace Campaign
         //Auto fight
         public void SaveAutoFight(DateTime newDateTime)
         {
-            campaingSaveObject.DateRecords.SetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, newDateTime);
+            campaingSaveObject.DateRecords.SetRecord(
+                NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME,
+                newDateTime.ToString(Constants.Common.DateTimeFormat)
+                );
         }
 
         private void OpenWorldMap()

@@ -1,11 +1,14 @@
 ﻿using City.Panels.BoxRewards;
+using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
 using Db.CommonDictionaries;
 using Models.Data.Rewards;
+using System;
 using System.Collections.Generic;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards;
+using UniRx;
 using UnityEngine;
 
 namespace UIController
@@ -16,6 +19,14 @@ namespace UIController
         public Transform panelRewards;
         public GameObject btnAllReward;
         private GameReward _reward;
+
+        private CompositeDisposable _disposables = new();
+
+        public void SetDetailsController(SubjectDetailController subjectDetailController)
+        {
+            foreach (var cell in Cells)
+                cell.OnSelect.Subscribe(cell => subjectDetailController.ShowData(cell.Subject)).AddTo(_disposables);
+        }
 
         public void ShowReward(RewardModel rewardData, CommonDictionaries commonDictionaries)
         {
@@ -68,6 +79,11 @@ namespace UIController
         public void OpenReward()
         {
             gameObject.SetActive(true);
+        }
+
+        private void OnDestroy()
+        {
+            _disposables?.Dispose();
         }
     }
 }

@@ -49,14 +49,14 @@ namespace UIController.Inventory
             _selectCountPanelController.ActionOnSelectedCount.Subscribe(count => OnStartUseSplinters(count).Forget()).AddTo(Disposables);
         }
 
-        public void OpenInfoAboutSplinter(GameSplinter splinterController, bool withControl = false)
+        public void ShowData(GameSplinter splinterController, bool withControl = false)
         {
             _splinter = splinterController;
             UpdateUIInfo();
             View.PosibilityButton.SetActive(splinterController.CountReward > 1);
             View.ActionButton.interactable = splinterController.IsCanUse;
             View.ActionButton.gameObject.SetActive(withControl);
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<SplinterPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SplinterPanelController>(openType: OpenType.Additive);
         }
 
         private void OpenCountPanel()
@@ -79,7 +79,7 @@ namespace UIController.Inventory
                 switch (_splinter.typeSplinter)
                 {
                     case SplinterType.Hero:
-                        var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
+                        var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
 
                         var heroes = new List<GameHero>(newHeroDatas.Count);
                         for (var i = 0; i < newHeroDatas.Count; i++)
@@ -91,7 +91,7 @@ namespace UIController.Inventory
                         }
                         break;
                     case SplinterType.Item:
-                        var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+                        var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
                         var reward = new GameReward(rewardModel, _commonDictionaries);
                         _clientRewardService.ShowReward(reward);
                         break;

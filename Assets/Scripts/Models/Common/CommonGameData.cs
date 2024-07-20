@@ -52,7 +52,7 @@ namespace Models.Common
                 return;
 
             OnFinishLoadData.Execute();
-            var data = _jsonConverter.FromJson<CommonGameData>(result);
+            var data = _jsonConverter.Deserialize<CommonGameData>(result);
 
             City = data.City;
             PlayerInfoData = data.PlayerInfoData;

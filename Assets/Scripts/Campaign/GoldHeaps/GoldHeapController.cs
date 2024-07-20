@@ -18,6 +18,7 @@ using System.Threading;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -38,6 +39,8 @@ namespace Campaign
         [Inject] private readonly CommonDictionaries _commonDictionaries;
 
         private DateTime _previousDateTime;
+        private bool _isHavePreviousDateTime;
+
         private AutoRewardData _autoReward;
         private GameReward _calculatedReward;
         private Tween _tween;
@@ -59,10 +62,10 @@ namespace Campaign
 
         protected override void OnLoadGame()
         {
-            if (_commonGameData.City.MainCampaignSave.DateRecords.CheckRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME))
+            if (!string.IsNullOrEmpty(_commonGameData.City.MainCampaignSave.LastGetAutoFightReward))
             {
-                _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords
-                    .GetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, DateTime.UtcNow);
+                _previousDateTime = TimeUtils.ParseTime(_commonGameData.City.MainCampaignSave.LastGetAutoFightReward);
+                _isHavePreviousDateTime = true;
             }
         }
 
@@ -70,10 +73,18 @@ namespace Campaign
         {
             if (newAutoReward != null)
             {
-                if (_previousDateTime == null)
+                if (!_isHavePreviousDateTime)
                 {
-                    _previousDateTime = _commonGameData.City.MainCampaignSave.DateRecords
-                        .GetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, DateTime.UtcNow);
+                    if (!string.IsNullOrEmpty(_commonGameData.City.MainCampaignSave.LastGetAutoFightReward))
+                    {
+                        _previousDateTime = TimeUtils.ParseTime(_commonGameData.City.MainCampaignSave.LastGetAutoFightReward);
+                    }
+                    else
+                    {
+                        _previousDateTime = DateTime.UtcNow;
+                    }
+
+                    _isHavePreviousDateTime = true;
                 }
 
                 _autoReward = newAutoReward;
@@ -98,9 +109,9 @@ namespace Campaign
             _observerGetHour.Execute(new BigDigit((float) delta.TotalHours));
             _disposable.Dispose();
             _previousDateTime = DateTime.UtcNow;
-            _commonGameData.City.MainCampaignSave.DateRecords.SetRecord(NAME_RECORD_AUTOFIGHT_PREVIOUS_DATETIME, _previousDateTime);
+            _commonGameData.City.MainCampaignSave.LastGetAutoFightReward = _previousDateTime.ToString(Constants.Common.DateTimeFormat);
             View.SliderAccumulation.SetData(_previousDateTime, maxTime);
-            CheckSprite();
+            OffGoldHeap();
         }
 
         private async UniTaskVoid CalculateReward()
@@ -108,7 +119,7 @@ namespace Campaign
             var message = new GetAutoFightRewardMessage { PlayerId = _commonGameData.PlayerInfoData.Id, NumMission = _missionIndex };
             var result = await DataServer.PostData(message);
 
-            var rewardModel = _jsonConverter.FromJson<RewardModel>(result);
+            var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
             _calculatedReward = new GameReward(rewardModel, _commonDictionaries);
 
             _disposable = _autoFightRewardPanelController.OnClose.Subscribe(_ => GetReward());
@@ -154,9 +165,19 @@ namespace Campaign
             }
             View.Image.sprite = View.ListSprite.GetSprite(tact);
 
-            _cancellationTokenSource.Dispose();
+            TryCancelToken();
             _cancellationTokenSource = new CancellationTokenSource();
             WaitForCheck(_cancellationTokenSource.Token).Forget();
+        }
+
+        private void TryCancelToken()
+        {
+            if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
+            }
         }
 
         private async UniTaskVoid WaitForCheck(CancellationToken cancellationToken)
@@ -167,8 +188,7 @@ namespace Campaign
 
         private void OffGoldHeap()
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            TryCancelToken();
             _tween.Kill();
             _tween = View.Rect.DOScale(Vector2.zero, 0.25f).OnComplete(OffSprite);
         }

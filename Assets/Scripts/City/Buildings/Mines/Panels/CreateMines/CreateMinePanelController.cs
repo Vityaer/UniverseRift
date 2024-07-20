@@ -114,7 +114,7 @@ namespace City.Buildings.Mines
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var mineData = _jsonConverter.FromJson<MineData>(result);
+                var mineData = _jsonConverter.Deserialize<MineData>(result);
                 _onMineCreate.Execute(mineData);
                 _resourceStorageController.SubtractResource(_cost);
                 Close();

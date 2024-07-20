@@ -40,7 +40,7 @@ namespace City.Buildings.Friends.Panels.AvailableFriends
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var availableFriendDatas = _jsonConverter.FromJson<List<AvailableFriendData>>(result);
+                var availableFriendDatas = _jsonConverter.Deserialize<List<AvailableFriendData>>(result);
                 _availableFriendsWrapper.ShowDatas(availableFriendDatas);
             }
         }

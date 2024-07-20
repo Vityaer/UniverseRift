@@ -28,11 +28,13 @@ namespace Common.Authentications
 
             DataServer.OnError.Subscribe(OnErrorLoadData).AddTo(_disposables);
             _commonGameData.OnLoadedData.Subscribe(_ => DisposeSubscribers()).AddTo(_disposables);
+#if UNITY_EDITOR
             if (!_registrationPanelView.OverrideId)
             {
                 var playerId = GetPlayerId();
                 if (playerId > 0)
                 {
+                    Debug.Log($"пытаемся загрузить данные для: {playerId}");
                     _commonGameData.Init(playerId).Forget();
                 }
                 else
@@ -44,6 +46,18 @@ namespace Common.Authentications
             {
                 _commonGameData.Init(_registrationPanelView.PlayerId).Forget();
             }
+#else
+            var playerId = GetPlayerId();
+            if (playerId > 0)
+            {
+                Debug.Log($"пытаемся загрузить данные для: {playerId}");
+                _commonGameData.Init(playerId).Forget();
+            }
+            else
+            {
+                _registrationPanelController.OpenPanelRegistration();
+            }
+#endif
         }
 
         private void DisposeSubscribers()

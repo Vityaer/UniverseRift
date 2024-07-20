@@ -10,7 +10,7 @@ using VContainerUi.Abstraction;
 
 namespace City.TrainCamp
 {
-    public class ResourceObjectCost : UiView, IDisposable
+    public class ResourceObjectCost : UiView
     {
         [SerializeField] private Image Image;
         [SerializeField] private TextMeshProUGUI TextAmount;
@@ -31,7 +31,7 @@ namespace City.TrainCamp
         public void SetData(GameResource res)
         {
             if (_resourceStorageController == null)
-                Debug.LogError($"You frogot inject ResourceStorageController, {gameObject.name}", gameObject);
+                Debug.LogError($"You forgot inject ResourceStorageController, {gameObject.name}", gameObject);
 
             _disposable?.Dispose();
             _disposable = _resourceStorageController.Subscribe(res.Type, CheckResource);
@@ -50,13 +50,13 @@ namespace City.TrainCamp
         public bool CheckResource()
         {
             var storeResource = _resourceStorageController.GetResource(_costResource.Type);
-            bool flag = storeResource.CheckCount(_costResource);
-            string color = flag ? "<color=green>" : "<color=red>";
+            bool enoughResource = storeResource.CheckCount(_costResource);
+            string color = enoughResource ? "<color=green>" : "<color=red>";
 
             string result = $"{color}{_costResource}</color>/{storeResource}";
             TextAmount.text = result;
-            OnCheckResource(flag);
-            return flag;
+            OnCheckResource(enoughResource);
+            return enoughResource;
         }
 
         public void Hide()
@@ -69,9 +69,10 @@ namespace City.TrainCamp
             _observerCanBuy?.Execute(check);
         }
 
-        public void Dispose()
+        protected override void OnDestroy()
         {
             _disposable?.Dispose();
+            base.OnDestroy();
         }
     }
 }

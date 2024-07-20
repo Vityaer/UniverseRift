@@ -1,3 +1,4 @@
+using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;
@@ -18,10 +19,17 @@ namespace City.Panels.AutoFights
     {
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
         private TimeSpan maxTime = new TimeSpan(12, 0, 0);
         public ReactiveCommand OnClose = new ReactiveCommand();
         private GameReward _calculatedReward;
+
+        public override void Start()
+        {
+            View.RewardUIController.SetDetailsController(SubjectDetailController);
+            base.Start();
+        }
 
         public void Open(AutoRewardData autoReward, GameReward calculatedReward, DateTime previousDateTime)
         {
@@ -37,7 +45,6 @@ namespace City.Panels.AutoFights
 
         protected override void Close()
         {
-            UnityEngine.Debug.Log("close");
             OnClose.Execute();
             base.Close();
             _clientRewardService.GetReward(_calculatedReward);

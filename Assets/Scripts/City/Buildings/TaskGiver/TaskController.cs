@@ -19,6 +19,7 @@ using Common.Rewards;
 using System.Globalization;
 using Sirenix.Utilities;
 using Db.CommonDictionaries;
+using City.Panels.SubjectPanels.Common;
 
 namespace City.Buildings.TaskGiver
 {
@@ -43,7 +44,13 @@ namespace City.Buildings.TaskGiver
         
         public TaskData GetTask => Data;
         public IObservable<TaskData> OnGetReward => _onGetReward;
- 
+        public GameTaskModel Model => _model;
+
+        [Inject]
+        private void Construct(SubjectDetailController subjectDetailController)
+        {
+            RewardUIController.SetDetailsController(subjectDetailController);
+        }
 
         public void SetData(TaskData data, ScrollRect scrollRect, GameTaskModel model)
         {

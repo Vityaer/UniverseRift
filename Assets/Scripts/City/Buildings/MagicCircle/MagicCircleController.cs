@@ -14,6 +14,7 @@ using Network.DataServer.Messages;
 using Network.DataServer.Messages.Hires;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -22,8 +23,6 @@ namespace City.Buildings.MagicCircle
 {
     public class MagicCircleController : BaseBuilding<MagicCircleView>
     {
-        private const string DEFAULT_RACE_NAME = "People";
-
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -44,15 +43,22 @@ namespace City.Buildings.MagicCircle
                 button.Value.OnClickAsObservable().Subscribe(_ => ChangeHireRace(button.Key)).AddTo(Disposables);
             }
 
+
             View.OneHire.ChangeCost(_raceHireCost, () => HireHero(1).Forget());
             View.ManyHire.ChangeCost(_raceHireCost * 10, () => HireHero(10).Forget());
 
-            ChangeHireRace(DEFAULT_RACE_NAME);
+            _selectedRace = View.RaceSelectButtons.ElementAt(0).Key;
+            ChangeHireRace(_selectedRace);
+            base.OnStart();
         }
 
         public void ChangeHireRace(string stringRace)
         {
+            if(!string.IsNullOrEmpty(_selectedRace))
+                View.RaceSelectButtons[_selectedRace].interactable = true;
+
             _selectedRace = stringRace;
+            View.RaceSelectButtons[_selectedRace].interactable = false;
         }
 
         private async UniTaskVoid HireHero(int count = 1)
@@ -61,7 +67,7 @@ namespace City.Buildings.MagicCircle
             var result = await DataServer.PostData(message);
             if(!string.IsNullOrEmpty(result))
             {
-                var newHeroDatas = _jsonConverter.FromJson<List<HeroData>>(result);
+                var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
 
                 var heroes = new List<GameHero>(newHeroDatas.Count);
                 for (int i = 0; i < newHeroDatas.Count; i++)

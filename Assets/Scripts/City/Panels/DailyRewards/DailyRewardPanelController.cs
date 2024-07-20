@@ -1,6 +1,7 @@
 using City.Buildings.CityButtons.DailyReward;
 using City.Buildings.CityButtons.EventAgent;
 using City.Panels.DailyRewards;
+using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace City.Buildings.CityButtons
 
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly SubjectDetailController _subjectDetailController;
 
         private List<DailyRewardUI> _rewardControllers = new List<DailyRewardUI>();
 
@@ -40,6 +42,7 @@ namespace City.Buildings.CityButtons
 
                 rewardViewPrefab.SetStatus(status);
                 _rewardControllers.Add(rewardViewPrefab);
+                rewardViewPrefab.RewardController.SetDetailsController(_subjectDetailController);
                 index++;
             }
 

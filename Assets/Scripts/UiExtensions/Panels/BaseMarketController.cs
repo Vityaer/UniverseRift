@@ -58,6 +58,7 @@ namespace UiExtensions.Panels
 
                 var controller = Object.Instantiate(View.Prefab, View.Content);
                 productControllers.Add(controller);
+                Resolver.Inject(controller);
                 Resolver.Inject(controller.ButtonCost);
                 controller.SetData(productId, baseMarketProduct, () => TryBuyProductOnServer(productId, 1).Forget());
             }

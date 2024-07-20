@@ -9,7 +9,7 @@ using VContainer;
 
 namespace City.Panels.SelectHeroes
 {
-    public class HeroCardsContainerController : MonoBehaviour, IDisposable
+    public class HeroCardsContainerController : MonoBehaviour
     {
         [Inject] private IObjectResolver _resolver;
 
@@ -36,7 +36,7 @@ namespace City.Panels.SelectHeroes
 
             CheckCountCards(heroes.Count);
 
-            for(var i = 0; i < heroes.Count; i++)
+            for (var i = 0; i < heroes.Count; i++)
             {
                 _listCard[i].SetData(heroes[i]);
             }
@@ -223,7 +223,7 @@ namespace City.Panels.SelectHeroes
             }
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

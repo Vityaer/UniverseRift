@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,21 @@ using VContainerUi.Interfaces;
 
 namespace VContainerUi.Abstraction
 {
-    public abstract class UiView : UIBehaviour, IUiView, IDisposable
+    public abstract class UiView : SerializedMonoBehaviour, IUiView, IDisposable
     {
         protected Sequence TweenSequence;
 
         public List<UiView> AutoInjectObjects = new List<UiView>();
 
         public bool IsShow { get; private set; }
+
+        protected virtual void Awake()
+        {
+        }
+
+        protected virtual void Start()
+        {
+        }
 
         void IUiView.Show()
         {
@@ -65,6 +74,11 @@ namespace VContainerUi.Abstraction
         public virtual void Dispose()
         {
             TweenSequence.Kill();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            Dispose();
         }
     }
 }

@@ -38,13 +38,12 @@ namespace Fight.HeroControllers.Generals
                 //    defaultAnimation();
             }
 
+            var state = Animator.GetCurrentAnimatorStateInfo(0);
+            yield return new WaitForSeconds(state.length);
+            onAnimationFinish?.Invoke();
+
             if (withRecord)
-            {
-                var state = Animator.GetCurrentAnimatorStateInfo(0);
-                yield return new WaitForSeconds(state.length);
                 RemoveFightRecordActionMe();
-                onAnimationFinish?.Invoke();
-            }
         }
 
         protected bool CheckExistAnimation(string nameAnimation)
@@ -84,10 +83,9 @@ namespace Fight.HeroControllers.Generals
 
         private void DefaultAnimDeath()
         {
-            _isDeath = true;
             _sequenceAnimation?.Kill();
             _sequenceAnimation = DOTween.Sequence()
-                .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation(); Death(); }));
+                .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation();  }));
         }
 
         public void Dispose()

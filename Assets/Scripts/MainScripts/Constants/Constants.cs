@@ -46,8 +46,8 @@ public class Constants
         public static string GAME_SERVER_IP => "45.12.75.166";
         public static string GAME_DATA_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}/Data/Dictionaries/";
 #if UNITY_EDITOR
-        public static string GAME_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}:5000/";
-        //public static string GAME_SERVER_ADDRESS => $"https://localhost:7065/";
+        //public static string GAME_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}:5000/";
+        public static string GAME_SERVER_ADDRESS => $"https://localhost:7065/";
 #else
         public static string GAME_SERVER_ADDRESS => $"http://{GAME_SERVER_IP}:5000/";
 #endif
@@ -82,4 +82,8 @@ public class Constants
         public static string SFX_PREFAB = "Sounds/ButtonClick";
     }
 
+    public static class Localization
+    {
+        public const string UI_TABLE_NAME = "Ui";
+    }
 }

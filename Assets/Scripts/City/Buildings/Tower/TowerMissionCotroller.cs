@@ -1,4 +1,5 @@
 using City.Panels.Messages;
+using City.Panels.SubjectPanels.Common;
 using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using System;
@@ -29,6 +30,12 @@ namespace City.Buildings.Tower
         private ReactiveCommand<TowerMissionCotroller> _onClick = new ReactiveCommand<TowerMissionCotroller>();
 
         public IObservable<TowerMissionCotroller> OnClick => _onClick;
+
+        [Inject]
+        private void Construct(SubjectDetailController subjectDetailController)
+        {
+            rewardController.SetDetailsController(subjectDetailController);
+        }
 
         protected override void Start()
         {

@@ -63,7 +63,19 @@ namespace VContainerUi
             if (_windowsStack.Count == 0)
                 return;
 
-            CloseWindow();
+            var windowList = _windowsStack.ToList();
+            var removeIndex = windowList.FindLastIndex(window => window.GetType().Equals(message.Type));
+
+            if (removeIndex > 0)
+            {
+                windowList[removeIndex].Back();
+                windowList[removeIndex].Back();
+                windowList.RemoveAt(removeIndex);
+                _windowsStack.Clear();
+                foreach (var window in windowList)
+                    _windowsStack.Push(window);
+            }
+            //CloseWindow();
         }
 
         public void Dispose()

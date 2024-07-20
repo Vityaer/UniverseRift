@@ -2,10 +2,10 @@ using City.Achievements;
 using City.Buildings.Requirement;
 using City.Panels.BatllepasPanels;
 using City.Panels.DailyTasks;
+using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Resourses;
 using Db.CommonDictionaries;
-using Models;
 using Models.Common;
 using Models.Data.Inventories;
 using Models.Events;
@@ -33,6 +33,7 @@ namespace City.Buildings.CityButtons.EventAgent
 
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly SubjectDetailController _subjectDetailController;
 
         private int _currentProgress = 0;
         private List<int> _idReceivedReward = new List<int>(REWARD_COUNT);
@@ -105,6 +106,7 @@ namespace City.Buildings.CityButtons.EventAgent
                 taskPrefab.SetData(gameTask, View.Scroll);
 
                 _achievmentViews.Add(taskPrefab);
+                taskPrefab.RewardController.SetDetailsController(_subjectDetailController);
             }
         }
 

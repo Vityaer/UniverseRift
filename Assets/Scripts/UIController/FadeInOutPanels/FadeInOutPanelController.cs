@@ -1,6 +1,7 @@
 ﻿using Fight;
 using Fight.WarTable;
 using System;
+using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -15,47 +16,62 @@ namespace UIController.FadeInOutPanels
 
         private readonly CompositeDisposable _disposables = new();
         private IDisposable _temporallyDisposable;
-        private bool _fightCreated;
+        private bool _isFade = false;
+        private bool _otherWaitFadeHide = false;
 
         public void Initialize()
         {
             _warTableController.OnStartMission.Subscribe(_ => OpenFight()).AddTo(_disposables);
             _fightController.OnFinishFight.Subscribe(_ => CloseFight()).AddTo(_disposables);
-            View.OnShowAction.Subscribe(_ => OnOpenFade()).AddTo(_disposables);
-            View.OnHideAction.Subscribe(_ => OnCloseFade()).AddTo(_disposables);
+            View.OnShowAction.Subscribe(_ => OnFadeShow()).AddTo(_disposables);
+            View.OnHideAction.Subscribe(_ => OnFadeHide()).AddTo(_disposables);
         }
 
-        private void OnCloseFade()
+        private void OnFadeHide()
         {
+            _isFade = false;
+            TryStartHide();
         }
 
-        private void OnOpenFade()
+
+
+        private void OnFadeShow()
         {
-            if(_fightCreated)
+            _isFade = true;
+            TryStartHide();
+        }
+
+        private void TryStartHide()
+        {
+            if (_isFade && _otherWaitFadeHide)
                 Hide();
         }
 
         public void OpenFight()
         {
-            _fightCreated = false;
-            _temporallyDisposable = _fightController.AfterCreateFight.Subscribe(_ => OnAfterCreateFight());
+            _otherWaitFadeHide = false;
+            _temporallyDisposable = _fightController.AfterCreateFight.Subscribe(_ => DoneForHide());
             Show();
         }
 
-        private void OnAfterCreateFight()
+        private void DoneForHide()
         {
-            _fightCreated = true;
-            Hide();
+            _otherWaitFadeHide = true;
+            _temporallyDisposable?.Dispose();
+            TryStartHide();
         }
 
         public void CloseFight()
         {
-            Hide();
+            _otherWaitFadeHide = false;
+            _temporallyDisposable = _fightController.OnFigthResult.Subscribe(_ => DoneForHide());
+            Show();
         }
 
         public void Dispose()
         {
             _disposables.Dispose();
+            _temporallyDisposable?.Dispose();
         }
     }
 }

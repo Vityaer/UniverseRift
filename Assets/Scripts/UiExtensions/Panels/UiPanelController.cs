@@ -1,10 +1,9 @@
-﻿using Common;
+﻿using City.Panels.SubjectPanels.Common;
+using Common;
 using Models.Common;
 using System;
-using System.Diagnostics;
 using Ui.Misc.Widgets;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -21,6 +20,7 @@ namespace UiExtensions.Scroll.Interfaces
         [Inject] protected readonly GameController GameController;
         [Inject] protected readonly IUiMessagesPublisherService MessagesPublisher;
         [Inject] protected readonly IObjectResolver Resolver;
+
         protected readonly CompositeDisposable Disposables = new CompositeDisposable();
 
         public void Initialize()

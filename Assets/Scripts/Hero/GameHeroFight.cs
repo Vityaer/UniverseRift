@@ -5,12 +5,13 @@ using Fight.Rounds;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace Hero
 {
+    [Serializable]
     public class GameHeroFight
     {
         public readonly HeroModel Model;
@@ -18,7 +19,7 @@ namespace Hero
 
         public HeroStatus StatusState;
 
-        public float Health { get; private set; }
+        [field: SerializeField] public float Health { get; private set; }
 
         public float MaxHealth => Model.Characteristics.HP;
         public BaseCharacteristicModel GetBaseCharacteristic => Model.Characteristics.Main;

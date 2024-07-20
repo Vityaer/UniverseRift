@@ -68,10 +68,10 @@ namespace UIController.Inventory
                 switch (cell.Subject)
                 {
                     case GameItem item:
-                        _itemPanelController.OpenItemDetails(item);
+                        _itemPanelController.ShowData(item);
                         break;
                     case GameSplinter splinter:
-                        _splinterPanelController.OpenInfoAboutSplinter(splinter, true);
+                        _splinterPanelController.ShowData(splinter, true);
                         break;
                 }
             }

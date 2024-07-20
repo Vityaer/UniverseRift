@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using UniRx;
 using UnityEngine;
 using VContainerUi.Abstraction;
@@ -13,8 +14,11 @@ namespace UIController.FadeInOutPanels
         [SerializeField] private Transform _openPoint;
         [SerializeField] private Transform _secondPoint;
 
-        public ReactiveCommand OnShowAction = new();
-        public ReactiveCommand OnHideAction = new();
+        private ReactiveCommand _onShowAction = new();
+        private ReactiveCommand _onHideAction = new();
+
+        public IObservable<Unit> OnShowAction => _onShowAction;
+        public ReactiveCommand<Unit> OnHideAction => _onHideAction;
 
         protected override void OnShow()
         {
@@ -22,7 +26,7 @@ namespace UIController.FadeInOutPanels
             TweenSequence.Kill();
             TweenSequence = DOTween.Sequence()
                                 .Append(_panel.DOMove(_openPoint.position, _animatinoTime)
-                                .OnComplete(() => { base.OnShow(); OnShowAction.Execute(); }));
+                                .OnComplete(() => { base.OnShow(); _onShowAction.Execute(); }));
         }
 
         protected override void OnHide()
@@ -31,7 +35,7 @@ namespace UIController.FadeInOutPanels
             TweenSequence.Kill();
             TweenSequence = DOTween.Sequence()
                 .Append(_panel.DOMove(_secondPoint.position, _animatinoTime))
-                .OnComplete(() => { base.OnHide(); OnHideAction.Execute(); });
+                .OnComplete(() => { base.OnHide(); _onHideAction.Execute(); });
         }
     }
 }

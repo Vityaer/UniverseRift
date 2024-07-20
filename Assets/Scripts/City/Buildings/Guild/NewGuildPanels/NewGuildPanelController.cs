@@ -1,13 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
 using Misc.Json;
-using Models;
+using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.Guilds;
-using Network.DataServer.Models;
-using System.Collections.Generic;
+using Network.DataServer.Models.Guilds;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
+using VContainerUi.Messages;
+using VContainerUi.Services;
 
 namespace City.Buildings.Guild.NewGuildPanels
 {
@@ -15,6 +16,9 @@ namespace City.Buildings.Guild.NewGuildPanels
     {
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly GuildController _guildController;
+        [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
+
+        public ReactiveCommand OnCreateGuild = new();
 
         public override void Start()
         {
@@ -35,9 +39,15 @@ namespace City.Buildings.Guild.NewGuildPanels
 
             if (!string.IsNullOrEmpty(result))
             {
-                var guildData =  _jsonConverter.FromJson<GuildData>(result);
-                _guildController.LoadGuild(guildData);
-                Close();
+                var guildPlayerSaveContainer = _jsonConverter.Deserialize<GuildPlayerSaveContainer>(result);
+                CommonGameData.PlayerInfoData.GuildId = guildPlayerSaveContainer.GuildData.Id;
+                CommonGameData.City.GuildPlayerSaveContainer = guildPlayerSaveContainer;
+                OnCreateGuild.Execute();
+                _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<NewGuildPanelController>();
+
+                _guildController.CreateGuild(guildPlayerSaveContainer);
+
+                _guildController.Open();
             }
         }
     }

@@ -131,5 +131,11 @@ namespace City.TrainCamp
         {
             MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroEvolutionPanelController>(openType: OpenType.Additive);
         }
+
+        protected override void Close()
+        {
+            _heroInstancesController.Hide();
+            base.Close();
+        }
     }
 }
