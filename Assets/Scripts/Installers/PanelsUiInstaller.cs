@@ -11,8 +11,10 @@ using City.Buildings.Guild.AvailableGuildsPanels;
 using City.Buildings.Guild.BossRaid;
 using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.GuildDonatePanels;
+using City.Buildings.Guild.GuildMarket;
 using City.Buildings.Guild.GuildTaskboardPanels;
 using City.Buildings.Guild.NewGuildPanels;
+using City.Buildings.Guild.RecruitRequestPanels;
 using City.Buildings.Mails;
 using City.Buildings.Mails.LetterPanels;
 using City.Buildings.Mines;
@@ -138,7 +140,9 @@ namespace Installers
         [SerializeField] private AvailableGuildsPanelView _availableGuildsPanelView;
         [SerializeField] private GuildBossRaidPanelView _guildBossRaidPanelController;
         [SerializeField] private GuildAdministrationPanelView _guildAdministrationPanelView;
-
+        [SerializeField] private RecruitRequestPanelView _recruitRequestPanelView;
+        [SerializeField] private GuildMarketView _guildMarketView;
+        
         [Header("General")]
         
         [SerializeField] private AvatarPanelDetailsView _avatarPanelDetailsView;
@@ -206,6 +210,12 @@ namespace Installers
 
             builder.RegisterUiView<NewGuildPanelController, NewGuildPanelView>(_newGuildPanelView, canvas.transform);
             builder.RegisterUiView<AvailableGuildsPanelController, AvailableGuildsPanelView>(_availableGuildsPanelView, canvas.transform);
+            builder.RegisterUiView<GuildBossRaidPanelController, GuildBossRaidPanelView>(_guildBossRaidPanelController, canvas.transform);
+            builder.RegisterUiView<GuildAdministrationPanelController, GuildAdministrationPanelView>(_guildAdministrationPanelView, canvas.transform);
+            builder.RegisterUiView<GuildDonatePanelController, GuildDonatePanelView>(_guildDonatePanelView, canvas.transform);
+            builder.RegisterUiView<GuildTaskboardPanelController, GuildTaskboardPanelView>(_guildTaskboardPanelView, canvas.transform);
+            builder.RegisterUiView<RecruitRequestPanelController, RecruitRequestPanelView>(_recruitRequestPanelView, canvas.transform);
+            builder.RegisterUiView<GuildMarketController, GuildMarketView>(_guildMarketView, canvas.transform);
             
             builder.RegisterUiView<BattlepasPanelController, BattlepasPanelView>(_battlepasPanelView, canvas.transform);
             
@@ -222,10 +232,7 @@ namespace Installers
             builder.RegisterUiView<MonthEvolutionPanelController, MonthEvolutionPanelView>(_monthEvolutionPanelView, canvas.transform);
             builder.RegisterUiView<MonthTaskboardPanelController, MonthTaskboardPanelView>(_monthTaskboardPanelView, canvas.transform);
             builder.RegisterUiView<MonthTravelPanelController, MonthTravelPanelView>(_monthTravelPanelView, canvas.transform);
-            
-            builder.RegisterUiView<GuildDonatePanelController, GuildDonatePanelView>(_guildDonatePanelView, canvas.transform);
-            builder.RegisterUiView<GuildTaskboardPanelController, GuildTaskboardPanelView>(_guildTaskboardPanelView, canvas.transform);
-           
+
             builder.RegisterUiView<VoyageMissionPanelController, VoyageMissionPanelView>(_voyageMissionPanelView, canvas.transform);
 
             builder.RegisterUiView<AvatarPanelController, AvatarPanelView>(_avatarPanelView, canvas.transform);

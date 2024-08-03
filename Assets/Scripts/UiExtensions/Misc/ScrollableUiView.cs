@@ -51,9 +51,17 @@ namespace UiExtensions.Misc
 
         public new void Dispose()
         {
-            Disposable.Dispose();
+            Disposable?.Dispose();
+            Disposable = null;
             base.Dispose();
         }
 
+
+        protected override void OnDestroy()
+        {
+            Disposable?.Dispose();
+            Disposable = null;
+            base.OnDestroy();
+        }
     }
 }

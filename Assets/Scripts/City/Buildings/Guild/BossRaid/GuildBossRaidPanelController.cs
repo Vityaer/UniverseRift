@@ -40,7 +40,6 @@ namespace City.Buildings.Guild.BossRaid
         public override void Start()
         {
             View.BossRaidButton.OnClick.Subscribe(_ => StartRaidBoss().Forget()).AddTo(Disposables);
-
             base.Start();
         }
 

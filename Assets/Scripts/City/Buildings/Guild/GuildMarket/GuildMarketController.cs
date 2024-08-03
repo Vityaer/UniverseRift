@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UiExtensions.Scroll.Interfaces;
 
-namespace Assets.Scripts.City.Buildings.Guild.GuildMarket
+namespace City.Buildings.Guild.GuildMarket
 {
-    internal class GuildMarketController
+    public class GuildMarketController : UiPanelController<GuildMarketView>
     {
     }
 }

@@ -34,10 +34,10 @@ namespace Installers
             var rootCity = new GameObject();
             rootCity.name = nameof(rootCity);
 
-            builder.RegisterUiView<NewGuildPanelController, NewGuildPanelView>(_newGuildPanelView, safeArea.RootTemporallyWindows);
-            builder.RegisterUiView<AvailableGuildsPanelController, AvailableGuildsPanelView>(_availableGuildsPanelView, safeArea.RootTemporallyWindows);
-            builder.RegisterUiView<GuildBossRaidPanelController, GuildBossRaidPanelView>(_guildBossRaidPanelController, safeArea.RootTemporallyWindows);
-            builder.RegisterUiView<GuildAdministrationPanelController, GuildAdministrationPanelView>(_guildAdministrationPanelView, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<NewGuildPanelController, NewGuildPanelView>(_newGuildPanelView, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<AvailableGuildsPanelController, AvailableGuildsPanelView>(_availableGuildsPanelView, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<GuildBossRaidPanelController, GuildBossRaidPanelView>(_guildBossRaidPanelController, safeArea.RootTemporallyWindows);
+            //builder.RegisterUiView<GuildAdministrationPanelController, GuildAdministrationPanelView>(_guildAdministrationPanelView, safeArea.RootTemporallyWindows);
         }
     }
 }

@@ -16,7 +16,8 @@ namespace City.Buildings.Guild
         public TMP_Text GuildLevel;
 
         public Button GuildTaskboardButton;
-
-
+        public Button AdministrationButton; 
+        public Button BossRaidButton;
+        public Button MarketButton;
     }
 }

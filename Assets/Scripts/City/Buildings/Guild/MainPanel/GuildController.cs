@@ -1,27 +1,15 @@
 using City.Buildings.Abstractions;
 using City.Buildings.Guild.AvailableGuildsPanels;
+using City.Buildings.Guild.BossRaid;
+using City.Buildings.Guild.GuildAdministrations;
+using City.Buildings.Guild.GuildMarket;
 using City.Buildings.Guild.GuildTaskboardPanels;
-using City.Buildings.Guild.RecruitViews;
 using City.Buildings.Guild.Requests;
-using City.Buildings.Guild.Utils;
-using ClientServices;
-using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
-using Hero;
-using Misc.Json;
-using Models;
 using Models.Common;
-using Models.Common.BigDigits;
-using Network.DataServer;
-using Network.DataServer.Messages.Guilds;
-using Network.DataServer.Models;
 using Network.DataServer.Models.Guilds;
-using System;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using Utils;
 using VContainer;
 using VContainerUi.Messages;
 using VContainerUi.Model;
@@ -44,7 +32,25 @@ namespace City.Buildings.Guild
         protected override void OnStart()
         {
             View.GuildTaskboardButton.OnClickAsObservable().Subscribe(_ => OpenGuildTaskboardPanel()).AddTo(Disposables);
+            View.AdministrationButton.OnClickAsObservable().Subscribe(_ => OpenGuildAdministration()).AddTo(Disposables);
+            View.MarketButton.OnClickAsObservable().Subscribe(_ => OpenGuildMarket()).AddTo(Disposables);
+            View.BossRaidButton.OnClickAsObservable().Subscribe(_ => OpenBossRaidPanel()).AddTo(Disposables);
             base.OnStart();
+        }
+
+        private void OpenBossRaidPanel()
+        {
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildBossRaidPanelController>(openType: OpenType.Exclusive);
+        }
+
+        private void OpenGuildMarket()
+        {
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildMarketController>(openType: OpenType.Exclusive);
+        }
+
+        private void OpenGuildAdministration()
+        {
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildAdministrationPanelController>(openType: OpenType.Exclusive);
         }
 
         protected override void OnLoadGame()
@@ -87,10 +93,12 @@ namespace City.Buildings.Guild
         {
             if (CommonGameData.PlayerInfoData.GuildId >= 0)
             {
+                Debug.Log("OpenGuildData");
                 OpenGuildData();
             }
             else
             {
+                Debug.Log("OpenAvailableGuildsPanel");
                 OpenAvailableGuildsPanel();
             }
 

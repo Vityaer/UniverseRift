@@ -100,11 +100,11 @@ namespace City.Buildings.Friends.FriendViews
             _friendshipLevel.text = $"{Data.Level} / 30";
         }
 
-        public new void Dispose()
+        protected override void OnDestroy()
         {
             _tweenSended.Kill();
             _tweenReceived.Kill();
-            base.Dispose();
+            base.OnDestroy();
         }
     }
 }
