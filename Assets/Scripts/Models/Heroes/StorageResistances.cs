@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Models.Heroes
+﻿namespace Models.Heroes
 {
     [System.Serializable]
     public class StorageResistances
@@ -16,6 +13,7 @@ namespace Models.Heroes
         public float DumbResistance;
         public float SilinceResistance;
         public float EfficiencyHeal = 1f;
+
         public StorageResistances Clone()
         {
             return new StorageResistances

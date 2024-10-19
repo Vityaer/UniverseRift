@@ -1,6 +1,8 @@
 ﻿using Db.CommonDictionaries;
 using Fight.HeroControllers.Generals;
 using Hero;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
@@ -13,10 +15,12 @@ namespace City.TrainCamp.HeroInstances
         private HeroController _currentHero;
 
         [SerializeField] private Transform _root;
+        [SerializeField] private Transform _createPoint;
         [SerializeField] private Camera _camera;
         [SerializeField] private GameObject _light;
 
         private bool _work;
+        private Dictionary<string, HeroController> _heroes = new();
 
         public void ShowHero(GameHero hero)
         {
@@ -34,13 +38,27 @@ namespace City.TrainCamp.HeroInstances
             _currentHero.enabled = false;
         }
 
+        public HeroController GetHero(string heroId)
+        {
+            if (_heroes.TryGetValue(heroId, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                var path = $"{Constants.ResourcesPath.HEROES_PATH}{heroId}";
+                var newHero = Resources.Load<HeroController>(path);
+                _heroes.Add(heroId, newHero);
+                return newHero;
+            }
+        }
+
         private void CreateHero(GameHero gameHero)
         {
             var stage = (gameHero.HeroData.Rating / 5);
-            var path = $"{Constants.ResourcesPath.HEROES_PATH}{gameHero.Model.General.HeroId}";
-            var heroPrefab = Resources.Load<HeroController>(path);
+            var heroPrefab = GetHero(gameHero.Model.General.HeroId);
             heroPrefab.SetStage(stage);
-            _currentHero = UnityEngine.Object.Instantiate(heroPrefab, _root.position, Quaternion.identity, _root);
+            _currentHero = UnityEngine.Object.Instantiate(heroPrefab, _createPoint.position, Quaternion.identity, _createPoint);
         }
 
         public void ShowAnimation()
@@ -59,6 +77,16 @@ namespace City.TrainCamp.HeroInstances
                 if (_currentHero != null)
                     Destroy(_currentHero.gameObject);
             }
+        }
+
+        public void OpenLight()
+        {
+            _light.SetActive(true);
+        }
+
+        public void HideLight()
+        {
+            _light.SetActive(false);
         }
     }
 }

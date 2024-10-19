@@ -12,5 +12,6 @@ namespace MainPages.MenuHud
         [field: SerializeField] public Button DailyRewardButton { get; private set; }
         [field: SerializeField] public Button DailyTaskButton { get; private set; }
         [field: SerializeField] public Button AchievmentsButton { get; private set; }
+        [field: SerializeField] public Button ServerChatButton { get; private set; }
     }
 }

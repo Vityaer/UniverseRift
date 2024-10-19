@@ -1,30 +1,32 @@
 using City.Buildings.Friends.FriendViews;
 using City.Buildings.Friends.Panels.AvailableFriends;
 using City.Buildings.Friends.Panels.FriendRequests;
+using City.Panels.PlayerInfoPanels;
 using Cysharp.Threading.Tasks;
+using Misc.Json;
+using Models.Common;
+using Models.Data.Players;
 using Models.Misc;
-using Network.DataServer.Messages.Friendships;
+using Models.Misc.Communications;
 using Network.DataServer;
+using Network.DataServer.Messages.Friendships;
 using System;
+using System.Collections.Generic;
 using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainerUi.Messages;
 using VContainerUi.Model;
-using Misc.Json;
-using System.Collections.Generic;
-using UnityEngine;
-using Models.Common;
-using Models.Misc.Communications;
 
 namespace City.Buildings.Friends
 {
     public class FriendsPanelController : UiPanelController<FriendsPanelView>
     {
-        [Inject] private readonly AvailableFriendsPanelController _availableFriendsPanelController;
         [Inject] private readonly FriendRequestsPanelController _friendRequestsPanelController;
         [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly PlayerMiniInfoPanelController _playerMiniInfoPanelController;
 
         private DynamicUiList<FriendView, FriendshipData> _friendsWrapper;
         private ReactiveCommand<int> _onSendHearts = new();
@@ -93,6 +95,18 @@ namespace City.Buildings.Friends
 
         private void OnSelectFriend(FriendView friendView)
         {
+            var friendshipData = friendView.GetData;
+
+            PlayerData playerData = null;
+            if (CommonGameData.PlayerInfoData.Id.Equals(friendshipData.FirstPlayerId))
+            {
+                playerData = CommonGameData.CommunicationData.PlayersData[friendshipData.SecondPlayerId];
+            }
+            else
+            {
+                playerData = CommonGameData.CommunicationData.PlayersData[friendshipData.FirstPlayerId];
+            }
+            _playerMiniInfoPanelController.ShowPlayerData(playerData);
         }
 
         private async UniTaskVoid SendAndReceiveFriendHearts()

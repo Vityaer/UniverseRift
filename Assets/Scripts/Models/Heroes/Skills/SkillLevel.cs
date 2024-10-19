@@ -1,11 +1,12 @@
 ﻿using Models.Heroes.Actions;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 
 namespace Models.Heroes.Skills
 {
     public class SkillLevel
     {
-        public int RequireNumBreakthrough;
+        [LabelWidth(200)] public int RequireNumBreakthrough;
         public List<Effect> Effects = new();
     }
 }

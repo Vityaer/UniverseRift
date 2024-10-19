@@ -55,6 +55,8 @@ namespace City.TrainCamp
             }
             Resolver.Inject(View.RequireCardInfo.Card);
             Resolver.Inject(View.CardsContainer);
+
+            View.SelectHeroesPanel.SetActive(false);
         }
 
         public override void OnShow()
@@ -184,6 +186,7 @@ namespace City.TrainCamp
                 _evolutionResultPanelController.OpenEvolvedHero(_currentHero);
 
                 _onRatingUp.Execute(_currentHero);
+
                 _heroPanelController.UpdateInfoAboutHero();
             }
         }
@@ -191,6 +194,7 @@ namespace City.TrainCamp
         protected override void Close()
         {
             _heroInstancesController.Hide();
+            _heroPanelController.ShowHero(_currentHero);
             _cost.Clear();
             base.Close();
         }

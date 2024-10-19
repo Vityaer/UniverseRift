@@ -66,6 +66,12 @@ namespace City.Buildings.Guild.BossRaid
             }
         }
 
+        protected override void Show()
+        {
+            UpdateUi();
+            base.Show();
+        }
+
         private void UpdateUi()
         {
             if (_guildData == null)
@@ -104,6 +110,11 @@ namespace City.Buildings.Guild.BossRaid
             var index = 0;
             foreach (var recruit in recruits)
             {
+                if (recruit.ResultMantissa < 1f && recruit.ResultE10 == 0)
+                {
+                    continue;
+                }
+
                 RecruitProgressView prefab = null;
                 if (_recruitsView.TryGetValue(recruit.PlayerId, out prefab))
                 {

@@ -8,7 +8,7 @@ namespace Fight.HeroStates
     {
         public BuffType Type;
         public List<Round> Rounds = new List<Round>();
-        public float GetCurrentAmount { get => Rounds[0].amount; }
+        public float GetCurrentAmount { get => Rounds[0].Amount; }
 
         public BuffModel(BuffType type, float amount, int countRound = 1, RoundTypeNumber typeNumber = RoundTypeNumber.Num)
         {

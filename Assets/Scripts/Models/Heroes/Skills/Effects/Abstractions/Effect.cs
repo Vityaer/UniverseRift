@@ -1,4 +1,5 @@
 ﻿using Fight.HeroControllers.Generals;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,18 +8,18 @@ namespace Models.Heroes.Actions
     public class Effect
     {
         [Header("Data")]
-        public TypePerformance performance = TypePerformance.Select;
-        public TypeEvent typeEvent = TypeEvent.OnStartFight;
-        public int countExecutions = 0;
+        [LabelWidth(150)] public TypePerformance Performance = TypePerformance.Select;
+        [LabelWidth(150)] public TypeEvent TypeEvent = TypeEvent.OnStartFight;
+        [LabelWidth(150)] public int CountExecutions = 0;
 
         [Header("Conditions")]
-        public List<ConditionEffect> Conditions = new List<ConditionEffect>();
+        public List<ConditionEffect> Conditions = new();
 
         [Header("Actions")]
-        public List<ActionEffect> Actions = new List<ActionEffect>();
+        public List<AbstractAction> Actions = new();
 
+        private List<HeroController> _listTarget = new();
         private HeroController _master;
-        private List<HeroController> _listTarget = new List<HeroController>();
 
         //API
         public void CreateEffect(HeroController master)
@@ -33,7 +34,7 @@ namespace Models.Heroes.Actions
 
         public void ExecuteEffect()
         {
-            if (performance == TypePerformance.Random)
+            if (Performance == TypePerformance.Random)
             {
                 int rand = UnityEngine.Random.Range(0, Actions.Count);
                 Actions[rand].SetNewTarget(_listTarget);
@@ -51,7 +52,7 @@ namespace Models.Heroes.Actions
 
         public void ExecuteSpell(List<HeroController> listTarget)
         {
-            if (performance == TypePerformance.Random)
+            if (Performance == TypePerformance.Random)
             {
                 int rand = UnityEngine.Random.Range(0, Actions.Count);
                 Actions[rand].SetNewTarget(listTarget);
@@ -70,7 +71,7 @@ namespace Models.Heroes.Actions
         public void RegisterOnEvent(HeroController master)
         {
             this._master = master;
-            switch (typeEvent)
+            switch (TypeEvent)
             {
                 case TypeEvent.OnStartFight:
                     master.RegisterOnStartFight(ExecuteEffect);

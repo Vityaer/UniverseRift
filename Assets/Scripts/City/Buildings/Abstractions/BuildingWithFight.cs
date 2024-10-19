@@ -1,4 +1,5 @@
 using City.Panels.Arenas.Teams;
+using Db.CommonDictionaries;
 using Fight;
 using Fight.WarTable;
 using Models.Arenas;
@@ -14,6 +15,7 @@ namespace City.Buildings.Abstractions
     {
         [Inject] protected readonly FightController FightController;
         [Inject] protected readonly WarTableController WarTableController;
+        [Inject] protected readonly CommonDictionaries CommonDictionaries;
 
         protected ReactiveCommand<int> _onTryFight = new ReactiveCommand<int>();
         protected ReactiveCommand<int> _onWinFight = new ReactiveCommand<int>();
@@ -52,7 +54,6 @@ namespace City.Buildings.Abstractions
                 Debug.LogError("Try change not my team!");
             }
 
-            Debug.Log($"Save team: {TeamContainer.Id}, heroes: {TeamContainer.Heroes.Count}");
             TeamUtils.SaveTeam(TeamContainer);
         }
 

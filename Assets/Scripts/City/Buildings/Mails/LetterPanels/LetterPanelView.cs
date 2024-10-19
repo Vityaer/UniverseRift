@@ -10,5 +10,6 @@ namespace Buildings.Mails.LetterPanels
         public Image Image;
         public TMP_Text SenderDate;
         public TMP_Text MainText;
+        public Button GetRewardButton;
     }
 }

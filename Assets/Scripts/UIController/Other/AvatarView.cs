@@ -14,6 +14,12 @@ namespace UController.Other
 
         public void SetData(PlayerData playerInfoData)
         {
+            if (playerInfoData == null)
+            {
+                Debug.Log("playerInfoData null");
+                return;
+            }
+
             _level.text = $"{playerInfoData.Level}";
             _mainImage.sprite = SpriteUtils.LoadSprite(playerInfoData.AvatarPath);
         }

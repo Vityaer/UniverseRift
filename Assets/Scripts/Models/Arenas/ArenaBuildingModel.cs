@@ -1,4 +1,5 @@
 ﻿using Models.Arenas;
+using Models.Data.Players;
 using System.Collections.Generic;
 
 namespace Models
@@ -8,5 +9,6 @@ namespace Models
     {
         public ArenaPlayerData MyData;
         public List<ArenaPlayerData> Opponents = new();
+        public Dictionary<int, PlayerData> PlayersData = new();
     }
 }

@@ -12,6 +12,7 @@ using City.Buildings.Guild.BossRaid;
 using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.GuildDonatePanels;
 using City.Buildings.Guild.GuildMarket;
+using City.Buildings.Guild.GuildRecruitDetailPanels;
 using City.Buildings.Guild.GuildTaskboardPanels;
 using City.Buildings.Guild.NewGuildPanels;
 using City.Buildings.Guild.RecruitRequestPanels;
@@ -34,7 +35,9 @@ using City.Panels.Arenas.Tournaments;
 using City.Panels.AutoFights;
 using City.Panels.BatllepasPanels;
 using City.Panels.BoxRewards;
+using City.Panels.Chats.ServerChats;
 using City.Panels.Confirmations;
+using City.Panels.CreatorMessagePanels;
 using City.Panels.DailyRewards;
 using City.Panels.DailyTasks;
 using City.Panels.Events.FortuneCycles;
@@ -50,6 +53,7 @@ using City.Panels.MonthTasks.Taskboards;
 using City.Panels.MonthTasks.Travels;
 using City.Panels.NewLevels;
 using City.Panels.OtherPlayers.MainPanels;
+using City.Panels.PlayerInfoPanels;
 using City.Panels.PosibleHeroes;
 using City.Panels.RatingUps;
 using City.Panels.RatingUps.EvolutionResultPanels;
@@ -107,7 +111,6 @@ namespace Installers
         [SerializeField] private SplinterSelectCountPanelView _splinterSelectCountPanelView;
         [SerializeField] private AutoFightRewardPanelView _autoFightRewardPanelView;
         [SerializeField] private FriendsPanelView _friendsView;
-        [SerializeField] private MailView _mailView;
         [SerializeField] private GoldHeapView _goldHeapView;
         [SerializeField] private InventoryView _inventoryView;
         [SerializeField] private RewardPanelView _rewardPanelView;
@@ -119,13 +122,18 @@ namespace Installers
         [SerializeField] private BattlepasPanelView _battlepasPanelView;
         [SerializeField] private FriendRequestsPanelView _friendRequestsPanelView;
         [SerializeField] private AvailableFriendsPanelView _availableFriendsPanelView;
-        [SerializeField] private LetterPanelView _letterPanelView;
         [SerializeField] private OtherPlayerMainPanelView _otherPlayerMainPanelView;
         [SerializeField] private ConfirmationPanelView _confirmationPanelView;
         [SerializeField] private VoyageMissionPanelView _voyageMissionPanelView;
         [SerializeField] private AlchemyPanelView _alchemyPanelView;
         [SerializeField] private EvolutionResultPanelView _evolutionResultPanelView;
-        
+
+        [Header("Mails")]
+        [SerializeField] private MailPanelView _mailView;
+        [SerializeField] private CreatorMessagePanelView _creatorMessagePanelView;
+        [SerializeField] private LetterPanelView _letterPanelView;
+        [SerializeField] private ServerChatPanelView _serverChatPanelView;
+
         [Header("Month Tasks")]
         [SerializeField] private MonthArenaPanelView _monthArenaPanelView;
         [SerializeField] private MonthEvolutionPanelView _monthEvolutionPanelView;
@@ -142,6 +150,7 @@ namespace Installers
         [SerializeField] private GuildAdministrationPanelView _guildAdministrationPanelView;
         [SerializeField] private RecruitRequestPanelView _recruitRequestPanelView;
         [SerializeField] private GuildMarketView _guildMarketView;
+        [SerializeField] private GuildRecruitDetailPanelView _guildRecruitDetailPanelView;
         
         [Header("General")]
         
@@ -167,9 +176,8 @@ namespace Installers
         [SerializeField] private StartLoadingView _startLoadingView;
         [SerializeField] private LoadingView _loadingView;
         [SerializeField] private ProgressBarView _progressBarView;
-
-
-
+        [SerializeField] private PlayerMiniInfoPanelView _playerMiniInfoPanelView;
+        
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
@@ -199,7 +207,7 @@ namespace Installers
             builder.RegisterUiView<GoldHeapController, GoldHeapView>(_goldHeapView, canvas.transform);
             builder.RegisterUiView<InventoryController, InventoryView>(_inventoryView, canvas.transform);
             builder.RegisterUiView<RewardPanelController, RewardPanelView>(_rewardPanelView, canvas.transform);
-
+            
             builder.RegisterUiView<InfoMinePanelController, InfoMinePanelView>(_infoMinePanelView, canvas.transform);
             builder.RegisterUiView<CreateMinePanelController, CreateMinePanelView>(_createMinePanelView, canvas.transform);
             builder.RegisterUiView<MineTravelPanelController, MineTravelPanelView>(_mineTravelPanelView, canvas.transform);
@@ -216,14 +224,18 @@ namespace Installers
             builder.RegisterUiView<GuildTaskboardPanelController, GuildTaskboardPanelView>(_guildTaskboardPanelView, canvas.transform);
             builder.RegisterUiView<RecruitRequestPanelController, RecruitRequestPanelView>(_recruitRequestPanelView, canvas.transform);
             builder.RegisterUiView<GuildMarketController, GuildMarketView>(_guildMarketView, canvas.transform);
+            builder.RegisterUiView<GuildRecruitDetailPanelController, GuildRecruitDetailPanelView>(_guildRecruitDetailPanelView, canvas.transform);
             
             builder.RegisterUiView<BattlepasPanelController, BattlepasPanelView>(_battlepasPanelView, canvas.transform);
             
             builder.RegisterUiView<FriendRequestsPanelController, FriendRequestsPanelView>(_friendRequestsPanelView, canvas.transform);
             builder.RegisterUiView<AvailableFriendsPanelController, AvailableFriendsPanelView>(_availableFriendsPanelView, canvas.transform);
             builder.RegisterUiView<OtherPlayerMainPanelController, OtherPlayerMainPanelView>(_otherPlayerMainPanelView, canvas.transform);
-            
-            builder.RegisterUiView<MailController, MailView>(_mailView, canvas.transform);
+            builder.RegisterUiView<PlayerMiniInfoPanelController, PlayerMiniInfoPanelView>(_playerMiniInfoPanelView, canvas.transform);
+
+            builder.RegisterUiView<ServerChatPanelController, ServerChatPanelView>(_serverChatPanelView, canvas.transform);
+            builder.RegisterUiView<MailPanelController, MailPanelView>(_mailView, canvas.transform);
+            builder.RegisterUiView<CreatorMessagePanelController, CreatorMessagePanelView>(_creatorMessagePanelView, canvas.transform);
             builder.RegisterUiView<LetterPanelController, LetterPanelView>(_letterPanelView, canvas.transform);
 
             builder.RegisterUiView<ConfirmationPanelController, ConfirmationPanelView>(_confirmationPanelView, canvas.transform);

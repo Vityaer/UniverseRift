@@ -30,7 +30,9 @@ namespace Models.Data.Inventories
 
         public override BaseObject CreateGameObject()
         {
-            return new GameItem(Id, Amount);
+            var result = new GameItem(Id, Amount);
+            result.Model = CommonDictionaries.Items[Id];
+            return result;
         }
     }
 }

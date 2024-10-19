@@ -1,8 +1,11 @@
-﻿namespace Editor.Common
+﻿using System;
+using UnityEngine;
+
+namespace Editor.Common
 {
     public class BaseModelEditor<T>
     {
-        protected T _model;
+        [NonSerialized] protected T _model;
 
         public T GetModel()
         {

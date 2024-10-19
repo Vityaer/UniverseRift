@@ -5,10 +5,10 @@ namespace Network.DataServer.Messages.Mails
     public class CreateLetterMessage : INetworkMessage
     {
         public int PlayerId;
-        public int GuildId;
-        public int RequestId;
+        public int OtherPlayerId;
+        public string Message;
 
-        public string Route => "Guild/ApplyRequest";
+        public string Route => "Mail/CreateLetter";
 
         public WWWForm Form
         {
@@ -16,8 +16,8 @@ namespace Network.DataServer.Messages.Mails
             {
                 var form = new WWWForm();
                 form.AddField("PlayerId", PlayerId);
-                form.AddField("GuildId", GuildId);
-                form.AddField("RequestId", RequestId);
+                form.AddField("OtherPlayerId", OtherPlayerId);
+                form.AddField("message", Message);
                 return form;
             }
         }

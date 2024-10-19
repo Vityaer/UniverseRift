@@ -1,5 +1,5 @@
-using City.Panels.Messages;
 using City.Panels.SubjectPanels.Common;
+using City.TrainCamp.HeroInstances;
 using Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using System;
@@ -8,7 +8,6 @@ using UIController;
 using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VContainer;
 
@@ -17,10 +16,12 @@ namespace City.Buildings.Tower
     public class TowerMissionCotroller : ScrollableUiView<MissionModel>
     {
         [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private HeroInstancesController _heroInstancesController;
 
         [Header("UI")]
         public TextMeshProUGUI textNumMission;
-        public Image backgoundMission, enemyImage;
+        public Image backgoundMission;
+        public Image enemyImage;
         public RewardUIController rewardController;
         public GameObject blockPanel;
 
@@ -54,6 +55,15 @@ namespace City.Buildings.Tower
             Data = mission;
             this.numMission = numMission;
             this.canOpenMission = canOpenMission;
+
+            if (mission.Units.Count > 0)
+            {
+                var model = mission.Units[0];
+                var prefab = _heroInstancesController.GetHero(model.HeroId);
+                var stage = (model.Rating / 5);
+                enemyImage.sprite = prefab.Stages[stage].Avatar;
+            }
+
             UpdateUI();
         }
 
@@ -62,6 +72,8 @@ namespace City.Buildings.Tower
             textNumMission.text = numMission.ToString();
             if (Data?.WinReward != null)
                 rewardController.ShowReward(Data.WinReward, _commonDictionaries);
+
+
 
             blockPanel.SetActive(canOpenMission == false);
         }

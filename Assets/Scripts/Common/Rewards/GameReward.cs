@@ -14,12 +14,14 @@ namespace Common.Rewards
         
         public GameReward(RewardModel rewardData, CommonDictionaries commonDictionaries)
         {
+            rewardData.Items.ForEach(x => x.CommonDictionaries = commonDictionaries);
             rewardData.Splinters.ForEach(x => x.CommonDictionaries = commonDictionaries);
             Objects = rewardData.Objects.Select(obj => obj.CreateGameObject()).ToList();
         }
 
         public GameReward(AutoRewardData autoReward, CommonDictionaries commonDictionaries)
         {
+            autoReward.Items.ForEach(x => x.CommonDictionaries = commonDictionaries);
             autoReward.Splinters.ForEach(x => x.CommonDictionaries = commonDictionaries);
             Objects = autoReward.Objects.Select(obj => obj.CreateGameObject()).ToList();
         }

@@ -36,10 +36,6 @@ namespace UIController.Inventory
             }
         }
 
-        public GameItem()
-        {
-        }
-
         public GameItem(ItemModel itemModel, int amount = 1)
         {
             Model = itemModel;
@@ -95,7 +91,9 @@ namespace UIController.Inventory
 
         public static GameItem operator *(GameItem item, int k)
         {
-            return new GameItem(item.Id, k);
+            var result = new GameItem(item.Id, k);
+            result.Model = item.Model;
+            return result;
         }
     }
 }

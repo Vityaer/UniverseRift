@@ -1,10 +1,12 @@
-﻿using Models.Arenas;
+﻿using Common.Players;
+using Models.Arenas;
 using Models.Data.Players;
 using TMPro;
 using UController.Other;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.Arena
 {
@@ -18,13 +20,12 @@ namespace City.Buildings.Arena
         [SerializeField] private TMP_Text _loseCountText;
 
         private PlayerData _playerData;
+        private PlayersStorage _playersStorage;
 
-        public void SetPlayer(PlayerData playerData)
+        [Inject]
+        private void Construct(PlayersStorage playersStorage)
         {
-            _playerData = playerData;
-            _opponentName.text = $"{_playerData.Name}";
-            _levelText.text = $"{_playerData.Level}";
-            _avatarController.SetData(_playerData);
+            _playersStorage = playersStorage;
         }
 
         public override void SetData(ArenaPlayerData data, ScrollRect scrollRect)
@@ -36,7 +37,10 @@ namespace City.Buildings.Arena
 
         private void UpdateUI()
         {
-
+            _playerData = _playersStorage.GetPlayerData(Data.PlayerId);
+            _avatarController.SetData(_playerData);
+            _opponentName.text = $"{_playerData.Name}";
+            _levelText.text = $"{_playerData.Level}";
             _scoreText.text = $"{Data.Score}";
             _winCountText.text = $"{Data.WinCount}";
             _loseCountText.text = $"{Data.LoseCount}";

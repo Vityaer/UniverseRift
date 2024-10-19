@@ -1,9 +1,12 @@
-﻿using City.Buildings.Guild.RecruitRequestPanels;
+﻿using City.Buildings.Guild.GuildRecruitDetailPanels;
+using City.Buildings.Guild.RecruitRequestPanels;
 using City.Buildings.Guild.RecruitViews;
 using City.Buildings.Guild.Utils;
 using Misc.Json;
 using Network.DataServer.Models;
+using Network.DataServer.Models.Guilds;
 using System.Collections.Generic;
+using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
@@ -18,6 +21,7 @@ namespace City.Buildings.Guild.GuildAdministrations
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly IObjectResolver _diContainer;
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
+        [Inject] private readonly GuildRecruitDetailPanelController _guildRecruitDetailPanelController;
 
         private Dictionary<int, GuildRecruitView> _recruitsView = new();
 
@@ -40,6 +44,12 @@ namespace City.Buildings.Guild.GuildAdministrations
             _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Exclusive);
         }
 
+        protected override void Show()
+        {
+            UpdateUi();
+            base.Show();
+        }
+
         private void UpdateUi()
         {
             if (_guildData == null)
@@ -49,10 +59,12 @@ namespace City.Buildings.Guild.GuildAdministrations
             View.GuildLevel.text = $"Level {_guildData.Level}";
             View.GuildId.text = $"ID: {_guildData.Id}";
 
-
             var recruits = CommonGameData.City.GuildPlayerSaveContainer.GuildRecruits;
             recruits.Sort(new RecruitDamageComparer());
+
             var index = 0;
+            View.HaveRequest.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count > 0);
+
             foreach (var recruit in recruits)
             {
                 GuildRecruitView prefab = null;
@@ -66,6 +78,7 @@ namespace City.Buildings.Guild.GuildAdministrations
                     _recruitsView.Add(recruit.PlayerId, prefab);
                     _diContainer.Inject(prefab);
                     prefab.SetData(recruit, View.Scroll);
+                    prefab.OnSelect.Subscribe(OpenRecruitDetails).AddTo(Disposables);
                 }
 
                 if (prefab != null)
@@ -74,6 +87,11 @@ namespace City.Buildings.Guild.GuildAdministrations
                     index++;
                 }
             }
+        }
+
+        private void OpenRecruitDetails(ScrollableUiView<RecruitData> view)
+        {
+            _guildRecruitDetailPanelController.ShowRecruitDetail(view.GetData);
         }
     }
 }

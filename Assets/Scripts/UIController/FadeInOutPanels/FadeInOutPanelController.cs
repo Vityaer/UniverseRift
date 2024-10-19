@@ -1,7 +1,6 @@
 ﻿using Fight;
 using Fight.WarTable;
 using System;
-using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -32,8 +31,6 @@ namespace UIController.FadeInOutPanels
             _isFade = false;
             TryStartHide();
         }
-
-
 
         private void OnFadeShow()
         {

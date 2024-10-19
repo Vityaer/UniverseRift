@@ -3,28 +3,45 @@ using UnityEngine;
 
 namespace Fight.Rounds
 {
-    [System.Serializable]
-    public class Round : ICloneable
+    [Serializable]
+    public class Round
     {
-        public float amount;
-        public RoundTypeNumber typeNumber;
+        public float Amount;
+        public RoundTypeNumber TypeNumber;
+
+        public bool IsPercent { get => TypeNumber == RoundTypeNumber.Percent ? true : false; }
 
         public void SetData(float amount, RoundTypeNumber typeNumber)
         {
-            this.amount = amount;
-            this.typeNumber = typeNumber;
+            this.Amount = amount;
+            this.TypeNumber = typeNumber;
         }
+
+        public Round()
+        {
+            Amount = 0;
+            TypeNumber = RoundTypeNumber.Percent;
+        }
+
         public Round(float amount, RoundTypeNumber typeNumber)
         {
-            this.amount = amount;
-            this.typeNumber = typeNumber;
+            this.Amount = amount;
+            this.TypeNumber = typeNumber;
         }
-        public void Add(float other) { amount += other; }
-        public bool AmountEqualsZero() { return Mathf.Abs(amount) < 0.01f; }
-        public bool IsPercent { get => typeNumber == RoundTypeNumber.Percent ? true : false; }
+
+        public void Add(float other)
+        {
+            Amount += other;
+        }
+
+        public bool AmountEqualsZero()
+        {
+            return Mathf.Abs(Amount) < 0.01f;
+        }
+
         public object Clone()
         {
-            return new Round(amount, typeNumber);
+            return new Round(Amount, TypeNumber);
         }
     }
 }

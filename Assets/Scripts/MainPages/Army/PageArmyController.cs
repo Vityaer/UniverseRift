@@ -3,6 +3,7 @@ using City.SliderCity;
 using City.TrainCamp;
 using Common.Heroes;
 using Hero;
+using System;
 using System.Collections.Generic;
 using UIController.Cards;
 using UIController.GameSystems;
@@ -75,6 +76,14 @@ namespace UIController
             numSelectHero = num;
             hero = _listHeroes[numSelectHero];
             _heroPanel.ShowHero(hero);
+
+            ChangeArrows();
+        }
+
+        private void ChangeArrows()
+        {
+            _heroPanel.ShowLeftArrow(numSelectHero != 0);
+            _heroPanel.ShowRightArrow(numSelectHero != _listHeroes.Count - 1);
         }
 
         private void SelectHero(GameHero hero)

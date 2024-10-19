@@ -14,6 +14,7 @@ using VContainerUi.Services;
 using UIController.Inventory;
 using City.Buildings.Requirement;
 using System;
+using City.Panels.Chats.ServerChats;
 
 namespace MainPages.MenuHud
 {
@@ -27,10 +28,11 @@ namespace MainPages.MenuHud
         public void Initialize()
         {
             OpenPanelOnClick<FriendsPanelController>(View.FriendlistButton);
-            OpenPanelOnClick<MailController>(View.MailButton);
+            OpenPanelOnClick<MailPanelController>(View.MailButton);
             OpenPanelOnClick<DailyRewardPanelController>(View.DailyRewardButton);
             OpenPanelOnClick<DailyTaskPanelController>(View.DailyTaskButton);
             OpenPanelOnClick<AchievmentsPageController>(View.AchievmentsButton);
+            OpenPanelOnClick<ServerChatPanelController>(View.ServerChatButton);
 
             View.InventoryButton.OnClickAsObservable().Subscribe(_ => OpenAllInventory()).AddTo(Disposables);
         }

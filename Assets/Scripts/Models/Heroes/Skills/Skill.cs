@@ -12,20 +12,17 @@ namespace Models.Heroes.Skills
     {
         public string ID;
         public Sprite Icon;
-        private int _level = 0;
-
-        [SerializeField] private string _name = "empty name";
-        [SerializeField] private string _description = "empty description";
-
         public bool IsActive = false;
+
+        public string Name = "empty name";
+        public string Description = "empty description";
+
         public List<SkillLevel> Levels = new List<SkillLevel>();
 
+        private int _level = 0;
         private SkillLevelLocalization _skillLocalization = null;
-
         private List<Effect> _effects = new List<Effect>();
 
-        [JsonIgnore] public string Name => _name;
-        [JsonIgnore] public string Description => _description;
         [JsonIgnore] public int Level { get => _level; }
 
         public Skill()
@@ -88,18 +85,18 @@ namespace Models.Heroes.Skills
         public string GetDescription(string description)
         {
             string strForReplace = "";
-            if (_effects.Count == 0) Debug.Log(string.Concat(Name, " not founed effects"));
-            if (_effects.Count == 1)
-            {
-                for (int i = 0; i < _effects[0].Actions.Count; i++)
-                {
-                    strForReplace = string.Concat("{Action", (i + 1).ToString());
-                    description = description.Replace(string.Concat(strForReplace, ".Count}"), _effects[0].Actions[i].CountTarget.ToString());
-                    description = description.Replace(string.Concat(strForReplace, ".Amount}"), _effects[0].Actions[i].Amount.ToString());
-                    description = description.Replace(string.Concat(strForReplace, ".RoundCount}"), _effects[0].Actions[i].Rounds.Count.ToString());
-                }
-            }
-            this._description = description;
+            //if (_effects.Count == 0) Debug.Log(string.Concat(Name, " not founed effects"));
+            //if (_effects.Count == 1)
+            //{
+            //    for (int i = 0; i < _effects[0].Actions.Count; i++)
+            //    {
+            //        strForReplace = string.Concat("{Action", (i + 1).ToString());
+            //        description = description.Replace(string.Concat(strForReplace, ".Count}"), _effects[0].Actions[i].CountTarget.ToString());
+            //        description = description.Replace(string.Concat(strForReplace, ".Amount}"), _effects[0].Actions[i].Amount.ToString());
+            //        description = description.Replace(string.Concat(strForReplace, ".RoundCount}"), _effects[0].Actions[i].Rounds.Count.ToString());
+            //    }
+            //}
+            Description = description;
             return description;
         }
     }

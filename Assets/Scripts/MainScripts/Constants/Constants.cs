@@ -84,6 +84,6 @@ public class Constants
 
     public static class Localization
     {
-        public const string UI_TABLE_NAME = "Ui";
+        public const string UI_TABLE_NAME = "UI";
     }
 }

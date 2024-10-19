@@ -11,6 +11,7 @@ namespace Fight.HeroControllers.Generals
         public delegate void Del();
         public delegate void DelFloat(float damage);
         public delegate void DelListTarget(List<HeroController> listTarget);
+
         private Del delsOnStartFight;
         private DelFloat delsOnStrikeFinish;
         private Del delsOnTakingDamage;
@@ -21,6 +22,7 @@ namespace Fight.HeroControllers.Generals
         private DelListTarget delsOnStrike;
         private DelListTarget delsOnSpell;
         private DelListTarget delsOnListSpell;
+
         public void RegisterOnStartFight(Del d) { delsOnStartFight += d; }
         public void RegisterOnStrike(DelListTarget d) { delsOnStrike += d; }
         public void RegisterOnTakingDamage(Del d) { delsOnTakingDamage += d; }
@@ -56,6 +58,7 @@ namespace Fight.HeroControllers.Generals
         private Action observerEndSelectCell;
         public void RegisterOnEndSelectCell(Action d) { observerEndSelectCell += d; }
         public void UnregisterOnEndSelectCell(Action d) { observerEndSelectCell -= d; }
+
         protected void OnEndSelectCell()
         {
             HexagonCell.UnregisterOnClick(SelectHexagonCell);

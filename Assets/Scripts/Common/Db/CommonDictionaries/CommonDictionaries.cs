@@ -18,6 +18,7 @@ using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
 using Models.Guilds;
 using Models.Heroes;
+using Models.Heroes.HeroCharacteristics.Abstractions;
 using Models.Heroes.PowerUps;
 using Models.Inventory.Splinters;
 using Models.Items;
@@ -70,6 +71,7 @@ namespace Db.CommonDictionaries
         private Dictionary<string, GuildBossContainer> _guildBossContainers = new();
         private Dictionary<string, AvatarModel> _avatarModels = new();
         private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
+        private Dictionary<string, CharacteristicModel> _characteristicModels = new();
 
         private readonly IJsonConverter _converter;
         private bool _isInited;
@@ -106,6 +108,7 @@ namespace Db.CommonDictionaries
         public Dictionary<string, GuildBossContainer> GuildBossContainers => _guildBossContainers;
         public Dictionary<string, AvatarModel> AvatarModels => _avatarModels;
         public Dictionary<string, RatingUpContainer> RatingUpContainers => _ratingUpContainers;
+        public Dictionary<string, CharacteristicModel> CharacteristicModels => _characteristicModels;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -238,6 +241,7 @@ namespace Db.CommonDictionaries
             _guildBossContainers = await DownloadModels<GuildBossContainer>();
             _avatarModels = await DownloadModels<AvatarModel>();
             _ratingUpContainers = await DownloadModels<RatingUpContainer>();
+            _characteristicModels = await DownloadModels<CharacteristicModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -281,6 +285,7 @@ namespace Db.CommonDictionaries
             _guildBossContainers = GetModels<GuildBossContainer>();
             _avatarModels = GetModels<AvatarModel>();
             _ratingUpContainers = GetModels<RatingUpContainer>();
+            _characteristicModels = GetModels<CharacteristicModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

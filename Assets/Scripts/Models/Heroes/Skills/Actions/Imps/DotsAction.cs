@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fight.HeroControllers.Generals;
+using Fight.HeroStates;
+using Models.Heroes.Actions;
+using Models.Heroes.Skills.Actions.Effects;
+using Models.Heroes.Skills.Actions.Imps.SimpleActions;
 
-namespace Assets.Scripts.Models.Heroes.Skills.Actions.Imps
+namespace Models.Heroes.Skills.Actions.Imps
 {
-    internal class DotsAction
+    public class DotsAction : ContinuousAction
     {
-    }
+        public DotType DotType;
+
+        public override void ExecuteAction()
+        {
+            foreach (HeroController heroController in ListTarget)
+                heroController.statusState.SetDot(DotType, Amount, TypeNumber, Rounds);
+        }    }
 }

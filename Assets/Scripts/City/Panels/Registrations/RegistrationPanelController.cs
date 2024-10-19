@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -67,6 +68,7 @@ namespace City.Panels.Registrations
 
             if (int.TryParse(result, out int id))
             {
+                PlayerPrefs.DeleteAll();
                 _commonGameData.Init(id).Forget();
                 Close();
             }

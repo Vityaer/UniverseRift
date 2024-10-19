@@ -4,6 +4,7 @@ using Fight.AI;
 using Fight.Factories;
 using Fight.FightInterface;
 using Fight.Grid;
+using Fight.UI;
 using Fight.WarTable;
 using UIController.FightUI;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Assets.Scripts.Installers
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private FightView _fightView;
+        [SerializeField] private FightPanelView _fightPanelView;
         [SerializeField] private WarTableView _warTableView;
         [SerializeField] private GridView _gridView;
         [SerializeField] private FightDirectionView _fightDirectionView;
@@ -32,6 +34,7 @@ namespace Assets.Scripts.Installers
             builder.RegisterUiView<GridController, GridView>(_gridView, rootGrid.transform);
 
             builder.RegisterUiView<FightController, FightView>(_fightView, canvas.transform);
+            builder.RegisterUiView<FightPanelController, FightPanelView>(_fightPanelView, canvas.transform);
             builder.RegisterUiView<WarTableController, WarTableView>(_warTableView, canvas.transform);
             builder.RegisterUiView<FightDirectionController, FightDirectionView>(_fightDirectionView, rootGrid.transform);
             builder.Register<BotProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();

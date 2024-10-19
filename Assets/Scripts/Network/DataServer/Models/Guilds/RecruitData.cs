@@ -12,5 +12,8 @@
         public string IntroductionDateTime { get; set; } = string.Empty;
         public int CountRaidBoss { get; set; }
         public string DateTimeFirstRaidBoss { get; set; } = string.Empty;
+        public bool TodayEnter { get; set; }
+        public bool TodayRaidBoss { get; set; }
+        public bool TodayDonate { get; set; }
     }
 }

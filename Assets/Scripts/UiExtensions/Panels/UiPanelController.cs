@@ -1,5 +1,4 @@
-﻿using City.Panels.SubjectPanels.Common;
-using Common;
+﻿using Common;
 using Models.Common;
 using System;
 using Ui.Misc.Widgets;

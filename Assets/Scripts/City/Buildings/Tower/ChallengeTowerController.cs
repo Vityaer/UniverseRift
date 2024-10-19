@@ -10,7 +10,6 @@ using Network.DataServer;
 using Network.DataServer.Messages.ChallengeTowers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -77,9 +76,17 @@ namespace City.Buildings.Tower
 
         private void FillData()
         {
+            var index = 0;
             for (int i = 0; i < _missionsUI.Count && i < workMission.Count; i++)
             {
+                _missionsUI[i].gameObject.SetActive(true);
                 _missionsUI[i].SetData(workMission[i], View.ScrollRect, _currentMissionIndex + i + 1, i == 0);
+                index = i;
+            }
+
+            for (var i = index; i < _missionsUI.Count; i++)
+            {
+                _missionsUI[i].gameObject.SetActive(false);
             }
         }
 

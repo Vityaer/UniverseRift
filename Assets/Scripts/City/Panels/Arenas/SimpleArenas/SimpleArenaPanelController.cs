@@ -1,13 +1,16 @@
 ﻿using City.Buildings.Abstractions;
 using City.Buildings.Arena;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
 using Fight;
 using Misc.Json;
 using Models;
 using Models.Arenas;
+using Models.Fights.Campaign;
 using Network.DataServer;
 using Network.DataServer.Messages.Arenas;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using UiExtensions.Misc;
 using UniRx;
@@ -30,9 +33,14 @@ namespace City.Panels.Arenas.SimpleArenas
 
         protected override void OnStart()
         {
-            _opponnentPool = new(View.OpponentPrefab, View.Content, View.ScrollRect, OnSelectOpponent);
+            _opponnentPool = new(View.OpponentPrefab, View.Content, View.ScrollRect, OnSelectOpponent, OnCreateOpponentPanel);
             View.DefendersButton.OnClickAsObservable().Subscribe(_ => OpenWarTableDefenders()).AddTo(Disposables);
             base.OnStart();
+        }
+
+        private void OnCreateOpponentPanel(ArenaOpponentView view)
+        {
+            Resolver.Inject(view);
         }
 
         protected override void OnLoadGame()
@@ -53,15 +61,7 @@ namespace City.Panels.Arenas.SimpleArenas
         private void UpdateUi()
         {
             if (_arenaSave.Opponents.Count > 0)
-            {
                 _opponnentPool.ShowDatas(_arenaSave.Opponents);
-                foreach (var view in _opponnentPool.Views)
-                {
-                    var data = view.GetData;
-                    if(CommonGameData.CommunicationData.PlayersData.ContainsKey(data.PlayerId))
-                        view.SetPlayer(CommonGameData.CommunicationData.PlayersData[data.PlayerId]);
-                }
-            }
 
             View.PlayerScore.text = $"{_arenaSave.MyData.Score}";
             View.PlayerAvatar.SetData(CommonGameData.PlayerInfoData);
@@ -105,6 +105,7 @@ namespace City.Panels.Arenas.SimpleArenas
                 var newData = _jsonConverter.Deserialize<ArenaBuildingModel>(result);
                 CommonGameData.City.ArenaSave = newData;
                 _arenaSave = newData;
+                CommonGameData.CommunicationData.AddPlayers(_arenaSave.PlayersData);
                 UpdateUi();
             }
         }

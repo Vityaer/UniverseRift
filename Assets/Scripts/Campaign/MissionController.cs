@@ -25,11 +25,13 @@ namespace Campaign
         public GameObject btnGoFight;
         public TextMeshProUGUI textBtnGoFight;
         public RewardUIController rewardController;
+
         [Header("Contollers")]
         public StatusMission Status;
         public CampaignMissionModel mission;
         public int numMission;
-        private ReactiveCommand<MissionController> _onClickMission = new ReactiveCommand<MissionController>();
+
+        private ReactiveCommand<MissionController> _onClickMission = new();
         private CommonDictionaries _commonDictionaries;
 
         public IObservable<MissionController> OnClickMission => _onClickMission;

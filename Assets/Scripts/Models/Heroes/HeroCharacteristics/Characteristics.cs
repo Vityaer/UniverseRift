@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Models.Heroes.HeroCharacteristics.Abstractions;
+using System;
+using System.Collections.Generic;
 
 namespace Models.Heroes.HeroCharacteristics
 {

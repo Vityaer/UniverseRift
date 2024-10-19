@@ -18,9 +18,9 @@ namespace Fight.HeroStates
                 find = false;
                 for (int i = 0; i < this.rounds.Count; i++)
                 {
-                    if ((this.rounds[i].typeNumber == curRound.typeNumber) && (flags[i] == false))
+                    if ((this.rounds[i].TypeNumber == curRound.TypeNumber) && (flags[i] == false))
                     {
-                        this.rounds[i].Add(curRound.amount);
+                        this.rounds[i].Add(curRound.Amount);
                         find = true;
                         flags[i] = true;
                         break;
@@ -33,7 +33,7 @@ namespace Fight.HeroStates
         {
             if (rounds.Count > 0)
             {
-                heroController.ApplyDamage(new Strike(rounds[0].amount, 0, rounds[0].typeNumber, TypeStrike.Clean));
+                heroController.ApplyDamage(new Strike(rounds[0].Amount, 0, rounds[0].TypeNumber, TypeStrike.Clean));
                 rounds.RemoveAt(0);
             }
         }

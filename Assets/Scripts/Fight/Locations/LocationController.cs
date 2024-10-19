@@ -21,17 +21,17 @@ namespace Fight
         public void OpenLocation(string typeLocation)
         {
             _curLocation = Locations.Find(x => x.Id == typeLocation);
-            BackgroundController.Instance.OpenBackground(_curLocation.BackgroundForFight);
+            //BackgroundController.Instance.OpenBackground(_curLocation.BackgroundForFight);
         }
 
         // public void CloseLocation(){
         // 	curLocation.backgroundForFight.SetActive(false);
         // }
 
-        public Sprite GetBackgroundForMission(string typeLocation)
-        {
-            return Locations.Find(x => x.Id == typeLocation).BackgroundForMission;
-        }
+        //public Sprite GetBackgroundForMission(string typeLocation)
+        //{
+        //    //return Locations.Find(x => x.Id == typeLocation).BackgroundForMission;
+        //}
 
         public void Close()
         {

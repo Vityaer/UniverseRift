@@ -53,9 +53,6 @@ namespace Pages.Heroes.Vocation
         }
 
         [ShowInInspector]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
-            NumberOfItemsPerPage = 20,
-            CustomRemoveElementFunction = nameof(RemoveElements), CustomAddFunction = nameof(AddElement))]
         [ShowIf(nameof(DataExist))]
         [HorizontalGroup("3")]
         [LabelText("Vocations")]
@@ -63,4 +60,5 @@ namespace Pages.Heroes.Vocation
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<VocationModelEditor> Vocations = new List<VocationModelEditor>();
     }
+
 }

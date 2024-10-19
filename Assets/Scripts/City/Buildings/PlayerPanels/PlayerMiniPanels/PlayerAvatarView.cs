@@ -22,6 +22,12 @@ namespace City.Buildings.PlayerPanels.PlayerMiniPanels
 
         public void UpdateUi()
         {
+            if (_playerData == null)
+            {
+                Debug.LogError("PlayerData is null.");
+                return;
+            }
+
             _image.sprite = SpriteUtils.LoadSprite(_playerData.AvatarPath);
             _level.text = $"{_playerData.Level}";
         }

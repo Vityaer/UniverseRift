@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Fight.Common;
+using City.TrainCamp.HeroInstances;
 using Cysharp.Threading.Tasks;
 using Fight.Comparers;
 using Fight.Factories;
@@ -7,12 +8,15 @@ using Fight.Grid;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
 using Fight.WarTable;
+using LocalizationSystems;
 using Models.Fights.Campaign;
 using System;
 using System.Collections.Generic;
+using UI.Utils.Localizations.Extensions;
 using UIController.FightUI;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization;
 using VContainer;
 using VContainerUi.Abstraction;
 using VContainerUi.Messages;
@@ -23,20 +27,27 @@ namespace Fight
 {
     public partial class FightController : UiController<FightView>
     {
+        private const string START_FIGHT_LOCALIZATION_KEY = "StartFightLabel";
+        private const string FINISH_FIGHT_LOCALIZATION_KEY = "FinishFightLabel";
+        private const string START_TIME_LOCALIZATION_KEY = "CurrentTimeStartFightLabel";
+        private const string ROUND_LOCALIZATION_KEY = "CurrentRoundLabel";
+        private const int MAX_ROUND_COUNT = 15;
+        private const int TICK_DELAY = 750;
+
         [Inject] private readonly HeroFactory _heroFactory;
         [Inject] private readonly GridController _gridController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
         [Inject] private readonly FightDirectionController _fightDirectionController;
-
-        private const int MAX_ROUND_COUNT = 15;
-        private const int TICK_DELAY = 750;
+        [Inject] private readonly HeroInstancesController _heroInstancesController;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
 
         [Header("Place heroes")]
-        private List<Warrior> _leftTeam = new List<Warrior>();
-        private List<Warrior> _rightTeam = new List<Warrior>();
-        private List<HeroController> _listInitiative = new List<HeroController>();
-        private List<HeroController> _listHeroesWithAction = new List<HeroController>();
+        private List<Warrior> _leftTeam = new();
+        private List<Warrior> _rightTeam = new();
+        private List<HeroController> _listInitiative = new();
+        private List<HeroController> _listHeroesWithAction = new();
 
+        public ReactiveCommand<LocalizedString> OnChangeFightUiText = new();
         public ReactiveCommand OnEndRound = new ReactiveCommand();
         public ReactiveCommand OnStartFight = new ReactiveCommand();
         public ReactiveCommand OnFinishFight = new ReactiveCommand();
@@ -46,7 +57,7 @@ namespace Fight
         private int _currentHeroIndex = -1;
         private int _round = 1;
         private MissionModel _mission;
-        private ReactiveCommand<FightResultType> _onFightResult = new ReactiveCommand<FightResultType>();
+        private ReactiveCommand<FightResultType> _onFightResult = new();
 
         public List<Warrior> GetLeftTeam => _leftTeam;
         public List<Warrior> GetRightTeam => _rightTeam;
@@ -59,6 +70,7 @@ namespace Fight
             _isFightFinish = false;
             _mission = mission;
             //View.LocationController.OpenLocation(mission.Location);
+            _heroInstancesController.HideLight();
             _gridController.OpenGrid();
             CreateTeams(leftWarriorPlace, rightWarriorPlace);
         }
@@ -77,18 +89,30 @@ namespace Fight
 
             for (int i = 3; i > 0; i--)
             {
-                View.NumRoundText.text = $"{i}";
+                var localizeTime = _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(START_TIME_LOCALIZATION_KEY)
+                    .WithArguments( new List<object>{i} );
+
+                OnChangeFightUiText.Execute(localizeTime);
                 await UniTask.Delay(TICK_DELAY);
 
             }
-            View.NumRoundText.text = "Fight!";
+
+            var localize = _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(START_FIGHT_LOCALIZATION_KEY);
+            OnChangeFightUiText.Execute(localize);
 
             await UniTask.Delay(500);
 
-            View.NumRoundText.text = $"Round {_round}";
+            ShowRoundInfo();
             OnStartFight.Execute();
             _listInitiative.Sort(new HeroInitiativeComparer());
             StartFight();
+        }
+
+        private void ShowRoundInfo()
+        {
+            var localize = _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(ROUND_LOCALIZATION_KEY)
+                .WithArguments( new List<object>{_round} );
+            OnChangeFightUiText.Execute(localize);
         }
 
         private void CreateTeam(List<HexagonCell> teamPos, List<WarriorPlace> team, Side side, List<Warrior> warriorTeam)
@@ -109,6 +133,23 @@ namespace Fight
         public void StartFight()
         {
             NextHero();
+        }
+
+        public void WaitTurn()
+        {
+            var hero = GetCurrentHero();
+            _listInitiative.Remove(hero);
+            _currentHeroIndex -= 1;
+            _listInitiative.Add(hero);
+            hero.StartWait();
+        }
+
+        public void DefenseTurn()
+        {
+        }
+
+        public void SpellTurn()
+        {
         }
 
         public void AddHeroWithAction(HeroController newHero)
@@ -156,7 +197,9 @@ namespace Fight
             UpdateListInitiative();
             _currentHeroIndex = 0;
             _round++;
-            View.NumRoundText.text = $"Round {_round}";
+
+            ShowRoundInfo();
+
             OnEndRound.Execute();
             _fightDirectionController.ClearData();
             if (_round == MAX_ROUND_COUNT)
@@ -195,15 +238,6 @@ namespace Fight
             _listInitiative.Sort(new HeroInitiativeComparer());
         }
 
-        public void WaitTurn()
-        {
-            var hero = GetCurrentHero();
-            _listInitiative.Remove(hero);
-            _currentHeroIndex -= 1;
-            _listInitiative.Add(hero);
-            hero.StartWait();
-        }
-
         //Result fight
         private void CheckFinishFight()
         {
@@ -220,7 +254,9 @@ namespace Fight
 
         private async UniTaskVoid FinishFightCountdown(Side side)
         {
-            View.NumRoundText.text = "Конец боя!";
+
+            var localize = _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(FINISH_FIGHT_LOCALIZATION_KEY);
+            OnChangeFightUiText.Execute(localize);
 
             if (side == Side.Right) CheckSaveResult();
             await UniTask.Delay(500);
@@ -229,7 +265,7 @@ namespace Fight
 
             await UniTask.Delay(2000);
             var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
-            View.NumRoundText.text = string.Empty;
+            //View.NumRoundText.text = string.Empty;
             ClearAll();
 
             _onFightResult.Execute(fightResult);
@@ -238,6 +274,7 @@ namespace Fight
         void ClearAll()
         {
             _gridController.FinishFight();
+            _heroInstancesController.OpenLight();
             DeleteTeam(_rightTeam);
             DeleteTeam(_leftTeam);
             _listInitiative.Clear();
@@ -290,8 +327,6 @@ namespace Fight
             DeleteTeam(_rightTeam);
             CheckFinishFight();
         }
-
-
     }
 }
 

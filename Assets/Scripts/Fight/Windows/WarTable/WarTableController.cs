@@ -31,8 +31,8 @@ namespace Fight.WarTable
         private TeamContainer _playerTeam;
         private ReactiveCommand<TeamContainer> _onChangeTeam = new();
 
-        public ReactiveCommand OnStartMission = new ReactiveCommand();
-        public ReactiveCommand OnClose = new ReactiveCommand();
+        public ReactiveCommand OnStartMission = new();
+        public ReactiveCommand OnClose = new();
         public IObservable<TeamContainer> OnChangeTeam => _onChangeTeam;
 
         public void Initialize()
@@ -48,6 +48,8 @@ namespace Fight.WarTable
                 place.OnClick.Subscribe(OnPlaceSelect).AddTo(_disposables);
             }
             Resolver.Inject(View.ListCardPanel);
+
+            _fightController.OnFigthResult.Subscribe(_ => Close()).AddTo(_disposables);
         }
 
         private void OnPlaceSelect(WarriorPlace place)
@@ -96,8 +98,12 @@ namespace Fight.WarTable
             {
                 if (_playerTeam != null)
                 {
+                    if (_playerTeam.Heroes.ContainsKey(selectedPlace.Id))
+                    {
+                        return false;
+                    }
+
                     _playerTeam.Heroes.Add(selectedPlace.Id, hero.HeroData.Id);
-                    UnityEngine.Debug.Log($"AddHero: {hero.HeroData.Id} in team: {_playerTeam.Id}");
                     _onChangeTeam.Execute(_playerTeam);
                 }
 
@@ -214,7 +220,8 @@ namespace Fight.WarTable
             //        }
             //        break;
             //}
-            View.StartFightButton.interactable = View.LeftTeam.FindAll(place => place.Hero != null).Count > 0;
+            UnityEngine.Debug.Log($"Check left team {View.LeftTeam.FindAll(place => !place.IsEmpty).Count > 0}");
+            View.StartFightButton.interactable = View.LeftTeam.FindAll(place => !place.IsEmpty).Count > 0;
         }
 
         //API
@@ -232,6 +239,7 @@ namespace Fight.WarTable
             FillTeam(_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
             Open();
+            CheckTeam(View.LeftTeam);
         }
 
         private void FillTeam(TeamContainer team, List<WarriorPlace> teamPlaces)
@@ -245,7 +253,7 @@ namespace Fight.WarTable
                     continue;
 
                 var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
-                if(suitableHero == null)
+                if (suitableHero == null)
                     continue;
 
                 suitablePlace.SetHero(suitableHero);
@@ -291,14 +299,14 @@ namespace Fight.WarTable
             UpdateStrengthTeam(View.RightTeam, View.StrengthRightTeam);
 
             CheckTeam(View.RightTeam);
-
             FillListHeroes(listHeroes);
             Open();
+
         }
 
         private void DisposeMainAction()
         {
-            if(_buttonAction != null)
+            if (_buttonAction != null)
             {
                 _buttonAction.Dispose();
                 _buttonAction = null;
@@ -312,6 +320,7 @@ namespace Fight.WarTable
 
             FillTeam(_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
+            CheckTeam(View.LeftTeam);
         }
 
         public override void Close()

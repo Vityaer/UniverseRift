@@ -10,16 +10,16 @@ namespace UIController
         public Text textNameSkill;
         public Text textDescriptionSkill;
         public Text textLevelSkill;
-        public Image imageSkill;
-        public Skill skill;
+        public Image ImageSkill;
+        public Skill Skill;
 
         public void ShowSkill(Skill skill)
         {
-            this.skill = skill;
+            this.Skill = skill;
             textNameSkill.text = skill.Name;
             textDescriptionSkill.text = skill.Description;
             textLevelSkill.text = string.Concat("Уровень ", (skill.Level + 1).ToString());
-            imageSkill.sprite = skill.Icon;
+            ImageSkill.sprite = skill.Icon;
             mainPanel.SetActive(true);
         }
 

@@ -12,7 +12,7 @@ namespace Models.Arenas
         public string ArmyData { get; set; } = string.Empty;
         public int WinCount { get; set; }
         public int LoseCount { get; set; }
-        public MissionModel Mission = new();
+        public MissionModel Mission;
         public TeamContainer Team { get; set; }
 
     }

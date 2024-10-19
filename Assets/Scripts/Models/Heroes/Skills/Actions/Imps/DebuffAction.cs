@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Models.Heroes.Actions;
+using Models.Heroes.Skills.Actions.Effects;
+using Sirenix.OdinInspector;
 
-namespace Assets.Scripts.Models.Heroes.Skills.Actions.Imps
+namespace Models.Heroes.Skills.Actions.Imps
 {
-    internal class DebuffAction
+    public class DebuffAction : AbstractAction
     {
+        public override void ExecuteAction()
+        {
+        }
     }
 }

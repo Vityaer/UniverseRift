@@ -4,7 +4,7 @@ using City.Buildings.Guild.BossRaid;
 using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.GuildMarket;
 using City.Buildings.Guild.GuildTaskboardPanels;
-using City.Buildings.Guild.Requests;
+using City.Buildings.Guild.RecruitRequestPanels;
 using Cysharp.Threading.Tasks;
 using Models.Common;
 using Network.DataServer.Models.Guilds;
@@ -69,7 +69,7 @@ namespace City.Buildings.Guild
 
         private void OpenRequestsPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildRequestPanelController>(openType: OpenType.Additive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Additive);
         }
 
         private void OpenAvailableGuildsPanel()

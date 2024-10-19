@@ -46,7 +46,7 @@ namespace Models.Common
         {
             var message = new GetPlayerSaveMessage { PlayerId = playerId };
             OnStartLoadData.Execute();
-            
+
             var result = await DataServer.PostData(message);
             if (result.IsNullOrWhitespace())
                 return;
@@ -72,7 +72,6 @@ namespace Models.Common
 
             IsInited = true;
             OnLoadedData.Execute();
-            Debug.Log($"data loaded, PLAYER_ID: {PlayerInfoData.Id}");
         }
     }
 }

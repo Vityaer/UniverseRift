@@ -74,6 +74,17 @@ namespace City.TrainCamp
             _heroInstancesController.ShowHero(hero);
         }
 
+
+        public void ShowLeftArrow(bool flag)
+        {
+            View.ToLeftButton.gameObject.SetActive(flag);
+        }
+
+        public void ShowRightArrow(bool flag)
+        {
+            View.ToRightButton.gameObject.SetActive(flag);
+        }
+
         public void UpdateInfoAboutHero()
         {
             View.imageHero.sprite = _hero.Avatar;
