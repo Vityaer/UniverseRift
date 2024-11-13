@@ -1,5 +1,6 @@
 ﻿using UI.Utils.Localizations.Containers;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace LocalizationSystems
 {
@@ -12,6 +13,17 @@ namespace LocalizationSystems
         public LocalizationSystem()
         {
             _localizationUiContainer = new();
+        }
+
+
+        public string GetString(string key)
+        {
+            return _localizationUiContainer.GetLocalizedContainer(key).GetLocalizedString(string.Empty);
+        }
+
+        public LocalizedString GetLocalizedContainer(string key)
+        {
+            return _localizationUiContainer.GetLocalizedContainer(key);
         }
     }
 }

@@ -78,6 +78,7 @@ using UIController.ControllerPanels.SelectCount;
 using UIController.FadeInOutPanels;
 using UIController.Inventory;
 using UIController.LoadingUI;
+using UIController.SkillPanels;
 using UnityEngine;
 using VContainer;
 using VContainer.Extensions;
@@ -127,6 +128,8 @@ namespace Installers
         [SerializeField] private VoyageMissionPanelView _voyageMissionPanelView;
         [SerializeField] private AlchemyPanelView _alchemyPanelView;
         [SerializeField] private EvolutionResultPanelView _evolutionResultPanelView;
+
+        [SerializeField] private SkillPanelView _skillPanelView;
 
         [Header("Mails")]
         [SerializeField] private MailPanelView _mailView;
@@ -196,6 +199,7 @@ namespace Installers
             builder.RegisterUiView<SplinterPanelController, SplinterPanelView>(_splinterPanelView, canvas.transform);
             builder.RegisterUiView<PlayerNewLevelPanelController, PlayerNewLevelPanelView>(_playerNewLevelPanelView, canvas.transform);
             builder.RegisterUiView<HeroPanelController, HeroPanelView>(_heroPanelView, canvas.transform);
+            builder.RegisterUiView<SkillPanelController, SkillPanelView>(_skillPanelView, canvas.transform);
             builder.RegisterUiView<HeroDetailsPanelController, HeroDetailsPanelView>(_heroDetailsPanelView, canvas.transform);
             builder.RegisterUiView<BoxRewardsPanelController, BoxRewardsPanelView>(_boxRewardView, canvas.transform);
             builder.RegisterUiView<AchievmentsPageController, AchievmentsPanelView>(_achievmentsPanelView, canvas.transform);

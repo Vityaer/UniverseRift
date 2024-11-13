@@ -15,13 +15,5 @@ namespace Models.Heroes.Evolutions
         [Header("Reward")]
         public int NewLimitLevel;
         public IncreaseCharacteristicsModel IncCharacts;
-
-        [Header("Serious changes")]
-        public bool IsSeriousChange = false;
-        public string NewName = string.Empty;
-        public string NewRace;
-        public string NewClassHero;
-        public string NewModelId;
-
     }
 }

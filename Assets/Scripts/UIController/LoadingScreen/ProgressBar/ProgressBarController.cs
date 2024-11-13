@@ -11,7 +11,6 @@ namespace Ui.LoadingScreen.ProgressBar
     {
         public void Open()
         {
-            Debug.Log("open prgress bar");
             base.Show();
             Reset();
         }
@@ -31,7 +30,6 @@ namespace Ui.LoadingScreen.ProgressBar
 
         public void Close()
         {
-            Debug.Log("Close prgress bar");
             base.Hide();
         }
     }

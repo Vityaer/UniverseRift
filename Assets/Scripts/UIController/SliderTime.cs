@@ -72,6 +72,7 @@ namespace UIController
             secondsInterval = (float)requireTime.TotalSeconds;
             ChangeValue();
             isSetData = true;
+            _isFinish = false;
             if (coroutineTimer != null)
             {
                 StopCoroutine(coroutineTimer);

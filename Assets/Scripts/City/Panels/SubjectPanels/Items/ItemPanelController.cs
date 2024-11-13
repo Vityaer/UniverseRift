@@ -1,8 +1,12 @@
-﻿using LocalizationSystems;
+﻿using City.Panels.SubjectPanels.Items;
+using LocalizationSystems;
+using System;
 using UIController.Inventory;
 using UIController.ItemVisual;
+using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using Utils;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
@@ -11,15 +15,16 @@ namespace City.Panels.SubjectPanels
 {
     public class ItemPanelController : UiPanelController<ItemPanelView>, IInitializable
     {
-        //[Inject] private readonly InventoryController _inventoryController;
         private readonly ILocalizationSystem _localizationSystem;
 
         private HeroItemCellController _cellItem;
         private GameItem _selectItem;
+        private DynamicUiList<ItemBonusView, Bonus> _bonusesPool;
 
-        public ReactiveCommand OnAction = new ReactiveCommand();
-        public ReactiveCommand OnDrop = new ReactiveCommand();
-        public ReactiveCommand OnClose = new ReactiveCommand();
+        public ReactiveCommand OnAction = new();
+        public ReactiveCommand OnSwapAction = new();
+        public ReactiveCommand OnDrop = new();
+        public ReactiveCommand OnClose = new();
 
         public ItemPanelController(ILocalizationSystem localizationSystem)
         {
@@ -28,8 +33,9 @@ namespace City.Panels.SubjectPanels
 
         public new void Initialize()
         {
+            _bonusesPool = new(View.itemBonusViewPrefab, View.BonusesScroll.content, View.BonusesScroll, null, OnCreateBonusView);
             View.ActionButton.OnClickAsObservable().Subscribe(_ => OnClickButtonAction()).AddTo(Disposables);
-            //View.OpenInventoryButton.OnClickAsObservable().Subscribe(_ => OpenInventory()).AddTo(Disposables);
+            View.SwapButton.OnClickAsObservable().Subscribe(_ => StartSwapItems()).AddTo(Disposables);
             base.Initialize();
         }
 
@@ -38,21 +44,30 @@ namespace City.Panels.SubjectPanels
             _cellItem = cellItem;
             _selectItem = item;
 
+            View.ActionButton.gameObject.SetActive(true);
             if (onHero == false)
             {
-                View.ActionButtonText.text = "Снарядить";
+                View.ActionButtonText.StringReference = _localizationSystem.GetLocalizedContainer("SetItemButtonLabel");
+                View.SwapButton.gameObject.SetActive(false);
             }
             else
             {
-                View.ActionButtonText.text = "Снять";
+                View.ActionButtonText.StringReference = _localizationSystem.GetLocalizedContainer("TakeOffItemButtonLabel");
+                View.SwapButton.gameObject.SetActive(true);
             }
             View.ActionButton.interactable = true;
             FillData(item);
         }
 
+        private void OnCreateBonusView(ItemBonusView view)
+        {
+            view.Init(_localizationSystem);
+        }
+
         public void ShowData(GameItem item)
         {
-            View.ActionButton.interactable = false;
+            View.ActionButton.gameObject.SetActive(false);
+            View.SwapButton.gameObject.SetActive(false);
             FillData(item);
         }
 
@@ -63,7 +78,9 @@ namespace City.Panels.SubjectPanels
                 .GetLocalizedContainer($"{item.Id}Name");
 
             View.ItemType.StringReference = _localizationSystem.LocalizationUiContainer
-                .GetLocalizedContainer($"{item.Type}Name");
+                .GetLocalizedContainer($"{item.Type}TypeName");
+
+            _bonusesPool.ShowDatas(item.Model.Bonuses);
             MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
         }
 
@@ -79,21 +96,14 @@ namespace City.Panels.SubjectPanels
             base.OnHide();
         }
 
-        private void OpenInventory()
+        private void StartSwapItems()
         {
-            //_inventoryController.Open(_cellItem.CellType, _cellItem);
+            OnSwapAction.Execute();
         }
 
-        private void SelectItem()
+        public void CloseAfterSwap()
         {
-
-            //ActionButtonText.onClick.AddListener(InventoryController.Instance.SelectItem);
-        }
-
-        private void TakeOff()
-        {
-            //_inventoryController.Add(_selectItem);
-            _cellItem.Clear();
+            Close();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace UIController.MenuWindows
             AddController<CityPageController>();
             AddController<CityUiController>();
             AddController<MenuButtonsController>();
-
         }
     }
 }

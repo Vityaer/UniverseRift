@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
@@ -8,7 +9,7 @@ namespace UIController.LoadingUI
 {
     public class StartLoadingView : UiView
     {
-        public TMP_Text LoadingText;
+        public LocalizeStringEvent LoadingText;
         public Slider LoadingSlider;
         public float AnimationTime;
         public float AnimationFinishTime;

@@ -20,6 +20,9 @@ using Utils;
 using VContainer;
 using VContainerUi.Model;
 using VContainerUi.Messages;
+using LocalizationSystems;
+using UI.Utils.Localizations.Extensions;
+using System.Collections.Generic;
 
 namespace City.Buildings.PlayerPanels
 {
@@ -32,6 +35,7 @@ namespace City.Buildings.PlayerPanels
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly AvatarPanelDetailsController _avatarPanelDetailsController;
         [Inject] private readonly AvatarPanelController _avatarPanelController;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
 
         private PlayerData _playerInfo;
         private GameResource _requireExpForLevel;
@@ -42,11 +46,11 @@ namespace City.Buildings.PlayerPanels
         public IObservable<BigDigit> OnLevelUp => _onLevelUp;
         public PlayerData PlayerInfoData => _playerInfo;
 
-        public override void OnShow()
+        public override void Start()
         {
             View.AvatarButton.OnClickAsObservable().Subscribe(_ => OpenAvatarsPanel()).AddTo(_disposables);
             _avatarPanelDetailsController.OnSelectNewAvatar.Subscribe(ChangeAvatar).AddTo(_disposables);
-            base.OnShow();
+            base.Start();
         }
 
         private void OpenAvatarsPanel()
@@ -63,14 +67,24 @@ namespace City.Buildings.PlayerPanels
 
         private void ChangeAvatar(AvatarModel avatar)
         {
+            _playerInfo.AvatarPath = avatar.Path;
             View.Avatar.sprite = SpriteUtils.LoadSprite(avatar.Path);
         }
 
         private void UpdateData()
         {
-            View.Name.text = $"name: {_playerInfo.Name}";
-            View.PlayerId.text = $"id: {_playerInfo.Id}";
-            View.Level.text = $"{_playerInfo.Level}";
+            View.Name.text = _localizationSystem.GetLocalizedContainer("MyPlayerName")
+                .WithArguments(new List<object> {_playerInfo.Name})
+                .GetLocalizedString();
+
+            View.PlayerId.text = _localizationSystem.GetLocalizedContainer("MyPlayerId")
+                .WithArguments(new List<object> { _playerInfo.Id })
+                .GetLocalizedString();
+
+            View.Level.text = _localizationSystem.GetLocalizedContainer("MyPlayerLevel")
+                .WithArguments(new List<object> { _playerInfo.Level })
+                .GetLocalizedString();
+
             View.Avatar.sprite = SpriteUtils.LoadSprite(_playerInfo.AvatarPath);
             UpdateExp();
         }
@@ -85,8 +99,12 @@ namespace City.Buildings.PlayerPanels
         public void LevelUp()
         {
             _playerInfo.Level += 1;
-            View.Level.text = $"{_playerInfo.Level}";
-            _onLevelUp.Execute(new BigDigit(_playerInfo.Level, 0));
+
+            View.Level.text = _localizationSystem.GetLocalizedContainer("MyPlayerLevel")
+                .WithArguments(new List<object> { _playerInfo.Level })
+                .GetLocalizedString();
+
+            _onLevelUp.Execute(new BigDigit(_playerInfo.Level));
         }
 
         public void ChangeExp(GameResource newExp)
@@ -113,12 +131,5 @@ namespace City.Buildings.PlayerPanels
         {
             return _dictionaries.CostContainers["PlayerLevels"].GetCostForLevelUp(level)[0];
         }
-
-        public void SaveNewName(string newName)
-        {
-            //playerInfo.SetNewName(newName);
-            //Utils.TextUtils.Save(_сommonGameData);
-        }
-
     }
 }

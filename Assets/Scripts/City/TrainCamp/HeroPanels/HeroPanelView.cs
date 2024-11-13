@@ -31,6 +31,6 @@ namespace City.TrainCamp.HeroPanels
         public List<HeroItemCellController> CellsForItem = new List<HeroItemCellController>();
 
         [Header("Skills")]
-        public SkillUIController skillController;
+        public List<SkillCell> SkillCells;
     }
 }

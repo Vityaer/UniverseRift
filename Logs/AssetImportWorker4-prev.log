@@ -9,13 +9,13 @@ C:\Program Files\Unity\Hub\Editor\2022.3.42f1\Editor\Unity.exe
 -batchMode
 -noUpm
 -name
-AssetImportWorker10
+AssetImportWorker4
 -projectPath
 C:/Projects/UniverseRift.git
 -logFile
-Logs/AssetImportWorker10.log
+Logs/AssetImportWorker4.log
 -srvPort
-62683
+64131
 Successfully changed project path to: C:/Projects/UniverseRift.git
 C:/Projects/UniverseRift.git
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,16 +49,16 @@ C:/Projects/UniverseRift.git
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [24644]  Target information:
+Player connection [23776]  Target information:
 
-Player connection [24644]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 3219008295 [EditorId] 3219008295 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [23776]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 3203459967 [EditorId] 3203459967 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [24644]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 3219008295 [EditorId] 3219008295 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [23776]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 3203459967 [EditorId] 3203459967 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [24644] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [24644] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [23776] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [23776] Host joined alternative multi-casting on [225.0.0.222:34997]...
 [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-Refreshing native plugins compatible for Editor in 17.19 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 1287.39 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.42f1 (2dcb6a0abc42)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Resources/UnitySubsystems
@@ -76,47 +76,47 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56888
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56132
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.007231 seconds.
-- Loaded All Assemblies, in  0.298 seconds
+Registered in 0.009829 seconds.
+- Loaded All Assemblies, in  0.322 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 254 ms
+Android Extension - Scanning For ADB Devices 306 ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.522 seconds
-Domain Reload Profiling: 819ms
-	BeginReloadAssembly (108ms)
+- Finished resetting the current domain, in  0.625 seconds
+Domain Reload Profiling: 945ms
+	BeginReloadAssembly (107ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (24ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (49ms)
-	LoadAllAssembliesAndSetupDomain (106ms)
+	RebuildCommonClasses (26ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (53ms)
+	LoadAllAssembliesAndSetupDomain (126ms)
 		LoadAssemblies (106ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (103ms)
-			TypeCache.Refresh (102ms)
-				TypeCache.ScanAssembly (92ms)
+		AnalyzeDomain (125ms)
+			TypeCache.Refresh (123ms)
+				TypeCache.ScanAssembly (108ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (523ms)
+	FinalizeReload (625ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (488ms)
+		SetupLoadedEditorAssemblies (585ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (348ms)
-			SetLoadedEditorAssemblies (4ms)
+			InitializePlatformSupportModulesInManaged (418ms)
+			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (96ms)
-			ProcessInitializeOnLoadMethodAttributes (37ms)
+			ProcessInitializeOnLoadAttributes (113ms)
+			ProcessInitializeOnLoadMethodAttributes (49ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -124,33 +124,33 @@ Domain Reload Profiling: 819ms
 ========================================================================
 Worker process is ready to serve import requests
 Caller must complete domain reload
-0x00007ff708e2d08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff708e32169 (Unity) StackWalker::ShowCallstack
-0x00007ff709e1f231 (Unity) GetStacktrace
-0x00007ff70a4d9e6e (Unity) DebugStringToFile
-0x00007ff70a4d9baa (Unity) AssertImplementation
-0x00007ff709cbd9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff70a1a3484 (Unity) WorkerDomainReloadV2
-0x00007ff70a1c40af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
-0x00007ff70a1ffea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff70a1ebe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff70a1eda7e (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff70a1fe24c (Unity) IOService::Run
-0x00007ff70a1d16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff70a19d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff70a19d0bb (Unity) RunAssetImporterV2
-0x00007ff7099976fe (Unity) Application::InitializeProject
-0x00007ff709e29ed5 (Unity) WinMain
-0x00007ff70b1db7be (Unity) __scrt_common_main_seh
-0x00007ffef564257d (KERNEL32) BaseThreadInitThunk
-0x00007ffef6acaf08 (ntdll) RtlUserThreadStart
+0x00007ff7e547d08d (Unity) StackWalker::GetCurrentCallstack
+0x00007ff7e5482169 (Unity) StackWalker::ShowCallstack
+0x00007ff7e646f231 (Unity) GetStacktrace
+0x00007ff7e6b29e6e (Unity) DebugStringToFile
+0x00007ff7e6b29baa (Unity) AssertImplementation
+0x00007ff7e630d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
+0x00007ff7e67f3484 (Unity) WorkerDomainReloadV2
+0x00007ff7e68140af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
+0x00007ff7e684fea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff7e683be4e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff7e683da7e (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff7e684e24c (Unity) IOService::Run
+0x00007ff7e68216cf (Unity) AssetImportWorkerClient::Run
+0x00007ff7e67ed037 (Unity) RunAssetImportWorkerClientV2
+0x00007ff7e67ed0bb (Unity) RunAssetImporterV2
+0x00007ff7e5fe76fe (Unity) Application::InitializeProject
+0x00007ff7e6479ed5 (Unity) WinMain
+0x00007ff7e782b7be (Unity) __scrt_common_main_seh
+0x00007ffe7432257d (KERNEL32) BaseThreadInitThunk
+0x00007ffe758aaf08 (ntdll) RtlUserThreadStart
 
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.856 seconds
+- Loaded All Assemblies, in  0.939 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
 Mirror | mirror-networking.com | discord.gg/N9QVxbM
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
@@ -164,87 +164,61 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
 (Filename: Assets/Mirror/Editor/Welcome.cs Line: 18)
 
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.391 seconds
-Domain Reload Profiling: 2243ms
-	BeginReloadAssembly (116ms)
+- Finished resetting the current domain, in  1.338 seconds
+Domain Reload Profiling: 2272ms
+	BeginReloadAssembly (151ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
+		DisableScriptedObjects (6ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (17ms)
-	RebuildCommonClasses (25ms)
+		CreateAndSetChildDomain (23ms)
+	RebuildCommonClasses (24ms)
 	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (38ms)
-	LoadAllAssembliesAndSetupDomain (666ms)
-		LoadAssemblies (474ms)
+	initialDomainReloadingComplete (50ms)
+	LoadAllAssembliesAndSetupDomain (701ms)
+		LoadAssemblies (506ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (258ms)
-			TypeCache.Refresh (204ms)
-				TypeCache.ScanAssembly (185ms)
-			ScanForSourceGeneratedMonoScriptInfo (36ms)
-			ResolveRequiredComponents (17ms)
-	FinalizeReload (1391ms)
+		AnalyzeDomain (283ms)
+			TypeCache.Refresh (233ms)
+				TypeCache.ScanAssembly (211ms)
+			ScanForSourceGeneratedMonoScriptInfo (34ms)
+			ResolveRequiredComponents (14ms)
+	FinalizeReload (1339ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1190ms)
+		SetupLoadedEditorAssemblies (1164ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (23ms)
-			SetLoadedEditorAssemblies (8ms)
+			InitializePlatformSupportModulesInManaged (24ms)
+			SetLoadedEditorAssemblies (7ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (149ms)
-			ProcessInitializeOnLoadAttributes (681ms)
-			ProcessInitializeOnLoadMethodAttributes (323ms)
+			BeforeProcessingInitializeOnLoad (143ms)
+			ProcessInitializeOnLoadAttributes (641ms)
+			ProcessInitializeOnLoadMethodAttributes (344ms)
 			AfterProcessingInitializeOnLoad (5ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (4ms)
-Refreshing native plugins compatible for Editor in 8.49 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 17.93 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7548 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8089.
-Memory consumption went from 339.2 MB to 313.3 MB.
-Total: 18.614800 ms (FindLiveObjects: 0.436300 ms CreateObjectMapping: 0.300400 ms MarkObjects: 14.086700 ms  DeleteObjects: 3.789700 ms)
+Unloading 7549 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8090.
+Memory consumption went from 339.1 MB to 313.3 MB.
+Total: 17.758000 ms (FindLiveObjects: 0.664500 ms CreateObjectMapping: 0.277400 ms MarkObjects: 13.696600 ms  DeleteObjects: 3.117400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:scripting/monoscript/fileName/VectorIntFormatters.cs: 9586b7cc9790bedc597b383a8c7e74bd -> 
-  custom:scripting/monoscript/fileName/BuildAOTAutomation.cs: bc965071e67864fcb98b6905e53f9cf0 -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:scripting/monoscript/fileName/VectorIntDrawers.cs: ff9fdecb2dae0b1d098a97f8b7c0a9e5 -> 
-  custom:scripting/monoscript/fileName/UpdateChecker.cs: f4fa143a5511d0860f6257ecc1abfb6b -> 029b1daf8f3b497c0666e54f8685c8b9
-  custom:scripting/monoscript/fileName/ExternalLinks.cs: 59a1e94e8f92c120ea66f1352f9c313b -> f57d4a4349423b09b7191c91a0e33dbb
-  custom:scripting/monoscript/fileName/ParrelSyncAssetModificationProcessor.cs: 6d46d9907a9b42110c441f804e11649a -> 98155902029fa8ed02f705a5843cf897
-  custom:scripting/monoscript/fileName/VectorIntPropertyResolvers.cs: e32158c95c6e6c239f32d45819ee2d20 -> 
   custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:scripting/monoscript/fileName/AssemblyImportSettingsAutomation.cs: 42bef8034c9ce3f0d6c978e0d0551f15 -> 
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:scripting/monoscript/fileName/SimpleAction.cs: 1301d516c086077ffe4b433ead602da0 -> 
-  custom:scripting/monoscript/fileName/AskFeedbackDialog.cs: 15eed79ca1600ec961ee9e1b81db697e -> 87af38bcc9ff5fcc64e3b06dc3e06287
-  custom:scripting/monoscript/fileName/OtherMenuItem.cs: 8dd0c8fa3f8708c7f211e61b38016518 -> 65154b4add18958b71906d4d02b7528b
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/ActionEffectDetails.cs: 8d2962647305b9b45287f939f6652f4e -> 
-  custom:scripting/monoscript/fileName/OdinUpgrader.cs: ee3d9228da7555b7ff3d8bc8c2e703d7 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/FixBrokenUnityObjectWrapperDrawer.cs: 0cdf409b5aa8d4c25876d72b5c6a3b60 -> 
   custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:scripting/monoscript/fileName/Vector2IntMinMaxAttributeDrawer.cs: eb03797dc07c930643638362abd8e148 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:scripting/monoscript/fileName/CustomArgumentExample.cs: dc5717d26bf03e4fabad245f536d6adc -> 9fe00a64f6bf3c6cbd9b9dd594a81ab9
   custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:scripting/monoscript/fileName/ClonesManagerWindow.cs: 910630a445f8ef421f760c8c6a0ee8ac -> 480fe8f568c4df8018a3dadfa3e69d57
-  custom:scripting/monoscript/fileName/ValidateCopiedFoldersIntegrity.cs: 1cbd699743a201395c1fb4e69761fbbe -> 56f406d9e913419ab82dfb77d147492d
-  custom:scripting/monoscript/fileName/EnsureOdinInspectorDefine.cs: 461414cb0a18f7470566e6e72e890dbe -> 
-  custom:scripting/monoscript/fileName/Project.cs: c031ac54c4553aae4915790679d0621a -> e0f36ba34d7b588c02343a8832f6bf7b
-  custom:scripting/monoscript/fileName/Preferences.cs: 459e18932dd6a67f6a6f1c4bc7078537 -> 92c2dcaaad6eaa4a4bd5472569082be1
-  custom:scripting/monoscript/fileName/SkillsContainer.cs: f541871ac980b285f188f3b2287b573c -> 
-  custom:scripting/monoscript/fileName/FileUtilities.cs: a07cfb7041c6b8a10eda211e28510e83 -> 5a830a36b26409c0d41301d9b1600e3f
-  custom:scripting/monoscript/fileName/ActionEffect.cs: 8d2962647305b9b45287f939f6652f4e -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:scripting/monoscript/fileName/ClonesManager.cs: ac2c82ec34a3edfb5f28bbdb2dee523a -> 56d4e9ba876d20feaa256fa586b68f63
-  custom:scripting/monoscript/fileName/EditorQuit.cs: 290a58076c6512bec6d680d6c814d5f3 -> 0d99020733aa7608452e4fa0cdb5cb7e
 Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
 TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: ќпераци€ ввода/вывода была прервана из-за завершени€ потока команд или по запросу приложени€.
 AssetImportWorker is now disconnected from the server

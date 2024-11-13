@@ -3,7 +3,6 @@ using City.Panels.SubjectPanels;
 using Common;
 using Common.Inventories.Splinters;
 using Db.CommonDictionaries;
-using Models;
 using Models.Common;
 using Models.Items;
 using System;
@@ -21,21 +20,24 @@ namespace UIController.Inventory
     public class InventoryController : UiPanelController<InventoryView>, IInitializable
     {
         private const int CELLS_COUNT = 40;
+
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly SplinterPanelController _splinterPanelController;
         [Inject] private readonly ItemPanelController _itemPanelController;
         [Inject] private readonly GameInventory _gameInventory;
+
         public bool WaitSelected;
 
         private bool _isOpen;
         private List<SubjectCell> _cells = new List<SubjectCell>();
         private ReactiveCommand<BaseObject> _onObjectSelect = new ReactiveCommand<BaseObject>();
+        private IDisposable _inventoryChangeDisposable;
+
 
         public ReactiveCommand OnClose = new ReactiveCommand();
         public GameInventory GameInventory => _gameInventory;
         public IObservable<BaseObject> OnObjectSelect => _onObjectSelect;
-        private IDisposable _inventoryChangeDisposable;
 
         public new void Initialize()
         {
@@ -47,7 +49,6 @@ namespace UIController.Inventory
             }
 
             base.Initialize();
-
         }
 
         public override void OnShow()
@@ -148,6 +149,15 @@ namespace UIController.Inventory
         public void Open(ItemType typeItems, HeroItemCellController cellItem = null)
         {
             _gameInventory.GetItemByType(typeItems, out var items);
+            if (cellItem != null)
+            {
+                if (cellItem.Item != null)
+                {
+                    var equalsItem = items.Find(item => item.Id.Equals(cellItem.Item.Id));
+                    if (equalsItem != null)
+                        items.Remove(equalsItem);
+                }
+            }
             ShowItems(items);
             OpenWindow();
         }

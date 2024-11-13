@@ -27,7 +27,7 @@ namespace UiExtensions.MainPages
 
         protected void RegisterBuilding<V>(V controller, BuildingVisual building) where V : IPopUp
         {
-            building.SubscribeOnNews<V>(controller);
+            building.SubscribeOnNews(controller);
             OpenBuildingOnClick<V>(building.BuildingButton);
         }
 

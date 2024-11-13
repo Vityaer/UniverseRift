@@ -10,6 +10,10 @@ using UniRx.Triggers;
 using VContainer;
 using UniRx;
 using Common.Resourses;
+using System.Diagnostics;
+using Db.CommonDictionaries;
+using Common.Rewards;
+using City.Panels.Rewards;
 
 namespace UIController.ControllerPanels.AlchemyPanels
 {
@@ -17,8 +21,8 @@ namespace UIController.ControllerPanels.AlchemyPanels
     {
         private TimeSpan ALCHEMY_TIMESPAN = new TimeSpan(8, 0, 0);
 
-        [Inject] private readonly CommonGameData _сommonGameData;
-        [Inject] private readonly ResourceStorageController _storageController;
+        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly ClientRewardService _clientRewardService;
 
         private DateTime _lastGetAlchemyDateTime;
 
@@ -26,7 +30,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
         protected override void OnStart()
         {
-            View.AlchemyButton.OnCancelAsObservable().Subscribe(_ => AlchemyGold()).AddTo(Disposables);
+            View.AlchemyButton.OnClickAsObservable().Subscribe(_ => GetAlchemyGold().Forget()).AddTo(Disposables);
             View.SliderTimeAlchemy.RegisterOnFinish(FinishAlchemySlider);
         }
 
@@ -35,14 +39,14 @@ namespace UIController.ControllerPanels.AlchemyPanels
             try
             {
                 _lastGetAlchemyDateTime = DateTime.ParseExact(
-                _сommonGameData.CycleEventsData.LastGetAlchemyDateTime,
+                CommonGameData.CycleEventsData.LastGetAlchemyDateTime,
                 Constants.Common.DateTimeFormat,
                 CultureInfo.InvariantCulture
                 );
             }
             catch
             {
-                _lastGetAlchemyDateTime = DateTime.Parse(_сommonGameData.CycleEventsData.LastGetAlchemyDateTime);
+                _lastGetAlchemyDateTime = DateTime.Parse(CommonGameData.CycleEventsData.LastGetAlchemyDateTime);
             }
 
             CheckAlchemyButton();
@@ -60,25 +64,20 @@ namespace UIController.ControllerPanels.AlchemyPanels
             View.AlchemyButton.interactable = true;
         }
 
-        private void AlchemyGold()
-        {
-            GetAlchemyGold().Forget();
-        }
-
         private async UniTaskVoid GetAlchemyGold()
         {
             View.AlchemyButton.interactable = false;
             var message = new GetAlchemyMessage
             {
-                PlayerId = _сommonGameData.PlayerInfoData.Id
+                PlayerId = CommonGameData.PlayerInfoData.Id
             };
 
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var resource = new GameResource(View.AlchemyBonus);
-                _storageController.AddResource(resource);
+                var reward = new GameReward(_commonDictionaries.Rewards["Alchemy"], _commonDictionaries);
+                _clientRewardService.ShowReward(reward);
                 _lastGetAlchemyDateTime = DateTime.UtcNow;
                 OnGetAchemyGold.Execute();
             }

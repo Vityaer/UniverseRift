@@ -1,4 +1,5 @@
 using DG.Tweening;
+using LocalizationSystems;
 using Models.Common;
 using System;
 using UniRx;
@@ -11,13 +12,15 @@ namespace UIController.LoadingUI
     {
         private readonly CompositeDisposable _disposable = new();
         private readonly CommonGameData _commonGameData;
+        private readonly ILocalizationSystem _localizationSystem;
 
         private bool _isOpen;
         private Tween _tween;
 
-        public StartLoadingController(CommonGameData commonGameData)
+        public StartLoadingController(CommonGameData commonGameData, ILocalizationSystem localizationSystem)
         {
             _commonGameData = commonGameData;
+            _localizationSystem = localizationSystem;
         }
 
         public void Initialize()
@@ -39,7 +42,7 @@ namespace UIController.LoadingUI
         protected override void Show()
         {
             base.Show();
-            View.LoadingText.text = "Loading account data...";
+            View.LoadingText.StringReference = _localizationSystem.GetLocalizedContainer("LoadingAccountDataInProgressText");
             _tween.Kill();
             _tween = View.LoadingSlider.DOValue(1f, View.AnimationTime);
         }
@@ -51,7 +54,7 @@ namespace UIController.LoadingUI
 
         protected override void Hide()
         {
-            View.LoadingText.text = "Loading complete!";
+            View.LoadingText.StringReference = _localizationSystem.GetLocalizedContainer("LoadingAccountDataCompleteText");
             _tween.Kill();
             var time = (1f - View.LoadingSlider.value) * View.AnimationFinishTime;
             _tween  = DOTween.Sequence()

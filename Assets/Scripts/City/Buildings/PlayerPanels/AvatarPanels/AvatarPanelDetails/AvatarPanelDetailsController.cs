@@ -1,5 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
+using Mirror.Examples.MultipleMatch;
 using Models.Common;
+using Models.Data.Players;
 using Models.Misc.Avatars;
 using Network.DataServer;
 using Network.DataServer.Messages.Players;
@@ -18,21 +20,27 @@ namespace City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails
         [Inject] protected readonly CommonGameData _commonGameData;
 
         private AvatarIconView _avatarView;
-        private CompositeDisposable _disposables;
 
         private ReactiveCommand<AvatarModel> _onSelectNewAvatar = new();
+        private PlayerData _playerInfo;
 
         public IObservable<AvatarModel> OnSelectNewAvatar => _onSelectNewAvatar;
 
-        public override void OnShow()
+
+        public override void Start()
         {
-            View.SetNewAvatarButton.OnClickAsObservable().Subscribe(_ => SetNewAvatar().Forget()).AddTo(_disposables);
-            base.OnShow();
+            View.SetNewAvatarButton.OnClickAsObservable().Subscribe(_ => SetNewAvatar().Forget()).AddTo(Disposables);
+            base.Start();
+        }
+
+        protected override void OnLoadGame()
+        {
+            _playerInfo = _commonGameData.PlayerInfoData;
         }
 
         public void ShowAvatarDetail(AvatarIconView avatarView)
         {
-            View.SetNewAvatarButton.interactable = true;
+            View.SetNewAvatarButton.interactable = !_playerInfo.AvatarPath.Equals(avatarView.GetData.Path);
             _avatarView = avatarView;
             View.MainImage.sprite = _avatarView.Avatar.sprite;
             MessagesPublisher.OpenWindowPublisher.OpenWindow<AvatarPanelDetailsController>(openType: OpenType.Exclusive);
@@ -53,7 +61,6 @@ namespace City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails
             {
                 _onSelectNewAvatar.Execute(_avatarView.GetData);
             }
-
         }
     }
 }

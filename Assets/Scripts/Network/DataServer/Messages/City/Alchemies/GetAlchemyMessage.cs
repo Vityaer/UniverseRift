@@ -5,7 +5,7 @@ namespace Network.DataServer.Messages.City.Alchemies
     public class GetAlchemyMessage : INetworkMessage
     {
         public int PlayerId;
-        public string Route => "Market/GetAlchemyMessage";
+        public string Route => "Market/GetAlchemy";
 
         public WWWForm Form
         {

@@ -9,7 +9,6 @@ namespace UIController.ControllerPanels.AlchemyPanels
     public class AlchemyPanelView : BaseBuildingView
     {
         [field: SerializeField] public Button AlchemyButton { get; private set; }
-        public ResourceData AlchemyBonus;
         public SliderTime SliderTimeAlchemy;
     }
 }

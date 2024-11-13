@@ -3,15 +3,14 @@ using City.TrainCamp;
 using Cysharp.Threading.Tasks;
 using Models.Common;
 using Models.Items;
-using Network.DataServer.Messages.Campaigns;
 using Network.DataServer;
+using Network.DataServer.Messages.Items;
 using System;
 using UIController.Inventory;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using Network.DataServer.Messages.Items;
 
 namespace UIController.ItemVisual
 {
@@ -29,9 +28,12 @@ namespace UIController.ItemVisual
         [SerializeField] private RatingHero _ratingController;
         [SerializeField] private Button _button;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private CompositeDisposable _tempDisposables = new CompositeDisposable();
+        private CompositeDisposable _disposables = new();
+        private CompositeDisposable _tempDisposables = new();
+        private CompositeDisposable _swampTempDisposables;
         private GameItem _item;
+
+        public GameItem Item => _item;
         public ItemType CellType => _cellType;
 
         void Start()
@@ -44,23 +46,39 @@ namespace UIController.ItemVisual
             if (_item != null)
             {
                 _itemPanelController.Open(_item, this, true);
-                _itemPanelController.OnAction.Subscribe(item => TakeOff().Forget()).AddTo(_tempDisposables);
-                _itemPanelController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
+                _itemPanelController.OnAction.Subscribe(_ => TakeOff().Forget()).AddTo(_tempDisposables);
+                _itemPanelController.OnSwapAction.Subscribe(_ => StartSwapItems()).AddTo(_tempDisposables);
+                _itemPanelController.OnClose.Subscribe(_ => RefreshTempSubscribe()).AddTo(_tempDisposables);
             }
             else
             {
                 _inventoryController.Open(_cellType, this);
                 _inventoryController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem).Forget()).AddTo(_tempDisposables);
-                _inventoryController.OnClose.Subscribe(item => ClearSubscribe()).AddTo(_tempDisposables);
+                _inventoryController.OnClose.Subscribe(item => RefreshTempSubscribe()).AddTo(_tempDisposables);
                 _inventoryController.WaitSelected = true;
             }
+        }
+
+        private void StartSwapItems()
+        {
+            RefreshSwapSubscribe();
+            _inventoryController.Open(_cellType, this);
+            _inventoryController.OnObjectSelect.Subscribe(item => Swaptem(item as GameItem).Forget()).AddTo(_swampTempDisposables);
+            _inventoryController.OnClose.Subscribe(item => RefreshSwapSubscribe()).AddTo(_swampTempDisposables);
+            _inventoryController.WaitSelected = true;
+        }
+
+        private async UniTaskVoid Swaptem(GameItem gameItem)
+        {
+            await SetItem(gameItem);
+            _itemPanelController.CloseAfterSwap();
         }
 
         private async UniTaskVoid TakeOff()
         {
             var message = new TakeOffItemMessage { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _heroPanelController.Hero.HeroData.Id, ItemType = _cellType };
             var result = await DataServer.PostData(message);
-            
+
             if (!string.IsNullOrEmpty(result))
             {
                 _trainCamp.ReturnSelectHero().Costume.TakeOff(_item);
@@ -84,11 +102,17 @@ namespace UIController.ItemVisual
             }
         }
 
-        private void ClearSubscribe()
+        private void RefreshTempSubscribe()
         {
             _tempDisposables.Dispose();
-            _tempDisposables = new CompositeDisposable();
+            _tempDisposables = new();
             _inventoryController.WaitSelected = false;
+        }
+
+        private void RefreshSwapSubscribe()
+        {
+            _swampTempDisposables?.Dispose();
+            _swampTempDisposables = new();
         }
 
         public void DefaulfView()
@@ -118,11 +142,11 @@ namespace UIController.ItemVisual
             DefaulfView();
         }
 
-        public async UniTaskVoid SetItem(GameItem newItem)
+        public async UniTask SetItem(GameItem newItem)
         {
             var message = new SetItemMessage { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _heroPanelController.Hero.HeroData.Id, ItemId = newItem.Id };
             var result = await DataServer.PostData(message);
-            ClearSubscribe();
+            RefreshTempSubscribe();
             if (!string.IsNullOrEmpty(result))
             {
                 if (_item != null)
@@ -140,6 +164,8 @@ namespace UIController.ItemVisual
 
         public void Dispose()
         {
+            _tempDisposables?.Dispose();
+            _swampTempDisposables?.Dispose();
             _disposables.Dispose();
         }
     }

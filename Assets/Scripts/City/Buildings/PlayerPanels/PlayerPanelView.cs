@@ -2,6 +2,7 @@
 using TMPro;
 using Ui.Misc.Widgets;
 using UIController.ItemVisual;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace City.Buildings.PlayerPanels
@@ -9,10 +10,12 @@ namespace City.Buildings.PlayerPanels
     public class PlayerPanelView : BasePanel
     {
         public ItemSliderController SliderExp;
-        public TextMeshProUGUI Name;
-        public TextMeshProUGUI Level;
-        public TextMeshProUGUI GuildId;
-        public TextMeshProUGUI PlayerId;
+
+        public TMP_Text Name;
+        public TMP_Text Level;
+        public TMP_Text GuildId;
+        public TMP_Text PlayerId;
+
         public CostLevelUpContainer PlayerLevelList;
         public CostLevelUpContainer RewardForLevelUp;
         public Image Avatar;

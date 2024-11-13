@@ -1,5 +1,5 @@
-﻿using TMPro;
-using UIController.ItemVisual;
+﻿using City.Panels.SubjectPanels.Items;
+using TMPro;
 using UIController.Misc.Widgets;
 using UnityEngine;
 using UnityEngine.Localization.Components;
@@ -13,6 +13,11 @@ namespace City.Panels.SubjectPanels
         public LocalizeStringEvent ItemType;
         public TextMeshProUGUI GeneralInfo;
         public TextMeshProUGUI AddactiveInfo;
-        public TextMeshProUGUI ActionButtonText;
+        public LocalizeStringEvent ActionButtonText;
+        public Button SwapButton;
+
+        [Header("Bonuses")]
+        public ScrollRect BonusesScroll;
+        public ItemBonusView itemBonusViewPrefab;
     }
 }

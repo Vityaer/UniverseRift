@@ -9,9 +9,11 @@ using Hero;
 using Misc.Json;
 using Models.Common;
 using Models.Heroes.HeroCharacteristics;
+using Models.Heroes.PowerUps;
 using Network.DataServer;
 using Network.DataServer.Messages.HeroPanels;
 using System;
+using UIController.SkillPanels;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
@@ -30,13 +32,14 @@ namespace City.TrainCamp
         [Inject] private readonly HeroDetailsPanelController _heroDetailsPanel;
         [Inject] private readonly IObjectResolver _objectResolver;
         [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly SkillPanelController _skillPanelController;
 
         private CostLevelUpContainer _costLevelObject;
 
         private ReactiveCommand<SwipeType> _onSwipe = new();
-        private GameHero _hero;
+        private GameHero _currentHero;
 
-        public GameHero Hero => _hero;
+        public GameHero Hero => _currentHero;
         public IObservable<SwipeType> OnSwipe => _onSwipe;
 
         public new void Initialize()
@@ -49,11 +52,19 @@ namespace City.TrainCamp
                 _objectResolver.Inject(cell);
             }
 
+            foreach (var cell in View.SkillCells)
+                cell.OnSelect.Subscribe(OpenSkillDetails).AddTo(Disposables);
+
             View.EvolitionPanelButton.OnClickAsObservable().Subscribe(_ => OpenEvolutionPanel()).AddTo(Disposables);
             View.ToLeftButton.OnClickAsObservable().Subscribe(_ => _onSwipe.Execute(SwipeType.Left)).AddTo(Disposables);
             View.ToRightButton.OnClickAsObservable().Subscribe(_ => _onSwipe.Execute(SwipeType.Right)).AddTo(Disposables);
             View.LevelUpButton.OnClickAsObservable().Subscribe(_ => LevelUp()).AddTo(Disposables);
             View.OpenHeroDetailsButton.OnClickAsObservable().Subscribe(_ => DetailsOpen()).AddTo(Disposables);
+        }
+
+        private void OpenSkillDetails(SkillCell cell)
+        {
+            _skillPanelController.ShowSkillData(cell.Data);
         }
 
         protected override void OnLoadGame()
@@ -63,13 +74,13 @@ namespace City.TrainCamp
 
         private void DetailsOpen()
         {
-            _heroDetailsPanel.SetData(_hero);
+            _heroDetailsPanel.SetData(_currentHero);
             MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroDetailsPanelController>(openType: OpenType.Additive);
         }
 
         public void ShowHero(GameHero hero)
         {
-            _hero = hero;
+            _currentHero = hero;
             UpdateInfoAboutHero();
             _heroInstancesController.ShowHero(hero);
         }
@@ -87,45 +98,69 @@ namespace City.TrainCamp
 
         public void UpdateInfoAboutHero()
         {
-            View.imageHero.sprite = _hero.Avatar;
-            View.textNameHero.text = _hero.Model.General.HeroId;
+            View.imageHero.sprite = _currentHero.Avatar;
+            View.textNameHero.text = _currentHero.Model.General.HeroId;
             UpdateTextAboutHero();
             foreach (var cell in View.CellsForItem)
             {
                 cell.Clear();
-                cell.SetData(_hero.Costume.GetItem(cell.CellType));
+                cell.SetData(_currentHero.Costume.GetItem(cell.CellType));
             }
-            CheckResourceForLevelUP();
-            View.RatingHeroController.ShowRating(_hero.HeroData.Rating);
+            CheckControllers();
+            View.RatingHeroController.ShowRating(_currentHero.HeroData.Rating);
         }
 
         public void UpdateTextAboutHero()
         {
-            View.textLevel.text = $"{_hero.HeroData.Level}";
-            View.textHP.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.HP)).ToString();
-            View.textAttack.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Damage)).ToString();
-            View.textArmor.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
-            View.textInitiative.text = ((int)_hero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
-            View.textStrengthHero.text = _hero.Strength.ToString();
+            View.textLevel.text = $"{_currentHero.HeroData.Level}";
+            View.textHP.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.HP)).ToString();
+            View.textAttack.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.Damage)).ToString();
+            View.textArmor.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
+            View.textInitiative.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
+            View.textStrengthHero.text = _currentHero.Strength.ToString();
             //_hero.PrepareSkillLocalization();
-            View.skillController.ShowSkills(_hero.Model.Skills);
-            View.CostController.ShowCosts(_costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
+            ShowSkills();
+            View.CostController.ShowCosts(_costLevelObject.GetCostForLevelUp(_currentHero.HeroData.Level));
             // _heroDetailsPanel.ShowDetails(_hero);
         }
 
-        private void CheckResourceForLevelUP()
+        private void ShowSkills()
         {
-            View.LevelUpButton.interactable = _resourceStorageController.CheckResource(_costLevelObject.GetCostForLevelUp(_hero.HeroData.Level));
+            for(var i = 0; i < _currentHero.Model.Skills.Count; i++)
+            {
+                View.SkillCells[i].SetData(_currentHero.Model.Skills[i]);
+                View.SkillCells[i].OffObject();
+            }
+        }
+
+        private void CheckControllers()
+        {
+            var nextRaitingContainerId = $"{_currentHero.HeroData.Rating + 1}";
+            View.EvolitionPanelButton.gameObject
+                .SetActive(_dictionaries.RatingUpContainers.ContainsKey(nextRaitingContainerId));
+
+            var heroLevel = _currentHero.HeroData.Level;
+            var heroBreakthrough = _currentHero.HeroData.CurrentBreakthrough;
+            var limitLevel = heroLevel;
+
+            if (heroBreakthrough < _currentHero.Model.Evolutions.Stages.Count)
+                limitLevel = _currentHero.Model.Evolutions.Stages[heroBreakthrough].NewLimitLevel;
+
+            var enoughResource = _resourceStorageController
+                .CheckResource(_costLevelObject.GetCostForLevelUp(_currentHero.HeroData.Level));
+
+            View.LevelUpButton.gameObject.SetActive(heroLevel < limitLevel);
+            View.LevelUpButton.interactable = enoughResource;
         }
 
         public void LevelUp()
         {
-            var cost = _costLevelObject.GetCostForLevelUp(_hero.HeroData.Level);
+            var cost = _costLevelObject.GetCostForLevelUp(_currentHero.HeroData.Level);
             if (_resourceStorageController.CheckResource(cost))
             {
                 LevelUpMessage().Forget();
                 _resourceStorageController.SubtractResource(cost);
-                _hero.LevelUp();
+                _currentHero.LevelUp();
                 UpdateInfoAboutHero();
                 _heroInstancesController.ShowAnimation();
             }
@@ -133,7 +168,7 @@ namespace City.TrainCamp
 
         private async UniTaskVoid LevelUpMessage()
         {
-            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _hero.HeroData.Id };
+            var message = new HeroLevelUpMessage() { PlayerId = _commonGameData.PlayerInfoData.Id, HeroId = _currentHero.HeroData.Id };
             var result = await DataServer.PostData(message);
             UnityEngine.Debug.Log(result);
         }

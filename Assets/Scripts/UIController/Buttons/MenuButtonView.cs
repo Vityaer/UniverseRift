@@ -24,6 +24,11 @@ namespace UIController.Buttons
 
         private readonly CompositeDisposable _disposables = new();
 
+        private void Awake()
+        {
+            OnDiselect();
+        }
+
         public void OnSelect()
         {
             ButtonHelper.Select();
