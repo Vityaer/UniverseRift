@@ -41,6 +41,7 @@ namespace Fight.HeroControllers.Generals
         protected int CurrentCountCounterAttack = 1;
         protected HexagonCell myPlace;
 
+        private bool _canWait;
         private HeroController selectHero;
         private float damageFromStrike;
         private bool _isDeath = false;
@@ -57,12 +58,20 @@ namespace Fight.HeroControllers.Generals
         public int Stamina => statusState.Stamina;
         public Animator HeroAnimator => _currentHeroVisualModel.Animator;
         public List<HeroController> ListTarget { get; set; }
+        public bool CanWait => _canWait;
 
         void Awake()
         {
             ListTarget = new();
             Self = base.transform;
             Rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void Start()
+        {
+            hero.PrepareSkills(this);
+            OnStartFight();
+            IsSide(Side);
         }
 
         public void SetData(GameHero gameHero, HexagonCell place, Side side)
@@ -75,11 +84,9 @@ namespace Fight.HeroControllers.Generals
             hero = new GameHeroFight(gameHero, statusState);
         }
 
-        void Start()
+        public void Refresh()
         {
-            hero.PrepareSkills(this);
-            OnStartFight();
-            IsSide(Side);
+            _canWait = true;
         }
 
         public void DoTurn()

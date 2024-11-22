@@ -33,6 +33,7 @@ namespace City.Buildings.CityButtons
                 var rewardViewPrefab = UnityEngine.Object.Instantiate(View.RewardPrefab, View.Content);
 
                 var data = new GameReward(rewardModel, _commonDictionaries);
+                Resolver.Inject(rewardViewPrefab);
                 rewardViewPrefab.SetData(data, View.Scroll);
                 var status = (index <= CommonGameData.City.DailyReward.CurrentDailyReward)
                     ?

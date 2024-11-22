@@ -16,14 +16,6 @@ namespace Models.Heroes
         public StorageResistances Resistances;
         public List<Skill> Skills = new List<Skill>();
 
-        private void GetSkills()
-        {
-            foreach (Skill skill in Skills)
-            {
-                skill.GetSkill(Evolutions.CurrentBreakthrough);
-            }
-        }
-
         public HeroModel Clone()
         {
             return new HeroModel()

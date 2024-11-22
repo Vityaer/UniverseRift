@@ -13,14 +13,14 @@ namespace Fight.HeroControllers.Generals
 
         public void StartDefend()
         {
-            BuffModel buffDefend = new BuffModel(BuffType.Armor, 1f);
+            var buffDefend = new BuffModel(BuffType.Armor, 1f);
             statusState.SetBuff(buffDefend);
             EndTurn();
         }
 
         public void UseSpecialSpell()
         {
-            if (statusState.Stamina == 100f)
+            if (statusState.Stamina >= 100f)
             {
                 DoSpell();
             }

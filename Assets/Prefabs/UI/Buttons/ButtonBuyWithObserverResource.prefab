@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7897083020784645707}
   - component: {fileID: 782280037128276982}
   - component: {fileID: 2505505945840923423}
+  - component: {fileID: 6832520236991316323}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -31,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1478197518769782871}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.4}
   m_AnchorMax: {x: 1, y: 1}
@@ -135,6 +135,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6832520236991316323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123184530592023099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2505505945840923423}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1478197518769782872
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +211,6 @@ RectTransform:
   - {fileID: 5282026859666974127}
   - {fileID: 7897083020784645707}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.3}
   m_AnchorMax: {x: 0.5, y: 0.7}
@@ -290,6 +329,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98c3b3e2950041488323ab740deacdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  AutoInjectObjects: []
   _costText: {fileID: 2505505945840923423}
   _button: {fileID: 1478197518769782868}
   _mainImage: {fileID: 0}
@@ -299,6 +348,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1478197518769782871}
     m_Modifications:
     - target: {fileID: 3255489229908931739, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
@@ -357,6 +407,10 @@ PrefabInstance:
       propertyPath: TextAmount
       value: 
       objectReference: {fileID: 3016877049849845305}
+    - target: {fileID: 6759370593781775857, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6759370593781775857, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
     - target: {fileID: 6759370593781775860, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -445,6 +499,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResourseCost
       objectReference: {fileID: 0}
+    - target: {fileID: 6759370593794421518, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6759370593794421518, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
     - target: {fileID: 6759370593794421519, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.2
@@ -470,6 +528,9 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb68e29af1e24346940679ee72b10d4, type: 3}
 --- !u!114 &3016877049849845305 stripped
 MonoBehaviour:

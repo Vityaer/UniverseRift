@@ -1,8 +1,9 @@
 ﻿using Fight.HeroControllers.Generals;
 using Models.Heroes.Actions;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using UIController.Localization.Languages;
+using UnityEditor;
 using UnityEngine;
 
 namespace Models.Heroes.Skills
@@ -11,23 +12,42 @@ namespace Models.Heroes.Skills
     public class Skill
     {
         public string ID;
-        public Sprite Icon;
         public bool IsActive = false;
 
-        public string Name = "empty name";
-        public string Description = "empty description";
+        [HideInInspector] public string IconPath;
+        
+        [JsonIgnore]
+        [ShowInInspector]
+        [LabelText("SpritePath")]
+        [PreviewField(100, ObjectFieldAlignment.Left)]
+        public Sprite SpritePath
+        {
+            get
+            {
+                if (_sprite == null && !string.IsNullOrEmpty(IconPath))
+                {
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(IconPath);
+                }
 
-        public List<SkillLevel> Levels = new List<SkillLevel>();
+                return _sprite;
+            }
+            set
+            {
+                _sprite = value;
+                var path = AssetDatabase.GetAssetPath(_sprite);
+                IconPath = path;
+            }
+        }
+
+        public List<SkillLevel> Levels = new();
 
         private int _level = 0;
-        private SkillLevelLocalization _skillLocalization = null;
-        private List<Effect> _effects = new List<Effect>();
+        private List<Effect> _effects = new();
+        private Sprite _sprite;
 
         [JsonIgnore] public int Level { get => _level; }
-
         public Skill()
         {
-            Icon = null;
             IsActive = false;
             _effects = new List<Effect>();
         }
@@ -74,30 +94,6 @@ namespace Models.Heroes.Skills
             if (_effects.Count > 0)
                 if (_effects[0].Actions.Count > 0)
                     _effects[0].Actions[0].GetListForSpell(listTarget);
-        }
-
-        //Info API	
-        public void GetInfoAboutSkill(HeroLocalization localization)
-        {
-            _skillLocalization = localization.GetDescriptionSkill(ID, Level);
-        }
-
-        public string GetDescription(string description)
-        {
-            string strForReplace = "";
-            //if (_effects.Count == 0) Debug.Log(string.Concat(Name, " not founed effects"));
-            //if (_effects.Count == 1)
-            //{
-            //    for (int i = 0; i < _effects[0].Actions.Count; i++)
-            //    {
-            //        strForReplace = string.Concat("{Action", (i + 1).ToString());
-            //        description = description.Replace(string.Concat(strForReplace, ".Count}"), _effects[0].Actions[i].CountTarget.ToString());
-            //        description = description.Replace(string.Concat(strForReplace, ".Amount}"), _effects[0].Actions[i].Amount.ToString());
-            //        description = description.Replace(string.Concat(strForReplace, ".RoundCount}"), _effects[0].Actions[i].Rounds.Count.ToString());
-            //    }
-            //}
-            Description = description;
-            return description;
         }
     }
 }

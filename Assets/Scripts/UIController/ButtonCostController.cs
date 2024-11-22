@@ -1,5 +1,6 @@
 ﻿using ClientServices;
 using Common.Resourses;
+using LocalizationSystems;
 using System;
 using TMPro;
 using UniRx;
@@ -13,6 +14,7 @@ namespace UIController
     public partial class ButtonCostController : UiView, IDisposable
     {
         private ResourceStorageController _resourceStorageController;
+        private ILocalizationSystem _localizationSystem;
 
         [SerializeField] private TextMeshProUGUI _costText;
         [SerializeField] private Button _button;
@@ -20,21 +22,19 @@ namespace UIController
         [SerializeField] private TypeDefaultMessage typeDefaultMessage = TypeDefaultMessage.Word;
 
         private GameResource _cost;
-        private int countBuy = 1;
-        private bool disable = false;
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private bool _disable = false;
+        private CompositeDisposable _disposables = new();
         private IDisposable _subscriberResource;
-
-        private ReactiveCommand<GameResource> _onClick = new ReactiveCommand<GameResource>();
+        private ReactiveCommand<GameResource> _onClick = new();
 
         public IObservable<GameResource> OnClick => _onClick;
         
         [Inject]
-        public void Construct(ResourceStorageController resourceStorageController)
+        public void Construct(ResourceStorageController resourceStorageController, ILocalizationSystem localizationSystem)
         {
             _resourceStorageController = resourceStorageController;
-
-            if(_cost != null)
+            _localizationSystem = localizationSystem;
+            if (_cost != null)
                 _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
         }
 
@@ -67,13 +67,13 @@ namespace UIController
             _cost?.Clear();
             _subscriberResource?.Dispose();
             _costText.text = text;
-            disable = false;
+            _disable = false;
             _button.interactable = true;
         }
 
         private void OnChageStorageResource(GameResource storageResource)
         {
-            if (disable == false)
+            if (_disable == false)
             {
                 if (_cost.Amount.Mantissa > 0)
                 {
@@ -104,7 +104,7 @@ namespace UIController
 
         public void CheckResource(GameResource res)
         {
-            if (disable)
+            if (_disable)
                 return;
 
             _button.interactable = _resourceStorageController.CheckResource(res);
@@ -112,7 +112,7 @@ namespace UIController
 
         public void Disable()
         {
-            disable = true;
+            _disable = true;
             _button.interactable = false;
             _subscriberResource.Dispose();
             _subscriberResource = null;
@@ -127,7 +127,7 @@ namespace UIController
                 return;
             }
 
-            disable = false;
+            _disable = false;
             if(_resourceStorageController != null)
                 _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
         }
@@ -139,7 +139,7 @@ namespace UIController
             {
                 _mainImage.enabled = false;
             }
-            disable = false;
+            _disable = false;
         }
 
         private string DefaultEmpty()
@@ -154,7 +154,7 @@ namespace UIController
                     result = "0";
                     break;
                 case TypeDefaultMessage.Word:
-                    result = "Бесплатно";
+                    result = _localizationSystem.GetString("ButtonCostFreeLabel");
                     break;
             }
             return result;

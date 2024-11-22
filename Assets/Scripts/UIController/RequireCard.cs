@@ -1,8 +1,6 @@
 using City.Panels.SelectHeroes;
 using City.TrainCamp;
-using Db.CommonDictionaries;
 using Hero;
-using Models;
 using Models.City.TrainCamp;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,7 @@ using Utils;
 
 namespace UIController
 {
-    public class RequireCard : MonoBehaviour, IDisposable
+    public class RequireCard : MonoBehaviour
     {
         [SerializeField] private Card card;
         [SerializeField] private TextMeshProUGUI textCountRequirement;
@@ -83,7 +81,6 @@ namespace UIController
 
         private void AddHero(GameHero hero)
         {
-            Debug.Log($"add hero, current: {_selectedHeroes.Count}");
             if (_selectedHeroes.Count < _requireSelectCount)
             {
                 _selectedHeroes.Add(hero);
@@ -97,7 +94,6 @@ namespace UIController
 
         private void RemoveHero(GameHero hero)
         {
-            Debug.Log($"remove hero, current: {_selectedHeroes.Count}");
             if (_selectedHeroes.Count > 0)
             {
                 _selectedHeroes.Remove(hero);
@@ -147,9 +143,7 @@ namespace UIController
             gameObject.SetActive(false);
         }
 
-
-
-        public void Dispose()
+        private void OnDestroy()
         {
             _buttonDisposed?.Dispose();
             if (_disposables != null && !_disposables.IsDisposed)

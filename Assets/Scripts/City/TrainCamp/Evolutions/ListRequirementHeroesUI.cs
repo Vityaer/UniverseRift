@@ -34,7 +34,6 @@ namespace City.TrainCamp
 
         private void SelectRequireCard(RequireCard card)
         {
-            Debug.Log("SelectRequireCard");
             _onSelectRequireCard.Execute(card);
         }
 

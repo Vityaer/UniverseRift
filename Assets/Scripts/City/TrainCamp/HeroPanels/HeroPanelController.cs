@@ -6,6 +6,7 @@ using ClientServices;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Hero;
+using LocalizationSystems;
 using Misc.Json;
 using Models.Common;
 using Models.Heroes.HeroCharacteristics;
@@ -13,6 +14,7 @@ using Models.Heroes.PowerUps;
 using Network.DataServer;
 using Network.DataServer.Messages.HeroPanels;
 using System;
+using System.Diagnostics;
 using UIController.SkillPanels;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
@@ -33,6 +35,7 @@ namespace City.TrainCamp
         [Inject] private readonly IObjectResolver _objectResolver;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly SkillPanelController _skillPanelController;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
 
         private CostLevelUpContainer _costLevelObject;
 
@@ -99,7 +102,10 @@ namespace City.TrainCamp
         public void UpdateInfoAboutHero()
         {
             View.imageHero.sprite = _currentHero.Avatar;
-            View.textNameHero.text = _currentHero.Model.General.HeroId;
+
+            View.NameHero.StringReference = _localizationSystem
+                .GetLocalizedContainer($"Hero{_currentHero.Model.General.HeroId}Name");
+
             UpdateTextAboutHero();
             foreach (var cell in View.CellsForItem)
             {
@@ -118,17 +124,19 @@ namespace City.TrainCamp
             View.textArmor.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
             View.textInitiative.text = ((int)_currentHero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
             View.textStrengthHero.text = _currentHero.Strength.ToString();
-            //_hero.PrepareSkillLocalization();
             ShowSkills();
             View.CostController.ShowCosts(_costLevelObject.GetCostForLevelUp(_currentHero.HeroData.Level));
-            // _heroDetailsPanel.ShowDetails(_hero);
         }
 
         private void ShowSkills()
         {
-            for(var i = 0; i < _currentHero.Model.Skills.Count; i++)
+            for(var i = 0; i < _currentHero.Model.Skills.Count && i < View.SkillCells.Count; i++)
             {
                 View.SkillCells[i].SetData(_currentHero.Model.Skills[i]);
+            }
+
+            for (var i = _currentHero.Model.Skills.Count; i < View.SkillCells.Count; i++)
+            {
                 View.SkillCells[i].OffObject();
             }
         }

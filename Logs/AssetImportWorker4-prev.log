@@ -15,7 +15,7 @@ C:/Projects/UniverseRift.git
 -logFile
 Logs/AssetImportWorker4.log
 -srvPort
-64131
+54231
 Successfully changed project path to: C:/Projects/UniverseRift.git
 C:/Projects/UniverseRift.git
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,16 +49,16 @@ C:/Projects/UniverseRift.git
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [23776]  Target information:
+Player connection [27984]  Target information:
 
-Player connection [23776]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 3203459967 [EditorId] 3203459967 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [27984]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 1485029061 [EditorId] 1485029061 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [23776]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 3203459967 [EditorId] 3203459967 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [27984]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 1485029061 [EditorId] 1485029061 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [23776] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [23776] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [27984] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [27984] Host joined alternative multi-casting on [225.0.0.222:34997]...
 [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-Refreshing native plugins compatible for Editor in 1287.39 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 34.35 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.42f1 (2dcb6a0abc42)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Resources/UnitySubsystems
@@ -76,47 +76,56 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56132
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56608
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.009829 seconds.
-- Loaded All Assemblies, in  0.322 seconds
+Registered in 0.006630 seconds.
+- Loaded All Assemblies, in  1.842 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 306 ms
+CommandWithNoStdoutInvokationFailure: Unable to start ADB server. Please make sure the Android SDK is installed and is properly configured in the Editor. See the Console for more details.
+  at UnityEditor.Android.Command.RunWithShellExecute (System.String command, System.String args, System.String workingdir, System.String errorMsg) [0x00060] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.ADB.StartServer () [0x00013] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.ADB.Run (System.String[] command, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg) [0x0000b] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.AndroidDeploymentTargetsExtension.GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext context, UnityEditor.ProgressHandler progressHandler) [0x002ae] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.TargetScanWorker.ScanSync () [0x00039] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.TargetExtension.OnUsbDevicesChanged (UnityEditor.Hardware.UsbDevice[] usbDevices) [0x00081] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Android.TargetExtension.OnLoad () [0x000ad] in <0d156b553c8447b8ae390084e615bd71>:0 
+  at UnityEditor.Modules.ModuleManager.InitializePlatformSupportModules () [0x0009d] in <fd823a7663ea4cdb840e6c898e2256ce>:0 
+
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.625 seconds
-Domain Reload Profiling: 945ms
-	BeginReloadAssembly (107ms)
+- Finished resetting the current domain, in  5.275 seconds
+Domain Reload Profiling: 7116ms
+	BeginReloadAssembly (111ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (26ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (53ms)
-	LoadAllAssembliesAndSetupDomain (126ms)
-		LoadAssemblies (106ms)
+	RebuildCommonClasses (32ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (54ms)
+	LoadAllAssembliesAndSetupDomain (1634ms)
+		LoadAssemblies (109ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (125ms)
-			TypeCache.Refresh (123ms)
-				TypeCache.ScanAssembly (108ms)
+		AnalyzeDomain (1631ms)
+			TypeCache.Refresh (1630ms)
+				TypeCache.ScanAssembly (981ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (0ms)
-	FinalizeReload (625ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (5276ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (585ms)
+		SetupLoadedEditorAssemblies (5219ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (418ms)
-			SetLoadedEditorAssemblies (3ms)
+			InitializePlatformSupportModulesInManaged (5035ms)
+			SetLoadedEditorAssemblies (5ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (113ms)
-			ProcessInitializeOnLoadMethodAttributes (49ms)
+			BeforeProcessingInitializeOnLoad (3ms)
+			ProcessInitializeOnLoadAttributes (125ms)
+			ProcessInitializeOnLoadMethodAttributes (51ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -124,33 +133,33 @@ Domain Reload Profiling: 945ms
 ========================================================================
 Worker process is ready to serve import requests
 Caller must complete domain reload
-0x00007ff7e547d08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7e5482169 (Unity) StackWalker::ShowCallstack
-0x00007ff7e646f231 (Unity) GetStacktrace
-0x00007ff7e6b29e6e (Unity) DebugStringToFile
-0x00007ff7e6b29baa (Unity) AssertImplementation
-0x00007ff7e630d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7e67f3484 (Unity) WorkerDomainReloadV2
-0x00007ff7e68140af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
-0x00007ff7e684fea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7e683be4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7e683da7e (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7e684e24c (Unity) IOService::Run
-0x00007ff7e68216cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7e67ed037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7e67ed0bb (Unity) RunAssetImporterV2
-0x00007ff7e5fe76fe (Unity) Application::InitializeProject
-0x00007ff7e6479ed5 (Unity) WinMain
-0x00007ff7e782b7be (Unity) __scrt_common_main_seh
-0x00007ffe7432257d (KERNEL32) BaseThreadInitThunk
-0x00007ffe758aaf08 (ntdll) RtlUserThreadStart
+0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
+0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
+0x00007ff7f36ef231 (Unity) GetStacktrace
+0x00007ff7f3da9e6e (Unity) DebugStringToFile
+0x00007ff7f3da9baa (Unity) AssertImplementation
+0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
+0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
+0x00007ff7f3a940af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
+0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff7f3abda7e (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff7f3ace24c (Unity) IOService::Run
+0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
+0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
+0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
+0x00007ff7f32676fe (Unity) Application::InitializeProject
+0x00007ff7f36f9ed5 (Unity) WinMain
+0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
+0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
+0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
 
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.939 seconds
+- Loaded All Assemblies, in 32.434 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.13 seconds
 Mirror | mirror-networking.com | discord.gg/N9QVxbM
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
@@ -164,46 +173,46 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
 (Filename: Assets/Mirror/Editor/Welcome.cs Line: 18)
 
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.338 seconds
-Domain Reload Profiling: 2272ms
-	BeginReloadAssembly (151ms)
+- Finished resetting the current domain, in  3.920 seconds
+Domain Reload Profiling: 36327ms
+	BeginReloadAssembly (192ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (6ms)
+		DisableScriptedObjects (8ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (23ms)
-	RebuildCommonClasses (24ms)
-	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (50ms)
-	LoadAllAssembliesAndSetupDomain (701ms)
-		LoadAssemblies (506ms)
+		CreateAndSetChildDomain (25ms)
+	RebuildCommonClasses (34ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (75ms)
+	LoadAllAssembliesAndSetupDomain (32094ms)
+		LoadAssemblies (30962ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (283ms)
-			TypeCache.Refresh (233ms)
-				TypeCache.ScanAssembly (211ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
-			ResolveRequiredComponents (14ms)
-	FinalizeReload (1339ms)
+		AnalyzeDomain (1247ms)
+			TypeCache.Refresh (1137ms)
+				TypeCache.ScanAssembly (1097ms)
+			ScanForSourceGeneratedMonoScriptInfo (76ms)
+			ResolveRequiredComponents (31ms)
+	FinalizeReload (3921ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1164ms)
+		SetupLoadedEditorAssemblies (3501ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (24ms)
-			SetLoadedEditorAssemblies (7ms)
+			InitializePlatformSupportModulesInManaged (78ms)
+			SetLoadedEditorAssemblies (12ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (143ms)
-			ProcessInitializeOnLoadAttributes (641ms)
-			ProcessInitializeOnLoadMethodAttributes (344ms)
-			AfterProcessingInitializeOnLoad (5ms)
-			EditorAssembliesLoaded (0ms)
+			BeforeProcessingInitializeOnLoad (270ms)
+			ProcessInitializeOnLoadAttributes (2187ms)
+			ProcessInitializeOnLoadMethodAttributes (941ms)
+			AfterProcessingInitializeOnLoad (12ms)
+			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (4ms)
-Refreshing native plugins compatible for Editor in 17.93 ms, found 0 plugins.
+		AwakeInstancesAfterBackupRestoration (10ms)
+Refreshing native plugins compatible for Editor in 41.05 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7549 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8090.
-Memory consumption went from 339.1 MB to 313.3 MB.
-Total: 17.758000 ms (FindLiveObjects: 0.664500 ms CreateObjectMapping: 0.277400 ms MarkObjects: 13.696600 ms  DeleteObjects: 3.117400 ms)
+Unloading 7552 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8093.
+Memory consumption went from 350.7 MB to 324.9 MB.
+Total: 31.973600 ms (FindLiveObjects: 0.718200 ms CreateObjectMapping: 0.469400 ms MarkObjects: 24.854400 ms  DeleteObjects: 5.930000 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 

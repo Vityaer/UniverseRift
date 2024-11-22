@@ -3,6 +3,8 @@ using Models.Heroes.Skills;
 using System.Collections.Generic;
 using UI.Utils.Localizations.Extensions;
 using UiExtensions.Scroll.Interfaces;
+using UnityEditor;
+using UnityEngine;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
@@ -32,7 +34,7 @@ namespace UIController.SkillPanels
                 .GetLocalizedContainer("SkillLevel")
                 .WithArguments(new List<object>{ skill.Level + 1 });
 
-            View.ImageSkill.sprite = skill.Icon;
+            View.ImageSkill.sprite = _skill.SpritePath;
             MessagesPublisher.OpenWindowPublisher.OpenWindow<SkillPanelController>(openType: OpenType.Additive);
         }
     }

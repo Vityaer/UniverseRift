@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UIController
 {
-    public class TimeSlider : MonoBehaviour, IDisposable
+    public class TimeSlider : MonoBehaviour
     {
         [SerializeField] private Slider slider;
         [SerializeField] private Image fillImage;
@@ -66,7 +66,7 @@ namespace UIController
         public void UnregisterOnFillSliderInMax(Action d) { _observerMaxFill -= d; }
         private void OnFillMaxSlider() { if (_observerMaxFill != null) _observerMaxFill(); }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _sequenceChangeValue.Kill();
         }

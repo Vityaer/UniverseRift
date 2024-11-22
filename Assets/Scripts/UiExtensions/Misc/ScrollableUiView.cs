@@ -49,7 +49,7 @@ namespace UiExtensions.Misc
         public virtual void SetStatus(ScrollableViewStatus received) { }
 
 
-        public new void Dispose()
+        public override void Dispose()
         {
             Disposable?.Dispose();
             Disposable = null;

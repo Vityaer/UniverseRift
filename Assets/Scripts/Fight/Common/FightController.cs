@@ -7,6 +7,7 @@ using Fight.FightInterface;
 using Fight.Grid;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
+using Fight.UI;
 using Fight.WarTable;
 using LocalizationSystems;
 using Models.Fights.Campaign;
@@ -40,6 +41,7 @@ namespace Fight
         [Inject] private readonly FightDirectionController _fightDirectionController;
         [Inject] private readonly HeroInstancesController _heroInstancesController;
         [Inject] private readonly ILocalizationSystem _localizationSystem;
+        private FightPanelController _fightPanelController;
 
         [Header("Place heroes")]
         private List<Warrior> _leftTeam = new();
@@ -63,6 +65,11 @@ namespace Fight
         public List<Warrior> GetRightTeam => _rightTeam;
         public IObservable<FightResultType> OnFigthResult => _onFightResult;
         public HeroController GetCurrentHero() => _listInitiative[_currentHeroIndex];
+
+        public void SetControllerUi(FightPanelController fightPanelController)
+        {
+            _fightPanelController = fightPanelController;
+        }
 
         public void SetMission(MissionModel mission, List<WarriorPlace> leftWarriorPlace, List<WarriorPlace> rightWarriorPlace)
         {
@@ -146,10 +153,14 @@ namespace Fight
 
         public void DefenseTurn()
         {
+            var hero = GetCurrentHero();
+            hero.StartDefend();
         }
 
         public void SpellTurn()
         {
+            var hero = GetCurrentHero();
+            hero.UseSpecialSpell();
         }
 
         public void AddHeroWithAction(HeroController newHero)
@@ -189,12 +200,17 @@ namespace Fight
             if (!_isFightFinish)
             {
                 _listInitiative[_currentHeroIndex].DoTurn();
+                _fightPanelController.SetHeroStatus(_listInitiative[_currentHeroIndex]);
             }
         }
 
         private void NewRound()
         {
             UpdateListInitiative();
+            
+            foreach (var hero in _listInitiative)
+                hero.Refresh();
+        
             _currentHeroIndex = 0;
             _round++;
 
@@ -271,7 +287,7 @@ namespace Fight
             _onFightResult.Execute(fightResult);
         }
 
-        void ClearAll()
+        private void ClearAll()
         {
             _gridController.FinishFight();
             _heroInstancesController.OpenLight();
@@ -283,7 +299,7 @@ namespace Fight
             _round = 1;
         }
 
-        void DeleteTeam(List<Warrior> team)
+        private void DeleteTeam(List<Warrior> team)
         {
             for (int i = 0; i < team.Count; i++)
             {
@@ -292,7 +308,7 @@ namespace Fight
             team.Clear();
         }
 
-        void CheckSaveResult()
+        private void CheckSaveResult()
         {
             //if ((_mission is BossMission))
             //    ((BossMission)_mission).SaveResult();

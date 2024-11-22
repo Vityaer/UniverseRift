@@ -27,9 +27,6 @@ namespace City.Buildings.CityButtons.EventAgent
         private const string DAILY_TASKS = "DailyTasks";
 
         private const int REWARD_COUNT = 30;
-        private const int REWARD_MONET_COST = 100;
-        private const string SUM_RECEIVIED_REWARD = "SumReward";
-        private const char SYMBOL_1 = '1';
 
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;

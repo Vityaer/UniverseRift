@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fight.HeroControllers.Generals;
+using System;
 using UniRx;
 using UnityEngine.Localization;
 using VContainer.Unity;
@@ -26,6 +27,16 @@ namespace Fight.UI
             _fightController.OnFinishFight.Subscribe(_ => Hide()).AddTo(_compositeDisposable);
 
             _fightController.OnChangeFightUiText.Subscribe(OnChangeFightUiText).AddTo(_compositeDisposable);
+
+            _fightController.SetControllerUi(this);
+        }
+
+        public void SetHeroStatus(HeroController heroController)
+        {
+            View.WaitButton.interactable = heroController.CanWait;
+            var spell = heroController.hero.Model.Skills.Find(skill => skill.IsActive);
+            View.SpellButton.gameObject.SetActive(spell != null);
+            View.SpellButton.interactable = (heroController.Stamina >= 100f);
         }
 
         private void OnChangeFightUiText(LocalizedString label)

@@ -1,15 +1,23 @@
 using City.Buildings.CityButtons.EventAgent;
 using Common.Rewards;
+using LocalizationSystems;
+using System.Collections.Generic;
 using TMPro;
+using UI.Utils.Localizations.Extensions;
 using UIController;
 using UiExtensions.Misc;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.CityButtons.DailyReward
 {
     public class DailyRewardUI : ScrollableUiView<GameReward>
     {
+        private ILocalizationSystem _localizationSystem;
+
         public GameObject blockPanel;
         public GameObject readyForGet;
         public TMP_Text Label;
@@ -18,13 +26,20 @@ namespace City.Buildings.CityButtons.DailyReward
         private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
         private int _id;
 
+        [Inject]
+        private void Construct(ILocalizationSystem localizationSystem)
+        {
+            _localizationSystem = localizationSystem;
+        }
+
         public override void SetData(GameReward data, ScrollRect scrollRect)
         {
             Data = data;
             Scroll = scrollRect;
             RewardController.ShowReward(data);
             _id = transform.GetSiblingIndex();
-            Label.text = $"Day {_id + 1}";
+            Label.text = _localizationSystem.GetLocalizedContainer("DailyRewardName")
+                .WithArguments(new List<object> { _id + 1 }).GetLocalizedString();
         }
 
         public override void SetStatus(ScrollableViewStatus newStatusReward)

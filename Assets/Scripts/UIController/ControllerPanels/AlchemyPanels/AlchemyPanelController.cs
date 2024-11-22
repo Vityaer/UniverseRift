@@ -1,19 +1,15 @@
 ﻿using City.Buildings.Abstractions;
 using ClientServices;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
 using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Alchemies;
 using System;
 using System.Globalization;
-using UniRx.Triggers;
-using VContainer;
 using UniRx;
-using Common.Resourses;
-using System.Diagnostics;
-using Db.CommonDictionaries;
-using Common.Rewards;
-using City.Panels.Rewards;
+using VContainer;
 
 namespace UIController.ControllerPanels.AlchemyPanels
 {

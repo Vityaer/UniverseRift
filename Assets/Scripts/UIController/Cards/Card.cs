@@ -1,8 +1,8 @@
 ﻿using Db.CommonDictionaries;
 using Hero;
-using Models.City.TrainCamp;
 using System;
 using TMPro;
+using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +10,7 @@ using VContainer;
 
 namespace UIController.Cards
 {
-    public class Card : MonoBehaviour, IDisposable
+    public class Card : ScrollableUiView<GameHero>
     {
         [Inject] private CommonDictionaries _commonDictionaries;
 
@@ -21,7 +21,6 @@ namespace UIController.Cards
         [SerializeField] private TextMeshProUGUI _levelUI;
         [SerializeField] private Image _panelSelect;
         [SerializeField] private CardDetailImageView _vocationUI;
-        [SerializeField] private Button Button;
         [SerializeField] private RatingHero _ratingController;
         [SerializeField] private CardDetailImageView _vocation;
         [SerializeField] private CardDetailImageView _race;
@@ -32,9 +31,15 @@ namespace UIController.Cards
 
         public IObservable<Card> OnClick => _onClick;
 
-        private void Awake()
+        protected override void Awake()
         {
             Button.OnClickAsObservable().Subscribe(_ => ClickOnCard()).AddTo(_disposables);
+        }
+
+        public override void SetData(GameHero data, ScrollRect scrollRect)
+        {
+            base.SetData(data, scrollRect);
+            SetData(data);
         }
 
         public void SetData(GameHero hero)
@@ -79,20 +84,20 @@ namespace UIController.Cards
         {
             _imageUI.sprite = null;
             _levelUI.text = string.Empty;
-            //_ratingController.Hide();
             gameObject.SetActive(false);
             _heroSubscribe?.Dispose();
         }
 
-        public void Dispose()
-        {
-            _heroSubscribe.Dispose();
-            _disposables.Dispose();
-        }
 
         public void SetRace(string race)
         {
             _race.SetData(_commonDictionaries.Races[race].SpritePath);
+        }
+
+        public override void Dispose()
+        {
+            _heroSubscribe?.Dispose();
+            _disposables?.Dispose();
         }
     }
 }

@@ -5,6 +5,7 @@ using Ui.Misc.Widgets;
 using UIController;
 using UIController.ItemVisual;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace City.TrainCamp.HeroPanels
@@ -17,8 +18,8 @@ namespace City.TrainCamp.HeroPanels
         public Button OpenHeroDetailsButton;
         public Button EvolitionPanelButton;
         public Image imageHero;
+        public LocalizeStringEvent NameHero;
         public TextMeshProUGUI textLevel;
-        public TextMeshProUGUI textNameHero;
         public TextMeshProUGUI textHP;
         public TextMeshProUGUI textAttack;
         public TextMeshProUGUI textArmor;

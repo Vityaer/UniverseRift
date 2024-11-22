@@ -20,6 +20,8 @@ using System.Globalization;
 using Sirenix.Utilities;
 using Db.CommonDictionaries;
 using City.Panels.SubjectPanels.Common;
+using LocalizationSystems;
+using UnityEngine.Localization.Components;
 
 namespace City.Buildings.TaskGiver
 {
@@ -29,9 +31,10 @@ namespace City.Buildings.TaskGiver
         [Inject] private ResourceStorageController _resourceStorageController;
         [Inject] private ClientRewardService _clientRewardService;
         [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private ILocalizationSystem _localizationSystem;
 
         [Header("UI")]
-        public TextMeshProUGUI Name;
+        [SerializeField] private LocalizeStringEvent _name;
         public GameObject objectCurrentTime;
         public SliderTime sliderTime;
         public ButtonCostController TaskControllerButton;
@@ -57,7 +60,7 @@ namespace City.Buildings.TaskGiver
             SetData(data, scrollRect);
             _model = model;
 
-            Name.text = _model.Id;
+            _name.StringReference = _localizationSystem.GetLocalizedContainer($"Task{_model.Id}Name");
             ratingController.ShowRating(_model.Rating);
             RewardUIController.ShowReward(_model.Reward, _commonDictionaries);
             UpdateStatus();

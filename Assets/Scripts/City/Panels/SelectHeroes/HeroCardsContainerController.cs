@@ -1,7 +1,11 @@
-﻿using Hero;
+﻿using City.Panels.SelectHeroes.Comparers;
+using Hero;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UIController.Cards;
+using UiExtensions.CustomElements;
+using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,150 +17,86 @@ namespace City.Panels.SelectHeroes
     {
         [Inject] private IObjectResolver _resolver;
 
-        public Transform Content;
-        public Card Prefab;
+        [SerializeField] private ScrollRect _scroll;
+        [SerializeField] private Card _prefab;
+        [SerializeField] private AnimateCustomToggle _customToggle;
 
-        private List<Card> _listCard = new List<Card>();
+        private DynamicUiList<Card, GameHero> _cardPool;
         private bool _loadedListHeroes = false;
 
-        private List<GameHero> _listHeroes = new List<GameHero>();
-        private ReactiveCommand<GameHero> _onSelect = new ReactiveCommand<GameHero>();
-        private ReactiveCommand<GameHero> _onDiselect = new ReactiveCommand<GameHero>();
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private List<GameHero> _listHeroes = new();
+        private ReactiveCommand<GameHero> _onSelect = new();
+        private ReactiveCommand<GameHero> _onDiselect = new();
+        private CompositeDisposable _disposables = new();
+        private GameHeroRatingComparer _gameHeroRatingComparer = new();
+        private GameHeroLevelComparer _gameHeroLevelComparer = new();
 
         public bool LoadedListHeroes => _loadedListHeroes;
         public IObservable<GameHero> OnSelect => _onSelect;
         public IObservable<GameHero> OnDiselect => _onDiselect;
-        public List<Card> Cards => _listCard;
+        public List<Card> Cards => _cardPool.Views;
+
+        private void Awake()
+        {
+            _cardPool = new(_prefab, _scroll.content, _scroll, OnCardSelect, OnCardCreate);
+        }
+
+        private void Start()
+        {
+            _customToggle.OnChange.Subscribe(ChangeSortCardType).AddTo(_disposables);
+        }
+
+        private void OnCardCreate(Card card)
+        {
+            _resolver.Inject(card);
+            card.OnClick.Subscribe(OnCardClick).AddTo(_disposables);
+        }
+
+        private void OnCardSelect(Card card)
+        {
+        }
+
+        private void ChangeSortCardType(bool flag)
+        {
+            _listHeroes.Sort(flag ? _gameHeroRatingComparer : _gameHeroLevelComparer);
+            _cardPool.ShowDatas(_listHeroes);
+        }
 
         public void ShowCards(List<GameHero> heroes)
         {
             if (heroes == null)
                 return;
 
-            CheckCountCards(heroes.Count);
-
-            for (var i = 0; i < heroes.Count; i++)
-            {
-                _listCard[i].SetData(heroes[i]);
-            }
-
-            for (var i = heroes.Count; i < _listCard.Count; i++)
-            {
-                _listCard[i].Clear();
-            }
-        }
-
-        private void CheckCountCards(int requireCount)
-        {
-            if (_listCard.Count < requireCount)
-            {
-                for (int i = _listCard.Count; i < requireCount; i++)
-                {
-                    var card = Instantiate(Prefab, Content);
-                    _resolver.Inject(card);
-                    card.OnClick.Subscribe(OnCardClick).AddTo(_disposables);
-                    _listCard.Add(card);
-                }
-            }
+            _listHeroes = heroes;
+            _listHeroes.Sort(_customToggle.IsOn ? _gameHeroRatingComparer : _gameHeroLevelComparer);
+            _cardPool.ShowDatas(_listHeroes);
         }
 
         public void ShowRace(string Race)
         {
-            foreach (var card in _listCard)
-            {
-                card.gameObject.SetActive(card.Hero.Model.General.Race == Race);
-            }
+            var raceHeroes = _listHeroes
+                .Where(hero => hero.Model.General.Race.Equals(Race))
+                .ToList();
+
+            _cardPool.ShowDatas(raceHeroes);
         }
 
         public void ShowAllCards()
         {
-            foreach (Card card in _listCard)
-            {
-                card.gameObject.SetActive(true);
-            }
-        }
-
-        private void SortOfLevel()
-        {
-            //HeroModel helpCard = null;
-            //int levelFirst, levelSecond;
-            //for (int i = 0; i < listHeroes.Count; i++)
-            //{
-            //    for (int j = i + 1; j < listHeroes.Count; j++)
-            //    {
-            //        levelFirst = listHeroes[i].General.Level;
-            //        levelSecond = listHeroes[i].General.Level;
-            //        if (levelFirst < levelSecond || levelFirst == levelSecond && listHeroes[i].General.RatingHero < listHeroes[j].General.RatingHero)
-            //        {
-            //            helpCard = listHeroes[i];
-            //            listHeroes[i] = listHeroes[j];
-            //            listHeroes[j] = helpCard;
-            //        }
-            //    }
-            //}
-            //UpdateAllCard();
-        }
-
-        private void SortOfRating()
-        {
-            //HeroModel helpCard = null;
-            //for (int i = 0; i < listHeroes.Count; i++)
-            //{
-            //    for (int j = i + 1; j < listHeroes.Count; j++)
-            //    {
-            //        if (listHeroes[i].General.RatingHero < listHeroes[j].General.RatingHero)
-            //        {
-            //            helpCard = listHeroes[i];
-            //            listHeroes[i] = listHeroes[j];
-            //            listHeroes[j] = helpCard;
-            //        }
-            //    }
-            //}
-            //UpdateAllCard();
-        }
-
-        //API
-        public void Sort(Toggle toggle)
-        {
-            if (toggle.isOn)
-            {
-                SortOfRating();
-            }
-            else
-            {
-                SortOfLevel();
-            }
+            _cardPool.ShowDatas(_listHeroes);
         }
 
         public void RemoveCards(List<Card> cardsForRemove)
         {
-            foreach (Card card in cardsForRemove)
+            foreach (var card in cardsForRemove)
             {
-                _listCard.Remove(card);
-                Destroy(card.gameObject);
+                _cardPool.RemoveElement(card);
             }
         }
 
         public void RemoveCard(Card cardForRemove)
         {
-            _listCard.Remove(cardForRemove);
-            Destroy(cardForRemove.gameObject);
-        }
-
-        public void EventOpen()
-        {
-            ShowAllCards();
-            UpdateAllCard();
-        }
-
-        public void EventClose()
-        {
-        }
-
-        public void Clear()
-        {
-            _listCard.ForEach(card => card.Clear());
+            _cardPool.RemoveElement(cardForRemove);
         }
 
         private void OnCardClick(Card card)
@@ -171,19 +111,6 @@ namespace City.Panels.SelectHeroes
             }
         }
 
-        private void UpdateAllCard()
-        {
-            for (int i = 0; i < _listCard.Count; i++)
-            {
-                _listCard[i].SetData(_listHeroes[i]);
-            }
-        }
-
-        public void RemoveCardFromList(Card card)
-        {
-            _listCard.Remove(card);
-        }
-
         public void SelectCards(List<GameHero> selectedCard)
         {
             Card currentCard = null;
@@ -191,11 +118,11 @@ namespace City.Panels.SelectHeroes
             for (int i = 0; i < selectedCard.Count; i++)
             {
                 currentHero = selectedCard[i];
-                currentCard = _listCard.Find(x => x.Hero == currentHero);
-                if (currentCard != null)
-                {
-                    currentCard.Select();
-                }
+                currentCard = Cards.Find(x => x.Hero == currentHero);
+                if (currentCard == null)
+                    continue;
+
+                currentCard.Select();
             }
         }
 
@@ -206,7 +133,7 @@ namespace City.Panels.SelectHeroes
             for (int i = 0; i < unselectedCard.Count; i++)
             {
                 currentHero = unselectedCard[i];
-                currentCard = _listCard.Find(x => x.Hero == currentHero);
+                currentCard = Cards.Find(x => x.Hero == currentHero);
                 if (currentCard != null)
                 {
                     currentCard.Unselect();
@@ -216,7 +143,7 @@ namespace City.Panels.SelectHeroes
 
         public void UnselectCard(GameHero hero)
         {
-            var card = _listCard.Find(x => x.Hero == hero);
+            var card = Cards.Find(x => x.Hero == hero);
             if (card != null)
             {
                 card.Unselect();

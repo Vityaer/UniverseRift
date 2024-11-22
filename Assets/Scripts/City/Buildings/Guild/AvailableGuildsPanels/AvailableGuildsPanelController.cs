@@ -1,5 +1,6 @@
 ﻿using City.Buildings.Guild.NewGuildPanels;
 using Cysharp.Threading.Tasks;
+using LocalizationSystems;
 using Misc.Json;
 using Network.DataServer;
 using Network.DataServer.Messages.Guilds;
@@ -23,7 +24,8 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly NewGuildPanelController _newGuildPanelController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
-
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
+        
         private List<GuildData> _guilds = new();
         private DynamicUiList<AvailableGuildView, GuildData> _dynamicUiList;
         private int _index = -1;
@@ -66,9 +68,13 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
 
         private async UniTaskVoid LoadAvailableGuilds()
         {
-            UnityEngine.Debug.Log("LoadAvailableGuilds");
             _index += 1;
-            var message = new GetAvailableGuildsMessage { PlayerId = CommonGameData.PlayerInfoData.Id, PagginationIndex = _index };
+            var message = new GetAvailableGuildsMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                PagginationIndex = _index
+            };
+
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
@@ -76,18 +82,18 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
                 _guilds = _jsonConverter.Deserialize<List<GuildData>>(result);
                 if (_guilds.Count > 0)
                 {
-                    View.MessageText.text = string.Empty;
+                    View.NotFoundGuildsMessageText.SetActive(false);
                     _dynamicUiList.ShowDatas(_guilds);
                 }
                 else
                 {
+                    View.NotFoundGuildsMessageText.SetActive(true);
                     _dynamicUiList.ClearList();
-                    View.MessageText.text = "Not found available guilds";
                 }
             }
             else
             {
-                View.MessageText.text = "Not found available guilds";
+                View.NotFoundGuildsMessageText.SetActive(true);
             }
         }
 

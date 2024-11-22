@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Fight.HeroControllers.Generals
 {
-    public partial class HeroController : MonoBehaviour, IDisposable
+    public partial class HeroController : MonoBehaviour
     {
         //Animations
         private const string ANIMATION_ATTACK = "Attack",
@@ -88,7 +88,7 @@ namespace Fight.HeroControllers.Generals
                 .Append(Self.DOScaleY(0f, 0.5f).OnComplete(() => { FinishAnimation();  }));
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _sequenceAnimation?.Kill();
         }

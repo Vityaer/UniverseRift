@@ -22,7 +22,6 @@ namespace UIController
     {
         [Inject] private IObjectResolver _resolver;
         [Inject] private readonly HeroPanelController _heroPanel;
-        //[Inject] private readonly MainSwipeController _mainSwipeController;
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
 
