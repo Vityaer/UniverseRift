@@ -3,9 +3,11 @@ using ClientServices;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
+using LocalizationSystems;
 using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Alchemies;
+using Services.TimeLocalizeServices;
 using System;
 using System.Globalization;
 using UniRx;
@@ -19,15 +21,19 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
+        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
 
         private DateTime _lastGetAlchemyDateTime;
+        private IDisposable _timeSliderDisposable;
 
         public ReactiveCommand OnGetAchemyGold = new();
 
         protected override void OnStart()
         {
             View.AlchemyButton.OnClickAsObservable().Subscribe(_ => GetAlchemyGold().Forget()).AddTo(Disposables);
-            View.SliderTimeAlchemy.RegisterOnFinish(FinishAlchemySlider);
+            View.SliderTimeAlchemy.Init(_localizationSystem, _timeLocalizeService);
+            _timeSliderDisposable = View.SliderTimeAlchemy.OnTimerFinish.Subscribe(_ => FinishAlchemySlider());
         }
 
         protected override void OnLoadGame()
@@ -79,6 +85,12 @@ namespace UIController.ControllerPanels.AlchemyPanels
             }
 
             CheckAlchemyButton();
+        }
+
+        public override void Dispose()
+        {
+            _timeSliderDisposable?.Dispose();
+            base.Dispose();
         }
     }
 }

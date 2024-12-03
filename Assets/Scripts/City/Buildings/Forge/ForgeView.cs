@@ -9,8 +9,10 @@ namespace City.Buildings.Forge
     public class ForgeView : BaseBuildingView
     {
         public RectTransform Content;
+
         public ItemForgeIngredients LeftItem;
         public ItemForgeCost RightItem;
+
         public Button WeaponPanelButton;
         public Button ArmorPanelButton;
         public Button BootsPanelButton;

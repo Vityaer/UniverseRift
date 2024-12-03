@@ -220,7 +220,6 @@ namespace Fight.WarTable
             //        }
             //        break;
             //}
-            UnityEngine.Debug.Log($"Check left team {View.LeftTeam.FindAll(place => !place.IsEmpty).Count > 0}");
             View.StartFightButton.interactable = View.LeftTeam.FindAll(place => !place.IsEmpty).Count > 0;
         }
 

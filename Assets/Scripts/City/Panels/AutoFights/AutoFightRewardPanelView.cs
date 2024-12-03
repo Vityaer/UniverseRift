@@ -1,15 +1,15 @@
-﻿using TMPro;
-using Ui.Misc.Widgets;
+﻿using Ui.Misc.Widgets;
 using UIController;
+using UnityEngine.Localization.Components;
 
 namespace City.Panels.AutoFights
 {
     public class AutoFightRewardPanelView : BasePanel
     {
-        public SliderTime sliderAccumulation;
-        public TextMeshProUGUI textAutoRewardGold;
-        public TextMeshProUGUI textAutoRewardStone;
-        public TextMeshProUGUI textAutoRewardExperience;
+        public SliderTime AccumulationSlider;
+        public LocalizeStringEvent AutoRewardGoldText;
+        public LocalizeStringEvent AutoRewardStoneText;
+        public LocalizeStringEvent AutoRewardExperienceText;
         public RewardUIController RewardUIController;
     }
 }

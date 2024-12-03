@@ -54,7 +54,7 @@ namespace Fight.HeroControllers.Generals
         public bool CanRetaliation => hero.Model.Characteristics.Main.CanRetaliation && CurrentCountCounterAttack > 0;
         public HexagonCell Cell => myPlace;
         public bool Mellee => hero.Model.Characteristics.Main.Mellee;
-        public TypeStrike typeStrike => hero.Model.Characteristics.Main.AttackType;
+        public TypeStrike TypeStrike => hero.Model.Characteristics.Main.AttackType;
         public int Stamina => statusState.Stamina;
         public Animator HeroAnimator => _currentHeroVisualModel.Animator;
         public List<HeroController> ListTarget { get; set; }
@@ -145,7 +145,7 @@ namespace Fight.HeroControllers.Generals
                     if (CanAttackHero(cell.Hero))
                     {
                         selectHero = cell.Hero;
-                        if (CanShoot())
+                        if (CanMelleeAttack())
                         {
                             if (cell.GetCanAttackCell)
                             {
@@ -425,7 +425,7 @@ namespace Fight.HeroControllers.Generals
         public virtual void CreateDamage(HeroController enemy)
         {
             _currentActionDisposable.Dispose();
-            enemy.ApplyDamage(new Strike(hero.Model.Characteristics.Damage, hero.Model.Characteristics.Main.Attack, typeStrike: typeStrike));
+            enemy.ApplyDamage(new Strike(hero.Model.Characteristics.Damage, hero.Model.Characteristics.Main.Attack, typeStrike: TypeStrike));
         }
         //Event
         public void GetListForSpell(List<HeroController> listTarget)

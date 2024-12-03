@@ -46,6 +46,7 @@ using City.Panels.Events.SweetCycles;
 using City.Panels.Events.TavernCycleMainPanels;
 using City.Panels.HeroesHireResultPanels;
 using City.Panels.Inventories;
+using City.Panels.Misc.Settings;
 using City.Panels.MonthTasks.Abstractions;
 using City.Panels.MonthTasks.Arena;
 using City.Panels.MonthTasks.Evolutions;
@@ -180,6 +181,7 @@ namespace Installers
         [SerializeField] private LoadingView _loadingView;
         [SerializeField] private ProgressBarView _progressBarView;
         [SerializeField] private PlayerMiniInfoPanelView _playerMiniInfoPanelView;
+        [SerializeField] private SettingsPanelView _settingsPanelView;
         
         public override void Install(IContainerBuilder builder)
         {
@@ -267,6 +269,7 @@ namespace Installers
             builder.RegisterUiView<LoadingController, LoadingView>(_loadingView, canvas.transform);
             builder.RegisterUiView<ProgressBarController, ProgressBarView>(_progressBarView, canvas.transform);
             builder.RegisterUiView<FadeInOutPanelController, FadeInOutPanelView>(_fadeInOutPanelView, canvas.transform);
+            builder.RegisterUiView<SettingsPanelController, SettingsPanelView>(_settingsPanelView, canvas.transform);
 
             builder.Register<SubjectDetailController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }

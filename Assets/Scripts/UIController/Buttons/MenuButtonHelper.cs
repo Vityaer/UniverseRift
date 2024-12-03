@@ -9,10 +9,10 @@ namespace UIController.Buttons
 {
     public class MenuButtonHelper : ButtonWithAnimationHelper
     {
-        private const float BUTTON_SCALE_MULTIPLE = 1.1f;
-        private const float BUTTON_ICON_SCALE_MULTIPLE = 1.2f;
-        private const float BUTTON_ICON_DEFAULT_HEIGHT = 14f;
-        private const float BUTTON_ICON_FINAL_HEIGHT = 70f;
+        [SerializeField] private float BUTTON_SCALE_MULTIPLE = 1.1f;
+        [SerializeField] private float BUTTON_ICON_SCALE_MULTIPLE = 1.2f;
+        [SerializeField] private float BUTTON_ICON_DEFAULT_HEIGHT = 14f;
+        [SerializeField] private float BUTTON_ICON_FINAL_HEIGHT = 70f;
 
         [SerializeField] private LayoutElement _layoutElement;
         [SerializeField] private RectTransform _iconTransform;

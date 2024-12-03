@@ -141,7 +141,7 @@ namespace Fight.HeroControllers.Generals
             foreach (var warrior in FightController.GetLeftTeam)
             {
                 Color color;
-                if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
+                if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanMelleeAttack())
                 {
                     color = Constants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR;
                 }
@@ -155,7 +155,7 @@ namespace Fight.HeroControllers.Generals
             foreach (var warrior in FightController.GetRightTeam)
             {
                 Color color = Color.red;
-                if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanShoot())
+                if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanMelleeAttack())
                 {
                     color = Constants.Colors.ACHIEVABLE_ENEMY_CELL_COLOR;
                 }
@@ -179,9 +179,10 @@ namespace Fight.HeroControllers.Generals
             }
         }
 
-        private bool CanShoot()
+        private bool CanMelleeAttack()
         {
-            return (hero.Model.Characteristics.Main.Mellee == true) || (!hero.Model.Characteristics.Main.Mellee && myPlace.MyEnemyNear(this.Side));
+            return (hero.Model.Characteristics.Main.Mellee == true)
+                || (!hero.Model.Characteristics.Main.Mellee && myPlace.MyEnemyNear(this.Side));
         }
 
         [ContextMenu("Add 100 stamina")]

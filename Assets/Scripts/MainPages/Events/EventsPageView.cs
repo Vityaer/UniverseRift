@@ -4,6 +4,7 @@ using Models.Events;
 using TMPro;
 using UIController;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using Utils;
 
@@ -19,7 +20,7 @@ namespace MainPages.Events
         public Button EvolutionButton;
 
         public RectTransform ContentAction;
-        public TMP_Text EventCycleName;
+        public LocalizeStringEvent EventCycleName;
 
         public SerializableDictionary<GameEventType, EventContainer> EventContainers = new();
     }

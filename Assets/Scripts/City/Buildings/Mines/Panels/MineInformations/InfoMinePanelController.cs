@@ -21,6 +21,8 @@ using Utils;
 using UnityEngine;
 using System.Threading;
 using Db.CommonDictionaries;
+using LocalizationSystems;
+using UI.Utils.Localizations.Extensions;
 
 namespace City.Buildings.Mines
 {
@@ -29,6 +31,8 @@ namespace City.Buildings.Mines
         private const int INCOME_MAX_SECONDS = 36000;
         private const int INCOME_MIN_SECONDS = 10;
         private const string MAIN_BUILDING_MINE_ID = "MainMineBuilding";
+
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -77,7 +81,12 @@ namespace City.Buildings.Mines
 
         private async UniTaskVoid LevelUp()
         {
-            var message = new MineLevelUpMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = _place.MineData.Id };
+            var message = new MineLevelUpMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                MineId = _place.MineData.Id
+            };
+
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
@@ -90,7 +99,12 @@ namespace City.Buildings.Mines
         private async UniTaskVoid GetResources()
         {
             Close();
-            var message = new MineTakeResourceMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = _place.MineData.Id };
+            var message = new MineTakeResourceMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                MineId = _place.MineData.Id
+            };
+
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
@@ -111,8 +125,13 @@ namespace City.Buildings.Mines
 
         private void UpdateUI()
         {
-            View.NameMineText.text = _place.MineModel.Id;
-            View.LevelMineText.text = $"Level {_place.MineData.Level}";
+            View.NameMineText.StringReference = _localizationSystem
+                .GetLocalizedContainer($"{_place.MineModel.Id}Name");
+
+            View.LevelMineText.StringReference = _localizationSystem
+                .GetLocalizedContainer($"MineLevelLabel")
+                .WithArguments(new List<object> { _place.MineData.Level });
+
             var income = _place.MineModel.IncomesContainer.GetCostForLevelUp(_place.MineData.Level)[0];
             var levelUpCost = _place.MineModel.CostLevelUpContainer.GetCostForLevelUp(_place.MineData.Level + 1);
 

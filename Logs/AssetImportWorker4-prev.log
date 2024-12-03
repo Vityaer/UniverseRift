@@ -15,7 +15,7 @@ C:/Projects/UniverseRift.git
 -logFile
 Logs/AssetImportWorker4.log
 -srvPort
-54231
+49395
 Successfully changed project path to: C:/Projects/UniverseRift.git
 C:/Projects/UniverseRift.git
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,16 +49,16 @@ C:/Projects/UniverseRift.git
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [27984]  Target information:
+Player connection [5588]  Target information:
 
-Player connection [27984]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 1485029061 [EditorId] 1485029061 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [5588]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 1811246546 [EditorId] 1811246546 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [27984]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 1485029061 [EditorId] 1485029061 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [5588]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 1811246546 [EditorId] 1811246546 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [27984] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [27984] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [5588] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [5588] Host joined alternative multi-casting on [225.0.0.222:34997]...
 [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-Refreshing native plugins compatible for Editor in 34.35 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 1648.96 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.42f1 (2dcb6a0abc42)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Resources/UnitySubsystems
@@ -76,56 +76,47 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56608
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56548
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.006630 seconds.
-- Loaded All Assemblies, in  1.842 seconds
+Registered in 0.008331 seconds.
+- Loaded All Assemblies, in  0.365 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-CommandWithNoStdoutInvokationFailure: Unable to start ADB server. Please make sure the Android SDK is installed and is properly configured in the Editor. See the Console for more details.
-  at UnityEditor.Android.Command.RunWithShellExecute (System.String command, System.String args, System.String workingdir, System.String errorMsg) [0x00060] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.ADB.StartServer () [0x00013] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.ADB.Run (System.String[] command, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg) [0x0000b] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.AndroidDeploymentTargetsExtension.GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext context, UnityEditor.ProgressHandler progressHandler) [0x002ae] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetScanWorker.ScanSync () [0x00039] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetExtension.OnUsbDevicesChanged (UnityEditor.Hardware.UsbDevice[] usbDevices) [0x00081] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetExtension.OnLoad () [0x000ad] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Modules.ModuleManager.InitializePlatformSupportModules () [0x0009d] in <fd823a7663ea4cdb840e6c898e2256ce>:0 
-
+Android Extension - Scanning For ADB Devices 311 ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  5.275 seconds
-Domain Reload Profiling: 7116ms
-	BeginReloadAssembly (111ms)
+- Finished resetting the current domain, in  0.632 seconds
+Domain Reload Profiling: 996ms
+	BeginReloadAssembly (125ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (32ms)
+	RebuildCommonClasses (33ms)
 	RebuildNativeTypeToScriptingClass (9ms)
 	initialDomainReloadingComplete (54ms)
-	LoadAllAssembliesAndSetupDomain (1634ms)
-		LoadAssemblies (109ms)
+	LoadAllAssembliesAndSetupDomain (142ms)
+		LoadAssemblies (123ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (1631ms)
-			TypeCache.Refresh (1630ms)
-				TypeCache.ScanAssembly (981ms)
+		AnalyzeDomain (139ms)
+			TypeCache.Refresh (138ms)
+				TypeCache.ScanAssembly (125ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (5276ms)
+	FinalizeReload (633ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (5219ms)
+		SetupLoadedEditorAssemblies (590ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (5035ms)
-			SetLoadedEditorAssemblies (5ms)
+			InitializePlatformSupportModulesInManaged (425ms)
+			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (3ms)
-			ProcessInitializeOnLoadAttributes (125ms)
-			ProcessInitializeOnLoadMethodAttributes (51ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (111ms)
+			ProcessInitializeOnLoadMethodAttributes (48ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -133,33 +124,33 @@ Domain Reload Profiling: 7116ms
 ========================================================================
 Worker process is ready to serve import requests
 Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a940af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abda7e (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
+0x00007ff77648d08d (Unity) StackWalker::GetCurrentCallstack
+0x00007ff776492169 (Unity) StackWalker::ShowCallstack
+0x00007ff77747f231 (Unity) GetStacktrace
+0x00007ff777b39e6e (Unity) DebugStringToFile
+0x00007ff777b39baa (Unity) AssertImplementation
+0x00007ff77731d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
+0x00007ff777803484 (Unity) WorkerDomainReloadV2
+0x00007ff7778240af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
+0x00007ff77785fea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff77784be4e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff77784da7e (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff77785e24c (Unity) IOService::Run
+0x00007ff7778316cf (Unity) AssetImportWorkerClient::Run
+0x00007ff7777fd037 (Unity) RunAssetImportWorkerClientV2
+0x00007ff7777fd0bb (Unity) RunAssetImporterV2
+0x00007ff776ff76fe (Unity) Application::InitializeProject
+0x00007ff777489ed5 (Unity) WinMain
+0x00007ff77883b7be (Unity) __scrt_common_main_seh
+0x00007fff7bd5259d (KERNEL32) BaseThreadInitThunk
+0x00007fff7c7caf38 (ntdll) RtlUserThreadStart
 
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in 32.434 seconds
+- Loaded All Assemblies, in  1.019 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.13 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.10 seconds
 Mirror | mirror-networking.com | discord.gg/N9QVxbM
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
@@ -173,46 +164,46 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
 (Filename: Assets/Mirror/Editor/Welcome.cs Line: 18)
 
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.920 seconds
-Domain Reload Profiling: 36327ms
-	BeginReloadAssembly (192ms)
+- Finished resetting the current domain, in  1.712 seconds
+Domain Reload Profiling: 2727ms
+	BeginReloadAssembly (134ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (8ms)
+		DisableScriptedObjects (6ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (25ms)
-	RebuildCommonClasses (34ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (75ms)
-	LoadAllAssembliesAndSetupDomain (32094ms)
-		LoadAssemblies (30962ms)
+		CreateAndSetChildDomain (21ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (43ms)
+	LoadAllAssembliesAndSetupDomain (798ms)
+		LoadAssemblies (535ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (1247ms)
-			TypeCache.Refresh (1137ms)
-				TypeCache.ScanAssembly (1097ms)
-			ScanForSourceGeneratedMonoScriptInfo (76ms)
-			ResolveRequiredComponents (31ms)
-	FinalizeReload (3921ms)
+		AnalyzeDomain (339ms)
+			TypeCache.Refresh (268ms)
+				TypeCache.ScanAssembly (240ms)
+			ScanForSourceGeneratedMonoScriptInfo (48ms)
+			ResolveRequiredComponents (22ms)
+	FinalizeReload (1712ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (3501ms)
+		SetupLoadedEditorAssemblies (1430ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (78ms)
-			SetLoadedEditorAssemblies (12ms)
+			InitializePlatformSupportModulesInManaged (28ms)
+			SetLoadedEditorAssemblies (8ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (270ms)
-			ProcessInitializeOnLoadAttributes (2187ms)
-			ProcessInitializeOnLoadMethodAttributes (941ms)
-			AfterProcessingInitializeOnLoad (12ms)
-			EditorAssembliesLoaded (1ms)
+			BeforeProcessingInitializeOnLoad (187ms)
+			ProcessInitializeOnLoadAttributes (721ms)
+			ProcessInitializeOnLoadMethodAttributes (481ms)
+			AfterProcessingInitializeOnLoad (5ms)
+			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (10ms)
-Refreshing native plugins compatible for Editor in 41.05 ms, found 0 plugins.
+		AwakeInstancesAfterBackupRestoration (5ms)
+Refreshing native plugins compatible for Editor in 8.84 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7552 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8093.
-Memory consumption went from 350.7 MB to 324.9 MB.
-Total: 31.973600 ms (FindLiveObjects: 0.718200 ms CreateObjectMapping: 0.469400 ms MarkObjects: 24.854400 ms  DeleteObjects: 5.930000 ms)
+Unloading 7558 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8099.
+Memory consumption went from 339.3 MB to 313.5 MB.
+Total: 17.811300 ms (FindLiveObjects: 0.403500 ms CreateObjectMapping: 0.251300 ms MarkObjects: 14.498100 ms  DeleteObjects: 2.657100 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -228,8 +219,66 @@ AssetImportParameters requested are different than current active one (requested
   custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: ќпераци€ ввода/вывода была прервана из-за завершени€ потока команд или по запросу приложени€.
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0
+========================================================================
+Received Import Request.
+  Time since last request: 34037.714119 seconds.
+  path: Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab
+  artifactKey: Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab using Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '9be3435e2b539449c85877b61e0c90f4') in 0.244431 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 762
+========================================================================
+Received Import Request.
+  Time since last request: 1.521152 seconds.
+  path: Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab
+  artifactKey: Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab using Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: 'ab919bd3d564e738ca900fb0c8c44a8c') in 0.042379 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 762
+========================================================================
+Received Import Request.
+  Time since last request: 1.312965 seconds.
+  path: Assets/Prefabs/UI/Resources/ResourceInfo.prefab
+  artifactKey: Guid(bfc14d3476086ce4799914d128c46b9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Resources/ResourceInfo.prefab using Guid(bfc14d3476086ce4799914d128c46b9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '708b073477df3b881503ab6b3dc1513d') in 0.015319 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 22
+========================================================================
+Received Import Request.
+  Time since last request: 5.564297 seconds.
+  path: Assets/Prefabs/UI/Resources/ResourceInfo.prefab
+  artifactKey: Guid(bfc14d3476086ce4799914d128c46b9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Resources/ResourceInfo.prefab using Guid(bfc14d3476086ce4799914d128c46b9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '55f5119279b2840fb31543a0c01b820c') in 0.016356 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 22
+========================================================================
+Received Import Request.
+  Time since last request: 3.772083 seconds.
+  path: Assets/Prefabs/UI/CampaignChapter.prefab
+  artifactKey: Guid(b6d1af000f9577a48a43840d6dae01cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/CampaignChapter.prefab using Guid(b6d1af000f9577a48a43840d6dae01cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: 'f46c585f5f54405d869a2d8dc8775f5e') in 0.022580 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 31
+========================================================================
+Received Import Request.
+  Time since last request: 5.335232 seconds.
+  path: Assets/Prefabs/UI/DiffentMission/ChallengeUI.prefab
+  artifactKey: Guid(a53118ac3d3e49b478d29dc522644593) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/DiffentMission/ChallengeUI.prefab using Guid(a53118ac3d3e49b478d29dc522644593) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '7b95f1663da8c1c76c7428375fa6e07e') in 0.019812 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 31
+========================================================================
+Received Import Request.
+  Time since last request: 6.523010 seconds.
+  path: Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab
+  artifactKey: Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/DiffentMission/CampaingMission.prefab using Guid(255e50fdf35f33046940e46351982133) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '4e1f0c8439660e2463fa3fb9bba2f203') in 0.034758 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 762

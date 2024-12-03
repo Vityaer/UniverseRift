@@ -6,6 +6,7 @@ using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using DG.Tweening;
+using LocalizationSystems;
 using Misc.Json;
 using Models.Common;
 using Models.Common.BigDigits;
@@ -13,6 +14,7 @@ using Models.Data.Rewards;
 using Network.DataServer;
 using Network.DataServer.Messages.Campaigns;
 using Network.GameServer;
+using Services.TimeLocalizeServices;
 using System;
 using System.Threading;
 using UIController.Rewards;
@@ -37,6 +39,8 @@ namespace Campaign
         [Inject] private readonly GameController _gameController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
+        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
 
         private DateTime _previousDateTime;
         private bool _isHavePreviousDateTime;
@@ -90,6 +94,7 @@ namespace Campaign
                 _autoReward = newAutoReward;
                 _missionIndex = missionIndex;
                 View.SliderAccumulation.gameObject.SetActive(true);
+                View.SliderAccumulation.Init(_localizationSystem, _timeLocalizeService);
                 View.SliderAccumulation.SetData(_previousDateTime, maxTime);
             }
             CheckSprite();

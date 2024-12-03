@@ -1,22 +1,24 @@
 ﻿using Campaign;
+using LocalizationSystems;
 using System;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace UIController.Campaign
 {
-    public class CampaignChapterController : MonoBehaviour, IDisposable
+    public class CampaignChapterController : MonoBehaviour
     {
         [SerializeField] private Image Image;
-        [SerializeField] private TMP_Text Name;
+        [SerializeField] private LocalizeStringEvent Name;
         [SerializeField] private CampaignChapterModel _chapter;
         [SerializeField] private bool IsOpen = false;
         [SerializeField] private Button Button;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();    
-        private ReactiveCommand<CampaignChapterModel> _onSelect = new ReactiveCommand<CampaignChapterModel>();
+        private CompositeDisposable _disposables = new();    
+        private ReactiveCommand<CampaignChapterModel> _onSelect = new();
 
         public IObservable<CampaignChapterModel> OnSelect => _onSelect;
 
@@ -25,10 +27,11 @@ namespace UIController.Campaign
             Button.OnClickAsObservable().Subscribe(_ => Select()).AddTo(_disposables);
         }
 
-        public void SetData(CampaignChapterModel chapter)
+        public void SetData(ILocalizationSystem localizationSystem, CampaignChapterModel chapter)
         {
             _chapter = chapter;
-            Name.text = string.Concat(chapter.numChapter.ToString(), ". ", chapter.Name);
+            Name.StringReference = localizationSystem
+                .GetLocalizedContainer($"CampaignChapter{chapter.Name}Name");
         }
 
         public void Disable()
@@ -50,7 +53,7 @@ namespace UIController.Campaign
             IsOpen = true;
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

@@ -1,5 +1,6 @@
 using City.Panels.SubjectPanels.Common;
 using Db.CommonDictionaries;
+using LocalizationSystems;
 using Models.Fights.Campaign;
 using System;
 using TMPro;
@@ -7,6 +8,7 @@ using UIController;
 using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using VContainer;
 
@@ -15,10 +17,13 @@ namespace City.Buildings.TravelCircle
     public class TravelCircleMissionController : ScrollableUiView<MissionWithSmashReward>
     {
         [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private ILocalizationSystem _localizationSystem;
 
         [Header("UI")]
         public RewardUIController rewardController;
-        public TextMeshProUGUI textNumMission, textOnButtonSelect;
+        public TMP_Text NumMissionText;
+        public LocalizeStringEvent OnButtonSelectLacalizeString;
+
         public GameObject buttonSelect, imageCloseMission;
         public Image backgoundMission;
         [SerializeField] private Button mainButton;
@@ -63,18 +68,20 @@ namespace City.Buildings.TravelCircle
 
         private void UpdateUI()
         {
-            textNumMission.text = $"{_numMission}";
+            NumMissionText.text = $"{_numMission}";
             switch (_status)
             {
                 case StatusMission.Open:
                     rewardController.ShowReward(_mission.WinReward, _commonDictionaries);
-                    textOnButtonSelect.text = "Вызвать";
+                    OnButtonSelectLacalizeString.StringReference = _localizationSystem
+                        .GetLocalizedContainer("MissionStartFightButtonLabel");
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.InAutoFight:
                     rewardController.ShowReward(_mission.SmashReward, _commonDictionaries);
-                    textOnButtonSelect.text = "Рейд";
+                    OnButtonSelectLacalizeString.StringReference = _localizationSystem
+                        .GetLocalizedContainer("MissionRaidFightButtonLabel");
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;

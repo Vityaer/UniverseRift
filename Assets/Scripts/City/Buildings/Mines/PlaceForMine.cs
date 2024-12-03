@@ -5,6 +5,8 @@ using System.Numerics;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
 using Utils;
 using VContainer;
@@ -18,7 +20,7 @@ namespace City.Buildings.Mines
         public List<MineType> Types = new List<MineType>();
         public Button PlaceButton;
         public Image MineIcon;
-        public TMP_Text LevelText;
+        public LocalizeStringEvent LevelText;
 
         private MineModel _mineModel;
         private MineData _mineData;
@@ -50,7 +52,7 @@ namespace City.Buildings.Mines
         {
             MineIcon.sprite = null;
             MineIcon.enabled = false;
-            LevelText.text = string.Empty;
+            LevelText.gameObject.SetActive(false);
             _mineModel = null;
             _mineData = null;
         }
@@ -59,7 +61,12 @@ namespace City.Buildings.Mines
         {
             MineIcon.sprite = _mineModel.SpritePath.LoadSpriteFromResources();
             MineIcon.enabled = true;
-            LevelText.text = $"Level {_mineData.Level}";
+            LevelText.gameObject.SetActive(true);
+            if(LevelText.StringReference.TryGetValue("Level", out var variable))
+            {
+                var stringVariable = variable as IntVariable;
+                stringVariable.Value = _mineData.Level;
+            }
         }
 
         public void OpenPanelForCreateMine()

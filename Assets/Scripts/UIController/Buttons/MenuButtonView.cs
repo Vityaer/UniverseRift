@@ -1,33 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
 namespace UIController.Buttons
 {
-    public class MenuButtonView : UiView, IDisposable
+    public class MenuButtonView : UiView
     {
         public Button Button;
         public Image Icon;
         public Image Background;
-        public TextMeshProUGUI ButtonName;
+        public LocalizeStringEvent ButtonName;
         public MenuButtonHelper ButtonHelper;
 
         public Sprite SelectedMenuButton;
         public Sprite DeselectedMenuButton;
 
         private readonly CompositeDisposable _disposables = new();
-
-        private void Awake()
-        {
-            OnDiselect();
-        }
 
         public void OnSelect()
         {
@@ -45,7 +35,7 @@ namespace UIController.Buttons
             Button.interactable = true;
         }
 
-        public new void Dispose()
+        public override void Dispose()
         {
             _disposables?.Dispose();
             base.Dispose();

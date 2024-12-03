@@ -15,7 +15,7 @@ C:/Projects/UniverseRift.git
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-54231
+49395
 Successfully changed project path to: C:/Projects/UniverseRift.git
 C:/Projects/UniverseRift.git
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,16 +49,16 @@ C:/Projects/UniverseRift.git
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [19252]  Target information:
+Player connection [17868]  Target information:
 
-Player connection [19252]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 2441648460 [EditorId] 2441648460 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [17868]  * "[IP] 172.16.0.2 [Port] 0 [Flags] 2 [Guid] 2697672328 [EditorId] 2697672328 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [19252]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 2441648460 [EditorId] 2441648460 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [17868]  * "[IP] 192.168.1.2 [Port] 0 [Flags] 2 [Guid] 2697672328 [EditorId] 2697672328 [Version] 1048832 [Id] WindowsEditor(7,Landelo) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [19252] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [19252] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [17868] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [17868] Host joined alternative multi-casting on [225.0.0.222:34997]...
 [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-Refreshing native plugins compatible for Editor in 5674.32 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 23.17 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.42f1 (2dcb6a0abc42)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Resources/UnitySubsystems
@@ -76,56 +76,47 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56924
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56736
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.873852 seconds.
-- Loaded All Assemblies, in 17.624 seconds
+Registered in 0.007070 seconds.
+- Loaded All Assemblies, in  0.333 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-CommandWithNoStdoutInvokationFailure: Unable to start ADB server. Please make sure the Android SDK is installed and is properly configured in the Editor. See the Console for more details.
-  at UnityEditor.Android.Command.RunWithShellExecute (System.String command, System.String args, System.String workingdir, System.String errorMsg) [0x00060] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.ADB.StartServer () [0x00013] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.ADB.Run (System.String[] command, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg) [0x0000b] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.AndroidDeploymentTargetsExtension.GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext context, UnityEditor.ProgressHandler progressHandler) [0x002ae] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetScanWorker.ScanSync () [0x00039] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetExtension.OnUsbDevicesChanged (UnityEditor.Hardware.UsbDevice[] usbDevices) [0x00081] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Android.TargetExtension.OnLoad () [0x000ad] in <0d156b553c8447b8ae390084e615bd71>:0 
-  at UnityEditor.Modules.ModuleManager.InitializePlatformSupportModules () [0x0009d] in <fd823a7663ea4cdb840e6c898e2256ce>:0 
-
+Android Extension - Scanning For ADB Devices 290 ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  5.255 seconds
-Domain Reload Profiling: 22878ms
-	BeginReloadAssembly (12934ms)
+- Finished resetting the current domain, in  0.632 seconds
+Domain Reload Profiling: 963ms
+	BeginReloadAssembly (102ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (2ms)
-	RebuildCommonClasses (1025ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (936ms)
-	LoadAllAssembliesAndSetupDomain (2713ms)
-		LoadAssemblies (12930ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (37ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (53ms)
+	LoadAllAssembliesAndSetupDomain (130ms)
+		LoadAssemblies (100ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (2711ms)
-			TypeCache.Refresh (2709ms)
-				TypeCache.ScanAssembly (2052ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (0ms)
-	FinalizeReload (5255ms)
+		AnalyzeDomain (128ms)
+			TypeCache.Refresh (126ms)
+				TypeCache.ScanAssembly (111ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (632ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (5202ms)
+		SetupLoadedEditorAssemblies (585ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (5024ms)
-			SetLoadedEditorAssemblies (5ms)
+			InitializePlatformSupportModulesInManaged (410ms)
+			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (3ms)
-			ProcessInitializeOnLoadAttributes (127ms)
-			ProcessInitializeOnLoadMethodAttributes (43ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (117ms)
+			ProcessInitializeOnLoadMethodAttributes (51ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -133,33 +124,33 @@ Domain Reload Profiling: 22878ms
 ========================================================================
 Worker process is ready to serve import requests
 Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a940af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abda7e (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
+0x00007ff77648d08d (Unity) StackWalker::GetCurrentCallstack
+0x00007ff776492169 (Unity) StackWalker::ShowCallstack
+0x00007ff77747f231 (Unity) GetStacktrace
+0x00007ff777b39e6e (Unity) DebugStringToFile
+0x00007ff777b39baa (Unity) AssertImplementation
+0x00007ff77731d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
+0x00007ff777803484 (Unity) WorkerDomainReloadV2
+0x00007ff7778240af (Unity) <lambda_943be6b2c5671afd01d59371cf3ef730>::operator()
+0x00007ff77785fea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff77784be4e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff77784da7e (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff77785e24c (Unity) IOService::Run
+0x00007ff7778316cf (Unity) AssetImportWorkerClient::Run
+0x00007ff7777fd037 (Unity) RunAssetImportWorkerClientV2
+0x00007ff7777fd0bb (Unity) RunAssetImporterV2
+0x00007ff776ff76fe (Unity) Application::InitializeProject
+0x00007ff777489ed5 (Unity) WinMain
+0x00007ff77883b7be (Unity) __scrt_common_main_seh
+0x00007fff7bd5259d (KERNEL32) BaseThreadInitThunk
+0x00007fff7c7caf38 (ntdll) RtlUserThreadStart
 
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in 32.461 seconds
+- Loaded All Assemblies, in  1.925 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.15 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
 Mirror | mirror-networking.com | discord.gg/N9QVxbM
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
@@ -173,46 +164,46 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
 (Filename: Assets/Mirror/Editor/Welcome.cs Line: 18)
 
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.904 seconds
-Domain Reload Profiling: 36334ms
-	BeginReloadAssembly (204ms)
+- Finished resetting the current domain, in  2.401 seconds
+Domain Reload Profiling: 4319ms
+	BeginReloadAssembly (260ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
+		DisableScriptedObjects (46ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (24ms)
-	RebuildCommonClasses (37ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (63ms)
-	LoadAllAssembliesAndSetupDomain (32110ms)
-		LoadAssemblies (30974ms)
+		CreateAndSetChildDomain (32ms)
+	RebuildCommonClasses (38ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (65ms)
+	LoadAllAssembliesAndSetupDomain (1545ms)
+		LoadAssemblies (928ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (1262ms)
-			TypeCache.Refresh (1155ms)
-				TypeCache.ScanAssembly (1117ms)
-			ScanForSourceGeneratedMonoScriptInfo (74ms)
-			ResolveRequiredComponents (30ms)
-	FinalizeReload (3904ms)
+		AnalyzeDomain (713ms)
+			TypeCache.Refresh (616ms)
+				TypeCache.ScanAssembly (452ms)
+			ScanForSourceGeneratedMonoScriptInfo (67ms)
+			ResolveRequiredComponents (28ms)
+	FinalizeReload (2402ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (3486ms)
+		SetupLoadedEditorAssemblies (2037ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (81ms)
-			SetLoadedEditorAssemblies (13ms)
+			InitializePlatformSupportModulesInManaged (39ms)
+			SetLoadedEditorAssemblies (11ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (274ms)
-			ProcessInitializeOnLoadAttributes (2161ms)
-			ProcessInitializeOnLoadMethodAttributes (943ms)
-			AfterProcessingInitializeOnLoad (12ms)
+			BeforeProcessingInitializeOnLoad (313ms)
+			ProcessInitializeOnLoadAttributes (1147ms)
+			ProcessInitializeOnLoadMethodAttributes (520ms)
+			AfterProcessingInitializeOnLoad (6ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (10ms)
-Refreshing native plugins compatible for Editor in 40.99 ms, found 0 plugins.
+		AwakeInstancesAfterBackupRestoration (5ms)
+Refreshing native plugins compatible for Editor in 25.52 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7552 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8093.
-Memory consumption went from 350.5 MB to 324.7 MB.
-Total: 34.266600 ms (FindLiveObjects: 1.253200 ms CreateObjectMapping: 1.289200 ms MarkObjects: 25.503000 ms  DeleteObjects: 6.219200 ms)
+Unloading 7558 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 71 unused Assets / (25.8 MB). Loaded Objects now: 8099.
+Memory consumption went from 339.7 MB to 313.8 MB.
+Total: 27.448300 ms (FindLiveObjects: 0.643200 ms CreateObjectMapping: 0.287300 ms MarkObjects: 20.420300 ms  DeleteObjects: 6.095700 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -230,1479 +221,101 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 62374.895381 seconds.
-  path: Assets/Resources/Icons/StrongStrikeSpell.png
-  artifactKey: Guid(d680ec2967436ec4993235246b3de06e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Icons/StrongStrikeSpell.png using Guid(d680ec2967436ec4993235246b3de06e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '993c33d5332bbc96c46a8fce840cf16c') in 0.212877 seconds
+  Time since last request: 21603.730597 seconds.
+  path: Assets/Prefabs/UI/Sliders/TimerProgress.prefab
+  artifactKey: Guid(b4c8cceb67b6ba141a9e869435796827) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Sliders/TimerProgress.prefab using Guid(b4c8cceb67b6ba141a9e869435796827) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: 'b35d1c44d0bae31dc27895c86cfc3999') in 0.138838 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 34
+========================================================================
+Received Import Request.
+  Time since last request: 2462.629661 seconds.
+  path: Assets/Prefabs/UI/RequirementUI.prefab
+  artifactKey: Guid(20505886f4056c146a800f015f86583d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/RequirementUI.prefab using Guid(20505886f4056c146a800f015f86583d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '5c313e51020b274c6b2164ee79c00cdf') in 0.538277 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 729
+========================================================================
+Received Import Request.
+  Time since last request: 0.000089 seconds.
+  path: Assets/Prefabs/UI/SkillUIObject.prefab
+  artifactKey: Guid(193efed2dcaaf37468315e2f7063032b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/SkillUIObject.prefab using Guid(193efed2dcaaf37468315e2f7063032b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '6c0c931b4578b39fec486b2f8d5c2ebf') in 0.006923 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 15
 ========================================================================
 Received Prepare
 Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
+0x00007ff77648d08d (Unity) StackWalker::GetCurrentCallstack
+0x00007ff776492169 (Unity) StackWalker::ShowCallstack
+0x00007ff77747f231 (Unity) GetStacktrace
+0x00007ff777b39e6e (Unity) DebugStringToFile
+0x00007ff777b39baa (Unity) AssertImplementation
+0x00007ff77731d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
+0x00007ff777803484 (Unity) WorkerDomainReloadV2
+0x00007ff777824695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
+0x00007ff77785fea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff77784be4e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff77784dab4 (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff77785e24c (Unity) IOService::Run
+0x00007ff7778316cf (Unity) AssetImportWorkerClient::Run
+0x00007ff7777fd037 (Unity) RunAssetImportWorkerClientV2
+0x00007ff7777fd0bb (Unity) RunAssetImporterV2
+0x00007ff776ff76fe (Unity) Application::InitializeProject
+0x00007ff777489ed5 (Unity) WinMain
+0x00007ff77883b7be (Unity) __scrt_common_main_seh
+0x00007fff7bd5259d (KERNEL32) BaseThreadInitThunk
+0x00007fff7c7caf38 (ntdll) RtlUserThreadStart
 
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  7.530 seconds
+- Loaded All Assemblies, in  1.917 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in 42.705 seconds
-Domain Reload Profiling: 50212ms
-	BeginReloadAssembly (1156ms)
+- Finished resetting the current domain, in 10.571 seconds
+Domain Reload Profiling: 12480ms
+	BeginReloadAssembly (379ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (37ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (1ms)
-		CreateAndSetChildDomain (633ms)
-	RebuildCommonClasses (99ms)
-	RebuildNativeTypeToScriptingClass (27ms)
-	initialDomainReloadingComplete (115ms)
-	LoadAllAssembliesAndSetupDomain (6109ms)
-		LoadAssemblies (6073ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (291ms)
-			TypeCache.Refresh (161ms)
-				TypeCache.ScanAssembly (28ms)
-			ScanForSourceGeneratedMonoScriptInfo (76ms)
-			ResolveRequiredComponents (54ms)
-	FinalizeReload (42707ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2039ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (56ms)
-			SetLoadedEditorAssemblies (10ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (274ms)
-			ProcessInitializeOnLoadAttributes (846ms)
-			ProcessInitializeOnLoadMethodAttributes (842ms)
-			AfterProcessingInitializeOnLoad (10ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 27.52 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 57 unused Assets / (25.8 MB). Loaded Objects now: 8112.
-Memory consumption went from 308.5 MB to 282.6 MB.
-Total: 49.657300 ms (FindLiveObjects: 7.856600 ms CreateObjectMapping: 0.795900 ms MarkObjects: 36.057100 ms  DeleteObjects: 4.946100 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.732 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.049 seconds
-Domain Reload Profiling: 3776ms
-	BeginReloadAssembly (187ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
+		DisableScriptedObjects (16ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (53ms)
-	RebuildCommonClasses (29ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (33ms)
-	LoadAllAssembliesAndSetupDomain (467ms)
-		LoadAssemblies (474ms)
+		CreateAndSetChildDomain (207ms)
+	RebuildCommonClasses (32ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (63ms)
+	LoadAllAssembliesAndSetupDomain (1422ms)
+		LoadAssemblies (1477ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (82ms)
-			TypeCache.Refresh (26ms)
-				TypeCache.ScanAssembly (14ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
+		AnalyzeDomain (33ms)
+			TypeCache.Refresh (11ms)
+				TypeCache.ScanAssembly (0ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (21ms)
-	FinalizeReload (3049ms)
+	FinalizeReload (10571ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1378ms)
+		SetupLoadedEditorAssemblies (1285ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (32ms)
-			SetLoadedEditorAssemblies (7ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (198ms)
-			ProcessInitializeOnLoadAttributes (482ms)
-			ProcessInitializeOnLoadMethodAttributes (644ms)
-			AfterProcessingInitializeOnLoad (12ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (21ms)
-Refreshing native plugins compatible for Editor in 14.72 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8128.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 45.926300 ms (FindLiveObjects: 1.225300 ms CreateObjectMapping: 0.518500 ms MarkObjects: 39.906700 ms  DeleteObjects: 4.273600 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.101 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  4.783 seconds
-Domain Reload Profiling: 5875ms
-	BeginReloadAssembly (282ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (8ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (63ms)
-	RebuildCommonClasses (43ms)
-	RebuildNativeTypeToScriptingClass (18ms)
-	initialDomainReloadingComplete (59ms)
-	LoadAllAssembliesAndSetupDomain (689ms)
-		LoadAssemblies (722ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (111ms)
-			TypeCache.Refresh (32ms)
-				TypeCache.ScanAssembly (16ms)
-			ScanForSourceGeneratedMonoScriptInfo (45ms)
-			ResolveRequiredComponents (32ms)
-	FinalizeReload (4784ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2172ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (59ms)
-			SetLoadedEditorAssemblies (15ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (347ms)
-			ProcessInitializeOnLoadAttributes (928ms)
-			ProcessInitializeOnLoadMethodAttributes (812ms)
-			AfterProcessingInitializeOnLoad (10ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (17ms)
-Refreshing native plugins compatible for Editor in 24.93 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8144.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 29.037000 ms (FindLiveObjects: 0.668300 ms CreateObjectMapping: 0.355000 ms MarkObjects: 23.542500 ms  DeleteObjects: 4.469900 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.697 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.865 seconds
-Domain Reload Profiling: 2556ms
-	BeginReloadAssembly (174ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (52ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (30ms)
-	LoadAllAssembliesAndSetupDomain (449ms)
-		LoadAssemblies (447ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (83ms)
-			TypeCache.Refresh (24ms)
-				TypeCache.ScanAssembly (12ms)
-			ScanForSourceGeneratedMonoScriptInfo (35ms)
-			ResolveRequiredComponents (22ms)
-	FinalizeReload (1866ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1062ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (28ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (173ms)
-			ProcessInitializeOnLoadAttributes (441ms)
-			ProcessInitializeOnLoadMethodAttributes (408ms)
-			AfterProcessingInitializeOnLoad (5ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (11ms)
-Refreshing native plugins compatible for Editor in 20.35 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8160.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 23.005400 ms (FindLiveObjects: 0.651000 ms CreateObjectMapping: 0.304700 ms MarkObjects: 18.164200 ms  DeleteObjects: 3.884000 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.695 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.695 seconds
-Domain Reload Profiling: 3385ms
-	BeginReloadAssembly (183ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (6ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (49ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (33ms)
-	LoadAllAssembliesAndSetupDomain (436ms)
-		LoadAssemblies (445ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (80ms)
-			TypeCache.Refresh (24ms)
-				TypeCache.ScanAssembly (11ms)
-			ScanForSourceGeneratedMonoScriptInfo (35ms)
-			ResolveRequiredComponents (20ms)
-	FinalizeReload (2695ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1020ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (25ms)
-			SetLoadedEditorAssemblies (7ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (182ms)
-			ProcessInitializeOnLoadAttributes (426ms)
-			ProcessInitializeOnLoadMethodAttributes (372ms)
-			AfterProcessingInitializeOnLoad (7ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (11ms)
-Refreshing native plugins compatible for Editor in 8.60 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8176.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 18.819500 ms (FindLiveObjects: 0.461000 ms CreateObjectMapping: 0.325400 ms MarkObjects: 14.675200 ms  DeleteObjects: 3.357100 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.711 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.906 seconds
-Domain Reload Profiling: 3612ms
-	BeginReloadAssembly (175ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (50ms)
-	RebuildCommonClasses (34ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (456ms)
-		LoadAssemblies (458ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (80ms)
-			TypeCache.Refresh (27ms)
-				TypeCache.ScanAssembly (14ms)
-			ScanForSourceGeneratedMonoScriptInfo (33ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (2906ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1301ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (29ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (185ms)
-			ProcessInitializeOnLoadAttributes (657ms)
-			ProcessInitializeOnLoadMethodAttributes (416ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (14ms)
-Script is not up to date after domain reload: guid(27274a8063e53dc49abed4dfcb2a5b28) path("Assets/Scripts/Models/Heroes/Skills/Skill.cs") state(2)
-Refreshing native plugins compatible for Editor in 12.55 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7336 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8191.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 20.582200 ms (FindLiveObjects: 0.604600 ms CreateObjectMapping: 0.308500 ms MarkObjects: 16.075700 ms  DeleteObjects: 3.590700 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.636 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.796 seconds
-Domain Reload Profiling: 2428ms
-	BeginReloadAssembly (167ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (55ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (31ms)
-	LoadAllAssembliesAndSetupDomain (395ms)
-		LoadAssemblies (393ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (74ms)
-			TypeCache.Refresh (22ms)
-				TypeCache.ScanAssembly (11ms)
-			ScanForSourceGeneratedMonoScriptInfo (32ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (1797ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1058ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (24ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (181ms)
-			ProcessInitializeOnLoadAttributes (447ms)
-			ProcessInitializeOnLoadMethodAttributes (392ms)
-			AfterProcessingInitializeOnLoad (5ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (13ms)
-Refreshing native plugins compatible for Editor in 9.60 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8208.
-Memory consumption went from 308.5 MB to 282.7 MB.
-Total: 18.593300 ms (FindLiveObjects: 0.571600 ms CreateObjectMapping: 0.301000 ms MarkObjects: 13.997700 ms  DeleteObjects: 3.720700 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.467 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  4.737 seconds
-Domain Reload Profiling: 6192ms
-	BeginReloadAssembly (330ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (13ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (81ms)
-	RebuildCommonClasses (60ms)
-	RebuildNativeTypeToScriptingClass (25ms)
-	initialDomainReloadingComplete (77ms)
-	LoadAllAssembliesAndSetupDomain (962ms)
-		LoadAssemblies (1003ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (133ms)
-			TypeCache.Refresh (41ms)
-				TypeCache.ScanAssembly (24ms)
-			ScanForSourceGeneratedMonoScriptInfo (54ms)
-			ResolveRequiredComponents (36ms)
-	FinalizeReload (4738ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2181ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (58ms)
-			SetLoadedEditorAssemblies (13ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (271ms)
-			ProcessInitializeOnLoadAttributes (902ms)
-			ProcessInitializeOnLoadMethodAttributes (925ms)
-			AfterProcessingInitializeOnLoad (11ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (21ms)
-Refreshing native plugins compatible for Editor in 24.22 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8224.
-Memory consumption went from 308.6 MB to 282.7 MB.
-Total: 25.779400 ms (FindLiveObjects: 0.604800 ms CreateObjectMapping: 0.315800 ms MarkObjects: 20.486100 ms  DeleteObjects: 4.371200 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.761 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.204 seconds
-Domain Reload Profiling: 3961ms
-	BeginReloadAssembly (199ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (50ms)
-	RebuildCommonClasses (35ms)
-	RebuildNativeTypeToScriptingClass (17ms)
-	initialDomainReloadingComplete (38ms)
-	LoadAllAssembliesAndSetupDomain (467ms)
-		LoadAssemblies (484ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (83ms)
-			TypeCache.Refresh (27ms)
-				TypeCache.ScanAssembly (13ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
-			ResolveRequiredComponents (21ms)
-	FinalizeReload (3205ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1659ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (26ms)
+			InitializePlatformSupportModulesInManaged (37ms)
 			SetLoadedEditorAssemblies (9ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (235ms)
-			ProcessInitializeOnLoadAttributes (588ms)
-			ProcessInitializeOnLoadMethodAttributes (782ms)
-			AfterProcessingInitializeOnLoad (18ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (26ms)
-Script is not up to date after domain reload: guid(27274a8063e53dc49abed4dfcb2a5b28) path("Assets/Scripts/Models/Heroes/Skills/Skill.cs") state(2)
-Refreshing native plugins compatible for Editor in 15.94 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7336 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8239.
-Memory consumption went from 308.6 MB to 282.7 MB.
-Total: 25.160000 ms (FindLiveObjects: 0.631900 ms CreateObjectMapping: 0.319000 ms MarkObjects: 20.300000 ms  DeleteObjects: 3.907100 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.629 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.729 seconds
-Domain Reload Profiling: 2353ms
-	BeginReloadAssembly (162ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (48ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (31ms)
-	LoadAllAssembliesAndSetupDomain (393ms)
-		LoadAssemblies (395ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (73ms)
-			TypeCache.Refresh (22ms)
-				TypeCache.ScanAssembly (10ms)
-			ScanForSourceGeneratedMonoScriptInfo (32ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (1729ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1035ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (25ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (178ms)
-			ProcessInitializeOnLoadAttributes (426ms)
-			ProcessInitializeOnLoadMethodAttributes (393ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (11ms)
-Refreshing native plugins compatible for Editor in 7.44 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8256.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 17.248800 ms (FindLiveObjects: 0.603900 ms CreateObjectMapping: 0.289800 ms MarkObjects: 13.791000 ms  DeleteObjects: 2.562500 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.222 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.449 seconds
-Domain Reload Profiling: 4661ms
-	BeginReloadAssembly (367ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (8ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (104ms)
-	RebuildCommonClasses (42ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (69ms)
-	LoadAllAssembliesAndSetupDomain (717ms)
-		LoadAssemblies (746ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (149ms)
-			TypeCache.Refresh (40ms)
-				TypeCache.ScanAssembly (18ms)
-			ScanForSourceGeneratedMonoScriptInfo (73ms)
-			ResolveRequiredComponents (35ms)
-	FinalizeReload (3451ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1887ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (40ms)
-			SetLoadedEditorAssemblies (10ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (255ms)
-			ProcessInitializeOnLoadAttributes (772ms)
-			ProcessInitializeOnLoadMethodAttributes (794ms)
-			AfterProcessingInitializeOnLoad (14ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 19.84 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8272.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 46.759500 ms (FindLiveObjects: 0.700400 ms CreateObjectMapping: 0.329700 ms MarkObjects: 41.664400 ms  DeleteObjects: 4.063400 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.718 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.622 seconds
-Domain Reload Profiling: 3335ms
-	BeginReloadAssembly (191ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (48ms)
-	RebuildCommonClasses (26ms)
-	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (453ms)
-		LoadAssemblies (467ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (80ms)
-			TypeCache.Refresh (27ms)
-				TypeCache.ScanAssembly (13ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (2622ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1053ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (24ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (179ms)
-			ProcessInitializeOnLoadAttributes (417ms)
-			ProcessInitializeOnLoadMethodAttributes (418ms)
-			AfterProcessingInitializeOnLoad (7ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (12ms)
-Refreshing native plugins compatible for Editor in 13.40 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8288.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 30.800800 ms (FindLiveObjects: 0.519400 ms CreateObjectMapping: 0.578300 ms MarkObjects: 22.628300 ms  DeleteObjects: 7.070700 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.677 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.641 seconds
-Domain Reload Profiling: 3314ms
-	BeginReloadAssembly (170ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (51ms)
-	RebuildCommonClasses (29ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (433ms)
-		LoadAssemblies (431ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (77ms)
-			TypeCache.Refresh (25ms)
-				TypeCache.ScanAssembly (13ms)
-			ScanForSourceGeneratedMonoScriptInfo (33ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (2642ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1088ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (23ms)
-			SetLoadedEditorAssemblies (7ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (172ms)
-			ProcessInitializeOnLoadAttributes (445ms)
-			ProcessInitializeOnLoadMethodAttributes (435ms)
-			AfterProcessingInitializeOnLoad (5ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (11ms)
-Refreshing native plugins compatible for Editor in 16.07 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8304.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 22.601400 ms (FindLiveObjects: 0.821100 ms CreateObjectMapping: 0.591700 ms MarkObjects: 17.903400 ms  DeleteObjects: 3.283700 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.802 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.479 seconds
-Domain Reload Profiling: 3277ms
-	BeginReloadAssembly (182ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (51ms)
-	RebuildCommonClasses (27ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (546ms)
-		LoadAssemblies (558ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (80ms)
-			TypeCache.Refresh (25ms)
-				TypeCache.ScanAssembly (12ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
-			ResolveRequiredComponents (19ms)
-	FinalizeReload (2480ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1088ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (29ms)
-			SetLoadedEditorAssemblies (10ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (199ms)
-			ProcessInitializeOnLoadAttributes (439ms)
-			ProcessInitializeOnLoadMethodAttributes (405ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (12ms)
-Refreshing native plugins compatible for Editor in 11.14 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8320.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 24.028800 ms (FindLiveObjects: 0.881000 ms CreateObjectMapping: 0.472100 ms MarkObjects: 16.868300 ms  DeleteObjects: 5.804900 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.732 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.973 seconds
-Domain Reload Profiling: 2695ms
-	BeginReloadAssembly (180ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (6ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (53ms)
-	RebuildCommonClasses (37ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (35ms)
-	LoadAllAssembliesAndSetupDomain (456ms)
-		LoadAssemblies (463ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (75ms)
-			TypeCache.Refresh (23ms)
-				TypeCache.ScanAssembly (11ms)
-			ScanForSourceGeneratedMonoScriptInfo (32ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (1974ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1159ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (25ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (171ms)
-			ProcessInitializeOnLoadAttributes (435ms)
-			ProcessInitializeOnLoadMethodAttributes (513ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (13ms)
-Script is not up to date after domain reload: guid(6d9f38bc526b43a46b540bc31aa3fa75) path("Assets/Scripts/City/TrainCamp/SkillCell.cs") state(2)
-Refreshing native plugins compatible for Editor in 8.27 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7336 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8335.
-Memory consumption went from 308.6 MB to 282.8 MB.
-Total: 19.681800 ms (FindLiveObjects: 0.460900 ms CreateObjectMapping: 0.287300 ms MarkObjects: 15.701300 ms  DeleteObjects: 3.230800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.761 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.464 seconds
-Domain Reload Profiling: 4220ms
-	BeginReloadAssembly (211ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (59ms)
-	RebuildCommonClasses (32ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (45ms)
-	LoadAllAssembliesAndSetupDomain (457ms)
-		LoadAssemblies (479ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (84ms)
-			TypeCache.Refresh (26ms)
-				TypeCache.ScanAssembly (13ms)
-			ScanForSourceGeneratedMonoScriptInfo (39ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (3464ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1805ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (31ms)
-			SetLoadedEditorAssemblies (10ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (225ms)
-			ProcessInitializeOnLoadAttributes (685ms)
-			ProcessInitializeOnLoadMethodAttributes (843ms)
-			AfterProcessingInitializeOnLoad (10ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 17.11 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8352.
-Memory consumption went from 308.7 MB to 282.9 MB.
-Total: 27.591800 ms (FindLiveObjects: 0.788100 ms CreateObjectMapping: 0.462400 ms MarkObjects: 21.442700 ms  DeleteObjects: 4.896300 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-========================================================================
-Received Prepare
-Caller must complete domain reload
-0x00007ff7f26fd08d (Unity) StackWalker::GetCurrentCallstack
-0x00007ff7f2702169 (Unity) StackWalker::ShowCallstack
-0x00007ff7f36ef231 (Unity) GetStacktrace
-0x00007ff7f3da9e6e (Unity) DebugStringToFile
-0x00007ff7f3da9baa (Unity) AssertImplementation
-0x00007ff7f358d9fc (Unity) Internal_ADB_WorkerOnly_DomainReload
-0x00007ff7f3a73484 (Unity) WorkerDomainReloadV2
-0x00007ff7f3a94695 (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
-0x00007ff7f3acfea2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
-0x00007ff7f3abbe4e (Unity) asio::detail::win_iocp_io_context::do_one
-0x00007ff7f3abdab4 (Unity) asio::detail::win_iocp_io_context::run
-0x00007ff7f3ace24c (Unity) IOService::Run
-0x00007ff7f3aa16cf (Unity) AssetImportWorkerClient::Run
-0x00007ff7f3a6d037 (Unity) RunAssetImportWorkerClientV2
-0x00007ff7f3a6d0bb (Unity) RunAssetImporterV2
-0x00007ff7f32676fe (Unity) Application::InitializeProject
-0x00007ff7f36f9ed5 (Unity) WinMain
-0x00007ff7f4aab7be (Unity) __scrt_common_main_seh
-0x00007ffd6c61259d (KERNEL32) BaseThreadInitThunk
-0x00007ffd6de0af38 (ntdll) RtlUserThreadStart
-
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.715 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.519 seconds
-Domain Reload Profiling: 3230ms
-	BeginReloadAssembly (183ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (51ms)
-	RebuildCommonClasses (33ms)
-	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (453ms)
-		LoadAssemblies (458ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (80ms)
-			TypeCache.Refresh (24ms)
-				TypeCache.ScanAssembly (12ms)
-			ScanForSourceGeneratedMonoScriptInfo (34ms)
-			ResolveRequiredComponents (21ms)
-	FinalizeReload (2519ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1111ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (24ms)
-			SetLoadedEditorAssemblies (8ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (180ms)
-			ProcessInitializeOnLoadAttributes (470ms)
-			ProcessInitializeOnLoadMethodAttributes (423ms)
+			BeforeProcessingInitializeOnLoad (201ms)
+			ProcessInitializeOnLoadAttributes (506ms)
+			ProcessInitializeOnLoadMethodAttributes (525ms)
 			AfterProcessingInitializeOnLoad (5ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (13ms)
-Refreshing native plugins compatible for Editor in 12.40 ms, found 0 plugins.
+		AwakeInstancesAfterBackupRestoration (11ms)
+Refreshing native plugins compatible for Editor in 14.27 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7337 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 55 unused Assets / (25.8 MB). Loaded Objects now: 8368.
-Memory consumption went from 308.7 MB to 282.9 MB.
-Total: 20.811200 ms (FindLiveObjects: 0.451100 ms CreateObjectMapping: 0.340900 ms MarkObjects: 15.892300 ms  DeleteObjects: 4.125100 ms)
+Unloading 7345 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 57 unused Assets / (25.8 MB). Loaded Objects now: 8116.
+Memory consumption went from 298.9 MB to 273.1 MB.
+Total: 19.181200 ms (FindLiveObjects: 0.416400 ms CreateObjectMapping: 0.264100 ms MarkObjects: 15.504100 ms  DeleteObjects: 2.995200 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
@@ -1714,7 +327,6 @@ AssetImportParameters requested are different than current active one (requested
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/precompiled-assembly-types:Assembly-CSharp: af3b31e7ac57b3ed8b885ab616b02d2a -> 18c82a44d5fab976dbc5f942063aeb15
   custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
   custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
@@ -1722,956 +334,61 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 2470.631176 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/2.png
-  artifactKey: Guid(2ba43479ecfd75e47af42be633605452) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/2.png using Guid(2ba43479ecfd75e47af42be633605452) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a2a55bd9d9b940b53c0ef89cb5ea99a5') in 0.456689 seconds
+  Time since last request: 577.729011 seconds.
+  path: Assets/Prefabs/UI/Buttons/BtnToFight.prefab
+  artifactKey: Guid(febaa4ccb09afed458a1a82e9ff9a715) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Buttons/BtnToFight.prefab using Guid(febaa4ccb09afed458a1a82e9ff9a715) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '3d28009c8e3f374be703335b1c1b5a09') in 0.002149 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000125 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/3.png
-  artifactKey: Guid(a61f2ebf73cf92a4c963b5c44bd4034a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/3.png using Guid(a61f2ebf73cf92a4c963b5c44bd4034a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '664a5ecf79f146be6d1780863f500658') in 0.026117 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/44.png
-  artifactKey: Guid(d892bbc01a4cbd14ab9ace63ec2614db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/44.png using Guid(d892bbc01a4cbd14ab9ace63ec2614db) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '6518b4e94738a448cdbc6cb2a4c9f056') in 0.026701 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/25.png
-  artifactKey: Guid(22c9291c876ceb24494ecce0dc2fb46d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/25.png using Guid(22c9291c876ceb24494ecce0dc2fb46d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '891e5f9bbcae34c374fdcfba321ac96d') in 0.024110 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/16.png
-  artifactKey: Guid(6e6cf55becf3b4042b75d56dede96d94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/16.png using Guid(6e6cf55becf3b4042b75d56dede96d94) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'f25b1f5a7434707f4c3501e03d9906cb') in 0.035326 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000042 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/13.png
-  artifactKey: Guid(30e2ce79c28e56d4fb46fb54888e9166) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/13.png using Guid(30e2ce79c28e56d4fb46fb54888e9166) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '6acfe2fa75a52bb9188edc50a9d83782') in 0.022547 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000135 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/34.png
-  artifactKey: Guid(f5ad7e5e50ee20847b93c57cf367fc39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/34.png using Guid(f5ad7e5e50ee20847b93c57cf367fc39) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '91c422e9ac38f31dac4ccbc3744ad98e') in 0.024797 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000043 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/26.png
-  artifactKey: Guid(87693532823b0314a89b3a832b99ea8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/26.png using Guid(87693532823b0314a89b3a832b99ea8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '19b385bc8b4c8a7a51a3a09653823168') in 0.024736 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/22.png
-  artifactKey: Guid(ffbec625dabc7124fb2033ec2119aa33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/22.png using Guid(ffbec625dabc7124fb2033ec2119aa33) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '87240a694df825aa9b9a5ec7091e50f8') in 0.029806 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/6.png
-  artifactKey: Guid(403f1bb20107f71448a3a4a990c0b779) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/6.png using Guid(403f1bb20107f71448a3a4a990c0b779) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '924e44b2d9a568f391cfdfd9366a75d7') in 0.025953 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/11.png
-  artifactKey: Guid(e7bc5eddcc906e749a03e02b7a3867a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/11.png using Guid(e7bc5eddcc906e749a03e02b7a3867a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '945c7cc1c95dde1754ef7874e6454bf8') in 0.028064 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000049 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/29.png
-  artifactKey: Guid(358de39d997cebd4883b22eee4c8ac8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/29.png using Guid(358de39d997cebd4883b22eee4c8ac8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e0fae837cbd0fa3d27c02f3c71aaf3ad') in 0.029773 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/43.png
-  artifactKey: Guid(6a3a1e6ff5bb7514994816e1dfac1e13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/43.png using Guid(6a3a1e6ff5bb7514994816e1dfac1e13) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9f1fbd6f43a1770e44292b794831c313') in 0.025325 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/15.png
-  artifactKey: Guid(202648c0671e4ac4aa303427f45c82a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/15.png using Guid(202648c0671e4ac4aa303427f45c82a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'f4848ce19e634f87e133fa90e2c7b5fa') in 0.026233 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000095 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/20.png
-  artifactKey: Guid(feabadcb7c658ac4eb9e65ee5f732ea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/20.png using Guid(feabadcb7c658ac4eb9e65ee5f732ea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e4712ab63465da6f3f867ac3ab48b5fe') in 0.026446 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/38.png
-  artifactKey: Guid(54488c876b51d9b41800331c8e06da71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/38.png using Guid(54488c876b51d9b41800331c8e06da71) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '3b9409c04d6001acef4506fb15226fb8') in 0.030797 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000036 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/40.png
-  artifactKey: Guid(a317b5392eea4214c9f74ddfbc63e89f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/40.png using Guid(a317b5392eea4214c9f74ddfbc63e89f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e1c90ea81950336de8e8bea30d2aa265') in 0.032440 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000075 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/28.png
-  artifactKey: Guid(f74b9bb864b172f408905d0fe2cff4d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/28.png using Guid(f74b9bb864b172f408905d0fe2cff4d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'f9ada25136abf2d1da30058dadf37c24') in 0.025318 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/9.png
-  artifactKey: Guid(058373b98b2b2c64998d4d0816b3deab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/without background/9.png using Guid(058373b98b2b2c64998d4d0816b3deab) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ff0d81871fbbeb93645ff1a5ee8fec10') in 0.025213 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 1.226619 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/2.png
-  artifactKey: Guid(0307ad46609758541861977bcde19f31) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/2.png using Guid(0307ad46609758541861977bcde19f31) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9011785e96a8ffe1c26d604d53ba4b8c') in 0.028262 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000019 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/7.png
-  artifactKey: Guid(5972c8df4e8089a4cb2cdd3641a66fc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/7.png using Guid(5972c8df4e8089a4cb2cdd3641a66fc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '73044a5b45f4980aafc319f70d686c57') in 0.023748 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/13.png
-  artifactKey: Guid(766710b6b7f98ca43b4e9ea0aa7cd79e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/13.png using Guid(766710b6b7f98ca43b4e9ea0aa7cd79e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '7925621df5116b93ce8edfe07b34a44e') in 0.023659 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/17.png
-  artifactKey: Guid(4ceeee5fc177bc64ba76b18711469e3c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/17.png using Guid(4ceeee5fc177bc64ba76b18711469e3c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '924c325d8cb213ae2a1d5d8a7900d1a6') in 0.025635 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/18.png
-  artifactKey: Guid(67e0be1776a390c4289b530beff0c822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/18.png using Guid(67e0be1776a390c4289b530beff0c822) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '660d30d2aad6615250cfe2029d367c34') in 0.024039 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/30.png
-  artifactKey: Guid(92c6e7632e7900243aea551918ac18c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/30.png using Guid(92c6e7632e7900243aea551918ac18c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '4ff3275d5d677471077fb9b5e5f108e2') in 0.020007 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/33.png
-  artifactKey: Guid(51b611845abe079409f713f7931e32ad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/33.png using Guid(51b611845abe079409f713f7931e32ad) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b8d2a9dfd04e8e1c881df2f906b448fa') in 0.019851 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
   Time since last request: 0.000027 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/8.png
-  artifactKey: Guid(bb731115c387b6d42b0556af78757939) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/8.png using Guid(bb731115c387b6d42b0556af78757939) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '65dc038808189b928014ace87ef5ad69') in 0.022021 seconds
+  path: Assets/Prefabs/UI/FightUI/FightText.prefab
+  artifactKey: Guid(97d377ebdbb970345b8aceff67d73bfd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/FightUI/FightText.prefab using Guid(97d377ebdbb970345b8aceff67d73bfd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '80d808263e35492defe0de09c6bb3dfe') in 0.000620 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/44.png
-  artifactKey: Guid(94001d7b92ad8f742957ae2e76f38c22) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/44.png using Guid(94001d7b92ad8f742957ae2e76f38c22) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '617d0b8012a39ac304b386bbf9504097') in 0.024580 seconds
+  Time since last request: 0.000182 seconds.
+  path: Assets/Prefabs/Fight/FightUi/FightDirectionView.prefab
+  artifactKey: Guid(fb573a5cee0b615449ae19d99634fb9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Fight/FightUi/FightDirectionView.prefab using Guid(fb573a5cee0b615449ae19d99634fb9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '0675251b11889e3d03341cc163135ada') in 0.000756 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/43.png
-  artifactKey: Guid(fb05e727bef108849b691d26c64fdf21) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/43.png using Guid(fb05e727bef108849b691d26c64fdf21) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9771bc9fb70853ac228f8f76b11cb6ca') in 0.025805 seconds
+  Time since last request: 12.928352 seconds.
+  path: Assets/Prefabs/Fight/FightUi/FightView.prefab
+  artifactKey: Guid(6facc10a193ea164aa142a62f85e9d54) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Fight/FightUi/FightView.prefab using Guid(6facc10a193ea164aa142a62f85e9d54) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: 'e3f9846275e00e7703e79e9fb15f13d9') in 0.000729 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000036 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/41.png
-  artifactKey: Guid(27832f071a94b0d4bb1569079e918428) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/41.png using Guid(27832f071a94b0d4bb1569079e918428) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b6a61dec731173dbcf24888e3d851cc8') in 0.023893 seconds
+  Time since last request: 0.000018 seconds.
+  path: Assets/Prefabs/Fight/FightUi/WarTableView.prefab
+  artifactKey: Guid(ec6041e30810f484881f054d28ef8dd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Fight/FightUi/WarTableView.prefab using Guid(ec6041e30810f484881f054d28ef8dd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '242e6588178e3551157e97cb92e65584') in 0.000598 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/27.png
-  artifactKey: Guid(208d14739d2b70f42a4ffd176c39cae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/27.png using Guid(208d14739d2b70f42a4ffd176c39cae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '09c9b5840d6c9ed72e27d3baa35666bd') in 0.025086 seconds
+  Time since last request: 28.627960 seconds.
+  path: Assets/Prefabs/Fight/FightUi/WarTableView.prefab
+  artifactKey: Guid(ec6041e30810f484881f054d28ef8dd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Fight/FightUi/WarTableView.prefab using Guid(ec6041e30810f484881f054d28ef8dd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: '242e6588178e3551157e97cb92e65584') in 0.000901 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/15.png
-  artifactKey: Guid(9034edee02386ce469e8444dced7a10f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/15.png using Guid(9034edee02386ce469e8444dced7a10f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9b2628753405201c250959456bd11f5d') in 0.024071 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/29.png
-  artifactKey: Guid(c0bb6649448e09e45acaa70839a4bab8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/29.png using Guid(c0bb6649448e09e45acaa70839a4bab8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9cd222cf88f5ad61bb5bae7a72910fad') in 0.024490 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/39.png
-  artifactKey: Guid(b5060016534997449a3f9ce898d72611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/39.png using Guid(b5060016534997449a3f9ce898d72611) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e28a263f8364a2fc494daa181cae9872') in 0.021975 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/25.png
-  artifactKey: Guid(5a87f9cdfe8e25d4fa3046f7c1762bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/25.png using Guid(5a87f9cdfe8e25d4fa3046f7c1762bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '7c268077c3b8c1757e74b16ea3d6a6e4') in 0.021334 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000077 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/16.png
-  artifactKey: Guid(68fa781c890212d4fab1848ae6ba96f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/16.png using Guid(68fa781c890212d4fab1848ae6ba96f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '6cb385e490f9d1021dde51c271e8432e') in 0.021772 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000081 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/21.png
-  artifactKey: Guid(d6f5ebcd27479fc4e8ed42dc8ab316f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/21.png using Guid(d6f5ebcd27479fc4e8ed42dc8ab316f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '976da77278401f0876bcfed5db8a3b00') in 0.020191 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/40.png
-  artifactKey: Guid(d8ab9c5980c78ea4ab895d768b84b9ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/40.png using Guid(d8ab9c5980c78ea4ab895d768b84b9ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '762aa8ee49c0c1b9824779c6869a3a75') in 0.019845 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/38.png
-  artifactKey: Guid(2a2fa3835c7da3a4b93cd629e7152bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/38.png using Guid(2a2fa3835c7da3a4b93cd629e7152bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '4de14cbaac978daa60d7980272ee8947') in 0.022950 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000117 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/22.png
-  artifactKey: Guid(a826c5ceb24f2f54f90be9f1e9c374b5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/22.png using Guid(a826c5ceb24f2f54f90be9f1e9c374b5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '37daae4b902813ca7ec3b28f11543c86') in 0.030552 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000045 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/42.png
-  artifactKey: Guid(99b0cbd4a551e8340b5b95fc46b026d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/42.png using Guid(99b0cbd4a551e8340b5b95fc46b026d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b22866aedc5c4b8a26bbf2fedfd70957') in 0.024699 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 4.292141 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/47.png
-  artifactKey: Guid(fa30109c28ae2474ba1f45f55099f81c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/47.png using Guid(fa30109c28ae2474ba1f45f55099f81c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '5d4fb719bde225ed7d8407e11ad41fc2') in 0.043833 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/48.png
-  artifactKey: Guid(ab7fcb4b1fe53fa4ead35072a224840a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon loot icons/PNG/background/48.png using Guid(ab7fcb4b1fe53fa4ead35072a224840a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '3b87d566aff9e6ac84678facf258dd30') in 0.032149 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 21.958429 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/2.png
-  artifactKey: Guid(bf1cc51e972d43447bc202219c2d07c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/2.png using Guid(bf1cc51e972d43447bc202219c2d07c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '1c349d7f7ab44219b8c42c1c42f1a91e') in 0.040641 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000102 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/7.png
-  artifactKey: Guid(c9b871c76a0d5ae4fb655ede2798e970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/7.png using Guid(c9b871c76a0d5ae4fb655ede2798e970) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'bb3ca4957e59a7db1117094844c76f56') in 0.032579 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/12.png
-  artifactKey: Guid(9dc24c2621950834284ccd037209fa2c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/12.png using Guid(9dc24c2621950834284ccd037209fa2c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '1c835cb056bcc440720b214a18fe2e08') in 0.027613 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/18.png
-  artifactKey: Guid(d3d6ea874aec514438e5404d9dd44001) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/18.png using Guid(d3d6ea874aec514438e5404d9dd44001) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'c89c27c417cb02cf3f3a585d28721d8f') in 0.049066 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/26.png
-  artifactKey: Guid(853b4b7904ec7a84db4cbb58d5e03449) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/26.png using Guid(853b4b7904ec7a84db4cbb58d5e03449) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '8ae0c471b039c8e5e8a4b9a3bc866fe3') in 0.058454 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000041 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/35.png
-  artifactKey: Guid(f4fe95f124f2c604abc1351fc9ff566b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/35.png using Guid(f4fe95f124f2c604abc1351fc9ff566b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '48814b63a115b780c40b312171752286') in 0.065812 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/44.png
-  artifactKey: Guid(afb54a77312cfaf41968a30e2fd0e97c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/44.png using Guid(afb54a77312cfaf41968a30e2fd0e97c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '2e088b5580b0820178db30299c950f54') in 0.026612 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000203 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/29.png
-  artifactKey: Guid(f46c474ffc785284da273ae2de6a2c89) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/29.png using Guid(f46c474ffc785284da273ae2de6a2c89) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '23a8734e7f276a7fa96bf995cc671e6a') in 0.027052 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/22.png
-  artifactKey: Guid(edd8d739555fdc14e82755bbcee6f4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/22.png using Guid(edd8d739555fdc14e82755bbcee6f4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a80ab6758c5a175546144d0895e86a27') in 0.031988 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/39.png
-  artifactKey: Guid(b487f886e5863ad40b2061498849d4a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/39.png using Guid(b487f886e5863ad40b2061498849d4a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '35dc6d44371733f5addac18f21441bc9') in 0.024207 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.702262 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/47.png
-  artifactKey: Guid(517083593aa07bd47810926687245b3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Warlock skill icons/PNG/47.png using Guid(517083593aa07bd47810926687245b3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'c18f795d093e6f8fffa80d4848890c12') in 0.025597 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 25.660204 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/2.png
-  artifactKey: Guid(5c496b67eb4a7d242b08fff6c0ac413b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/2.png using Guid(5c496b67eb4a7d242b08fff6c0ac413b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '8b61b90f881baca7c1182b61274d6f69') in 0.041669 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/7.png
-  artifactKey: Guid(cbcd6d518ff2e8745a93d773f52f1eda) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/7.png using Guid(cbcd6d518ff2e8745a93d773f52f1eda) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '61d76111c4a83e09b7bf89b7acb14b0d') in 0.036647 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/13.png
-  artifactKey: Guid(f827588560821524888cb806155fb9ba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/13.png using Guid(f827588560821524888cb806155fb9ba) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '094c1a2fcc2fa1c638f11cf9f64604eb') in 0.038033 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/19.png
-  artifactKey: Guid(d065b1376c4261241bc21db6cb52a8f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/19.png using Guid(d065b1376c4261241bc21db6cb52a8f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '7acc7cc2cc4bc8100406fadcc5fa0b3e') in 0.033849 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/28.png
-  artifactKey: Guid(c810f0482e224314d94f3e9df2ba269b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/28.png using Guid(c810f0482e224314d94f3e9df2ba269b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '9aacd1a4fde0c89097e4ebd869e7223e') in 0.034071 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/34.png
-  artifactKey: Guid(3c19155107d255c428061e345825994a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/34.png using Guid(3c19155107d255c428061e345825994a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '59bb7294aa93e174c0344601c33095a7') in 0.022506 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/24.png
-  artifactKey: Guid(97859513ac1d94e4592465b50258d294) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/24.png using Guid(97859513ac1d94e4592465b50258d294) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '1552d8146c16d187d4e64b0be646b6d1') in 0.023884 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/32.png
-  artifactKey: Guid(c04e4703cc7290a48a6fb3365d78746b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/32.png using Guid(c04e4703cc7290a48a6fb3365d78746b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '5049d20cb0251bbad9aa4bcdeb6845f2') in 0.025587 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/27.png
-  artifactKey: Guid(ff725465536025b4c94fb27363337e89) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/27.png using Guid(ff725465536025b4c94fb27363337e89) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '50c9d2d86dd37c57a20367b1112c6e63') in 0.025672 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.614031 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/47.png
-  artifactKey: Guid(2ec564a2293aa0440984d4ad089d6ef6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Dragon Egg Icons/PNG/background/47.png using Guid(2ec564a2293aa0440984d4ad089d6ef6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'd5dad8cadca0a9e288f87db33143e1b8') in 0.024996 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 7.958498 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/2.png
-  artifactKey: Guid(a19e325386392bc4e8911e492cf946dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/2.png using Guid(a19e325386392bc4e8911e492cf946dc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ab20d534a7934861df183ced96386873') in 0.055621 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000135 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/10.png
-  artifactKey: Guid(5dbc0eaef694f6242b8952752f09e8d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/10.png using Guid(5dbc0eaef694f6242b8952752f09e8d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '8f3a7b2b11237a0069b2f5eb15d3c26b') in 0.046238 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000213 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/15.png
-  artifactKey: Guid(affd79ec565deeb48b18b24e31e67696) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/15.png using Guid(affd79ec565deeb48b18b24e31e67696) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '5bdce705dc4688cb7e1a3d47d6243b9b') in 0.036753 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000049 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/23.png
-  artifactKey: Guid(d69c6be4d7f44e94bbd325f3f3591139) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/23.png using Guid(d69c6be4d7f44e94bbd325f3f3591139) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '4d81ade2eb76d6d78dc76893a3c55900') in 0.061561 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/30.png
-  artifactKey: Guid(c8f5c31cd84110b4192afcfadc84142a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/30.png using Guid(c8f5c31cd84110b4192afcfadc84142a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a928296676d10a3e19db8f352a8720f6') in 0.023619 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/37.png
-  artifactKey: Guid(8a70fcf084669f845a534669fa682c4d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/37.png using Guid(8a70fcf084669f845a534669fa682c4d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'dfe1cf6c77e4107e2f9ff10ffa9d28f0') in 0.022266 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000038 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/42.png
-  artifactKey: Guid(c6aa50f78816c6e47876711ee1016b6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/42.png using Guid(c6aa50f78816c6e47876711ee1016b6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '1549ba3b70facbe19e86cb4de61e736d') in 0.027272 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/32.png
-  artifactKey: Guid(9feb5b0c36b572b409886ea62b12d315) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/32.png using Guid(9feb5b0c36b572b409886ea62b12d315) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'd21e46ce13455d22bbf36c6fdd22edf0') in 0.026345 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/25.png
-  artifactKey: Guid(84f791cfd379d294d8cb01f9ac95ccf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/25.png using Guid(84f791cfd379d294d8cb01f9ac95ccf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a64c24e6ef91ae690474653c6b5dcc8d') in 0.026339 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.781124 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/47.png
-  artifactKey: Guid(519e0b744d96e284a9c40b93d2a3ea48) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/Fairy skill icons/PNG/47.png using Guid(519e0b744d96e284a9c40b93d2a3ea48) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e9dc69bf77e47ecb7654bf095479b91f') in 0.025158 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 14.803029 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/2.png
-  artifactKey: Guid(73f44c6e821ddbb458533e57cc2b4902) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/2.png using Guid(73f44c6e821ddbb458533e57cc2b4902) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ffd756343e4e58eeeeb2670f5a0c3165') in 0.034740 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000277 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/7.png
-  artifactKey: Guid(e704689924c6e7c4a830d810a21581d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/7.png using Guid(e704689924c6e7c4a830d810a21581d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'f3b0e709cbbd7e36a9fa658988334138') in 0.045553 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/12.png
-  artifactKey: Guid(2febf358f2dbb7b408a664faf7d04842) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/12.png using Guid(2febf358f2dbb7b408a664faf7d04842) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b63639206c1783c972b20af629f838c6') in 0.047390 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000274 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/23.png
-  artifactKey: Guid(864eccb8f138611489a3cd455a220f3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/23.png using Guid(864eccb8f138611489a3cd455a220f3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ddfd15f8d30ce2312d996e77153a03d4') in 0.028935 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/19.png
-  artifactKey: Guid(3b240f089262a6344a89c3da053e39b4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/19.png using Guid(3b240f089262a6344a89c3da053e39b4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ff4b2f30c098ef9f9c052fc2af796112') in 0.023821 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000034 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/33.png
-  artifactKey: Guid(e9a3f0be01e6b5a4881650258a937d25) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/33.png using Guid(e9a3f0be01e6b5a4881650258a937d25) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '427cdbcd3c9f4c792e9907ea5f57ccab') in 0.021764 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/38.png
-  artifactKey: Guid(fbb22311a45562946aa674ab4a870933) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/38.png using Guid(fbb22311a45562946aa674ab4a870933) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '29ae44e31c2fca9e235a93abe02fd7d7') in 0.023002 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/26.png
-  artifactKey: Guid(2069a4e1ecdddd044a9a00e489caa3ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/26.png using Guid(2069a4e1ecdddd044a9a00e489caa3ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '0c6bc13e95a009afc14e30a0d1d1e46b') in 0.022763 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/11.png
-  artifactKey: Guid(39cdbbf76217fa441b55d2b1d59ca770) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/11.png using Guid(39cdbbf76217fa441b55d2b1d59ca770) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b521753ddffa2b47db91a0c3d132c610') in 0.021537 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 2.258434 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/47.png
-  artifactKey: Guid(50b872958d5e30e4f8cbec07f63f453e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Alchemist skills icons/PNG/47.png using Guid(50b872958d5e30e4f8cbec07f63f453e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '80b01456f8b7893c43d0310312f11b93') in 0.039946 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 15.552439 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/2.png
-  artifactKey: Guid(9b20cba699b8684449a359a0c55fb863) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/2.png using Guid(9b20cba699b8684449a359a0c55fb863) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '8322f4b78e00da454b48d24f82b373e0') in 0.039590 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000071 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/8.png
-  artifactKey: Guid(eb391e729cf981e40928e14708fd14c6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/8.png using Guid(eb391e729cf981e40928e14708fd14c6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'ab8a2463d17d5709749674543485fd49') in 0.026699 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/12.png
-  artifactKey: Guid(60bbe2ff20d4f754aa054ca53faeb5c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/12.png using Guid(60bbe2ff20d4f754aa054ca53faeb5c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'c40a5ca016fb36156e637b9fe8d27610') in 0.047950 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/17.png
-  artifactKey: Guid(aad524d636cadb04496a3771485fefb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/17.png using Guid(aad524d636cadb04496a3771485fefb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b1cdb334ca3802cd65e055289dcb7505') in 0.052239 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/28.png
-  artifactKey: Guid(61aa9f83ab88e2948a638c045805507e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/28.png using Guid(61aa9f83ab88e2948a638c045805507e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'b45eb1ba8901b3581a2e612f694bcd96') in 0.049936 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/40.png
-  artifactKey: Guid(ffeb5efa2b1780443ad3ef923f9f5b94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/40.png using Guid(ffeb5efa2b1780443ad3ef923f9f5b94) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '229c195a0a3dd2040ed6b68b494723ac') in 0.038124 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/22.png
-  artifactKey: Guid(640e551363087164baca72cddcb51168) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/22.png using Guid(640e551363087164baca72cddcb51168) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a222fd84737d2c51b41c906aa3cfd08a') in 0.032592 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/32.png
-  artifactKey: Guid(4571cb6f187a50441862d610589345cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/32.png using Guid(4571cb6f187a50441862d610589345cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '17d1b3c5838df21e746c46c770e16602') in 0.024488 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000036 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/14.png
-  artifactKey: Guid(77cc02b038deadc4f92c51b1fd9227cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/14.png using Guid(77cc02b038deadc4f92c51b1fd9227cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'a326ffcb3f87dbb2b4492fd86229a918') in 0.022235 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 0.000033 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/31.png
-  artifactKey: Guid(4054b5a60842c8c4e9c07fac7369b37b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/31.png using Guid(4054b5a60842c8c4e9c07fac7369b37b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: '0d0daebf0a3c2039eeb19ae75a9e70d2') in 0.026714 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Import Request.
-  Time since last request: 1.037050 seconds.
-  path: Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/47.png
-  artifactKey: Guid(ef5b0c919ba39cb4783cc8db5d07291d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Content/Fantasy RPG Icons Pack/RPG Demon skill icons/PNG/47.png using Guid(ef5b0c919ba39cb4783cc8db5d07291d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
- -> (artifact id: 'e59a9538844052ac5d5a883b18b5fc86') in 0.025180 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
+Number of asset objects unloaded after import = 0
 Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: ќпераци€ ввода/вывода была прервана из-за завершени€ потока команд или по запросу приложени€.
+TcpMessagingSession - receive error
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
 AssetImportWorker is now disconnected from the server
 Process exiting
 Exiting without the bug reporter. Application will terminate with return code 0

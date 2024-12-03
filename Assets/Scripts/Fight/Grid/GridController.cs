@@ -63,12 +63,11 @@ namespace Fight.Grid
         private async UniTaskVoid CheckClick(CancellationToken cancellationToken)
         {
             RaycastHit2D hit;
-            var cellLayer = LayerMask.GetMask("Grid");
+            var cellLayer = LayerMask.GetMask("Grid", "Hero");
             while (!cancellationToken.IsCancellationRequested)
             {
                 if (Input.GetMouseButtonDown(0) && PlayerCanController)
                 {
-                    var direction = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out var raycast, Mathf.Infinity, cellLayer))
                     {
@@ -76,19 +75,9 @@ namespace Fight.Grid
                         {
                             hexagonCell.ClickOnMe();
                         }
-                    }
-
-                    hit = Physics2D.Raycast(direction, Vector3.down);
-                    if (hit.transform != null)
-                    {
-                        //if (hit.transform.CompareTag("HexagonCell"))
-                        //{
-                        //    HexagonCell HexagonCell = hit.collider.transform.GetComponent<HexagonCell>();
-                        //    HexagonCell.ClickOnMe();
-                        //}
-                        if (hit.transform.CompareTag("Hero"))
+                        else if (raycast.collider.TryGetComponent<HeroController>(out var heroController))
                         {
-                            hit.collider.transform.GetComponent<HeroController>().ClickOnMe();
+                            heroController.ClickOnMe();
                         }
                     }
                 }

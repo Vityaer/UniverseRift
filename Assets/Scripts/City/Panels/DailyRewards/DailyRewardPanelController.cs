@@ -23,7 +23,7 @@ namespace City.Buildings.CityButtons
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly SubjectDetailController _subjectDetailController;
 
-        private List<DailyRewardUI> _rewardControllers = new List<DailyRewardUI>();
+        private List<DailyRewardUI> _rewardControllers = new();
 
         protected override void OnLoadGame()
         {

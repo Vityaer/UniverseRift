@@ -1,10 +1,12 @@
 ﻿using City.Buildings.PlayerPanels.AvatarPanels;
 using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
+using City.Panels.Misc.Settings;
 using City.Panels.NewLevels;
 using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
+using LocalizationSystems;
 using Misc.Json;
 using Models.Common;
 using Models.Common.BigDigits;
@@ -13,16 +15,15 @@ using Models.Misc.Avatars;
 using Network.DataServer;
 using Network.DataServer.Messages.Players;
 using System;
+using System.Collections.Generic;
+using UI.Utils.Localizations.Extensions;
 using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using Utils;
 using VContainer;
-using VContainerUi.Model;
 using VContainerUi.Messages;
-using LocalizationSystems;
-using UI.Utils.Localizations.Extensions;
-using System.Collections.Generic;
+using VContainerUi.Model;
 
 namespace City.Buildings.PlayerPanels
 {
@@ -41,7 +42,7 @@ namespace City.Buildings.PlayerPanels
         private GameResource _requireExpForLevel;
         private GameResource _currentExp;
         private ReactiveCommand<BigDigit> _onLevelUp = new();
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposables = new();
 
         public IObservable<BigDigit> OnLevelUp => _onLevelUp;
         public PlayerData PlayerInfoData => _playerInfo;
@@ -49,8 +50,14 @@ namespace City.Buildings.PlayerPanels
         public override void Start()
         {
             View.AvatarButton.OnClickAsObservable().Subscribe(_ => OpenAvatarsPanel()).AddTo(_disposables);
+            View.SettingButton.OnClickAsObservable().Subscribe(_ => OpenSettingPanel()).AddTo(_disposables);
             _avatarPanelDetailsController.OnSelectNewAvatar.Subscribe(ChangeAvatar).AddTo(_disposables);
             base.Start();
+        }
+
+        private void OpenSettingPanel()
+        {
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<SettingsPanelController>(openType: OpenType.Exclusive);
         }
 
         private void OpenAvatarsPanel()
@@ -74,7 +81,7 @@ namespace City.Buildings.PlayerPanels
         private void UpdateData()
         {
             View.Name.text = _localizationSystem.GetLocalizedContainer("MyPlayerName")
-                .WithArguments(new List<object> {_playerInfo.Name})
+                .WithArguments(new List<object> { _playerInfo.Name })
                 .GetLocalizedString();
 
             View.PlayerId.text = _localizationSystem.GetLocalizedContainer("MyPlayerId")

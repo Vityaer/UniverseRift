@@ -6,6 +6,7 @@ using LocalizationSystems;
 using Misc.Json;
 using Misc.Json.Impl;
 using Models.Common;
+using Services.TimeLocalizeServices;
 using System;
 using UIController.Inventory;
 using VContainer;
@@ -25,6 +26,7 @@ namespace Installer
             builder.Register<GameController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<LocalizationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PlayersStorage>(Lifetime.Singleton).AsSelf();
+            builder.Register<TimeLocalizeService>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<ProjectInitialize>();
             base.Configure(builder);
         }

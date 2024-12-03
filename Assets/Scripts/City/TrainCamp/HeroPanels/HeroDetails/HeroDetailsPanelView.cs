@@ -1,19 +1,18 @@
-﻿using TMPro;
-using Ui.Misc.Widgets;
-using UnityEngine;
+﻿using Ui.Misc.Widgets;
+using UnityEngine.Localization.Components;
 
 namespace City.TrainCamp.HeroPanels.HeroDetails
 {
     public class HeroDetailsPanelView : BasePanel
     {
-        public TMP_Text ProbabilityCriticalAttackText;
-        public TMP_Text DamageCriticalAttackText;
-        public TMP_Text AccuracyText;
-        public TMP_Text CleanDamageText;
-        public TMP_Text DodgeText;
-        public TMP_Text CanRetaliationText;
-        public TMP_Text _countCouterAttackText;
-        public TMP_Text MelleeText;
-            
+        public LocalizeStringEvent ProbabilityCriticalAttackText;
+        public LocalizeStringEvent DamageCriticalAttackText;
+        public LocalizeStringEvent AccuracyText;
+        public LocalizeStringEvent CleanDamageText;
+        public LocalizeStringEvent DodgeText;
+        public LocalizeStringEvent CanRetaliationText;
+        public LocalizeStringEvent CountCouterAttackText;
+        public LocalizeStringEvent MelleeText;
+
     }
 }

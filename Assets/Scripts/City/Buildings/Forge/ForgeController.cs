@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Abstractions;
+using City.Panels.SubjectPanels;
 using City.Panels.SubjectPanels.Common;
 using ClientServices;
 using Common.Resourses;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UIController.Inventory;
+using UIController.ItemVisual;
 using UIController.ItemVisual.Forges;
 using UIController.Rewards;
 using UniRx;
@@ -30,6 +32,7 @@ namespace City.Buildings.Forge
         private List<string> SetNames = new List<string>() { "Pupil", "Peasant", "Militiaman", "Monk", "Warrior", "Feller", "Soldier", "Minotaur", "Demon", "Druid", "Obedient", "Devil", "Destiny", "Archangel", "Titan", "God" };
 
         [Inject] private readonly InventoryController _inventoryController;
+        [Inject] private readonly ItemPanelController _itemPanelController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
@@ -65,8 +68,17 @@ namespace City.Buildings.Forge
                 itemVisual.OnSelected.Subscribe(SelectItem).AddTo(Disposables);
                 _listPlace.Add(itemVisual);
             }
+
+            View.LeftItem.SubjectCell.OnSelect.Subscribe(OpenDetails);
+            View.RightItem.SubjectCell.OnSelect.Subscribe(OpenDetails);
+
             _currentCell = _listPlace[0];
             base.OnStart();
+        }
+
+        private void OpenDetails(SubjectCell cell)
+        {
+            _itemPanelController.ShowData(cell.Subject as GameItem);
         }
 
         protected override void OnLoadGame()
