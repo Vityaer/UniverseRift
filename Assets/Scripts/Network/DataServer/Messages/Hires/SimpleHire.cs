@@ -3,6 +3,6 @@ namespace Network.DataServer.Messages
 {
     public class SimpleHire : AbstractHireMessage
     {
-        public new string Route => "Heroes/GetSimpleHeroes";
+        public override string Route => "Heroes/GetSimpleHeroes";
     }
 }

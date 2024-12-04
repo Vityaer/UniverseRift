@@ -6,6 +6,8 @@ using Db.CommonDictionaries;
 using Editor.Common;
 using Editor.Pages.Achievments;
 using Editor.Pages.Bosses;
+using Editor.Pages.Buildings.Hires;
+using Editor.Pages.Buildings.MagicCircles;
 using Editor.Pages.Buildings.Mines.MineRestrictions;
 using Editor.Pages.Buildings.TaskBoards;
 using Editor.Pages.Buildings.TravelRaceCampaigns;
@@ -76,7 +78,8 @@ namespace Editor.Windows
         private AvatarPageEditor _avatarPageEditor;
         private RatingUpPageEditor _ratingUpPageEditor;
         private CharacteristicPageEditor _characteristicPageEditor;
-
+        private HireContainerPageEditor _hireContainerPageEditor;
+        private MagicCirclePageEditor _magicCirclePageEditor;
         private OdinMenuTree _tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
@@ -132,6 +135,7 @@ namespace Editor.Windows
             _tree.Add("Fights/Location", _locationPageEditor);
             _tree.Add("Mall/Markets", _marketPageEditor);
             _tree.Add("Mall/Products", _productPageEditor);
+            _tree.Add("City/Hires", _hireContainerPageEditor);
             _tree.Add("City/Mines/Main Editor", _minePageEditor);
             _tree.Add("City/Mines/restrictions", _mineRestrictionPageEditor);
             _tree.Add("City/Travel/Main Editor", _travelRaceCircleEditor);
@@ -144,9 +148,9 @@ namespace Editor.Windows
             _tree.Add("Rewards/Containers", _rewardContrainerPageEditor);
             _tree.Add("Guild/Bosses", _guildBossPageEditor);
             _tree.Add("Players/Avatars", _avatarPageEditor);
-
-            
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
+            _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
+            
         }
 
         private async void InitPages()
@@ -215,6 +219,7 @@ namespace Editor.Windows
 
             _fortuneRewardEditor = new FortuneRewardEditor(_dictionaries);
             _allPages.Add(_fortuneRewardEditor);
+
             //_forgePageEditor = new ForgePageEditor(_dictionaries);
             //_allPages.Add(_forgePageEditor);
 
@@ -253,6 +258,13 @@ namespace Editor.Windows
 
             _characteristicPageEditor = new CharacteristicPageEditor(_dictionaries);
             _allPages.Add(_characteristicPageEditor);
+
+            _hireContainerPageEditor = new HireContainerPageEditor(_dictionaries);
+            _allPages.Add(_hireContainerPageEditor);
+
+            _magicCirclePageEditor = new MagicCirclePageEditor(_dictionaries);
+            _allPages.Add(_magicCirclePageEditor);
+            
         }
 
         private void OnValueSaved()

@@ -18,6 +18,10 @@ namespace UIController.LoadingUI
 
         private Tween _tween;
 
+        [Header("Rotate")]
+        public RectTransform RotateImageRect;
+        public float RotateSpeed;
+
         protected override void OnHide()
         {
             _tween.Kill();

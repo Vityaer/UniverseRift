@@ -6,7 +6,7 @@ namespace Network.DataServer.Messages
         public int Count;
 
         //TODO: неправильно работает, дочерние классы не переопределяют свойство
-        public new string Route => "Heroes/GetSimpleHeroes";
+        public virtual string Route => "Heroes/GetSimpleHeroes";
 
         public new WWWForm Form
         {

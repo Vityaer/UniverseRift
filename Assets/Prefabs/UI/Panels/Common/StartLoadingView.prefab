@@ -35,10 +35,10 @@ RectTransform:
   - {fileID: 8649528733168194739}
   m_Father: {fileID: 8649528732814513123}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.025, y: 0.07269447}
-  m_AnchorMax: {x: 0.9744377, y: 0.07269447}
-  m_AnchoredPosition: {x: 0.796875, y: -2.1992188}
-  m_SizeDelta: {x: 1.9233398, y: 77}
+  m_AnchorMin: {x: 0, y: 0.07269447}
+  m_AnchorMax: {x: 1, y: 0.07269447}
+  m_AnchoredPosition: {x: 1, y: -2.1992188}
+  m_SizeDelta: {x: -62, y: 77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8649528732368237299
 CanvasRenderer:
@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 8649528732473070125}
   - component: {fileID: 8649528732473070115}
   - component: {fileID: 8649528732473070124}
-  - component: {fileID: 8142253847833659688}
   m_Layer: 5
   m_Name: Loading_Rotate
   m_TagString: Untagged
@@ -206,22 +205,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!111 &8142253847833659688
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8649528732473070126}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 9c20f215af6a84358874d19ece3f974a, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 9c20f215af6a84358874d19ece3f974a, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1 &8649528732634853351
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +363,8 @@ MonoBehaviour:
   AnimationFinishTime: 1
   CanvasGroup: {fileID: 9214138255288154757}
   FadeTime: 0.25
+  RotateImageRect: {fileID: 8649528733789195263}
+  RotateSpeed: 100
 --- !u!225 &9214138255288154757
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -425,10 +410,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8649528732368237310}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 3}
-  m_SizeDelta: {x: 544.0472, y: 65.000015}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8649528733168194737
 CanvasRenderer:
@@ -460,8 +445,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Loading...75%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 50c12c23294124aa48490c44ac65a9e4, type: 2}
-  m_sharedMaterial: {fileID: 7746803525459343344, guid: 50c12c23294124aa48490c44ac65a9e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

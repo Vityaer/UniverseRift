@@ -8,6 +8,7 @@ using Models;
 using Models.Achievments;
 using Models.City.AbstactBuildingModels;
 using Models.City.FortuneRewards;
+using Models.City.Hires;
 using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
@@ -40,11 +41,11 @@ namespace Db.CommonDictionaries
         public ReactiveCommand OnStartDownloadFiles = new ReactiveCommand();
         public ReactiveCommand OnFinishDownloadFiles = new ReactiveCommand();
 
-        private Dictionary<string, HeroModel> _heroes = new Dictionary<string, HeroModel>();
-        private Dictionary<string, RaceModel> _races = new Dictionary<string, RaceModel>();
-        private Dictionary<string, VocationModel> _vocations = new Dictionary<string, VocationModel>();
-        private Dictionary<string, ItemModel> _items = new Dictionary<string, ItemModel>();
-        private Dictionary<string, RarityModel> _raryties = new Dictionary<string, RarityModel>();
+        private Dictionary<string, HeroModel> _heroes = new();
+        private Dictionary<string, RaceModel> _races = new();
+        private Dictionary<string, VocationModel> _vocations = new();
+        private Dictionary<string, ItemModel> _items = new();
+        private Dictionary<string, RarityModel> _raryties = new();
         private Dictionary<string, ItemSet> _itemSets = new Dictionary<string, ItemSet>();
         private Dictionary<string, ItemRelationModel> _itemRelations = new Dictionary<string, ItemRelationModel>();
         private Dictionary<string, RatingModel> _ratings = new Dictionary<string, RatingModel>();
@@ -72,7 +73,8 @@ namespace Db.CommonDictionaries
         private Dictionary<string, AvatarModel> _avatarModels = new();
         private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
         private Dictionary<string, CharacteristicModel> _characteristicModels = new();
-
+        private Dictionary<string, HireContainerModel> _hireContainerModels = new();
+        
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -109,6 +111,7 @@ namespace Db.CommonDictionaries
         public Dictionary<string, AvatarModel> AvatarModels => _avatarModels;
         public Dictionary<string, RatingUpContainer> RatingUpContainers => _ratingUpContainers;
         public Dictionary<string, CharacteristicModel> CharacteristicModels => _characteristicModels;
+        public Dictionary<string, HireContainerModel> HireContainerModels => _hireContainerModels;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -242,6 +245,7 @@ namespace Db.CommonDictionaries
             _avatarModels = await DownloadModels<AvatarModel>();
             _ratingUpContainers = await DownloadModels<RatingUpContainer>();
             _characteristicModels = await DownloadModels<CharacteristicModel>();
+            _hireContainerModels = await DownloadModels<HireContainerModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -286,6 +290,7 @@ namespace Db.CommonDictionaries
             _avatarModels = GetModels<AvatarModel>();
             _ratingUpContainers = GetModels<RatingUpContainer>();
             _characteristicModels = GetModels<CharacteristicModel>();
+            _hireContainerModels = GetModels<HireContainerModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

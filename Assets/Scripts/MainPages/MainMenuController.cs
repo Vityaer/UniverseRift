@@ -16,7 +16,7 @@ using VContainerUi.Services;
 
 namespace Ui.MainMenu
 {
-    public class MainMenuController : IInitializable, IStartable, IDisposable
+    public class MainMenuController : IInitializable, IDisposable
     {
         [Inject] private readonly MenuButtonsController _menuButtonsController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
@@ -43,12 +43,6 @@ namespace Ui.MainMenu
             AddMenuWindow<SecondCityWindow>();
             AddMenuWindow<ArmyWindow>();
             _gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(_disposables);
-        }
-
-
-        public void Start()
-        {
-            OpenStartPage();
         }
 
         public void OpenStartPage()

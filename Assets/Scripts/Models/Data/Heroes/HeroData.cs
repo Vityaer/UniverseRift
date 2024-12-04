@@ -11,15 +11,6 @@ namespace Models
     {
         [NonSerialized] public CommonDictionaries CommonDictionaries;
 
-        private string[] _allHeroesName
-        {
-            get
-            {
-                var result = CommonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
-                return result;
-            }
-        }
-
         [HideInInspector] public int Id;
         [ValueDropdown(nameof(_allHeroesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string HeroId;
@@ -36,6 +27,15 @@ namespace Models
         public HeroData(CommonDictionaries commonDictionaries)
         {
             CommonDictionaries = commonDictionaries;
+        }
+
+        private string[] _allHeroesName
+        {
+            get
+            {
+                var result = CommonDictionaries.Heroes.Values.Select(r => r.Id).ToArray();
+                return result;
+            }
         }
     }
 }

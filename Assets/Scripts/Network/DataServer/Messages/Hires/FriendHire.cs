@@ -2,6 +2,6 @@
 {
     public class FriendHire : AbstractHireMessage
     {
-        public new string Route => "Heroes/GetFriendHeroes";
+        public override string Route => "Heroes/GetFriendHeroes";
     }
 }
