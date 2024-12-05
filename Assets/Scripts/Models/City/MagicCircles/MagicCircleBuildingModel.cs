@@ -8,8 +8,7 @@ namespace Models.City.MagicCircles
     {
         public ResourceData HireCost;
         public Dictionary<string, float> SubjectChances = new();
-        public List<string> ItemIds = new();
-        public List<string> SplinterIds = new();
-
+        public Dictionary<string, float> Items = new();
+        public Dictionary<string, float> Splinters = new();
     }
 }

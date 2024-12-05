@@ -8,7 +8,7 @@ namespace Models.Data.Inventories
 {
     public class SplinterData : InventoryBaseItem
     {
-        private string[] _allSplinterName => CommonDictionaries.Splinters.Values.Select(r => r.Id).ToArray();
+        private string[] _allSplinterName => CommonDictionaries?.Splinters.Values.Select(r => r.Id).ToArray();
         [ValueDropdown(nameof(_allSplinterName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string Id;
 

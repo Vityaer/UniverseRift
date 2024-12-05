@@ -103,6 +103,7 @@ CustomAddFunction = nameof(AddSplinterElement), CustomRemoveElementFunction = na
         private void AddSplinterElement()
         {
             var item = new SplinterProductModel(_dictionaries);
+            item.Id = UnityEngine.Random.Range(1000, 9999).ToString();
             SplinterProducts.Add(item);
         }
 
