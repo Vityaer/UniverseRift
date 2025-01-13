@@ -20,7 +20,7 @@ namespace UIController.LoadingUI
 
         [Header("Rotate")]
         public RectTransform RotateImageRect;
-        public float RotateSpeed;
+        public float RotateAnimationTime;
 
         protected override void OnHide()
         {

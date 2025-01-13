@@ -150,7 +150,7 @@ namespace Editor.Windows
             _tree.Add("Players/Avatars", _avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
             _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
-            
+
         }
 
         private async void InitPages()
@@ -264,7 +264,6 @@ namespace Editor.Windows
 
             _magicCirclePageEditor = new MagicCirclePageEditor(_dictionaries);
             _allPages.Add(_magicCirclePageEditor);
-            
         }
 
         private void OnValueSaved()

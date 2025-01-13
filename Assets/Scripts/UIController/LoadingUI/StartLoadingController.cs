@@ -49,10 +49,17 @@ namespace UIController.LoadingUI
             _tween = View.LoadingSlider.DOValue(1f, View.AnimationTime);
 
             _rotateTween.Kill();
-            var target = new Vector3(0, 0, 360);
-            _rotateTween = View.RotateImageRect
-                .DORotate(target, View.RotateSpeed)
-                .SetSpeedBased(true)
+            _rotateTween = DOTween.Sequence()
+                .Append
+                (
+                    View.RotateImageRect.DORotate
+                    (
+                        new Vector3(0, 0, -360),
+                        View.RotateAnimationTime,
+                        RotateMode.FastBeyond360
+                    )
+                    .SetEase(Ease.Linear)
+                )
                 .SetLoops(-1);
         }
 

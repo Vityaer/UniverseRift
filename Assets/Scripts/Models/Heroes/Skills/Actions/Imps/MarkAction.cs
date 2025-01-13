@@ -12,7 +12,7 @@ namespace Models.Heroes.Skills.Actions.Imps
         {
 
             foreach (HeroController heroController in ListTarget)
-                heroController.statusState.SetMark(MarkType, Amount, Rounds);
+                heroController.StatusState.SetMark(MarkType, Amount, Rounds);
         }
     }
 }

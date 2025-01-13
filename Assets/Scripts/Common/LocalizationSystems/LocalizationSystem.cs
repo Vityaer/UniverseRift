@@ -33,7 +33,7 @@ namespace LocalizationSystems
 
         public string GetString(string key)
         {
-            return _localizationUiContainer.GetLocalizedContainer(key).GetLocalizedString(string.Empty);
+            return _localizationUiContainer?.GetLocalizedContainer(key)?.GetLocalizedString();
         }
 
         public LocalizedString GetLocalizedContainer(string key)

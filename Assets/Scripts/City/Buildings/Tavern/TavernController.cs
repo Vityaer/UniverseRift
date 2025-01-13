@@ -15,6 +15,7 @@ using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -33,10 +34,10 @@ namespace City.Buildings.Tavern
         private HireContainerModel _specialHireContainer;
         private HireContainerModel _friendHireContainer;
 
-        private ReactiveCommand<BigDigit> _observerSimpleHire = new ReactiveCommand<BigDigit>();
-        private ReactiveCommand<BigDigit> _observerSpecialHire = new ReactiveCommand<BigDigit>();
-        private ReactiveCommand<BigDigit> _observerFriendHire = new ReactiveCommand<BigDigit>();
-        private ObserverActionWithHero _observersHireRace = new ObserverActionWithHero();
+        private ReactiveCommand<BigDigit> _observerSimpleHire = new();
+        private ReactiveCommand<BigDigit> _observerSpecialHire = new();
+        private ReactiveCommand<BigDigit> _observerFriendHire = new();
+        private ObserverActionWithHero _observersHireRace = new();
 
         public IObservable<BigDigit> ObserverSimpleHire => _observerSimpleHire;
         public IObservable<BigDigit> ObserverSpecialHire => _observerSpecialHire;
@@ -54,7 +55,7 @@ namespace City.Buildings.Tavern
             Resolver.Inject(View.ResourceObjectCostOneHire);
             Resolver.Inject(View.ResourceObjectCostManyHire);
 
-            SelectHire<SpecialHire>(new GameResource(_simpleHireContainer.Cost), _observerSimpleHire);
+            SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire);
 
             View.SimpleHireButton.OnClickAsObservable()
                 .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(_simpleHireContainer.Cost), _observerSimpleHire));

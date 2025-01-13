@@ -1,6 +1,8 @@
-﻿using Models.City.AbstactBuildingModels;
+﻿using Db.CommonDictionaries;
+using Models.City.AbstactBuildingModels;
 using Models.Data.Inventories;
 using System.Collections.Generic;
+using UIController.Rewards.PosibleRewards;
 
 namespace Models.City.MagicCircles
 {
@@ -8,7 +10,12 @@ namespace Models.City.MagicCircles
     {
         public ResourceData HireCost;
         public Dictionary<string, float> SubjectChances = new();
-        public Dictionary<string, float> Items = new();
-        public Dictionary<string, float> Splinters = new();
+        public PosibleRewardData PosibleRewardData = new();
+
+        public override void SetCommonDictionary(CommonDictionaries commonDictionaries)
+        {
+            base.SetCommonDictionary(commonDictionaries);
+            PosibleRewardData.SetCommonDictionaries(commonDictionaries);
+        }
     }
 }

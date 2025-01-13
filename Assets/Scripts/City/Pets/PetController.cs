@@ -6,7 +6,7 @@ namespace City.Pets
 {
     public class PetController : MonoBehaviour
     {
-        public List<Skill> Skills = new List<Skill>();
+        public List<SkillModel> Skills = new List<SkillModel>();
         public int level;
 
     }

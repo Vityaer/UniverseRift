@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace UIController.ItemVisual.Forges
 {
-    public class ForgeItemVisual : MonoBehaviour, IDisposable
+    public class ForgeItemVisual : MonoBehaviour
     {
         [Header("Info")]
         public TypeMatter matter;
@@ -18,8 +18,8 @@ namespace UIController.ItemVisual.Forges
         private GameItem item;
         public SubjectCell Cell;
         private bool _selected = false;
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private ReactiveCommand<ForgeItemVisual> _onSelected = new ReactiveCommand<ForgeItemVisual>();
+        private CompositeDisposable _disposables = new();
+        private ReactiveCommand<ForgeItemVisual> _onSelected = new();
 
         public IObservable<ForgeItemVisual> OnSelected => _onSelected;
 
@@ -63,7 +63,7 @@ namespace UIController.ItemVisual.Forges
             _selected = true;
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &92714045678606504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 7097086505153246677}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -93,6 +92,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 92714045678606504}
     m_Modifications:
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
@@ -113,7 +113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchorMin.x
@@ -121,11 +121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 965.9813
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_SizeDelta.y
@@ -161,11 +161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 482.99066
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465900739087918379, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -183,6 +183,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3b2f93748eaaac7498386783f6942a2f, type: 3}
+    - target: {fileID: 1523830507263565730, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3854692000696594052, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -201,13 +205,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6639571898759332653, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8754082908678041942, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
       propertyPath: m_text
       value: "\u0426\u0438\u043A\u043B \u0430\u0440\u0435\u043D\u044B"
       objectReference: {fileID: 0}
+    - target: {fileID: 8754082908678041942, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.93207544
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754082908678041942, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.93207544
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754082908678041942, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.93207544
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754082908678041942, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4293848814
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79be27e18c74cbe4fb7d872b97ae4fdb, type: 3}
 --- !u!224 &7097086505153246677 stripped
 RectTransform:

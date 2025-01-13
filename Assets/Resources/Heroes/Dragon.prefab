@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2490748688957014803}
   - component: {fileID: 5599803750273308451}
   - component: {fileID: 6681827351951246350}
+  - component: {fileID: 1446203472785875168}
   m_Layer: 6
   m_Name: Dragon
   m_TagString: Hero
@@ -82,16 +83,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 1870778082913225681}
-  speedMove: 2
-  speedAnimation: 1
+  _isFacingRight: 1
+  _statusState: {fileID: 1870778082913225681}
+  _movement: {fileID: 1446203472785875168}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
   hero:
     StatusState: {fileID: 0}
     <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 6689066850660460105}
+  _bodyParent: {fileID: 6689066850660460105}
   _stages:
   - {fileID: 5219617143110798747}
   - {fileID: 3889522610881747781}
@@ -146,6 +148,18 @@ CapsuleCollider:
   m_Height: 0.69163394
   m_Direction: 1
   m_Center: {x: 0, y: 0.3164513, z: 0}
+--- !u!114 &1446203472785875168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045951639636079695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3340380367452990950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -943,6 +957,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -1113895944, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2528787061872486119}
   <OutlineController>k__BackingField: {fileID: 5014503008240833707}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &6044629641765728549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2688,6 +2704,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1367900070, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 1197067515087136223}
   <OutlineController>k__BackingField: {fileID: 2665103005780882891}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!95 &1197067515087136223 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3319832262105201957, guid: 5aa274becdffa9c46b69f1cf98445a50, type: 3}
@@ -4134,6 +4152,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -2121848278, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 8221897174698025141}
   <OutlineController>k__BackingField: {fileID: 189611946658601020}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &8221897174691024727 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1464745901521183929, guid: 3b2bc9ea12bebd34db0ea2d87f964288, type: 3}

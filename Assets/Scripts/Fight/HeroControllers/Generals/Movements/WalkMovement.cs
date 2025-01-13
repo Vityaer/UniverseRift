@@ -1,42 +1,48 @@
-﻿namespace Fight.HeroControllers.Generals.Movements
+﻿using Fight.Grid;
+using Models.Heroes;
+using System.Collections;
+using UnityEngine;
+
+namespace Fight.HeroControllers.Generals.Movements
 {
-    //public class WalkMovement : AbstractMovement
-    //{
-    //public override IEnumerator Move(HeroController hero, Stack<HexagonCell> way)
-    //{
-    //Animator.SetBool("Speed", true);
-    //var way = _gridController.FindWay(myPlace, targetCell, typeMovement: hero.GetBaseCharacteristic.MovementType);
-    //Vector3 targetPos, startPos;
-    //float t = 0f;
+    public class WalkMovement : AbstractMovement
+    {
+        public override IEnumerator Move(HexagonCell targetCell)
+        {
+            Animator.SetBool("Speed", true);
+            var way = GridController.FindWay(MyPlace, targetCell, typeMovement: TypeMovement.Walk);
+            Vector3 targetPos, startPos;
+            var t = 0f;
 
-    //var currentCell = way.Pop();
-    //while (way.Count > 0)
-    //{
-    //    myPlace.ClearSublject();
-    //    currentCell = way.Pop();
+            var currentCell = way.Pop();
+            while (way.Count > 0)
+            {
+                MyPlace.ClearSublject();
+                currentCell = way.Pop();
 
-    //    startPos = Self.position;
-    //    targetPos = currentCell.Position;
+                startPos = Hero.transform.position;
+                targetPos = currentCell.Position;
 
-    //    if (isFacingRight ^ ((targetPos.x - startPos.x) > 0))
-    //        FlipX();
+                if (Hero.IsFacingRight ^ ((targetPos.x - startPos.x) > 0))
+                    Hero.FlipX();
 
-    //    t = 0f;
+                t = 0f;
 
-    //    while (t <= 1f)
-    //    {
-    //        t += Time.deltaTime * speedMove;
-    //        Self.position = Vector3.Lerp(startPos, targetPos, t);
-    //        yield return null;
-    //    }
+                while (t <= 1f)
+                {
+                    t += Time.deltaTime * Hero.SpeedMove;
+                    Hero.transform.position = Vector3.Lerp(startPos, targetPos, t);
+                    yield return null;
+                }
+                Hero.transform.position = targetPos;
 
-    //    Self.position = targetPos;
-    //    myPlace = currentCell;
-    //    myPlace.SetHero(this);
-    //}
+                MyPlace = currentCell;
+                MyPlace.SetHero(Hero);
+                _onChangePlace.Execute(MyPlace);
+            }
 
-    //Animator.SetBool("Speed", false);
-    //SetMyPlaceColor();
-    //}
-    //}
+            Animator.SetBool("Speed", false);
+            SetMyPlaceColor();
+        }
+    }
 }

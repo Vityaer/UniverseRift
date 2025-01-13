@@ -14,6 +14,7 @@ using Models.City.Mines;
 using Models.City.Misc;
 using Models.City.TravelCircle;
 using Models.Common;
+using Models.Data.Buildings.Markets;
 using Models.Data.Dailies;
 using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
@@ -38,43 +39,42 @@ namespace Db.CommonDictionaries
 {
     public class CommonDictionaries
     {
-        public ReactiveCommand OnStartDownloadFiles = new ReactiveCommand();
-        public ReactiveCommand OnFinishDownloadFiles = new ReactiveCommand();
+        public ReactiveCommand OnStartDownloadFiles = new();
+        public ReactiveCommand OnFinishDownloadFiles = new();
 
         private Dictionary<string, HeroModel> _heroes = new();
         private Dictionary<string, RaceModel> _races = new();
         private Dictionary<string, VocationModel> _vocations = new();
         private Dictionary<string, ItemModel> _items = new();
         private Dictionary<string, RarityModel> _raryties = new();
-        private Dictionary<string, ItemSet> _itemSets = new Dictionary<string, ItemSet>();
-        private Dictionary<string, ItemRelationModel> _itemRelations = new Dictionary<string, ItemRelationModel>();
-        private Dictionary<string, RatingModel> _ratings = new Dictionary<string, RatingModel>();
-        private Dictionary<string, CampaignChapterModel> _campaignChapters = new Dictionary<string, CampaignChapterModel>();
-        private Dictionary<string, LocationModel> _locations = new Dictionary<string, LocationModel>();
-        private Dictionary<string, SplinterModel> _splinters = new Dictionary<string, SplinterModel>();
-        private Dictionary<string, BaseProductModel> _products = new Dictionary<string, BaseProductModel>();
-        private Dictionary<string, MarketModel> _markets = new Dictionary<string, MarketModel>();
-        private Dictionary<string, MineModel> _mines = new Dictionary<string, MineModel>();
-        private Dictionary<string, StorageChallengeModel> _storageChallenges = new Dictionary<string, StorageChallengeModel>();
-        private Dictionary<string, ResistanceModel> _resistances = new Dictionary<string, ResistanceModel>();
-        private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new Dictionary<string, CostLevelUpContainer>();
-        private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new Dictionary<string, MonthlyTasksModel>();
-        private Dictionary<string, GameTaskModel> _gameTaskModels = new Dictionary<string, GameTaskModel>();
-        private Dictionary<string, BuildingModel> _buildings = new Dictionary<string, BuildingModel>();
-        private Dictionary<string, RewardModel> _rewards = new Dictionary<string, RewardModel>();
-        private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new Dictionary<string, FortuneRewardModel>();
-        private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new Dictionary<string, DailyRewardModel>();
-        private Dictionary<string, MineRestrictionModel> _mineRestrictions = new Dictionary<string, MineRestrictionModel>();
-        private Dictionary<string, TravelRaceModel> _travelRaceCampaigns = new Dictionary<string, TravelRaceModel>();
-        private Dictionary<string, AchievmentModel> _achievments = new Dictionary<string, AchievmentModel>();
-        private Dictionary<string, AchievmentContainerModel> _achievmentContainers = new Dictionary<string, AchievmentContainerModel>();
+        private Dictionary<string, ItemSet> _itemSets = new();
+        private Dictionary<string, ItemRelationModel> _itemRelations = new();
+        private Dictionary<string, RatingModel> _ratings = new();
+        private Dictionary<string, CampaignChapterModel> _campaignChapters = new();
+        private Dictionary<string, LocationModel> _locations = new();
+        private Dictionary<string, SplinterModel> _splinters = new();
+        private Dictionary<string, BaseProductModel> _products = new();
+        private Dictionary<string, MarketModel> _markets = new();
+        private Dictionary<string, MineModel> _mines = new();
+        private Dictionary<string, StorageChallengeModel> _storageChallenges = new();
+        private Dictionary<string, ResistanceModel> _resistances = new();
+        private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new();
+        private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new();
+        private Dictionary<string, GameTaskModel> _gameTaskModels = new();
+        private Dictionary<string, BuildingModel> _buildings = new();
+        private Dictionary<string, RewardModel> _rewards = new();
+        private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new();
+        private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new();
+        private Dictionary<string, MineRestrictionModel> _mineRestrictions = new();
+        private Dictionary<string, TravelRaceModel> _travelRaceCampaigns = new();
+        private Dictionary<string, AchievmentModel> _achievments = new();
+        private Dictionary<string, AchievmentContainerModel> _achievmentContainers = new();
         private Dictionary<string, RewardContainerModel> _rewardContainerModels = new();
         private Dictionary<string, GuildBossContainer> _guildBossContainers = new();
         private Dictionary<string, AvatarModel> _avatarModels = new();
         private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
         private Dictionary<string, CharacteristicModel> _characteristicModels = new();
         private Dictionary<string, HireContainerModel> _hireContainerModels = new();
-        
         private readonly IJsonConverter _converter;
         private bool _isInited;
 

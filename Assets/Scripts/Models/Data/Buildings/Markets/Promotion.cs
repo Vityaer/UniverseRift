@@ -1,13 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Db.CommonDictionaries;
+using Newtonsoft.Json;
 
 namespace Models.Data.Buildings.Markets
 {
-    public class Promotion
+    public class Promotion : BaseModel
     {
+        [JsonIgnore] public CommonDictionaries CommonDictionaries;
+
+        public Promotion()
+        {
+        }
+
+        public Promotion(CommonDictionaries commonDictionaries)
+        {
+            CommonDictionaries = commonDictionaries;
+        }
+
         public string MarketName { get; set; } = string.Empty;
         public string ProductId { get; set; } = string.Empty;
     }

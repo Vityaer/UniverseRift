@@ -33,7 +33,6 @@ RectTransform:
   - {fileID: 8489062540965257838}
   - {fileID: 5939303595262895667}
   m_Father: {fileID: 8479568476301087852}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -103,7 +102,6 @@ RectTransform:
   m_Children:
   - {fileID: 8002309789641870031}
   m_Father: {fileID: 3858229320446602381}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -228,7 +226,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 533548568322101901}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -352,7 +349,6 @@ RectTransform:
   - {fileID: 373946261872474588}
   - {fileID: 4715684201896236011}
   m_Father: {fileID: 1614257701256398291}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -465,7 +461,6 @@ RectTransform:
   m_Children:
   - {fileID: 2997817113954228428}
   m_Father: {fileID: 8489062540965257838}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -506,7 +501,6 @@ RectTransform:
   m_Children:
   - {fileID: 4534565818285335689}
   m_Father: {fileID: 3858229320446602381}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -609,7 +603,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8002309789641870031}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -687,7 +680,6 @@ RectTransform:
   m_Children:
   - {fileID: 533548568322101901}
   m_Father: {fileID: 3858229320446602381}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -812,7 +804,6 @@ RectTransform:
   m_Children:
   - {fileID: 3858229320446602381}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.2}
   m_AnchorMax: {x: 1, y: 0.7}
@@ -878,6 +869,7 @@ MonoBehaviour:
   - {fileID: 8605779597140465958}
   - {fileID: 7149043840218875914}
   - {fileID: 2843880855153992253}
+  _delayCell: 0.1
   panelRewards: {fileID: 4534565818285335689}
   btnAllReward: {fileID: 0}
 --- !u!1 &8752558023857642017
@@ -910,7 +902,6 @@ RectTransform:
   m_Children:
   - {fileID: 2685434584551950483}
   m_Father: {fileID: 5939303595262895667}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -922,8 +913,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (8)
@@ -1017,6 +1013,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &384607979448693746 stripped
 MonoBehaviour:
@@ -1039,8 +1038,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (24)
@@ -1134,6 +1138,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &563659985788713212 stripped
 MonoBehaviour:
@@ -1156,8 +1163,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (36)
@@ -1251,6 +1263,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &51086838365081094 stripped
 MonoBehaviour:
@@ -1273,8 +1288,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (38)
@@ -1368,6 +1388,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &172292735053710125 stripped
 MonoBehaviour:
@@ -1390,8 +1413,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (9)
@@ -1485,6 +1513,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &1106968108186270857 stripped
 MonoBehaviour:
@@ -1507,8 +1538,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (33)
@@ -1602,6 +1638,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &828350991747109624 stripped
 MonoBehaviour:
@@ -1624,8 +1663,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (30)
@@ -1719,6 +1763,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &1642835440578740100 stripped
 MonoBehaviour:
@@ -1741,8 +1788,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (16)
@@ -1836,6 +1888,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &1183185624362645710 stripped
 MonoBehaviour:
@@ -1858,8 +1913,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (40)
@@ -1953,6 +2013,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &2039584407789685748 stripped
 MonoBehaviour:
@@ -1975,8 +2038,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (14)
@@ -2070,6 +2138,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &1903136988271100132 stripped
 MonoBehaviour:
@@ -2092,8 +2163,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (2)
@@ -2187,6 +2263,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &2604229577171874822 stripped
 MonoBehaviour:
@@ -2209,8 +2288,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (23)
@@ -2304,6 +2388,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &2764921437079711040 stripped
 MonoBehaviour:
@@ -2326,8 +2413,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (34)
@@ -2421,6 +2513,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &2774134470525387916 stripped
 MonoBehaviour:
@@ -2443,8 +2538,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (45)
@@ -2538,6 +2638,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &2843880855153992253 stripped
 MonoBehaviour:
@@ -2560,8 +2663,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (31)
@@ -2655,6 +2763,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3350649212569734336 stripped
 MonoBehaviour:
@@ -2677,8 +2788,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (39)
@@ -2772,6 +2888,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3417464302982297850 stripped
 MonoBehaviour:
@@ -2794,8 +2913,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (26)
@@ -2889,6 +3013,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3158901509376842556 stripped
 MonoBehaviour:
@@ -2911,8 +3038,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (17)
@@ -3006,6 +3138,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3929095071052849405 stripped
 MonoBehaviour:
@@ -3028,8 +3163,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (28)
@@ -3123,6 +3263,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3591592138282511413 stripped
 MonoBehaviour:
@@ -3145,8 +3288,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (6)
@@ -3240,6 +3388,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &3683755325318696843 stripped
 MonoBehaviour:
@@ -3262,8 +3413,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (42)
@@ -3357,6 +3513,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &4454537164206971931 stripped
 MonoBehaviour:
@@ -3379,8 +3538,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (21)
@@ -3474,6 +3638,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!114 &4529104612345919474 stripped
 MonoBehaviour:
@@ -3496,8 +3663,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (11)
@@ -3591,6 +3763,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &2331383279945112891 stripped
 RectTransform:
@@ -3613,8 +3788,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (15)
@@ -3708,6 +3888,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &2350250912058913508 stripped
 RectTransform:
@@ -3730,8 +3913,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (32)
@@ -3825,6 +4013,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &3108708777951964247 stripped
 RectTransform:
@@ -3847,8 +4038,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (7)
@@ -3942,6 +4138,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &2923582785170327526 stripped
 RectTransform:
@@ -3964,8 +4163,89 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (1)
@@ -4058,7 +4338,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &3372061154055380652 stripped
 RectTransform:
@@ -4081,8 +4384,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (35)
@@ -4176,6 +4484,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &3311126867141926786 stripped
 RectTransform:
@@ -4198,8 +4509,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (5)
@@ -4293,6 +4609,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &3555858581313439821 stripped
 RectTransform:
@@ -4315,8 +4634,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (10)
@@ -4410,6 +4734,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &4214862249117584820 stripped
 RectTransform:
@@ -4432,8 +4759,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (12)
@@ -4527,6 +4859,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &4516308535082329525 stripped
 RectTransform:
@@ -4549,8 +4884,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (41)
@@ -4644,6 +4984,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &4412919605832513396 stripped
 RectTransform:
@@ -4666,8 +5009,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (29)
@@ -4761,6 +5109,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &81934203946494145 stripped
 RectTransform:
@@ -4783,8 +5134,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (19)
@@ -4878,6 +5234,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &87174174019860812 stripped
 RectTransform:
@@ -4900,8 +5259,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (4)
@@ -4995,6 +5359,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &501607282312400503 stripped
 RectTransform:
@@ -5017,8 +5384,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (44)
@@ -5112,6 +5484,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &373946261872474588 stripped
 RectTransform:
@@ -5134,8 +5509,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (13)
@@ -5229,6 +5609,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &398971750430733416 stripped
 RectTransform:
@@ -5251,8 +5634,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (20)
@@ -5346,6 +5734,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &401054563567665626 stripped
 RectTransform:
@@ -5368,8 +5759,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (22)
@@ -5463,6 +5859,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1071099464446407813 stripped
 RectTransform:
@@ -5485,8 +5884,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (3)
@@ -5580,6 +5984,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1239614854914004933 stripped
 RectTransform:
@@ -5602,8 +6009,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (25)
@@ -5697,6 +6109,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1247367538307968623 stripped
 RectTransform:
@@ -5719,8 +6134,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (43)
@@ -5814,6 +6234,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1255336239864883440 stripped
 RectTransform:
@@ -5836,8 +6259,89 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 24941886825591855, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811863317826225230, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102414746784336011, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763868612752244947, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell
@@ -5930,7 +6434,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197212463734268672, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1598199765728678978 stripped
 RectTransform:
@@ -5953,8 +6480,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (27)
@@ -6048,6 +6580,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1927925580296377390 stripped
 RectTransform:
@@ -6070,8 +6605,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (18)
@@ -6165,6 +6705,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &1862839740669073955 stripped
 RectTransform:
@@ -6187,8 +6730,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4534565818285335689}
     m_Modifications:
+    - target: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 290155444297556831, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
     - target: {fileID: 7061874618684854920, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
       propertyPath: m_Name
       value: InventoryCell (37)
@@ -6282,6 +6830,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eba7b5f4757a28849aa88953d16ebb86, type: 3}
 --- !u!224 &2179040410188988841 stripped
 RectTransform:

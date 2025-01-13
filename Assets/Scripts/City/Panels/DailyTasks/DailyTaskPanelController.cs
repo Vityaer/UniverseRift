@@ -103,7 +103,7 @@ namespace City.Buildings.CityButtons.EventAgent
                 taskPrefab.SetData(gameTask, View.Scroll);
 
                 _achievmentViews.Add(taskPrefab);
-                taskPrefab.RewardController.SetDetailsController(_subjectDetailController);
+                taskPrefab.SetReward(_subjectDetailController);
             }
         }
 

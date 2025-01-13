@@ -86,7 +86,7 @@ namespace Fight.Grid
 
         }
 
-        public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Ground)
+        public virtual Stack<HexagonCell> FindWay(HexagonCell startCell, HexagonCell finishCell, TypeMovement typeMovement = TypeMovement.Walk)
         {
             _way.Clear();
             _previousCell = null;

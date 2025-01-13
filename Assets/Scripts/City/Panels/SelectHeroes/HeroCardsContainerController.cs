@@ -1,5 +1,6 @@
 ﻿using City.Panels.SelectHeroes.Comparers;
 using Hero;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,15 @@ using VContainer;
 
 namespace City.Panels.SelectHeroes
 {
-    public class HeroCardsContainerController : MonoBehaviour
+    public class HeroCardsContainerController : SerializedMonoBehaviour
     {
         [Inject] private IObjectResolver _resolver;
 
         [SerializeField] private ScrollRect _scroll;
         [SerializeField] private Card _prefab;
         [SerializeField] private AnimateCustomToggle _customToggle;
+        [SerializeField] private Dictionary<string, Button> _buttons = new();
+        [SerializeField] private Button _allHeroesButton;
 
         private DynamicUiList<Card, GameHero> _cardPool;
         private bool _loadedListHeroes = false;
@@ -39,6 +42,17 @@ namespace City.Panels.SelectHeroes
         private void Awake()
         {
             _cardPool = new(_prefab, _scroll.content, _scroll, OnCardSelect, OnCardCreate);
+
+            foreach (var buttonContainer in _buttons)
+            {
+                buttonContainer.Value.OnClickAsObservable()
+                    .Subscribe(_ => ShowRace(buttonContainer.Key))
+                    .AddTo(_disposables);
+            }
+
+            _allHeroesButton.OnClickAsObservable()
+                .Subscribe(_ => ShowAllCards())
+                .AddTo(_disposables);
         }
 
         private void Start()

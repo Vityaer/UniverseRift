@@ -1,25 +1,31 @@
 ﻿using City.Panels.BoxRewards;
 using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Data.Rewards;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
+using Utils.AsyncUtils;
 
 namespace UIController
 {
     public class RewardUIController : MonoBehaviour
     {
-        [SerializeField] private List<SubjectCell> Cells = new List<SubjectCell>();
+        [SerializeField] private List<SubjectCell> Cells = new();
+        [SerializeField] private float _delayCell;
+
         public Transform panelRewards;
         public GameObject btnAllReward;
         private GameReward _reward;
 
+        private CancellationTokenSource _cancellationTokenSource;
         private CompositeDisposable _disposables = new();
 
         public void SetDetailsController(SubjectDetailController subjectDetailController)
@@ -40,8 +46,9 @@ namespace UIController
             ShowReward(_reward);
         }
 
-        public void ShowReward(GameReward reward, bool lengthReward = false)
+        public void ShowReward(GameReward reward, bool lengthReward = false, bool fast = true)
         {
+
             _reward = reward;
             var count = 0;
 
@@ -57,13 +64,34 @@ namespace UIController
             if (btnAllReward != null)
                 btnAllReward.SetActive(reward.Objects.Count > 4 && lengthReward == false);
 
-            for (int i = 0; i < count; i++) 
-                Cells[i].SetData(reward.Objects[i]);
+            _cancellationTokenSource.TryCancel();
 
-            for (int i = reward.Objects.Count; i < Cells.Count; i++)
-                Cells[i].Disable();
+            if (fast)
+            {
+                for (int i = 0; i < count; i++)
+                    Cells[i].SetData(reward.Objects[i]);
 
-            panelRewards.gameObject.SetActive(reward.Objects.Count > 0);
+                for (int i = reward.Objects.Count; i < Cells.Count; i++)
+                    Cells[i].Disable();
+
+                panelRewards.gameObject.SetActive(reward.Objects.Count > 0);
+            }
+            else
+            {
+                _cancellationTokenSource = new();
+                LazyRewardShow(count, _cancellationTokenSource.Token).Forget();
+            }
+        }
+
+        private async UniTaskVoid LazyRewardShow(int count, CancellationToken token)
+        {
+            Cells.ForEach(cell => cell.Disable());
+
+            for (int i = 0; i < count; i++)
+            {
+                Cells[i].SetData(_reward.Objects[i]);
+                await UniTask.Delay(Mathf.RoundToInt(_delayCell * 1000), cancellationToken: token);
+            }
         }
 
         public void OpenAllReward()
@@ -84,6 +112,7 @@ namespace UIController
         private void OnDestroy()
         {
             _disposables?.Dispose();
+            _cancellationTokenSource.TryCancel();
         }
     }
 }

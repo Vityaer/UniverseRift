@@ -59,6 +59,7 @@ namespace Models.Heroes.Actions
                 {
                     this.ListTarget = listTarget;
                 }
+
                 switch (RecalculateTarget)
                 {
                     case RecalculateMethodTarget.AddTargets:

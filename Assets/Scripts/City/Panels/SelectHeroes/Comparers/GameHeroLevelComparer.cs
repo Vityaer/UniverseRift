@@ -17,7 +17,18 @@ namespace City.Panels.SelectHeroes
             }
             else
             {
-                return 0;
+                if (x.HeroData.Rating > y.HeroData.Rating)
+                {
+                    return -1;
+                }
+                else if (x.HeroData.Rating < y.HeroData.Rating)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }

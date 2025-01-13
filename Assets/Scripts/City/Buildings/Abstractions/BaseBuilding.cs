@@ -22,8 +22,8 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly IObjectResolver Resolver;
         [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
-        protected CompositeDisposable Disposables = new CompositeDisposable();
-        private int levelForAvailableBuilding = 0;
+        protected CompositeDisposable Disposables = new();
+        private int _levelForAvailableBuilding = 0;
 
         public string Name => throw new NotImplementedException();
 
@@ -55,7 +55,7 @@ namespace City.Buildings.Abstractions
 
         protected bool AvailableFromLevel()
         {
-            bool result = CommonGameData.PlayerInfoData.Level >= levelForAvailableBuilding;
+            bool result = CommonGameData.PlayerInfoData.Level >= _levelForAvailableBuilding;
             if (result == false)
             {
                 //MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");

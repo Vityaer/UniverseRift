@@ -17,7 +17,18 @@ namespace City.Panels.SelectHeroes.Comparers
             }
             else
             {
-                return 0;
+                if (x.HeroData.Level > y.HeroData.Level)
+                {
+                    return -1;
+                }
+                else if (x.HeroData.Level < y.HeroData.Level)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }

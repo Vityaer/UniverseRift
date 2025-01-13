@@ -63,5 +63,19 @@ namespace UIController.Rewards.PosibleRewards
         {
             Splinters.Remove(light);
         }
+
+        public void SetCommonDictionaries(CommonDictionaries commonDictionaries)
+        {
+            CommonDictionaries = commonDictionaries;
+            foreach (var posibleItem in Items)
+            {
+                posibleItem.Value.CommonDictionaries = CommonDictionaries;
+            }
+
+            foreach (var posibleSplinter in Splinters)
+            {
+                posibleSplinter.Value.CommonDictionaries = CommonDictionaries;
+            }
+        }
     }
 }

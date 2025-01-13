@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 5198348391796826283}
   - component: {fileID: 4512232969233387112}
   - component: {fileID: 5060511789288346387}
+  - component: {fileID: 1619505174038404047}
   m_Layer: 6
   m_Name: Nosedman
   m_TagString: Hero
@@ -82,16 +83,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 6658500798986965088}
-  speedMove: 2
-  speedAnimation: 1
+  _isFacingRight: 1
+  _statusState: {fileID: 6658500798986965088}
+  _movement: {fileID: 1619505174038404047}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
   hero:
     StatusState: {fileID: 0}
     <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 2040589154694801602}
+  _bodyParent: {fileID: 2040589154694801602}
   _stages:
   - {fileID: 5774231213795592863}
   - {fileID: 5029732235825208968}
@@ -146,6 +148,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1619505174038404047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988245247312617084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &883773924673927698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -755,6 +769,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -477752431, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 8389403941568348914}
   <OutlineController>k__BackingField: {fileID: 2362456801210295508}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &849336237168549369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6a1964ee63cb9b4484be19c9579b178, type: 3}
@@ -1355,6 +1371,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 27049065, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 3815688764896639737}
   <OutlineController>k__BackingField: {fileID: 6275650831065692641}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &6275650831065692641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1975,6 +1993,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -329302261, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 7137132467989114452}
   <OutlineController>k__BackingField: {fileID: 3596995329959613850}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &7879542859357981199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9cb507988ceb38a4581af8ad0e66227f, type: 3}

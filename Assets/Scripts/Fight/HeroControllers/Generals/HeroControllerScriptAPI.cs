@@ -5,7 +5,6 @@ namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
-
         public void StartWait()
         {
             EndTurn();
@@ -14,13 +13,13 @@ namespace Fight.HeroControllers.Generals
         public void StartDefend()
         {
             var buffDefend = new BuffModel(BuffType.Armor, 1f);
-            statusState.SetBuff(buffDefend);
+            _statusState.SetBuff(buffDefend);
             EndTurn();
         }
 
         public void UseSpecialSpell()
         {
-            if (statusState.Stamina >= 100f)
+            if (_statusState.Stamina >= 100f)
             {
                 DoSpell();
             }
@@ -29,7 +28,7 @@ namespace Fight.HeroControllers.Generals
         public void SetDebuff(State debuff, int rounds)
         {
             Debug.Log("set debuff", gameObject);
-            this.statusState.SetDebuff(debuff, rounds);
+            this._statusState.SetDebuff(debuff, rounds);
         }
     }
 }

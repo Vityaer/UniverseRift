@@ -2,14 +2,17 @@
 using Common.Heroes;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
+using DG.Tweening;
 using Hero;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Threading;
 using TMPro;
 using UniRx;
+using UnityEngine;
+using Utils.AsyncUtils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -24,12 +27,17 @@ namespace Fight.WarTable
         [Inject] private readonly FightController _fightController;
 
         private MissionModel _mission;
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposables = new();
 
         private IDisposable _buttonAction;
         private Action<TeamContainer> _callback;
         private TeamContainer _playerTeam;
         private ReactiveCommand<TeamContainer> _onChangeTeam = new();
+
+        private bool _isDragging;
+        private WarriorPlace _startDragPlace;
+        private CancellationTokenSource _cancellationTokenSource;
+        private Tween _dragTween;
 
         public ReactiveCommand OnStartMission = new();
         public ReactiveCommand OnClose = new();
@@ -46,10 +54,85 @@ namespace Fight.WarTable
             foreach (var place in View.LeftTeam)
             {
                 place.OnClick.Subscribe(OnPlaceSelect).AddTo(_disposables);
+                place.OnStartDrag.Subscribe(OnStartDrag).AddTo(_disposables);
+                place.OnDrop.Subscribe(OnDrop).AddTo(_disposables);
             }
+
             Resolver.Inject(View.ListCardPanel);
 
+            View.DragableItem.gameObject.SetActive(false);
             _fightController.OnFigthResult.Subscribe(_ => Close()).AddTo(_disposables);
+        }
+
+        private void OnStartDrag(WarriorPlace place)
+        {
+            if (_isDragging)
+                return;
+
+            View.DragableItem.DOMove(Input.mousePosition, 0f);
+            View.DragableItem.gameObject.SetActive(true);
+
+            if (place.IsEmpty)
+                return;
+
+            _startDragPlace = place;
+            _isDragging = true;
+            View.DragableItemImage.sprite = place.Hero.Avatar;
+
+            _cancellationTokenSource.TryCancel();
+            _cancellationTokenSource = new();
+            DragingItem(_cancellationTokenSource.Token).Forget();
+        }
+
+        private async UniTaskVoid DragingItem(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    MoveDragableItem();
+                }
+                else
+                {
+                    var selectPlace = View.LeftTeam.Find(place => place.MouseInnerFlag); 
+                    OnDrop(selectPlace);
+                }
+
+                await UniTask.Yield(token);
+            }
+        }
+
+        private void MoveDragableItem()
+        {
+            _dragTween.Kill();
+            _dragTween = View.DragableItem
+                .DOMove(Input.mousePosition, View.DragSpeed)
+                .SetSpeedBased(true);
+        }
+
+        private void OnDrop(WarriorPlace place)
+        {
+            View.DragableItem.gameObject.SetActive(false);
+            _cancellationTokenSource.TryCancel();
+            _isDragging = false;
+
+            if (place == null)
+                return;
+
+            if (place == _startDragPlace)
+                return;
+
+            if (place.IsEmpty)
+            {
+                place.SetHero(_startDragPlace.Hero);
+                _startDragPlace.Clear();
+            }
+            else
+            {
+                var tempHero = place.Hero;
+                place.SetHero(_startDragPlace.Hero);
+                _startDragPlace.SetHero(tempHero);
+            }
         }
 
         private void OnPlaceSelect(WarriorPlace place)
@@ -120,7 +203,7 @@ namespace Fight.WarTable
 
             if (place != null)
             {
-                place.ClearPlace();
+                place.Clear();
 
                 if (_playerTeam != null)
                 {
@@ -342,6 +425,13 @@ namespace Fight.WarTable
             await UniTask.Delay(200);
             base.Close();
             _fightController.SetMission(_mission, View.LeftTeam, View.RightTeam);
+        }
+
+        public override void Dispose()
+        {
+            _cancellationTokenSource.TryCancel();
+            _dragTween.Kill();
+            base.Dispose();
         }
     }
 }

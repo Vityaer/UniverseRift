@@ -116,7 +116,7 @@ namespace Editor.Pages.Heroes
         [ShowInInspector]
         [LabelText("Skills")]
         [LabelWidth(150)]
-        public List<Skill> Skills
+        public List<SkillModel> Skills
         {
             get => _model.Skills;
             set => _model.Skills = value;

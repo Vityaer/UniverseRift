@@ -15,19 +15,19 @@ namespace Fight.HeroControllers.Generals
     {
         [Inject] private FightDirectionController _directionController;
 
-        [SerializeField] bool isFacingRight = true;
 
-        [SerializeField] private Transform BodyParent;
+        [SerializeField] private Transform _bodyParent;
 
         [SerializeField] private List<HeroVisualModel> _stages = new(); 
 
         private SpriteRenderer _spriteRenderer;
         private HeroVisualModel _currentHeroVisualModel;
 
+        public HeroVisualModel HeroVisualModel => _currentHeroVisualModel;
         public Sprite Avatar => _currentHeroVisualModel.Avatar;
         public OutlineController OutlineController => _currentHeroVisualModel.OutlineController;
         public Animator Animator => _currentHeroVisualModel.Animator;
-        public bool SpellExist => CheckExistAnimation(ANIMATION_SPELL);
+        public bool SpellExist => CheckExistAnimation(Constants.Visual.ANIMATOR_SPELL_NAME_HASH);
         public List<HeroVisualModel> Stages => _stages;
 
         public SpriteRenderer GetSpriteRenderer
@@ -35,7 +35,7 @@ namespace Fight.HeroControllers.Generals
             get
             {
                 if (_spriteRenderer == null)
-                    _spriteRenderer = BodyParent.Find("Body").GetComponent<SpriteRenderer>();
+                    _spriteRenderer = _bodyParent.Find("Body").GetComponent<SpriteRenderer>();
                 return _spriteRenderer;
             }
         }
@@ -48,6 +48,10 @@ namespace Fight.HeroControllers.Generals
             index = Mathf.Clamp(index, 0, _stages.Count);
             _currentHeroVisualModel = _stages[index];
             _currentHeroVisualModel.Activate();
+
+            _attack = _currentHeroVisualModel.AttackController;
+            if (_currentHeroVisualModel.OverrideMovement)
+                _movement = _currentHeroVisualModel.MovementController;
         }
 
         protected virtual void PrepareOnStartTurn()
@@ -56,7 +60,7 @@ namespace Fight.HeroControllers.Generals
             FindAvailableCells();
             ListTarget.Clear();
 
-            if (this.Side == Side.Left)
+            if (this._side == Side.Left)
             {
                 _directionController.OpenControllers(this);
                 OutlineController.SwitchOn();
@@ -73,38 +77,38 @@ namespace Fight.HeroControllers.Generals
         private bool NeedFlip(HeroController enemy)
         {
             bool result = false;
-            CellDirectionType direction = NeighbourCell.GetDirection(myPlace, enemy.Cell);
+            CellDirectionType direction = NeighbourCell.GetDirection(MyPlace, enemy.Cell);
             switch (direction)
             {
                 case CellDirectionType.UpLeft:
                 case CellDirectionType.Left:
                 case CellDirectionType.BottomLeft:
-                    result = (isFacingRight == true);
+                    result = (_isFacingRight == true);
                     break;
                 case CellDirectionType.UpRight:
                 case CellDirectionType.Right:
                 case CellDirectionType.BottomRight:
-                    result = (isFacingRight == false);
+                    result = (_isFacingRight == false);
                     break;
             }
 
             return result;
         }
 
-        protected void FlipX()
+        public void FlipX()
         {
-            isFacingRight = !isFacingRight;
-            Vector3 locScale = BodyParent.localScale;
+            _isFacingRight = !_isFacingRight;
+            Vector3 locScale = _bodyParent.localScale;
             locScale.z *= -1;
-            BodyParent.localScale = locScale;
+            _bodyParent.localScale = locScale;
         }
 
         //Fight helps
-        protected virtual bool CanAttackHero(HeroController otherHero) => (this.Side != otherHero.Side);
+        protected virtual bool CanAttackHero(HeroController otherHero) => (this._side != otherHero._side);
 
         protected void RefreshOnEndRound()
         {
-            CurrentCountCounterAttack = hero.GetBaseCharacteristic.CountCouterAttack;
+            CurrentCountCounterAttack = _hero.GetBaseCharacteristic.CountCouterAttack;
         }
 
         protected void ShakeCamera()
@@ -114,7 +118,7 @@ namespace Fight.HeroControllers.Generals
 
         protected void IsSide(Side side)
         {
-            this.Side = side;
+            this._side = side;
             delta = (side == Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
             if (side == Side.Right) FlipX();
         }
@@ -122,7 +126,8 @@ namespace Fight.HeroControllers.Generals
         protected bool CanCounterAttack(HeroController heroForCounterAttack, HeroController heroWasAttack)
         {
             bool result = false;
-            if ((CurrentCountCounterAttack > 0) && (statusState.PermissionAction() == true) && !_isDeath)
+            var isNeighbour = MyPlace.IsCellNeighbour(heroWasAttack.MyPlace);
+            if (isNeighbour && (CurrentCountCounterAttack > 0) && (_statusState.PermissionAction() == true) && !_isDeath)
             {
                 result = true;
             }
@@ -132,7 +137,7 @@ namespace Fight.HeroControllers.Generals
         private void CreateSpell()
         {
             ListTarget.Clear();
-            OnSpell(ListTarget);
+            _onSpell.Execute(ListTarget);
             EndTurn();
         }
 
@@ -167,28 +172,16 @@ namespace Fight.HeroControllers.Generals
             }
         }
 
-        private void SetMyPlaceColor()
-        {
-            if (Side == Side.Left)
-            {
-                myPlace.SetColor(Constants.Colors.NOT_ACHIEVABLE_FRIEND_CELL_COLOR);
-            }
-            else
-            {
-                myPlace.SetColor(Constants.Colors.NOT_ACHIEVABLE_ENEMY_CELL_COLOR);
-            }
-        }
-
         private bool CanMelleeAttack()
         {
-            return (hero.Model.Characteristics.Main.Mellee == true)
-                || (!hero.Model.Characteristics.Main.Mellee && myPlace.MyEnemyNear(this.Side));
+            return (_hero.Model.Characteristics.Main.Mellee == true)
+                || (!_hero.Model.Characteristics.Main.Mellee && MyPlace.MyEnemyNear(this._side));
         }
 
         [ContextMenu("Add 100 stamina")]
         private void AddBonus100Stamina()
         {
-            statusState.ChangeStamina(100);
+            _statusState.ChangeStamina(100);
         }
     }
 }

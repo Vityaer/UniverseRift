@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using City.AddressableServices;
+using Common;
 using Common.Players;
 using Db.CommonDictionaries;
 using Initializable;
@@ -27,6 +28,7 @@ namespace Installer
             builder.Register<LocalizationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PlayersStorage>(Lifetime.Singleton).AsSelf();
             builder.Register<TimeLocalizeService>(Lifetime.Singleton).AsSelf();
+            builder.Register<AddressablesService>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<ProjectInitialize>();
             base.Configure(builder);
         }

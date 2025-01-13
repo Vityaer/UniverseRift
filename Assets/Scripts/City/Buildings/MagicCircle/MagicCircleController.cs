@@ -3,6 +3,7 @@ using City.Panels.HeroesHireResultPanels;
 using ClientServices;
 using Common.Heroes;
 using Common.Resourses;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Hero;
@@ -15,6 +16,7 @@ using Network.DataServer.Messages.Hires;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UIController.Rewards;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -27,10 +29,9 @@ namespace City.Buildings.MagicCircle
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly HeroesHireResultPanelController _heroesHireResultPanelController;
+        [Inject] private readonly ClientRewardService _clientRewardService;
 
         private string _selectedRace;
-        private List<HeroModel> _listHeroes = new List<HeroModel>();
         private GameResource _raceHireCost = new GameResource(ResourceType.RaceHireCard, 1, 0);
         private ReactiveCommand<int> _onRaceHire = new();
 
@@ -43,9 +44,8 @@ namespace City.Buildings.MagicCircle
                 button.Value.OnClickAsObservable().Subscribe(_ => ChangeHireRace(button.Key)).AddTo(Disposables);
             }
 
-
-            View.OneHire.ChangeCost(_raceHireCost, () => HireHero(1).Forget());
-            View.ManyHire.ChangeCost(_raceHireCost * 10, () => HireHero(10).Forget());
+            View.OneHire.ChangeCost(_raceHireCost, () => MagicHire(1).Forget());
+            View.ManyHire.ChangeCost(_raceHireCost * 10, () => MagicHire(10).Forget());
 
             _selectedRace = View.RaceSelectButtons.ElementAt(0).Key;
             ChangeHireRace(_selectedRace);
@@ -61,27 +61,23 @@ namespace City.Buildings.MagicCircle
             View.RaceSelectButtons[_selectedRace].interactable = false;
         }
 
-        private async UniTaskVoid HireHero(int count = 1)
+        private async UniTaskVoid MagicHire(int count = 1)
         {
-            var message = new MagicCircleHire { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
+            var message = new MagicCircleHire
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                Count = count,
+                RaceName = _selectedRace
+            };
             var result = await DataServer.PostData(message);
             if(!string.IsNullOrEmpty(result))
             {
-                var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
-
-                var heroes = new List<GameHero>(newHeroDatas.Count);
-                for (int i = 0; i < newHeroDatas.Count; i++)
-                {
-                    var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
-                    var hero = new GameHero(model, newHeroDatas[i]);
-                    hero.Model.General.HeroId = $"{hero.Model.General.HeroId} #{UnityEngine.Random.Range(0, 1000)}";
-                    AddNewHero(hero);
-                    heroes.Add(hero);
-                }
+                var reward = _jsonConverter.Deserialize<RewardModel>(result);
+                var gameReward = new GameReward(reward, _commonDictionaries);
+                _clientRewardService.ShowReward(gameReward, fast: false);
                 _resourceStorageController.SubtractResource(_raceHireCost * count);
 
                 _onRaceHire.Execute(count);
-                _heroesHireResultPanelController.ShowHeroes(heroes);
             }
         }
 

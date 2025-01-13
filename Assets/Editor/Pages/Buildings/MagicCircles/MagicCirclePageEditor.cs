@@ -43,6 +43,7 @@ namespace Editor.Pages.Buildings.MagicCircles
             }
 
             MagicCircle = magicCircleBuildingModel;
+            MagicCircle.SetCommonDictionary(_dictionaries);
             DataExist = true;
         }
 

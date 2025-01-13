@@ -110,7 +110,7 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
 
         public override void Dispose()
         {
-            _dynamicUiList.Dispose();
+            _dynamicUiList?.Dispose();
             base.Dispose();
         }
     }
