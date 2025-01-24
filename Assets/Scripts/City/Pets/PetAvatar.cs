@@ -16,7 +16,7 @@ namespace City.Pets
         public GameObject Prefab;
         public uint Level;
         public int Rating;
-        public List<Skill> Skills = new List<Skill>();
+        public List<SkillModel> Skills = new List<SkillModel>();
 
         public object Clone()
         {

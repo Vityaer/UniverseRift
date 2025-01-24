@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1813269874986890710}
   - component: {fileID: 4809115312244646786}
   - component: {fileID: 2380219341449570253}
-  m_Layer: 0
+  - component: {fileID: 8867086696922549507}
+  m_Layer: 6
   m_Name: Catcher
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -48,16 +49,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 7626064976327482863}
-  speedMove: 2
-  speedAnimation: 1
+  _isFacingRight: 1
+  _statusState: {fileID: 7626064976327482863}
+  _movement: {fileID: 8867086696922549507}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
   hero:
     StatusState: {fileID: 0}
     <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 7705405368972927549}
+  _bodyParent: {fileID: 7705405368972927549}
   _stages:
   - {fileID: 4069162700045078134}
   - {fileID: 703069877148098925}
@@ -108,10 +110,22 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
+  m_Radius: 0.25
   m_Height: 0.69163394
   m_Direction: 1
   m_Center: {x: 0, y: 0.3164513, z: 0}
+--- !u!114 &8867086696922549507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818314269543377875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8910914092762456442
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,6 +781,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1231572761, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 5710080250677758405}
   <OutlineController>k__BackingField: {fileID: 2228034285084867509}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &6853496210475658973 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8364354642521973303, guid: 007f5446a218b1f49919767f8c1ce4ab, type: 3}
@@ -788,6 +804,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -804,6 +824,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1558,6 +1582,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 60674928, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 8348492797855222556}
   <OutlineController>k__BackingField: {fileID: 4927497811285936222}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &8603360677503575230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3490355923430725924, guid: 4fa3cf1ab181d73409dc6a3a27da2b7e, type: 3}
@@ -2154,6 +2180,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -972097596, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 5413342886786709631}
   <OutlineController>k__BackingField: {fileID: 3421431170245005426}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &1356674154264964874
 MonoBehaviour:
   m_ObjectHideFlags: 0

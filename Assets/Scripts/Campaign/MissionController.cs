@@ -1,29 +1,35 @@
 ﻿using Common.Resourses;
 using Db.CommonDictionaries;
-using Fight;
+using LocalizationSystems;
+using Models.Common.BigDigits;
 using Models.Fights.Campaign;
 using System;
 using TMPro;
 using UIController;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Campaign
 {
     public class MissionController : MonoBehaviour
     {
+        [Inject] private ILocalizationSystem _localizationSystem;
+
         [Header("UI")]
         public TextMeshProUGUI textNameMission;
-        public TextMeshProUGUI textAutoRewardGold;
-        public TextMeshProUGUI textAutoRewardExperience;
-        public TextMeshProUGUI textAutoRewardStone;
+        public LocalizeStringEvent AutoRewardGoldText;
+        public LocalizeStringEvent AutoRewardExperienceText;
+        public LocalizeStringEvent AutoRewardStoneText;
         public Image backgoundMission;
         public GameObject infoFotter;
         public GameObject blockPanel;
         public GameObject imageAutoFight;
         public GameObject btnGoFight;
-        public TextMeshProUGUI textBtnGoFight;
+        public LocalizeStringEvent ButtonActionLocalizeText;
         public RewardUIController rewardController;
 
         [Header("Contollers")]
@@ -58,9 +64,23 @@ namespace Campaign
             {
                 infoFotter.SetActive(true);
                 var autoReward = mission.AutoFightReward;
-                textAutoRewardGold.text = $"{autoReward.BaseResource[ResourceType.Gold].Amount} /{Constants.Game.TACT_TIME}sec.";
-                textAutoRewardStone.text = $"{autoReward.BaseResource[ResourceType.ContinuumStone].Amount} /{Constants.Game.TACT_TIME}sec.";
-                textAutoRewardExperience.text = $"{autoReward.BaseResource[ResourceType.Exp].Amount} /{Constants.Game.TACT_TIME}sec.";
+                SetAutoResourceData(AutoRewardGoldText, autoReward.BaseResource[ResourceType.Gold].Amount);
+                SetAutoResourceData(AutoRewardStoneText, autoReward.BaseResource[ResourceType.ContinuumStone].Amount);
+                SetAutoResourceData(AutoRewardExperienceText, autoReward.BaseResource[ResourceType.Exp].Amount);
+            }
+        }
+
+        private void SetAutoResourceData(LocalizeStringEvent localizeStringEvent, BigDigit amount)
+        {
+            if (localizeStringEvent.StringReference.TryGetValue("Resource", out var variable))
+            {
+                var stringVariable = variable as StringVariable;
+                stringVariable.Value = $"{amount}";
+            }
+            if (localizeStringEvent.StringReference.TryGetValue("Time", out var timeVariable))
+            {
+                var stringVariable = timeVariable as StringVariable;
+                stringVariable.Value = $"{Constants.Game.TACT_TIME}";
             }
         }
 
@@ -114,13 +134,15 @@ namespace Campaign
                 case StatusMission.Open:
                     rewardController.ShowReward(mission.WinReward, _commonDictionaries);
                     rewardController.OpenReward();
-                    textBtnGoFight.text = "Вызвать";
+                    ButtonActionLocalizeText.StringReference = _localizationSystem
+                        .GetLocalizedContainer("MissionStartFightButtonLabel");
                     break;
                 case StatusMission.Complete:
                 case StatusMission.InAutoFight:
                     rewardController.ShowAutoReward(mission.AutoFightReward, _commonDictionaries);
                     rewardController.OpenReward();
-                    textBtnGoFight.text = "Авто";
+                    ButtonActionLocalizeText.StringReference = _localizationSystem
+                        .GetLocalizedContainer("MissionAutoFightButtonLabel");
                     break;
             }
             btnGoFight.SetActive(Status == StatusMission.Open || Status == StatusMission.Complete);

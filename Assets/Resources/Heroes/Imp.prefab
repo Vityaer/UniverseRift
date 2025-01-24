@@ -46,7 +46,8 @@ GameObject:
   - component: {fileID: 3560196455078932313}
   - component: {fileID: 7688506541514174925}
   - component: {fileID: 3965774167832062731}
-  m_Layer: 0
+  - component: {fileID: 1929361975964352579}
+  m_Layer: 6
   m_Name: Imp
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -82,16 +83,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 7150149829836676226}
-  speedMove: 2
-  speedAnimation: 1
+  _isFacingRight: 1
+  _statusState: {fileID: 7150149829836676226}
+  _movement: {fileID: 1929361975964352579}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
   hero:
     StatusState: {fileID: 0}
     <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 4900193393149589206}
+  _bodyParent: {fileID: 4900193393149589206}
   _stages:
   - {fileID: 1175482933960737236}
   - {fileID: 5978887596019163197}
@@ -142,10 +144,22 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
+  m_Radius: 0.23
   m_Height: 0.69163394
   m_Direction: 1
   m_Center: {x: 0, y: 0.3164513, z: 0}
+--- !u!114 &1929361975964352579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818314269543377875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5494956151715063568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +172,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -170,6 +188,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasHeroesStatus
       objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -909,6 +931,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 843154062, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 8429518833020951517}
   <OutlineController>k__BackingField: {fileID: 1144968131088647243}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &6976884388942762768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,6 +1529,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -243817315, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 6398873196605441306}
   <OutlineController>k__BackingField: {fileID: 4196412329702987088}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &4196412329702987088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2098,6 +2124,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 2130632122, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 3880439285338932754}
   <OutlineController>k__BackingField: {fileID: 3944036188237880893}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &3944036188237880893
 MonoBehaviour:
   m_ObjectHideFlags: 0

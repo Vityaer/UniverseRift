@@ -1,16 +1,16 @@
 using City.Buildings.CityButtons.EventAgent;
 using Common.Rewards;
 using LocalizationSystems;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UI.Utils.Localizations.Extensions;
 using UIController;
 using UiExtensions.Misc;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using VContainer;
+using UniRx;
 
 namespace City.Buildings.CityButtons.DailyReward
 {
@@ -23,6 +23,7 @@ namespace City.Buildings.CityButtons.DailyReward
         public TMP_Text Label;
         public RewardUIController RewardController;
 
+        private IDisposable _disposable;
         private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
         private int _id;
 
@@ -30,6 +31,14 @@ namespace City.Buildings.CityButtons.DailyReward
         private void Construct(ILocalizationSystem localizationSystem)
         {
             _localizationSystem = localizationSystem;
+            _disposable = _localizationSystem.OnChangeLanguage.Subscribe(_ => ChangeUi());
+        }
+
+        private void ChangeUi()
+        {
+            _id = transform.GetSiblingIndex();
+            Label.text = _localizationSystem.GetLocalizedContainer("DailyRewardName")
+                .WithArguments(new List<object> { _id + 1 }).GetLocalizedString();
         }
 
         public override void SetData(GameReward data, ScrollRect scrollRect)
@@ -37,9 +46,7 @@ namespace City.Buildings.CityButtons.DailyReward
             Data = data;
             Scroll = scrollRect;
             RewardController.ShowReward(data);
-            _id = transform.GetSiblingIndex();
-            Label.text = _localizationSystem.GetLocalizedContainer("DailyRewardName")
-                .WithArguments(new List<object> { _id + 1 }).GetLocalizedString();
+            ChangeUi();
         }
 
         public override void SetStatus(ScrollableViewStatus newStatusReward)
@@ -82,6 +89,13 @@ namespace City.Buildings.CityButtons.DailyReward
                     SetStatus(ScrollableViewStatus.Completed);
                     break;
             }
+        }
+
+        public override void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
+            base.Dispose();
         }
     }
 }

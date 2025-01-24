@@ -12,8 +12,8 @@ namespace Fight.HeroStates
         private FightController _fightController;
 
         [SerializeField] private HeroController heroController;
-        public TimeSlider sliderHP;
-        public TimeSlider sliderStamina;
+        public SmoothSlider sliderHP;
+        public SmoothSlider sliderStamina;
         private Vector2 delta = new Vector2(0, 30);
         private Action<int> observerStamina;
         private int stamina = 25;

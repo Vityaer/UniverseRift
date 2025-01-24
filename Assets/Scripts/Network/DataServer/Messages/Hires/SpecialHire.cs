@@ -2,6 +2,6 @@
 {
     public class SpecialHire : AbstractHireMessage
     {
-        public new string Route => "Heroes/GetSpecialHeroes";
+        public override string Route => "Heroes/GetSpecialHeroes";
     }
 }

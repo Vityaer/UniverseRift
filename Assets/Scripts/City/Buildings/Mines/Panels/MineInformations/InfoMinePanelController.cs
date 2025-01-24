@@ -1,26 +1,27 @@
 using City.Buildings.Mines.Panels;
+using ClientServices;
+using Common.Resourses;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using LocalizationSystems;
 using Misc.Json;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Mines;
-using System.Globalization;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
-using System.Collections.Generic;
-using Common.Resourses;
-using Common.Rewards;
-using UIController.Rewards;
-using ClientServices;
-using Utils;
-using UnityEngine;
-using System.Threading;
-using Db.CommonDictionaries;
 
 namespace City.Buildings.Mines
 {
@@ -29,6 +30,8 @@ namespace City.Buildings.Mines
         private const int INCOME_MAX_SECONDS = 36000;
         private const int INCOME_MIN_SECONDS = 10;
         private const string MAIN_BUILDING_MINE_ID = "MainMineBuilding";
+
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -40,9 +43,9 @@ namespace City.Buildings.Mines
         private MineData _mainMineData;
         private ReactiveCommand<PlaceForMine> _onMineDestroy = new();
         private CancellationTokenSource _cancellationTokenSource;
-            
+
         public IObservable<PlaceForMine> OnMineDestroy => _onMineDestroy;
-        
+
         public override void Start()
         {
             View.LevelUpButton.OnClickAsObservable().Subscribe(_ => LevelUp().Forget()).AddTo(Disposables);
@@ -77,7 +80,12 @@ namespace City.Buildings.Mines
 
         private async UniTaskVoid LevelUp()
         {
-            var message = new MineLevelUpMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = _place.MineData.Id };
+            var message = new MineLevelUpMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                MineId = _place.MineData.Id
+            };
+
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
@@ -90,7 +98,12 @@ namespace City.Buildings.Mines
         private async UniTaskVoid GetResources()
         {
             Close();
-            var message = new MineTakeResourceMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = _place.MineData.Id };
+            var message = new MineTakeResourceMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                MineId = _place.MineData.Id
+            };
+
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
@@ -111,8 +124,11 @@ namespace City.Buildings.Mines
 
         private void UpdateUI()
         {
-            View.NameMineText.text = _place.MineModel.Id;
-            View.LevelMineText.text = $"Level {_place.MineData.Level}";
+            View.NameMineText.StringReference = _localizationSystem
+                .GetLocalizedContainer($"{_place.MineModel.Id}Name");
+
+            View.LevelMineText.text = $"{_place.MineData.Level}";
+
             var income = _place.MineModel.IncomesContainer.GetCostForLevelUp(_place.MineData.Level)[0];
             var levelUpCost = _place.MineModel.CostLevelUpContainer.GetCostForLevelUp(_place.MineData.Level + 1);
 

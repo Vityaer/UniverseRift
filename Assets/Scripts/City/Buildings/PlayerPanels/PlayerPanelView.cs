@@ -21,5 +21,6 @@ namespace City.Buildings.PlayerPanels
         public Image Avatar;
         public Image OutlineAvatar;
         public Button AvatarButton;
+        public Button SettingButton;
     }
 }

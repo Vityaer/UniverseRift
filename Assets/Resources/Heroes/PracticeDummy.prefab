@@ -46,7 +46,8 @@ GameObject:
   - component: {fileID: 869220646188675738}
   - component: {fileID: 6093537148497898230}
   - component: {fileID: 7479110988053526131}
-  m_Layer: 0
+  - component: {fileID: -632078937060610627}
+  m_Layer: 6
   m_Name: PracticeDummy
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -82,16 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 8522321323389977400}
-  speedMove: 2
-  speedAnimation: 1
-  hero:
-    StatusState: {fileID: 0}
-    <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 6257056151311236656}
+  _statusState: {fileID: 8522321323389977400}
+  _movement: {fileID: -632078937060610627}
+  _speedMove: 2
+  _maxCountCounterAttack: 1
+  _bodyParent: {fileID: 6257056151311236656}
   _stages:
   - {fileID: 3771956703877674882}
   - {fileID: 5255145052520785200}
@@ -115,7 +111,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
+  m_Radius: 0.18
   m_Height: 0.69163394
   m_Direction: 1
   m_Center: {x: 0, y: 0.3164513, z: 0}
@@ -146,6 +142,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &-632078937060610627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045951639636079695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6430349674381277354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +166,30 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2857970825906662810, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857970825906662810, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255259950697693757, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255259950697693757, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255259950697693757, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -169,6 +201,10 @@ PrefabInstance:
     - target: {fileID: 5652931081233746797, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_Name
       value: CanvasHeroesStatus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -702,6 +738,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -808360569, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 272596581924536525}
   <OutlineController>k__BackingField: {fileID: 7204559222711575467}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &7204559222711575467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,6 +1307,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -1279791933, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 1695414081829228444}
   <OutlineController>k__BackingField: {fileID: 4439871021994723976}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &4439871021994723976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1707,6 +1747,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 503724311, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2585900466076182357}
   <OutlineController>k__BackingField: {fileID: 1657116309302120078}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &5903651539363352454
 MonoBehaviour:
   m_ObjectHideFlags: 0

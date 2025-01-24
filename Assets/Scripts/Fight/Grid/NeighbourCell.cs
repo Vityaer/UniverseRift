@@ -27,7 +27,7 @@ namespace Fight.Grid
             Undo.RecordObject(cell, "fill neighbourCell");
 #endif
         }
-        public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Ground, int step = 1) { cell.FindWay(previousCell, target, typeMovement, step); }
+        public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Walk, int step = 1) { cell.FindWay(previousCell, target, typeMovement, step); }
         public static CellDirectionType GetDirection(HexagonCell mainCell, HexagonCell neighbourCell)
         {
             CellDirectionType direction = CellDirectionType.UpLeft;

@@ -1,12 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
-using Fight.Grid;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Fight.Grid;
+using System.Collections;
 
 namespace Fight.HeroControllers.Generals.Movements
 {
     public interface IMovementable
     {
-        UniTask Move(HeroController hero, Stack<HexagonCell> cells);
+        IEnumerator Move(HexagonCell targetCell);
     }
 }

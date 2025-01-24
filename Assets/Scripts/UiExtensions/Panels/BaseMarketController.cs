@@ -14,6 +14,7 @@ using UIController.Misc.Widgets;
 using UnityEngine;
 using VContainer;
 using Common.Inventories.Splinters;
+using System.Linq;
 
 namespace UiExtensions.Panels
 {
@@ -32,7 +33,17 @@ namespace UiExtensions.Panels
         protected void CreateProducts()
         {
             var market = _commonDictionaries.Markets[MarketContainerName];
-            foreach (var productId in market.Products)
+            var allMarketProducts = new List<string>(market.Products.Count);
+            allMarketProducts.AddRange(market.Products);
+
+            var promotions = _сommonGameData.City.MallSave.ShopPromotions
+                .FindAll(promo => promo.MarketName.Equals(MarketContainerName))
+                .Select(promo => promo.ProductId)
+                .ToList();
+
+            allMarketProducts.AddRange(promotions);
+
+            foreach (var productId in allMarketProducts)
             {
                 var productModel = _commonDictionaries.Products[productId];
 
@@ -66,8 +77,8 @@ namespace UiExtensions.Panels
 
         protected override void OnLoadGame()
         {
-            CreateProducts();
             var marketData = _сommonGameData.City.MallSave;
+            CreateProducts();
 
             foreach (var controller in productControllers)
             {

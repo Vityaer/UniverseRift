@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Fight.HeroControllers.Generals.Attacks
         private int _hitTargetCount;
         private int _hitCurrentCount;
         private List<HeroController> _targets = new();
+        private bool _finishAttack;
 
         public override void Attack(List<HeroController> targets)
         {
@@ -58,7 +60,17 @@ namespace Fight.HeroControllers.Generals.Attacks
             {
                 _disposables.Dispose();
                 _disposables = null;
+                _finishAttack = true;
             }
+        }
+
+        public override IEnumerator Attacking(HeroController target, int bonus)
+        {
+            _finishAttack = false;
+            Attack(target);
+            while(!_finishAttack)
+                yield return null;
+            
         }
     }
 }

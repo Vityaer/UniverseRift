@@ -11,7 +11,7 @@ namespace Models.Heroes.Skills.Actions.Imps
         public override void ExecuteAction()
         {
             foreach (HeroController heroController in ListTarget)
-                heroController.statusState.SetDebuff(StateType, (int)Amount);
+                heroController.StatusState.SetDebuff(StateType, (int)Amount);
         }
     }
 }

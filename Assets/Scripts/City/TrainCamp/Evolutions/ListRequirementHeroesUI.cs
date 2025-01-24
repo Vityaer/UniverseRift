@@ -13,8 +13,8 @@ namespace City.TrainCamp
     {
         public HeroEvolutionPanelController MainController;
 
-        [SerializeField] private List<RequireCard> _requireCards = new List<RequireCard>();
-        private List<RequirementHeroModel> _requirementHeroes = new List<RequirementHeroModel>();
+        [SerializeField] private List<RequireCard> _requireCards = new();
+        private List<RequirementHeroModel> _requirementHeroes = new();
         private CompositeDisposable _disposables = new();
         private ReactiveCommand<RequireCard> _onSelectRequireCard = new();
 

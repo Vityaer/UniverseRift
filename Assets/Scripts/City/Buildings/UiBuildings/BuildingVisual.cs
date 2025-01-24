@@ -1,13 +1,16 @@
 ﻿using System;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 using VContainerUi.Interfaces;
 
 namespace City.Buildings.UiBuildings
 {
-    public class BuildingVisual : MonoBehaviour, IDisposable
+    public class BuildingVisual : MonoBehaviour
     {
         public GameObject News;
         public SpriteRenderer ViewRenderer;
@@ -17,9 +20,18 @@ namespace City.Buildings.UiBuildings
         public Vector2 BackgroundOffset;
         public LocalizeStringEvent BuildingName;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposables = new();
 
         private void Start()
+        {
+            CheckTextBackgroundSize();
+            LocalizationSettings.SelectedLocaleChanged += ChangeLocale;
+            TextRect.OnRectTransformDimensionsChangeAsObservable()
+                .Subscribe(_ => CheckTextBackgroundSize())
+                .AddTo(_disposables);
+        }
+
+        private void ChangeLocale(Locale locale)
         {
             CheckTextBackgroundSize();
         }
@@ -57,8 +69,9 @@ namespace City.Buildings.UiBuildings
             }
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
+            LocalizationSettings.SelectedLocaleChanged -= ChangeLocale;
             _disposables.Dispose();
         }
     }

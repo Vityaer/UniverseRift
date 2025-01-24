@@ -1,5 +1,7 @@
 ﻿using Db.CommonDictionaries;
+using LocalizationSystems;
 using Models.Common;
+using Services.TimeLocalizeServices;
 using System;
 using UIController;
 using UniRx;
@@ -15,6 +17,8 @@ namespace MainPages.Events.Cycles
         [Inject] protected IUiMessagesPublisherService UiMessagesPublisher;
         [Inject] protected CommonDictionaries CommonDictionaries;
         [Inject] protected CommonGameData CommonGameData;
+        [Inject] private readonly ILocalizationSystem _localizationSystem;
+        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
 
         protected CompositeDisposable Disposables = new();
 
@@ -23,6 +27,7 @@ namespace MainPages.Events.Cycles
 
         public void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
         {
+            CycleGameEventSliderTime.Init(_localizationSystem, _timeLocalizeService);
             CycleGameEventSliderTime.SetData(startDateTime, gameCycleTime);
         }
 

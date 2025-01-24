@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 145270184972262981}
   m_Father: {fileID: 702868109023281622}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -126,7 +125,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 702868109023281622}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -221,7 +219,6 @@ RectTransform:
   - {fileID: 636795429741221347}
   - {fileID: 3654469150915604326}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -297,7 +294,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3930102006523689208}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -373,7 +369,6 @@ RectTransform:
   m_Children:
   - {fileID: 219686916271627528}
   m_Father: {fileID: 3542387619822471407}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.3}
   m_AnchorMax: {x: 1, y: 1}
@@ -426,7 +421,6 @@ RectTransform:
   m_Children:
   - {fileID: 1036463637993424908}
   m_Father: {fileID: 702868109023281622}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -503,7 +497,6 @@ RectTransform:
   m_Children:
   - {fileID: 702868109023281622}
   m_Father: {fileID: 636795429741221347}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -583,7 +576,6 @@ RectTransform:
   - {fileID: 8410953077356638868}
   - {fileID: 3930102006523689208}
   m_Father: {fileID: 219686916271627528}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -677,6 +669,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3542387619822471407}
     m_Modifications:
     - target: {fileID: 848399181601254029, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
@@ -840,6 +833,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4635687356131634877, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2719953235425143400}
   m_SourcePrefab: {fileID: 100100000, guid: 0ca328aa39ba345428650610cdf3f8e5, type: 3}
 --- !u!114 &37857217228074531 stripped
 MonoBehaviour:
@@ -881,8 +880,17 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 910280898775457570}
     m_Modifications:
+    - target: {fileID: 5520649300671841459, guid: 52e535623590d5a4aa4bcbc0f36e5f95, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3819cdc0d70e0344591e46c922e1752f, type: 3}
+    - target: {fileID: 5520649300671841459, guid: 52e535623590d5a4aa4bcbc0f36e5f95, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5520649302481144528, guid: 52e535623590d5a4aa4bcbc0f36e5f95, type: 3}
       propertyPath: m_Name
       value: SubjectCellView
@@ -976,6 +984,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7817882671946813768, guid: 52e535623590d5a4aa4bcbc0f36e5f95, type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52e535623590d5a4aa4bcbc0f36e5f95, type: 3}
 --- !u!224 &145270184972262981 stripped
 RectTransform:

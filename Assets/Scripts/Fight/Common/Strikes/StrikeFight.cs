@@ -40,7 +40,13 @@ namespace Fight.Common.Strikes
             return Mathf.Ceil(result);
         }
 
-        public Strike(float baseAttack, int skillAttack, RoundTypeNumber typeNumber = RoundTypeNumber.Num, TypeStrike typeStrike = TypeStrike.Physical, bool isMellee = true)
+        public Strike(
+            float baseAttack,
+            int skillAttack,
+            RoundTypeNumber typeNumber = RoundTypeNumber.Num,
+            TypeStrike typeStrike = TypeStrike.Physical,
+            bool isMellee = true
+            )
         {
             this.baseAttack = baseAttack;
             this.typeNumber = typeNumber;

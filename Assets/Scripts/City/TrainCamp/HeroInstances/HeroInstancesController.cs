@@ -63,7 +63,7 @@ namespace City.TrainCamp.HeroInstances
 
         public void ShowAnimation()
         {
-            _currentHero.HeroAnimator.Play("Attack");
+            _currentHero.Animator.Play(Constants.Visual.ANIMATOR_ATTACK_NAME_HASH);
         }
 
         public void Hide()

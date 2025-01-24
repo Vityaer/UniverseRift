@@ -2,8 +2,8 @@
   {
     "General": {
       "HeroId": "Catcher",
-      "Race": "Cat",
-      "Vocation": "KillerVocation",
+      "Race": "Alliance",
+      "Vocation": "Archer",
       "Rating": 1,
       "Rare": 0
     },
@@ -52,8 +52,8 @@
     "Characteristics": {
       "limitLevel": 30,
       "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "HP": 50.0,
+      "Initiative": 20.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -62,11 +62,11 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 6,
+        "Defense": 1,
         "Speed": 3,
         "MovementType": 0,
-        "Mellee": true,
+        "Mellee": false,
         "AttackType": 0,
         "CanRetaliation": true,
         "CountCouterAttack": 1
@@ -97,54 +97,14 @@
       "SilinceResistance": 0.0,
       "EfficiencyHeal": 1.0
     },
-    "Skills": [
-      {
-        "ID": "CatcherSpell",
-        "IsActive": true,
-        "IconPath": "Assets/Resources/Icons/CatcherSpell.png",
-        "Levels": [
-          {
-            "RequireNumBreakthrough": 0,
-            "Effects": [
-              {
-                "Performance": 2,
-                "TypeEvent": 6,
-                "CountExecutions": 0,
-                "Conditions": [],
-                "Actions": [
-                  {
-                    "$type": "Models.Heroes.Skills.Actions.Imps.SimpleActions.DamageAction, Assembly-CSharp",
-                    "RepeatCall": 0,
-                    "Rounds": [
-                      {
-                        "Amount": 10.0,
-                        "TypeNumber": 0,
-                        "IsPercent": true
-                      }
-                    ],
-                    "SideTargetType": 0,
-                    "TypeSelect": 1,
-                    "CountTarget": 1,
-                    "RecalculateTarget": 0,
-                    "Chance": 100.0,
-                    "Amount": 10.0,
-                    "TypeNumber": 0,
-                    "Owner": null
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    "Skills": [],
     "Id": "Catcher"
   },
   {
     "General": {
       "HeroId": "Dragon",
-      "Race": "Cat",
-      "Vocation": "WarriorVocation",
+      "Race": "Alliance",
+      "Vocation": "Warrior",
       "Rating": 1,
       "Rare": 0
     },
@@ -192,9 +152,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
+      "Damage": 38.0,
       "HP": 120.0,
-      "Initiative": 40.0,
+      "Initiative": 10.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -203,8 +163,8 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 3,
+        "Defense": 3,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -238,54 +198,14 @@
       "SilinceResistance": 0.0,
       "EfficiencyHeal": 1.0
     },
-    "Skills": [
-      {
-        "ID": "DragonSpell",
-        "IsActive": true,
-        "IconPath": "Assets/Resources/Icons/DragonSpell.png",
-        "Levels": [
-          {
-            "RequireNumBreakthrough": 0,
-            "Effects": [
-              {
-                "Performance": 2,
-                "TypeEvent": 6,
-                "CountExecutions": 0,
-                "Conditions": [],
-                "Actions": [
-                  {
-                    "$type": "Models.Heroes.Skills.Actions.Imps.SimpleActions.DamageAction, Assembly-CSharp",
-                    "RepeatCall": 0,
-                    "Rounds": [
-                      {
-                        "Amount": 10.0,
-                        "TypeNumber": 0,
-                        "IsPercent": true
-                      }
-                    ],
-                    "SideTargetType": 0,
-                    "TypeSelect": 1,
-                    "CountTarget": 1,
-                    "RecalculateTarget": 0,
-                    "Chance": 100.0,
-                    "Amount": 10.0,
-                    "TypeNumber": 0,
-                    "Owner": null
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    "Skills": [],
     "Id": "Dragon"
   },
   {
     "General": {
       "HeroId": "Fishguard",
-      "Race": "Dog",
-      "Vocation": "PastorVocation",
+      "Race": "Desertes",
+      "Vocation": "Support",
       "Rating": 1,
       "Rare": 0
     },
@@ -333,9 +253,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 15.0,
+      "HP": 95.0,
+      "Initiative": 30.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -344,9 +264,9 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
-        "Speed": 3,
+        "Attack": 1,
+        "Defense": 2,
+        "Speed": 4,
         "MovementType": 0,
         "Mellee": true,
         "AttackType": 0,
@@ -385,8 +305,8 @@
   {
     "General": {
       "HeroId": "Imp",
-      "Race": "Dog",
-      "Vocation": "KillerVocation",
+      "Race": "Desertes",
+      "Vocation": "Killer",
       "Rating": 1,
       "Rare": 0
     },
@@ -434,9 +354,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 65.0,
+      "HP": 85.0,
+      "Initiative": 60.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -446,8 +366,8 @@
       "CountTargetForSpell": 1,
       "Main": {
         "Attack": 5,
-        "Defense": 4,
-        "Speed": 3,
+        "Defense": 1,
+        "Speed": 4,
         "MovementType": 0,
         "Mellee": true,
         "AttackType": 0,
@@ -486,8 +406,8 @@
   {
     "General": {
       "HeroId": "Knight",
-      "Race": "Rodent",
-      "Vocation": "WarriorVocation",
+      "Race": "Dwellers",
+      "Vocation": "Warrior",
       "Rating": 1,
       "Rare": 0
     },
@@ -535,19 +455,19 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 46.0,
+      "HP": 140.0,
+      "Initiative": 35.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
       "CleanDamage": 0.0,
       "Dodge": 0.0,
-      "CountTargetForSimpleAttack": 1,
+      "CountTargetForSimpleAttack": 2,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 3,
+        "Defense": 2,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -587,8 +507,8 @@
   {
     "General": {
       "HeroId": "Nosedman",
-      "Race": "Fish",
-      "Vocation": "WizardVocation",
+      "Race": "Dwellers",
+      "Vocation": "Wizard",
       "Rating": 1,
       "Rare": 0
     },
@@ -637,8 +557,8 @@
     "Characteristics": {
       "limitLevel": 30,
       "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "HP": 45.0,
+      "Initiative": 42.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -647,11 +567,11 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 7,
+        "Defense": 0,
         "Speed": 3,
         "MovementType": 0,
-        "Mellee": true,
+        "Mellee": false,
         "AttackType": 0,
         "CanRetaliation": true,
         "CountCouterAttack": 1
@@ -688,8 +608,8 @@
   {
     "General": {
       "HeroId": "PitBoy",
-      "Race": "Fish",
-      "Vocation": "ArcherVocation",
+      "Race": "Renegades",
+      "Vocation": "Archer",
       "Rating": 1,
       "Rare": 0
     },
@@ -737,9 +657,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 50.0,
+      "HP": 40.0,
+      "Initiative": 80.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -748,9 +668,9 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
-        "Speed": 3,
+        "Attack": 4,
+        "Defense": 1,
+        "Speed": 2,
         "MovementType": 0,
         "Mellee": true,
         "AttackType": 0,
@@ -789,8 +709,8 @@
   {
     "General": {
       "HeroId": "PracticeDummy",
-      "Race": "Rodent",
-      "Vocation": "WarriorVocation",
+      "Race": "Renegades",
+      "Vocation": "Warrior",
       "Rating": 1,
       "Rare": 0
     },
@@ -838,19 +758,19 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 20.0,
+      "HP": 200.0,
+      "Initiative": 10.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
       "CleanDamage": 0.0,
       "Dodge": 0.0,
-      "CountTargetForSimpleAttack": 1,
+      "CountTargetForSimpleAttack": 3,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 1,
+        "Defense": 6,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -884,14 +804,48 @@
       "SilinceResistance": 0.0,
       "EfficiencyHeal": 1.0
     },
-    "Skills": [],
+    "Skills": [
+      {
+        "ID": "PracticeDummyUlta",
+        "IsActive": true,
+        "IconPath": "Assets/Resources/Icons/ActiveStun.png",
+        "Levels": [
+          {
+            "RequireNumBreakthrough": 0,
+            "Effects": [
+              {
+                "TypeEvent": {
+                  "$type": "Models.Heroes.Skills.Effects.TypeEvents.Imps.OnSpellEvent, Assembly-CSharp"
+                },
+                "CountExecutions": -1,
+                "Conditions": [],
+                "Actions": [
+                  {
+                    "$type": "Models.Heroes.Skills.Actions.Imps.ChangeStatusAction, Assembly-CSharp",
+                    "StateType": 0,
+                    "SideTargetType": 0,
+                    "TypeSelect": 28,
+                    "CountTarget": 6,
+                    "RecalculateTarget": 0,
+                    "Chance": 100.0,
+                    "Amount": 1.0,
+                    "TypeNumber": 1,
+                    "Owner": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "Id": "PracticeDummy"
   },
   {
     "General": {
       "HeroId": "Snake",
-      "Race": "Rodent",
-      "Vocation": "KillerVocation",
+      "Race": "Technicians",
+      "Vocation": "Killer",
       "Rating": 1,
       "Rare": 0
     },
@@ -939,9 +893,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 70.0,
+      "HP": 65.0,
+      "Initiative": 84.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -950,9 +904,9 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 0,
-        "Defense": 0,
-        "Speed": 0,
+        "Attack": 5,
+        "Defense": 1,
+        "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
         "AttackType": 0,
@@ -991,8 +945,8 @@
   {
     "General": {
       "HeroId": "Spike",
-      "Race": "Bird",
-      "Vocation": "PastorVocation",
+      "Race": "Technicians",
+      "Vocation": "Support",
       "Rating": 1,
       "Rare": 0
     },
@@ -1040,9 +994,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 10.0,
+      "HP": 90.0,
+      "Initiative": 76.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -1051,8 +1005,8 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 1,
+        "Defense": 3,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -1092,8 +1046,8 @@
   {
     "General": {
       "HeroId": "Treestor",
-      "Race": "Bird",
-      "Vocation": "KillerVocation",
+      "Race": "Undead",
+      "Vocation": "Killer",
       "Rating": 1,
       "Rare": 0
     },
@@ -1141,9 +1095,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 65.0,
+      "HP": 76.0,
+      "Initiative": 80.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -1152,8 +1106,8 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 6,
+        "Defense": 0,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -1193,8 +1147,8 @@
   {
     "General": {
       "HeroId": "Wedger",
-      "Race": "Bird",
-      "Vocation": "PastorVocation",
+      "Race": "Undead",
+      "Vocation": "Support",
       "Rating": 1,
       "Rare": 0
     },
@@ -1242,9 +1196,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 15.0,
+      "HP": 80.0,
+      "Initiative": 120.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -1253,8 +1207,8 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
+        "Attack": 2,
+        "Defense": 2,
         "Speed": 3,
         "MovementType": 0,
         "Mellee": true,
@@ -1294,8 +1248,8 @@
   {
     "General": {
       "HeroId": "Wolf",
-      "Race": "Bird",
-      "Vocation": "KillerVocation",
+      "Race": "Undead",
+      "Vocation": "Killer",
       "Rating": 1,
       "Rare": 0
     },
@@ -1343,9 +1297,9 @@
     },
     "Characteristics": {
       "limitLevel": 30,
-      "Damage": 30.0,
-      "HP": 120.0,
-      "Initiative": 40.0,
+      "Damage": 80.0,
+      "HP": 55.0,
+      "Initiative": 100.0,
       "ProbabilityCriticalAttack": 0.0,
       "DamageCriticalAttack": 0.0,
       "Accuracy": 0.0,
@@ -1354,9 +1308,9 @@
       "CountTargetForSimpleAttack": 1,
       "CountTargetForSpell": 1,
       "Main": {
-        "Attack": 5,
-        "Defense": 4,
-        "Speed": 3,
+        "Attack": 4,
+        "Defense": 3,
+        "Speed": 4,
         "MovementType": 0,
         "Mellee": true,
         "AttackType": 0,

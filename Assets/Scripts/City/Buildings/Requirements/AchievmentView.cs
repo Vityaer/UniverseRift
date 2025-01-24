@@ -1,4 +1,5 @@
 ﻿using City.Achievements;
+using City.Panels.SubjectPanels.Common;
 using Cysharp.Threading.Tasks;
 using LocalizationSystems;
 using Models.Common;
@@ -22,15 +23,17 @@ namespace City.Buildings.Requirement
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly ILocalizationSystem _localizationSystem;
 
-        public ItemSliderController SliderAmount;
-        public RewardUIController RewardController;
-        public LocalizeStringEvent Name;
-        public LocalizeStringEvent Description;
-        public GameObject DonePanel;
+        [SerializeField] private ItemSliderController SliderAmount;
+        [SerializeField] private RewardUIController RewardController;
+        [SerializeField] private LocalizeStringEvent Name;
+        [SerializeField] private LocalizeStringEvent Description;
+        [SerializeField] private GameObject DonePanel;
 
-        [HideInInspector] public ReactiveCommand ObserverOnChange = new();
-        [HideInInspector] public ReactiveCommand ObserverComplete = new();
+        private ReactiveCommand _observerOnChange = new();
+        private ReactiveCommand _observerComplete = new();
 
+        public ReactiveCommand ObserverOnChange => _observerOnChange;
+        public ReactiveCommand ObserverComplete => _observerComplete;
         public bool IsEmpty { get => Data == null; }
         public bool IsComplete { get => !IsEmpty & Data.IsComplete; }
 
@@ -43,8 +46,8 @@ namespace City.Buildings.Requirement
         {
             Data = data;
             Scroll = scroll;
-            Name.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Name");
-            Description.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
+            Name.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
+            //Description.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
             UpdateUI();
             Data.OnChangeData.Subscribe(_ => UpdateUI()).AddTo(Disposable);
         }
@@ -58,7 +61,7 @@ namespace City.Buildings.Requirement
             {
                 Data.GiveReward();
                 Data.NextStage();
-                ObserverOnChange.Execute();
+                _observerOnChange.Execute();
                 UpdateUI();
             }
         }
@@ -81,6 +84,11 @@ namespace City.Buildings.Requirement
                 Button.gameObject.SetActive(false);
                 SliderAmount.Hide();
             }
+        }
+
+        public void SetReward(SubjectDetailController subjectDetailController)
+        {
+            RewardController.SetDetailsController(subjectDetailController);
         }
     }
 }

@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------
 
 using System.Reflection;
-using UnityEditor.AddressableAssets.Settings;
 
 namespace Sirenix.OdinInspector.Modules.Addressables.Editor.Internal
 {
@@ -15,7 +14,9 @@ namespace Sirenix.OdinInspector.Modules.Addressables.Editor.Internal
 
 		static OdinAddressableReflection()
 		{
-			AddressableAssetEntry_mGUID_Field = typeof(AddressableAssetEntry).GetField("m_GUID", BindingFlags.Instance | BindingFlags.NonPublic);
+#if UNITY_EDITOR
+			AddressableAssetEntry_mGUID_Field = typeof(UnityEditor.AddressableAssets.Settings.AddressableAssetEntry).GetField("m_GUID", BindingFlags.Instance | BindingFlags.NonPublic);
+#endif
 		}
 
 		internal static void EnsureConstructed() { }

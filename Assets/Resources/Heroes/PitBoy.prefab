@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2824829084482281899}
+  - component: {fileID: 5419002680244303681}
   - component: {fileID: 6647074069548094940}
   - component: {fileID: 3161426798785654085}
-  - component: {fileID: 5419002680244303681}
-  m_Layer: 0
+  - component: {fileID: -6140713383051128070}
+  m_Layer: 6
   m_Name: PitBoy
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -36,6 +37,33 @@ Transform:
   - {fileID: 6020863908447892167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5419002680244303681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4621635828186957131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isFacingRight: 1
+  _statusState: {fileID: 1148559163397559937}
+  _movement: {fileID: -6140713383051128070}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
+  hero:
+    StatusState: {fileID: 0}
+    <Health>k__BackingField: 0
+  _bodyParent: {fileID: 6020863908447892167}
+  _stages:
+  - {fileID: 615468345614377085}
+  - {fileID: 7955348677064456621}
+  - {fileID: 6109306663263170301}
 --- !u!54 &6647074069548094940
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -82,11 +110,11 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
-  m_Height: 0.69163394
+  m_Radius: 0.2
+  m_Height: 0.86
   m_Direction: 1
-  m_Center: {x: 0, y: 0.3164513, z: 0}
---- !u!114 &5419002680244303681
+  m_Center: {x: 0, y: 0.38, z: -0.02}
+--- !u!114 &-6140713383051128070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,23 +123,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4621635828186957131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 1148559163397559937}
-  speedMove: 2
-  speedAnimation: 1
-  hero:
-    StatusState: {fileID: 0}
-    <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 6020863908447892167}
-  _stages:
-  - {fileID: 615468345614377085}
-  - {fileID: 7955348677064456621}
-  - {fileID: 6109306663263170301}
 --- !u!1 &9189308515377484752
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +769,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1552296910, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 6012032878499578856}
   <OutlineController>k__BackingField: {fileID: 6108901660610165842}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &1009747927688509123 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 642e5849f6da2994fa08e601fd0ccd18, type: 3}
@@ -772,6 +788,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -784,6 +804,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasHeroesStatus
       objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1535,6 +1559,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1669704154, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 5405489954909428509}
   <OutlineController>k__BackingField: {fileID: 2448755729900056159}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!1001 &5515386951227171652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2118,6 +2144,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1599379530, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 5228733768359723715}
   <OutlineController>k__BackingField: {fileID: 1465066224960633671}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &748842850211143405
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1123119777285826710}
   - component: {fileID: 6342897922192420443}
   - component: {fileID: 2994810861362316708}
-  m_Layer: 0
+  - component: {fileID: -1552323558430523522}
+  m_Layer: 6
   m_Name: Spike
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -48,16 +49,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 8746242571910603096}
-  speedMove: 2
-  speedAnimation: 1
+  _isFacingRight: 1
+  _statusState: {fileID: 8746242571910603096}
+  _movement: {fileID: -1552323558430523522}
+  _speedMove: 2
+  _speedAnimation: 1
+  _side: 0
+  _maxCountCounterAttack: 1
   hero:
     StatusState: {fileID: 0}
     <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 6154787162302889726}
+  _bodyParent: {fileID: 6154787162302889726}
   _stages:
   - {fileID: 943126714301667872}
   - {fileID: 3130820414762964736}
@@ -108,10 +110,22 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
-  m_Height: 0.69163394
+  m_Radius: 0.18
+  m_Height: 0.49
   m_Direction: 1
-  m_Center: {x: 0, y: 0.3164513, z: 0}
+  m_Center: {x: 0, y: 0.18, z: 0}
+--- !u!114 &-1552323558430523522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988245247312617084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8569084367011679121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,6 +1260,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1492496846, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 9012820492307946220}
   <OutlineController>k__BackingField: {fileID: 4620168825586395333}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &3221457006509484076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1888,6 +1904,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1891626473, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 3667516367716849433}
   <OutlineController>k__BackingField: {fileID: 5156090795651742499}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &5156090795651742499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,6 +1958,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1952,6 +1974,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasHeroesStatus
       objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2713,6 +2739,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 715733530, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 6928304790798102686}
   <OutlineController>k__BackingField: {fileID: 2219566125251426584}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &2219566125251426584
 MonoBehaviour:
   m_ObjectHideFlags: 0

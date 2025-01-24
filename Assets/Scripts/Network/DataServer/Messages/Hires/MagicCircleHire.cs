@@ -6,6 +6,7 @@ namespace Network.DataServer.Messages.Hires
     {
         public int PlayerId;
         public int Count;
+        public string RaceName;
 
         public string Route => "MagicCircle/GetHeroes";
 
@@ -16,6 +17,7 @@ namespace Network.DataServer.Messages.Hires
                 var form = new WWWForm();
                 form.AddField("PlayerId", PlayerId);
                 form.AddField("Count", Count);
+                form.AddField("raceName", RaceName);
                 return form;
             }
         }

@@ -67,7 +67,7 @@ namespace City.TrainCamp
 
         private void OpenSkillDetails(SkillCell cell)
         {
-            _skillPanelController.ShowSkillData(cell.Data);
+            _skillPanelController.ShowSkillData(_currentHero, cell.Data);
         }
 
         protected override void OnLoadGame()

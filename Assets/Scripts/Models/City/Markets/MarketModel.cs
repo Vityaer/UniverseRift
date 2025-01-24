@@ -13,9 +13,12 @@ namespace Models.City.Markets
 
         private string[] _allProductId => CommonDictionaries.Products.Values.Select(r => r.Id).ToArray();
         [ValueDropdown(nameof(_allProductId), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
-        public List<string> Products = new List<string>();
+        public List<string> Products = new();
 
         public RecoveryType RecoveryType;
+
+        [ValueDropdown(nameof(_allProductId), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
+        public List<string> Promotions = new();
 
         public MarketModel(CommonDictionaries commonDictionaries)
         {

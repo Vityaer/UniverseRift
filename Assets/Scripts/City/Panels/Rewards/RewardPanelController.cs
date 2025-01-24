@@ -26,9 +26,9 @@ namespace City.Panels.Rewards
         //    base.Start();
         //}
 
-        public void Open(GameReward reward, RewardType rewardType)
+        public void Open(GameReward reward, RewardType rewardType, bool fast = true)
         {
-            View.RewardUIController.ShowReward(reward);
+            View.RewardUIController.ShowReward(reward, fast);
             switch (rewardType)
             {
                 case RewardType.Simple:

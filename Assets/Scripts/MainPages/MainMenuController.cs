@@ -2,6 +2,7 @@
 using Common;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Ui.MainMenu.MenuButtons;
 using UIController.GameSystems;
 using UIController.MenuWindows;
@@ -17,7 +18,6 @@ namespace Ui.MainMenu
 {
     public class MainMenuController : IInitializable, IDisposable
     {
-
         [Inject] private readonly MenuButtonsController _menuButtonsController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
         [Inject] private readonly IObjectResolver _objectResolver;
@@ -36,14 +36,13 @@ namespace Ui.MainMenu
 
         public void Initialize()
         {
-            _gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(_disposables);
             _menuButtonsController.OnSwitchButton.Subscribe(PageSwitch).AddTo(_disposables);
             AddMenuWindow<EventWindow>();
             AddMenuWindow<CityWindow>();
             AddMenuWindow<CampaignWindow>();
             AddMenuWindow<SecondCityWindow>();
             AddMenuWindow<ArmyWindow>();
-
+            _gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(_disposables);
         }
 
         public void OpenStartPage()

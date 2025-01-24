@@ -1,12 +1,9 @@
-using ClientServices;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Models.Common;
 using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
-using System.Diagnostics;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;
@@ -55,6 +52,7 @@ namespace City.Panels.Registrations
 
         private void StartRegistration()
         {
+            PlayerPrefs.DeleteAll();
             var newName = View.InputFieldNewNamePlayer.text;
             View.InputFieldNewNamePlayer.interactable = false;
             View.StartRegistrationButton.interactable = false;

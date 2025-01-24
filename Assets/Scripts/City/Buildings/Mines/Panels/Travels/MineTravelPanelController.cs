@@ -5,6 +5,7 @@ using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Fight;
+using Models.City.Mines;
 using Models.City.Misc;
 using Models.Common;
 using Models.Fights.Campaign;
@@ -20,6 +21,7 @@ namespace City.Buildings.Mines.Panels.Travels
     public class MineTravelPanelController : BuildingWithFight<MineTravelPanelView>
     {
         private const string MAIN_MINE_NAME = "MainMineBuilding";
+        private const string MINE_SETTINGS_NAME = "MineMainBuildingName";
 
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly VoyageMissionPanelController panelVoyageMission;
@@ -43,16 +45,37 @@ namespace City.Buildings.Mines.Panels.Travels
         protected override void OnLoadGame()
         {
             var mines = CommonGameData.City.IndustrySave.Mines;
+            var settings = _commonDictionaries.Buildings[MINE_SETTINGS_NAME] as MineBuildingModel;
             var administrationMine = mines.Find(mine => mine.MineId.Equals(MAIN_MINE_NAME));
-            _travelLevel = administrationMine.Level / 3;
-            _countTravelOpen = Mathf.Clamp(administrationMine.Level / 2, 5, 15);
+
+            var targetIndex = 0;
+            for (var i = 0; i < settings.SettingsCampaigns.Count; i++)
+            {
+                if (administrationMine.Level >= settings.SettingsCampaigns[i].RequireLevel)
+                {
+                    targetIndex = i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var selectedSettings = settings.SettingsCampaigns[targetIndex];
+
+            _travelLevel = selectedSettings.LevelHard;
+            _countTravelOpen = Mathf.Clamp(selectedSettings.MissionsCount, 1, 15);
             _missionDatas = CommonGameData.City.IndustrySave.MissionDatas;
             LoadMissions();
         }
 
         private void LoadMissions()
         {
-            _containerTravel = _commonDictionaries.StorageChallenges[$"MineTravelLevel_{_travelLevel}"];
+            _containerTravel = GetStorageChallenges(_travelLevel);
+            if (_containerTravel == null)
+            {
+                Debug.LogError("Not found storage challenge");
+                return;
+            }
 
             StatusMission statusMission = StatusMission.NotOpen;
             for (int i = 0; i < _countTravelOpen; i++)
@@ -82,6 +105,23 @@ namespace City.Buildings.Mines.Panels.Travels
             //View.BossMissionView.SetData(1, StatusMission.Open);
             //View.BossMissionView.OnSelect.Subscribe(_ => OpenBossVoyageMissionPanel()).AddTo(Disposables);
 
+        }
+
+        private StorageChallengeModel GetStorageChallenges(int travelLevel)
+        {
+            StorageChallengeModel result = null;
+            for (var i = travelLevel; i >= 0; i--)
+            {
+                if (_commonDictionaries.StorageChallenges.TryGetValue($"MineTravelLevel_{i}", out result))
+                {
+                    break;
+                }
+                else
+                {
+                    Debug.LogError($"Not found storage Challenge by name: MineTravelLevel_{i}");
+                }
+            }
+            return result;
         }
 
         private void OpenBossVoyageMissionPanel()

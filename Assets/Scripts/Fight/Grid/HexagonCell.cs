@@ -22,7 +22,7 @@ namespace Fight.Grid
         public SpriteRenderer SpriteCell;
         public SpriteRenderer SpriteAvailable;
 
-        [SerializeField] private List<NeighbourCell> neighbours = new List<NeighbourCell>();
+        [SerializeField] private List<NeighbourCell> neighbours = new();
         [SerializeField] private HeroController heroScript;
         [SerializeField] private Transform tr;
 
@@ -61,6 +61,11 @@ namespace Fight.Grid
         {
             _gridController = gridController;
 
+        }
+
+        public bool IsCellNeighbour(HexagonCell targetCell)
+        {
+            return neighbours.Find(neighbour => neighbour.Cell == targetCell) != null;
         }
 
         public void StartCheckMove(int step, HeroController newRequestHero, bool playerCanController)
@@ -230,7 +235,7 @@ namespace Fight.Grid
         //Find way
 
 
-        public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Ground, int step = 1)
+        public void FindWay(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement = TypeMovement.Walk, int step = 1)
         {
             if (available && (availableMove || previousCell == null || this == target))
             {

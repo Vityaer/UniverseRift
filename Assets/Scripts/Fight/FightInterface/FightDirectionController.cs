@@ -56,7 +56,7 @@ namespace Fight.FightInterface
         private void ClearController()
         {
             HeroController.UnregisterOnEndAction(ClearController);
-            heroController?.statusState?.UnregisterOnChangeStamina(HeroChangeStamina);
+            heroController?.StatusState?.UnregisterOnChangeStamina(HeroChangeStamina);
             heroController = null;
             View.btnSpell.interactable = false;
         }
@@ -73,7 +73,7 @@ namespace Fight.FightInterface
             HeroController.RegisterOnEndAction(ClearController);
             View.btnWait.interactable = !listWaits.Contains(heroController);
             View.btnSpell.gameObject.SetActive(heroController.SpellExist);
-            heroController.statusState.RegisterOnChangeStamina(HeroChangeStamina);
+            heroController.StatusState.RegisterOnChangeStamina(HeroChangeStamina);
             HeroChangeStamina(heroController.Stamina);
 
         }

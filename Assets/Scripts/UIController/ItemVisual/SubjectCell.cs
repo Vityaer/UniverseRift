@@ -1,9 +1,7 @@
-﻿using City.Panels.SubjectPanels.Common;
-using Common;
+﻿using Common;
 using System;
 using TMPro;
 using UniRx;
-using UnityEngine;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 

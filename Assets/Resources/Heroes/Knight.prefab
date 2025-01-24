@@ -46,7 +46,8 @@ GameObject:
   - component: {fileID: 8369046477094042608}
   - component: {fileID: 5579475634678276544}
   - component: {fileID: 2549466858003559462}
-  m_Layer: 0
+  - component: {fileID: 1141967419418986198}
+  m_Layer: 6
   m_Name: Knight
   m_TagString: Hero
   m_Icon: {fileID: 0}
@@ -82,16 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusState: {fileID: 7923016213004710951}
-  speedMove: 2
-  speedAnimation: 1
-  hero:
-    StatusState: {fileID: 0}
-    <Health>k__BackingField: 0
-  Side: 0
-  maxCountCounterAttack: 1
-  isFacingRight: 1
-  BodyParent: {fileID: 4659239787916455058}
+  _statusState: {fileID: 7923016213004710951}
+  _movement: {fileID: 1141967419418986198}
+  _speedMove: 2
+  _maxCountCounterAttack: 1
+  _bodyParent: {fileID: 4659239787916455058}
   _stages:
   - {fileID: 8059355578312477327}
   - {fileID: 5821956440617181856}
@@ -142,10 +138,22 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13363348
-  m_Height: 0.69163394
+  m_Radius: 0.18
+  m_Height: 0.84
   m_Direction: 1
-  m_Center: {x: 0, y: 0.3164513, z: 0}
+  m_Center: {x: 0, y: 0.42, z: 0}
+--- !u!114 &1141967419418986198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988245247312617084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4795308472581263285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +166,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4071771128556560809, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 4099261478075349356, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -170,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasHeroesStatus
       objectReference: {fileID: 0}
+    - target: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7183948239909958391, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
     - target: {fileID: 7613712298309770075, guid: b42c65ced9f6a4c46b49c2de12a34cf0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -903,6 +919,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -321910995, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2897707704061389137}
   <OutlineController>k__BackingField: {fileID: 8081575430847372848}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &8081575430847372848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,6 +1518,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -778925748, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 1573819913191788912}
   <OutlineController>k__BackingField: {fileID: 5725954676826258317}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &5249037297401420742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2140,6 +2160,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1109582793, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2887713352584651730}
   <OutlineController>k__BackingField: {fileID: 2073688360646939721}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &6747836634229770627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 817f57f630785e44abbf0df50b964965, type: 3}

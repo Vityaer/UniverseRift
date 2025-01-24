@@ -15,7 +15,7 @@ namespace Pages.Buildings.Forge
         public ForgePageEditor(CommonDictionaries commonDictionaries)
         {
             _dictionaries = commonDictionaries;
-            //Init();
+            Init();
         }
 
         public override void Init()

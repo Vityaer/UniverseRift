@@ -22,6 +22,7 @@ using Db.CommonDictionaries;
 using City.Panels.SubjectPanels.Common;
 using LocalizationSystems;
 using UnityEngine.Localization.Components;
+using Services.TimeLocalizeServices;
 
 namespace City.Buildings.TaskGiver
 {
@@ -32,6 +33,7 @@ namespace City.Buildings.TaskGiver
         [Inject] private ClientRewardService _clientRewardService;
         [Inject] private CommonDictionaries _commonDictionaries;
         [Inject] private ILocalizationSystem _localizationSystem;
+        private TimeLocalizeService _timeLocalizeService;
 
         [Header("UI")]
         [SerializeField] private LocalizeStringEvent _name;
@@ -42,6 +44,7 @@ namespace City.Buildings.TaskGiver
         public RewardUIController RewardUIController;
 
         private IDisposable _disposable;
+        private IDisposable _timeSliderDisposable;
         private GameTaskModel _model;
         private ReactiveCommand<TaskData> _onGetReward = new ReactiveCommand<TaskData>(); 
         
@@ -50,13 +53,15 @@ namespace City.Buildings.TaskGiver
         public GameTaskModel Model => _model;
 
         [Inject]
-        private void Construct(SubjectDetailController subjectDetailController)
+        private void Construct(SubjectDetailController subjectDetailController, TimeLocalizeService timeLocalizeService)
         {
             RewardUIController.SetDetailsController(subjectDetailController);
+            _timeLocalizeService = timeLocalizeService;
         }
 
         public void SetData(TaskData data, ScrollRect scrollRect, GameTaskModel model)
         {
+            sliderTime.Init(_localizationSystem, _timeLocalizeService);
             SetData(data, scrollRect);
             _model = model;
 
@@ -112,12 +117,12 @@ namespace City.Buildings.TaskGiver
             {
                 case TaskStatusType.NotStart:
                     sliderTime.SetMaxValue(requireTime);
-                    TaskControllerButton.SetLabel("Start");
+                    TaskControllerButton.SetLabel(_localizationSystem.GetString("TaskStartButtonLabel"));
                     _disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
                     break;
 
                 case TaskStatusType.InWork:
-                    sliderTime.RegisterOnFinish(FinishFromSlider);
+                    _timeSliderDisposable = sliderTime.OnTimerFinish.Subscribe(_ => FinishFromSlider());
                     var costFastFinish = new GameResource(ResourceType.Diamond, _model.Rating * 10, 0);
                     TaskControllerButton.SetCost(costFastFinish);
                     sliderTime.SetData(startDateTime, requireTime);
@@ -126,8 +131,11 @@ namespace City.Buildings.TaskGiver
 
                 case TaskStatusType.Done:
                     sliderTime.SetData(startDateTime, requireTime);
-                    sliderTime.UnregisterOnFinish(FinishFromSlider);
-                    TaskControllerButton.SetLabel("Complete");
+
+                    _timeSliderDisposable?.Dispose();
+                    _timeSliderDisposable = null;
+                    
+                    TaskControllerButton.SetLabel(_localizationSystem.GetString("TaskCompleteButtonLabel"));
                     _disposable = TaskControllerButton.OnClick.Subscribe(_ => GetReward().Forget());
                     break;
             }
@@ -143,7 +151,8 @@ namespace City.Buildings.TaskGiver
 
         private void FinishTask()
         {
-            sliderTime.UnregisterOnFinish(FinishFromSlider);
+            _timeSliderDisposable?.Dispose();
+            _timeSliderDisposable = null;
             UpdateStatus();
         }
 

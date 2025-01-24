@@ -10,7 +10,7 @@ namespace Models.Heroes.Skills.Actions.Imps
         public override void ExecuteAction()
         {
             foreach (HeroController heroController in ListTarget)
-                heroController.hero.SetHate(Attachment, Amount);
+                heroController.Hero.SetHate(Attachment, Amount);
         }
     }
 }

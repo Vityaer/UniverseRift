@@ -12,5 +12,6 @@ namespace Models
     {
         public List<MineData> Mines = new();
         public List<MineMissionData> MissionDatas = new();
+        public int MineEnergy;
     }
 }

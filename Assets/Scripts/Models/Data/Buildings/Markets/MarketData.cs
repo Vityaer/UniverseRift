@@ -4,6 +4,7 @@ namespace Models.Data.Buildings.Markets
 {
     public class MarketData
     {
-        public List<PurchaseData> PurchaseDatas = new List<PurchaseData>();
+        public List<PurchaseData> PurchaseDatas = new();
+        public List<Promotion> ShopPromotions = new();
     }
 }

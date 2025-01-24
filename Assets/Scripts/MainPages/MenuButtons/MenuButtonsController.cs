@@ -1,4 +1,5 @@
-﻿using MainPages.MenuButtons;
+﻿using LocalizationSystems;
+using MainPages.MenuButtons;
 using System;
 using System.Collections.Generic;
 using UIController.Buttons;
@@ -12,6 +13,7 @@ namespace Ui.MainMenu.MenuButtons
 {
     public class MenuButtonsController : UiController<MenuButtonsView>, IStartable, IDisposable
     {
+        private readonly ILocalizationSystem _localizationSystem;
         private readonly List<MenuButtonView> _menuButtons = new List<MenuButtonView>();
         private readonly IMenuButtonsData _menuButtonsData;
         private readonly CompositeDisposable _disposables = new();
@@ -21,9 +23,10 @@ namespace Ui.MainMenu.MenuButtons
 
         public IObservable<int> OnSwitchButton => _onSwitchButton;
 
-        public MenuButtonsController(IMenuButtonsData menuButtonsData)
+        public MenuButtonsController(IMenuButtonsData menuButtonsData, ILocalizationSystem localizationSystem)
         {
             _menuButtonsData = menuButtonsData;
+            _localizationSystem = localizationSystem;
         }
 
         public void Start()
@@ -42,9 +45,12 @@ namespace Ui.MainMenu.MenuButtons
             if (data != null)
             {
                 buttonView.Icon.sprite = data.Icon;
-                buttonView.ButtonName.text = data.Text;
+                buttonView.ButtonName.StringReference = _localizationSystem
+                    .GetLocalizedContainer($"MenuButton{data.Text}Name");
             }
-            buttonView.Button.OnClickAsObservable().Subscribe(_ => _onSwitchButton.Execute(buttonIndex)).AddTo(_disposables);
+            buttonView.Button.OnClickAsObservable()
+                .Subscribe(_ => _onSwitchButton.Execute(buttonIndex))
+                .AddTo(_disposables);
         }
 
         public void SwitchMenuButton(int index)

@@ -35,6 +35,7 @@ namespace Utils
 
         public static void Save<T>(List<T> data)
         {
+            var json = JsonConvert.SerializeObject(data, Constants.Common.SerializerSettings);
             File.WriteAllText(GetConfigPath<T>(),
                 JsonConvert.SerializeObject(data, Constants.Common.SerializerSettings));
         }

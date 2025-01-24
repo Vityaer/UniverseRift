@@ -3,6 +3,7 @@ using TMPro;
 using Ui.Misc.Widgets;
 using UIController.ItemVisual;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace City.Buildings.Mines.Panels
@@ -12,8 +13,9 @@ namespace City.Buildings.Mines.Panels
         public GameObject Panel;
         public GameObject PanelController;
         public Image MainImage;
-        public TextMeshProUGUI NameMineText;
-        public TextMeshProUGUI LevelMineText;
+        public LocalizeStringEvent NameMineText;
+        public TMP_Text LevelMineText;
+
         public TextMeshProUGUI IncomeText;
         public ItemSliderController SliderAmount;
         // public SubjectCellControllerScript product;

@@ -19,10 +19,10 @@ namespace Fight.HeroControllers.Generals
                              ANIMATION_SPELL = "Spell";
 
         private bool _flagAnimFinish = false;
-        private Dictionary<string, bool> animationsExist = new Dictionary<string, bool>();
+        private Dictionary<int, bool> _animationsExist = new();
         private Tween _sequenceAnimation;
 
-        protected IEnumerator PlayAnimation(string nameAnimation, Action defaultAnimation = null, bool withRecord = true, Action onAnimationFinish = null)
+        public IEnumerator PlayAnimation(int nameAnimation, Action defaultAnimation = null, bool withRecord = true, Action onAnimationFinish = null)
         {
             if (withRecord == true)
                 AddFightRecordActionMe();
@@ -46,18 +46,17 @@ namespace Fight.HeroControllers.Generals
                 RemoveFightRecordActionMe();
         }
 
-        protected bool CheckExistAnimation(string nameAnimation)
+        protected bool CheckExistAnimation(int nameHash)
         {
-            bool result = false;
-            if (animationsExist.ContainsKey(nameAnimation))
+            var result = false;
+            if (_animationsExist.ContainsKey(nameHash))
             {
-                result = animationsExist[nameAnimation];
+                result = _animationsExist[nameHash];
             }
             else
             {
-                int stateId = Animator.StringToHash(nameAnimation);
-                bool animExist = Animator.HasState(0, stateId);
-                animationsExist.Add(nameAnimation, animExist);
+                bool animExist = Animator.HasState(0, nameHash);
+                _animationsExist.Add(nameHash, animExist);
                 result = animExist;
             }
             return result;

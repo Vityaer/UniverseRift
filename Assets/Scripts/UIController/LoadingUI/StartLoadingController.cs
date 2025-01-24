@@ -3,6 +3,7 @@ using LocalizationSystems;
 using Models.Common;
 using System;
 using UniRx;
+using UnityEngine;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
@@ -16,6 +17,7 @@ namespace UIController.LoadingUI
 
         private bool _isOpen;
         private Tween _tween;
+        private Tween _rotateTween;
 
         public StartLoadingController(CommonGameData commonGameData, ILocalizationSystem localizationSystem)
         {
@@ -45,6 +47,20 @@ namespace UIController.LoadingUI
             View.LoadingText.StringReference = _localizationSystem.GetLocalizedContainer("LoadingAccountDataInProgressText");
             _tween.Kill();
             _tween = View.LoadingSlider.DOValue(1f, View.AnimationTime);
+
+            _rotateTween.Kill();
+            _rotateTween = DOTween.Sequence()
+                .Append
+                (
+                    View.RotateImageRect.DORotate
+                    (
+                        new Vector3(0, 0, -360),
+                        View.RotateAnimationTime,
+                        RotateMode.FastBeyond360
+                    )
+                    .SetEase(Ease.Linear)
+                )
+                .SetLoops(-1);
         }
 
         private void OnFinishDownLoad()
@@ -63,6 +79,7 @@ namespace UIController.LoadingUI
 
         public void Dispose()
         {
+            _rotateTween.Kill();
             _tween.Kill();
             _disposable?.Dispose();
         }

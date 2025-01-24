@@ -18,19 +18,13 @@
         IsAlive = 13,
         IsNotAlive = 14,
         All = 15,
-        People = 16,
-        Elf = 17,
-        Undead = 18,
-        Daemon = 19,
-        God = 20,
-        Elemental = 28,
         Warrior = 21,
         Wizard = 22,
         Archer = 23,
         Pastor = 24,
-        Slayer = 25,
-        Tank = 26,
+        Killer = 25,
         Support = 27,
-        Select = 100
+        AroundNear = 28,
+        Select = 100,
     }
 }

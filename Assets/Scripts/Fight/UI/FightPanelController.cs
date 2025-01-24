@@ -34,7 +34,7 @@ namespace Fight.UI
         public void SetHeroStatus(HeroController heroController)
         {
             View.WaitButton.interactable = heroController.CanWait;
-            var spell = heroController.hero.Model.Skills.Find(skill => skill.IsActive);
+            var spell = heroController.Hero.Model.Skills.Find(skill => skill.IsActive);
             View.SpellButton.gameObject.SetActive(spell != null);
             View.SpellButton.interactable = (heroController.Stamina >= 100f);
         }

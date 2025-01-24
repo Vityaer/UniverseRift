@@ -20,8 +20,8 @@ namespace Fight.Factories
             var path = $"{Constants.ResourcesPath.HEROES_PATH}{gameHero.Model.General.HeroId}";
             var heroPrefab = Resources.Load<HeroController>(path);
             var hero = Object.Instantiate(heroPrefab, hexagonCell.Position, Quaternion.identity, parent);
-            hero.SetStage(stage);
             ObjectResolver.Inject(hero);
+            hero.SetStage(stage);
             return hero;
         }
 

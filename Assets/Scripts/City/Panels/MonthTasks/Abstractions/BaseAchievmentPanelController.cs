@@ -50,7 +50,7 @@ namespace City.Panels.MonthTasks.Abstractions
                 taskPrefab.SetData(gameTask, View.Scroll);
 
                 _achievmentViews.Add(taskPrefab);
-                taskPrefab.RewardController.SetDetailsController(SubjectDetailController);
+                taskPrefab.SetReward(SubjectDetailController);
             }
 
             base.OnLoadGame();

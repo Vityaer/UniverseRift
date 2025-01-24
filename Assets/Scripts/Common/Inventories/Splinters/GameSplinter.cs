@@ -59,7 +59,7 @@ namespace Common.Inventories.Splinters
             }
         }
         public GameSplinter() { }
-        //Constructors
+
         public GameSplinter(SplinterModel model, CommonDictionaries commonDictionaries, int count = 0)
         {
             _commonDictionaries = commonDictionaries;
@@ -109,7 +109,10 @@ namespace Common.Inventories.Splinters
         private void GetDefaultData()
         {
             if (_model == null)
-                Debug.Log("_model null");
+            {
+                Debug.LogError("_model null");
+                return;
+            }    
             switch (_model.SplinterType)
             {
                 case SplinterType.Hero:
@@ -125,12 +128,6 @@ namespace Common.Inventories.Splinters
             }
             typeSplinter = _model.SplinterType;
             requireCount = _model.RequireCount;
-        }
-
-        //Rewards
-        public static GameSplinter operator *(GameSplinter item, int k)
-        {
-            return new GameSplinter(item.Id, k);
         }
     }
 }

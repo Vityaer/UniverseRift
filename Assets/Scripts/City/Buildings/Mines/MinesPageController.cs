@@ -65,6 +65,8 @@ namespace City.Buildings.Mines
             var model = _commonDictionaries.Mines[data.MineId];
             placeForMineCreate.SetData(model, data);
             _panelNewMineCreate.RefreshData();
+
+            View.CollectAllButton.interactable = (_mineDatas.Count > 1);
         }
 
         private void ClickMinePlace(PlaceForMine place)
@@ -96,42 +98,9 @@ namespace City.Buildings.Mines
                 var mineModel = _commonDictionaries.Mines[mineData.MineId];
                 place.SetData(mineModel, mineData);
             }
-        }
 
-        public static MineType GetTypeMineFromTypeResource(ResourceType typeResource)
-        {
-            MineType result = MineType.Gold;
-            switch (typeResource)
-            {
-                case ResourceType.Gold:
-                    result = MineType.Gold;
-                    break;
-                case ResourceType.Diamond:
-                    result = MineType.Diamond;
-                    break;
-                case ResourceType.RedDust:
-                    result = MineType.RedDust;
-                    break;
-            }
-            return result;
-        }
+            View.CollectAllButton.interactable = (_mineDatas.Count > 1);
 
-        public static ResourceType GetTypeResourceFromTypeMine(MineType typeMine)
-        {
-            ResourceType result = ResourceType.Gold;
-            switch (typeMine)
-            {
-                case MineType.Gold:
-                    result = ResourceType.Gold;
-                    break;
-                case MineType.Diamond:
-                    result = ResourceType.Diamond;
-                    break;
-                case MineType.RedDust:
-                    result = ResourceType.RedDust;
-                    break;
-            }
-            return result;
         }
 
         private void OpenMineTravelPage()

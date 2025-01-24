@@ -22,10 +22,10 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly IObjectResolver Resolver;
         [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
-        protected CompositeDisposable Disposables = new CompositeDisposable();
-        private int levelForAvailableBuilding = 0;
+        protected CompositeDisposable Disposables = new();
+        private int _levelForAvailableBuilding = 0;
 
-        public string Name => throw new NotImplementedException();
+        public string Name => this.GetType().Name;
 
         public void Start()
         {
@@ -39,8 +39,6 @@ namespace City.Buildings.Abstractions
         {
             foreach (var obj in View.AutoInjectObjects)
             {
-                if (Resolver == null)
-                    Debug.Log($"{View.gameObject.name}");
                 Resolver.Inject(obj);
             }
         }
@@ -55,7 +53,7 @@ namespace City.Buildings.Abstractions
 
         protected bool AvailableFromLevel()
         {
-            bool result = CommonGameData.PlayerInfoData.Level >= levelForAvailableBuilding;
+            bool result = CommonGameData.PlayerInfoData.Level >= _levelForAvailableBuilding;
             if (result == false)
             {
                 //MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");

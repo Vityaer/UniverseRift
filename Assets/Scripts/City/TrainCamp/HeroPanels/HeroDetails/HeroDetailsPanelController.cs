@@ -1,8 +1,7 @@
 using Hero;
-using Models.Heroes;
-using TMPro;
 using UiExtensions.Scroll.Interfaces;
-using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 namespace City.TrainCamp.HeroPanels.HeroDetails
 {
@@ -10,13 +9,23 @@ namespace City.TrainCamp.HeroPanels.HeroDetails
     {
         public void SetData(GameHero hero)
         {
-            View.ProbabilityCriticalAttackText.text = $"{hero.Model.Characteristics.ProbabilityCriticalAttack}:N2";
-            View.DamageCriticalAttackText.text = $"{hero.Model.Characteristics.DamageCriticalAttack}:N2";
-            View.AccuracyText.text = $"{hero.Model.Characteristics.Accuracy}:N2";
-            View.CleanDamageText.text = $"{hero.Model.Characteristics.CleanDamage}:N2";
-            View.DodgeText.text = $"{hero.Model.Characteristics.Dodge}:N2";
-            View.CanRetaliationText.text = $"{hero.Model.Characteristics.Main.CanRetaliation}";
-            View.MelleeText.text = $"{hero.Model.Characteristics.Main.Mellee}";
+            var characteristics = hero.Model.Characteristics;
+            SetStat(View.ProbabilityCriticalAttackText, characteristics.ProbabilityCriticalAttack.ToString("N2"));
+            SetStat(View.DamageCriticalAttackText, characteristics.DamageCriticalAttack.ToString("N2"));
+            SetStat(View.AccuracyText, characteristics.Accuracy.ToString("N2"));
+            SetStat(View.CleanDamageText, characteristics.CleanDamage.ToString("N2"));
+            SetStat(View.DodgeText, characteristics.Dodge.ToString("N2"));
+            SetStat(View.CanRetaliationText, characteristics.Main.CanRetaliation.ToString());
+            SetStat(View.MelleeText, characteristics.Main.Mellee.ToString());
+        }
+
+        private void SetStat(LocalizeStringEvent localizeStringEvent, string text)
+        {
+            if (localizeStringEvent.StringReference.TryGetValue("Stat", out var variable))
+            {
+                var stringVariable = variable as StringVariable;
+                stringVariable.Value = text;
+            }
         }
     }
 }

@@ -86,4 +86,17 @@ public class Constants
     {
         public const string UI_TABLE_NAME = "UI";
     }
+
+    public static class Visual
+    {
+        public static int ANIMATOR_ATTACK_NAME_HASH = Animator.StringToHash("Attack");
+        public static int ANIMATOR_DISTANCE_ATTACK_NAME_HASH = Animator.StringToHash("Shoot");
+        public static int ANIMATOR_RUN_NAME_HASH = Animator.StringToHash("Speed");
+        public static int ANIMATOR_GET_DAMAGE_NAME_HASH = Animator.StringToHash("GetDamage");
+        public static int ANIMATOR_DEATH_NAME_HASH = Animator.StringToHash("Death");
+        public static int ANIMATOR_MOVE_NAME_HASH = Animator.StringToHash("Move");
+        public static int ANIMATOR_IDLE_NAME_HASH = Animator.StringToHash("Idle");
+        public static int ANIMATOR_SPELL_NAME_HASH = Animator.StringToHash("Spell");
+
+    }
 }

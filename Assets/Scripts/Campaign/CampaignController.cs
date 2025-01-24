@@ -35,6 +35,7 @@ namespace Campaign
         [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly IObjectResolver _resolver;
 
         private CampaignChapterModel _chapter;
         private CampaignMissionModel _mission;
@@ -51,6 +52,7 @@ namespace Campaign
             for (var i = 0; i < CHAPTER_MISSION_COUNT; i++)
             {
                 var missionController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
+                _resolver.Inject(missionController);
                 missionControllers.Add(missionController);
                 missionController.OnClickMission.Subscribe(SelectMission).AddTo(Disposables);
                 missionController.rewardController.SetDetailsController(SubjectDetailController);

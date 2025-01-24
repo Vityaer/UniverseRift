@@ -1,40 +1,48 @@
-﻿using Cysharp.Threading.Tasks;
-using Fight.Grid;
-using System.Collections.Generic;
+﻿using Fight.Grid;
+using Models.Heroes;
+using System.Collections;
 using UnityEngine;
 
 namespace Fight.HeroControllers.Generals.Movements
 {
-    //public class WalkMovement : AbstractMovement
-    //{
-        //public override async UniTask Move(HeroController hero, Stack<HexagonCell> way)
-        //{
-        //    Vector3 targetPos, startPos;
-        //    float t = 0f;
-        //    HexagonCell currentCell = way.Pop();
-        //    while (way.Count > 0)
-        //    {
-        //        hero.Cell.ClearSublject();
-        //        currentCell = way.Pop();
-        //        startPos = hero.transform.position;
-        //        targetPos = currentCell.Position;
+    public class WalkMovement : AbstractMovement
+    {
+        public override IEnumerator Move(HexagonCell targetCell)
+        {
+            Animator.SetBool("Speed", true);
+            var way = GridController.FindWay(MyPlace, targetCell, typeMovement: TypeMovement.Walk);
+            Vector3 targetPos, startPos;
+            var t = 0f;
 
-        //        if (hero.IsFacingRight ^ ((targetPos.x - startPos.x) > 0))
-        //            FlipX();
+            var currentCell = way.Pop();
+            while (way.Count > 0)
+            {
+                MyPlace.ClearSublject();
+                currentCell = way.Pop();
 
-        //        t = 0f;
+                startPos = Hero.transform.position;
+                targetPos = currentCell.Position;
 
-        //        while (t <= 1f)
-        //        {
-        //            t += Time.deltaTime * speedMove;
-        //            tr.position = Vector2.Lerp(startPos, targetPos, t);
-        //            await UniTask.Yield();
-        //        }
+                if (Hero.IsFacingRight ^ ((targetPos.x - startPos.x) > 0))
+                    Hero.FlipX();
 
-        //        tr.position = targetPos;
-        //        myPlace = currentCell;
-        //        myPlace.SetHero(this);
-        //    }
-        //}
-    //}
+                t = 0f;
+
+                while (t <= 1f)
+                {
+                    t += Time.deltaTime * Hero.SpeedMove;
+                    Hero.transform.position = Vector3.Lerp(startPos, targetPos, t);
+                    yield return null;
+                }
+                Hero.transform.position = targetPos;
+
+                MyPlace = currentCell;
+                MyPlace.SetHero(Hero);
+                _onChangePlace.Execute(MyPlace);
+            }
+
+            Animator.SetBool("Speed", false);
+            SetMyPlaceColor();
+        }
+    }
 }

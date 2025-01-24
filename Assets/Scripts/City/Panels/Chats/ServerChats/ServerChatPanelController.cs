@@ -26,12 +26,17 @@ namespace City.Panels.Chats.ServerChats
             _jsonConverter = jsonConverter;
         }
 
-        protected override void Show()
+        protected override void OnLoadGame()
         {
             _chatWrapper = new(View.ChatMessagePrefab, View.ChatScrollRect.content, View.ChatScrollRect, null, null);
-            LoadChat().Forget();
             View.SendMessageButton.OnClickAsObservable().Subscribe(_ => SendChatMessage().Forget()).AddTo(Disposables);
             View.InputFieldMessage.onValueChanged.AddListener(OnChangeMessageInputField);
+            base.OnLoadGame();
+        }
+
+        protected override void Show()
+        {
+            LoadChat().Forget();
             base.Show();
         }
 
@@ -57,7 +62,8 @@ namespace City.Panels.Chats.ServerChats
             _chatWrapper.ShowDatas(messages);
             foreach(var chatMessage in _chatWrapper.Views)
             {
-                if(CommonGameData.CommunicationData.PlayersData.TryGetValue(chatMessage.GetData.PlayerWritterId, out var playerData))
+                if(CommonGameData.CommunicationData.PlayersData
+                    .TryGetValue(chatMessage.GetData.PlayerWritterId, out var playerData))
                 {
                     chatMessage.SetPlayerData(playerData);
                 }

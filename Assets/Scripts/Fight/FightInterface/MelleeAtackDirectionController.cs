@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fight.Grid;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,9 @@ namespace Fight.FightInterface
 {
     public class MelleeAtackDirectionController : MonoBehaviour
     {
-        public GameObject PanelDirectionAttack;
+        public RectTransform RectContainer;
+        
+        public RectTransform PanelDirectionAttack;
         public List<MelleeAttackUI> ListDirections = new();
 
         private List<NeighbourCell> _currentNeighbours = new();
@@ -21,10 +24,10 @@ namespace Fight.FightInterface
 
         public void AttackDirectionSelect(int numDirection)
         {
-            CellDirectionType direction = (CellDirectionType)numDirection;
+            var direction = (CellDirectionType)numDirection;
             if (_actionOnSelectDirection != null)
             {
-                _actionOnSelectDirection?.Invoke((CellDirectionType)numDirection);
+                _actionOnSelectDirection?.Invoke(direction);
                 _actionOnSelectDirection = null;
             }
             Close();
@@ -38,9 +41,18 @@ namespace Fight.FightInterface
 
         private void Open(HexagonCell cell, List<NeighbourCell> neighbours)
         {
-            PanelDirectionAttack.SetActive(true);
+            PanelDirectionAttack.gameObject.SetActive(true);
             _currentNeighbours = neighbours;
-            PanelDirectionAttack.transform.position = cell.Position;
+            var world = Camera.main.WorldToScreenPoint(cell.Position);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                RectContainer,
+                world,
+                null,
+                out var uiPositionResult
+                );
+
+            PanelDirectionAttack.anchoredPosition = uiPositionResult;
+
             foreach (var neighbour in neighbours)
             {
                 if (neighbour.achievableMove && neighbour.Cell.available)
@@ -55,7 +67,7 @@ namespace Fight.FightInterface
             foreach (var directionUI in ListDirections)
                 directionUI.Hide();
 
-            PanelDirectionAttack.SetActive(false);
+            PanelDirectionAttack.gameObject.SetActive(false);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Models.Heroes.Skills.Actions.Imps.SimpleActions
                 heroController.ApplyDamage(
                     new Strike(
                         Amount,
-                        heroController.hero.Model.Characteristics.Main.Attack,
+                        heroController.Hero.Model.Characteristics.Main.Attack,
                         typeNumber: TypeNumber
                         )
                     );
