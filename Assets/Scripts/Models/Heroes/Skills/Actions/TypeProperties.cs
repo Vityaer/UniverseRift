@@ -26,13 +26,6 @@
         CountDeadHeroes,
         CountHeroesHPLess50,
         CountHeroesHPLess30,
-        CountPeople,
-        CountElf,
-        CountUndead,
-        CountMechanic,
-        CountInquisition,
-        CountDemon,
-        CountGod,
         HellishMark
     }
 }

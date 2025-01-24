@@ -374,6 +374,7 @@ namespace Fight.HeroControllers.Generals
 
         public void DeleteHero()
         {
+            MyPlace?.ClearSublject();
             _sequenceAnimation.Kill();
             if (coroutineAttackEnemy != null) StopCoroutine(coroutineAttackEnemy);
             Destroy(gameObject);

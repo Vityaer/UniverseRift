@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6550120468146934967}
+  - component: {fileID: 5256206573342175846}
   - component: {fileID: 2228236860903399170}
   - component: {fileID: 2951391838867713678}
-  - component: {fileID: 5256206573342175846}
   - component: {fileID: 2637450757107594726}
   m_Layer: 6
   m_Name: Wedger
@@ -37,6 +37,27 @@ Transform:
   - {fileID: 4795554281749216949}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5256206573342175846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4464797337845674071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _statusState: {fileID: 8225258127876891549}
+  _movement: {fileID: 2637450757107594726}
+  _speedMove: 2
+  _maxCountCounterAttack: 1
+  _bodyParent: {fileID: 4795554281749216949}
+  _stages:
+  - {fileID: 5023012823039282786}
+  - {fileID: 5396269444179992424}
+  - {fileID: 6137267704535937012}
 --- !u!54 &2228236860903399170
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -87,33 +108,6 @@ CapsuleCollider:
   m_Height: 0.69163394
   m_Direction: 1
   m_Center: {x: 0, y: 0.3164513, z: 0}
---- !u!114 &5256206573342175846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4464797337845674071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isFacingRight: 1
-  _statusState: {fileID: 8225258127876891549}
-  _movement: {fileID: 2637450757107594726}
-  _speedMove: 2
-  _speedAnimation: 1
-  _side: 0
-  _maxCountCounterAttack: 1
-  hero:
-    StatusState: {fileID: 0}
-    <Health>k__BackingField: 0
-  _bodyParent: {fileID: 4795554281749216949}
-  _stages:
-  - {fileID: 5023012823039282786}
-  - {fileID: 5396269444179992424}
-  - {fileID: 6137267704535937012}
 --- !u!114 &2637450757107594726
 MonoBehaviour:
   m_ObjectHideFlags: 0

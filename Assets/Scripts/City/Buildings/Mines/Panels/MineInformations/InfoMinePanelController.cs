@@ -1,28 +1,27 @@
 using City.Buildings.Mines.Panels;
+using ClientServices;
+using Common.Resourses;
+using Common.Rewards;
 using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using LocalizationSystems;
 using Misc.Json;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Mines;
-using System.Globalization;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
-using System.Collections.Generic;
-using Common.Resourses;
-using Common.Rewards;
-using UIController.Rewards;
-using ClientServices;
-using Utils;
-using UnityEngine;
-using System.Threading;
-using Db.CommonDictionaries;
-using LocalizationSystems;
-using UI.Utils.Localizations.Extensions;
 
 namespace City.Buildings.Mines
 {
@@ -44,9 +43,9 @@ namespace City.Buildings.Mines
         private MineData _mainMineData;
         private ReactiveCommand<PlaceForMine> _onMineDestroy = new();
         private CancellationTokenSource _cancellationTokenSource;
-            
+
         public IObservable<PlaceForMine> OnMineDestroy => _onMineDestroy;
-        
+
         public override void Start()
         {
             View.LevelUpButton.OnClickAsObservable().Subscribe(_ => LevelUp().Forget()).AddTo(Disposables);
@@ -128,9 +127,7 @@ namespace City.Buildings.Mines
             View.NameMineText.StringReference = _localizationSystem
                 .GetLocalizedContainer($"{_place.MineModel.Id}Name");
 
-            View.LevelMineText.StringReference = _localizationSystem
-                .GetLocalizedContainer($"MineLevelLabel")
-                .WithArguments(new List<object> { _place.MineData.Level });
+            View.LevelMineText.text = $"{_place.MineData.Level}";
 
             var income = _place.MineModel.IncomesContainer.GetCostForLevelUp(_place.MineData.Level)[0];
             var levelUpCost = _place.MineModel.CostLevelUpContainer.GetCostForLevelUp(_place.MineData.Level + 1);

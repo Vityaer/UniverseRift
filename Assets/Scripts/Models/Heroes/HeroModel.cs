@@ -14,7 +14,7 @@ namespace Models.Heroes
         public Characteristics Characteristics;
         public IncreaseCharacteristicsModel IncCharacts;
         public StorageResistances Resistances;
-        public List<SkillModel> Skills = new List<SkillModel>();
+        public List<SkillModel> Skills = new();
 
         public HeroModel Clone()
         {

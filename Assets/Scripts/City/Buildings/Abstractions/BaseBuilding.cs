@@ -25,7 +25,7 @@ namespace City.Buildings.Abstractions
         protected CompositeDisposable Disposables = new();
         private int _levelForAvailableBuilding = 0;
 
-        public string Name => throw new NotImplementedException();
+        public string Name => this.GetType().Name;
 
         public void Start()
         {
@@ -39,8 +39,6 @@ namespace City.Buildings.Abstractions
         {
             foreach (var obj in View.AutoInjectObjects)
             {
-                if (Resolver == null)
-                    Debug.Log($"{View.gameObject.name}");
                 Resolver.Inject(obj);
             }
         }

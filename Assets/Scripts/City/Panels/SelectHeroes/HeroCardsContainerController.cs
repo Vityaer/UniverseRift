@@ -1,5 +1,6 @@
 ﻿using City.Panels.SelectHeroes.Comparers;
 using Hero;
+using Models.Fights.Campaign;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -76,12 +77,20 @@ namespace City.Panels.SelectHeroes
             _cardPool.ShowDatas(_listHeroes);
         }
 
-        public void ShowCards(List<GameHero> heroes)
+        public void ShowCards(List<GameHero> heroes, List<AbstractHeroRestriction> restrictions = null)
         {
             if (heroes == null)
                 return;
 
-            _listHeroes = heroes;
+            if (restrictions != null)
+            {
+                _listHeroes = heroes.FindAll(hero => restrictions.TrueForAll(restriction => restriction.CheckHero(hero)));
+            }
+            else
+            {
+                _listHeroes = heroes;
+            }
+
             _listHeroes.Sort(_customToggle.IsOn ? _gameHeroRatingComparer : _gameHeroLevelComparer);
             _cardPool.ShowDatas(_listHeroes);
         }

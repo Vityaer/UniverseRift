@@ -18,7 +18,7 @@ namespace Models.Heroes.HeroCharacteristics
         public float Dodge;
         public int CountTargetForSimpleAttack = 1;
         public int CountTargetForSpell = 1;
-        public BaseCharacteristicModel Main = new BaseCharacteristicModel();
+        public BaseCharacteristicModel Main = new();
 
         public Characteristics Clone()
         {

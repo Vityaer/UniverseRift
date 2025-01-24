@@ -11,7 +11,7 @@ using VContainerUi.Abstraction;
 
 namespace UIController
 {
-    public partial class ButtonCostController : UiView, IDisposable
+    public partial class ButtonCostController : UiView
     {
         private ResourceStorageController _resourceStorageController;
         private ILocalizationSystem _localizationSystem;
@@ -38,7 +38,7 @@ namespace UIController
                 _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
         }
 
-        void Start()
+        protected override void Start()
         {
             _button.OnClickAsObservable().Subscribe(_ => Click()).AddTo(_disposables);
         }
@@ -97,12 +97,12 @@ namespace UIController
             }
         }
 
-        public void Click()
+        private void Click()
         {
             _onClick.Execute(_cost);
         }
 
-        public void CheckResource(GameResource res)
+        private void CheckResource(GameResource res)
         {
             if (_disable)
                 return;

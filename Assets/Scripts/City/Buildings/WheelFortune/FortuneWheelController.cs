@@ -41,8 +41,8 @@ namespace City.Buildings.WheelFortune
         private GameResource _tenRotate = new GameResource(ResourceType.CoinFortune, 8, 0);
         private GameResource _refreshCost = new GameResource(ResourceType.Diamond, 0, 0);
 
-        private List<int> numbersReward = new List<int>();
-        private ReactiveCommand<BigDigit> _onSimpleRotate = new ReactiveCommand<BigDigit>();
+        private FortuneWheelData _data;
+        private ReactiveCommand<BigDigit> _onSimpleRotate = new();
         private Sequence _sequence;
         private float _currentTilt;
         private GameReward _reward;
@@ -72,6 +72,7 @@ namespace City.Buildings.WheelFortune
         protected override void OnLoadGame()
         {
             var rewards = CommonGameData.City.FortuneWheelData.Rewards;
+            _data = CommonGameData.City.FortuneWheelData;
             FillWheelFortune(rewards);
             base.OnLoadGame();
         }
@@ -97,8 +98,15 @@ namespace City.Buildings.WheelFortune
         {
             var message = new FortuneWheelRefresh { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            var rewards = _jsonConverter.Deserialize<List<FortuneRewardData>>(result);
-            FillWheelFortune(rewards);
+            if (!string.IsNullOrEmpty(result))
+            {
+                var cost = _commonDictionaries.CostContainers["FortuneWheelRefresh"]
+                    .GetCostForLevelUp(_data.RefreshCount);
+
+                _resourceStorageController.SubtractResource(cost);
+                _data = _jsonConverter.Deserialize<FortuneWheelData>(result);
+                FillWheelFortune(_data.Rewards);
+            }
         }
 
         private void FillWheelFortune(List<FortuneRewardData> rewards)
@@ -119,8 +127,13 @@ namespace City.Buildings.WheelFortune
                         View.RewardCells[i].SetData(item);
                         break;
                 }
-
             }
+
+            var cost = _commonDictionaries.CostContainers["FortuneWheelRefresh"]
+                .GetCostForLevelUp(_data.RefreshCount);
+
+            Debug.Log($"_data.RefreshCount: {_data.RefreshCount}");
+            View.RefreshWheelButton.SetCost(cost[0]);
         }
         private void StartRotateArrow(float targetTilt)
         {

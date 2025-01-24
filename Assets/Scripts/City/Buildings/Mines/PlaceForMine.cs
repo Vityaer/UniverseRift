@@ -17,18 +17,24 @@ namespace City.Buildings.Mines
     public class PlaceForMine : MonoBehaviour
     {
         public string Id;
-        public List<MineType> Types = new List<MineType>();
+        public List<MineType> Types = new();
         public Button PlaceButton;
         public Image MineIcon;
         public LocalizeStringEvent LevelText;
 
         private MineModel _mineModel;
         private MineData _mineData;
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposables = new();
         private ReactiveCommand<PlaceForMine> _onClick = new();
+
         public MineModel MineModel => _mineModel;
         public MineData MineData => _mineData;
         public IObservable<PlaceForMine> OnClick => _onClick;
+
+        private void Awake()
+        {
+            Clear();
+        }
 
         protected void Start()
         {

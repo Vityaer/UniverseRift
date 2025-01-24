@@ -6,7 +6,7 @@ namespace Network.DataServer.Messages
     {
         public int PlayerId;
 
-        public string Route => "FortuneWheel/RefreshRewards";
+        public string Route => "FortuneWheel/RefreshWheel";
 
         public WWWForm Form
         {

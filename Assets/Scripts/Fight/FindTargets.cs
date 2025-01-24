@@ -13,9 +13,13 @@ namespace Fight
         public void ChooseEnemies(Side side, int countTarget, List<HeroController> listTarget, TypeSelect typeSelect = TypeSelect.Order)
         {
             listTarget.Clear();
-            List<Warrior> workTeam = ((side == Side.Left) ? _rightTeam : _leftTeam).Where(x => x.heroController != null).ToList();
-            workTeam = workTeam.Where(x => x?.heroController.IsDeath == false).ToList();
-            if (countTarget > workTeam.Count) countTarget = workTeam.Count;
+            var workTeam = ((side == Side.Left) ? _rightTeam : _leftTeam).Where(x => x.heroController != null).ToList();
+            workTeam = workTeam.Where(x => x?.heroController.IsDeath == false)
+                .ToList();
+
+            if (countTarget > workTeam.Count)
+                countTarget = workTeam.Count;
+
             countTarget = Mathf.Clamp(countTarget, 0, workTeam.Count);
             if (countTarget > 0)
             {
@@ -135,7 +139,24 @@ namespace Fight
                     //    for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
                     //    break;
                     case TypeSelect.Order:
-                        for (int i = 0; i < countTarget; i++) listTarget.Add(workTeam[i].heroController);
+                        for (int i = 0; i < countTarget; i++)
+                            listTarget.Add(workTeam[i].heroController);
+                        break;
+                    case TypeSelect.AroundNear:
+                        var currentHero = GetCurrentHero();
+                        foreach (var hero in workTeam)
+                        {
+                            if (hero.heroController == currentHero)
+                                continue;
+
+                            if (currentHero.Cell.IsCellNeighbour(hero.Cell))
+                            {
+                                listTarget.Add(hero.heroController);
+                            }
+                        }
+                        break;
+                    default:
+                        Debug.LogError($"Select method {typeSelect} not found!");
                         break;
 
                 }

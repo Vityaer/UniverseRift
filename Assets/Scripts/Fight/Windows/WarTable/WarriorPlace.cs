@@ -1,7 +1,6 @@
 ﻿using Hero;
 using System;
 using TMPro;
-using UIController.Cards;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -23,6 +22,7 @@ namespace Fight.WarTable
         private ReactiveCommand<WarriorPlace> _onClick = new();
         private CompositeDisposable _disposables = new();
         private bool _mouseInnerFlag;
+        private bool _isDraging;
 
         public bool IsEmpty => Hero == null;
         public bool MouseInnerFlag => _mouseInnerFlag;
@@ -31,15 +31,33 @@ namespace Fight.WarTable
         public IObservable<WarriorPlace> OnDrop => _onDrop;
         public GameHero Hero { get; private set; }
 
+        private void Awake()
+        {
+            Clear();
+        }
+
         private void Start()
         {
-            _button.OnClickAsObservable().Subscribe(_ => _onClick.Execute(this)).AddTo(_disposables);
+            _button.OnClickAsObservable().Subscribe(_ => Click()).AddTo(_disposables);
 
-            _button.OnPointerEnterAsObservable().Subscribe(_ =>  MouseInner(true)).AddTo(_disposables);
+            _button.OnPointerEnterAsObservable().Subscribe(_ => MouseInner(true)).AddTo(_disposables);
             _button.OnPointerExitAsObservable().Subscribe(_ => MouseInner(false)).AddTo(_disposables);
 
             _button.OnPointerDownAsObservable().Subscribe(_ => OnPointerDown()).AddTo(_disposables);
             _button.OnPointerUpAsObservable().Subscribe(_ => OnPointerUp()).AddTo(_disposables);
+        }
+
+        private void Click()
+        {
+            if (_isDraging)
+                return;
+
+            _onClick.Execute(this);
+        }
+
+        public void SetDragingStatus(bool status)
+        {
+            _isDraging = status;
         }
 
         private void MouseInner(bool flag)

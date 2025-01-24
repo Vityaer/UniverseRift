@@ -42,8 +42,7 @@ namespace Fight.HeroControllers.Generals
 
         public void SetStage(int index)
         {
-            if (!ReferenceEquals(_currentHeroVisualModel, null))
-                _currentHeroVisualModel.Deactivate();
+            _currentHeroVisualModel?.Deactivate();
 
             index = Mathf.Clamp(index, 0, _stages.Count);
             _currentHeroVisualModel = _stages[index];

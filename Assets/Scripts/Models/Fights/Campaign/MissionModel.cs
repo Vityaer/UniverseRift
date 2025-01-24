@@ -16,9 +16,10 @@ namespace Models.Fights.Campaign
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
         NumberOfItemsPerPage = 20,
         CustomRemoveElementFunction = nameof(RemoveHero), CustomAddFunction = nameof(AddHero))]
-        public List<HeroData> Units = new List<HeroData>();
+        public List<HeroData> Units = new();
         public RewardModel WinReward = new();
 
+        public List<AbstractHeroRestriction> HeroRestrictions;
         public MissionModel() { }
 
         public MissionModel(CommonDictionaries dictionaries)

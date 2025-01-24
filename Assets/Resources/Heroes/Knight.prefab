@@ -83,18 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe409485867c4cbdad856a5ea09ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isFacingRight: 1
   _statusState: {fileID: 7923016213004710951}
   _movement: {fileID: 1141967419418986198}
-  _attack: {fileID: 5815051437084167735}
   _speedMove: 2
-  _speedAnimation: 1
-  _side: 0
   _maxCountCounterAttack: 1
-  hero:
-    StatusState: {fileID: 0}
-    <Health>k__BackingField: 0
-  BodyParent: {fileID: 4659239787916455058}
+  _bodyParent: {fileID: 4659239787916455058}
   _stages:
   - {fileID: 8059355578312477327}
   - {fileID: 5821956440617181856}
@@ -161,7 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b4a8b07e64f244db8d252dfe935c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 2897707704061389137}
 --- !u!1001 &4795308472581263285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -927,6 +919,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -321910995, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2897707704061389137}
   <OutlineController>k__BackingField: {fileID: 8081575430847372848}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &8081575430847372848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,6 +1518,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: -778925748, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 1573819913191788912}
   <OutlineController>k__BackingField: {fileID: 5725954676826258317}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!114 &5249037297401420742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,6 +2160,8 @@ MonoBehaviour:
   <Avatar>k__BackingField: {fileID: 1109582793, guid: f8711f6ae41b9a04e854e22c834fe938, type: 3}
   <Animator>k__BackingField: {fileID: 2887713352584651730}
   <OutlineController>k__BackingField: {fileID: 2073688360646939721}
+  _overrideMovement: 0
+  _movementController: {fileID: 0}
 --- !u!4 &6747836634229770627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 817f57f630785e44abbf0df50b964965, type: 3}

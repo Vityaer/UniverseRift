@@ -65,6 +65,8 @@ namespace City.Buildings.Mines
             var model = _commonDictionaries.Mines[data.MineId];
             placeForMineCreate.SetData(model, data);
             _panelNewMineCreate.RefreshData();
+
+            View.CollectAllButton.interactable = (_mineDatas.Count > 1);
         }
 
         private void ClickMinePlace(PlaceForMine place)
@@ -96,6 +98,9 @@ namespace City.Buildings.Mines
                 var mineModel = _commonDictionaries.Mines[mineData.MineId];
                 place.SetData(mineModel, mineData);
             }
+
+            View.CollectAllButton.interactable = (_mineDatas.Count > 1);
+
         }
 
         private void OpenMineTravelPage()

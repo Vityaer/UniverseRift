@@ -69,6 +69,9 @@ namespace Fight.WarTable
             if (_isDragging)
                 return;
 
+            if (place.Hero == null)
+                return;
+
             View.DragableItem.DOMove(Input.mousePosition, 0f);
             View.DragableItem.gameObject.SetActive(true);
 
@@ -76,6 +79,7 @@ namespace Fight.WarTable
                 return;
 
             _startDragPlace = place;
+            _startDragPlace.SetDragingStatus(true);
             _isDragging = true;
             View.DragableItemImage.sprite = place.Hero.Avatar;
 
@@ -116,11 +120,24 @@ namespace Fight.WarTable
             _cancellationTokenSource.TryCancel();
             _isDragging = false;
 
-            if (place == null)
+            if (_startDragPlace == null)
                 return;
 
-            if (place == _startDragPlace)
+            if (place == null)
+            {
+                _startDragPlace.SetDragingStatus(false);
                 return;
+            }
+
+            if (place == _startDragPlace || place.Hero == _startDragPlace.Hero)
+            {
+                _startDragPlace.SetDragingStatus(false);
+                return;
+            }
+
+            var oldIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == _startDragPlace);
+            var newIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == place);
+            _playerTeam.Heroes.Remove(oldIndexPlace);
 
             if (place.IsEmpty)
             {
@@ -132,11 +149,34 @@ namespace Fight.WarTable
                 var tempHero = place.Hero;
                 place.SetHero(_startDragPlace.Hero);
                 _startDragPlace.SetHero(tempHero);
+                ChangeTeamData(_playerTeam, oldIndexPlace, tempHero.HeroData.Id);
+            }
+
+            ChangeTeamData(_playerTeam, newIndexPlace, place.Hero.HeroData.Id);
+            _onChangeTeam.Execute(_playerTeam);
+            _startDragPlace.SetDragingStatus(false);
+        }
+
+        private void ChangeTeamData(TeamContainer playerTeam, int indexPlace, int id)
+        {
+            if (playerTeam.Heroes.ContainsKey(indexPlace))
+            {
+                playerTeam.Heroes[indexPlace] = id;
+            }
+            else
+            {
+                playerTeam.Heroes.Add(indexPlace, id);
             }
         }
 
         private void OnPlaceSelect(WarriorPlace place)
         {
+            if (_isDragging)
+                return;
+
+            if (place == _startDragPlace)
+                _startDragPlace = null;
+
             if (!place.IsEmpty)
             {
                 UnSelectCard(place.Hero);
@@ -165,6 +205,14 @@ namespace Fight.WarTable
         {
             var result = false;
             WarriorPlace selectedPlace = null;
+            var existHero = View.LeftTeam.Find(place => place.Hero == hero);
+
+            if (existHero != null)
+            {
+                Debug.LogError("Герой уже есть в команде");
+                return result;
+            }
+
             foreach (var place in View.LeftTeam)
             {
                 if (place.IsEmpty)
@@ -183,6 +231,7 @@ namespace Fight.WarTable
                 {
                     if (_playerTeam.Heroes.ContainsKey(selectedPlace.Id))
                     {
+                        Debug.LogError("Это место в команде уже занято");
                         return false;
                     }
 
@@ -209,7 +258,6 @@ namespace Fight.WarTable
                 {
                     _playerTeam.Heroes.Remove(place.Id);
                     _onChangeTeam.Execute(_playerTeam);
-                    UnityEngine.Debug.Log($"RemoveHero: {hero.HeroData.Id} in team: {_playerTeam.Id}");
                 }
 
                 CheckTeam(View.LeftTeam);
@@ -309,6 +357,7 @@ namespace Fight.WarTable
         //API
         public void OpenTeamComposition(TeamContainer team, Action<TeamContainer> callback)
         {
+            CheckTeamContainer(team, View.LeftTeam);
             DisposeMainAction();
             _playerTeam = team;
             _callback = callback;
@@ -324,6 +373,32 @@ namespace Fight.WarTable
             CheckTeam(View.LeftTeam);
         }
 
+        private void CheckTeamContainer(TeamContainer team, List<WarriorPlace> teamPlaces)
+        {
+            var heroesRemove = new List<int>();
+            foreach (var heroKeyValuePair in team.Heroes)
+            {
+                var suitablePlace = teamPlaces.Find(place => place.Id == heroKeyValuePair.Key);
+                if (suitablePlace == null)
+                {
+                    heroesRemove.Add(heroKeyValuePair.Key);
+                    continue;
+                }
+
+                var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                if (suitableHero == null)
+                {
+                    heroesRemove.Add(heroKeyValuePair.Key);
+                    continue;
+                }
+            }
+
+            foreach (var heroId in heroesRemove)
+            {
+                team.Heroes.Remove(heroId);
+            }
+        }
+
         private void FillTeam(TeamContainer team, List<WarriorPlace> teamPlaces)
         {
             List<GameHero> heroes = new(team.Heroes.Count);
@@ -336,7 +411,9 @@ namespace Fight.WarTable
 
                 var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
                 if (suitableHero == null)
+                {
                     continue;
+                }
 
                 suitablePlace.SetHero(suitableHero);
                 heroes.Add(suitableHero);
@@ -408,6 +485,7 @@ namespace Fight.WarTable
         public override void Close()
         {
             _playerTeam = null;
+            _mission = null;
             OnClose.Execute();
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
@@ -416,7 +494,7 @@ namespace Fight.WarTable
 
         private void FillListHeroes(List<GameHero> listHeroes)
         {
-            View.ListCardPanel.ShowCards(listHeroes);
+            View.ListCardPanel.ShowCards(listHeroes, _mission?.HeroRestrictions);
         }
 
         public async UniTaskVoid StartFight()

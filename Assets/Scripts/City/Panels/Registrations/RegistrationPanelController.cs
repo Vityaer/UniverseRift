@@ -52,6 +52,7 @@ namespace City.Panels.Registrations
 
         private void StartRegistration()
         {
+            PlayerPrefs.DeleteAll();
             var newName = View.InputFieldNewNamePlayer.text;
             View.InputFieldNewNamePlayer.interactable = false;
             View.StartRegistrationButton.interactable = false;

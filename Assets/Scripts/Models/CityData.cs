@@ -13,20 +13,20 @@ namespace Models
     [Serializable]
     public class CityData : BaseModel
     {
-        public TimeManagementData TimeManagementSave = new TimeManagementData();
-        public IndustryData IndustrySave = new IndustryData();
-        public MarketData MallSave = new MarketData();
-        public BuildingWithFightTeamsData ChallengeTowerSave = new BuildingWithFightTeamsData();
+        public TimeManagementData TimeManagementSave = new();
+        public IndustryData IndustrySave = new();
+        public MarketData MallSave = new();
+        public BuildingWithFightTeamsData ChallengeTowerSave = new();
         public MainCampaignBuildingData MainCampaignSave = new();
-        public TravelBuildingData TravelCircleSave = new TravelBuildingData();
-        public VoyageBuildingData VoyageSave = new VoyageBuildingData();
-        public ArenaBuildingModel ArenaSave = new ArenaBuildingModel();
-        public SimpleBuildingData Tutorial = new SimpleBuildingData();
-        public CycleEventsData CycleEvents = new CycleEventsData();
-        public DailyRewardContainer DailyReward = new DailyRewardContainer();
-        public AchievmentStorageData Achievments = new AchievmentStorageData();
-        public FortuneWheelData FortuneWheelData = new FortuneWheelData();
-        public TaskBoardData TaskBoardData = new TaskBoardData();
+        public TravelBuildingData TravelCircleSave = new();
+        public VoyageBuildingData VoyageSave = new();
+        public ArenaBuildingModel ArenaSave = new();
+        public SimpleBuildingData Tutorial = new();
+        public CycleEventsData CycleEvents = new();
+        public DailyRewardContainer DailyReward = new();
+        public AchievmentStorageData Achievments = new();
+        public FortuneWheelData FortuneWheelData = new();
+        public TaskBoardData TaskBoardData = new();
         public GuildPlayerSaveContainer GuildPlayerSaveContainer = new();
         public LongTravelData LongTravelData = new();
     }

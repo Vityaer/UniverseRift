@@ -29,6 +29,7 @@ using Misc.Json.Impl;
 using Pages.BattlePases;
 using Pages.Buildings.Forge;
 using Pages.Buildings.FortuneWheels;
+using Pages.Buildings.Mines.Settings;
 using Pages.City.ChallengeTower;
 using Pages.Heroes.CostLevelUp;
 using Pages.Heroes.RatingUps;
@@ -80,6 +81,7 @@ namespace Editor.Windows
         private CharacteristicPageEditor _characteristicPageEditor;
         private HireContainerPageEditor _hireContainerPageEditor;
         private MagicCirclePageEditor _magicCirclePageEditor;
+        private MineSettingsPageEditor _mineSettingsPageEditor;
         private OdinMenuTree _tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
@@ -138,6 +140,7 @@ namespace Editor.Windows
             _tree.Add("City/Hires", _hireContainerPageEditor);
             _tree.Add("City/Mines/Main Editor", _minePageEditor);
             _tree.Add("City/Mines/restrictions", _mineRestrictionPageEditor);
+            _tree.Add("City/Mines/Mines Settings", _mineSettingsPageEditor);
             _tree.Add("City/Travel/Main Editor", _travelRaceCircleEditor);
             _tree.Add("City/FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
@@ -150,6 +153,7 @@ namespace Editor.Windows
             _tree.Add("Players/Avatars", _avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
             _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
+            
 
         }
 
@@ -264,6 +268,9 @@ namespace Editor.Windows
 
             _magicCirclePageEditor = new MagicCirclePageEditor(_dictionaries);
             _allPages.Add(_magicCirclePageEditor);
+
+            _mineSettingsPageEditor = new MineSettingsPageEditor(_dictionaries);
+            _allPages.Add(_mineSettingsPageEditor);
         }
 
         private void OnValueSaved()
