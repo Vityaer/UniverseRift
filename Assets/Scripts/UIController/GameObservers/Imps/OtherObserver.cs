@@ -6,10 +6,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using VContainerUi.Abstraction;
 
 namespace UIController.Observers
 {
-    public abstract class OtherObserver : MonoBehaviour
+    public abstract class OtherObserver : UiView
     {
         private bool _isMyabeBuy = false;
 
@@ -27,7 +28,7 @@ namespace UIController.Observers
             CommonGameData = commonGameData;
         }
 
-        private void Start()
+        protected override void Start()
         {
             btnAddResource.gameObject.SetActive(_isMyabeBuy);
             RegisterOnChange();
@@ -47,7 +48,7 @@ namespace UIController.Observers
             // 		);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             _disposable?.Dispose();
         }

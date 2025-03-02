@@ -24,7 +24,7 @@ namespace City.Buildings.Mines.Panels.Travels
         private const string MINE_SETTINGS_NAME = "MineMainBuildingName";
 
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly VoyageMissionPanelController panelVoyageMission;
+        [Inject] private readonly VoyageMissionPanelController _panelVoyageMission;
         [Inject] private readonly ClientRewardService _clientRewardService;
 
         private int _travelLevel;
@@ -45,7 +45,7 @@ namespace City.Buildings.Mines.Panels.Travels
         protected override void OnLoadGame()
         {
             var mines = CommonGameData.City.IndustrySave.Mines;
-            var settings = _commonDictionaries.Buildings[MINE_SETTINGS_NAME] as MineBuildingModel;
+            var settings = _commonDictionaries.Buildings[MAIN_MINE_NAME] as MineBuildingModel;
             var administrationMine = mines.Find(mine => mine.MineId.Equals(MAIN_MINE_NAME));
 
             var targetIndex = 0;
@@ -128,7 +128,7 @@ namespace City.Buildings.Mines.Panels.Travels
         {
             _flagBossMission = true;
             _currentMissionModel = _bossMissionModel;
-            panelVoyageMission.ShowInfo(_currentMissionModel, View.BossMissionView.Status, 1, StartOpenMission);
+            _panelVoyageMission.ShowInfo(_currentMissionModel, View.BossMissionView.Status, 1, StartOpenMission);
         }
 
         private void OpenVoyageMissionPanel(MineMissionController missionController)
@@ -137,7 +137,7 @@ namespace City.Buildings.Mines.Panels.Travels
             _currentMissionId = missionController.MissionData.Id;
             _currentMissionModel = missionController.MissionModel;
             _currentMissionController = missionController;
-            panelVoyageMission.ShowInfo(_currentMissionModel, missionController.Status, _travelLevel, StartOpenMission);
+            _panelVoyageMission.ShowInfo(_currentMissionModel, missionController.Status, _travelLevel, StartOpenMission);
         }
 
         private void StartOpenMission()

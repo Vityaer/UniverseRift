@@ -10,7 +10,7 @@ namespace Pages.Buildings.Mines.Settings
     public class MineSettingsPageEditor : BasePageEditor
     {
         private CommonDictionaries _dictionaries;
-        private string NAME => nameof(MineSettingsPageEditor);
+        private string NAME = "MainMineBuilding";
 
         public MineSettingsPageEditor(CommonDictionaries commonDictionaries)
         {
@@ -21,20 +21,20 @@ namespace Pages.Buildings.Mines.Settings
         public override void Init()
         {
             base.Init();
-            MineBuildingModel magicCircleBuildingModel;
+            MineBuildingModel mineBuildingModel;
             if (_dictionaries.Buildings.ContainsKey(NAME))
             {
 
-                magicCircleBuildingModel = _dictionaries.Buildings[NAME] as MineBuildingModel;
+                mineBuildingModel = _dictionaries.Buildings[NAME] as MineBuildingModel;
             }
             else
             {
-                magicCircleBuildingModel = new MineBuildingModel();
-                magicCircleBuildingModel.Id = NAME;
-                _dictionaries.Buildings.Add(NAME, magicCircleBuildingModel);
+                mineBuildingModel = new MineBuildingModel();
+                mineBuildingModel.Id = NAME;
+                _dictionaries.Buildings.Add(NAME, mineBuildingModel);
             }
 
-            MineSettings = magicCircleBuildingModel;
+            MineSettings = mineBuildingModel;
             MineSettings.SetCommonDictionary(_dictionaries);
             DataExist = true;
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets.Editor.Pages.Avatars;
 using Assets.Editor.Pages.Heroes.Charastectics;
 using Assets.Editor.Pages.Locations;
@@ -36,7 +37,6 @@ using Pages.Heroes.RatingUps;
 using Pages.Heroes.Vocation;
 using Pages.Items.Relations;
 using Sirenix.OdinInspector.Editor;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Utils;
@@ -95,15 +95,11 @@ namespace Editor.Windows
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Save All",
                     new GUILayoutOption[] { GUILayout.Width(100), GUILayout.Height(40) }))
-            {
                 Saving();
-            }
 
             if (GUILayout.Button("Load All",
                     new GUILayoutOption[] { GUILayout.Width(100), GUILayout.Height(40) }))
-            {
                 ForceMenuTreeRebuild();
-            }
 
             GUILayout.EndHorizontal();
             base.DrawMenu();
@@ -132,7 +128,7 @@ namespace Editor.Windows
             _tree.Add("Inventory/Splinters", _splinterPageEditor);
             _tree.Add("Rarity/Rarities", _rarityPageEditor);
             _tree.Add("Rating/Rating", _ratingPageEditor);
-            _tree.Add("Fights/Ñampaign", _campaignPageEditor);
+            _tree.Add("Fights/ï¿½ampaign", _campaignPageEditor);
             _tree.Add("Fights/Storage Challange", _storageChallangePageEditor);
             _tree.Add("Fights/Location", _locationPageEditor);
             _tree.Add("Mall/Markets", _marketPageEditor);
@@ -153,17 +149,12 @@ namespace Editor.Windows
             _tree.Add("Players/Avatars", _avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
             _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
-            
-
         }
 
         private async void InitPages()
         {
             ConfigVersion = EditorUtils.Load<ConfigVersion>();
-            if (ConfigVersion == null)
-            {
-                ConfigVersion = new ConfigVersion();
-            }
+            if (ConfigVersion == null) ConfigVersion = new ConfigVersion();
 
             Debug.Log($"Config loaded. Current version: {ConfigVersion.Version}");
 
@@ -292,10 +283,7 @@ namespace Editor.Windows
                             && Event.current.modifiers == EventModifiers.Control
                             && Event.current.keyCode == KeyCode.S;
 
-            if (condition)
-            {
-                Saving();
-            }
+            if (condition) Saving();
         }
 
         private void Saving()
@@ -304,10 +292,7 @@ namespace Editor.Windows
             ConfigVersion.FilesCount = _allPages.Count;
 
             Debug.Log("Save configs start");
-            foreach (var page in _allPages)
-            {
-                page.Save();
-            }
+            foreach (var page in _allPages) page.Save();
 
             OnValueSaved();
             InitPages();
