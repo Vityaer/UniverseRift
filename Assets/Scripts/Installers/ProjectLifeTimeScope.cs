@@ -1,4 +1,4 @@
-﻿using City.AddressableServices;
+﻿using System;
 using Common;
 using Common.Players;
 using Db.CommonDictionaries;
@@ -8,7 +8,6 @@ using Misc.Json;
 using Misc.Json.Impl;
 using Models.Common;
 using Services.TimeLocalizeServices;
-using System;
 using UIController.Inventory;
 using VContainer;
 using VContainer.Unity;
@@ -28,7 +27,6 @@ namespace Installer
             builder.Register<LocalizationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<PlayersStorage>(Lifetime.Singleton).AsSelf();
             builder.Register<TimeLocalizeService>(Lifetime.Singleton).AsSelf();
-            builder.Register<AddressablesService>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<ProjectInitialize>();
             base.Configure(builder);
         }

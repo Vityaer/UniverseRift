@@ -1,5 +1,4 @@
-﻿using City.AddressableServices;
-using City.Panels.Registrations;
+﻿using City.Panels.Registrations;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Common;
@@ -20,7 +19,6 @@ namespace Common.Authentications
         [Inject] private readonly RegistrationPanelController _registrationPanelController;
         [Inject] private readonly RegistrationPanelView _registrationPanelView;
         [Inject] private readonly CommonDictionaries _dictionaries;
-        [Inject] private readonly AddressablesService _addressablesService;
 
         private CompositeDisposable _disposables = new();
 
