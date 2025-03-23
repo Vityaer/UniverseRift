@@ -60,15 +60,12 @@ namespace City.TrainCamp
 
         public bool IsAllDone()
         {
-            bool result = true;
-            for (int i = 0; i < _requirementHeroes.Count; i++)
+            if (_requireCards.Count == 0)
             {
-                if (_requireCards[i].CheckHeroes())
-                {
-                    result = false;
-                    break;
-                }
+                return true;
             }
+
+            bool result = _requireCards.TrueForAll(requireCard => requireCard.CheckHeroes());
             return result;
         }
 

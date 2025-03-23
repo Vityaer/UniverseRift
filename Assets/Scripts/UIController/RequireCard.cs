@@ -108,8 +108,12 @@ namespace UIController
 
         public bool CheckHeroes()
         {
-            bool result = false;
-            return result;
+            if (_requireSelectCount == 0)
+            {
+                return true;
+            }
+
+            return _selectedHeroes.Count == _requireSelectCount;
         }
 
         private void OpenListCard()

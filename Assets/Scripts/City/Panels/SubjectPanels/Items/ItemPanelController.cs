@@ -81,6 +81,12 @@ namespace City.Panels.SubjectPanels
                 .GetLocalizedContainer($"{item.Type}TypeName");
 
             _bonusesPool.ShowDatas(item.Model.Bonuses);
+
+            OpenWindow();
+        }
+
+        private void OpenWindow()
+        {
             MessagesPublisher.OpenWindowPublisher.OpenWindow<ItemPanelController>(openType: OpenType.Additive);
         }
 

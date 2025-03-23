@@ -69,7 +69,6 @@ namespace VContainerUi
             if (removeIndex > 0)
             {
                 windowList[removeIndex].Back();
-                windowList[removeIndex].Back();
                 windowList.RemoveAt(removeIndex);
                 _windowsStack.Clear();
                 foreach (var window in windowList)
@@ -128,6 +127,15 @@ namespace VContainerUi
         {
             var currentWindow = _windowsStack.Pop();
             currentWindow.Back();
+
+            if (_windowsStack.Count > 0)
+            {
+                _windowState.CurrentWindow = _windowsStack.Peek();
+            }
+            else
+            {
+                _windowState.CurrentWindow = null;
+            }
         }
 
         private void OpenPreviousWindows()
@@ -141,7 +149,7 @@ namespace VContainerUi
                 openedWindow.SetState(UiControllerState.IsActiveAndFocus, openedWindow.OpenedType);
             }
 
-            _windowState.CurrentWindow = previousWindows[previousWindows.Count - 1];
+            _windowState.CurrentWindow = previousWindows[^1];
 
             var firstWindow = GetFirstWindow();
             var isFirstPopUp = false;

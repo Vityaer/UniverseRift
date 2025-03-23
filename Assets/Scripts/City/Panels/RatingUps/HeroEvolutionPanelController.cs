@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using City.Panels.RatingUps;
 using City.Panels.RatingUps.EvolutionResultPanels;
 using City.TrainCamp.HeroInstances;
@@ -12,8 +14,6 @@ using Models.City.TrainCamp;
 using Models.Heroes.PowerUps;
 using Network.DataServer;
 using Network.DataServer.Messages.HeroPanels;
-using System;
-using System.Collections.Generic;
 using UIController;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
@@ -44,15 +44,13 @@ namespace City.TrainCamp
             View.ButtonLevelUP.OnClickAsObservable().Subscribe(_ => RatingUp()).AddTo(Disposables);
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
             View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
-            View.DimmedSelectedPanelButton.OnClickAsObservable().Subscribe(_ => CloseSelectedPanel()).AddTo(Disposables);
+            View.DimmedSelectedPanelButton.OnClickAsObservable().Subscribe(_ => CloseSelectedPanel())
+                .AddTo(Disposables);
             base.Start();
 
             View.ListRequirementHeroes.OnSelectRequireCard.Subscribe(SelectRequireCard).AddTo(Disposables);
 
-            foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
-            {
-                Resolver.Inject(requireCard.Card);
-            }
+            foreach (var requireCard in View.ListRequirementHeroes.RequireCards) Resolver.Inject(requireCard.Card);
             Resolver.Inject(View.RequireCardInfo.Card);
             Resolver.Inject(View.CardsContainer);
 
@@ -79,7 +77,7 @@ namespace City.TrainCamp
         private void SelectRequireCard(RequireCard card)
         {
             var currentHeroes = _heroesStorageController.ListHeroes;
-            currentHeroes = currentHeroes.FindAll(hero => Check—onformity(hero, card.RequirementHero));
+            currentHeroes = currentHeroes.FindAll(hero => CheckConformity(hero, card.RequirementHero));
             currentHeroes.Remove(_currentHero);
 
             View.CardsContainer.ShowCards(currentHeroes);
@@ -92,18 +90,14 @@ namespace City.TrainCamp
 
         private void CloseSelectedPanel()
         {
-            foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
-            {
-                requireCard.OnCloseListCard();
-            }
+            foreach (var requireCard in View.ListRequirementHeroes.RequireCards) requireCard.OnCloseListCard();
             View.RequireCardInfo.OnCloseListCard();
 
             View.SelectHeroesPanel.SetActive(false);
             CheckCanUpdateRating();
-
         }
 
-        private bool Check—onformity(GameHero hero, RequirementHeroModel requirementHero)
+        private bool CheckConformity(GameHero hero, RequirementHeroModel requirementHero)
         {
             if (!hero.Model.General.Race.Equals(_currentHero.Model.General.Race))
                 return false;
@@ -159,10 +153,7 @@ namespace City.TrainCamp
 
             foreach (var requireCard in View.ListRequirementHeroes.RequireCards)
             {
-                foreach (var hero in requireCard.SelectedHeroes)
-                {
-                    heroesPayment.Add(hero.HeroData.Id);
-                }
+                foreach (var hero in requireCard.SelectedHeroes) heroesPayment.Add(hero.HeroData.Id);
                 _heroesStorageController.RemoveHeroes(requireCard.SelectedHeroes);
             }
 

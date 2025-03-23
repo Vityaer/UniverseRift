@@ -2,6 +2,7 @@
 using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Models.Heroes.Evolutions
 {
@@ -29,6 +30,11 @@ namespace Models.Heroes.Evolutions
 
         public IncreaseCharacteristicsModel GetGrowth(int rating)
         {
+            if (rating < 0 || rating >= Stages.Count)
+            {
+                Debug.LogError($"Rating {rating} is out of range");
+            }
+            
             return Stages[rating - 1].IncCharacts;
         }
 

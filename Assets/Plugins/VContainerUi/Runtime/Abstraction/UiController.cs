@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainerUi.Interfaces;
 using VContainerUi.Model;
@@ -43,9 +44,14 @@ namespace VContainerUi.Abstraction
             {
                 IsActive = _currentState.IsActive;
                 if (_currentState.IsActive)
+                {
                     Show();
+                }
+
                 else
+                {
                     Hide();
+                }
             }
 
             if (InFocus == _currentState.InFocus)
