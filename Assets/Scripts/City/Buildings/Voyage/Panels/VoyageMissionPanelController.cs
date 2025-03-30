@@ -5,6 +5,9 @@ using Db.CommonDictionaries;
 using Hero;
 using Models.Fights.Campaign;
 using System;
+using System.Collections.Generic;
+using LocalizationSystems;
+using UI.Utils.Localizations.Extensions;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
@@ -17,7 +20,8 @@ namespace City.Buildings.Voyage
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly SubjectDetailController _subjectDetailController;
-
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        
         private Action _action;
 
         public override void Start()
@@ -33,8 +37,14 @@ namespace City.Buildings.Voyage
             _action = action;
             View.rewardController.ShowReward(reward);
 
-            View.textNameMission.text = $"Mission {index + 1}";
-            View.StatusMissionText.text = $"{status}";
+            View.NameMission.StringReference = m_localizationSystem
+                .GetLocalizedContainer("VoyageMissionName")
+                .WithArguments(new List<object>{{index + 1}});
+            
+            View.StatusMission.StringReference = m_localizationSystem
+                .GetLocalizedContainer("VoyageMissionStatus")
+                .WithArguments(new List<object>{status});
+            
             switch (status)
             {
                 case StatusMission.NotOpen:
@@ -57,7 +67,7 @@ namespace City.Buildings.Voyage
             }
 
 
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<VoyageMissionPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<VoyageMissionPanelController>(openType: OpenType.Additive);
         }
 
         public void OpenMission()

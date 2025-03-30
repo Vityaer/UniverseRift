@@ -31,6 +31,12 @@ namespace UIController.GameObservers
 
         protected override void Start()
         {
+            if (_buyResourcePanelController == null)
+            {
+                Debug.LogError($"{nameof(_buyResourcePanelController)} is null");
+                return;
+            }
+            
             _isMyabeBuy = _buyResourcePanelController.GetCanSellThisResource(TypeResource);
             _resource = new GameResource(TypeResource);
             imageResource.sprite = _resource.Image;

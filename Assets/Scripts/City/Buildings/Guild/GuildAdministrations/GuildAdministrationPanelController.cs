@@ -41,7 +41,7 @@ namespace City.Buildings.Guild.GuildAdministrations
 
         private void OpenRequestsPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Additive);
         }
 
         protected override void Show()

@@ -1,4 +1,7 @@
-﻿using City.Buildings.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using City.Buildings.Abstractions;
 using Common.Heroes;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
@@ -6,9 +9,6 @@ using DG.Tweening;
 using Hero;
 using Models.Arenas;
 using Models.Fights.Campaign;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -98,7 +98,7 @@ namespace Fight.WarTable
                 }
                 else
                 {
-                    var selectPlace = View.LeftTeam.Find(place => place.MouseInnerFlag); 
+                    var selectPlace = View.LeftTeam.Find(place => place.MouseInnerFlag);
                     OnDrop(selectPlace);
                 }
 
@@ -160,13 +160,9 @@ namespace Fight.WarTable
         private void ChangeTeamData(TeamContainer playerTeam, int indexPlace, int id)
         {
             if (playerTeam.Heroes.ContainsKey(indexPlace))
-            {
                 playerTeam.Heroes[indexPlace] = id;
-            }
             else
-            {
                 playerTeam.Heroes.Add(indexPlace, id);
-            }
         }
 
         private void OnPlaceSelect(WarriorPlace place)
@@ -177,28 +173,19 @@ namespace Fight.WarTable
             if (place == _startDragPlace)
                 _startDragPlace = null;
 
-            if (!place.IsEmpty)
-            {
-                UnSelectCard(place.Hero);
-            }
+            if (!place.IsEmpty) UnSelectCard(place.Hero);
         }
 
         public void SelectCard(GameHero hero)
         {
             var result = AddHero(hero);
-            if (result)
-            {
-                View.ListCardPanel.SelectCards(new List<GameHero> { hero });
-            }
+            if (result) View.ListCardPanel.SelectCards(new List<GameHero> { hero });
         }
 
         public void UnSelectCard(GameHero hero)
         {
             var result = RemoveHero(hero);
-            if (result)
-            {
-                View.ListCardPanel.UnselectCards(new List<GameHero> { hero });
-            }
+            if (result) View.ListCardPanel.UnselectCards(new List<GameHero> { hero });
         }
 
         private bool AddHero(GameHero hero)
@@ -214,7 +201,6 @@ namespace Fight.WarTable
             }
 
             foreach (var place in View.LeftTeam)
-            {
                 if (place.IsEmpty)
                 {
                     place.SetHero(hero);
@@ -223,7 +209,6 @@ namespace Fight.WarTable
                     selectedPlace = place;
                     break;
                 }
-            }
 
             if (result)
             {
@@ -263,24 +248,22 @@ namespace Fight.WarTable
                 CheckTeam(View.LeftTeam);
                 UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
                 result = true;
-
             }
+
             return result;
         }
 
         private void ClearPlaces(List<WarriorPlace> places)
         {
             foreach (var place in places)
-            {
                 if (!place.IsEmpty)
                     RemoveHero(place.Hero);
-            }
         }
 
         private void UpdateStrengthTeam(List<WarriorPlace> team, TextMeshProUGUI textComponent)
         {
-            float strengthTeam = 0f;
-            for (int i = 0; i < team.Count; i++)
+            var strengthTeam = 0f;
+            for (var i = 0; i < team.Count; i++)
                 if (team[i].Hero != null)
                     strengthTeam += team[i].Hero.Strength;
             textComponent.text = strengthTeam.ToString();
@@ -385,7 +368,8 @@ namespace Fight.WarTable
                     continue;
                 }
 
-                var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                var suitableHero =
+                    _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
                 if (suitableHero == null)
                 {
                     heroesRemove.Add(heroKeyValuePair.Key);
@@ -393,10 +377,7 @@ namespace Fight.WarTable
                 }
             }
 
-            foreach (var heroId in heroesRemove)
-            {
-                team.Heroes.Remove(heroId);
-            }
+            foreach (var heroId in heroesRemove) team.Heroes.Remove(heroId);
         }
 
         private void FillTeam(TeamContainer team, List<WarriorPlace> teamPlaces)
@@ -409,11 +390,9 @@ namespace Fight.WarTable
                 if (suitablePlace == null)
                     continue;
 
-                var suitableHero = _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
-                if (suitableHero == null)
-                {
-                    continue;
-                }
+                var suitableHero =
+                    _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                if (suitableHero == null) continue;
 
                 suitablePlace.SetHero(suitableHero);
                 heroes.Add(suitableHero);
@@ -426,10 +405,8 @@ namespace Fight.WarTable
         {
             _playerTeam.Heroes.Clear();
             foreach (var place in View.LeftTeam)
-            {
                 if (!place.IsEmpty)
                     _playerTeam.Heroes.Add(place.Id, place.Hero.HeroData.Id);
-            }
 
             UnityEngine.Debug.Log($"_playerTeam.Heroes: {_playerTeam.Heroes.Count}");
             _callback.Invoke(_playerTeam);
@@ -460,7 +437,6 @@ namespace Fight.WarTable
             CheckTeam(View.RightTeam);
             FillListHeroes(listHeroes);
             Open();
-
         }
 
         private void DisposeMainAction()
@@ -472,14 +448,35 @@ namespace Fight.WarTable
             }
         }
 
-        public void OpenMission(MissionModel mission, TeamContainer teamContainer)
+        public void OpenMission(MissionModel mission, TeamContainer teamContainer, WarTableLimiter limiter = null)
         {
-            OpenMission(mission, _heroesStorageController.ListHeroes);
+            List<GameHero> selectedHeroes;
+            GetHeroesByLimiter(out selectedHeroes, limiter);
+            OpenMission(mission, selectedHeroes);
             _playerTeam = teamContainer;
 
             FillTeam(_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
             CheckTeam(View.LeftTeam);
+        }
+
+        private void GetHeroesByLimiter(out List<GameHero> selectedHeroes, WarTableLimiter limiter)
+        {
+            if (limiter == null)
+            {
+                selectedHeroes = _heroesStorageController.ListHeroes;
+                return;
+            }
+
+            selectedHeroes = new List<GameHero>();
+
+            foreach (GameHero hero in _heroesStorageController.ListHeroes)
+            {
+                if (limiter.CheckHero(hero))
+                {
+                    selectedHeroes.Add(hero);
+                }
+            }
         }
 
         public override void Close()
