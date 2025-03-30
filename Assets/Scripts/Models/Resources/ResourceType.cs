@@ -22,10 +22,11 @@
         MineStone = 17,
         RedDust = 18,
         EventAgentMonet = 19,
-        FeastCoint = 20,
-        VoyageToken = 21,
+        FeastCoins = 20,
+        VoyageCoin = 21,
         AdvancedDarkStone = 22,
         Candy = 23,
         MineMissionEnergy = 24,
+        VoyageLevelUpCoin = 25,
     }
 }

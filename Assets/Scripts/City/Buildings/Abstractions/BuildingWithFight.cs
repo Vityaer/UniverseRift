@@ -23,6 +23,7 @@ namespace City.Buildings.Abstractions
         private IDisposable _tempDisposable;
         private IDisposable _teamChangeDisposable;
 
+        protected WarTableLimiter WarTableLimiter = null;
         protected TeamContainer TeamContainer;
 
         public IObservable<int> OnTryFight => _onTryFight;
@@ -36,7 +37,7 @@ namespace City.Buildings.Abstractions
 
         public void OpenMission(MissionModel mission)
         {
-            WarTableController.OpenMission(mission, TeamContainer);
+            WarTableController.OpenMission(mission, TeamContainer, WarTableLimiter);
             _teamChangeDisposable = WarTableController.OnChangeTeam.Subscribe(OnChangeTeam);
             _tempDisposable = WarTableController.OnStartMission.Subscribe(_ => OnStartMission());
             WarTableController.OnClose.Subscribe(_ => OnCloseWarTable()).AddTo(_disposables);
@@ -57,7 +58,7 @@ namespace City.Buildings.Abstractions
             TeamUtils.SaveTeam(TeamContainer);
         }
 
-        private void OnStartMission()
+        protected virtual void OnStartMission()
         {
             _tempDisposable.Dispose();
             _tempDisposable = FightController.OnFigthResult.Subscribe(OnResultFight);

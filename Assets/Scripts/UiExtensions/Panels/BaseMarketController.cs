@@ -41,6 +41,9 @@ namespace UiExtensions.Panels
                 .Select(promo => promo.ProductId)
                 .ToList();
 
+            Debug.Log($"_сommonGameData.City.MallSave.ShopPromotions.Count: {_сommonGameData.City.MallSave.ShopPromotions.Count}");
+            Debug.Log($"MarketContainerName: {MarketContainerName} promotions: {promotions.Count}");
+            
             allMarketProducts.AddRange(promotions);
 
             foreach (var productId in allMarketProducts)

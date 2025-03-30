@@ -16,6 +16,7 @@ using City.Buildings.Tavern;
 using City.Buildings.Tower;
 using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
+using City.Buildings.Voyage.Shops;
 using City.Buildings.WheelFortune;
 using MainPages.City;
 using UIController.Common;
@@ -42,6 +43,7 @@ namespace Installers
         [SerializeField] private SanctuaryView _sanctuaryView;
         [SerializeField] private ChallengeTowerView _challengeTowerView;
         [SerializeField] private VoyageView _voyageView;
+        [SerializeField] private VoyageShopView _voyageShopView;
         [SerializeField] private FortuneWheelView _wheelFortuneView;
         [SerializeField] private MagicCircleView _magicCircleView;
         [SerializeField] private MinesView _minesView;
@@ -69,6 +71,7 @@ namespace Installers
             builder.RegisterUiView<SanctuaryController, SanctuaryView>(_sanctuaryView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<ChallengeTowerController, ChallengeTowerView>(_challengeTowerView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<VoyageController, VoyageView>(_voyageView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<VoyageShopController, VoyageShopView>(_voyageShopView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<FortuneWheelController, FortuneWheelView>(_wheelFortuneView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<MagicCircleController, MagicCircleView>(_magicCircleView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<LongTravelController, LongTravelView>(_longTravelView, safeArea.RootTemporallyWindows);
