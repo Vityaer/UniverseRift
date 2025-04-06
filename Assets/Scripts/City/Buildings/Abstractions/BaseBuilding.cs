@@ -2,6 +2,8 @@
 using Common;
 using Models.Common;
 using System;
+using City.Panels.Helps;
+using LocalizationSystems;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -22,17 +24,30 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly IObjectResolver Resolver;
         [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
+        [Inject] protected readonly ILocalizationSystem LocalizationSystem;
+        [Inject] protected readonly HelpPanelController HelpPanelController;
+        
         protected CompositeDisposable Disposables = new();
         private int _levelForAvailableBuilding = 0;
 
+        private string HelpLocalizeStringId => $"{Name}HelpMainMessage";
+        
         public string Name => this.GetType().Name;
 
         public void Start()
         {
             AutoInject();
             OnStart();
+            View.HelpButton?.OnClickAsObservable().Subscribe(_ => OpenHelp()).AddTo(Disposables);
             View.ButtonCloseBuilding?.OnClickAsObservable().Subscribe(_ => Close()).AddTo(Disposables);
             GameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(Disposables);
+            
+            View.HelpButton?.gameObject.SetActive(LocalizationSystem.ExistLocaleId(HelpLocalizeStringId));
+        }
+
+        protected virtual void OpenHelp()
+        {
+            HelpPanelController.OpenHelp(HelpLocalizeStringId);
         }
 
         private void AutoInject()

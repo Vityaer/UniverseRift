@@ -41,6 +41,10 @@ namespace LocalizationSystems
             return _localizationUiContainer.GetLocalizedContainer(key);
         }
 
+        public bool ExistLocaleId(string id)
+        {
+            return _localizationUiContainer.ExistLocaleId(id);
+        }
 
         public void Dispose()
         {

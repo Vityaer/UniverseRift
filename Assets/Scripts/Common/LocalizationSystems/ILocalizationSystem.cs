@@ -11,5 +11,6 @@ namespace LocalizationSystems
         string GetString(string key);
         LocalizedString GetLocalizedContainer(string key);
         IObservable<Locale> OnChangeLanguage { get; }
+        bool ExistLocaleId(string id);
     }
 }
