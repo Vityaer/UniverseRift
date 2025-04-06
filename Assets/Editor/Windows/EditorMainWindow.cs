@@ -120,7 +120,7 @@ namespace Editor.Windows
             _tree.Add("Heroes/Characteristics", _characteristicPageEditor);
             _tree.Add("Heroes/Vocations", _vocationPageEditor);
             _tree.Add("Heroes/Races", _racePageEditor);
-            _tree.Add("Heroes/Rating Requrements", _ratingUpPageEditor);
+            _tree.Add("Heroes/Rating Requirements", _ratingUpPageEditor);
             _tree.Add("Costs/Costs Editor", _costLevelUpContainerPageEditor);
             _tree.Add("Inventory/Items/Items", _itemPageEditor);
             _tree.Add("Inventory/Items/Set", _itemSetPageEditor);
@@ -128,8 +128,8 @@ namespace Editor.Windows
             _tree.Add("Inventory/Splinters", _splinterPageEditor);
             _tree.Add("Rarity/Rarities", _rarityPageEditor);
             _tree.Add("Rating/Rating", _ratingPageEditor);
-            _tree.Add("Fights/�ampaign", _campaignPageEditor);
-            _tree.Add("Fights/Storage Challange", _storageChallangePageEditor);
+            _tree.Add("Fights/Campaign", _campaignPageEditor);
+            _tree.Add("Fights/Storage Challenge", _storageChallangePageEditor);
             _tree.Add("Fights/Location", _locationPageEditor);
             _tree.Add("Mall/Markets", _marketPageEditor);
             _tree.Add("Mall/Products", _productPageEditor);
@@ -140,7 +140,7 @@ namespace Editor.Windows
             _tree.Add("City/Travel/Main Editor", _travelRaceCircleEditor);
             _tree.Add("City/FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
-            _tree.Add("Taskboard/Task Editor", _gameTaskModelEditor);
+            _tree.Add("Task board/Task Editor", _gameTaskModelEditor);
             _tree.Add("Achievements/Achievement Editor", _achievementPageEditor);
             _tree.Add("Achievements/Achievements container", _achievmentContainersPageEditor);
             _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
