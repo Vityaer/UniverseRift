@@ -13,10 +13,6 @@ namespace UI.Utils.Localizations
         public static LocalizedString GetLocalizedString(string tableName, string key)
         {
             var result = new LocalizedString(tableName, key);
-            //if (result == null || result.WaitForCompletion && result?.Keys.Count == 0 || result.GetLocalizedString() == null || result.GetLocalizedString().Contains("No translation found for "))
-            //{
-                //Debug.LogError($"Not found localization for: {key} in table: {tableName}");
-            //}
             return result;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 
 namespace UI.Utils.Localizations.Containers
 {
@@ -10,6 +11,8 @@ namespace UI.Utils.Localizations.Containers
     {
         protected bool _isLocalizationLoad;
 
+        private StringTable _stringTable;
+        
         protected Dictionary<string, LocalizedString> Locales = new();
         protected abstract string TableName { get; }
 
@@ -18,10 +21,16 @@ namespace UI.Utils.Localizations.Containers
 
         protected async UniTaskVoid WaitLoadLocation()
         {
+            _stringTable = await LocalizationSettings.StringDatabase.GetTableAsync(TableName);
             var asyncLoad = LocalizationSettings.InitializationOperation;
             await UniTask.WaitUntil(() => asyncLoad.IsDone);
             _isLocalizationLoad = true;
             OnLoadLocalization.Execute();
+        }
+
+        public bool ExistLocaleId(string id)
+        {
+            return _stringTable.GetEntry(id) != null;
         }
 
         public string GetString(string key)
