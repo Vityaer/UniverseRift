@@ -117,7 +117,7 @@ namespace City.Buildings.TaskGiver
             {
                 case TaskStatusType.NotStart:
                     sliderTime.SetMaxValue(requireTime);
-                    TaskControllerButton.SetLabel(_localizationSystem.GetString("TaskStartButtonLabel"));
+                    TaskControllerButton.SetLabel(_localizationSystem.GetString("StartButtonLabel"));
                     _disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
                     break;
 
