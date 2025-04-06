@@ -49,7 +49,9 @@ namespace UIController
             Enable();
 
             if (_resourceStorageController == null)
+            {
                 Debug.LogError("You forgot inject this!", gameObject);
+            }
 
             OnChageStorageResource(_resourceStorageController.Resources[_cost.Type]);
             CheckResource(_cost);

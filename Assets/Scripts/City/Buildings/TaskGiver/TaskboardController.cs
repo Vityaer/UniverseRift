@@ -1,26 +1,28 @@
-﻿using City.Buildings.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using City.Buildings.Abstractions;
 using City.TaskBoard;
 using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
+using Misc.Json;
 using Models.Data;
 using Models.Data.Buildings.Taskboards;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using Network.DataServer.Messages.City.Taskboards;
-using System;
-using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 namespace City.Buildings.TaskGiver
 {
-    public class TaskboardController : BaseBuilding<TaskboardView>, IStartable
+    public class TaskboardController : BaseBuilding<TaskboardView>
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
+        [Inject] private readonly IJsonConverter _jsonConverter;
 
         public int countFreeTaskOnDay = 6;
         private List<TaskController> _taskControllers = new List<TaskController>();
@@ -36,31 +38,27 @@ namespace City.Buildings.TaskGiver
 
         protected override void OnStart()
         {
-            View.BuySimpleTaskButton.ChangeCost(_simpleTaskCost, () => BuyTask<BuySimpleTaskMessage>(_simpleTaskCost).Forget());
-            View.BuySpecialTaskButton.ChangeCost(_specialTaskCost, () => BuyTask<BuySpecialTaskMessage>(_specialTaskCost).Forget());
+            View.BuySimpleTaskButton.ChangeCost(_simpleTaskCost,
+                () => BuyTask<BuySimpleTaskMessage>(_simpleTaskCost).Forget());
+            View.BuySpecialTaskButton.ChangeCost(_specialTaskCost,
+                () => BuyTask<BuySpecialTaskMessage>(_specialTaskCost).Forget());
         }
 
         protected override void OnLoadGame()
         {
             _taskBoardData = CommonGameData.City.TaskBoardData;
 
-            foreach (var taskData in _taskBoardData.ListTasks)
-            {
-                var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
-                _taskControllers.Add(newTaskController);
-                Resolver.Inject(newTaskController);
-                Resolver.Inject(newTaskController.TaskControllerButton);
-                newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
-                newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
-            }
+            foreach (var taskData in _taskBoardData.ListTasks) CreateTask(taskData);
 
             CheckNews();
             SetCostReplacement();
         }
 
+
         private void CheckNews()
         {
-            var taskInNotWork = _taskControllers.Find(taskController => (taskController.GetTask.Status != TaskStatusType.InWork));
+            var taskInNotWork =
+                _taskControllers.Find(taskController => (taskController.GetTask.Status != TaskStatusType.InWork));
             _onNews.Execute(taskInNotWork != null);
         }
 
@@ -77,61 +75,76 @@ namespace City.Buildings.TaskGiver
         {
             CheckNews();
 
-            foreach (var task in _taskControllers)
-            {
-                task.StopTimer();
-            }
+            foreach (var task in _taskControllers) task.StopTimer();
         }
 
         public async UniTaskVoid BuyTask<T>(GameResource cost) where T : AbstractMessage, new()
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            if (!string.IsNullOrEmpty(result))
-            {
-                _resourceStorageController.SubtractResource(cost);
-            }
+            if (!string.IsNullOrEmpty(result)) _resourceStorageController.SubtractResource(cost);
         }
 
         private void SetCostReplacement()
         {
-            var cost = _costReplacement * _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
-            View.BuyReplacementButton.ChangeCost(_costReplacement, () => ReplacementNotWorkTask().Forget());
+            var taskCanReplaceCount = _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
+            var cost = _costReplacement * taskCanReplaceCount;
+            View.BuyReplacementButton.ChangeCost(cost, StartReplacement);
         }
 
-        public async UniTaskVoid ReplacementNotWorkTask()
+        private async UniTaskVoid ReplacementNotWorkTask()
         {
             var message = new ReplaceTasksMessage { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var tasksForReplacement = _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart);
-
-                foreach (var task in tasksForReplacement)
-                {
-                    _taskControllers.Remove(_taskControllers.Find(x => x.GetTask == task));
-                }
+                var tasksForReplacement = _taskBoardData.ListTasks
+                    .FindAll(x => x.Status == TaskStatusType.NotStart);
 
                 var cost = _costReplacement * tasksForReplacement.Count;
                 for (var i = 0; i < tasksForReplacement.Count; i++)
                 {
-                    _taskBoardData.ListTasks.Remove(tasksForReplacement[i]);
-                    UnityEngine.Object.Destroy(_taskControllers.Find(x => x.GetTask == tasksForReplacement[i])?.gameObject);
+                    var taskForReplace = tasksForReplacement[i];
+                    _taskBoardData.ListTasks.Remove(taskForReplace);
+                    var taskController = _taskControllers
+                        .Find(x => x.GetTask == taskForReplace);
+
+                    if (taskController == null)
+                    {
+                        Debug.LogError("taskController is null");
+                        continue;
+                    }
+
+                    _taskControllers.Remove(taskController);
+                    UnityEngine.Object.Destroy(taskController.gameObject);
                 }
 
-                foreach (var taskData in _taskBoardData.ListTasks)
+                var newTasks = _jsonConverter.Deserialize<List<TaskData>>(result);
+
+                foreach (var taskData in newTasks)
                 {
-                    var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
-                    _taskControllers.Add(newTaskController);
-                    Resolver.Inject(newTaskController);
-                    Resolver.Inject(newTaskController.TaskControllerButton);
-                    newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
-                    newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
+                    _taskBoardData.ListTasks.Add(taskData);
+                    CreateTask(taskData);
                 }
 
                 _resourceStorageController.SubtractResource(cost);
             }
+        }
+
+        private void StartReplacement()
+        {
+            ReplacementNotWorkTask().Forget();
+        }
+
+        private void CreateTask(TaskData taskData)
+        {
+            var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
+            _taskControllers.Add(newTaskController);
+            Resolver.Inject(newTaskController);
+            Resolver.Inject(newTaskController.TaskControllerButton);
+            newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
+            newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
         }
     }
 }
