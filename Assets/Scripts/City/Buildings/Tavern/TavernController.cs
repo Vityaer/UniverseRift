@@ -22,7 +22,7 @@ using VContainer.Unity;
 
 namespace City.Buildings.Tavern
 {
-    public class TavernController : BaseBuilding<TavernView>, IStartable
+    public class TavernController : BaseBuilding<TavernView>
     {
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -58,13 +58,16 @@ namespace City.Buildings.Tavern
             SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire);
 
             View.SimpleHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(_simpleHireContainer.Cost), _observerSimpleHire));
+                .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(_simpleHireContainer.Cost), _observerSimpleHire))
+                .AddTo(Disposables);
 
             View.SpecialHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire));
+                .Subscribe(_ => SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire))
+                .AddTo(Disposables);
 
             View.FriendHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<FriendHire>(new GameResource(_friendHireContainer.Cost), _observerFriendHire));
+                .Subscribe(_ => SelectHire<FriendHire>(new GameResource(_friendHireContainer.Cost), _observerFriendHire))
+                .AddTo(Disposables);
         }
 
         public void SelectHire<T>(GameResource costOneHire, ReactiveCommand<BigDigit> onHireHeroes)

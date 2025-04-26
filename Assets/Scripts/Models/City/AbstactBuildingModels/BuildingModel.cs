@@ -6,8 +6,6 @@ namespace Models.City.AbstactBuildingModels
     {
         protected CommonDictionaries CommonDictionaries;
 
-        public string name;
-
         public virtual void SetCommonDictionary(CommonDictionaries commonDictionaries)
         {
             CommonDictionaries = commonDictionaries;
