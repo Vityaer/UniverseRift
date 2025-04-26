@@ -1,37 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using City.Buildings.Abstractions;
+using City.Buildings.TaskGiver.Abstracts;
 using City.TaskBoard;
-using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
-using Misc.Json;
 using Models.Data;
-using Models.Data.Buildings.Taskboards;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using Network.DataServer.Messages.City.Taskboards;
 using UniRx;
 using UnityEngine;
-using VContainer;
 
 namespace City.Buildings.TaskGiver
 {
-    public class TaskboardController : BaseBuilding<TaskboardView>
+    public class TaskboardController : BaseTaskboardController<TaskboardView>
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-
         public int countFreeTaskOnDay = 6;
-        private List<TaskController> _taskControllers = new List<TaskController>();
 
         private GameResource _simpleTaskCost = new GameResource(ResourceType.SimpleTask, 1, 0);
         private GameResource _specialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
         private GameResource _costReplacement = new GameResource(ResourceType.Diamond, 10f);
 
-        private TaskBoardData _taskBoardData;
         private ReactiveCommand<TaskController> _onCompleteTask = new();
 
         public IObservable<TaskController> OnCompleteTask => _onCompleteTask;
@@ -54,7 +43,6 @@ namespace City.Buildings.TaskGiver
             SetCostReplacement();
         }
 
-
         private void CheckNews()
         {
             var taskInNotWork =
@@ -62,27 +50,34 @@ namespace City.Buildings.TaskGiver
             _onNews.Execute(taskInNotWork != null);
         }
 
-        private void DeleteTask(TaskData task)
+        protected override void OnFinishTask(TaskController taskController)
         {
-            var controller = _taskControllers.Find(controller => controller.GetTask == task);
-            _taskControllers.Remove(controller);
-            _taskBoardData.ListTasks.Remove(task);
-            _onCompleteTask.Execute(controller);
-            UnityEngine.Object.Destroy(controller.gameObject);
+            _onCompleteTask.Execute(taskController);
         }
 
         public override void OnHide()
         {
             CheckNews();
-
-            foreach (var task in _taskControllers) task.StopTimer();
+            base.OnHide();
         }
 
-        public async UniTaskVoid BuyTask<T>(GameResource cost) where T : AbstractMessage, new()
+        private async UniTaskVoid BuyTask<T>(GameResource cost) where T : AbstractMessage, new()
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
-            if (!string.IsNullOrEmpty(result)) _resourceStorageController.SubtractResource(cost);
+            if (!string.IsNullOrEmpty(result))
+            {
+                var newTasks = _jsonConverter.Deserialize<List<TaskData>>(result);
+
+                foreach (var taskData in newTasks)
+                {
+                    _taskBoardData.ListTasks.Add(taskData);
+                    CreateTask(taskData);
+                }
+
+                _resourceStorageController.SubtractResource(cost);
+                SetCostReplacement();
+            }
         }
 
         private void SetCostReplacement()
@@ -129,6 +124,7 @@ namespace City.Buildings.TaskGiver
                 }
 
                 _resourceStorageController.SubtractResource(cost);
+                SetCostReplacement();
             }
         }
 
@@ -137,14 +133,9 @@ namespace City.Buildings.TaskGiver
             ReplacementNotWorkTask().Forget();
         }
 
-        private void CreateTask(TaskData taskData)
+        protected override void OnStartTask(TaskController taskController)
         {
-            var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
-            _taskControllers.Add(newTaskController);
-            Resolver.Inject(newTaskController);
-            Resolver.Inject(newTaskController.TaskControllerButton);
-            newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
-            newTaskController.OnGetReward.Subscribe(DeleteTask).AddTo(Disposables);
+            SetCostReplacement();
         }
     }
 }

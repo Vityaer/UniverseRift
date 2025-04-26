@@ -1,13 +1,12 @@
-﻿using Ui.Misc.Widgets;
+﻿using City.Buildings.TaskGiver.Abstracts;
+using Ui.Misc.Widgets;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace City.Buildings.Guild.GuildTaskboardPanels
 {
-    public class GuildTaskboardPanelView : BasePanel
+    public class GuildTaskboardPanelView : BaseTaskboardView
     {
-        public ScrollRect Scroll;
-        public RectTransform Content;
         public Button OpenDonatePanelButton;
     }
 }

@@ -10,6 +10,7 @@ namespace Models.Tasks
         public int RequireHour;
         public float FactorDelta;
         public RewardModel Reward = new();
+        public GameTaskSourceType SourceType;
     }
 }
 

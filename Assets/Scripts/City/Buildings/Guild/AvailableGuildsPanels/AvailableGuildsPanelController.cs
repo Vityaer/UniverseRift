@@ -63,7 +63,7 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
 
         private void OpenCreateNewGuildPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<NewGuildPanelController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<NewGuildPanelController>(openType: OpenType.Additive);
         }
 
         private async UniTaskVoid LoadAvailableGuilds()

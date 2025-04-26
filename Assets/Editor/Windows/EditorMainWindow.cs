@@ -5,6 +5,7 @@ using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
+using Editor.Common.Pages.Buildings.Guilds;
 using Editor.Pages.Achievments;
 using Editor.Pages.Bosses;
 using Editor.Pages.Buildings.Hires;
@@ -81,6 +82,7 @@ namespace Editor.Windows
         private CharacteristicPageEditor _characteristicPageEditor;
         private HireContainerPageEditor _hireContainerPageEditor;
         private MagicCirclePageEditor _magicCirclePageEditor;
+        private GuildBuildingPageEditor _guildBuildingPageEditor;
         private MineSettingsPageEditor _mineSettingsPageEditor;
         private OdinMenuTree _tree;
 
@@ -145,10 +147,11 @@ namespace Editor.Windows
             _tree.Add("Achievements/Achievements container", _achievmentContainersPageEditor);
             _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
             _tree.Add("Rewards/Containers", _rewardContrainerPageEditor);
-            _tree.Add("Guild/Bosses", _guildBossPageEditor);
             _tree.Add("Players/Avatars", _avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
             _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
+            _tree.Add("City/Guild/Main", _guildBuildingPageEditor);
+            _tree.Add("City/Guild/Bosses", _guildBossPageEditor);
         }
 
         private async void InitPages()
@@ -259,6 +262,9 @@ namespace Editor.Windows
 
             _magicCirclePageEditor = new MagicCirclePageEditor(_dictionaries);
             _allPages.Add(_magicCirclePageEditor);
+            
+            _guildBuildingPageEditor = new GuildBuildingPageEditor(_dictionaries);
+            _allPages.Add(_guildBuildingPageEditor);
 
             _mineSettingsPageEditor = new MineSettingsPageEditor(_dictionaries);
             _allPages.Add(_mineSettingsPageEditor);

@@ -66,6 +66,7 @@ namespace UIController
 
         public void SetLabel(string text)
         {
+            Debug.Log(text);
             _cost?.Clear();
             _subscriberResource?.Dispose();
             _costText.text = text;

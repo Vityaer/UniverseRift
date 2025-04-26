@@ -25,7 +25,6 @@ namespace City.Buildings.Guild
 
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
 
-
         private GameObject _currentPanel;
         public ReactiveCommand OnLoadGuild = new();
 
@@ -55,7 +54,7 @@ namespace City.Buildings.Guild
 
         protected override void OnLoadGame()
         {
-            if (CommonGameData.PlayerInfoData.GuildId > 0)
+            if (CommonGameData.PlayerInfoData.GuildId >= 0)
             {
                 OpenPanel(View.InnerGuildPanel);
             }
@@ -74,12 +73,12 @@ namespace City.Buildings.Guild
 
         private void OpenAvailableGuildsPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<AvailableGuildsPanelController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<AvailableGuildsPanelController>(openType: OpenType.Additive);
         }
 
         private void OpenGuildTaskboardPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildTaskboardPanelController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildTaskboardPanelController>(openType: OpenType.Additive);
         }
 
         private void OpenPanel(GameObject panel)
@@ -107,7 +106,7 @@ namespace City.Buildings.Guild
 
         private void OpenGuildData()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildController>(openType: OpenType.Exclusive);
+            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildController>(openType: OpenType.Additive);
             OpenPanel(View.InnerGuildPanel);
         }
     }

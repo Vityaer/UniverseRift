@@ -46,10 +46,12 @@ namespace City.Buildings.TaskGiver
         private IDisposable _disposable;
         private IDisposable _timeSliderDisposable;
         private GameTaskModel _model;
-        private ReactiveCommand<TaskData> _onGetReward = new ReactiveCommand<TaskData>(); 
+        private ReactiveCommand<TaskController> _onGetReward = new(); 
+        private ReactiveCommand<TaskController> m_onStartTask = new();
         
+        public IObservable<TaskController> OnStartTask => m_onStartTask;
         public TaskData GetTask => Data;
-        public IObservable<TaskData> OnGetReward => _onGetReward;
+        public IObservable<TaskController> OnGetReward => _onGetReward;
         public GameTaskModel Model => _model;
 
         [Inject]
@@ -171,6 +173,7 @@ namespace City.Buildings.TaskGiver
                 Data.Status = TaskStatusType.InWork;
                 Data.DateTimeStart = DateTime.UtcNow.ToString();
                 UpdateStatus();
+                m_onStartTask.Execute(this);
             }
         }
 
@@ -188,7 +191,7 @@ namespace City.Buildings.TaskGiver
                 Data.Status = TaskStatusType.Done;
                 var reward = new GameReward(_model.Reward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
-                _onGetReward.Execute(Data);
+                _onGetReward.Execute(this);
             }
         }
 
@@ -202,7 +205,7 @@ namespace City.Buildings.TaskGiver
                 Data.Status = TaskStatusType.Done;
                 var reward = new GameReward(_model.Reward, _commonDictionaries);
                 _clientRewardService.ShowReward(reward);
-                _onGetReward.Execute(Data);
+                _onGetReward.Execute(this);
             }
         }
 

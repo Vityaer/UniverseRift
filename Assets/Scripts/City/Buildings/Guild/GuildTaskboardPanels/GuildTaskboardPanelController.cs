@@ -3,15 +3,32 @@ using UniRx;
 using VContainerUi.Model;
 using VContainerUi.Messages;
 using City.Buildings.Guild.GuildDonatePanels;
+using City.Buildings.TaskGiver.Abstracts;
+using Models.Data.Buildings.Taskboards;
+using VContainer;
 
 namespace City.Buildings.Guild.GuildTaskboardPanels
 {
-    public class GuildTaskboardPanelController : UiPanelController<GuildTaskboardPanelView>
+    public class GuildTaskboardPanelController : BaseTaskboardController<GuildTaskboardPanelView>
     {
-        public override void Start()
+        [Inject] private readonly GuildController m_guildController;
+        
+        private TaskBoardData _taskBoardData;
+
+        protected override void OnStart()
         {
+            m_guildController.OnLoadGuild.Subscribe(_ => OnLoadGame()).AddTo(Disposables);
             View.OpenDonatePanelButton.OnClickAsObservable().Subscribe(_ => OpenGuildDonatePanel()).AddTo(Disposables);
-            base.Start();
+        }
+        
+        protected override void OnLoadGame()
+        {
+            _taskBoardData = CommonGameData.City.GuildPlayerSaveContainer.TasksData;
+
+            if (_taskBoardData != null)
+            {
+                RecreateTaskControllers(_taskBoardData.ListTasks);
+            }
         }
 
         private void OpenGuildDonatePanel()
