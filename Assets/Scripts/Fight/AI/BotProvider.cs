@@ -24,6 +24,7 @@ namespace Fight.AI
         {
             _bot = _botFactory.Create<BaseBot>();
             _bot.Initialize();
+            _bot.SetSideAI(_fightController.IsFastFight ? Side.All : Side.Right);
         }
 
         private void OnFinishFight()

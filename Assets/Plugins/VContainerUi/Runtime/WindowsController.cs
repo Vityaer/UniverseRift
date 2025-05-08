@@ -60,6 +60,8 @@ namespace VContainerUi
 
         private void OnClose(MessageCloseWindow message)
         {
+            Debug.Log($"OnClose: {message.Type}");
+
             if (_windowsStack.Count == 0)
                 return;
 
@@ -77,13 +79,14 @@ namespace VContainerUi
             //CloseWindow();
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             _disposables.Dispose();
         }
 
         private void OnOpen(MessageOpenWindow message)
         {
+            Debug.Log($"OnOpen: {message.Type}");
             IBaseUiController window;
             if (message.Type != null)
                 window = _container.Resolve(message.Type) as IBaseUiController;
@@ -114,6 +117,8 @@ namespace VContainerUi
 
         private void OnBack()
         {
+            Debug.Log($"OnBack");
+
             if (_windowsStack.Count == 0)
                 return;
 

@@ -5,6 +5,7 @@ namespace Network.DataServer.Messages.Guilds
     public class RaidBossMessage : INetworkMessage
     {
         public int PlayerId;
+        public float Damage;
 
         public string Route => "Guild/RaidBoss";
 

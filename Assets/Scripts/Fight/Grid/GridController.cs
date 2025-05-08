@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UnityEngine;
+using Utils.AsyncUtils;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -36,6 +37,7 @@ namespace Fight.Grid
 
         public void Initialize()
         {
+            Debug.Log("GridController initialized");
             _grid = _gridSpawner.CreateGrid(View.Prefab, View.GridParent);
             _grid.FindAllCell();
             foreach (var cell in _grid.Cells)
@@ -50,6 +52,11 @@ namespace Fight.Grid
         {
             _grid.OpenGrid();
             StartFight();
+        }
+        
+        public void ClearWays()
+        {
+            _grid.ClearWays();
         }
 
         private void StartFight()
@@ -107,7 +114,7 @@ namespace Fight.Grid
 
         public void FinishFight()
         {
-            _tokenSource.Cancel();
+            _tokenSource.TryCancel();
             _grid.CloseGrid();
 
             Camera.main.orthographic = true;
@@ -124,5 +131,7 @@ namespace Fight.Grid
         {
             _disposables.Dispose();
         }
+
+
     }
 }

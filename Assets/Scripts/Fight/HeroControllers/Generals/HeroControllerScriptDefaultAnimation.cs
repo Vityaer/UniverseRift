@@ -3,7 +3,9 @@ using Fight.Common.Strikes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace Fight.HeroControllers.Generals
 {
@@ -22,28 +24,41 @@ namespace Fight.HeroControllers.Generals
         private Dictionary<int, bool> _animationsExist = new();
         private Tween _sequenceAnimation;
 
-        public IEnumerator PlayAnimation(int nameAnimation, Action defaultAnimation = null, bool withRecord = true, Action onAnimationFinish = null)
+        public async UniTask PlayAnimation(int nameAnimation, Action defaultAnimation = null, bool withRecord = true, Action onAnimationFinish = null)
         {
-            if (withRecord == true)
-                AddFightRecordActionMe();
-
-            _flagAnimFinish = false;
-            if (CheckExistAnimation(nameAnimation))
+            if (!IsFastFight)
             {
-                Animator.Play(nameAnimation);
+                if (withRecord == true)
+                    AddFightRecordActionMe();
+
+                _flagAnimFinish = false;
+                if (CheckExistAnimation(nameAnimation))
+                {
+                    Animator.Play(nameAnimation);
+                }
+                else
+                {
+                    //if (defaultAnimation != null)
+                    //    defaultAnimation();
+                }
+
+                var state = Animator.GetCurrentAnimatorStateInfo(0);
+                await UniTask.Delay(TimeSpan.FromSeconds(state.length));
+                onAnimationFinish?.Invoke();
+
+                if (withRecord)
+                    RemoveFightRecordActionMe();
             }
             else
             {
-                //if (defaultAnimation != null)
-                //    defaultAnimation();
+                if (withRecord == true)
+                    AddFightRecordActionMe();
+                
+                onAnimationFinish?.Invoke();
+                
+                if (withRecord)
+                    RemoveFightRecordActionMe();
             }
-
-            var state = Animator.GetCurrentAnimatorStateInfo(0);
-            yield return new WaitForSeconds(state.length);
-            onAnimationFinish?.Invoke();
-
-            if (withRecord)
-                RemoveFightRecordActionMe();
         }
 
         protected bool CheckExistAnimation(int nameHash)

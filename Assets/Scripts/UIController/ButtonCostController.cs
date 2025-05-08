@@ -11,7 +11,7 @@ using VContainerUi.Abstraction;
 
 namespace UIController
 {
-    public partial class ButtonCostController : UiView
+    public class ButtonCostController : UiView
     {
         private ResourceStorageController _resourceStorageController;
         private ILocalizationSystem _localizationSystem;
@@ -28,14 +28,22 @@ namespace UIController
         private ReactiveCommand<GameResource> _onClick = new();
 
         public IObservable<GameResource> OnClick => _onClick;
+        public Button Button => _button;
         
         [Inject]
         public void Construct(ResourceStorageController resourceStorageController, ILocalizationSystem localizationSystem)
         {
             _resourceStorageController = resourceStorageController;
             _localizationSystem = localizationSystem;
+            TrySubscribe();
+        }
+
+        private void TrySubscribe()
+        {
+            _subscriberResource?.Dispose();
+            
             if (_cost != null)
-                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
+                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChangeStorageResource);
         }
 
         protected override void Start()
@@ -53,8 +61,9 @@ namespace UIController
                 Debug.LogError("You forgot inject this!", gameObject);
             }
 
-            OnChageStorageResource(_resourceStorageController.Resources[_cost.Type]);
+            OnChangeStorageResource(_resourceStorageController.Resources[_cost.Type]);
             CheckResource(_cost);
+            TrySubscribe();
         }
 
         public void SetCostWithoutInfo(GameResource res)
@@ -62,18 +71,20 @@ namespace UIController
             _cost = res;
             CheckResource(res);
             Enable();
+            TrySubscribe();
         }
 
         public void SetLabel(string text)
         {
             _cost?.Clear();
             _subscriberResource?.Dispose();
+            _subscriberResource = null;
             _costText.text = text;
             _disable = false;
             _button.interactable = true;
         }
 
-        private void OnChageStorageResource(GameResource storageResource)
+        private void OnChangeStorageResource(GameResource storageResource)
         {
             if (_disable == false)
             {
@@ -109,6 +120,7 @@ namespace UIController
             if (_disable)
                 return;
 
+            var result = _resourceStorageController.CheckResource(res);
             _button.interactable = _resourceStorageController.CheckResource(res);
         }
 
@@ -116,7 +128,7 @@ namespace UIController
         {
             _disable = true;
             _button.interactable = false;
-            _subscriberResource.Dispose();
+            _subscriberResource?.Dispose();
             _subscriberResource = null;
         }
 
@@ -130,8 +142,7 @@ namespace UIController
             }
 
             _disable = false;
-            if(_resourceStorageController != null)
-                _subscriberResource = _resourceStorageController.Subscribe(_cost.Type, OnChageStorageResource);
+            TrySubscribe();
         }
 
         public void Clear()
@@ -142,6 +153,9 @@ namespace UIController
                 _mainImage.enabled = false;
             }
             _disable = false;
+            
+            _subscriberResource?.Dispose();
+            _subscriberResource = null;
         }
 
         private string DefaultEmpty()
@@ -165,13 +179,6 @@ namespace UIController
         public new void OnDestroy()
         {
             base.OnDestroy();
-            _subscriberResource?.Dispose();
-            _disposables?.Dispose();
-        }
-
-        public new void Dispose()
-        {
-            base.Dispose();
             _subscriberResource?.Dispose();
             _disposables?.Dispose();
         }

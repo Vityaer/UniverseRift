@@ -9,6 +9,6 @@ namespace City.Buildings.TaskGiver.Abstracts
     {
         public ScrollRect Scroll;
         public RectTransform Content;
-        public TaskController Prefab;
+        public BaseTaskController Prefab;
     }
 }

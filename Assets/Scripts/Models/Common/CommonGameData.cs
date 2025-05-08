@@ -34,6 +34,7 @@ namespace Models.Common
         public InventoryData InventoryData = new();
         public BattlepasData BattlepasData = new();
         public CommunicationData CommunicationData = new();
+        public Dictionary<string, string> Teams = new();
 
         public TemporallyData TemporallyData = new();
 

@@ -15,9 +15,25 @@ namespace Models.Guilds
 
         public int Level = 1;
         public int Rating = 1;
+        public int Stage = 0;
 
         public BigDigit Attack;
         public BigDigit Health;
+        
         private string[] _allHeroesName => DictionaryUtils.GetArrayIds(CommonDictionaries.Heroes);
+
+        public BossModel Clone()
+        {
+            BossModel result = new BossModel();
+            result.CommonDictionaries = CommonDictionaries;
+            result.HeroId = HeroId;
+            result.Level = Level;
+            result.Rating = Rating;
+            result.Stage = Stage;
+            result.Attack = Attack.Clone();
+            result.Health = Health.Clone();
+            
+            return result;
+        }
     }
 }

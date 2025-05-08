@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 namespace Ui.Misc.Widgets.SwapToggle
 {
-    public class SwapSpriteToggle : MonoBehaviour, IDisposable
+    public class SwapSpriteToggle : MonoBehaviour
     {
         [SerializeField] private Button _button;
         [SerializeField] private Image _image;
         [SerializeField] private Sprite _selectedSprite;
         [SerializeField] private Sprite _diselectedSprite;
+        [SerializeField] private bool _isOn;
 
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         private ReactiveCommand<bool> _onSwitch = new ReactiveCommand<bool>();
-        private bool _isOn;
 
         public IObservable<bool> OnSwitch => _onSwitch;
 
+        public bool IsOn => _isOn;
+        
         private void Start()
         {
-            //_button.OnClickAsObservable().Subscribe(_ => OnClick()).AddTo(_disposables);
+            _button.OnClickAsObservable().Subscribe(_ => OnClick()).AddTo(_disposables);
+            _image.sprite = _isOn ? _selectedSprite : _diselectedSprite;
         }
 
         private void OnClick()
@@ -34,15 +37,17 @@ namespace Ui.Misc.Widgets.SwapToggle
         {
             _isOn = true;
             _image.sprite = _selectedSprite;
+            _onSwitch.Execute(true);
         }
 
         public void Off()
         {
             _isOn = false;
             _image.sprite = _diselectedSprite;
+            _onSwitch.Execute(false);
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

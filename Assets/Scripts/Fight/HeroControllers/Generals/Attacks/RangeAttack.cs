@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Fight.HeroControllers.Generals.Attacks
         private List<HeroController> _targets = new();
         private bool _finishAttack;
 
-        public override void Attack(List<HeroController> targets)
+        protected override void Attack(List<HeroController> targets)
         {
             Refresh(targets.Count);
 
@@ -64,13 +65,24 @@ namespace Fight.HeroControllers.Generals.Attacks
             }
         }
 
-        public override IEnumerator Attacking(HeroController target, int bonus)
+        public override async UniTask Attacking(HeroController target, int bonus)
         {
-            _finishAttack = false;
+            Hero.StatusState.ChangeStamina(bonus);
             Attack(target);
-            while(!_finishAttack)
-                yield return null;
-            
+
+            if (!Hero.IsFastFight)
+            {
+                _finishAttack = false;
+                await UniTask.WaitUntil(() => _finishAttack);
+            }
+            else
+            {
+                foreach (var hero in _targets)
+                {
+                    OnRangeDamage.Execute(target);
+                }
+                _finishAttack = true;
+            }
         }
     }
 }

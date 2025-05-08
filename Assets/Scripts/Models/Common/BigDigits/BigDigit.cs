@@ -119,5 +119,10 @@ namespace Models.Common.BigDigits
 
         public int ToInt() =>
             Mathf.RoundToInt(ToFloat());
+
+        public BigDigit Clone()
+        {
+            return new BigDigit(Mantissa, E10);
+        }
     }
 }

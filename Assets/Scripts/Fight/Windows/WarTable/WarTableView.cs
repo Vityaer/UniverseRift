@@ -1,11 +1,10 @@
 ﻿using City.Buildings.Abstractions;
 using City.Panels.SelectHeroes;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using TMPro;
+using Ui.Misc.Widgets.SwapToggle;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainerUi.Abstraction;
 
 namespace Fight.WarTable
 {
@@ -19,6 +18,8 @@ namespace Fight.WarTable
         public TextMeshProUGUI StrengthLeftTeam;
         public TextMeshProUGUI StrengthRightTeam;
 
+        public SwapSpriteToggle FastFightToggle;
+        
         [Header("Drag")]
         public RectTransform DragableItem;
         public Image DragableItemImage;

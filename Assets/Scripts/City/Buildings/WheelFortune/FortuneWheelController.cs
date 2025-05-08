@@ -17,6 +17,7 @@ using Network.DataServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UIController.Inventory;
 using UIController.Rewards;
 using UniRx;
@@ -30,7 +31,6 @@ namespace City.Buildings.WheelFortune
     {
         private const int ONE_TIME = 1;
         private const int MANY_TIME = 10;
-        private const float ARROW_SPEED = 3f;
 
         [Inject] private IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
@@ -47,17 +47,23 @@ namespace City.Buildings.WheelFortune
         private float _currentTilt;
         private GameReward _reward;
 
+        private bool _shakingFlag;
+        private FortuneRewardContainer _fortuneRewardContainer;
+        
+        private IDisposable _onGetRewardDisposable;
+        
         public IObservable<BigDigit> OnSimpleRotate => _onSimpleRotate;
 
         public void Initialize()
         {
-            View.OneRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_oneRotate, ONE_TIME).Forget()).AddTo(Disposables);
-            View.ManyRotateButton.OnClick.Subscribe(_ => PlaySimpleRoulette(_tenRotate, MANY_TIME).Forget()).AddTo(Disposables);
+            View.OneRotateButton.OnClick.Subscribe(_ => PlayOneSimpleRoulette()).AddTo(Disposables);
+            View.ManyRotateButton.OnClick.Subscribe(_ => PlayTenSimpleRoulette()).AddTo(Disposables);
             View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
 
             foreach (var rewardCell in View.RewardCells)
                 rewardCell.OnSelect.Subscribe(_ => SubjectDetailController.ShowData(rewardCell.Subject)).AddTo(Disposables);
         }
+
 
         protected override void OnStart()
         {
@@ -68,15 +74,50 @@ namespace City.Buildings.WheelFortune
             base.OnStart();
         }
 
+        public override void OnShow()
+        {
+            PlayEternalRotate();
+            base.OnShow();
+        }
+
+        public override void OnHide()
+        {
+            _sequence.Kill();
+            base.OnHide();
+        }
+
+        private void PlayEternalRotate()
+        {
+            _sequence.Kill();
+            _sequence = DOTween.Sequence()
+                .AppendInterval(View.EternalRotateDelay)
+                .Append(View.Arrow
+                .DOLocalRotate(new Vector3(0, 0, 360), View.EternalRotateSpeed, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetSpeedBased(true))
+                .SetLoops(-1);
+        }
 
         protected override void OnLoadGame()
         {
             var rewards = CommonGameData.City.FortuneWheelData.Rewards;
             _data = CommonGameData.City.FortuneWheelData;
-            FillWheelFortune(rewards);
+            FillWheelFortune(rewards).Forget();
             base.OnLoadGame();
         }
 
+        private void PlayOneSimpleRoulette()
+        {
+            _shakingFlag = false;
+            PlaySimpleRoulette(_oneRotate, ONE_TIME).Forget();
+        }
+        
+        private void PlayTenSimpleRoulette()
+        {
+            _shakingFlag = true;
+            PlaySimpleRoulette(_tenRotate, MANY_TIME).Forget();
+        }
+        
         public async UniTaskVoid PlaySimpleRoulette(GameResource cost, int count = 1)
         {
             var message = new FortuneWheelRotate { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
@@ -84,12 +125,12 @@ namespace City.Buildings.WheelFortune
 
             if (!string.IsNullOrEmpty(result))
             {
-                var rewardContainer = _jsonConverter.Deserialize<FortuneRewardContainer>(result);
-                _reward = new GameReward(rewardContainer.Reward, _commonDictionaries);
+                _fortuneRewardContainer = _jsonConverter.Deserialize<FortuneRewardContainer>(result);
+                _reward = new GameReward(_fortuneRewardContainer.Reward, _commonDictionaries);
 
                 _resourceStorageController.SubtractResource(cost);
 
-                StartRotateArrow(-rewardContainer.ResultItemIndex * 45);
+                StartRotateArrow(_fortuneRewardContainer.ResultItemIndex);
                 _onSimpleRotate.Execute(new BigDigit(count));
             }
         }
@@ -105,12 +146,15 @@ namespace City.Buildings.WheelFortune
 
                 _resourceStorageController.SubtractResource(cost);
                 _data = _jsonConverter.Deserialize<FortuneWheelData>(result);
-                FillWheelFortune(_data.Rewards);
+                FillWheelFortune(_data.Rewards).Forget();
             }
         }
 
-        private void FillWheelFortune(List<FortuneRewardData> rewards)
+        private async UniTask FillWheelFortune(List<FortuneRewardData> rewards)
         {
+            using CancellationTokenSource tokenSource = new CancellationTokenSource();
+            
+            View.RefreshWheelButton.Button.interactable = false;
             for (var i = 0; i < rewards.Count; i++)
             {
                 var rewardModel = _commonDictionaries.FortuneRewardModels[rewards[i].RewardModelId];
@@ -127,6 +171,8 @@ namespace City.Buildings.WheelFortune
                         View.RewardCells[i].SetData(item);
                         break;
                 }
+
+                await UniTask.Delay(Mathf.FloorToInt(View.RefreshCellDelay * 1000), cancellationToken: tokenSource.Token);
             }
 
             var cost = _commonDictionaries.CostContainers["FortuneWheelRefresh"]
@@ -135,19 +181,69 @@ namespace City.Buildings.WheelFortune
             Debug.Log($"_data.RefreshCount: {_data.RefreshCount}");
             View.RefreshWheelButton.SetCost(cost[0]);
         }
-        private void StartRotateArrow(float targetTilt)
+        private void StartRotateArrow(int rewardIndex)
         {
-            _sequence = DOTween.Sequence()
-                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, 360 - _currentTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
-                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, 360), 1 / ARROW_SPEED, RotateMode.FastBeyond360))
-                .Append(View.Arrow.DOLocalRotate(new Vector3(0, 0, targetTilt), 1 / ARROW_SPEED, RotateMode.FastBeyond360)
-                .OnComplete(() => _clientRewardService.ShowReward(_reward)));
+            float targetTilt = -rewardIndex * 45;
+            _sequence?.Kill();
 
-            _currentTilt = targetTilt;
+            _currentTilt = NormalizeAngle(View.Arrow.localRotation.eulerAngles.z);
+
+            float diff = targetTilt - _currentTilt;
+            diff = (diff + 180) % 360 - 180;
+
+            if (diff > 0)
+                targetTilt -= 360;  // rotate counterclockwise long way
+            else
+                targetTilt += 360;  // rotate clockwise long way
+
+            int fullRotations = 3;
+            float fullRotationDegrees = 360 * fullRotations * (diff > 0 ? -1 : 1);
+            float finalRotation = targetTilt + fullRotationDegrees;
+
+            _sequence = DOTween.Sequence().Append(View.Arrow.DOLocalRotate(
+                    new Vector3(0, 0, finalRotation),
+                    View.ArrowSpeed * (fullRotations + 1),  // increase duration proportional to rotations
+                    View.RotateModes[0]))
+                .SetEase(View.EaseMode)  // example easing tweak, smooth start and end
+                .SetSpeedBased(false)     // use duration instead of speed-based for better control
+                .OnComplete(ShowReward);
+            
+            if (_shakingFlag)
+            {
+                _sequence.Insert(0f, View.FortuneWheel.DOShakePosition(View.ShakeDuration, View.ShakeStrength, View.ShakeVibrato,
+                        View.ShakeRandomness));
+            }
+        }
+        
+        private float NormalizeAngle(float angle)
+        {
+            angle %= 360f;
+            return angle < 0 ? angle + 360f : angle;
+        }
+
+        private void ShowReward()
+        {
+            _sequence.Kill();
+            var rewardIndex = _fortuneRewardContainer.ResultItemIndex;
+            _sequence = DOTween.Sequence()
+                .Append(View.RewardCells[rewardIndex].transform
+                    .DOShakeScale(View.ScaleRewardDuration, View.ScaleRewardStrength));
+            
+            _onGetRewardDisposable = _clientRewardService.OnGetReward.Subscribe(_ => OnGetReward());
+            _clientRewardService.ShowReward(_reward);
+        }
+
+        private void OnGetReward()
+        {
+            PlayEternalRotate();
+            _onGetRewardDisposable?.Dispose();
+            _onGetRewardDisposable = null;
+            _fortuneRewardContainer = null;
         }
 
         public new void Dispose()
         {
+            _onGetRewardDisposable?.Dispose();
             _sequence.Kill();
             base.Dispose();
         }

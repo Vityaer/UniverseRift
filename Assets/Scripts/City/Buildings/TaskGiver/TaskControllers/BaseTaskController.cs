@@ -1,57 +1,56 @@
-﻿using City.TaskBoard;
+using System;
+using System.Globalization;
+using City.Panels.SubjectPanels.Common;
+using City.TaskBoard;
+using ClientServices;
 using Common.Resourses;
+using Common.Rewards;
+using Cysharp.Threading.Tasks;
+using Db.CommonDictionaries;
+using LocalizationSystems;
+using Models.Common;
 using Models.Data;
 using Models.Tasks;
-using System;
-using TMPro;
-using UIController;
-using UiExtensions.Misc;
-using UnityEngine;
-using UnityEngine.UI;
-using UniRx;
-using Cysharp.Threading.Tasks;
-using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Taskboards;
-using VContainer;
-using ClientServices;
-using Common.Rewards;
-using System.Globalization;
-using Sirenix.Utilities;
-using Db.CommonDictionaries;
-using City.Panels.SubjectPanels.Common;
-using LocalizationSystems;
-using UnityEngine.Localization.Components;
 using Services.TimeLocalizeServices;
+using Sirenix.Utilities;
+using UIController;
+using UiExtensions.Misc;
+using UniRx;
+using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.UI;
+using VContainer;
 
 namespace City.Buildings.TaskGiver
 {
-    public class TaskController : ScrollableUiView<TaskData>
+    public abstract class BaseTaskController  : ScrollableUiView<TaskData>
     {
-        [Inject] private CommonGameData _commonGameData;
-        [Inject] private ResourceStorageController _resourceStorageController;
-        [Inject] private ClientRewardService _clientRewardService;
-        [Inject] private CommonDictionaries _commonDictionaries;
-        [Inject] private ILocalizationSystem _localizationSystem;
-        private TimeLocalizeService _timeLocalizeService;
+        [Inject] protected CommonGameData _commonGameData;
+        [Inject] protected ResourceStorageController _resourceStorageController;
+        [Inject] protected ClientRewardService _clientRewardService;
+        [Inject] protected CommonDictionaries _commonDictionaries;
+        [Inject] protected ILocalizationSystem _localizationSystem;
+        protected TimeLocalizeService _timeLocalizeService;
 
         [Header("UI")]
-        [SerializeField] private LocalizeStringEvent _name;
-        public GameObject objectCurrentTime;
-        public SliderTime sliderTime;
+        [SerializeField] protected LocalizeStringEvent _name;
+        [SerializeField] protected GameObject objectCurrentTime;
+        [SerializeField] protected SliderTime sliderTime;
         public ButtonCostController TaskControllerButton;
-        public RatingHero ratingController;
-        public RewardUIController RewardUIController;
+        [SerializeField] protected RatingHero ratingController;
+        [SerializeField] protected RewardUIController RewardUIController;
 
-        private IDisposable _disposable;
-        private IDisposable _timeSliderDisposable;
-        private GameTaskModel _model;
-        private ReactiveCommand<TaskController> _onGetReward = new(); 
-        private ReactiveCommand<TaskController> m_onStartTask = new();
+        protected IDisposable _disposable;
+        protected IDisposable _timeSliderDisposable;
+        protected GameTaskModel _model;
+        protected ReactiveCommand<BaseTaskController> _onGetReward = new(); 
+        protected ReactiveCommand<BaseTaskController> m_onStartTask = new();
         
-        public IObservable<TaskController> OnStartTask => m_onStartTask;
+        public IObservable<BaseTaskController> OnStartTask => m_onStartTask;
         public TaskData GetTask => Data;
-        public IObservable<TaskController> OnGetReward => _onGetReward;
+        public IObservable<BaseTaskController> OnGetReward => _onGetReward;
         public GameTaskModel Model => _model;
 
         [Inject]
@@ -88,7 +87,6 @@ namespace City.Buildings.TaskGiver
 
             _disposable?.Dispose();
             DateTime startDateTime = new();
-            //Debug.Log($"start time: {Data.DateTimeStart}");
 
             if (!Data.DateTimeStart.IsNullOrWhitespace())
             {
@@ -115,51 +113,23 @@ namespace City.Buildings.TaskGiver
                 }
             }
 
-            switch (Data.Status)
-            {
-                case TaskStatusType.NotStart:
-                    sliderTime.SetMaxValue(requireTime);
-                    TaskControllerButton.SetLabel(_localizationSystem.GetString("StartButtonLabel"));
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
-                    break;
-
-                case TaskStatusType.InWork:
-                    _timeSliderDisposable = sliderTime.OnTimerFinish.Subscribe(_ => FinishFromSlider());
-                    var costFastFinish = new GameResource(ResourceType.Diamond, _model.Rating * 10, 0);
-                    TaskControllerButton.SetCost(costFastFinish);
-                    sliderTime.SetData(startDateTime, requireTime);
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => BuyProgress().Forget());
-                    break;
-
-                case TaskStatusType.Done:
-                    sliderTime.SetData(startDateTime, requireTime);
-
-                    _timeSliderDisposable?.Dispose();
-                    _timeSliderDisposable = null;
-                    
-                    TaskControllerButton.SetLabel(_localizationSystem.GetString("TaskCompleteButtonLabel"));
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => GetReward().Forget());
-                    break;
-            }
+            UpdateUi(startDateTime, requireTime);
         }
+
+        protected abstract void UpdateUi(DateTime startDateTime, TimeSpan requireTime);
+
         public void StopTimer()
         {
             sliderTime.StopTimer();
         }
-        private void FinishFromSlider()
-        {
-            FinishTask();
-        }
-
-        private void FinishTask()
+        protected void FinishFromSlider()
         {
             _timeSliderDisposable?.Dispose();
             _timeSliderDisposable = null;
             UpdateStatus();
         }
 
-        //Action button
-        public async UniTaskVoid StartTask()
+        public async UniTask StartTask()
         {
             var message = new StartTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
@@ -177,7 +147,7 @@ namespace City.Buildings.TaskGiver
             }
         }
 
-        public async UniTaskVoid BuyProgress()
+        public async UniTask BuyProgress()
         {
             var message = new BuyFastCompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
@@ -195,7 +165,7 @@ namespace City.Buildings.TaskGiver
             }
         }
 
-        public async UniTaskVoid GetReward()
+        public async UniTask GetReward()
         {
             var message = new CompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
@@ -208,7 +178,5 @@ namespace City.Buildings.TaskGiver
                 _onGetReward.Execute(this);
             }
         }
-
-
     }
 }
