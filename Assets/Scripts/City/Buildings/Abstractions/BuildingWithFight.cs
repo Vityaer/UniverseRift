@@ -5,6 +5,8 @@ using Fight.WarTable;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using System;
+using ClientServices;
+using Common.Rewards;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -16,13 +18,16 @@ namespace City.Buildings.Abstractions
         [Inject] protected readonly FightController FightController;
         [Inject] protected readonly WarTableController WarTableController;
         [Inject] protected readonly CommonDictionaries CommonDictionaries;
-
+        [Inject] protected readonly ClientRewardService ClientRewardService;
+        
         protected ReactiveCommand<int> _onTryFight = new ReactiveCommand<int>();
         protected ReactiveCommand<int> _onWinFight = new ReactiveCommand<int>();
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private IDisposable _closeDisposable;
         private IDisposable _tempDisposable;
+        private IDisposable _fightResultDisposable;
         private IDisposable _teamChangeDisposable;
 
+        private string FastFightStatusArgName => $"{this.GetType().Name}.FastFightStatus";
         protected WarTableLimiter WarTableLimiter = null;
         protected TeamContainer TeamContainer;
 
@@ -37,15 +42,39 @@ namespace City.Buildings.Abstractions
 
         public void OpenMission(MissionModel mission)
         {
-            WarTableController.OpenMission(mission, TeamContainer, WarTableLimiter);
+            bool isFastFight = false;
+            TeamContainer = TeamUtils.LoadTeam(GetType().Name);
+            if (PlayerPrefs.HasKey(FastFightStatusArgName))
+            {
+                isFastFight = bool.Parse(PlayerPrefs.GetString(FastFightStatusArgName));
+            }
+
+            DisposeAll();
+            
+            WarTableController.OpenMission(mission, TeamContainer, isFastFight, limiter: WarTableLimiter);
             _teamChangeDisposable = WarTableController.OnChangeTeam.Subscribe(OnChangeTeam);
             _tempDisposable = WarTableController.OnStartMission.Subscribe(_ => OnStartMission());
-            WarTableController.OnClose.Subscribe(_ => OnCloseWarTable()).AddTo(_disposables);
+            _closeDisposable = WarTableController.OnClose.Subscribe(_ => OnCloseWarTable());
         }
 
-        private void OnCloseWarTable()
+        private void DisposeAll()
         {
+            _fightResultDisposable?.Dispose();
             _teamChangeDisposable?.Dispose();
+            _tempDisposable?.Dispose();
+            _closeDisposable?.Dispose();
+
+            _fightResultDisposable = null;
+            _teamChangeDisposable = null;
+            _tempDisposable = null;
+            _closeDisposable = null;
+        }
+
+        protected virtual void OnCloseWarTable()
+        {
+            PlayerPrefs.SetString(FastFightStatusArgName, $"{WarTableController.IsFastFight}");
+            _teamChangeDisposable?.Dispose();
+            _teamChangeDisposable = null;
         }
 
         private void OnChangeTeam(TeamContainer container)
@@ -60,37 +89,43 @@ namespace City.Buildings.Abstractions
 
         protected virtual void OnStartMission()
         {
-            _tempDisposable.Dispose();
-            _tempDisposable = FightController.OnFigthResult.Subscribe(OnResultFight);
-        }
-
-        public void OnAfterFight(bool isOpen)
-        {
-            _onTryFight.Execute(1);
-            if (isOpen == false)
-            {
-                Open();
-                UnregisterFight();
-            }
-            else
-            {
-                Close();
-            }
+            _teamChangeDisposable?.Dispose();
+            _teamChangeDisposable = null;
+            PlayerPrefs.SetString(FastFightStatusArgName, $"{WarTableController.IsFastFight}");
+            _fightResultDisposable?.Dispose();
+            _fightResultDisposable = FightController.OnFightResult.Subscribe(OnResultFight);
         }
 
         protected virtual void OnResultFight(FightResultType result)
         {
+            _onTryFight.Execute(1);
+
             _tempDisposable?.Dispose();
+            _fightResultDisposable?.Dispose();
+
+            _tempDisposable = null;
+            _fightResultDisposable = null;
+            
             if (result == FightResultType.Win)
             {
                 _onWinFight.Execute(1);
             }
+            else
+            {
+                OnDefeatFight();
+            }
+
+            UnregisterFight();
+        }
+
+        protected virtual void OnDefeatFight()
+        {
+            ClientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
         }
 
         private void UnregisterFight()
         {
-            _teamChangeDisposable?.Dispose();
-            _disposables.Dispose();
+            DisposeAll();
         }
     }
 }

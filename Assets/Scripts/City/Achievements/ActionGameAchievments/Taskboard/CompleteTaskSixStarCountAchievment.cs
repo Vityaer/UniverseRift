@@ -14,7 +14,7 @@ namespace City.Achievements.ActionGameAchievments.Taskboard
             _taskboardController.OnCompleteTask.Subscribe(CompleteTask).AddTo(Disposables);
         }
 
-        private void CompleteTask(TaskController taskController)
+        private void CompleteTask(BaseTaskController taskController)
         {
             if (taskController.Model.Rating == 6)
                 AddProgress(new BigDigit(1));

@@ -40,6 +40,7 @@ namespace Models.Grid
 
         public void OpenGrid()
         {
+            Debug.Log($"OpenGrid: {gameObject.name}");
             gameObject.SetActive(true);
         }
 
@@ -50,7 +51,19 @@ namespace Models.Grid
                 cell.ClearCanMove();
             }
 
+            Debug.Log($"close grid: {gameObject.name}");
             gameObject.SetActive(false);
+        }
+
+        public void ClearWays()
+        {
+            foreach (var cell in _cells)
+            {
+                if (cell.Hero == null)
+                {
+                    cell.ClearCanMove();
+                }
+            }
         }
     }
 }

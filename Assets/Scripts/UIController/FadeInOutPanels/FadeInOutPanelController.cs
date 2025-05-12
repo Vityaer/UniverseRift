@@ -20,8 +20,8 @@ namespace UIController.FadeInOutPanels
 
         public void Initialize()
         {
-            _warTableController.OnStartMission.Subscribe(_ => OpenFight()).AddTo(_disposables);
-            _fightController.OnFinishFight.Subscribe(_ => CloseFight()).AddTo(_disposables);
+            _warTableController.OnPlayerStartFight.Subscribe(_ => OpenFight()).AddTo(_disposables);
+            _fightController.OnPlayerFinishFight.Subscribe(_ => CloseFight()).AddTo(_disposables);
             View.OnShowAction.Subscribe(_ => OnFadeShow()).AddTo(_disposables);
             View.OnHideAction.Subscribe(_ => OnFadeHide()).AddTo(_disposables);
         }
@@ -61,7 +61,7 @@ namespace UIController.FadeInOutPanels
         public void CloseFight()
         {
             _otherWaitFadeHide = false;
-            _temporallyDisposable = _fightController.OnFigthResult.Subscribe(_ => DoneForHide());
+            _temporallyDisposable = _fightController.OnFightResult.Subscribe(_ => DoneForHide());
             Show();
         }
 

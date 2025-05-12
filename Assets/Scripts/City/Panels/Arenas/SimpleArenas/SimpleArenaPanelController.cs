@@ -12,8 +12,10 @@ using Network.DataServer.Messages.Arenas;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using Models.City.Arena;
 using UiExtensions.Misc;
 using UniRx;
+using Utils;
 using VContainer;
 
 namespace City.Panels.Arenas.SimpleArenas
@@ -23,7 +25,7 @@ namespace City.Panels.Arenas.SimpleArenas
         [Inject] readonly private IJsonConverter _jsonConverter;
 
         private DynamicUiList<ArenaOpponentView, ArenaPlayerData> _opponnentPool;
-        private ArenaBuildingModel _arenaSave;
+        private ArenaData _arenaSave;
         private ReactiveCommand<int> _onCompleteMission = new();
         private ArenaPlayerData _arenaOpponentData;
         private TeamContainer _teamContainer;
@@ -54,6 +56,13 @@ namespace City.Panels.Arenas.SimpleArenas
                 _arenaSave.MyData.Team = _teamContainer;
             }
 
+            var arenaBuildingModel = CommonDictionaries.Buildings[nameof(ArenaBuildingModel)] as ArenaBuildingModel;
+
+            var workHours = arenaBuildingModel.ArenaContainers[ArenaType.Simple].WorkHours;
+            var startDateTime = TimeUtils.ParseTime(_arenaSave.ArenaGeneralData.SimpleArenaDateTimeStartText);
+            
+            View.LeftTime.SetData(startDateTime, TimeSpan.FromHours(workHours));
+            
             UpdateUi();
             base.OnLoadGame();
         }
@@ -102,7 +111,7 @@ namespace City.Panels.Arenas.SimpleArenas
 
             if (!string.IsNullOrEmpty(result))
             {
-                var newData = _jsonConverter.Deserialize<ArenaBuildingModel>(result);
+                var newData = _jsonConverter.Deserialize<ArenaData>(result);
                 CommonGameData.City.ArenaSave = newData;
                 _arenaSave = newData;
                 CommonGameData.CommunicationData.AddPlayers(_arenaSave.PlayersData);

@@ -2,11 +2,11 @@ using Fight.Grid;
 using Fight.HeroControllers.Generals;
 using Fight.Misc;
 using System.Collections.Generic;
-using UnityEngine;
 using VContainer;
 using UniRx;
 using VContainer.Unity;
 using System;
+using UnityEngine;
 
 namespace Fight.AI
 {
@@ -35,6 +35,11 @@ namespace Fight.AI
             ClearInfo();
         }
 
+        public void SetSideAI(Side sideAi)
+        {
+            _sideForAI = sideAi;
+        }
+
         private void ClearInfo()
         {
             _achievableMoveCells.Clear();
@@ -59,21 +64,29 @@ namespace Fight.AI
                 if (availableEnemies.Count > 0)
                     enemy = availableEnemies[UnityEngine.Random.Range(0, availableEnemies.Count)];
 
-                if (heroConroller.Mellee == true)
+                if (heroConroller.Mellee)
                 {
-                    if (enemy != null)
+                    if (enemy != null && enemy.heroController != null)
                     {
                         heroConroller.SelectDirectionAttack(enemy.Cell.GetAchivableNeighbourCell(), enemy.heroController);
                     }
                     else
                     {
-                        SelectCellForMove(_achievableMoveCells, workTeam).AITurn();
+                        if (_achievableMoveCells.Count == 0)
+                        {
+                            heroConroller.Cell.AITurn();
+                        }
+                        else
+                        {
+                            SelectCellForMove(_achievableMoveCells, workTeam).AITurn();
+                        }
+
                     }
                 }
                 else
                 {
-                    if (enemy != null)
-                        heroConroller.StartDistanceAttackOtherHero(enemy.heroController);
+                    var randomEnemy = workTeam[UnityEngine.Random.Range(0, workTeam.Count)];
+                    heroConroller.StartDistanceAttackOtherHero(randomEnemy.heroController);
                 }
             }
         }
@@ -90,6 +103,7 @@ namespace Fight.AI
 
         private HexagonCell SelectCellForMove(List<HexagonCell> achievableMoveCells, List<Warrior> enemies)
         {
+
             var result = achievableMoveCells[UnityEngine.Random.Range(0, achievableMoveCells.Count)];
             var min = 1000;
             var way = new Stack<HexagonCell>();

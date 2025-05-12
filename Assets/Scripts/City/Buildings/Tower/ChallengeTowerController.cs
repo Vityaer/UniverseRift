@@ -100,11 +100,11 @@ namespace City.Buildings.Tower
                 _currentMissionIndex += 1;
                 LoadMissions();
                 _onCompleteMission.Execute(_currentMissionIndex);
-                SendTryMissionData().Forget();
+                SendTryMissionData(result).Forget();
             }
             else
             {
-                SendTryMissionData().Forget();
+                SendTryMissionData(result).Forget();
             }
 
             OnTryMission.Execute();
@@ -122,16 +122,19 @@ namespace City.Buildings.Tower
             }
         }
 
-        private async UniTaskVoid SendTryMissionData()
+        private async UniTaskVoid SendTryMissionData(FightResultType fightResultType)
         {
-            UnityEngine.Debug.Log("SendTryMissionData");
             var message = new ChallengeTowerTryMissionMessage { PlayerId = CommonGameData.PlayerInfoData.Id };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
             }
-            _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
+
+            if (fightResultType == FightResultType.Defeat)
+            {
+                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
+            }
         }
     }
 }

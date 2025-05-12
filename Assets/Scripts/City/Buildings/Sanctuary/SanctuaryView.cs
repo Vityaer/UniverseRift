@@ -1,16 +1,16 @@
-﻿using City.Buildings.Abstractions;
+﻿using System.Collections.Generic;
+using City.Buildings.Abstractions;
 using City.Panels.SelectHeroes;
-using Common.Resourses;
+using UIController.Buttons;
 using UnityEngine.UI;
-using Utils;
 
 namespace City.Buildings.Sanctuary
 {
     public class SanctuaryView : BaseBuildingView
     {
-        public Button SaveButton;
-        public Button ReplacementButton;
-        public SerializableDictionary<int, GameResource> Costs;
+        public ButtonWithObserverResource ReplacementButton;
+        public Dictionary<string, Button> RaceButtons = new();
+
         public HeroCardsContainerController CardsContainer;
     }
 }

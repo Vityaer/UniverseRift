@@ -4,9 +4,7 @@ using Fight.Grid;
 using Fight.HeroControllers.VisualModels;
 using Fight.Misc;
 using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
-using Utils;
 using VContainer;
 
 namespace Fight.HeroControllers.Generals
@@ -68,6 +66,10 @@ namespace Fight.HeroControllers.Generals
             else
             {
                 _directionController.CloseControllers();
+                if (_isFastFight)
+                {
+                    WaitingSelectTarget();
+                }
             }
 
             OnStartAction();

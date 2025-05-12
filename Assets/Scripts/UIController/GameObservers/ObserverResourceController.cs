@@ -1,11 +1,14 @@
 ﻿using ClientServices;
 using Common.Resourses;
 using System;
+using DG.Tweening;
+using Models.Common.BigDigits;
 using TMPro;
 using UIController.Observers;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using VContainer;
 
 namespace UIController.GameObservers
@@ -18,7 +21,8 @@ namespace UIController.GameObservers
         [Header("General")]
         public ResourceType TypeResource;
         public int Cost;
-
+        public float CountDuration;
+        
         private GameResource _resource;
         private bool _isMyabeBuy;
 
@@ -29,6 +33,9 @@ namespace UIController.GameObservers
         public Button ButtonBuyResource;
         private IDisposable _disposable;
 
+        private BigDigit? _previousBigDigit;
+        private Tween _counterTween;
+        
         protected override void Start()
         {
             if (_buyResourcePanelController == null)
@@ -60,7 +67,31 @@ namespace UIController.GameObservers
         private void UpdateUI(GameResource res)
         {
             _resource = res;
-            countResource.text = _resource.ToString();
+            
+            if (_previousBigDigit == null)
+            {
+                _previousBigDigit = res.Amount;
+                countResource.text = _resource.ToString();
+                return;
+            }
+
+            if (gameObject.activeInHierarchy || (_previousBigDigit.E10 == res.Amount.E10))
+            {
+                _counterTween.Kill();
+                int startValue = Mathf.FloorToInt(_previousBigDigit.Mantissa);
+                int targetValue = Mathf.FloorToInt(_resource.Amount.Mantissa);
+
+                int value = startValue;
+                _counterTween = DOTween.To(() => startValue, x => value = x, targetValue, CountDuration)
+                    .OnUpdate(() =>
+                    {
+                        countResource.text = new BigDigit(value, _previousBigDigit.E10).ToString();
+                    });
+            }
+            else
+            {
+                countResource.text = _resource.ToString();
+            }
         }
 
         public void OpenPanelForBuyResource()
@@ -70,6 +101,7 @@ namespace UIController.GameObservers
 
         public override void Dispose()
         {
+            _counterTween.Kill();
             _disposable?.Dispose();
             base.Dispose();
         }

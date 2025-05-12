@@ -1,9 +1,9 @@
-﻿using City.Panels.Rewards;
+﻿using System;
+using System.Linq;
+using City.Panels.Rewards;
 using Common.Resourses;
 using Common.Rewards;
 using Db.CommonDictionaries;
-using System;
-using System.Linq;
 using UIController.Inventory;
 using UniRx;
 using VContainer;
@@ -17,12 +17,16 @@ namespace ClientServices
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly RewardPanelController _rewardPanelController;
 
-
         private IDisposable _disposable;
         public ReactiveCommand OnGetReward = new ReactiveCommand();
 
         public void ShowReward(GameReward reward, RewardType rewardType = RewardType.Simple, bool fast = true)
         {
+            if (reward == null)
+            {
+                throw new ArgumentNullException(nameof(reward));
+            }
+
             if (rewardType == RewardType.Simple && reward.Objects.Count == 0)
                 return;
 
@@ -34,20 +38,18 @@ namespace ClientServices
         {
             _disposable?.Dispose();
 
-            var resources = reward.Objects.Where(obj => obj is GameResource).Select(obj => (GameResource)obj).ToList();
+            var resources = reward.Objects.Where(obj => obj is GameResource)
+                .Select(obj => (GameResource)obj)
+                .ToList();
             _resourceStorageController.AddResource(resources);
 
-            var items = reward.Objects.Where(obj => obj is GameItem).Select(obj => (GameItem)obj).ToList();
+            var items = reward.Objects.Where(obj => obj is GameItem)
+                .Select(obj => (GameItem)obj)
+                .ToList();
 
-            foreach (var item in items)
-            {
-                item.Model = _commonDictionaries.Items[item.Id];
-            }
+            foreach (var item in items) item.Model = _commonDictionaries.Items[item.Id];
 
-            foreach (var item in items)
-            {
-                _gameInventory.Add(item);
-            }
+            foreach (var item in items) _gameInventory.Add(item);
             OnGetReward.Execute();
         }
     }

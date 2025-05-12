@@ -92,12 +92,10 @@ namespace City.Buildings.Guild
         {
             if (CommonGameData.PlayerInfoData.GuildId >= 0)
             {
-                Debug.Log("OpenGuildData");
                 OpenGuildData();
             }
             else
             {
-                Debug.Log("OpenAvailableGuildsPanel");
                 OpenAvailableGuildsPanel();
             }
 
@@ -108,6 +106,10 @@ namespace City.Buildings.Guild
         {
             _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<GuildController>(openType: OpenType.Additive);
             OpenPanel(View.InnerGuildPanel);
+            
+            View.GuildId.text = CommonGameData.PlayerInfoData.GuildId.ToString();
+            View.GuildName.text = CommonGameData.City.GuildPlayerSaveContainer.GuildData.Name;
+            View.GuildLevel.text = CommonGameData.City.GuildPlayerSaveContainer.GuildData.Level.ToString();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace City.Buildings.TaskGiver.Abstracts
         [Inject] protected readonly CommonDictionaries _commonDictionaries;
         
         protected TaskBoardData _taskBoardData;
-        protected List<TaskController> _taskControllers = new List<TaskController>();
+        protected List<BaseTaskController> _taskControllers = new List<BaseTaskController>();
 
         protected virtual void CreateTask(TaskData taskData)
         {
@@ -44,25 +44,25 @@ namespace City.Buildings.TaskGiver.Abstracts
             }
         }
 
-        protected void FinishTask(TaskController taskController)
+        protected void FinishTask(BaseTaskController taskController)
         {
             OnFinishTask(taskController);
             DeleteTask(taskController);
         }
 
-        protected virtual void OnFinishTask(TaskController taskController)
+        protected virtual void OnFinishTask(BaseTaskController taskController)
         {
             
         }
 
-        protected void DeleteTask(TaskController taskController)
+        protected void DeleteTask(BaseTaskController taskController)
         {
             _taskControllers.Remove(taskController);
             _taskBoardData.ListTasks.Remove(taskController.GetTask);
             UnityEngine.Object.Destroy(taskController.gameObject);
         }
 
-        protected virtual void OnStartTask(TaskController taskController)
+        protected virtual void OnStartTask(BaseTaskController taskController)
         {
             
         }

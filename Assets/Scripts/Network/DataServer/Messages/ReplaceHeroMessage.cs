@@ -6,6 +6,7 @@ namespace Network.DataServer.Messages
     {
         public int PlayerId;
         public int HeroId;
+        public string TargetRace;
 
         public string Route => "Sanctuary/ReplaceHero";
 
@@ -16,6 +17,7 @@ namespace Network.DataServer.Messages
                 var form = new WWWForm();
                 form.AddField("PlayerId", PlayerId);
                 form.AddField("HeroId", HeroId);
+                form.AddField("TargetRace", TargetRace);
                 return form;
             }
         }

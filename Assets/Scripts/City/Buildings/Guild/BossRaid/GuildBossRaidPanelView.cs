@@ -1,4 +1,5 @@
-﻿using City.Buildings.Guild.RecruitViews;
+﻿using City.Buildings.Abstractions;
+using City.Buildings.Guild.RecruitViews;
 using TMPro;
 using Ui.Misc.Widgets;
 using UIController;
@@ -13,6 +14,7 @@ namespace City.Buildings.Guild.BossRaid
         public Image BossImage;
         public Slider BossHealthSlider;
 
+        public Button DeffendersButton;
         public TMP_Text TimeForRefreshRaid;
         public ButtonCostController BossRaidButton;
         public GameObject TimerRaidPanel;

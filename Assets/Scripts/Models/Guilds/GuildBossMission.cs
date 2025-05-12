@@ -35,5 +35,18 @@ namespace Models.Guilds
             reward.CommonDictionaries = _commonDictionaries;
             RewardModels.Add(reward);
         }
+
+        public GuildBossMission Clone()
+        {
+            GuildBossMission result = new GuildBossMission();
+            foreach (var bossModel in BossModels)
+            {
+                result.BossModels.Add(bossModel.Clone());
+            }
+            
+            result.RewardModels = RewardModels;
+
+            return result;
+        }
     }
 }

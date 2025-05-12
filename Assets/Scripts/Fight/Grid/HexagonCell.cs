@@ -70,12 +70,17 @@ namespace Fight.Grid
 
         public void StartCheckMove(int step, HeroController newRequestHero, bool playerCanController)
         {
+            _gridController.ClearWays();
             requestHero = newRequestHero;
             GridController.PlayerCanController = playerCanController;
             this.step = step;
             achievableMove = true;
             requestHero.RegisterOnEndSelectCell(ClearCanMove);
-            for (int i = 0; i < neighbours.Count; i++) neighbours[i].CheckMove(step - 1);
+            
+            for (int i = 0; i < neighbours.Count; i++)
+            {
+                neighbours[i].CheckMove(step - 1);
+            }
         }
 
         public void CheckMove(int step)
@@ -141,12 +146,6 @@ namespace Fight.Grid
         {
             HexagonCell result = neighbours.Find(x => x.direction == direction).Cell;
             return result;
-        }
-
-        private void OnSelectDirection()
-        {
-            if (observerClick != null && available == true)
-                observerClick(this);
         }
 
         public void ClearCanMove()

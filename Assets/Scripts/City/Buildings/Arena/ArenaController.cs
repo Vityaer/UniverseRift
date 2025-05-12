@@ -1,11 +1,16 @@
-﻿using Assets.Scripts.City.Panels.Arenas;
+﻿using System;
+using Assets.Scripts.City.Panels.Arenas;
 using City.Buildings.Abstractions;
 using City.Panels.Arenas;
 using City.Panels.Arenas.SimpleArenas;
 using Fight;
 using Models;
+using Models.Arenas;
+using Models.City.Arena;
 using Models.Common;
+using Services.TimeLocalizeServices;
 using UniRx;
+using UnityEngine;
 using Utils;
 using VContainer;
 using VContainer.Unity;
@@ -17,8 +22,9 @@ namespace City.Buildings.Arena
     public class ArenaController : BuildingWithFight<ArenaView>, IInitializable
     {
         [Inject] private readonly CommonGameData _сommonGameData;
+        [Inject] private readonly TimeLocalizeService m_timeLocalizeService;
 
-        private ArenaBuildingModel _arenaBuildingSave;
+        private ArenaData _arenaBuildingSave;
 
         public void Initialize()
         {
@@ -46,12 +52,14 @@ namespace City.Buildings.Arena
         protected override void OnLoadGame()
         {
             _arenaBuildingSave = _сommonGameData.City.ArenaSave;
-        }
+            var arenaBuildingModel = CommonDictionaries.Buildings[nameof(ArenaBuildingModel)] as ArenaBuildingModel;
 
-        //public void FightWithOpponentUseAI(ArenaOpponentModel opponent)
-        //{
-        //    OpenMission(opponent.Mission);
-        //}
+            var workHours = arenaBuildingModel.ArenaContainers[ArenaType.Simple].WorkHours;
+            Debug.Log(_arenaBuildingSave.ArenaGeneralData.SimpleArenaDateTimeStartText);
+            var startDateTime = TimeUtils.ParseTime(_arenaBuildingSave.ArenaGeneralData.SimpleArenaDateTimeStartText);
+            
+            View.SimpleArenaTimer.SetData(startDateTime, TimeSpan.FromHours(workHours));
+        }
 
         protected override void OnResultFight(FightResultType result)
         {

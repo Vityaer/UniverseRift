@@ -9,10 +9,12 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.AsyncUtils;
+using VContainer;
+using VContainerUi.Abstraction;
 
 namespace UIController
 {
-    public class SliderTime : MonoBehaviour
+    public class SliderTime : UiView
     {
         [SerializeField] private Slider slider;
         [SerializeField] private Image fillImage;
@@ -35,12 +37,23 @@ namespace UIController
         private ILocalizationSystem _localizationSystem;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public ReactiveCommand OnTimerFinish = new();
+        private ReactiveCommand _onTimerFinish = new();
+        
+        public ReactiveCommand OnTimerFinish => _onTimerFinish;
+
+        [Inject]
+        private void Construct(ILocalizationSystem localizationSystem, TimeLocalizeService timeLocalizeService)
+        {
+            _localizationSystem = localizationSystem;
+            _timeLocalizeService = timeLocalizeService;
+            _onTimerFinish ??= new ReactiveCommand();
+        }
 
         public void Init(ILocalizationSystem localizationSystem, TimeLocalizeService timeLocalizeService)
         {
             _localizationSystem = localizationSystem;
             _timeLocalizeService = timeLocalizeService;
+            _onTimerFinish ??= new ReactiveCommand();
         }
 
         public void ChangeValue()

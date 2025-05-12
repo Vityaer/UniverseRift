@@ -7,7 +7,7 @@ using UniRx;
 
 namespace Fight.HeroStates
 {
-    public partial class HeroStatus : MonoBehaviour, IDisposable
+    public partial class HeroStatus : MonoBehaviour
     {
         private FightController _fightController;
 
@@ -99,7 +99,7 @@ namespace Fight.HeroStates
                 observerStamina(num);
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

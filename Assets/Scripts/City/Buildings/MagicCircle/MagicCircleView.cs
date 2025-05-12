@@ -5,7 +5,6 @@ using UIController.Buttons;
 using UIController.GameObservers;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 
 namespace City.Buildings.MagicCircle
 {
@@ -20,5 +19,10 @@ namespace City.Buildings.MagicCircle
 
         [Header("Observers")]
         public ObserverResourceController ObserverRaceHireCard;
+        
+        public Image BackgroundImage;
+        public Dictionary<string, Color> HireColors = new();
+        public float BackgroundChangeColorTime;
+        public float VerticalScaleButton;
     }
 }

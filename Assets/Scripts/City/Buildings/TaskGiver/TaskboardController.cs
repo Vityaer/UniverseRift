@@ -21,9 +21,9 @@ namespace City.Buildings.TaskGiver
         private GameResource _specialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
         private GameResource _costReplacement = new GameResource(ResourceType.Diamond, 10f);
 
-        private ReactiveCommand<TaskController> _onCompleteTask = new();
+        private ReactiveCommand<BaseTaskController> _onCompleteTask = new();
 
-        public IObservable<TaskController> OnCompleteTask => _onCompleteTask;
+        public IObservable<BaseTaskController> OnCompleteTask => _onCompleteTask;
 
         protected override void OnStart()
         {
@@ -50,7 +50,7 @@ namespace City.Buildings.TaskGiver
             _onNews.Execute(taskInNotWork != null);
         }
 
-        protected override void OnFinishTask(TaskController taskController)
+        protected override void OnFinishTask(BaseTaskController taskController)
         {
             _onCompleteTask.Execute(taskController);
         }
@@ -85,6 +85,8 @@ namespace City.Buildings.TaskGiver
             var taskCanReplaceCount = _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
             var cost = _costReplacement * taskCanReplaceCount;
             View.BuyReplacementButton.ChangeCost(cost, StartReplacement);
+
+            View.BuyReplacementButton.gameObject.SetActive(taskCanReplaceCount != 0);
         }
 
         private async UniTaskVoid ReplacementNotWorkTask()
@@ -133,7 +135,7 @@ namespace City.Buildings.TaskGiver
             ReplacementNotWorkTask().Forget();
         }
 
-        protected override void OnStartTask(TaskController taskController)
+        protected override void OnStartTask(BaseTaskController taskController)
         {
             SetCostReplacement();
         }

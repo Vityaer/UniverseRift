@@ -6,6 +6,7 @@ using UIController.Rewards;
 using City.Buildings.Abstractions;
 using Models.Common.BigDigits;
 using City.Buildings.Altar;
+using City.Panels.AltarMarkets;
 using UniRx;
 using VContainer.Unity;
 using Common.Heroes;
@@ -19,6 +20,9 @@ using Common.Rewards;
 using Misc.Json;
 using Network.DataServer.Messages;
 using Db.CommonDictionaries;
+using VContainerUi.Model;
+using VContainerUi.Services;
+using VContainerUi.Messages;
 
 namespace Altar
 {
@@ -28,6 +32,7 @@ namespace Altar
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
 
         [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
 
@@ -43,6 +48,7 @@ namespace Altar
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
             View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
             View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes().Forget()).AddTo(Disposables);
+            View.AltarMarketButton.OnClickAsObservable().Subscribe(_ => OpenAltarMarket()).AddTo(Disposables);
             Resolver.Inject(View.CardsContainer);
         }
 
@@ -57,7 +63,12 @@ namespace Altar
             base.OnShow();
         }
 
-        public async UniTaskVoid FiredHeroes()
+        private void OpenAltarMarket()
+        {
+            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<AltarMarketPageController>(openType: OpenType.Additive);
+        }
+        
+        private async UniTaskVoid FiredHeroes()
         {
             var fireContainer = new FireContainer();
 
@@ -91,20 +102,18 @@ namespace Altar
             }
         }
 
-        public void SelectHero(GameHero hero)
+        private void SelectHero(GameHero hero)
         {
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedHeroCards.Add(selectedCard);
             selectedCard.Select();
         }
 
-        public void UnselectHero(GameHero hero)
+        private void UnselectHero(GameHero hero)
         {
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedHeroCards.Remove(selectedCard);
             selectedCard.Unselect();
         }
-
-
     }
 }

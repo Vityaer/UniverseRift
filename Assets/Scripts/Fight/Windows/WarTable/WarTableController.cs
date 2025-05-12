@@ -34,15 +34,19 @@ namespace Fight.WarTable
         private TeamContainer _playerTeam;
         private ReactiveCommand<TeamContainer> _onChangeTeam = new();
 
+        private bool _canStartBattle;
+        
         private bool _isDragging;
         private WarriorPlace _startDragPlace;
         private CancellationTokenSource _cancellationTokenSource;
         private Tween _dragTween;
 
         public ReactiveCommand OnStartMission = new();
+        public ReactiveCommand OnPlayerStartFight = new();
         public ReactiveCommand OnClose = new();
         public IObservable<TeamContainer> OnChangeTeam => _onChangeTeam;
-
+        public bool IsFastFight => View.FastFightToggle.IsOn;
+        
         public void Initialize()
         {
             View.ListCardPanel.OnSelect.Subscribe(SelectCard).AddTo(_disposables);
@@ -61,7 +65,7 @@ namespace Fight.WarTable
             Resolver.Inject(View.ListCardPanel);
 
             View.DragableItem.gameObject.SetActive(false);
-            _fightController.OnFigthResult.Subscribe(_ => Close()).AddTo(_disposables);
+            _fightController.OnFightResult.Subscribe(_ => Close()).AddTo(_disposables);
         }
 
         private void OnStartDrag(WarriorPlace place)
@@ -176,13 +180,13 @@ namespace Fight.WarTable
             if (!place.IsEmpty) UnSelectCard(place.Hero);
         }
 
-        public void SelectCard(GameHero hero)
+        private void SelectCard(GameHero hero)
         {
             var result = AddHero(hero);
             if (result) View.ListCardPanel.SelectCards(new List<GameHero> { hero });
         }
 
-        public void UnSelectCard(GameHero hero)
+        private void UnSelectCard(GameHero hero)
         {
             var result = RemoveHero(hero);
             if (result) View.ListCardPanel.UnselectCards(new List<GameHero> { hero });
@@ -340,6 +344,7 @@ namespace Fight.WarTable
         //API
         public void OpenTeamComposition(TeamContainer team, Action<TeamContainer> callback)
         {
+            View.FastFightToggle.gameObject.SetActive(false);
             CheckTeamContainer(team, View.LeftTeam);
             DisposeMainAction();
             _playerTeam = team;
@@ -417,7 +422,7 @@ namespace Fight.WarTable
         {
             DisposeMainAction();
             _buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => StartFight());
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Additive);
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
 
@@ -436,6 +441,7 @@ namespace Fight.WarTable
 
             CheckTeam(View.RightTeam);
             FillListHeroes(listHeroes);
+            View.FastFightToggle.gameObject.SetActive(true);
             Open();
         }
 
@@ -448,16 +454,29 @@ namespace Fight.WarTable
             }
         }
 
-        public void OpenMission(MissionModel mission, TeamContainer teamContainer, WarTableLimiter limiter = null)
+        public void OpenMission(MissionModel mission, TeamContainer teamContainer, bool isFastFight = false, WarTableLimiter limiter = null)
         {
-            List<GameHero> selectedHeroes;
-            GetHeroesByLimiter(out selectedHeroes, limiter);
+            _canStartBattle = true;
+            SetFastFightStatus(isFastFight);
+            GetHeroesByLimiter(out var selectedHeroes, limiter);
             OpenMission(mission, selectedHeroes);
             _playerTeam = teamContainer;
 
             FillTeam(_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
             CheckTeam(View.LeftTeam);
+        }
+
+        private void SetFastFightStatus(bool isFastFight)
+        {
+            if (isFastFight)
+            {
+                View.FastFightToggle.On();
+            }
+            else
+            {
+                View.FastFightToggle.Off();
+            }
         }
 
         private void GetHeroesByLimiter(out List<GameHero> selectedHeroes, WarTableLimiter limiter)
@@ -494,12 +513,27 @@ namespace Fight.WarTable
             View.ListCardPanel.ShowCards(listHeroes, _mission?.HeroRestrictions);
         }
 
-        public async UniTaskVoid StartFight()
+        private async UniTask StartFight()
         {
+            if (!_canStartBattle)
+                return;
+            
+            Debug.Log("war table start fight");
             OnStartMission.Execute();
-            await UniTask.Delay(200);
-            base.Close();
-            _fightController.SetMission(_mission, View.LeftTeam, View.RightTeam);
+            if (View.FastFightToggle.IsOn)
+            {
+                _fightController.FastFight(_mission, View.LeftTeam, View.RightTeam);
+                Close();
+            }
+            else
+            {
+                OnPlayerStartFight.Execute();
+                await UniTask.Delay(200);
+                base.Close();
+                _fightController.SetMission(_mission, View.LeftTeam, View.RightTeam);
+            }
+
+            DisposeMainAction();
         }
 
         public override void Dispose()

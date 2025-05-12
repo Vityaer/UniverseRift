@@ -12,8 +12,10 @@ using Hero;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
+using Utils.AsyncUtils;
 using VContainer;
 
 namespace Fight.HeroControllers.Generals
@@ -38,7 +40,7 @@ namespace Fight.HeroControllers.Generals
         private float _speedAnimation = 1f;
         private Side _side = Side.Left;
 
-        private GameHeroFight _hero;
+        [SerializeField] private GameHeroFight _hero;
         protected Transform Self;
         protected bool onGround = true;
         protected Rigidbody Rigidbody;
@@ -52,25 +54,28 @@ namespace Fight.HeroControllers.Generals
         private HeroController _selectHero;
         private float _damageFromStrike;
         private bool _isDeath = false;
-        private Coroutine coroutineAttackEnemy;
+        private CancellationTokenSource _actionTokenSource;
         private CompositeDisposable _disposables = new();
         private IDisposable _currentActionDisposable;
 
+        private bool _isFastFight;
+        
         public GameHeroFight Hero => _hero;
         public bool IsDeath => _isDeath;
         public Vector3 GetPosition => Self.position;
         public bool CanRetaliation => _hero.Model.Characteristics.Main.CanRetaliation && CurrentCountCounterAttack > 0;
         public HexagonCell Cell => MyPlace;
-        public bool Mellee => _hero.Model.Characteristics.Main.Mellee;
+        public bool Mellee => _attack is MelleeAttack;
         public TypeStrike TypeStrike => _hero.Model.Characteristics.Main.AttackType;
         public int Stamina => _statusState.Stamina;
-        public List<HeroController> ListTarget { get; set; }
+        public List<HeroController> ListTarget { get; set; } = new();
         public bool CanWait => _canWait;
         public bool IsFacingRight => _isFacingRight;
         public float SpeedMove => _speedMove;
         public Side Side => _side;
         public HeroStatus StatusState => _statusState;
-
+        public bool IsFastFight => _isFastFight;
+        
         void Awake()
         {
             ListTarget = new();
@@ -84,8 +89,9 @@ namespace Fight.HeroControllers.Generals
             IsSide(_side);
         }
 
-        public void SetData(GameHero gameHero, HexagonCell place, Side side)
+        public void SetData(GameHero gameHero, HexagonCell place, Side side, bool isFastFight)
         {
+            _isFastFight = isFastFight;
             _bodyParent.localRotation = Quaternion.Euler(0, 90, 0);
             FightController.OnEndRound.Subscribe(_ => RefreshOnEndRound()).AddTo(_disposables);
             MyPlace = place;
@@ -107,7 +113,6 @@ namespace Fight.HeroControllers.Generals
 
         public void DoTurn()
         {
-            //Debug.Log($"Start turn {gameObject.name}", gameObject);
             AddFightRecordActionMe();
             if (!_isDeath && _statusState.PermissionAction())
             {
@@ -121,7 +126,6 @@ namespace Fight.HeroControllers.Generals
 
         protected void EndTurn()
         {
-            //Debug.Log($"End turn{gameObject.name}", gameObject);
             if (_isFacingRight ^ (_side == Side.Left))
                 FlipX();
 
@@ -134,13 +138,24 @@ namespace Fight.HeroControllers.Generals
 
         protected virtual void FindAvailableCells()
         {
-            MyPlace.StartCheckMove(
-                _hero.Model.Characteristics.Main.Speed,
-                this,
-                playerCanController: !_botProvider.CheckMeOnSubmission(_side)
-            );
-            if (!_botProvider.CheckMeOnSubmission(_side))
-                ShowHeroesPlaceInteractive();
+            if (!_isFastFight)
+            {
+                MyPlace.StartCheckMove(
+                    _hero.Model.Characteristics.Main.Speed,
+                    this,
+                    playerCanController: !_botProvider.CheckMeOnSubmission(_side)
+                );
+                if (!_botProvider.CheckMeOnSubmission(_side))
+                    ShowHeroesPlaceInteractive();
+            }
+            else
+            {
+                MyPlace.StartCheckMove(
+                    _hero.Model.Characteristics.Main.Speed,
+                    this,
+                    false
+                );
+            }
         }
 
         protected virtual void WaitingSelectTarget()
@@ -150,7 +165,12 @@ namespace Fight.HeroControllers.Generals
 
         public virtual void SelectHexagonCell(HexagonCell cell)
         {
-            Debug.Log($"SelectHexagonCell: {cell.name}");
+            if (cell == MyPlace)
+            {
+                EndTurn();
+                return;
+            }
+                
             if (cell.CanStand)
             {
                 StartMelleeAttackOtherHero(cell, null);
@@ -198,49 +218,64 @@ namespace Fight.HeroControllers.Generals
         protected void StartMelleeAttackOtherHero(HexagonCell targetCell, HeroController enemy)
         {
             OnEndSelectCell();
-            coroutineAttackEnemy = null;
-            coroutineAttackEnemy = StartCoroutine(IMelleeAttackOtherHero(targetCell, enemy));
+            _actionTokenSource.TryCancel();
+            _actionTokenSource = new();
+            IMelleeAttackOtherHero(targetCell, enemy, _actionTokenSource.Token).Forget();
         }
 
         public void StartDistanceAttackOtherHero(HeroController enemy)
         {
-            Debug.Log($"StartDistanceAttackOtherHero: {enemy.name}");
             OnEndSelectCell();
-            coroutineAttackEnemy = StartCoroutine(IDistanceAttackOtherHero(enemy, 20));
+            _actionTokenSource.TryCancel();
+            _actionTokenSource = new();
+            IDistanceAttackOtherHero(enemy, 20, _actionTokenSource.Token).Forget();
         }
 
-        IEnumerator IMelleeAttackOtherHero(HexagonCell targetCell, HeroController heroForAttack)
+        private async UniTask IMelleeAttackOtherHero(HexagonCell targetCell, HeroController heroForAttack,
+            CancellationToken token)
         {
             if (targetCell != MyPlace)
-                yield return StartCoroutine(_movement.Move(targetCell));
-
+            {
+                await _movement.Move(targetCell);
+            }
+            
             if (heroForAttack != null)
             {
-                yield return new WaitForSeconds(0.5f);
-                yield return StartCoroutine(_attack.Attacking(heroForAttack, 30));
+                if(!_isFastFight)
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
+                
+                await _attack.Attacking(heroForAttack, 30);
 
-                if(!heroForAttack.IsDeath)
-                    yield return heroForAttack.GetRetaliation(this);
+                if (!heroForAttack.IsDeath)
+                {
+                    await heroForAttack.GetRetaliation(this);
+                }
             }
-            yield return new WaitForSeconds(0.5f);
+                
+            if(!_isFastFight)
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
+                
             SetFaceDefault();
             EndTurn();
         }
 
-        protected virtual IEnumerator IDistanceAttackOtherHero(HeroController otherHero, int bonusStamina = 20)
+        protected async UniTask IDistanceAttackOtherHero(HeroController otherHero, int bonusStamina = 20,
+            CancellationToken token = default)
         {
             hitCount = 0;
-            yield return StartCoroutine(CheckFlipX(otherHero));
-            _statusState.ChangeStamina(bonusStamina);
-
+            if(!IsFastFight)
+                await CheckFlipX(otherHero);
+            
             _currentActionDisposable = _currentHeroVisualModel.AttackController
                 .OnRangeDamage.Subscribe(AddHitCount);
-            
-            _currentHeroVisualModel.AttackController.Attack(otherHero);
 
-            StartCoroutine(PlayAnimation(Constants.Visual.ANIMATOR_DISTANCE_ATTACK_NAME_HASH));
-            while (hitCount != 1)
-                yield return null;
+            _attack.Attacking(otherHero, bonusStamina);
+
+            if(!IsFastFight)
+                await PlayAnimation(Constants.Visual.ANIMATOR_DISTANCE_ATTACK_NAME_HASH);
+            
+            if(!IsFastFight)
+                await UniTask.WaitUntil(() => hitCount == 1, cancellationToken: token);
 
             //RemoveFightRecordActionMe();
 
@@ -259,35 +294,32 @@ namespace Fight.HeroControllers.Generals
             }
         }
 
-        public IEnumerator CheckFlipX(HeroController otherHero)
+        public async UniTask CheckFlipX(HeroController otherHero)
         {
             needFlip = NeedFlip(otherHero);
             if (needFlip)
                 FlipX();
-            yield return new WaitForSeconds(0.1f);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
 
-        public virtual Coroutine GetRetaliation(HeroController attackedHero)
+        public virtual async UniTask GetRetaliation(HeroController attackedHero)
         {
             if (IsDeath)
-                return null;
+                return;
 
-            if (CanRetaliation)
-            {
-                return StartCoroutine(IGetRetaliation(attackedHero));
-            }
-            else
-            {
-                return null;
-            }
+            if(!CanRetaliation)
+                return;
+            
+            await IGetRetaliation(attackedHero);
         }
 
-        protected virtual IEnumerator IGetRetaliation(HeroController attackedHero)
+        protected virtual async UniTask IGetRetaliation(HeroController attackedHero)
         {
             if (CanCounterAttack(this, attackedHero))
             {
                 CurrentCountCounterAttack -= 1;
-                yield return StartCoroutine(_attack.Attacking(attackedHero, 15));
+                await _attack.Attacking(attackedHero, 15);
                 SetFaceDefault();
             }
         }
@@ -304,20 +336,6 @@ namespace Fight.HeroControllers.Generals
             _onSpell.Execute(ListTarget);
             EndTurn();
         }
-        //Brain hero 
-
-        protected virtual void ChooseEnemies(List<HeroController> listTarget, int countTarget)
-        {
-            listTarget.Clear();
-            if (countTarget == 0)
-            {
-                countTarget = 1;
-                _hero.Model.Characteristics.CountTargetForSimpleAttack = 1;
-            }
-            FightController.ChooseEnemies(_side, countTarget, listTarget);
-
-        }
-
         //End action 	
         protected void ClearAction()
         {
@@ -333,20 +351,17 @@ namespace Fight.HeroControllers.Generals
                 _hero.GetDamage(strike);
                 if (_hero.Health > 0f)
                 {
-                    StartCoroutine(PlayAnimation(Constants.Visual.ANIMATOR_GET_DAMAGE_NAME_HASH));
+                    PlayAnimation(Constants.Visual.ANIMATOR_GET_DAMAGE_NAME_HASH).Forget();
                 }
                 else
                 {
                     _isDeath = true;
                     MyPlace.ClearSublject();
-                    StartCoroutine
-                    (
                         PlayAnimation
                         (
                             Constants.Visual.ANIMATOR_DEATH_NAME_HASH,
                             onAnimationFinish: OffAnimator
-                        )
-                    );
+                        ).Forget();
                 }
             }
         }
@@ -376,7 +391,7 @@ namespace Fight.HeroControllers.Generals
         {
             MyPlace?.ClearSublject();
             _sequenceAnimation.Kill();
-            if (coroutineAttackEnemy != null) StopCoroutine(coroutineAttackEnemy);
+            _actionTokenSource.TryCancel();
             Destroy(gameObject);
         }
 

@@ -77,7 +77,7 @@ namespace VContainerUi
             //CloseWindow();
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             _disposables.Dispose();
         }

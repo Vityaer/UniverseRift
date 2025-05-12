@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
+using Models.Guilds;
 using UnityEngine;
 
 namespace Models
@@ -27,6 +28,14 @@ namespace Models
         public HeroData(CommonDictionaries commonDictionaries)
         {
             CommonDictionaries = commonDictionaries;
+        }
+
+        public HeroData(BossModel bossModel)
+        {
+            HeroId = bossModel.HeroId;
+            Level = bossModel.Level;
+            Rating = bossModel.Rating;
+            Stage = bossModel.Stage;
         }
 
         private string[] _allHeroesName

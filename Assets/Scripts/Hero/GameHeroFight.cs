@@ -7,6 +7,7 @@ using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Hero
@@ -24,6 +25,10 @@ namespace Hero
         public float MaxHealth => Model.Characteristics.HP;
         public BaseCharacteristicModel GetBaseCharacteristic => Model.Characteristics.Main;
 
+        private ReactiveCommand<float> _onGetDamage = new();
+        
+        public IObservable<float> OnGetDamage => _onGetDamage;
+        
         public GameHeroFight(GameHero gameHero, HeroStatus statusState)
         {
             Model = gameHero.Model.Clone();
@@ -33,6 +38,13 @@ namespace Hero
             StatusState.SetMaxHealth(MaxHealth);
         }
 
+        public void ChangeHealth(float newMaxHealth, float newCurrentHealth)
+        {
+            Health = newCurrentHealth;
+            StatusState.ChangeHP(Health);
+            StatusState.SetMaxHealth(newMaxHealth);
+        }
+
         public void GetDamage(Strike strike)
         {
             float calcDamage = CalculateDamage(strike);
@@ -40,6 +52,8 @@ namespace Hero
             if (calcDamage < 0)
                 return;
 
+            _onGetDamage.Execute(Health > calcDamage ? calcDamage : Health);
+            
             Health = (Health > calcDamage) ? Health - (int)calcDamage : 0;
             StatusState.ChangeHP(Health);
             StatusState.ChangeStamina(10);

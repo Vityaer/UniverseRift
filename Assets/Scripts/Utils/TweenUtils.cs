@@ -22,7 +22,7 @@ namespace Utils
             t.SetTarget(target);
             return t;
         }
-
+        
         public static TweenerCore<float, float, FloatOptions> DOCounter(
          this TMP_Text target, float fromValue, float endValue, float duration)
         {

@@ -14,6 +14,11 @@ using Network.DataServer.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using City.Panels.HeroesHireResultPanels;
+using Models.City.Mines;
+using Models.City.Sanctuaries;
+using Models.Data.Inventories;
 using UIController.Cards;
 using UniRx;
 using VContainer;
@@ -21,75 +26,107 @@ using VContainer.Unity;
 
 namespace City.Buildings.Sanctuary
 {
-    public class SanctuaryController : BuildingWithHeroesList<SanctuaryView>, IInitializable, IDisposable
+    public class SanctuaryController : BuildingWithHeroesList<SanctuaryView>, IInitializable
     {
         [Inject] private readonly HeroesStorageController _heroesStorageController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonGameData _сommonGameData;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly HeroesHireResultPanelController _heroesHireResultPanelController;
 
-        public HeroModel newHeroModel;
         private Card _selectedCard;
-        private IDisposable _disposable;
         private List<GameHero> _listHeroes;
 
+        private string m_targetRace = "Random";
+        
+        private SanctuaryBuildingModel _sanctuaryBuildingModel;
+        
         public void Initialize()
         {
-            View.ReplacementButton.interactable = false;
-            View.ReplacementButton.OnClickAsObservable().Subscribe(_ => ReplacementHero().Forget()).AddTo(Disposables);
             View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(Disposables);
             View.CardsContainer.OnDiselect.Subscribe(UnselectHero).AddTo(Disposables);
+
+            foreach (var raceButton in View.RaceButtons)
+            {
+                raceButton.Value.OnClickAsObservable()
+                    .Subscribe(_ => ChangeTargetRace(raceButton.Key))
+                    .AddTo(Disposables);
+            }
+
+            View.RaceButtons[m_targetRace].interactable = false;
             Resolver.Inject(View.CardsContainer);
         }
 
         protected override void OnLoadGame()
         {
+            _sanctuaryBuildingModel = _commonDictionaries.Buildings[nameof(SanctuaryBuildingModel)] as SanctuaryBuildingModel;
             _listHeroes = _heroesStorageController.ListHeroes;
         }
 
+        private void ChangeTargetRace(string targetRace)
+        {
+            View.RaceButtons[m_targetRace].interactable = true;
+            m_targetRace = targetRace;
+            View.RaceButtons[m_targetRace].interactable = false;
+
+            if (_selectedCard == null)
+            {
+                return;
+            }
+            
+            SetCostReplace(_selectedCard);
+        }
 
         public override void OnShow()
         {
+            _listHeroes = _heroesStorageController.ListHeroes
+                .Where(hero => hero.HeroData.Rating <= 5)
+                .ToList();
+            
             View.CardsContainer.ShowCards(_listHeroes);
             base.OnShow();
         }
 
-        private async UniTaskVoid ReplacementHero()
+        private async UniTaskVoid ReplacementHero(GameResource costReplace)
         {
-            //GameResource resCost = null;
             if (_selectedCard != null)
             {
-                //foreach (var cost in View.Costs)
-                //{
-                //    if (_selectedCard.Hero.HeroData.Rating >= cost.Key)
-                //        resCost = cost.Value;
-                //}
-
-                //if (_resourceStorageController.CheckResource(resCost))
-                //{
-                    var message = new ReplaceHeroMessage { PlayerId = CommonGameData.PlayerInfoData.Id, HeroId = _selectedCard.Hero.HeroData.Id };
+                if (_resourceStorageController.CheckResource(costReplace))
+                {
+                    View.ReplacementButton.buttonCostComponent.Disable();
+                    var message = new ReplaceHeroMessage {
+                        PlayerId = CommonGameData.PlayerInfoData.Id,
+                        HeroId = _selectedCard.Hero.HeroData.Id,
+                        TargetRace = m_targetRace
+                    };
+                    
                     var result = await DataServer.PostData(message);
 
-                    View.CardsContainer.RemoveCard(_selectedCard);
-                    _heroesStorageController.RemoveHero(_selectedCard.Hero);
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        View.CardsContainer.RemoveCard(_selectedCard);
+                        _heroesStorageController.RemoveHero(_selectedCard.Hero);
 
-                    var heroData = _jsonConverter.Deserialize<HeroData>(result);
+                        var heroData = _jsonConverter.Deserialize<HeroData>(result);
 
-                    var model = _commonDictionaries.Heroes[heroData.HeroId];
-                    var hero = new GameHero(model, heroData);
-                    _heroesStorageController.AddHero(hero);
+                        var model = _commonDictionaries.Heroes[heroData.HeroId];
+                        var hero = new GameHero(model, heroData);
+                        _heroesHireResultPanelController.ShowHeroes(new List<GameHero>(){hero});
 
-                    _selectedCard = null;
-                    View.ReplacementButton.interactable = false;
-                    View.CardsContainer.ShowCards(_listHeroes);
-                //}
+                        _selectedCard = null;
+                        
+                        View.ReplacementButton.ChangeCost(new GameResource(), null);
+                        
+                        _resourceStorageController.SubtractResource(costReplace);
+                        View.CardsContainer.ShowCards(_listHeroes);
+                    }
+                }
             }
         }
 
         public void SelectHero(GameHero hero)
         {
-            UnityEngine.Debug.Log("select hero");
             if (_selectedCard != null)
             {
                 _selectedCard.Unselect();
@@ -98,7 +135,27 @@ namespace City.Buildings.Sanctuary
             _selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedCard.Select();
 
-            View.ReplacementButton.interactable = true;
+            SetCostReplace(_selectedCard);
+        }
+
+        private void SetCostReplace(Card selectedCard)
+        {
+            ResourceData costReplaceData = null;
+            
+            if (m_targetRace == "Random")
+            {
+                costReplaceData = _sanctuaryBuildingModel.SimpleReplaceResource[selectedCard.Hero.HeroData.Rating - 1];
+            }
+            else
+            {
+                costReplaceData = _sanctuaryBuildingModel.ConcreteReplaceResource[selectedCard.Hero.HeroData.Rating - 1];
+            }
+
+            GameResource costReplace = new GameResource(costReplaceData);
+            
+            View.ReplacementButton.buttonCostComponent.Enable();
+            View.ReplacementButton
+                .ChangeCost(costReplace, () => ReplacementHero(costReplace).Forget());
         }
 
         public void UnselectHero(GameHero hero)
@@ -106,14 +163,9 @@ namespace City.Buildings.Sanctuary
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             selectedCard.Unselect();
             _selectedCard = null;
-            View.ReplacementButton.interactable = false;
-        }
-
-
-        public void Disposable()
-        {
-            _disposable?.Dispose();
-            base.Dispose();
+            
+            View.ReplacementButton.ChangeCost(new GameResource(), null);
+            View.ReplacementButton.buttonCostComponent.Disable();
         }
     }
 }

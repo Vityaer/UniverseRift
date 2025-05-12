@@ -20,7 +20,7 @@ namespace Models
         public MainCampaignBuildingData MainCampaignSave = new();
         public TravelBuildingData TravelCircleSave = new();
         public VoyageBuildingData VoyageSave = new();
-        public ArenaBuildingModel ArenaSave = new();
+        public ArenaData ArenaSave = new();
         public SimpleBuildingData Tutorial = new();
         public CycleEventsData CycleEvents = new();
         public DailyRewardContainer DailyReward = new();

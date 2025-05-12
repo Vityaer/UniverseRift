@@ -47,7 +47,15 @@ namespace City.Buildings.Abstractions
 
         protected virtual void OpenHelp()
         {
-            HelpPanelController.OpenHelp(HelpLocalizeStringId);
+            if (View.HelpContainer != null)
+            {
+                HelpPanelController.OpenHelp(View.HelpContainer);
+            }
+            else
+            {
+                HelpPanelController.OpenHelp(HelpLocalizeStringId);
+            }
+
         }
 
         private void AutoInject()

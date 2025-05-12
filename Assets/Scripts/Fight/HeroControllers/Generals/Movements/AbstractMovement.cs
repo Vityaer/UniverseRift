@@ -3,6 +3,7 @@ using Fight.Grid;
 using Fight.Misc;
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace Fight.HeroControllers.Generals.Movements
             Animator = animator;
         }
 
-        public abstract IEnumerator Move(HexagonCell targetCell);
+        public abstract UniTask Move(HexagonCell targetCell);
 
         protected void SetMyPlaceColor()
         {

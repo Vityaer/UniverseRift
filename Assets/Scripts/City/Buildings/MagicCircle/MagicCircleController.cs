@@ -16,6 +16,7 @@ using Network.DataServer.Messages.Hires;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
@@ -35,6 +36,8 @@ namespace City.Buildings.MagicCircle
         private GameResource _raceHireCost = new GameResource(ResourceType.RaceHireCard, 1, 0);
         private ReactiveCommand<int> _onRaceHire = new();
 
+        private Tween _selectHireTween;
+        
         public IObservable<int> OnRaceHire => _onRaceHire;
 
         protected override void OnStart()
@@ -52,13 +55,18 @@ namespace City.Buildings.MagicCircle
             base.OnStart();
         }
 
-        public void ChangeHireRace(string stringRace)
+        private void ChangeHireRace(string stringRace)
         {
             if(!string.IsNullOrEmpty(_selectedRace))
                 View.RaceSelectButtons[_selectedRace].interactable = true;
 
             _selectedRace = stringRace;
             View.RaceSelectButtons[_selectedRace].interactable = false;
+            
+            
+            _selectHireTween.Kill();
+            _selectHireTween = DOTween.Sequence()
+                .Append(View.BackgroundImage.DOColor(View.HireColors[stringRace], View.BackgroundChangeColorTime));
         }
 
         private async UniTaskVoid MagicHire(int count = 1)

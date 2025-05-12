@@ -1,7 +1,7 @@
 ﻿using Fight.Common.Strikes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace Fight.HeroControllers.Generals.Attacks
             Hero = heroController;
         }
 
-        public virtual void Attack(List<HeroController> targets)
+        protected virtual void Attack(List<HeroController> targets)
         {
             TryDispose();
             foreach (var target in targets)
@@ -52,7 +52,7 @@ namespace Fight.HeroControllers.Generals.Attacks
             );
         }
 
-        public abstract IEnumerator Attacking(HeroController target, int bonus);
+        public abstract UniTask Attacking(HeroController target, int bonus);
 
         public void MakeDamage()
         {

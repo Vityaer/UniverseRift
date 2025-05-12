@@ -18,6 +18,7 @@ using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using City.Buildings.Voyage.Shops;
 using City.Buildings.WheelFortune;
+using City.Panels.AltarMarkets;
 using MainPages.City;
 using UIController.Common;
 using UnityEngine;
@@ -52,7 +53,8 @@ namespace Installers
         [SerializeField] private TravelCircleView _travelCircleView;
         [SerializeField] private TaskboardView _taskboardView;
         [SerializeField] private LongTravelView _longTravelView;
-        
+        [SerializeField] private AltarMarketPageView _altarMarketView;
+
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
@@ -80,6 +82,8 @@ namespace Installers
             builder.RegisterUiView<PetsZooController, PetsZooView>(_petsZooView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<TravelCircleController, TravelCircleView>(_travelCircleView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<TaskboardController, TaskboardView>(_taskboardView, safeArea.RootTemporallyWindows);
+            
+            builder.RegisterUiView<AltarMarketPageController, AltarMarketPageView>(_altarMarketView, safeArea.RootTemporallyWindows);
         }
     }
 }
