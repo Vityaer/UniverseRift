@@ -16,6 +16,7 @@ using Network.DataServer.Messages.City.Taskboards;
 using Services.TimeLocalizeServices;
 using Sirenix.Utilities;
 using UIController;
+using UIController.Rewards;
 using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
@@ -42,6 +43,8 @@ namespace City.Buildings.TaskGiver
         [SerializeField] protected RatingHero ratingController;
         [SerializeField] protected RewardUIController RewardUIController;
 
+        private GameReward _gameReward;
+        
         protected IDisposable _disposable;
         protected IDisposable _timeSliderDisposable;
         protected GameTaskModel _model;
@@ -68,7 +71,11 @@ namespace City.Buildings.TaskGiver
 
             _name.StringReference = _localizationSystem.GetLocalizedContainer($"Task{_model.Id}Name");
             ratingController.ShowRating(_model.Rating);
-            RewardUIController.ShowReward(_model.Reward, _commonDictionaries);
+
+            RewardModel rewardWithFactor = _model.Reward * data.Factor;
+            _gameReward = new GameReward(rewardWithFactor, _commonDictionaries);
+            
+            RewardUIController.ShowReward(rewardWithFactor, _commonDictionaries);
             UpdateStatus();
 
         }
@@ -122,6 +129,7 @@ namespace City.Buildings.TaskGiver
         {
             sliderTime.StopTimer();
         }
+        
         protected void FinishFromSlider()
         {
             _timeSliderDisposable?.Dispose();
@@ -129,7 +137,7 @@ namespace City.Buildings.TaskGiver
             UpdateStatus();
         }
 
-        public async UniTask StartTask()
+        protected async UniTask StartTask()
         {
             var message = new StartTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
@@ -147,7 +155,7 @@ namespace City.Buildings.TaskGiver
             }
         }
 
-        public async UniTask BuyProgress()
+        protected async UniTask BuyProgress()
         {
             var message = new BuyFastCompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
@@ -158,25 +166,26 @@ namespace City.Buildings.TaskGiver
                 _resourceStorageController.SubtractResource(cost);
                 TaskControllerButton.Clear();
                 sliderTime.SetFinish();
-                Data.Status = TaskStatusType.Done;
-                var reward = new GameReward(_model.Reward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
-                _onGetReward.Execute(this);
+                CreateReward();
             }
         }
 
-        public async UniTask GetReward()
+        protected async UniTask GetReward()
         {
             var message = new CompleteTaskMessage { PlayerId = _commonGameData.PlayerInfoData.Id, TaskId = Data.TaskId };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                Data.Status = TaskStatusType.Done;
-                var reward = new GameReward(_model.Reward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
-                _onGetReward.Execute(this);
+                CreateReward();
             }
+        }
+        
+        private void CreateReward()
+        {
+            Data.Status = TaskStatusType.Done;
+            _clientRewardService.ShowReward(_gameReward);
+            _onGetReward.Execute(this);
         }
     }
 }

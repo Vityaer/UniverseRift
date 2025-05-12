@@ -9,5 +9,6 @@ namespace Models.Data
         public string TaskModelId;
         public TaskStatusType Status;
         public string DateTimeStart;
+        public float Factor;
     }
 }

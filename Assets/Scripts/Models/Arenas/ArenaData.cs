@@ -5,10 +5,11 @@ using System.Collections.Generic;
 namespace Models
 {
     [System.Serializable]
-    public class ArenaBuildingModel
+    public class ArenaData
     {
         public ArenaPlayerData MyData;
         public List<ArenaPlayerData> Opponents = new();
         public Dictionary<int, PlayerData> PlayersData = new();
+        public ArenaGeneralData ArenaGeneralData;
     }
 }

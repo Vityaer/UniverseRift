@@ -1,11 +1,12 @@
-﻿using DG.Tweening;
+﻿using City.Buildings.Abstractions;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
 namespace Ui.Misc.Widgets
 {
-    public class BasePanel : UiView
+    public class BasePanel : BasePopupView
     {
         private const float STRETCH_TIME = 0.1f;
         private const float STRETCH_DEFAULT_TIME = 0.1f;

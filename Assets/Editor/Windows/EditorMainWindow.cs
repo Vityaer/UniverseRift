@@ -5,7 +5,9 @@ using Assets.Editor.Pages.Locations;
 using Common;
 using Db.CommonDictionaries;
 using Editor.Common;
+using Editor.Common.Pages.Buildings.Arenas;
 using Editor.Common.Pages.Buildings.Guilds;
+using Editor.Common.Pages.Buildings.Sanctuaries;
 using Editor.Pages.Achievments;
 using Editor.Pages.Bosses;
 using Editor.Pages.Buildings.Hires;
@@ -84,6 +86,8 @@ namespace Editor.Windows
         private MagicCirclePageEditor _magicCirclePageEditor;
         private GuildBuildingPageEditor _guildBuildingPageEditor;
         private MineSettingsPageEditor _mineSettingsPageEditor;
+        private SanctuaryPageEditor _sanctuaryPageEditor;
+        private ArenaPageEditor _arenaPageEditor;
         private OdinMenuTree _tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
@@ -139,6 +143,8 @@ namespace Editor.Windows
             _tree.Add("City/Mines/Main Editor", _minePageEditor);
             _tree.Add("City/Mines/restrictions", _mineRestrictionPageEditor);
             _tree.Add("City/Mines/Mines Settings", _mineSettingsPageEditor);
+            _tree.Add("City/Sanctuary", _sanctuaryPageEditor);
+            _tree.Add("City/Arena", _arenaPageEditor);
             _tree.Add("City/Travel/Main Editor", _travelRaceCircleEditor);
             _tree.Add("City/FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
             _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
@@ -268,6 +274,12 @@ namespace Editor.Windows
 
             _mineSettingsPageEditor = new MineSettingsPageEditor(_dictionaries);
             _allPages.Add(_mineSettingsPageEditor);
+            
+            _sanctuaryPageEditor = new SanctuaryPageEditor(_dictionaries);
+            _allPages.Add(_sanctuaryPageEditor);
+            
+            _arenaPageEditor = new ArenaPageEditor(_dictionaries);
+            _allPages.Add(_arenaPageEditor);
         }
 
         private void OnValueSaved()

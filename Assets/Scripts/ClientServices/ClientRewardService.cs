@@ -22,6 +22,11 @@ namespace ClientServices
 
         public void ShowReward(GameReward reward, RewardType rewardType = RewardType.Simple, bool fast = true)
         {
+            if (reward == null)
+            {
+                throw new ArgumentNullException(nameof(reward));
+            }
+
             if (rewardType == RewardType.Simple && reward.Objects.Count == 0)
                 return;
 

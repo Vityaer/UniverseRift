@@ -23,9 +23,8 @@ namespace Utils
                 CultureInfo.InvariantCulture
                 );
             }
-            catch
+            finally
             {
-                result = DateTime.Parse(timeString);
             }
 
             return result;

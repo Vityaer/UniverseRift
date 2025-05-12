@@ -22,6 +22,7 @@ using Models.Arenas;
 using Models.Fights.Campaign;
 using Models.Guilds;
 using Network.DataServer.Messages.Teams;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using Utils;
@@ -29,7 +30,7 @@ using VContainer;
 
 namespace City.Buildings.Guild.BossRaid
 {
-    public class GuildBossRaidPanelController : BuildingWithFight<GuildBossRaidPanelView>
+    public class GuildBossRaidPanelController : PanelWithFight<GuildBossRaidPanelView>
     {
         private const int BOSS_FREE_RAID_COUNT = 2;
         private const int BOSS_RAID_REFRESH_HOURS = 16;
@@ -37,7 +38,6 @@ namespace City.Buildings.Guild.BossRaid
 
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly IObjectResolver _diContainer;
         [Inject] private readonly WarTableController _warTableController;
 
@@ -51,10 +51,9 @@ namespace City.Buildings.Guild.BossRaid
         private Dictionary<int, RecruitProgressView> _recruitsView = new();
         private GuildData _guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
 
-        protected override void OnStart()
+        public override void Start()
         {
             View.BossRaidButton.OnClick.Subscribe(_ => OpenRaidMission()).AddTo(Disposables);
-            // View.DeffendersButton.OnClickAsObservable().Subscribe(_ => OpenDeffenders()).AddTo(Disposables);
             base.Start();
         }
 
@@ -70,11 +69,6 @@ namespace City.Buildings.Guild.BossRaid
             }
 
             base.OnLoadGame();
-        }
-
-        private void OpenDeffenders()
-        {
-            _warTableController.OpenTeamComposition(_teamContainer, team =>  SetDefenders(team).Forget());
         }
 
         private void OpenRaidMission()
@@ -104,7 +98,7 @@ namespace City.Buildings.Guild.BossRaid
             m_raidDisposables.Dispose();
             m_raidDisposables = new CompositeDisposable();
             m_createDamageSum = 0f;
-            var container = _commonDictionaries.GuildBossContainers["MainBosses"];
+            var container = CommonDictionaries.GuildBossContainers["MainBosses"];
             
             for (var i = 0; i < FightController.GetRightTeam.Count; i++)
             {
@@ -171,15 +165,12 @@ namespace City.Buildings.Guild.BossRaid
             if (_guildData == null)
                 return;
 
-            //View.GuildName.text = _guildData.Name;
-            //View.GuildLevel.text = $"Level {_guildData.Level}";
-            //View.GuildId.text = $"ID: {_guildData.Id}";
             View.BossLevel.text = $"{_guildData.CurrentBoss + 1}";
 
-            var container = _commonDictionaries.GuildBossContainers["MainBosses"];
+            var container = CommonDictionaries.GuildBossContainers["MainBosses"];
             m_currentBossMission = container.Missions[_guildData.CurrentBoss].Clone();
             var bossData = m_currentBossMission.BossModels[0];
-            var bossModel = _commonDictionaries.Heroes[bossData.HeroId];
+            var bossModel = CommonDictionaries.Heroes[bossData.HeroId];
             var bossHeroData = new HeroData { Level = bossData.Level, Rating = bossData.Rating };
             var gameBoss = new GameHero(bossModel, bossHeroData);
             View.BossImage.sprite = gameBoss.Avatar;
@@ -194,8 +185,6 @@ namespace City.Buildings.Guild.BossRaid
             View.BossHealthSlider.value = currentProgress;
             View.BossRaidButton.SetCost(GetCostRaid());
 
-            View.BossRaidButton.gameObject.SetActive(_teamContainer.Heroes.Count != 0);
-            
             var myRecruitData = GetMyRecruitData();
             if (myRecruitData != null && myRecruitData.CountRaidBoss > 0)
             {
@@ -295,13 +284,12 @@ namespace City.Buildings.Guild.BossRaid
                     .Find(recruit => recruit.PlayerId == CommonGameData.PlayerInfoData.Id);
             }
 
-            Debug.Log($"_myRecruitData: {_myRecruitData != null} count: {CommonGameData.City.GuildPlayerSaveContainer.GuildRecruits.Count}");
             return _myRecruitData;
         }
 
         public override void Dispose()
         {
-            m_raidDisposables.Dispose();
+            m_raidDisposables?.Dispose();
             base.Dispose();
         }
     }

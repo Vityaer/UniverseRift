@@ -25,11 +25,14 @@ namespace Assets.Scripts.Installers
         [SerializeField] private GridView _gridView;
         [SerializeField] private FightDirectionView _fightDirectionView;
 
+        [SerializeField] private int _canvasRenderOrder;
+        
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
             canvas.name = nameof(FightInstaller);
-
+            canvas.sortingOrder = _canvasRenderOrder;
+            
             var rootGrid = new GameObject("GridRoot");
             builder.RegisterUiView<GridController, GridView>(_gridView, rootGrid.transform);
 

@@ -25,7 +25,6 @@ namespace UIController.ControllerPanels.AlchemyPanels
         [Inject] private readonly TimeLocalizeService _timeLocalizeService;
 
         private DateTime _lastGetAlchemyDateTime;
-        private IDisposable _timeSliderDisposable;
 
         public ReactiveCommand OnGetAchemyGold = new();
 
@@ -33,7 +32,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
         {
             View.AlchemyButton.OnClickAsObservable().Subscribe(_ => GetAlchemyGold().Forget()).AddTo(Disposables);
             View.SliderTimeAlchemy.Init(_localizationSystem, _timeLocalizeService);
-            _timeSliderDisposable = View.SliderTimeAlchemy.OnTimerFinish.Subscribe(_ => FinishAlchemySlider());
+            View.SliderTimeAlchemy.OnTimerFinish.Subscribe(_ => FinishAlchemySlider()).AddTo(Disposables);
         }
 
         protected override void OnLoadGame()
@@ -85,12 +84,6 @@ namespace UIController.ControllerPanels.AlchemyPanels
             }
 
             CheckAlchemyButton();
-        }
-
-        public override void Dispose()
-        {
-            _timeSliderDisposable?.Dispose();
-            base.Dispose();
         }
     }
 }
