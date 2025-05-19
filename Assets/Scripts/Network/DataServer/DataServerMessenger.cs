@@ -15,6 +15,7 @@ namespace Network.DataServer
         {
             var url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
             UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
+            request.SetRequestHeader("TestHeader", "TestHeaderValue");
             var asyncRequest = await request.SendWebRequest();
             var answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
 

@@ -13,7 +13,6 @@ namespace Fight.HeroControllers.Generals
     {
         [Inject] private FightDirectionController _directionController;
 
-
         [SerializeField] private Transform _bodyParent;
 
         [SerializeField] private List<HeroVisualModel> _stages = new(); 
