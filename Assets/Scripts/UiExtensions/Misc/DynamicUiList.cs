@@ -30,9 +30,12 @@ namespace UiExtensions.Misc
         public void ShowDatas(List<V> datas)
         {
             ClearList();
-            foreach (var data in datas)
+            for (var i = 0; i < datas.Count; i++)
             {
-                AddElement(data);
+                var view = _pool.Get();
+                view.SetData(datas[i], _scrollRect);
+                view.transform.SetSiblingIndex(i);
+                _views.Add(view);
             }
         }
 

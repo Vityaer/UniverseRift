@@ -137,7 +137,6 @@ namespace City.Buildings.Friends
 
             if (!string.IsNullOrEmpty(result))
             {
-                Debug.Log(result);
                 var heartsContainer = m_jsonConverter.Deserialize<HeartsContainer>(result);
 
                 ShowSendedHearts(heartsContainer.SendedHeartIds);
