@@ -1,12 +1,12 @@
 ﻿using City.Buildings.Abstractions;
 using City.Buildings.Market;
-using UnityEngine;
+using UnityEngine.UI;
 
 namespace UIController.Misc.Widgets
 {
     public class BaseMarketView : BaseBuildingView
     {
-        public Transform Content;
+        public ScrollRect ScrollRect;
         public MarketProductController Prefab;
     }
 }

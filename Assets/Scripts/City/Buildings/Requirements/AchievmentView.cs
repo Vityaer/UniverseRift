@@ -1,12 +1,11 @@
-﻿using City.Achievements;
+﻿using System;
+using City.Achievements;
 using City.Panels.SubjectPanels.Common;
 using Cysharp.Threading.Tasks;
 using LocalizationSystems;
 using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.Achievments;
-using System;
-using TMPro;
 using UIController;
 using UIController.ItemVisual;
 using UiExtensions.Misc;
@@ -18,10 +17,10 @@ using VContainer;
 
 namespace City.Buildings.Requirement
 {
-    public class AchievmentView : ScrollableUiView<GameAchievment>, IDisposable
+    public class AchievmentView : ScrollableUiView<GameAchievment>
     {
-        [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
 
         [SerializeField] private ItemSliderController SliderAmount;
         [SerializeField] private RewardUIController RewardController;
@@ -29,13 +28,16 @@ namespace City.Buildings.Requirement
         [SerializeField] private LocalizeStringEvent Description;
         [SerializeField] private GameObject DonePanel;
 
-        private ReactiveCommand _observerOnChange = new();
-        private ReactiveCommand _observerComplete = new();
+        private ReactiveCommand<AchievmentView> m_onGetReward = new();
+        private ReactiveCommand m_observerOnChange = new();
+        private ReactiveCommand m_observerComplete = new();
+        private bool m_isExistNews = false;
 
-        public ReactiveCommand ObserverOnChange => _observerOnChange;
-        public ReactiveCommand ObserverComplete => _observerComplete;
-        public bool IsEmpty { get => Data == null; }
-        public bool IsComplete { get => !IsEmpty & Data.IsComplete; }
+        public IObservable<AchievmentView> OnGetReward => m_onGetReward;
+        public ReactiveCommand ObserverOnChange => m_observerOnChange;
+        public ReactiveCommand ObserverComplete => m_observerComplete;
+        public bool IsComplete => Data != null & Data.IsComplete;
+        public Button GetButton => Button;
 
         protected override void Start()
         {
@@ -46,24 +48,33 @@ namespace City.Buildings.Requirement
         {
             Data = data;
             Scroll = scroll;
-            Name.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
+            Name.StringReference = m_localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
             //Description.StringReference = _localizationSystem.GetLocalizedContainer($"{Data.ModelId}Description");
+            RewardController.SetScroll(scroll);
             UpdateUI();
             Data.OnChangeData.Subscribe(_ => UpdateUI()).AddTo(Disposable);
         }
 
         public async UniTaskVoid GetReward()
         {
-            var message = new AchievmentGetRewardMessage { PlayerId = _commonGameData.PlayerInfoData.Id, AchievmentId = Data.Id };
+            var message = new AchievmentGetRewardMessage
+                { PlayerId = m_commonGameData.PlayerInfoData.Id, AchievmentId = Data.Id };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                Data.GiveReward();
+                GiveReward();
+                m_onGetReward.Execute(this);
                 Data.NextStage();
-                _observerOnChange.Execute();
+                m_observerOnChange.Execute();
                 UpdateUI();
             }
+        }
+
+        protected virtual void GiveReward()
+        {
+            m_isExistNews = false;
+            Data.ShowAndGiveReward();
         }
 
         public void UpdateUI()
@@ -73,6 +84,12 @@ namespace City.Buildings.Requirement
 
             if (Data.CurrentStage < Data.CountStage)
             {
+                if (!m_isExistNews)
+                {
+                    m_isExistNews = true;
+                    m_observerComplete.Execute();
+                }
+
                 Button.interactable = Data.CheckCount();
                 SliderAmount.SetAmount(Data.Progress, Data.GetRequireCount());
                 Button.gameObject.SetActive(true);
@@ -80,10 +97,16 @@ namespace City.Buildings.Requirement
             }
             else
             {
+                m_isExistNews = false;
                 DonePanel.SetActive(true);
                 Button.gameObject.SetActive(false);
                 SliderAmount.Hide();
             }
+        }
+
+        public bool CheckDoneForReward()
+        {
+            return Data.CheckCount();
         }
 
         public void SetReward(SubjectDetailController subjectDetailController)

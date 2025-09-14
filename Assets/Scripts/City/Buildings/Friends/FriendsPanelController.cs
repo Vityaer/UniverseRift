@@ -1,17 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using City.Buildings.Friends.FriendViews;
 using City.Buildings.Friends.Panels.AvailableFriends;
 using City.Buildings.Friends.Panels.FriendRequests;
 using City.Panels.PlayerInfoPanels;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
-using Models.Common;
-using Models.Data.Players;
 using Models.Misc;
 using Models.Misc.Communications;
 using Network.DataServer;
 using Network.DataServer.Messages.Friendships;
-using System;
-using System.Collections.Generic;
 using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
@@ -24,57 +23,79 @@ namespace City.Buildings.Friends
 {
     public class FriendsPanelController : UiPanelController<FriendsPanelView>
     {
-        [Inject] private readonly FriendRequestsPanelController _friendRequestsPanelController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly PlayerMiniInfoPanelController _playerMiniInfoPanelController;
+        [Inject] private readonly FriendRequestsPanelController m_friendRequestsPanelController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly PlayerMiniInfoPanelController m_playerMiniInfoPanelController;
 
-        private DynamicUiList<FriendView, FriendshipData> _friendsWrapper;
-        private ReactiveCommand<int> _onSendHearts = new();
-        private ReactiveCommand<int> _onReceiveHearts = new();
+        private DynamicUiList<FriendView, FriendshipData> m_friendsWrapper;
+        private readonly ReactiveCommand<int> m_onSendHearts = new();
+        private readonly ReactiveCommand<int> m_onReceiveHearts = new();
 
-        public IObservable<int> OnSendHearts => _onSendHearts;
-        public IObservable<int> OnReceiveHearts => _onReceiveHearts;
+        public IObservable<int> OnSendHearts => m_onSendHearts;
+        public IObservable<int> OnReceiveHearts => m_onReceiveHearts;
 
         public override void Start()
         {
-            _friendRequestsPanelController.OnAgreeRequestFriendship.Subscribe(CreateFriend).AddTo(Disposables);
+            m_friendRequestsPanelController.OnAgreeRequestFriendship.Subscribe(CreateFriend).AddTo(Disposables);
 
-            _friendsWrapper = new(View.FriendPrefab, View.Content, View.Scroll, OnSelectFriend);
-            View.OpenListFriendshipRequestsButton.OnClickAsObservable().Subscribe(_ => OpenFriendshipRequestPanel()).AddTo(Disposables);
-            View.OpenListAvailablePlayerAsFriendsButton.OnClickAsObservable().Subscribe(_ => OpenAvailablePlayers()).AddTo(Disposables);
-            View.SendAndReceiveFriendHeartsButton.OnClickAsObservable().Subscribe(_ => SendAndReceiveFriendHearts().Forget()).AddTo(Disposables);
+            m_friendsWrapper = new(View.FriendPrefab, View.Content, View.Scroll, OnSelectFriend);
+            View.OpenListFriendshipRequestsButton.OnClickAsObservable().Subscribe(_ => OpenFriendshipRequestPanel())
+                .AddTo(Disposables);
+            View.OpenListAvailablePlayerAsFriendsButton.OnClickAsObservable().Subscribe(_ => OpenAvailablePlayers())
+                .AddTo(Disposables);
+            View.SendAndReceiveFriendHeartsButton.OnClickAsObservable()
+                .Subscribe(_ => SendAndReceiveFriendHearts().Forget()).AddTo(Disposables);
             base.Start();
         }
 
         protected override void OnLoadGame()
         {
-            _friendsWrapper.ShowDatas(CommonGameData.CommunicationData.FriendshipDatas);
+            m_friendsWrapper.ShowDatas(CommonGameData.CommunicationData.FriendshipDatas);
 
-            foreach (var view in _friendsWrapper.Views)
+            foreach (var view in m_friendsWrapper.Views)
             {
                 var data = view.GetData;
                 var friendId =
                     data.FirstPlayerId == CommonGameData.PlayerInfoData.Id
-                    ?
-                    data.SecondPlayerId
-                    :
-                    data.FirstPlayerId;
+                        ? data.SecondPlayerId
+                        : data.FirstPlayerId;
 
-                view.SetData(CommonGameData.PlayerInfoData.Id, CommonGameData.CommunicationData.PlayersData[friendId]);
+                view.SetData(CommonGameData.PlayerInfoData.Id,
+                    CommonGameData.CommunicationData.PlayersData[friendId]);
             }
 
-            View.FriendshipRequestNews.enabled = CommonGameData.CommunicationData.FriendshipRequests.Count > 0;
+            CheckNews();
             base.OnLoadGame();
+        }
+
+        private void CheckNews()
+        {
+            var newsExist = CommonGameData.CommunicationData.FriendshipRequests.Count > 0
+                            || CheckNotReceivedHeartsExist();
+            View.FriendshipRequestNews.enabled = newsExist;
+            OnNewsStatusChangeInternal.Execute(newsExist);
+        }
+
+        private bool CheckNotReceivedHeartsExist()
+        {
+            return CommonGameData.CommunicationData.FriendshipDatas.Any(data =>
+                (data.FirstPlayerId == CommonGameData.PlayerInfoData.Id && data.PresentForFirstPlayer ! &&
+                 data.FirstPlayerRecieved)
+                || (data.SecondPlayerId == CommonGameData.PlayerInfoData.Id && data.PresentForSecondPlayer ! &&
+                    data.SecondPlayerRecieved)
+            );
         }
 
         private void OpenAvailablePlayers()
         {
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<AvailableFriendsPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<AvailableFriendsPanelController>(
+                openType: OpenType.Additive);
         }
 
         private void OpenFriendshipRequestPanel()
         {
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<FriendRequestsPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher
+                .OpenWindow<FriendRequestsPanelController>(openType: OpenType.Additive);
         }
 
         private void CreateFriend(FriendshipRequest request)
@@ -89,24 +110,20 @@ namespace City.Buildings.Friends
             };
 
             CommonGameData.CommunicationData.FriendshipDatas.Add(friendship);
-            var view = _friendsWrapper.AddElement(friendship);
-            view.SetData(CommonGameData.PlayerInfoData.Id, CommonGameData.CommunicationData.PlayersData[request.SenderPlayerId]);
+            var view = m_friendsWrapper.AddElement(friendship);
+            view.SetData(CommonGameData.PlayerInfoData.Id,
+                CommonGameData.CommunicationData.PlayersData[request.SenderPlayerId]);
         }
 
         private void OnSelectFriend(FriendView friendView)
         {
             var friendshipData = friendView.GetData;
 
-            PlayerData playerData = null;
-            if (CommonGameData.PlayerInfoData.Id.Equals(friendshipData.FirstPlayerId))
-            {
-                playerData = CommonGameData.CommunicationData.PlayersData[friendshipData.SecondPlayerId];
-            }
-            else
-            {
-                playerData = CommonGameData.CommunicationData.PlayersData[friendshipData.FirstPlayerId];
-            }
-            _playerMiniInfoPanelController.ShowPlayerData(playerData);
+            var playerData = CommonGameData.PlayerInfoData.Id.Equals(friendshipData.FirstPlayerId)
+                ? CommonGameData.CommunicationData.PlayersData[friendshipData.SecondPlayerId]
+                : CommonGameData.CommunicationData.PlayersData[friendshipData.FirstPlayerId];
+
+            m_playerMiniInfoPanelController.ShowPlayerData(playerData);
         }
 
         private async UniTaskVoid SendAndReceiveFriendHearts()
@@ -121,20 +138,21 @@ namespace City.Buildings.Friends
             if (!string.IsNullOrEmpty(result))
             {
                 Debug.Log(result);
-                var heartsContainer = _jsonConverter.Deserialize<HeartsContainer>(result);
+                var heartsContainer = m_jsonConverter.Deserialize<HeartsContainer>(result);
 
                 ShowSendedHearts(heartsContainer.SendedHeartIds);
                 ShowReceivedHearts(heartsContainer.ReceivedHeartIds);
+                CheckNews();
             }
         }
 
         private void ShowSendedHearts(List<int> sendedFriendIds)
         {
-            Debug.Log($"send heart count: {sendedFriendIds.Count}");
-            _onSendHearts.Execute(sendedFriendIds.Count);
+            m_onSendHearts.Execute(sendedFriendIds.Count);
             foreach (var id in sendedFriendIds)
             {
-                var view = _friendsWrapper.Views.Find(x => x.GetData.FirstPlayerId == id || x.GetData.SecondPlayerId == id);
+                var view = m_friendsWrapper.Views.Find(x =>
+                    x.GetData.FirstPlayerId == id || x.GetData.SecondPlayerId == id);
                 if (view == null)
                     continue;
 
@@ -144,11 +162,11 @@ namespace City.Buildings.Friends
 
         private void ShowReceivedHearts(List<int> receivedHeartIds)
         {
-            Debug.Log($"receive heart count: {receivedHeartIds.Count}");
-            _onReceiveHearts.Execute(receivedHeartIds.Count);
+            m_onReceiveHearts.Execute(receivedHeartIds.Count);
             foreach (var id in receivedHeartIds)
             {
-                var view = _friendsWrapper.Views.Find(x => x.GetData.FirstPlayerId == id || x.GetData.SecondPlayerId == id);
+                var view = m_friendsWrapper.Views.Find(x =>
+                    x.GetData.FirstPlayerId == id || x.GetData.SecondPlayerId == id);
                 if (view == null)
                     continue;
 

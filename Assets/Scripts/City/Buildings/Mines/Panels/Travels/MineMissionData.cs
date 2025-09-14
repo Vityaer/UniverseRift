@@ -9,7 +9,6 @@ namespace City.Buildings.Mines.Panels.Travels
         public string StorageMissionContainerId { get; set; }
         public string MissionId { get; set; } = string.Empty;
         public string UnitsStateJSON { get; set; } = string.Empty;
-        public string DateTimeCreate { get; set; } = string.Empty;
         public bool IsComplete { get; set; }
     }
 }

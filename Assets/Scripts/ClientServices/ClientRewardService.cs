@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using City.Panels.Rewards;
+using City.Panels.ScreenBlockers;
 using Common.Resourses;
 using Common.Rewards;
 using Db.CommonDictionaries;
@@ -17,6 +18,7 @@ namespace ClientServices
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly RewardPanelController _rewardPanelController;
 
+        
         private IDisposable _disposable;
         public ReactiveCommand OnGetReward = new ReactiveCommand();
 

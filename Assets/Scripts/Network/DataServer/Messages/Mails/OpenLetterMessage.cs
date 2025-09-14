@@ -5,8 +5,7 @@ namespace Network.DataServer.Messages.Mails
     public class OpenLetterMessage : INetworkMessage
     {
         public int PlayerId;
-        public int GuildId;
-        public int RequestId;
+        public int LetterId;
 
         public string Route => "Mail/OpenLetter";
 
@@ -16,8 +15,7 @@ namespace Network.DataServer.Messages.Mails
             {
                 var form = new WWWForm();
                 form.AddField("PlayerId", PlayerId);
-                form.AddField("GuildId", GuildId);
-                form.AddField("RequestId", RequestId);
+                form.AddField("LetterId", LetterId);
                 return form;
             }
         }

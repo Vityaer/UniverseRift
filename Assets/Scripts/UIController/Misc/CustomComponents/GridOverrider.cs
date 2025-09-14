@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace UIController.Misc.CustomComponents
         private float MIN_HORIZONTAL_SPACING = 0f;
         [SerializeField] private List<GridLayoutGroup> _grids = new();
 
+        [SerializeField] private bool _isRecalculateVerticalSpacing;
         private void Start()
         {
             RecalculateGridSize();
@@ -19,7 +21,6 @@ namespace UIController.Misc.CustomComponents
         //[Button("RecalculateGridSpacing")]
         public void RecalculateGridSpacing()
         {
-            Debug.Log($"Screen.width: {Screen.width}");
             foreach (var grid in _grids)
             {
                 var calcScreenWidth = Screen.width / transform.root.localScale.x;
@@ -67,6 +68,21 @@ namespace UIController.Misc.CustomComponents
                 var scale =  newCellSizeWidth / cellSize.x;
 
                 cellSize *= scale;
+
+                if (_isRecalculateVerticalSpacing)
+                {
+                    int countRow = Mathf.Max(0, rectComponent.childCount - 1) / grid.constraintCount + 1;
+                
+                    float calcHeight = countRow * cellSize.y + (countRow - 1) * grid.spacing.y;
+                    float totalHeight = rectComponent.rect.height;
+                    if (calcHeight > totalHeight)
+                    {
+                        float delta = calcHeight - totalHeight;
+                        float rowSpacingChangeDelta = delta / countRow;
+                        grid.spacing = new Vector2(grid.spacing.x, grid.spacing.y - rowSpacingChangeDelta);
+                    }
+                }
+
                 grid.cellSize = cellSize;
                 rectComponent.Reset();
             }

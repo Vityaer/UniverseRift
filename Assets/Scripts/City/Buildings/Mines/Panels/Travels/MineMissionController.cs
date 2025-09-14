@@ -1,11 +1,11 @@
 ﻿using AssetKits.ParticleImage;
 using Models.Fights.Campaign;
 using System;
-using System.Globalization;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace City.Buildings.Mines.Panels.Travels
 {
@@ -35,7 +35,8 @@ namespace City.Buildings.Mines.Panels.Travels
         public void SetData(
             MineMissionData mineMissionData,
             MissionModel missionModel,
-            StatusMission statusMission
+            StatusMission statusMission,
+            string dateTimeCreate
             )
         {
             _status = statusMission;
@@ -43,20 +44,7 @@ namespace City.Buildings.Mines.Panels.Travels
             _missionModel = missionModel;
             if (_status != StatusMission.NotOpen)
             {
-                DateTime startDateTime;
-                try
-                {
-                    startDateTime = DateTime.ParseExact(
-                    mineMissionData.DateTimeCreate,
-                    Constants.Common.DateTimeFormat,
-                    CultureInfo.InvariantCulture
-                    );
-                }
-                catch
-                {
-                    startDateTime = DateTime.Parse(mineMissionData.DateTimeCreate);
-                }
-
+                DateTime startDateTime = TimeUtils.ParseTime(dateTimeCreate);
                 var dateTimeRefresh = startDateTime.AddHours(Constants.Game.MINE_MISSION_REFRESH_HOURS);
                 var deltaTime = dateTimeRefresh - DateTime.UtcNow;
                 _missionLabel.text = $"{deltaTime.Hours}h. {deltaTime.Minutes}m.";
@@ -84,12 +72,15 @@ namespace City.Buildings.Mines.Panels.Travels
                     _completePanel.SetActive(false);
                     _particle.Stop();
                     _missionLabel.text = string.Empty;
+                    gameObject.SetActive(false);
                     break;
                 case StatusMission.Open:
                     _particle.Play();
+                    gameObject.SetActive(true);
                     break;
                 case StatusMission.Complete:
                     _completePanel.SetActive(true);
+                    gameObject.SetActive(true);
                     _particle.Stop();
                     break;
             }

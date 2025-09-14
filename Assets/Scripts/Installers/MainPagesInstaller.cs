@@ -8,6 +8,7 @@ using MainPages.MenuButtons;
 using MainPages.MenuHud;
 using MainPages.SecondCity;
 using System.Collections.Generic;
+using MainPages.City.CityUi;
 using Ui.MainMenu;
 using Ui.MainMenu.MenuButtons;
 using UIController;

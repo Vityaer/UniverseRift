@@ -1,5 +1,6 @@
 ﻿using City.Buildings.CityButtons.EventAgent;
 using System;
+using LocalizationSystems;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ using VContainerUi.Abstraction;
 
 namespace UiExtensions.Misc
 {
-    public abstract class ScrollableUiView<T> : UiView, IBeginDragHandler, IDragHandler, IEndDragHandler, IDisposable
+    public abstract class ScrollableUiView<T> : UiView, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField] protected Button Button;
 
@@ -17,6 +18,8 @@ namespace UiExtensions.Misc
         protected CompositeDisposable Disposable = new();
         protected ReactiveCommand<ScrollableUiView<T>> _onSelect = new ReactiveCommand<ScrollableUiView<T>>();
 
+        protected ILocalizationSystem _localizationSystem;
+        
         public IObservable<ScrollableUiView<T>> OnSelect => _onSelect;
         public T GetData => Data;
 
@@ -29,6 +32,11 @@ namespace UiExtensions.Misc
         {
             Data = data;
             Scroll = scrollRect;
+        }
+
+        public void SetLocalizationSystem(ILocalizationSystem localizationSystem)
+        {
+            _localizationSystem = localizationSystem;
         }
 
         public void OnBeginDrag(PointerEventData eventData)

@@ -9,6 +9,7 @@ using City.Buildings.Friends.Panels.AvailableFriends;
 using City.Buildings.Friends.Panels.FriendRequests;
 using City.Buildings.Guild.AvailableGuildsPanels;
 using City.Buildings.Guild.BossRaid;
+using City.Buildings.Guild.BossRaidRewardPanels;
 using City.Buildings.Guild.GuildAdministrations;
 using City.Buildings.Guild.GuildDonatePanels;
 using City.Buildings.Guild.GuildMarket;
@@ -28,6 +29,7 @@ using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
 using City.Buildings.Requirement;
 using City.Buildings.Voyage;
 using City.Buildings.Voyage.Panels;
+using City.Panels.Achievments;
 using City.Panels.Arenas;
 using City.Panels.Arenas.RatingArenas;
 using City.Panels.Arenas.SimpleArenas;
@@ -41,6 +43,7 @@ using City.Panels.CreatorMessagePanels;
 using City.Panels.DailyRewards;
 using City.Panels.DailyTasks;
 using City.Panels.Events.FortuneCycles;
+using City.Panels.Events.HeroSpaceMarkets;
 using City.Panels.Events.RaceCircleCycles;
 using City.Panels.Events.SweetCycles;
 using City.Panels.Events.TavernCycleMainPanels;
@@ -61,10 +64,12 @@ using City.Panels.RatingUps;
 using City.Panels.RatingUps.EvolutionResultPanels;
 using City.Panels.Registrations;
 using City.Panels.Rewards;
+using City.Panels.ScreenBlockers;
 using City.Panels.SubjectPanels;
 using City.Panels.SubjectPanels.Common;
 using City.Panels.SubjectPanels.Resources;
 using City.Panels.SubjectPanels.Splinters;
+using City.Panels.WhereGetSubjectPanels;
 using City.TrainCamp;
 using City.TrainCamp.HeroPanels;
 using City.TrainCamp.HeroPanels.HeroDetails;
@@ -82,6 +87,7 @@ using UIController.Inventory;
 using UIController.LoadingUI;
 using UIController.SkillPanels;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Extensions;
 using VContainerUi;
@@ -156,6 +162,7 @@ namespace Installers
         [SerializeField] private RecruitRequestPanelView _recruitRequestPanelView;
         [SerializeField] private GuildMarketView _guildMarketView;
         [SerializeField] private GuildRecruitDetailPanelView _guildRecruitDetailPanelView;
+        [SerializeField] private BossRaidRewardPanelView _bossRaidRewardPanelView;
         
         [Header("General")]
         
@@ -184,7 +191,10 @@ namespace Installers
         [SerializeField] private PlayerMiniInfoPanelView _playerMiniInfoPanelView;
         [SerializeField] private SettingsPanelView _settingsPanelView;
         [SerializeField] private HelpPanelView _helpPanelView;
-
+        [SerializeField] private ScreenBlockerView _ScreenBlockerView;
+        [SerializeField] private HeroMarketView _heroMarketView;
+        [SerializeField] private WhereGetSubjectPanelView _whereGetSubjectPanelView;
+        
         public override void Install(IContainerBuilder builder)
         {
             var canvas = Instantiate(_canvas);
@@ -213,7 +223,7 @@ namespace Installers
             builder.RegisterUiView<AutoFightRewardPanelController, AutoFightRewardPanelView>(_autoFightRewardPanelView, canvas.transform);
             builder.RegisterUiView<FriendsPanelController, FriendsPanelView>(_friendsView, canvas.transform);
             builder.RegisterUiView<GoldHeapController, GoldHeapView>(_goldHeapView, canvas.transform);
-            builder.RegisterUiView<InventoryController, InventoryView>(_inventoryView, canvas.transform);
+            builder.RegisterUiView<InventoryPanelController, InventoryView>(_inventoryView, canvas.transform);
             builder.RegisterUiView<RewardPanelController, RewardPanelView>(_rewardPanelView, canvas.transform);
             
             builder.RegisterUiView<InfoMinePanelController, InfoMinePanelView>(_infoMinePanelView, canvas.transform);
@@ -233,6 +243,7 @@ namespace Installers
             builder.RegisterUiView<RecruitRequestPanelController, RecruitRequestPanelView>(_recruitRequestPanelView, canvas.transform);
             builder.RegisterUiView<GuildMarketController, GuildMarketView>(_guildMarketView, canvas.transform);
             builder.RegisterUiView<GuildRecruitDetailPanelController, GuildRecruitDetailPanelView>(_guildRecruitDetailPanelView, canvas.transform);
+            builder.RegisterUiView<BossRaidRewardPanelController, BossRaidRewardPanelView>(_bossRaidRewardPanelView, canvas.transform);
             
             builder.RegisterUiView<BattlepasPanelController, BattlepasPanelView>(_battlepasPanelView, canvas.transform);
             
@@ -262,6 +273,8 @@ namespace Installers
             builder.RegisterUiView<FortuneCycleMainPanelController, FortuneCycleMainPanelView>(_fortuneCycleMainPanelView, canvas.transform);
             builder.RegisterUiView<SweetCycleMainPanelController, SweetCycleMainPanelView>(_sweetCycleMainPanelView, canvas.transform);
             builder.RegisterUiView<RaceCicrleCycleMainPanelController, RaceCicrleCycleMainPanelView>(_raceCicrleCycleMainPanelView, canvas.transform);
+           
+            builder.RegisterUiView<HeroMarketController, HeroMarketView>(_heroMarketView, canvas.transform);
             
             builder.RegisterUiView<AlchemyPanelController, AlchemyPanelView>(_alchemyPanelView, canvas.transform);
 
@@ -276,6 +289,9 @@ namespace Installers
             builder.RegisterUiView<HelpPanelController, HelpPanelView>(_helpPanelView, canvas.transform);
 
             builder.Register<SubjectDetailController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.RegisterUiView<WhereGetSubjectPanelController, WhereGetSubjectPanelView>(_whereGetSubjectPanelView, canvas.transform);
+            
+            builder.RegisterUiView<ScreenBlockerController, ScreenBlockerView>(_ScreenBlockerView, canvas.transform, false);
         }
     }
 }

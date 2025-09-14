@@ -15,6 +15,7 @@ using City.Buildings.Voyage;
 using City.Buildings.WheelFortune;
 using UiExtensions.MainPages;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -34,6 +35,7 @@ namespace MainPages.City
 
         public new void Initialize()
         {
+            View.BackgroundCanvas.worldCamera = Camera.main;
             RegisterBuilding(_tavernController, View.Tavern);
             RegisterBuilding(_marketController, View.Market);
             RegisterBuilding(_forgeController, View.Forge);

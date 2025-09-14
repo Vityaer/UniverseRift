@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using UnityEngine;
 
 namespace Utils
 {
@@ -14,6 +15,7 @@ namespace Utils
 
         public static DateTime ParseTime(string timeString)
         {
+            // Debug.Log($"try parse time: {timeString}");
             DateTime result = DateTime.UtcNow;
             try
             {

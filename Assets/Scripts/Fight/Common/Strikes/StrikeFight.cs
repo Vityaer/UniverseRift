@@ -30,13 +30,17 @@ namespace Fight.Common.Strikes
             float result = 0f;
             result = baseAttack * (1 + bonusPercent / 100f);
             result += bonusNum;
+            int skillFactor = 0;
+            
             if (type == TypeStrike.Physical)
             {
-                int skillFactor = skillAttack - skillDefense;
-                if (skillFactor >= -19)
-                    result *= 1f + skillFactor * 0.05f;
+                skillFactor = Mathf.Max(-19, skillAttack - skillDefense);
             }
-            if (result < 0) Debug.Log("negative damage");
+            
+            result *= 1f + skillFactor * 0.05f;
+            if (result < 0) Debug.LogError("negative damage");
+            if(result < 1f) result = 1f;
+            
             return Mathf.Ceil(result);
         }
 

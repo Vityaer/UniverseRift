@@ -1,18 +1,8 @@
-using City.Achievements;
+using System.Linq;
+using City.Buildings.Requirement;
 using City.Panels.MonthTasks.Abstractions;
-using Common;
-using Db.CommonDictionaries;
-using Models.Achievments;
-using Models.Common;
-using Models.Data;
-using System.Collections.Generic;
-using UiExtensions.Scroll.Interfaces;
-using UniRx;
-using UnityEngine;
-using VContainer;
-using VContainer.Unity;
 
-namespace City.Buildings.Requirement
+namespace City.Panels.Achievments
 {
     public class AchievmentsPageController : BaseAchievmentPanelController<AchievmentsPanelView>
     {

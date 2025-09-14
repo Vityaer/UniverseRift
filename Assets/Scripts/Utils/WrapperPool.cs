@@ -11,6 +11,10 @@ namespace Utils
         protected T Prefab;
         protected Transform _parent;
 
+        private int _currentCountInWork = 0;
+        
+        public int CurrentCountInWork => _currentCountInWork;
+        
         public WrapperPool(T prefab, Action<T> actionOnCreate, Transform parent = null)
         {
             Pool = new ObjectPool<T>(Create, actionOnRelease: ActionOnRelease);
@@ -23,12 +27,14 @@ namespace Utils
         {
             var result = Pool.Get();
             result.gameObject.SetActive(true);
+            _currentCountInWork += 1;
             return result;
         }
 
         public virtual void Release(T obj)
         {
             obj.gameObject.SetActive(false);
+            _currentCountInWork -= 1;
             Pool.Release(obj);
         }
 

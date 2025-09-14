@@ -36,7 +36,7 @@ namespace Editor.Pages.Locations
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.BackgroundForMission);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.MissionBackground);
                 }
 
                 return _sprite;
@@ -45,7 +45,32 @@ namespace Editor.Pages.Locations
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.BackgroundForMission = path;
+                _model.MissionBackground = path;
+            }
+        }
+        
+        private GameObject _mapPrefab;
+
+        [ShowInInspector]
+        [HorizontalGroup("3")]
+        [LabelText("MapPrefabPath")]
+        [PreviewField(100, ObjectFieldAlignment.Left)]
+        public GameObject MapPrefabPath
+        {
+            get
+            {
+                if (_mapPrefab == null)
+                {
+                    _mapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(_model.MapPrefabPath);
+                }
+
+                return _mapPrefab;
+            }
+            set
+            {
+                _mapPrefab = value;
+                var path = AssetDatabase.GetAssetPath(_mapPrefab);
+                _model.MapPrefabPath = path;
             }
         }
     }

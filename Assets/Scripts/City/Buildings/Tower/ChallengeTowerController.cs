@@ -22,7 +22,7 @@ namespace City.Buildings.Tower
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly IObjectResolver _objectResolver;
 
-        private const int SHOW_MISSION_COUNT = 8;
+        private const int SHOW_MISSION_COUNT = 21;
         private const int SHOW_COMPLETED_MISSION_COUNT = 2;
         private const string NAME_RECORD_NUM_CURRENT_MISSION = "CurrentMission";
 
@@ -80,7 +80,8 @@ namespace City.Buildings.Tower
             for (int i = 0; i < _missionsUI.Count && i < workMission.Count; i++)
             {
                 _missionsUI[i].gameObject.SetActive(true);
-                _missionsUI[i].SetData(workMission[i], View.ScrollRect, _currentMissionIndex + i + 1, i == 0);
+                _missionsUI[i].SetData(workMission[i], View.ScrollRect, _currentMissionIndex + i + 1,
+                    i == 0);
                 index = i;
             }
 

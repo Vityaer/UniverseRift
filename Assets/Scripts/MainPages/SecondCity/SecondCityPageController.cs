@@ -6,6 +6,7 @@ using City.Buildings.Tower;
 using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using UiExtensions.MainPages;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -23,6 +24,7 @@ namespace MainPages.SecondCity
 
         public new void Initialize()
         {
+            View.BackgroundCanvas.worldCamera = Camera.main;
             RegisterBuilding(_challengeTowerController, View.TowerDeath);
             RegisterBuilding(_magicCircleController, View.MagicCircle);
             RegisterBuilding(_minesController, View.Mines);

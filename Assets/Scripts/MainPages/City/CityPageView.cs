@@ -7,6 +7,7 @@ namespace MainPages.City
 {
     public class CityPageView : MainPage
     {
+        public Canvas BackgroundCanvas;
         [field: SerializeField] public BuildingVisual Tavern { get; private set; }
         [field: SerializeField] public BuildingVisual Market { get; private set; }
         [field: SerializeField] public BuildingVisual Altar { get; private set; }

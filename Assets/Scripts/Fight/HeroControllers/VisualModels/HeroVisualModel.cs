@@ -3,10 +3,13 @@ using Fight.HeroControllers.Generals.Attacks;
 using Fight.HeroControllers.Generals.Movements;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Utils.Development;
 
 namespace Fight.HeroControllers.VisualModels
 {
-    public class HeroVisualModel : MonoBehaviour
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(OutlineController))]
+    public class HeroVisualModel : MonoBehaviour, ICreatable
     {
         [field: SerializeField] public AbstractAttack AttackController { get; private set; }
         [field: SerializeField] public Sprite Avatar { get; private set; }
@@ -27,6 +30,17 @@ namespace Fight.HeroControllers.VisualModels
         public void Deactivate()
         {
             gameObject.SetActive(false);
+        }
+
+        public void OnCreateComponent()
+        {
+#if UNITY_EDITOR
+            UnityEditor.Undo.RecordObject(this, "Get components");
+            Animator = GetComponent<Animator>();
+            OutlineController = GetComponent<OutlineController>();
+            AttackController = GetComponent<AbstractAttack>();
+            UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+#endif
         }
     }
 }

@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UIController.Rewards;
 
 namespace Models.Fights.Campaign
@@ -12,7 +13,10 @@ namespace Models.Fights.Campaign
         [NonSerialized] public CommonDictionaries Dictionaries;
 
         public string Name;
+        
+        [ValueDropdown(nameof(_allLocationName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string Location;
+        
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
         NumberOfItemsPerPage = 20,
         CustomRemoveElementFunction = nameof(RemoveHero), CustomAddFunction = nameof(AddHero))]
@@ -38,5 +42,13 @@ namespace Models.Fights.Campaign
             Units.Remove(light);
         }
 
+        private string[] _allLocationName
+        {
+            get
+            {
+                var result = Dictionaries.LocationModels.Values.Select(r => r.Id).ToArray();
+                return result;
+            }
+        }
     }
 }

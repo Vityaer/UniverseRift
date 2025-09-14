@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 33d583b520f7c984b852753d7f510838, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ac9c6cd4b237e848b2d6008bfad9f6a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -256,6 +256,8 @@ MonoBehaviour:
   AutoInjectObjects:
   - {fileID: 1238173410263020289}
   - {fileID: 1238173410588393219}
+  HelpButton: {fileID: 0}
+  HelpContainer: {fileID: 0}
   ButtonCloseBuilding: {fileID: 822103410760948463}
   <AlchemyButton>k__BackingField: {fileID: 1713180843406869649}
   SliderTimeAlchemy: {fileID: 3308234342074621702}
@@ -449,8 +451,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Alchemy
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
-  m_sharedMaterial: {fileID: 2830636965969884548, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -689,6 +691,10 @@ PrefabInstance:
       propertyPath: typeSlider
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1484263784007861000, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1484263784007861000, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
     - target: {fileID: 2331469236232716296, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
       propertyPath: m_Name
       value: TimerProgress
@@ -792,10 +798,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8087657024819024848, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8362273064159566664}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
 --- !u!224 &2192029710694002681 stripped
 RectTransform:
@@ -811,62 +814,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e40abf20843d8344a3aa9a831a43e0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &5281946802044063710 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8087657024819024848, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
-  m_PrefabInstance: {fileID: 4138842791354506254}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8362273064159566664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5281946802044063710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:719ee3c00273c3c4a99fb239ed484f2c
-    m_TableEntryReference:
-      m_KeyId: 88788004649914368
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7119540956854027322}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &7119540956854027322 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6610632588715235380, guid: b4c8cceb67b6ba141a9e869435796827, type: 3}
-  m_PrefabInstance: {fileID: 4138842791354506254}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5281946802044063710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6642935714212341221
@@ -1051,7 +998,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9127371335847324059, guid: 2a1a80dfe3a0dac4d857b500a8692691, type: 3}
       propertyPath: m_fontSize
-      value: 58.4
+      value: 36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

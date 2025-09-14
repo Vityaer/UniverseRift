@@ -101,8 +101,6 @@ namespace City.TrainCamp
 
         public void UpdateInfoAboutHero()
         {
-            View.imageHero.sprite = _currentHero.Avatar;
-
             View.NameHero.StringReference = _localizationSystem
                 .GetLocalizedContainer($"Hero{_currentHero.Model.General.HeroId}Name");
 

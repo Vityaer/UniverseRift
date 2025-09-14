@@ -40,6 +40,12 @@ namespace City.TrainCamp.HeroInstances
 
         public HeroController GetHero(string heroId)
         {
+            if (heroId == null)
+            {
+                Debug.LogError("Hero Id is null");
+                return null;
+            }
+
             if (_heroes.TryGetValue(heroId, out var result))
             {
                 return result;

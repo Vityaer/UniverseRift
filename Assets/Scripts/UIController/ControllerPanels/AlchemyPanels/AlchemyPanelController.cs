@@ -11,6 +11,7 @@ using Services.TimeLocalizeServices;
 using System;
 using System.Globalization;
 using UniRx;
+using Utils;
 using VContainer;
 
 namespace UIController.ControllerPanels.AlchemyPanels
@@ -37,19 +38,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
         protected override void OnLoadGame()
         {
-            try
-            {
-                _lastGetAlchemyDateTime = DateTime.ParseExact(
-                CommonGameData.CycleEventsData.LastGetAlchemyDateTime,
-                Constants.Common.DateTimeFormat,
-                CultureInfo.InvariantCulture
-                );
-            }
-            catch
-            {
-                _lastGetAlchemyDateTime = DateTime.Parse(CommonGameData.CycleEventsData.LastGetAlchemyDateTime);
-            }
-
+            _lastGetAlchemyDateTime = TimeUtils.ParseTime(CommonGameData.CycleEventsData.LastGetAlchemyDateTime);
             CheckAlchemyButton();
         }
 

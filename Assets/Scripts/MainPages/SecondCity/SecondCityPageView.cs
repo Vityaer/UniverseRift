@@ -7,6 +7,7 @@ namespace MainPages.SecondCity
 {
     public class SecondCityPageView : MainPage
     {
+        public Canvas BackgroundCanvas;
         [field: SerializeField] public BuildingVisual TowerDeath { get; private set; }
         [field: SerializeField] public BuildingVisual TravelCirle { get; private set; }
         [field: SerializeField] public BuildingVisual MagicCircle { get; private set; }

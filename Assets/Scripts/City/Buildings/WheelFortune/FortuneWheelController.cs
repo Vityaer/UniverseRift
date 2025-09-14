@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using City.Panels.ScreenBlockers;
 using UIController.Inventory;
 using UIController.Rewards;
 using UniRx;
@@ -32,11 +33,12 @@ namespace City.Buildings.WheelFortune
         private const int ONE_TIME = 1;
         private const int MANY_TIME = 10;
 
-        [Inject] private IJsonConverter _jsonConverter;
+        [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
-
+        [Inject] private readonly ScreenBlockerController _screenBlockerController;
+        
         private GameResource _oneRotate = new GameResource(ResourceType.CoinFortune, 1, 0);
         private GameResource _tenRotate = new GameResource(ResourceType.CoinFortune, 8, 0);
         private GameResource _refreshCost = new GameResource(ResourceType.Diamond, 0, 0);
@@ -102,7 +104,7 @@ namespace City.Buildings.WheelFortune
         {
             var rewards = CommonGameData.City.FortuneWheelData.Rewards;
             _data = CommonGameData.City.FortuneWheelData;
-            FillWheelFortune(rewards).Forget();
+            FillWheelFortune(rewards, false).Forget();
             base.OnLoadGame();
         }
 
@@ -120,8 +122,10 @@ namespace City.Buildings.WheelFortune
         
         public async UniTaskVoid PlaySimpleRoulette(GameResource cost, int count = 1)
         {
+            _screenBlockerController.Open();
             var message = new FortuneWheelRotate { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
+            _screenBlockerController.Close();
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -133,6 +137,7 @@ namespace City.Buildings.WheelFortune
                 StartRotateArrow(_fortuneRewardContainer.ResultItemIndex);
                 _onSimpleRotate.Execute(new BigDigit(count));
             }
+            
         }
 
         private async UniTaskVoid RefreshRewards()
@@ -146,12 +151,14 @@ namespace City.Buildings.WheelFortune
 
                 _resourceStorageController.SubtractResource(cost);
                 _data = _jsonConverter.Deserialize<FortuneWheelData>(result);
-                FillWheelFortune(_data.Rewards).Forget();
+                FillWheelFortune(_data.Rewards, true).Forget();
             }
         }
 
-        private async UniTask FillWheelFortune(List<FortuneRewardData> rewards)
+        private async UniTask FillWheelFortune(List<FortuneRewardData> rewards, bool blockScreen)
         {
+            if(blockScreen)
+                _screenBlockerController.Open();
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             
             View.RefreshWheelButton.Button.interactable = false;
@@ -178,11 +185,13 @@ namespace City.Buildings.WheelFortune
             var cost = _commonDictionaries.CostContainers["FortuneWheelRefresh"]
                 .GetCostForLevelUp(_data.RefreshCount);
 
-            Debug.Log($"_data.RefreshCount: {_data.RefreshCount}");
             View.RefreshWheelButton.SetCost(cost[0]);
+            if(blockScreen)
+                _screenBlockerController.Close();
         }
         private void StartRotateArrow(int rewardIndex)
         {
+            _screenBlockerController.Open();
             float targetTilt = -rewardIndex * 45;
             _sequence?.Kill();
 
@@ -223,6 +232,7 @@ namespace City.Buildings.WheelFortune
 
         private void ShowReward()
         {
+            _screenBlockerController.Close();
             _sequence.Kill();
             var rewardIndex = _fortuneRewardContainer.ResultItemIndex;
             _sequence = DOTween.Sequence()

@@ -50,7 +50,10 @@ namespace Altar
             View.MusterOutButton.OnClickAsObservable().Subscribe(_ => FiredHeroes().Forget()).AddTo(Disposables);
             View.AltarMarketButton.OnClickAsObservable().Subscribe(_ => OpenAltarMarket()).AddTo(Disposables);
             Resolver.Inject(View.CardsContainer);
-        }
+
+            View.MusterOutButton.interactable = false;
+
+		}
 
         protected override void OnLoadGame()
         {
@@ -107,13 +110,17 @@ namespace Altar
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedHeroCards.Add(selectedCard);
             selectedCard.Select();
-        }
+
+			View.MusterOutButton.interactable = _selectedHeroCards.Count > 0;
+		}
 
         private void UnselectHero(GameHero hero)
         {
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
             _selectedHeroCards.Remove(selectedCard);
             selectedCard.Unselect();
-        }
+
+			View.MusterOutButton.interactable = _selectedHeroCards.Count > 0;
+		}
     }
 }

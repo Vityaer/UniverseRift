@@ -1,29 +1,33 @@
-﻿using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.CityButtons;
+﻿using City.Buildings.CityButtons;
+using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Friends;
 using City.Buildings.Mails;
-using UnityEngine.UI;
+using City.Buildings.Requirement;
+using City.Panels.Achievments;
+using City.Panels.Chats.ServerChats;
+using City.Panels.DailyRewards;
+using City.Panels.DailyTasks;
+using City.Panels.Inventories;
+using MainPages.MenuHud;
+using UIController.Inventory;
+using UniRx;
+using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
-using VContainerUi.Messages;
 using VContainerUi.Interfaces;
-using UniRx;
+using VContainerUi.Messages;
 using VContainerUi.Model;
-using VContainer;
 using VContainerUi.Services;
-using UIController.Inventory;
-using City.Buildings.Requirement;
-using System;
-using City.Panels.Chats.ServerChats;
 
-namespace MainPages.MenuHud
+namespace MainPages.City.CityUi
 {
     public class CityUiController : UiController<CityUiView>, IInitializable
     {
-        [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
-        [Inject] private readonly InventoryController _inventoryController;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly InventoryPanelController m_inventoryPanelController;
+        [Inject] private IObjectResolver m_diContainer;
 
-        private CompositeDisposable Disposables = new CompositeDisposable();
+        private readonly CompositeDisposable m_disposables = new CompositeDisposable();
 
         public void Initialize()
         {
@@ -34,23 +38,33 @@ namespace MainPages.MenuHud
             OpenPanelOnClick<AchievmentsPageController>(View.AchievmentsButton);
             OpenPanelOnClick<ServerChatPanelController>(View.ServerChatButton);
 
-            View.InventoryButton.OnClickAsObservable().Subscribe(_ => OpenAllInventory()).AddTo(Disposables);
+            View.InventoryButton.Button.OnClickAsObservable().Subscribe(_ => OpenAllInventory()).AddTo(m_disposables);
+            m_inventoryPanelController.OnNewsStatusChange
+                .Subscribe(flag => ChangeNewsStatus(View.InventoryButton, flag))
+                .AddTo(m_disposables);
         }
 
-        private void OpenPanelOnClick<T>(Button button) where T : IPopUp
+        private void OpenPanelOnClick<T>(ButtonWithNewsView buttonWithNews) where T : IPopUp
         {
-            button.OnClickAsObservable().Subscribe(_ => OpenBuilding<T>()).AddTo(Disposables);
+            buttonWithNews.Button.OnClickAsObservable().Subscribe(_ => OpenBuilding<T>()).AddTo(m_disposables);
+            var uiController = m_diContainer.Resolve<T>();
+            uiController.OnNewsStatusChange.Subscribe(flag => ChangeNewsStatus(buttonWithNews, flag))
+                .AddTo(m_disposables);
+        }
+
+        private void ChangeNewsStatus(ButtonWithNewsView button, bool flag)
+        {
+            button.SetNewsEnabled(flag);
         }
 
         private void OpenBuilding<T>() where T : IPopUp
         {
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Additive);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<T>(openType: OpenType.Additive);
         }
 
         private void OpenAllInventory()
         {
-            _inventoryController.ShowAll();
+            m_inventoryPanelController.ShowAll();
         }
     }
-
 }

@@ -54,7 +54,7 @@ namespace City.Buildings.UiBuildings
 
         public void SubscribeOnNews<V>(V buildingController) where V : IPopUp
         {
-            buildingController.OnNews.Subscribe(OnChangeNews).AddTo(_disposables);
+            buildingController.OnNewsStatusChange.Subscribe(OnChangeNews).AddTo(_disposables);
         }
 
         private void OnChangeNews(bool flag)

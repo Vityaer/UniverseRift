@@ -12,7 +12,7 @@ namespace City.Panels.NewLevels
 {
     public class PlayerNewLevelPanelController : UiPanelController<PlayerNewLevelPanelView>
     {
-        [Inject] private readonly CommonGameData _ñommonGameData;
+        [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly ClientRewardService _clientRewardService;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         private GameReward _gameReward;
@@ -21,7 +21,7 @@ namespace City.Panels.NewLevels
         {
             View.RewardUIController.ShowReward(reward, _commonDictionaries);
             _gameReward = new GameReward(reward, _commonDictionaries);
-            var newLevel = _ñommonGameData.PlayerInfoData.Level;
+            var newLevel = _commonGameData.PlayerInfoData.Level;
             View.NewLevelLabel.text = $"{newLevel}";
             MessagesPublisher.OpenWindowPublisher.OpenWindow<PlayerNewLevelPanelController>(openType: OpenType.Exclusive);
         }

@@ -2,6 +2,7 @@ using Models.City.Mines;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -11,6 +12,7 @@ using UnityEngine.UI;
 using Utils;
 using VContainer;
 using VContainerUi.Abstraction;
+using Vector3 = UnityEngine.Vector3;
 
 namespace City.Buildings.Mines
 {
@@ -20,6 +22,8 @@ namespace City.Buildings.Mines
         public List<MineType> Types = new();
         public Button PlaceButton;
         public Image MineIcon;
+        public RectTransform PlaceRectTransform;
+        public RectTransform MineBuildRectTransform;
         public LocalizeStringEvent LevelText;
 
         private MineModel _mineModel;
@@ -27,6 +31,14 @@ namespace City.Buildings.Mines
         private CompositeDisposable _disposables = new();
         private ReactiveCommand<PlaceForMine> _onClick = new();
 
+        [Header("Animations")]
+        [SerializeField] private int m_startBuildHeight;
+        [SerializeField] private float m_buildTime;
+        [SerializeField] private RectTransform m_buildingPoint;
+        [SerializeField] private Ease m_buildingEase;
+        
+        private Tween _tween;
+        
         public MineModel MineModel => _mineModel;
         public MineData MineData => _mineData;
         public IObservable<PlaceForMine> OnClick => _onClick;
@@ -47,6 +59,23 @@ namespace City.Buildings.Mines
             _mineData = mineData;
             UpdateUi();
         }
+        
+        public void CreateMine(MineModel model, MineData data)
+        {
+            SetData(model, data);
+            
+            MineBuildRectTransform.position += new Vector3(0, m_startBuildHeight, 0);
+            
+            _tween.Kill();
+            _tween = MineBuildRectTransform
+                .DOMove(m_buildingPoint.position, m_buildTime)
+                .SetEase(m_buildingEase);
+        }
+
+        public void SetCanBuild(bool canBuilding)
+        {
+            gameObject.SetActive(canBuilding);
+        }
 
         public void LevelUp()
         {
@@ -61,6 +90,8 @@ namespace City.Buildings.Mines
             LevelText.gameObject.SetActive(false);
             _mineModel = null;
             _mineData = null;
+            _tween.Kill();
+            MineBuildRectTransform.position = m_buildingPoint.position;
         }
 
         private void UpdateUi()
@@ -82,6 +113,7 @@ namespace City.Buildings.Mines
 
         public void OnDestroy()
         {
+            _tween.Kill();
             _disposables.Dispose();
         }
     }

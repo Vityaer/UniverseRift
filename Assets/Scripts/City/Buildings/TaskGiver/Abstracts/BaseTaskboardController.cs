@@ -18,12 +18,12 @@ namespace City.Buildings.TaskGiver.Abstracts
         [Inject] protected readonly CommonDictionaries _commonDictionaries;
         
         protected TaskBoardData _taskBoardData;
-        protected List<BaseTaskController> _taskControllers = new List<BaseTaskController>();
+        protected List<BaseTaskController> TaskControllers = new List<BaseTaskController>();
 
         protected virtual void CreateTask(TaskData taskData)
         {
             var newTaskController = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
-            _taskControllers.Add(newTaskController);
+            TaskControllers.Add(newTaskController);
             Resolver.Inject(newTaskController);
             Resolver.Inject(newTaskController.TaskControllerButton);
             newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
@@ -33,9 +33,9 @@ namespace City.Buildings.TaskGiver.Abstracts
 
         public virtual void RecreateTaskControllers(List<TaskData> taskDatas)
         {
-            for (var i = _taskControllers.Count - 1; i >= 0; i--)
+            for (var i = TaskControllers.Count - 1; i >= 0; i--)
             {
-                DeleteTask(_taskControllers[i]);
+                DeleteTask(TaskControllers[i]);
             }
 
             foreach (var taskData in taskDatas)
@@ -57,7 +57,7 @@ namespace City.Buildings.TaskGiver.Abstracts
 
         protected void DeleteTask(BaseTaskController taskController)
         {
-            _taskControllers.Remove(taskController);
+            TaskControllers.Remove(taskController);
             _taskBoardData.ListTasks.Remove(taskController.GetTask);
             UnityEngine.Object.Destroy(taskController.gameObject);
         }
@@ -69,7 +69,7 @@ namespace City.Buildings.TaskGiver.Abstracts
         
         public override void OnHide()
         {
-            foreach (var task in _taskControllers) task.StopTimer();
+            foreach (var task in TaskControllers) task.StopTimer();
         }
     }
 }

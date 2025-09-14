@@ -1,18 +1,19 @@
-﻿using City.Buildings.CityButtons.EventAgent;
-using City.Panels.SubjectPanels.Common;
+﻿using System.Collections.Generic;
+using City.Buildings.CityButtons.EventAgent;
+using City.Panels.Widgets.Particles;
 using ClientServices;
 using Common.Resourses;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
-using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.Battlepases;
-using System.Collections.Generic;
 using UIController.Rewards;
 using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
+using Utils;
 using VContainer;
 
 namespace City.Panels.BatllepasPanels
@@ -32,10 +33,33 @@ namespace City.Panels.BatllepasPanels
         private List<int> _idReceivedReward = new List<int>(REWARD_COUNT);
         private List<BattlepasRewardView> _rewardsUi = new(REWARD_COUNT);
 
+        public override void Start()
+        {
+            View.MainSliderController.OnFillReward.Subscribe(OnFillReward).AddTo(Disposables);
+
+            Observable.EveryUpdate()
+                .Where(_ => Input.GetKeyDown(KeyCode.Z))
+                .Subscribe(_ => AddResource())
+                .AddTo(Disposables);
+            base.Start();
+        }
+
+        private void AddResource()
+        {
+            Debug.Log("cheat add resource");
+            _resourceStorageController.AddResource(new GameResource(ResourceType.EventAgentMonet, 100));
+        }
+
+        private void OnFillReward(int rewardIndexOpen)
+        {
+            _rewardsUi[rewardIndexOpen - 1].OpenWithAnimation();
+        }
+
         protected override void OnLoadGame()
         {
             var currentMonetResource = _resourceStorageController.Resources[ResourceType.EventAgentMonet];
-            View.MainSliderController.SetValue(currentMonetResource.ConvertToInt(), _commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards.Count * 100);
+            View.MainSliderController.SetValue(currentMonetResource.ConvertToInt(),
+                _commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards.Count * 100);
 
             var index = 0;
             foreach (var rewardModel in _commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards)
@@ -46,17 +70,18 @@ namespace City.Panels.BatllepasPanels
                 rewardViewPrefab.SetData(data, View.Scroll);
                 rewardViewPrefab.OnSelect.Subscribe(OnTryGetReward).AddTo(Disposables);
 
-                var status = (index <= CommonGameData.BattlepasData.CurrentDailyBattlepasStage)
-                    ?
-                    ScrollableViewStatus.Completed
-                    :
-                    ScrollableViewStatus.Open;
+                var status = ScrollableViewStatus.Close;
+                if (index < CommonGameData.BattlepasData.CurrentDailyBattlepasStage)
+                    status = ScrollableViewStatus.Completed;
+                else if (index == CommonGameData.BattlepasData.CurrentDailyBattlepasStage)
+                    status = ScrollableViewStatus.Open;
+
 
                 Resolver.Inject(rewardViewPrefab);
                 rewardViewPrefab.SetStatus(status);
                 _rewardsUi.Add(rewardViewPrefab);
-
             }
+
             View.MainSliderController.transform.SetAsLastSibling();
         }
 
@@ -83,6 +108,8 @@ namespace City.Panels.BatllepasPanels
                 _clientRewardService.ShowReward(reward);
                 CommonGameData.BattlepasData.CurrentDailyBattlepasStage += 1;
                 rewardView.SetStatus(ScrollableViewStatus.Completed);
+                var cost = new GameResource(ResourceType.EventAgentMonet, 100);
+                _resourceStorageController.SubtractResource(cost);
             }
         }
 
@@ -97,44 +124,6 @@ namespace City.Panels.BatllepasPanels
         {
             _currentProgress = res.ConvertToInt();
             View.MainSliderController.SetNewValueWithAnim(res.ConvertToInt());
-        }
-
-        //public void GetReward(DailyTaskUi dailyTaskRewardView)
-        //{
-        //    switch (dailyTaskRewardView.Status)
-        //    {
-        //        case DailyTaskRewardStatus.Close:
-        //            //MessageController.Instance.AddMessage("Награду ещё нужно заслужить, приходите позже");
-        //            break;
-        //        case DailyTaskRewardStatus.Received:
-        //            //MessageController.Instance.AddMessage("Вы уже получали эту награду");
-        //            break;
-        //        case DailyTaskRewardStatus.Open:
-        //            //GameController.Instance.AddReward(_reward);
-        //            var index = _rewardsUi.FindIndex(rewardUi => rewardUi == dailyTaskRewardView);
-        //            OnGetReward(index);
-        //            dailyTaskRewardView.SetStatus(DailyTaskRewardStatus.Received);
-        //            break;
-        //    }
-        //}
-
-        public int GetMaxLevelReceivedReward()
-        {
-            int result = 0;
-            for (int i = 0; i < _idReceivedReward.Count; i++)
-            {
-                if (_idReceivedReward[i] > result)
-                {
-                    result = _idReceivedReward[i];
-                }
-            }
-            return result;
-        }
-
-        public int OverMonet()
-        {
-            int maxLevel = GetMaxLevelReceivedReward();
-            return _currentProgress - maxLevel * 100;
         }
     }
 }

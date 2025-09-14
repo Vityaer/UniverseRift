@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1407587496819246401}
   - component: {fileID: 6158798256250667519}
+  - component: {fileID: 5565136861788278751}
   m_Layer: 5
   m_Name: BattlepasReward
   m_TagString: Untagged
@@ -34,7 +35,6 @@ RectTransform:
   - {fileID: 890652168672011881}
   - {fileID: 5883987856257390500}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -53,12 +53,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065f11f16b0400247853008922b092e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _alphas
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[City.Buildings.CityButtons.EventAgent.ScrollableViewStatus,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[City.Buildings.CityButtons.EventAgent.ScrollableViewStatus,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 4
+      Data: 0.2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 0.8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   AutoInjectObjects: []
-  Scroll: {fileID: 0}
   Button: {fileID: 2300820200548741255}
   _donePanel: {fileID: 3440115419579580558}
   _rewardController: {fileID: 5617677353979438797}
   NumberText: {fileID: 5781346969003956219}
+  _rect: {fileID: 1407587496819246401}
+  _canvasGroup: {fileID: 5565136861788278751}
+  _animationFadeTime: 0.5
+  _openScale: 1.1
+  _animationFirstStageOpenTime: 0.3
+  _animationSecondStageOpenTime: 0.2
+  _animationOpenEase: 15
+--- !u!225 &5565136861788278751
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407587496819246402}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3440115419579580558
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +179,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1407587496819246401}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -166,7 +254,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1407587496819246401}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -203,8 +290,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7659f6d6ec9b642db8be29bc45fe97cc, type: 2}
-  m_sharedMaterial: {fileID: 8690591861142563998, guid: 7659f6d6ec9b642db8be29bc45fe97cc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -302,7 +389,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1407587496819246401}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -396,6 +482,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1407587496819246401}
     m_Modifications:
     - target: {fileID: 69573782209572078, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
@@ -418,6 +505,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 513121424944950652, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 513121424944950652, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+    - target: {fileID: 609052217407650160, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: _bursts.Array.data[0].used
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1696713460379933902, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -434,9 +529,37 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2311709352584542071, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2311709352584542071, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+    - target: {fileID: 3421020053074387835, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: _bursts.Array.data[0].used
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3992463557800626007, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 3992463557800626007, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+    - target: {fileID: 5965044800503688837, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5965044800503688837, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+    - target: {fileID: 6046904049315945725, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6046904049315945725, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
     - target: {fileID: 8379013416761038419, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
       propertyPath: m_Name
       value: PanelReward
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840291255579631746, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: _bursts.Array.data[0].used
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903042082954400506, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
+      propertyPath: _bursts.Array.data[0].used
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9058528786699162048, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
       propertyPath: m_Pivot.x
@@ -523,6 +646,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b19e9c69c6ddaa847b720d7a97da9ae7, type: 3}
 --- !u!224 &2762441011878514044 stripped
 RectTransform:

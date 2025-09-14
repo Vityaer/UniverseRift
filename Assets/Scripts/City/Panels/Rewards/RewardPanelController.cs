@@ -1,6 +1,6 @@
-﻿using City.Panels.AutoFights;
-using City.Panels.SubjectPanels.Common;
+﻿using City.Panels.ScreenBlockers;
 using Common.Rewards;
+using Cysharp.Threading.Tasks;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;
@@ -14,21 +14,31 @@ namespace City.Panels.Rewards
     public class RewardPanelController : UiPanelController<RewardPanelView>
     {
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
-        //[Inject] private readonly SubjectDetailController _subjectDetailController;
+        [Inject] private readonly ScreenBlockerController _screenBlockerController;
 
         private GameObject _currentLabel;
 
+        private bool m_isOpen;
         public ReactiveCommand OnClose = new ReactiveCommand();
 
-        //public override void Start()
-        //{
-        //    View.RewardUIController.SetDetailsController(_subjectDetailController);
-        //    base.Start();
-        //}
+        public override void Start()
+        {
+            View.SimpleRewardLabel.SetActive(false);
+            View.WinLabel.SetActive(false);
+            View.DefeatLabel.SetActive(false);
+            base.Start();
+        }
 
         public void Open(GameReward reward, RewardType rewardType, bool fast = true)
         {
+            if (m_isOpen)
+                return;
+            
+            m_isOpen = true;
             View.RewardUIController.ShowReward(reward, fast);
+
+            _currentLabel?.SetActive(false);
+
             switch (rewardType)
             {
                 case RewardType.Simple:
@@ -40,14 +50,15 @@ namespace City.Panels.Rewards
                 case RewardType.Defeat:
                     _currentLabel = View.DefeatLabel;
                     break;
-
             }
+
             _currentLabel.SetActive(true);
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<RewardPanelController>(openType: OpenType.Exclusive);
+            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<RewardPanelController>(openType: OpenType.Additive);
         }
 
         protected override void Close()
         {
+            m_isOpen = false;
             _currentLabel.SetActive(false);
             OnClose.Execute();
             base.Close();

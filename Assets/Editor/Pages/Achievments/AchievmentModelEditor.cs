@@ -27,16 +27,6 @@ namespace Editor.Pages.Achievments
         }
 
         [ShowInInspector]
-        [HorizontalGroup("2")]
-        [LabelText("Type")]
-        [LabelWidth(200)]
-        public AchievmentType Type
-        {
-            get => _model.Type;
-            set => _model.Type = value;
-        }
-
-        [ShowInInspector]
         [HorizontalGroup("3")]
         [LabelText("Progress Type")]
         [LabelWidth(200)]

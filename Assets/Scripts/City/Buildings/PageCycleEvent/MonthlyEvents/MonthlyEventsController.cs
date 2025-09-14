@@ -19,7 +19,7 @@ namespace City.Buildings.PageCycleEvent.MonthlyEvents
 {
     public class MonthlyEventsController : BaseBuilding<MonthlyEventView>
     {
-        [Inject] private readonly CommonGameData _ñommonGameData;
+        [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
         [Inject] private readonly ArenaTaskPanelController _arenaTaskPanelController;
         [Inject] private readonly EvolutionTasksPanelController _evolutionTasksPanelController;
@@ -40,7 +40,7 @@ namespace City.Buildings.PageCycleEvent.MonthlyEvents
 
         protected override void OnLoadGame()
         {
-            //monthlyRequirements = _ñommonGameData.City.CycleEvents.monthlyRequirements;
+            //monthlyRequirements = _ï¿½ommonGameData.City.CycleEvents.monthlyRequirements;
             LoadTasks();
         }
 
@@ -56,7 +56,7 @@ namespace City.Buildings.PageCycleEvent.MonthlyEvents
         {
             List<AchievmentData> RequirementSaves = monthlyRequirements.GetTasks(type);
             //GameController.GetPlayerGame.GeneralSaveAchievments(RequirementSaves, tasks);
-            TextUtils.Save(_ñommonGameData);
+            TextUtils.Save(_commonGameData);
         }
 
         private void OpenPageEvents<T>(GameMonthlyTasks currentPage) where T : IPopUp

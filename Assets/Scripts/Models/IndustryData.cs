@@ -1,9 +1,7 @@
-﻿using City.Buildings.Mines;
-using City.Buildings.Mines.Panels.Travels;
-using Fight.Common;
-using Models.City.Mines;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using City.Buildings.Mines;
+using City.Buildings.Mines.Panels.Travels;
 
 namespace Models
 {
@@ -12,6 +10,8 @@ namespace Models
     {
         public List<MineData> Mines = new();
         public List<MineMissionData> MissionDatas = new();
+        public MineMissionData BossMissionData = new();
         public int MineEnergy;
+        public string DateTimeCreate;
     }
 }

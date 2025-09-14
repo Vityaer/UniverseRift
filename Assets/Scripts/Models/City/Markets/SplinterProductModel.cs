@@ -16,6 +16,5 @@ namespace Models.City.Markets
         {
             Subject.CommonDictionaries = commonDictionaries;
         }
-
     }
 }

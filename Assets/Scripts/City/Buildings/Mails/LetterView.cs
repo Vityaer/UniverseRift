@@ -3,6 +3,7 @@ using Models.Misc;
 using TMPro;
 using UiExtensions.Misc;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace City.Buildings.Mails
@@ -11,7 +12,7 @@ namespace City.Buildings.Mails
     {
         private const int FIRST_CHARS_COUNT = 50;
 
-        [SerializeField] private TMP_Text _letterTopic;
+        [SerializeField] private LocalizeStringEvent _letterTopic;
         [SerializeField] private TMP_Text _letterFirstChars;
         [SerializeField] private Image _readStatusImage;
         [SerializeField] private Image _background;
@@ -36,7 +37,8 @@ namespace City.Buildings.Mails
         {
             ShowReadStatus();
 
-            _letterTopic.text = Data.Topic;
+            _letterTopic.StringReference = _localizationSystem.GetLocalizedContainer(Data.Topic);
+
             _senderDate.text = Data.CreateDateTime;
 
 

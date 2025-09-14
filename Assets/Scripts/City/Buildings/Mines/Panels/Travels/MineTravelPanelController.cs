@@ -37,11 +37,6 @@ namespace City.Buildings.Mines.Panels.Travels
         private MineMissionController _currentMissionController;
         private List<MineMissionData> _missionDatas = new();
 
-        protected override void OnStart()
-        {
-            base.OnStart();
-        }
-
         protected override void OnLoadGame()
         {
             var mines = CommonGameData.City.IndustrySave.Mines;
@@ -49,9 +44,9 @@ namespace City.Buildings.Mines.Panels.Travels
             var administrationMine = mines.Find(mine => mine.MineId.Equals(MAIN_MINE_NAME));
 
             var targetIndex = 0;
-            for (var i = 0; i < settings.SettingsCampaigns.Count; i++)
+            for (var i = 0; i < settings.ConfigureContainers.Count; i++)
             {
-                if (administrationMine.Level >= settings.SettingsCampaigns[i].RequireLevel)
+                if (administrationMine.Level >= settings.ConfigureContainers[i].RequireLevel)
                 {
                     targetIndex = i;
                 }
@@ -60,10 +55,10 @@ namespace City.Buildings.Mines.Panels.Travels
                     break;
                 }
             }
-            var selectedSettings = settings.SettingsCampaigns[targetIndex];
+            var selectedSettings = settings.ConfigureContainers[targetIndex];
 
-            _travelLevel = selectedSettings.LevelHard;
-            _countTravelOpen = Mathf.Clamp(selectedSettings.MissionsCount, 1, 15);
+            _travelLevel = selectedSettings.MissionsLevelHard;
+            _countTravelOpen = selectedSettings.MissionsCount;
             _missionDatas = CommonGameData.City.IndustrySave.MissionDatas;
             LoadMissions();
         }
@@ -80,6 +75,12 @@ namespace City.Buildings.Mines.Panels.Travels
             StatusMission statusMission = StatusMission.NotOpen;
             for (int i = 0; i < _countTravelOpen; i++)
             {
+                if (_missionDatas.Count <= i)
+                {
+                    View.MissionViews[i].SetStatus(StatusMission.NotOpen);
+                    continue;
+                }
+
                 var missionData = _missionDatas[i];
                 if (i <= _countTravelOpen)
                 {
@@ -93,7 +94,7 @@ namespace City.Buildings.Mines.Panels.Travels
                 if (missionModel == null)
                     Debug.LogError($"Mission with name: {missionData.MissionId} not found.");
 
-                View.MissionViews[i].SetData(missionData, missionModel, statusMission);
+                View.MissionViews[i].SetData(missionData, missionModel, statusMission, CommonGameData.City.IndustrySave.DateTimeCreate);
                 View.MissionViews[i].OnSelect.Subscribe(OpenVoyageMissionPanel).AddTo(Disposables);
             }
 
@@ -101,9 +102,30 @@ namespace City.Buildings.Mines.Panels.Travels
             {
                 View.MissionViews[i].SetStatus(StatusMission.NotOpen);
             }
+            
+            if (!_commonDictionaries.StorageChallenges.TryGetValue($"MineTravelLevel_{_travelLevel}",
+                    out var bossContainerTravel))
+            {
+                return;
+            }
 
-            //View.BossMissionView.SetData(1, StatusMission.Open);
-            //View.BossMissionView.OnSelect.Subscribe(_ => OpenBossVoyageMissionPanel()).AddTo(Disposables);
+            var bossMissionData = CommonGameData.City.IndustrySave.BossMissionData;
+
+            if (bossMissionData == null)
+            {
+                Debug.LogError("bossMissionData is null!");
+                return;
+            }
+
+            _bossMissionModel = bossContainerTravel.Missions.
+                Find(data => data.Name.Equals(bossMissionData.MissionId));
+
+            View.BossMissionView.SetData(bossMissionData,
+                _bossMissionModel,
+                bossMissionData.IsComplete ? StatusMission.Complete : StatusMission.Open,
+                CommonGameData.City.IndustrySave.DateTimeCreate);
+            
+            View.BossMissionView.OnSelect.Subscribe(_ => OpenBossVoyageMissionPanel()).AddTo(Disposables);
 
         }
 
@@ -127,8 +149,10 @@ namespace City.Buildings.Mines.Panels.Travels
         private void OpenBossVoyageMissionPanel()
         {
             _flagBossMission = true;
+            _currentMissionId = View.BossMissionView.MissionData.Id;
             _currentMissionModel = _bossMissionModel;
-            _panelVoyageMission.ShowInfo(_currentMissionModel, View.BossMissionView.Status, 1, StartOpenMission);
+            _currentMissionController = View.BossMissionView;
+            _panelVoyageMission.ShowInfo(_currentMissionModel, View.BossMissionView.Status, _travelLevel, StartOpenMission);
         }
 
         private void OpenVoyageMissionPanel(MineMissionController missionController)

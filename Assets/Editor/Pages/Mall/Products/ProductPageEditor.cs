@@ -1,14 +1,14 @@
-﻿using Db.CommonDictionaries;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Common.Resourses;
+using Db.CommonDictionaries;
 using Editor.Common;
 using Models.City.Markets;
+using Models.Common.BigDigits;
 using Models.Data.Inventories;
-using Models.Items;
-using Pages.Items.Relations;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using UnityEngine;
 using Utils;
 
 namespace Editor.Pages.Mall.Products
@@ -30,19 +30,16 @@ namespace Editor.Pages.Mall.Products
             base.Init();
 
             ResourseProducts = _products
-                .Where(product => product is ResourceProductModel)
-                .Select(product => product as ResourceProductModel)
+                .OfType<ResourceProductModel>()
                 .ToList();
 
             ItemProducts = _products
-                .Where(product => product is ItemProductModel)
-                .Select(product => product as ItemProductModel)
+                .OfType<ItemProductModel>()
                 .ForEach(product => product.Subject.CommonDictionaries = _dictionaries)
                 .ToList();
 
             SplinterProducts = _products
-                .Where(product => product is SplinterProductModel)
-                .Select(product => product as SplinterProductModel)
+                .OfType<SplinterProductModel>()
                 .ForEach(product => product.Subject.CommonDictionaries = _dictionaries)
                 .ToList();
 
@@ -74,8 +71,9 @@ namespace Editor.Pages.Mall.Products
         [LabelText("Item")]
         [PropertyOrder(3)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4,
-    CustomAddFunction = nameof(AddItemElement), CustomRemoveElementFunction = nameof(RemoveItemElements))]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false,
+            NumberOfItemsPerPage = 4,
+            CustomAddFunction = nameof(AddItemElement), CustomRemoveElementFunction = nameof(RemoveItemElements))]
         public List<ItemProductModel> ItemProducts = new List<ItemProductModel>();
 
         private void AddItemElement()
@@ -96,8 +94,10 @@ namespace Editor.Pages.Mall.Products
         [LabelText("Splinter")]
         [PropertyOrder(3)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
-        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false, NumberOfItemsPerPage = 4,
-CustomAddFunction = nameof(AddSplinterElement), CustomRemoveElementFunction = nameof(RemoveSplinterElements))]
+        [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = false,
+            NumberOfItemsPerPage = 4,
+            CustomAddFunction = nameof(AddSplinterElement),
+            CustomRemoveElementFunction = nameof(RemoveSplinterElements))]
         public List<SplinterProductModel> SplinterProducts = new List<SplinterProductModel>();
 
         private void AddSplinterElement()
@@ -111,6 +111,85 @@ CustomAddFunction = nameof(AddSplinterElement), CustomRemoveElementFunction = na
         {
             var targetElement = SplinterProducts.First(e => e == light);
             SplinterProducts.Remove(targetElement);
+        }
+
+        [PropertyOrder(4)]
+        [Button("Check products")]
+        public void CheckProducts()
+        {
+            CheckSplinters();
+        }
+
+        private void CheckSplinters()
+        {
+            CheckAltarMarketSplinters();
+            CheckHeroMarketSplinters();
+        }
+
+        private void CheckAltarMarketSplinters()
+        {
+            foreach (var hero in _dictionaries.Heroes)
+            {
+                var altarMarketKey = $"{hero.Key}AltarMarketProduct";
+
+                var splinterId = $"{hero.Key}Splinter";
+                if (!_dictionaries.Splinters.TryGetValue(splinterId, out var splinterModel))
+                {
+                    Debug.LogError($"Splinter: {splinterId} not found");
+                    continue;
+                }
+
+                if (_dictionaries.Products.TryGetValue(altarMarketKey, out var product))
+                {
+                    continue;
+                }
+
+                var heroProductModel = new SplinterProductModel(_dictionaries);
+                heroProductModel.Id = altarMarketKey;
+                heroProductModel.Subject.Id = splinterId;
+                heroProductModel.Subject.Amount = 30;
+
+                heroProductModel.CountSell = 2;
+                heroProductModel.Type = MarketProductType.Splinter;
+                heroProductModel.Cost = new ResourceData{
+                    Type = ResourceType.RedDust,
+                    Amount = new BigDigit(300)};
+                
+                SplinterProducts.Add(heroProductModel);
+            }
+        }
+
+        private void CheckHeroMarketSplinters()
+        {
+            foreach (var hero in _dictionaries.Heroes)
+            {
+                var heroMarketKey = $"{hero.Key}HeroMarketProduct";
+
+                var splinterId = $"{hero.Key}Splinter";
+                if (!_dictionaries.Splinters.TryGetValue(splinterId, out var splinterModel))
+                {
+                    Debug.LogError($"Splinter: {splinterId} not found");
+                    continue;
+                }
+
+                if (_dictionaries.Products.TryGetValue(heroMarketKey, out var product))
+                {
+                    continue;
+                }
+
+                var heroProductModel = new SplinterProductModel(_dictionaries);
+                heroProductModel.Id = heroMarketKey;
+                heroProductModel.Subject.Id = splinterId;
+                heroProductModel.Subject.Amount = 30;
+
+                heroProductModel.CountSell = 2;
+                heroProductModel.Type = MarketProductType.Splinter;
+                heroProductModel.Cost = new ResourceData{
+                    Type = ResourceType.SpaceMask,
+                    Amount = new BigDigit(30)};
+                
+                SplinterProducts.Add(heroProductModel);
+            }
         }
     }
 }

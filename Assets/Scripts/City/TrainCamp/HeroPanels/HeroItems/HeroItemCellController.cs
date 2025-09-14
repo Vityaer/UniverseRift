@@ -6,6 +6,7 @@ using Models.Items;
 using Network.DataServer;
 using Network.DataServer.Messages.Items;
 using System;
+using City.Panels.Inventories;
 using UIController.Inventory;
 using UniRx;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace UIController.ItemVisual
 {
     public class HeroItemCellController : MonoBehaviour, IDisposable
     {
-        [Inject] private InventoryController _inventoryController;
+        [Inject] private InventoryPanelController _inventoryPanelController;
         [Inject] private ItemPanelController _itemPanelController;
         [Inject] private PageArmyController _trainCamp;
         [Inject] private HeroPanelController _heroPanelController;
@@ -52,20 +53,20 @@ namespace UIController.ItemVisual
             }
             else
             {
-                _inventoryController.Open(_cellType, this);
-                _inventoryController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem).Forget()).AddTo(_tempDisposables);
-                _inventoryController.OnClose.Subscribe(item => RefreshTempSubscribe()).AddTo(_tempDisposables);
-                _inventoryController.WaitSelected = true;
+                _inventoryPanelController.Open(_cellType, this);
+                _inventoryPanelController.OnObjectSelect.Subscribe(item => SetItem(item as GameItem).Forget()).AddTo(_tempDisposables);
+                _inventoryPanelController.OnClose.Subscribe(item => RefreshTempSubscribe()).AddTo(_tempDisposables);
+                _inventoryPanelController.WaitSelected = true;
             }
         }
 
         private void StartSwapItems()
         {
             RefreshSwapSubscribe();
-            _inventoryController.Open(_cellType, this);
-            _inventoryController.OnObjectSelect.Subscribe(item => Swaptem(item as GameItem).Forget()).AddTo(_swampTempDisposables);
-            _inventoryController.OnClose.Subscribe(item => RefreshSwapSubscribe()).AddTo(_swampTempDisposables);
-            _inventoryController.WaitSelected = true;
+            _inventoryPanelController.Open(_cellType, this);
+            _inventoryPanelController.OnObjectSelect.Subscribe(item => Swaptem(item as GameItem).Forget()).AddTo(_swampTempDisposables);
+            _inventoryPanelController.OnClose.Subscribe(item => RefreshSwapSubscribe()).AddTo(_swampTempDisposables);
+            _inventoryPanelController.WaitSelected = true;
         }
 
         private async UniTaskVoid Swaptem(GameItem gameItem)
@@ -82,7 +83,7 @@ namespace UIController.ItemVisual
             if (!string.IsNullOrEmpty(result))
             {
                 _trainCamp.ReturnSelectHero().Costume.TakeOff(_item);
-                _inventoryController.Add(_item);
+                _inventoryPanelController.Add(_item);
                 Clear();
                 _heroPanelController.UpdateTextAboutHero();
             }
@@ -106,7 +107,7 @@ namespace UIController.ItemVisual
         {
             _tempDisposables.Dispose();
             _tempDisposables = new();
-            _inventoryController.WaitSelected = false;
+            _inventoryPanelController.WaitSelected = false;
         }
 
         private void RefreshSwapSubscribe()
@@ -151,13 +152,13 @@ namespace UIController.ItemVisual
             {
                 if (_item != null)
                 {
-                    _inventoryController.Add(_item);
+                    _inventoryPanelController.Add(_item);
                     _heroPanelController.UpdateTextAboutHero();
                 }
 
                 _item = newItem;
                 var item = new GameItem(newItem.Model, 1);
-                _inventoryController.Remove(item);
+                _inventoryPanelController.Remove(item);
                 SetData(item);
             }
         }

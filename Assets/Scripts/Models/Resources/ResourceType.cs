@@ -25,8 +25,20 @@
         FeastCoins = 20,
         VoyageCoin = 21,
         AdvancedDarkStone = 22,
-        Candy = 23,
+        Candy0 = 23,
         MineMissionEnergy = 24,
         VoyageLevelUpCoin = 25,
+        Candy1 = 26,
+        Candy2 = 27,
+        Candy3 = 28,
+        Candy4 = 29,
+        Candy5 = 30,
+        Candy6 = 31,
+        Candy7 = 32,
+        Candy8 = 33,
+        Candy9 = 34,
+        Candy10 = 35,
+        Candy11 = 36,
+        SpaceMask = 37
     }
 }

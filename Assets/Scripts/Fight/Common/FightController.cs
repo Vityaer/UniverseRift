@@ -103,7 +103,6 @@ namespace Fight
             AfterCreateFight.Execute();
 
             if (!IsFastFight)
-            {
                 for (var i = 3; i > 0; i--)
                 {
                     var localizeTime = _localizationSystem.LocalizationUiContainer
@@ -113,7 +112,6 @@ namespace Fight
                     OnChangeFightUiText.Execute(localizeTime);
                     await UniTask.Delay(TICK_DELAY);
                 }
-            }
 
             var localize =
                 _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(START_FIGHT_LOCALIZATION_KEY);
@@ -142,6 +140,8 @@ namespace Fight
                 if (team[i].Hero != null)
                 {
                     var hero = _heroFactory.Create(team[i].Hero, teamPos[i], side, _gridController.RootTemplateObjects);
+
+                    if (hero == null) continue;
                     warriorTeam.Add(new Warrior(hero));
                     hero.SetData(team[i].Hero, teamPos[i], side, IsFastFight);
                     _listInitiative.Add(hero);
@@ -197,7 +197,7 @@ namespace Fight
 
         private void NextHero()
         {
-            if(_isFightFinish)
+            if (_isFightFinish)
                 return;
 
             if ((_currentHeroIndex + 1) < _listInitiative.Count)
@@ -214,9 +214,9 @@ namespace Fight
 
         private void NewRound()
         {
-            if(_isFightFinish)
+            if (_isFightFinish)
                 return;
-            
+
             UpdateListInitiative();
 
             foreach (var hero in _listInitiative)
@@ -260,6 +260,8 @@ namespace Fight
 
         private void Win(Side side)
         {
+            if (_isFightFinish) return;
+
             _isFightFinish = true;
             _fightDirectionController.CloseControllers();
             FinishFightCountdown(side).Forget();
@@ -277,7 +279,7 @@ namespace Fight
 
             OnFinishFight.Execute();
             _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
-            
+
             if (!IsFastFight)
             {
                 OnPlayerFinishFight.Execute();
@@ -292,10 +294,7 @@ namespace Fight
 
         private void ClearAll()
         {
-            if (!IsFastFight)
-            {
-                _gridController.FinishFight();
-            }
+            if (!IsFastFight) _gridController.FinishFight();
 
             _heroInstancesController.OpenLight();
             DeleteTeam(_rightTeam);

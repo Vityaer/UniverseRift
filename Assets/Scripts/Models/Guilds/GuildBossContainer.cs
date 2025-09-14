@@ -22,7 +22,7 @@ namespace Models.Guilds
                     boss.CommonDictionaries = _commonDictionaries;
 
                 foreach (var reward in mission.RewardModels)
-                    reward.CommonDictionaries = _commonDictionaries;
+                    reward.Reward.CommonDictionaries = _commonDictionaries;
             }
         }
 

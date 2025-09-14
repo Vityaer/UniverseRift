@@ -1,5 +1,6 @@
 ﻿using City.Buildings.CityButtons.EventAgent;
 using City.Buildings.Requirement;
+using City.Panels.Widgets.Particles;
 using Ui.Misc.Widgets;
 using UIController.ItemVisual;
 using UnityEngine;
@@ -13,7 +14,12 @@ namespace City.Panels.DailyTasks
         [field: SerializeField] public ItemSliderController miniSliderAmount { get; private set; }
         [field: SerializeField] public ScrollRect Scroll { get; private set; }
         [field: SerializeField] public RectTransform Content { get; private set; }
-        [field: SerializeField] public AchievmentView AchievmentViewPrefab { get; private set; }
+        [field: SerializeField] public DailyTaskAchievmentView AchievmentViewPrefab { get; private set; }
         [field: SerializeField] public Button OpenBattlePasPanelButton { get; private set; }
+        
+        public ParticlesAttraction CoinsAttractorPrefab;
+        public Transform ParticlesContainer;
+
+        public int AddOnEachCoin;
     }
 }

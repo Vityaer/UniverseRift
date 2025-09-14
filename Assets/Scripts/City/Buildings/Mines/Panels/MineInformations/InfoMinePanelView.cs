@@ -16,6 +16,7 @@ namespace City.Buildings.Mines.Panels
         public LocalizeStringEvent NameMineText;
         public TMP_Text LevelMineText;
 
+        public GameObject InfoDataContainer;
         public TextMeshProUGUI IncomeText;
         public ItemSliderController SliderAmount;
         // public SubjectCellControllerScript product;

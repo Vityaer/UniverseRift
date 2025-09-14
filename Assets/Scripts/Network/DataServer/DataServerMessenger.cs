@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Network.DataServer.Common;
 using Newtonsoft.Json;
 using UniRx;
@@ -9,12 +10,14 @@ namespace Network.DataServer
 {
     public class DataServer
     {
-        public static ReactiveCommand<string> OnError = new();
+        public static readonly ReactiveCommand<string> OnError = new();
 
         public static async UniTask<string> PostData<T>(T message) where T : INetworkMessage
         {
-            var url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
-            UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
+            Uri serverUri = new Uri(Constants.Common.GAME_SERVER_ADDRESS);
+            Uri targetUri =  new Uri(serverUri, message.Route);
+            
+            UnityWebRequest request = UnityWebRequest.Post(targetUri, message.Form);
             request.SetRequestHeader("TestHeader", "TestHeaderValue");
             var asyncRequest = await request.SendWebRequest();
             var answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
@@ -28,6 +31,8 @@ namespace Network.DataServer
                 OnError.Execute(answer.Error);
             }
 
+            request.Dispose();
+            
             return answer.Result;
         }
 

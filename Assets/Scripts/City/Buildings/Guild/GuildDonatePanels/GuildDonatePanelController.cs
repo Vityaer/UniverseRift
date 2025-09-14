@@ -29,9 +29,13 @@ namespace City.Buildings.Guild.GuildDonatePanels
 
         public override void Start()
         {
-            View.DonateButton.OnClickAsObservable().Subscribe(_ => Donate(_donate).Forget()).AddTo(Disposables);
-            View.BigDonateButton.OnClickAsObservable().Subscribe(_ => Donate(_bigDonate).Forget()).AddTo(Disposables);
-            base.Start();
+			base.Start();
+			View.DonateButton
+				.ChangeCost(_donate, () => Donate(_donate).Forget());
+
+			View.BigDonateButton
+				.ChangeCost(_bigDonate, () => Donate(_bigDonate).Forget());
+
         }
 
         protected override void OnLoadGame()

@@ -2,6 +2,7 @@
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
+using Sirenix.Utilities;
 using UniRx;
 using UnityEngine;
 
@@ -17,7 +18,32 @@ namespace Hero
         public ReactiveCommand OnChangeData => new ReactiveCommand();
         public GameCostumeHero Costume = new GameCostumeHero();
 
-        public Sprite Avatar => _prefab.Stages[_heroData.Stage].Avatar;
+        public Sprite Avatar
+        {
+            get
+            {
+                if(_heroData == null)
+                {
+                    Debug.LogError($"Hero data is null, model.id: {_model.Id}");
+                    return null;
+                }
+
+                if (_prefab == null)
+                {
+                    Debug.LogError($"Prefab is null, model.id: {_model.Id}");
+                    return null;
+                }
+
+                if (_prefab.Stages.IsNullOrEmpty())
+                {
+                    Debug.LogError($"_prefab.Stages is null or empty, model.id: {_model.Id}");
+                    return null;
+                }
+
+                return _prefab.Stages[_heroData.Stage].Avatar;
+            }
+        }
+        
         public HeroModel Model => _model;
         public HeroData HeroData => _heroData;
         public BaseCharacteristicModel GetBaseCharacteristic => _model.Characteristics.Main;
@@ -34,6 +60,10 @@ namespace Hero
             _heroData.Stage = stage;
             var path = $"{Constants.ResourcesPath.HEROES_PATH}{_model.General.HeroId}";
             _prefab = Resources.Load<HeroController>(path);
+            if (_prefab == null)
+            {
+                Debug.LogError($"Failed to load Hero Controller: {path}");
+            }
 
             PrepareHero();
             PrepareCharacts(hero);

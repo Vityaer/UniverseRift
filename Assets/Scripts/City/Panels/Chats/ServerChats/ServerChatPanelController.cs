@@ -1,12 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Misc.Json;
 using Models.Misc;
 using Network.DataServer;
 using Network.DataServer.Messages.Chats;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
@@ -15,21 +13,25 @@ namespace City.Panels.Chats.ServerChats
 {
     public class ServerChatPanelController : UiPanelController<ServerChatPanelView>
     {
-        private readonly IJsonConverter _jsonConverter;
-        private readonly CommonDictionaries _commonDictionaries;
+        private readonly IJsonConverter m_jsonConverter;
+        private readonly CommonDictionaries m_commonDictionaries;
 
-        private List<ChatMessageData> _chatMesagges = new();
-        private DynamicUiList<ChatMessageView, ChatMessageData> _chatWrapper;
+        private List<ChatMessageData> m_chatMesagges = new();
+        private DynamicUiList<ChatMessageView, ChatMessageData> m_chatWrapper;
 
         public ServerChatPanelController(IJsonConverter jsonConverter, CommonDictionaries commonDictionaries)
         {
-            _jsonConverter = jsonConverter;
+            m_jsonConverter = jsonConverter;
         }
 
         protected override void OnLoadGame()
         {
-            _chatWrapper = new(View.ChatMessagePrefab, View.ChatScrollRect.content, View.ChatScrollRect, null, null);
-            View.SendMessageButton.OnClickAsObservable().Subscribe(_ => SendChatMessage().Forget()).AddTo(Disposables);
+            m_chatWrapper = new(View.ChatMessagePrefab,
+                View.ChatScrollRect.content,
+                View.ChatScrollRect);
+            
+            View.SendMessageButton.OnClickAsObservable().Subscribe(_ => SendChatMessage().Forget())
+                .AddTo(Disposables);
             View.InputFieldMessage.onValueChanged.AddListener(OnChangeMessageInputField);
             base.OnLoadGame();
         }
@@ -50,24 +52,19 @@ namespace City.Panels.Chats.ServerChats
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var messages = _jsonConverter.Deserialize<List<ChatMessageData>>(result);
+                var messages = m_jsonConverter.Deserialize<List<ChatMessageData>>(result);
                 ShowChats(messages);
             }
         }
 
         private void ShowChats(List<ChatMessageData> messages)
         {
-            _chatMesagges = messages;
-            UnityEngine.Debug.Log($"_chatMesagges: {_chatMesagges.Count}");
-            _chatWrapper.ShowDatas(messages);
-            foreach(var chatMessage in _chatWrapper.Views)
-            {
-                if(CommonGameData.CommunicationData.PlayersData
+            m_chatMesagges = messages;
+            m_chatWrapper.ShowDatas(messages);
+            foreach (var chatMessage in m_chatWrapper.Views)
+                if (CommonGameData.CommunicationData.PlayersData
                     .TryGetValue(chatMessage.GetData.PlayerWritterId, out var playerData))
-                {
                     chatMessage.SetPlayerData(playerData);
-                }
-            }
         }
 
         private void OnChangeMessageInputField(string text)
@@ -90,6 +87,7 @@ namespace City.Panels.Chats.ServerChats
                 View.InputFieldMessage.text = string.Empty;
                 View.SendMessageButton.gameObject.SetActive(false);
             }
+
             View.SendMessageButton.interactable = true;
             LoadChat().Forget();
         }

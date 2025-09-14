@@ -1,6 +1,7 @@
 ﻿using Db.CommonDictionaries;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Models.Data.Rewards;
 using UIController.Rewards;
 
 namespace Models.Guilds
@@ -15,7 +16,7 @@ namespace Models.Guilds
 
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
         NumberOfItemsPerPage = 20, CustomAddFunction = nameof(AddReward))]
-        public List<RewardModel> RewardModels = new();
+        public List<BossWinRewardModel> RewardModels = new();
 
         public void SetCommonDictionary(CommonDictionaries commonDictionaries)
         {
@@ -33,7 +34,7 @@ namespace Models.Guilds
         {
             var reward = new RewardModel();
             reward.CommonDictionaries = _commonDictionaries;
-            RewardModels.Add(reward);
+            RewardModels.Add(new BossWinRewardModel(reward));
         }
 
         public GuildBossMission Clone()

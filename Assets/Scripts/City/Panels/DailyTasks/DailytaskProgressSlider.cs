@@ -1,25 +1,28 @@
-using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.AsyncUtils;
 
 namespace City.Buildings.CityButtons.EventAgent
 {
     public class DailytaskProgressSlider : MonoBehaviour
     {
-        private const int START_DELAY = 1000;
-        private const float ANIMATION_SPEED = 1f;
-
+        [SerializeField] private int startDelaySeconds = 1000;
+        [SerializeField] private float _animationSpeed = 1f;
         [SerializeField] private Slider _slider;
+        [SerializeField] private Ease _ease = Ease.OutBounce;
 
         private int _startValue;
         private int _targetValue;
-        private int _maxValue;
+        private int _maxValue = 3000;
         private ReactiveCommand<int> _onFillReward = new ReactiveCommand<int>();
         private CancellationTokenSource _cancellationTokenSource;
-
+        private Tween _tween;
+        
         public IObservable<int> OnFillReward => _onFillReward;
 
         public void SetValue(int start, int maxValue)
@@ -39,18 +42,32 @@ namespace City.Buildings.CityButtons.EventAgent
 
         private async UniTaskVoid FillMainSliderAmount(int targetValue, CancellationToken cancellationToken)
         {
-            await UniTask.Delay(START_DELAY, cancellationToken: cancellationToken);
-            var t = 0f;
+            await UniTask.Delay(TimeSpan.FromSeconds(startDelaySeconds), cancellationToken: cancellationToken);
 
-            while (t <= 1f)
-            {
-                t += Time.deltaTime * ANIMATION_SPEED;
-                var value = Mathf.Lerp(_startValue, targetValue, t) / _maxValue;
-                ChangeSliderValue(value);
-                await UniTask.Yield(cancellationToken: cancellationToken);
-            }
+            _tween.Kill();
+            float valFloat = _startValue;
+            var nextTransition = GetNextTransion(valFloat);
+            _tween = DOTween.To(() => valFloat, x =>
+                {
+                    valFloat = x;
+                    ChangeSliderValue(valFloat / _maxValue);
+                    if (valFloat >= nextTransition)
+                    {
+                        _onFillReward.Execute(nextTransition / 100);
+                        nextTransition = GetNextTransion(valFloat);
+                    }
+                },
+                targetValue,
+                _animationSpeed)
+            .SetEase(_ease)
+            .SetSpeedBased(true)
+            .OnComplete(() => _startValue = targetValue)
+            .OnKill(() => _startValue = targetValue);
+        }
 
-            _startValue = targetValue;
+        private int GetNextTransion(float valFloat)
+        {
+            return (int)valFloat - ((int)valFloat) % 100 + 100;
         }
 
         private void ChangeSliderValue(float value)
@@ -60,11 +77,8 @@ namespace City.Buildings.CityButtons.EventAgent
 
         private void OnDisable()
         {
-            if (_cancellationTokenSource != null)
-            {
-                _cancellationTokenSource.Cancel();
-                _cancellationTokenSource.Dispose();
-            }
+            _cancellationTokenSource.TryCancel();
+            _tween.Kill();
 
             _startValue = _targetValue;
             ChangeSliderValue(_startValue * 1f / _maxValue);

@@ -1,27 +1,27 @@
-﻿using City.Buildings.Guild.RecruitViews;
+﻿using System;
+using System.Collections.Generic;
+using City.Buildings.Guild.BossRaidRewardPanels;
+using City.Buildings.Guild.RecruitViews;
 using City.Buildings.Guild.Utils;
+using City.TrainCamp.HeroInstances;
 using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
+using Fight;
+using Fight.HeroStates;
+using Fight.WarTable;
 using Hero;
 using Misc.Json;
 using Models;
-using Models.Common.BigDigits;
-using Network.DataServer;
-using Network.DataServer.Messages.Guilds;
-using Network.DataServer.Models;
-using Network.DataServer.Models.Guilds;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using City.Buildings.Abstractions;
-using Fight;
-using Fight.WarTable;
 using Models.Arenas;
+using Models.Common.BigDigits;
 using Models.Fights.Campaign;
 using Models.Guilds;
+using Network.DataServer;
+using Network.DataServer.Messages.Guilds;
 using Network.DataServer.Messages.Teams;
+using Network.DataServer.Models;
+using Network.DataServer.Models.Guilds;
 using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
@@ -40,33 +40,41 @@ namespace City.Buildings.Guild.BossRaid
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IObjectResolver _diContainer;
         [Inject] private readonly WarTableController _warTableController;
+        [Inject] private readonly HeroInstancesController _heroInstancesController;
+        [Inject] private readonly BossRaidRewardPanelController _bossRaidRewardPanelController;
 
         private CompositeDisposable m_raidDisposables;
         private GuildBossMission m_currentBossMission;
 
         private float m_createDamageSum;
-        
+
         private TeamContainer _teamContainer;
         private RecruitData _myRecruitData;
         private Dictionary<int, RecruitProgressView> _recruitsView = new();
-        private GuildData _guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
+
+        private GuildData m_guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
 
         public override void Start()
         {
             View.BossRaidButton.OnClick.Subscribe(_ => OpenRaidMission()).AddTo(Disposables);
+            View.OpenRewardPanelButton.OnClickAsObservable()
+                .Subscribe(_ => OpenRewardPanel())
+                .AddTo(Disposables);
+
             base.Start();
+        }
+
+        private void OpenRewardPanel()
+        {
+            _bossRaidRewardPanelController.Open(m_currentBossMission);
         }
 
         protected override void OnLoadGame()
         {
-            if (CommonGameData.Teams.TryGetValue(GetType().Name, out string _teamContainerJSON))
-            {
+            if (CommonGameData.Teams.TryGetValue(GetType().Name, out var _teamContainerJSON))
                 _teamContainer = _jsonConverter.Deserialize<TeamContainer>(_teamContainerJSON);
-            }
             else
-            {
                 _teamContainer = new(GetType().Name);
-            }
 
             base.OnLoadGame();
         }
@@ -74,22 +82,16 @@ namespace City.Buildings.Guild.BossRaid
         private void OpenRaidMission()
         {
             MissionModel missionModel = new();
-            foreach (var unit in m_currentBossMission.BossModels)
-            {
-                missionModel.Units.Add(new HeroData(unit));
-            }
-            
+            foreach (var unit in m_currentBossMission.BossModels) missionModel.Units.Add(new HeroData(unit));
+
             OpenMission(missionModel);
         }
 
         protected override void OnStartMission()
         {
             m_raidDisposables = new();
-            FightController.AfterCreateFight.Subscribe(_ =>
-            {
-                ChangeUnitsData();
-            }).AddTo(m_raidDisposables);
-            
+            FightController.AfterCreateFight.Subscribe(_ => { ChangeUnitsData(); }).AddTo(m_raidDisposables);
+
             base.OnStartMission();
         }
 
@@ -99,14 +101,17 @@ namespace City.Buildings.Guild.BossRaid
             m_raidDisposables = new CompositeDisposable();
             m_createDamageSum = 0f;
             var container = CommonDictionaries.GuildBossContainers["MainBosses"];
-            
+
             for (var i = 0; i < FightController.GetRightTeam.Count; i++)
             {
-                var bossData = container.Missions[_guildData.CurrentBoss].BossModels[i];
-                float maxHelth = bossData.Health.Mantissa * Mathf.Pow(10, bossData.Health.E10);
-                float currentHealth = _guildData.BossHealthMantissa * Mathf.Pow(10, _guildData.BossHealthE10);
-                FightController.GetRightTeam[i].heroController.Hero.ChangeHealth(maxHelth, currentHealth);
-                FightController.GetRightTeam[i].heroController.Hero.OnGetDamage.Subscribe(AddDamage).AddTo(m_raidDisposables);
+                var bossData = container.Missions[m_guildData.CurrentBoss].BossModels[i];
+                var maxHealth = bossData.Health.Mantissa * Mathf.Pow(10, bossData.Health.E10);
+                var currentHealth = m_guildData.BossHealthMantissa * Mathf.Pow(10, m_guildData.BossHealthE10);
+                FightController.GetRightTeam[i].heroController.Hero.ChangeHealth(maxHealth, currentHealth);
+
+                FightController.GetRightTeam[i].heroController.Hero.OnGetDamage
+                    .Subscribe(AddDamage)
+                    .AddTo(m_raidDisposables);
             }
         }
 
@@ -123,14 +128,13 @@ namespace City.Buildings.Guild.BossRaid
 
         private async UniTaskVoid StartRaidBoss()
         {
+            Debug.Log($"m_createDamageSum: {m_createDamageSum}");
             var message = new RaidBossMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                Damage = m_createDamageSum
+                Damage = (int)m_createDamageSum
             };
 
-            m_createDamageSum = 0f;
-            
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
@@ -142,7 +146,8 @@ namespace City.Buildings.Guild.BossRaid
 
                     var data = GetMyRecruitData();
                     data.CountRaidBoss += 1;
-                    UpdateUi();
+                    m_createDamageSum = 0f;
+                    // UpdateUi();
                 }
             }
         }
@@ -162,20 +167,20 @@ namespace City.Buildings.Guild.BossRaid
 
         private void UpdateUi()
         {
-            if (_guildData == null)
+            if (m_guildData == null)
                 return;
 
-            View.BossLevel.text = $"{_guildData.CurrentBoss + 1}";
+            View.BossLevel.text = $"{m_guildData.CurrentBoss + 1}";
 
             var container = CommonDictionaries.GuildBossContainers["MainBosses"];
-            m_currentBossMission = container.Missions[_guildData.CurrentBoss].Clone();
+            m_currentBossMission = container.Missions[m_guildData.CurrentBoss].Clone();
             var bossData = m_currentBossMission.BossModels[0];
             var bossModel = CommonDictionaries.Heroes[bossData.HeroId];
             var bossHeroData = new HeroData { Level = bossData.Level, Rating = bossData.Rating };
             var gameBoss = new GameHero(bossModel, bossHeroData);
-            View.BossImage.sprite = gameBoss.Avatar;
-            
-            var currentHealth = new BigDigit(_guildData.BossHealthMantissa, _guildData.BossHealthE10);
+            _heroInstancesController.ShowHero(gameBoss);
+
+            var currentHealth = new BigDigit(m_guildData.BossHealthMantissa, m_guildData.BossHealthE10);
             var maxHealth = bossData.Health;
 
             var delta = currentHealth / maxHealth;
@@ -186,20 +191,14 @@ namespace City.Buildings.Guild.BossRaid
             View.BossRaidButton.SetCost(GetCostRaid());
 
             var myRecruitData = GetMyRecruitData();
-            if (myRecruitData != null && myRecruitData.CountRaidBoss > 0)
-            {
-                ShowRefreshTime();
-            }
-            
+            if (myRecruitData != null && myRecruitData.CountRaidBoss > 0) ShowRefreshTime();
+
             var recruits = CommonGameData.City.GuildPlayerSaveContainer.GuildRecruits;
             recruits.Sort(new RecruitDamageComparer());
             var index = 0;
             foreach (var recruit in recruits)
             {
-                if (recruit.ResultMantissa < 1f && recruit.ResultE10 == 0)
-                {
-                    continue;
-                }
+                if (recruit.ResultMantissa < 1f && recruit.ResultE10 == 0) continue;
 
                 RecruitProgressView prefab = null;
                 if (_recruitsView.TryGetValue(recruit.PlayerId, out prefab))
@@ -275,14 +274,12 @@ namespace City.Buildings.Guild.BossRaid
             {
             }
         }
-        
+
         private RecruitData GetMyRecruitData()
         {
             if (_myRecruitData == null)
-            {
                 _myRecruitData = CommonGameData.City.GuildPlayerSaveContainer.GuildRecruits
                     .Find(recruit => recruit.PlayerId == CommonGameData.PlayerInfoData.Id);
-            }
 
             return _myRecruitData;
         }
