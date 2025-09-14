@@ -1,0 +1,30 @@
+name: Code Review GPT Test
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install code-review-gpt
+        run: bun install -g code-review-llm-perevalov
+      - name: Run code review script
+        run: code-review-llm-perevalov review --ci=github --model=Qwen/Qwen2.5-Coder-14B-Instruct
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_SHA: ${{ github.sha }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}

@@ -16,7 +16,7 @@ namespace UController.Other
         {
             if (playerInfoData == null)
             {
-                Debug.LogError("playerInfoData null");
+                Debug.Log("playerInfoData null");
                 return;
             }
 
