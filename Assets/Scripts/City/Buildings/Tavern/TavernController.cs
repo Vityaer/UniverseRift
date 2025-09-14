@@ -15,10 +15,8 @@ using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UniRx;
 using VContainer;
-using VContainer.Unity;
 
 namespace City.Buildings.Tavern
 {
@@ -86,24 +84,31 @@ namespace City.Buildings.Tavern
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             var result = await DataServer.PostData(message);
 
-            if (!string.IsNullOrEmpty(result))
+            if (string.IsNullOrEmpty(result))
             {
-                var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
+                return;
+			}
 
-                var heroes = new List<GameHero>(newHeroDatas.Count);
-                for (int i = 0; i < newHeroDatas.Count; i++)
-                {
-                    var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
-                    var hero = new GameHero(model, newHeroDatas[i]);
-                    AddNewHero(hero);
-                    heroes.Add(hero);
-                }
-                _resourceStorageController.SubtractResource(cost);
+			var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
 
-                onHireHeroes.Execute(new BigDigit(count));
-
-                _heroesHireResultPanelController.ShowHeroes(heroes);
+            if (newHeroDatas == null)
+            {
+                return;
             }
+
+            var heroes = new List<GameHero>(newHeroDatas.Count);
+            for (int i = 0; i < newHeroDatas.Count; i++)
+            {
+                var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
+                var hero = new GameHero(model, newHeroDatas[i]);
+                AddNewHero(hero);
+                heroes.Add(hero);
+            }
+            _resourceStorageController.SubtractResource(cost);
+
+            onHireHeroes.Execute(new BigDigit(count));
+
+            _heroesHireResultPanelController.ShowHeroes(heroes);
         }
 
         private void AddNewHero(GameHero hero)

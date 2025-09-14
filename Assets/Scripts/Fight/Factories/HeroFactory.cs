@@ -19,6 +19,12 @@ namespace Fight.Factories
             var stage = (gameHero.HeroData.Rating / 5);
             var path = $"{Constants.ResourcesPath.HEROES_PATH}{gameHero.Model.General.HeroId}";
             var heroPrefab = Resources.Load<HeroController>(path);
+
+            if (heroPrefab == null)
+            {
+                return null;
+            }
+            
             var hero = Object.Instantiate(heroPrefab, hexagonCell.Position, Quaternion.identity, parent);
             ObjectResolver.Inject(hero);
             hero.SetStage(stage);

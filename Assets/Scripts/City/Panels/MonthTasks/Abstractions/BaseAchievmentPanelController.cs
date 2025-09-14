@@ -7,7 +7,9 @@ using Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using City.Panels.DailyTasks;
 using UiExtensions.Scroll.Interfaces;
+using UniRx;
 using VContainer;
 
 namespace City.Panels.MonthTasks.Abstractions
@@ -15,10 +17,10 @@ namespace City.Panels.MonthTasks.Abstractions
     public abstract class BaseAchievmentPanelController<T> : UiPanelController<T>
         where T : BaseAchievmentPanelView
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
         [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
-        private List<AchievmentView> _achievmentViews = new();
+        protected List<AchievmentView> AchievmentViews = new();
 
         protected abstract string AcievmentContainerName { get; }
 
@@ -26,9 +28,9 @@ namespace City.Panels.MonthTasks.Abstractions
         {
             var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList();//class not matter
 
-            foreach (var taskId in _commonDictionaries.AchievmentContainers[AcievmentContainerName].TaskIds)
+            foreach (var taskId in m_commonDictionaries.AchievmentContainers[AcievmentContainerName].TaskIds)
             {
-                var taskModel = _commonDictionaries.Achievments[taskId];
+                var taskModel = m_commonDictionaries.Achievments[taskId];
                 var taskData = CommonGameData.AchievmentStorage.Achievments
                     .Find(data => data.ModelId.Equals(taskId));
 
@@ -47,13 +49,23 @@ namespace City.Panels.MonthTasks.Abstractions
                 gameTask.SetData(taskModel, taskData);
 
                 Resolver.Inject(taskPrefab);
+                taskPrefab.ObserverComplete.Subscribe(_ => CheckNews()).AddTo(Disposables);
                 taskPrefab.SetData(gameTask, View.Scroll);
 
-                _achievmentViews.Add(taskPrefab);
+                AchievmentViews.Add(taskPrefab);
                 taskPrefab.SetReward(SubjectDetailController);
+                
             }
 
             base.OnLoadGame();
+            CheckNews();
+        }
+        
+        
+        private void CheckNews()
+        {
+            OnNewsStatusChangeInternal.Execute(
+                AchievmentViews.Any(achievment => achievment.CheckDoneForReward()));
         }
     }
 }

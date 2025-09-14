@@ -1,4 +1,5 @@
-﻿using City.Panels.MonthTasks.Arena;
+﻿using City.Panels.Events.HeroSpaceMarkets;
+using City.Panels.MonthTasks.Arena;
 using City.Panels.MonthTasks.Evolutions;
 using City.Panels.MonthTasks.Taskboards;
 using City.Panels.MonthTasks.Travels;
@@ -30,12 +31,18 @@ namespace MainPages.Events
             View.EvolutionButton.OnClickAsObservable().Subscribe(_ => OpenMonthPage<MonthEvolutionPanelController>()).AddTo(Disposables);
             View.TableTasksButton.OnClickAsObservable().Subscribe(_ => OpenMonthPage<MonthTaskboardPanelController>()).AddTo(Disposables);
             View.TravelButton.OnClickAsObservable().Subscribe(_ => OpenMonthPage<MonthTravelPanelController>()).AddTo(Disposables);
+            View.HeroSpaceMarketButton.OnClickAsObservable().Subscribe(_ => OpenHeroMarket()).AddTo(Disposables);
+        }
+
+        private void OpenHeroMarket()
+        {
+            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<HeroMarketController>(openType: OpenType.Additive);
 
         }
 
         private void OpenMonthPage<TWindow>() where TWindow : IPopUp
         {
-            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<TWindow>(openType: OpenType.Exclusive);
+            UiMessagesPublisher.OpenWindowPublisher.OpenWindow<TWindow>(openType: OpenType.Additive);
         }
 
         protected override void OnLoadGame()

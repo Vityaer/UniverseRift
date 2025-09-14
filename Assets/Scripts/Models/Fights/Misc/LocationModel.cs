@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-
-namespace Models.Fights.Misc
+﻿namespace Models.Fights.Misc
 {
     public class LocationModel : BaseModel
     {
-        public string BackgroundForMission;
+        public string MapPrefabPath;
+        public string MissionBackground;
+        
     }
 }

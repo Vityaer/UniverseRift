@@ -1,5 +1,4 @@
-﻿using City.Buildings.Abstractions;
-using City.Buildings.Guild.RecruitViews;
+﻿using City.Buildings.Guild.RecruitViews;
 using TMPro;
 using Ui.Misc.Widgets;
 using UIController;
@@ -11,7 +10,6 @@ namespace City.Buildings.Guild.BossRaid
     public class GuildBossRaidPanelView : BasePanel
     {
         public TMP_Text BossLevel;
-        public Image BossImage;
         public Slider BossHealthSlider;
 
         public Button DeffendersButton;
@@ -22,5 +20,7 @@ namespace City.Buildings.Guild.BossRaid
         public ScrollRect Scroll;
         public RecruitProgressView RecruitProgressViewPrefab;
         public RectTransform Content;
+        
+        public Button OpenRewardPanelButton;
     }
 }

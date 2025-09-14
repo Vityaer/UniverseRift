@@ -37,7 +37,6 @@ namespace Fight.Grid
 
         public void Initialize()
         {
-            Debug.Log("GridController initialized");
             _grid = _gridSpawner.CreateGrid(View.Prefab, View.GridParent);
             _grid.FindAllCell();
             foreach (var cell in _grid.Cells)

@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using Misc.Json;
-using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.Guilds;
 using Network.DataServer.Models.Guilds;
+using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
@@ -14,6 +14,9 @@ namespace City.Buildings.Guild.NewGuildPanels
 {
     public class NewGuildPanelController : UiPanelController<NewGuildPanelView>
     {
+        private const int MAX_LENGTH = 12;
+        private const int MIN_LENGTH = 5;
+        
         [Inject] private readonly IJsonConverter _jsonConverter;
         [Inject] private readonly GuildController _guildController;
         [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
@@ -22,8 +25,22 @@ namespace City.Buildings.Guild.NewGuildPanels
 
         public override void Start()
         {
-            View.CreateNewGuildButton.OnClickAsObservable().Subscribe(_ => CreateNewGuild().Forget()).AddTo(Disposables);
+            View.NameNewGuildInputField.OnValueChangedAsObservable()
+                .Subscribe(text => ChangeNewNameGuild(text));
+                
+            View.CreateNewGuildButton.OnClickAsObservable()
+                .Subscribe(_ => CreateNewGuild().Forget())
+                .AddTo(Disposables);
+            
+            View.NameNewGuildInputField.characterLimit = MAX_LENGTH;
+            View.CreateNewGuildButton.interactable = false;
             base.Start();
+        }
+
+        private void ChangeNewNameGuild(string text)
+        {
+            var trimmedText = text.Trim();
+            View.CreateNewGuildButton.interactable = trimmedText.Length is >= MIN_LENGTH and <= MAX_LENGTH;
         }
 
         private async UniTaskVoid CreateNewGuild()

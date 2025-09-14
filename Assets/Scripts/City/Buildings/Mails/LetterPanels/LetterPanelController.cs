@@ -43,14 +43,51 @@ namespace City.Buildings.Mails.LetterPanels
         {
             _letterData = letterView.GetData;
             UpdateUi();
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<LetterPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher.OpenWindow<LetterPanelController>(openType: OpenType.Additive);
         }
 
         private void UpdateUi()
         {
             View.LetterTopic.text = _letterData.Topic;
             View.MainText.text = _letterData.Message;
-            View.GetRewardButton.gameObject.SetActive(_letterData.RewardId >= 0);
+
+            if (!_letterData.IsOpened)
+            {
+                SetOpenedLetter(_letterData).Forget();
+            }
+
+            TryShowReward();
+
+        }
+
+        private async UniTaskVoid SetOpenedLetter(LetterData letterData)
+        {
+            letterData.IsOpened = true;
+            var message = new OpenLetterMessage { PlayerId = CommonGameData.PlayerInfoData.Id, LetterId = _letterData.Id };
+            var result = await DataServer.PostData(message);
+            if (string.IsNullOrEmpty(result))
+            {
+                letterData.IsOpened = false;
+            }
+        }
+
+        private void TryShowReward()
+        {
+            View.GetRewardButton.gameObject.SetActive(false);
+
+            if (string.IsNullOrEmpty(_letterData.RewardJSON))
+            {
+                return;
+            }
+
+            try
+            {
+                var reward = _jsonConverter.Deserialize<RewardModel>(_letterData.RewardJSON);
+                View.GetRewardButton.gameObject.SetActive(!_letterData.IsRewardReceived && reward != null);
+            }
+            catch
+            {
+            }
         }
 
         private async UniTaskVoid GetReward()
@@ -61,12 +98,16 @@ namespace City.Buildings.Mails.LetterPanels
 
             if (!string.IsNullOrEmpty(result))
             {
+                _letterData.IsRewardReceived = true;
                 var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
                 var gameReward = new GameReward(rewardModel, _commonDictionaries);
                 _clientRewardService.ShowReward(gameReward);
+                View.GetRewardButton.interactable = false;
             }
-
-            View.GetRewardButton.interactable = true;
+            else
+            {
+                View.GetRewardButton.interactable = true;
+            }
         }
 
     }

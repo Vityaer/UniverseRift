@@ -14,14 +14,14 @@ namespace VContainerUi.Abstraction
         private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
 
         private UiControllerState _currentState;
-        protected ReactiveCommand<bool> _onNews = new();
+        protected readonly ReactiveCommand<bool> OnNewsStatusChangeInternal = new();
 
         [Inject] protected readonly T View;
         public bool IsActive { get; private set; }
         public bool InFocus { get; private set; }
         public OpenType OpenedType { get; set; }
 
-        public IObservable<bool> OnNews => _onNews;
+        public IObservable<bool> OnNewsStatusChange => OnNewsStatusChangeInternal;
 
         public void SetState(UiControllerState state, OpenType openedType = OpenType.Exclusive)
         {

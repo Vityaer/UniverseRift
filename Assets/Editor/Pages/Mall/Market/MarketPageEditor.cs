@@ -4,6 +4,7 @@ using Models.City.Markets;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Utils;
 
 namespace Editor.Pages.Mall.Market
@@ -61,5 +62,30 @@ namespace Editor.Pages.Mall.Market
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<MarketModelEditor> Markets = new List<MarketModelEditor>();
+
+        [HorizontalGroup("4")]
+        [PropertyOrder(3)]
+        [Button("Check markets")]
+        private void CheckMarkets()
+        {
+            foreach (var market in _dictionaries.Markets)
+            {
+                foreach (var productId in market.Value.Products)
+                {
+                    if (!_dictionaries.Products.ContainsKey(productId))
+                    {
+                        Debug.LogError($"Market: {market.Value.Id} product: {productId} not found");
+                    }
+                }
+                
+                foreach (var productId in market.Value.Promotions)
+                {
+                    if (!_dictionaries.Products.ContainsKey(productId))
+                    {
+                        Debug.LogError($"Market: {market.Value.Id} promo product: {productId} not found");
+                    }
+                }
+            }
+        }
     }
 }

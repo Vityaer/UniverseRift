@@ -9,7 +9,7 @@ namespace Editor.Common.Pages.Buildings.Abstract
     public abstract class AbstractBuildingPageEditor<T> : BasePageEditor
     where T : BuildingModel, new()
     {
-        private CommonDictionaries _dictionaries;
+        protected CommonDictionaries _dictionaries;
         protected abstract string Name { get; }
 
         public AbstractBuildingPageEditor(CommonDictionaries commonDictionaries)

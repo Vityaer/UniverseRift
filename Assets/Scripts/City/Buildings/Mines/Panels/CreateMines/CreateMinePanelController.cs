@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
@@ -23,7 +24,7 @@ namespace City.Buildings.Mines
     public class CreateMinePanelController : UiPanelController<CreateMinePanelView>, IStartable
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly CommonGameData _ñommonGameData;
+        [Inject] private readonly CommonGameData _commonGameData;
         [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly IJsonConverter _jsonConverter;
@@ -75,12 +76,17 @@ namespace City.Buildings.Mines
         protected override void OnLoadGame()
         {
             var restrictionModels = _commonDictionaries.MineRestrictions;
-            var mineDatas = _ñommonGameData.City.IndustrySave.Mines;
+            var mineDatas = _commonGameData.City.IndustrySave.Mines;
 
             var index = 0;
             foreach (var model in restrictionModels.Values)
             {
-                var mineModel = _commonDictionaries.Mines[model.MineId];
+                if (!_commonDictionaries.Mines.TryGetValue(model.MineId, out var mineModel))
+                {
+                    Debug.LogError($"Not found Mine from {model.MineId}");
+                    continue;
+                }
+
                 var currentCount = mineDatas.FindAll(data => data.MineId == model.MineId).Count;
                 var restriction = new GameMineRestriction(model, currentCount);
                 View.MineCards[index].SetData(mineModel, restriction);

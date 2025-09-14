@@ -1,4 +1,5 @@
 ﻿using Common.Resourses;
+using DG.Tweening;
 using Models.Common.BigDigits;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,14 @@ namespace UIController.ItemVisual
         public Slider slider;
         public TextMeshProUGUI textSlider;
 
+        [SerializeField] private float _fillSliderTime;
+        [SerializeField] private float _doneScaleTime;
+        [SerializeField] private float _doneScaleValue;
+        [SerializeField] private RectTransform _rectTransform;
+        
+        private Tween _sliderTween;
+        private Tween _doneTween;
+        
         void Awake()
         {
             if (slider == null) GetComponents();
@@ -20,7 +29,8 @@ namespace UIController.ItemVisual
         {
             if (slider == null) GetComponents();
             slider.maxValue = maxAmount;
-            slider.value = currentAmount;
+            _sliderTween.Kill();
+            _sliderTween = slider.DOValue(currentAmount, _fillSliderTime).SetEase(Ease.Linear);
             textSlider.text = FunctionHelp.AmountFromRequireCount(currentAmount, maxAmount);
             Show();
         }
@@ -29,7 +39,8 @@ namespace UIController.ItemVisual
         {
             if (slider == null) GetComponents();
             slider.maxValue = 1f;
-            slider.value = (currentAmount / maxAmount).ToFloat();
+            var targetValue = (currentAmount / maxAmount).ToFloat();
+            _sliderTween = slider.DOValue(targetValue, _fillSliderTime).SetEase(Ease.Linear);
             textSlider.text = FunctionHelp.AmountFromRequireCount(currentAmount, maxAmount);
             Show();
         }
@@ -52,6 +63,24 @@ namespace UIController.ItemVisual
         void Show()
         {
             gameObject.SetActive(true);
+        }
+
+        private void OnDestroy()
+        {
+            _sliderTween.Kill();
+            _doneTween.Kill();
+        }
+
+        public void ShowDone()
+        {
+            _doneTween.Kill();
+            _doneTween = _rectTransform.DOScale(_doneScaleValue, _doneScaleTime)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+        
+        public void HideDone()
+        {
+            _doneTween.Kill();
         }
     }
 }

@@ -17,7 +17,16 @@ namespace Editor.Pages.Heroes
         public HeroPageEditor(CommonDictionaries commonDictionaries)
         {
             _dictionaries = commonDictionaries;
+
             Heroes = _heroes.Select(heroModel => new HeroModelEditor(heroModel, _dictionaries)).ToList();
+            foreach (var hero in Heroes)
+            {
+                if (hero.GetModel().General.HeroId == null)
+                {
+                    hero.GetModel().General.HeroId = hero.Id;
+                }
+            }
+
             Init();
         }
 

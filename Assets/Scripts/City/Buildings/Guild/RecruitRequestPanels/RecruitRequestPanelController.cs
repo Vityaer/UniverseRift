@@ -20,21 +20,26 @@ namespace City.Buildings.Guild.RecruitRequestPanels
 
         private GuildData _guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
 
-        public override void Start()
-        {
-            base.Start();
-        }
-
         protected override void OnLoadGame()
         {
             base.OnLoadGame();
             UpdateUI();
         }
 
+        public override void OnShow()
+        {
+            View.RequestList.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count > 0);
+            View.RequestListEmpty.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count == 0);
+            base.OnShow();
+        }
+
         private void UpdateUI()
         {
             if (CommonGameData.City.GuildPlayerSaveContainer.GuildData == null)
                 return;
+
+            View.RequestList.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count > 0);
+            View.RequestListEmpty.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count == 0);
 
             foreach (var request in CommonGameData.City.GuildPlayerSaveContainer.Requests)
             {

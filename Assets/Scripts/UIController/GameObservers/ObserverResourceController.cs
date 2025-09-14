@@ -1,6 +1,7 @@
 ﻿using ClientServices;
 using Common.Resourses;
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using Models.Common.BigDigits;
 using TMPro;
@@ -40,7 +41,25 @@ namespace UIController.GameObservers
         {
             if (_buyResourcePanelController == null)
             {
-                Debug.LogError($"{nameof(_buyResourcePanelController)} is null");
+                string path = string.Empty;
+
+                List<Transform> pathObjects = new();
+                Transform current = transform;
+                while (current != null)
+                {
+                    pathObjects.Add(current);
+                    current = current.parent;
+                    
+                }
+
+                for (var i = pathObjects.Count - 1; i > 0; i--)
+                {
+                    path = string.Concat(path, pathObjects[i].name, "/");
+                }
+                
+                path = string.Concat(path, pathObjects[0].name);
+
+                Debug.LogError($"Object: {path} {nameof(_buyResourcePanelController)} is null");
                 return;
             }
             

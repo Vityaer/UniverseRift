@@ -1,6 +1,7 @@
 ﻿using Campaign;
 using Campaign.GoldHeaps;
 using MainPages.Campaign;
+using MainPages.City.CityUi;
 using MainPages.MenuHud;
 using Ui.MainMenu.MenuButtons;
 using VContainer;

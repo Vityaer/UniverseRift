@@ -49,7 +49,7 @@ namespace Pages.City.ChallengeTower
         [HorizontalGroup("2")]
         [LabelText("Missions")]
         [LabelWidth(150)]
-        [ListDrawerSettings(Expanded = false,
+        [ListDrawerSettings(DraggableItems = true, Expanded = false,
         NumberOfItemsPerPage = 20,
             CustomRemoveElementFunction = nameof(RemoveMission), CustomAddFunction = nameof(AddMission))]
         public List<MissionModel> Missions

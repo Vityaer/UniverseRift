@@ -17,7 +17,6 @@ namespace City.TrainCamp.HeroPanels
         public Button LevelUpButton;
         public Button OpenHeroDetailsButton;
         public Button EvolitionPanelButton;
-        public Image imageHero;
         public LocalizeStringEvent NameHero;
         public TextMeshProUGUI textLevel;
         public TextMeshProUGUI textHP;

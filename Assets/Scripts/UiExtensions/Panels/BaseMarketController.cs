@@ -1,4 +1,5 @@
-﻿using City.Buildings.Abstractions;
+﻿using System;
+using City.Buildings.Abstractions;
 using City.Buildings.Market;
 using ClientServices;
 using Common.Resourses;
@@ -15,6 +16,8 @@ using UnityEngine;
 using VContainer;
 using Common.Inventories.Splinters;
 using System.Linq;
+using City.Panels.Inventories;
+using Object = UnityEngine.Object;
 
 namespace UiExtensions.Panels
 {
@@ -24,7 +27,7 @@ namespace UiExtensions.Panels
         [Inject] protected readonly CommonGameData _сommonGameData;
         [Inject] protected readonly CommonDictionaries _commonDictionaries;
         [Inject] protected readonly ResourceStorageController _resourceStorageController;
-        [Inject] protected readonly InventoryController _inventoryController;
+        [Inject] protected readonly InventoryPanelController InventoryPanelController;
 
         protected List<MarketProductController> productControllers = new();
 
@@ -41,37 +44,57 @@ namespace UiExtensions.Panels
                 .Select(promo => promo.ProductId)
                 .ToList();
 
-            allMarketProducts.AddRange(promotions);
+            foreach (var promo in promotions)
+            {
+                if (!_commonDictionaries.Products.ContainsKey(promo))
+                {
+                    Debug.LogError($"Market: {Name}, promotion {promo} not found");
+                    continue;
+                }
+
+                allMarketProducts.Add(promo);
+            }
 
             foreach (var productId in allMarketProducts)
             {
-                var productModel = _commonDictionaries.Products[productId];
-
-                BaseMarketProduct baseMarketProduct = null;
-
-                switch (productModel)
+                try
                 {
-                    case ResourceProductModel resourceProductModel:
-                        var resource = new GameResource(resourceProductModel.Subject);
-                        baseMarketProduct = new MarketProduct<GameResource>(resourceProductModel, resource);
-                        break;
-                    case ItemProductModel itemProductModel:
-                        var itemModel = _commonDictionaries.Items[itemProductModel.Subject.Id];
-                        var item = new GameItem(itemModel, itemProductModel.Subject.Amount);
-                        baseMarketProduct = new MarketProduct<GameItem>(itemProductModel, item);
-                        break;
-                    case SplinterProductModel splinterProductModel:
-                        var splinterModel = _commonDictionaries.Splinters[splinterProductModel.Subject.Id];
-                        var splinter = new GameSplinter(splinterModel, splinterProductModel.Subject.Amount);
-                        baseMarketProduct = new MarketProduct<GameSplinter>(splinterProductModel, splinter);
-                        break;
-                }
 
-                var controller = Object.Instantiate(View.Prefab, View.Content);
+                    var productModel = _commonDictionaries.Products[productId];
+
+                    BaseMarketProduct baseMarketProduct = null;
+
+                    switch (productModel)
+                    {
+                        case ResourceProductModel resourceProductModel:
+                            var resource = new GameResource(resourceProductModel.Subject);
+                            baseMarketProduct = new MarketProduct<GameResource>(resourceProductModel, resource);
+                            break;
+                        case ItemProductModel itemProductModel:
+                            var itemModel = _commonDictionaries.Items[itemProductModel.Subject.Id];
+                            var item = new GameItem(itemModel, itemProductModel.Subject.Amount);
+                            baseMarketProduct = new MarketProduct<GameItem>(itemProductModel, item);
+                            break;
+                        case SplinterProductModel splinterProductModel:
+                            var splinterModel = _commonDictionaries.Splinters[splinterProductModel.Subject.Id];
+                            var splinter = new GameSplinter(splinterModel, splinterProductModel.Subject.Amount);
+                            baseMarketProduct = new MarketProduct<GameSplinter>(splinterProductModel, splinter);
+                            break;
+                    }
+
+
+
+                var controller = Object.Instantiate(View.Prefab, View.ScrollRect.content);
                 productControllers.Add(controller);
                 Resolver.Inject(controller);
                 Resolver.Inject(controller.ButtonCost);
                 controller.SetData(productId, baseMarketProduct, () => TryBuyProductOnServer(productId, 1).Forget());
+                controller.SetScroll(View.ScrollRect);
+                }
+                catch(Exception ex)
+                {
+                    Debug.LogError($"Failed to load product: {productId} in market {Name} exception: {ex.Message}");
+                }
             }
         }
 
@@ -110,7 +133,7 @@ namespace UiExtensions.Panels
                     case ItemProductModel ItemProduct:
                         var itemModel = _commonDictionaries.Items[ItemProduct.Subject.Id];
                         var item = new GameItem(itemModel, ItemProduct.Subject.Amount);
-                        _inventoryController.Add(item);
+                        InventoryPanelController.Add(item);
                         break;
                 }
 

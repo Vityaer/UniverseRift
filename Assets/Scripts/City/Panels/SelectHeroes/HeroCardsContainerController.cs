@@ -25,6 +25,7 @@ namespace City.Panels.SelectHeroes
         [SerializeField] private Dictionary<string, Button> _buttons = new();
         [SerializeField] private Button _allHeroesButton;
 
+        private Button m_currentButton;
         private DynamicUiList<Card, GameHero> _cardPool;
         private bool _loadedListHeroes = false;
 
@@ -42,12 +43,12 @@ namespace City.Panels.SelectHeroes
 
         private void Awake()
         {
-            _cardPool = new(_prefab, _scroll.content, _scroll, OnCardSelect, OnCardCreate);
+            TryCreateCardPool();
 
             foreach (var buttonContainer in _buttons)
             {
                 buttonContainer.Value.OnClickAsObservable()
-                    .Subscribe(_ => ShowRace(buttonContainer.Key))
+                    .Subscribe(_ => ShowRace(buttonContainer))
                     .AddTo(_disposables);
             }
 
@@ -56,8 +57,21 @@ namespace City.Panels.SelectHeroes
                 .AddTo(_disposables);
         }
 
+        private void TryCreateCardPool()
+        {
+            if (_cardPool != null)
+            {
+                return;
+            }
+
+            _cardPool = new(_prefab, _scroll.content, _scroll, OnCardSelect, OnCardCreate);
+        }
+
         private void Start()
         {
+            m_currentButton = _allHeroesButton;
+            m_currentButton.interactable = false;
+            
             _customToggle.OnChange.Subscribe(ChangeSortCardType).AddTo(_disposables);
         }
 
@@ -84,7 +98,8 @@ namespace City.Panels.SelectHeroes
 
             if (restrictions != null)
             {
-                _listHeroes = heroes.FindAll(hero => restrictions.TrueForAll(restriction => restriction.CheckHero(hero)));
+                _listHeroes = heroes.FindAll(hero => restrictions
+                    .TrueForAll(restriction => restriction.CheckHero(hero)));
             }
             else
             {
@@ -92,20 +107,46 @@ namespace City.Panels.SelectHeroes
             }
 
             _listHeroes.Sort(_customToggle.IsOn ? _gameHeroRatingComparer : _gameHeroLevelComparer);
+            
+            if(m_currentButton != null)
+                m_currentButton.interactable = true;
+            
+            m_currentButton = _allHeroesButton;
+            m_currentButton.interactable = false;
+            
+            TryCreateCardPool();
             _cardPool.ShowDatas(_listHeroes);
         }
 
-        public void ShowRace(string Race)
+        public void ShowRace(KeyValuePair<string, Button> raceButton)
         {
+            if (m_currentButton != null)
+            {
+                m_currentButton.interactable = true;
+            }
+
+            m_currentButton = raceButton.Value;
+            m_currentButton.interactable = false;
+            
             var raceHeroes = _listHeroes
-                .Where(hero => hero.Model.General.Race.Equals(Race))
+                .Where(hero => hero.Model.General.Race.Equals(raceButton.Key))
                 .ToList();
 
+            TryCreateCardPool();
             _cardPool.ShowDatas(raceHeroes);
         }
 
         public void ShowAllCards()
         {
+            if (m_currentButton != null)
+            {
+                m_currentButton.interactable = true;
+            }
+
+            m_currentButton = _allHeroesButton;
+            m_currentButton.interactable = false;
+            
+            TryCreateCardPool();
             _cardPool.ShowDatas(_listHeroes);
         }
 

@@ -47,24 +47,11 @@ namespace City.Buildings.Guild.GuildRecruitDetailPanels
             View.PlayerName.text = _playerData.Name;
 
             var myData = GetMyRecruitData();
-            var canBan = false;
-            var canLeave = false;
+            bool isLeader = _guildData.LeaderId == myData.PlayerId;
+            bool isSelf = myData.PlayerId == _recruitData.PlayerId;
 
-            if (_guildData.LeaderId == myData.PlayerId)
-            {
-                canBan = true;
-                canLeave = true;
-            }
-            else
-            {
-                canBan = false;
-                canLeave = false;
-
-                if (myData.PlayerId == _recruitData.PlayerId)
-                {
-                    canLeave = true;
-                }
-            }
+            bool canBan = isLeader && !isSelf;
+            bool canLeave = (isLeader && !isSelf) || (!isLeader && isSelf);
 
             View.RecruitBanButton.gameObject.SetActive(canBan);
             View.LeaveGuildButton.gameObject.SetActive(canLeave);

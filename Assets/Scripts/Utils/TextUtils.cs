@@ -1,23 +1,22 @@
-﻿using Cysharp.Threading.Tasks;
-using DG.Tweening;
+﻿using System.Collections.Generic;
+using System.IO;
+using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
 using Network.DataServer;
 using Network.DataServer.Jsons;
 using Network.Misc;
 using Newtonsoft.Json;
-using Sirenix.Serialization;
-using System.Collections.Generic;
-using System.IO;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Utils
 {
     public static class TextUtils
     {
-        public static ReactiveCommand<FileLoadingProgress> DownloadProgress = new ReactiveCommand<FileLoadingProgress>();
+        public static ReactiveCommand<FileLoadingProgress>
+            DownloadProgress = new ReactiveCommand<FileLoadingProgress>();
+
         private static FileLoadingProgress fileProgress = new FileLoadingProgress(0);
 
         private const string MAIN_URL = "https://localhost:7065/";
@@ -25,10 +24,7 @@ namespace Utils
         public static string GetTextFromLocalStorage<T>()
         {
             var path = GetConfigPath<T>();
-            if (!File.Exists(path))
-            {
-                File.Create(path).Close();
-            }
+            if (!File.Exists(path)) File.Create(path).Close();
             var text = File.ReadAllText(path);
             return text;
         }
@@ -36,10 +32,7 @@ namespace Utils
         public static string GetDataFromLocalStorage<T>()
         {
             var path = GetDataPath<T>();
-            if (!File.Exists(path))
-            {
-                File.Create(path).Close();
-            }
+            if (!File.Exists(path)) File.Create(path).Close();
             var text = File.ReadAllText(path);
             return text;
         }
@@ -111,17 +104,14 @@ namespace Utils
         {
             //Save<T>(jsonData);
             //jsonData = GetTextFromLocalStorage<T>();
-            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             var fromJson = JsonConvert.DeserializeObject<List<T>>(jsonData, settings);
             var result = new Dictionary<string, T>();
 
             if (fromJson == null)
                 return result;
 
-            foreach (var model in fromJson)
-            {
-                result.Add(model.Id, model);
-            }
+            foreach (var model in fromJson) result.Add(model.Id, model);
 
             return result;
         }
@@ -149,12 +139,10 @@ namespace Utils
             var filePath = Path.Combine(path, fileName);
 
             if (!File.Exists(filePath))
-            {
                 if (!File.Exists(path))
                     Directory.CreateDirectory(path);
-            }
 
-            return new StreamWriter(filePath, append: append);
+            return new StreamWriter(filePath, append);
         }
     }
 }

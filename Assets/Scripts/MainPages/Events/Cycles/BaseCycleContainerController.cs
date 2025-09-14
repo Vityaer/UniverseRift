@@ -25,7 +25,7 @@ namespace MainPages.Events.Cycles
         [SerializeField] protected SliderTime CycleGameEventSliderTime;
         [SerializeField] protected Button MainPanelButton;
 
-        public void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
+        public virtual void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
         {
             CycleGameEventSliderTime.Init(_localizationSystem, _timeLocalizeService);
             CycleGameEventSliderTime.SetData(startDateTime, gameCycleTime);

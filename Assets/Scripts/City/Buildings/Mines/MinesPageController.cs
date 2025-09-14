@@ -63,7 +63,7 @@ namespace City.Buildings.Mines
             var placeForMineCreate = View.MinePlaces.Find(place => place.Id == data.PlaceId);
 
             var model = _commonDictionaries.Mines[data.MineId];
-            placeForMineCreate.SetData(model, data);
+            placeForMineCreate.CreateMine(model, data);
             _panelNewMineCreate.RefreshData();
 
             View.CollectAllButton.interactable = (_mineDatas.Count > 1);

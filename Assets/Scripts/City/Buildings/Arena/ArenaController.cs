@@ -55,7 +55,6 @@ namespace City.Buildings.Arena
             var arenaBuildingModel = CommonDictionaries.Buildings[nameof(ArenaBuildingModel)] as ArenaBuildingModel;
 
             var workHours = arenaBuildingModel.ArenaContainers[ArenaType.Simple].WorkHours;
-            Debug.Log(_arenaBuildingSave.ArenaGeneralData.SimpleArenaDateTimeStartText);
             var startDateTime = TimeUtils.ParseTime(_arenaBuildingSave.ArenaGeneralData.SimpleArenaDateTimeStartText);
             
             View.SimpleArenaTimer.SetData(startDateTime, TimeSpan.FromHours(workHours));

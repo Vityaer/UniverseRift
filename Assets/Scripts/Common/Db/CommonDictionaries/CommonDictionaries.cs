@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Campaign;
-using City.Buildings.WheelFortune;
 using City.TrainCamp;
 using Common;
 using Cysharp.Threading.Tasks;
@@ -13,8 +13,6 @@ using Models.City.Markets;
 using Models.City.Mines;
 using Models.City.Misc;
 using Models.City.TravelCircle;
-using Models.Common;
-using Models.Data.Buildings.Markets;
 using Models.Data.Dailies;
 using Models.Data.Dailies.Tasks;
 using Models.Fights.Misc;
@@ -25,11 +23,9 @@ using Models.Heroes.PowerUps;
 using Models.Inventory.Splinters;
 using Models.Items;
 using Models.Misc.Avatars;
+using Models.Misc.Helps;
 using Models.Rewards;
 using Models.Tasks;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using UIController.Inventory;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
@@ -75,6 +71,9 @@ namespace Db.CommonDictionaries
         private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
         private Dictionary<string, CharacteristicModel> _characteristicModels = new();
         private Dictionary<string, HireContainerModel> _hireContainerModels = new();
+        private Dictionary<string, LocationModel> _locationModels = new();
+        private Dictionary<string, HelpResourceModel> _helpResourceModels = new();
+
         private readonly IJsonConverter _converter;
         private bool _isInited;
 
@@ -112,6 +111,8 @@ namespace Db.CommonDictionaries
         public Dictionary<string, RatingUpContainer> RatingUpContainers => _ratingUpContainers;
         public Dictionary<string, CharacteristicModel> CharacteristicModels => _characteristicModels;
         public Dictionary<string, HireContainerModel> HireContainerModels => _hireContainerModels;
+        public Dictionary<string, LocationModel> LocationModels => _locationModels;
+        public Dictionary<string, HelpResourceModel> HelpResourceModels => _helpResourceModels;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -159,10 +160,7 @@ namespace Db.CommonDictionaries
         {
 #if UNITY_EDITOR
             var needUpdateConfig = false;
-            if (!TextUtils.IsLoadedToLocalStorage<ConfigVersion>())
-            {
-                needUpdateConfig = await IsNeedUpdateConfig();
-            }
+            if (!TextUtils.IsLoadedToLocalStorage<ConfigVersion>()) needUpdateConfig = await IsNeedUpdateConfig();
 #else
             var needUpdateConfig = await IsNeedUpdateConfig();
 #endif
@@ -246,6 +244,8 @@ namespace Db.CommonDictionaries
             _ratingUpContainers = await DownloadModels<RatingUpContainer>();
             _characteristicModels = await DownloadModels<CharacteristicModel>();
             _hireContainerModels = await DownloadModels<HireContainerModel>();
+            _locationModels = await DownloadModels<LocationModel>();
+            _helpResourceModels = await DownloadModels<HelpResourceModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -291,6 +291,8 @@ namespace Db.CommonDictionaries
             _ratingUpContainers = GetModels<RatingUpContainer>();
             _characteristicModels = GetModels<CharacteristicModel>();
             _hireContainerModels = GetModels<HireContainerModel>();
+            _locationModels = GetModels<LocationModel>();
+            _helpResourceModels = GetModels<HelpResourceModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

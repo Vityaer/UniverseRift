@@ -8,6 +8,7 @@ using Editor.Common;
 using Editor.Common.Pages.Buildings.Arenas;
 using Editor.Common.Pages.Buildings.Guilds;
 using Editor.Common.Pages.Buildings.Sanctuaries;
+using Editor.Common.Pages.Misc.WhereGetPages;
 using Editor.Pages.Achievments;
 using Editor.Pages.Bosses;
 using Editor.Pages.Buildings.Hires;
@@ -88,6 +89,8 @@ namespace Editor.Windows
         private MineSettingsPageEditor _mineSettingsPageEditor;
         private SanctuaryPageEditor _sanctuaryPageEditor;
         private ArenaPageEditor _arenaPageEditor;
+        private WhereGetResourcePageEditor _whereGetResourcePageEditor;
+        
         private OdinMenuTree _tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
@@ -158,6 +161,8 @@ namespace Editor.Windows
             _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
             _tree.Add("City/Guild/Main", _guildBuildingPageEditor);
             _tree.Add("City/Guild/Bosses", _guildBossPageEditor);
+            _tree.Add("Misc/Where get resources", _whereGetResourcePageEditor);
+            
         }
 
         private async void InitPages()
@@ -280,6 +285,9 @@ namespace Editor.Windows
             
             _arenaPageEditor = new ArenaPageEditor(_dictionaries);
             _allPages.Add(_arenaPageEditor);
+            
+            _whereGetResourcePageEditor = new WhereGetResourcePageEditor(_dictionaries);
+            _allPages.Add(_whereGetResourcePageEditor);
         }
 
         private void OnValueSaved()

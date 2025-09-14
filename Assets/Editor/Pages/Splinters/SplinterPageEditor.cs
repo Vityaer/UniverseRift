@@ -1,10 +1,9 @@
-﻿using Db.CommonDictionaries;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Db.CommonDictionaries;
 using Editor.Common;
 using Models.Inventory.Splinters;
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
-using System.Linq;
-using UIController.Inventory;
 using Utils;
 
 namespace Editor.Pages.Splinters
@@ -62,5 +61,29 @@ namespace Editor.Pages.Splinters
         [PropertyOrder(2)]
         [Searchable(FilterOptions = SearchFilterOptions.ValueToString)]
         public List<SplinterModelEditor> Splinters = new List<SplinterModelEditor>();
+
+        [PropertyOrder(3)]
+        [Button("Add Splinter missing heroes")]
+        public void AddMissingHeroes()
+        {
+            foreach (var hero in _dictionaries.Heroes)
+            {
+                var key = $"{hero.Key}Splinter";
+                var findSplinter = Splinters.FindIndex(splinter => splinter.Id == key);
+                if (findSplinter != -1)
+                    continue;
+
+                var splinterModel = new SplinterModel()
+                {
+                    Id = key,
+                    ModelId = hero.Key,
+                    SplinterType = SplinterType.Hero,
+                    RequireCount = 30
+                };
+                
+                _dictionaries.Splinters.Add(key, splinterModel);
+                Splinters.Add(new SplinterModelEditor(_dictionaries.Splinters[key], _dictionaries));
+            }
+        }
     }
 }

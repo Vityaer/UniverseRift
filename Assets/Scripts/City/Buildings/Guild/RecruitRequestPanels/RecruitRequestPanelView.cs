@@ -1,5 +1,4 @@
-﻿using City.Buildings.Guild.RecruitViews;
-using Ui.Misc.Widgets;
+﻿using Ui.Misc.Widgets;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -10,5 +9,7 @@ namespace City.Buildings.Guild.RecruitRequestPanels
         public ScrollRect Scroll;
         public GuildRecruitRequestView GuildRecruitRequestViewPrefab;
         public RectTransform Content;
+        public GameObject RequestList;
+        public GameObject RequestListEmpty;
     }
 }

@@ -1,17 +1,15 @@
-﻿using City.Panels.BoxRewards;
+﻿using System.Collections.Generic;
+using System.Threading;
 using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Db.CommonDictionaries;
 using Models.Data.Rewards;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils.AsyncUtils;
 
 namespace UIController
@@ -46,20 +44,21 @@ namespace UIController
             ShowReward(_reward);
         }
 
+        public void SetScroll(ScrollRect scrollRect)
+        {
+            foreach (var cell in Cells)
+                cell.SetScroll(scrollRect);
+        }
+
         public void ShowReward(GameReward reward, bool lengthReward = false, bool fast = true)
         {
-
             _reward = reward;
             var count = 0;
 
             if (lengthReward)
-            {
                 count = reward.Objects.Count;
-            }
             else
-            {
                 count = Mathf.Min(4, reward.Objects.Count);
-            }
 
             if (btnAllReward != null)
                 btnAllReward.SetActive(reward.Objects.Count > 4 && lengthReward == false);
@@ -68,10 +67,10 @@ namespace UIController
 
             if (fast)
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                     Cells[i].SetData(reward.Objects[i]);
 
-                for (int i = reward.Objects.Count; i < Cells.Count; i++)
+                for (var i = reward.Objects.Count; i < Cells.Count; i++)
                     Cells[i].Disable();
 
                 panelRewards.gameObject.SetActive(reward.Objects.Count > 0);
@@ -87,7 +86,7 @@ namespace UIController
         {
             Cells.ForEach(cell => cell.Disable());
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 Cells[i].SetData(_reward.Objects[i]);
                 await UniTask.Delay(Mathf.RoundToInt(_delayCell * 1000), cancellationToken: token);

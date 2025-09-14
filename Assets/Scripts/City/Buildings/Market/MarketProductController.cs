@@ -10,6 +10,7 @@ using UIController.Inventory;
 using UIController.ItemVisual;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace City.Buildings.Market
@@ -45,6 +46,11 @@ namespace City.Buildings.Market
         private void Start()
         {
             ButtonCost.OnClick.Subscribe(_ => Buy()).AddTo(_disposables);
+        }
+
+        public void SetScroll(ScrollRect scrollRect)
+        {
+            CellProduct.SetScroll(scrollRect);
         }
 
         public void SetData<T>(string productId, T product, Action callback) where T : BaseMarketProduct

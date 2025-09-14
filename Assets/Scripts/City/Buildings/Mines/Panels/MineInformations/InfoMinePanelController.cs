@@ -25,7 +25,7 @@ using VContainerUi.Services;
 
 namespace City.Buildings.Mines
 {
-    public class InfoMinePanelController : UiPanelController<InfoMinePanelView>, IStartable, IDisposable
+    public class InfoMinePanelController : UiPanelController<InfoMinePanelView>
     {
         private const int INCOME_MAX_SECONDS = 36000;
         private const int INCOME_MIN_SECONDS = 10;
@@ -64,6 +64,7 @@ namespace City.Buildings.Mines
 
             var canDestroasble = !place.MineModel.Id.Equals(MAIN_BUILDING_MINE_ID);
             View.OpenPanelDestroyMineButton.gameObject.SetActive(canDestroasble);
+            View.InfoDataContainer.SetActive(canDestroasble);
 
             UpdateUI();
             _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<InfoMinePanelController>(openType: OpenType.Additive);

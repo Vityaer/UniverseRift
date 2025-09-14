@@ -15,29 +15,70 @@ namespace City.Buildings.TaskGiver
 {
     public class TaskboardController : BaseTaskboardController<TaskboardView>
     {
-        public int countFreeTaskOnDay = 6;
+        private readonly GameResource m_simpleTaskCost = new GameResource(ResourceType.SimpleTask, 1, 0);
+        private readonly GameResource m_specialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
+        private readonly GameResource m_costReplacement = new GameResource(ResourceType.Diamond, 10);
 
-        private GameResource _simpleTaskCost = new GameResource(ResourceType.SimpleTask, 1, 0);
-        private GameResource _specialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
-        private GameResource _costReplacement = new GameResource(ResourceType.Diamond, 10f);
+        private readonly ReactiveCommand<BaseTaskController> m_onCompleteTask = new();
 
-        private ReactiveCommand<BaseTaskController> _onCompleteTask = new();
+        private TaskDataComparer m_comparer;
 
-        public IObservable<BaseTaskController> OnCompleteTask => _onCompleteTask;
+        public IObservable<BaseTaskController> OnCompleteTask => m_onCompleteTask;
 
         protected override void OnStart()
         {
-            View.BuySimpleTaskButton.ChangeCost(_simpleTaskCost,
-                () => BuyTask<BuySimpleTaskMessage>(_simpleTaskCost).Forget());
-            View.BuySpecialTaskButton.ChangeCost(_specialTaskCost,
-                () => BuyTask<BuySpecialTaskMessage>(_specialTaskCost).Forget());
+            m_comparer = new TaskDataComparer(_commonDictionaries);
+            View.BuySimpleTaskButton.ChangeCost(m_simpleTaskCost, BuySimpleTask);
+            View.BuySpecialTaskButton.ChangeCost(m_specialTaskCost, BuySpecialTask);
+
+            View.LowRatingFilterTasksButton.OnClickAsObservable()
+                .Subscribe(_ => ShowLowRatingTask())
+                .AddTo(Disposables);
+
+            View.HighRatingFilterTasksButton.OnClickAsObservable()
+                .Subscribe(_ => ShowHighRatingTask())
+                .AddTo(Disposables);
+
+            View.NoFilterTasksButton.OnClickAsObservable()
+                .Subscribe(_ => ShowAllTasks())
+                .AddTo(Disposables);
+        }
+
+
+        private void BuySimpleTask()
+        {
+            BuyTask<BuySimpleTaskMessage>(m_simpleTaskCost).Forget();
+        }
+
+        private void BuySpecialTask()
+        {
+            BuyTask<BuySpecialTaskMessage>(m_specialTaskCost).Forget();
+        }
+
+        private void ShowAllTasks()
+        {
+            TaskControllers.ForEach(taskController => taskController.gameObject.SetActive(true));
+        }
+
+        private void ShowHighRatingTask()
+        {
+            foreach (var taskController in TaskControllers)
+                taskController.gameObject.SetActive(taskController.Model.Rating is > 4 and <= 7);
+        }
+
+        private void ShowLowRatingTask()
+        {
+            foreach (var taskController in TaskControllers)
+                taskController.gameObject.SetActive(taskController.Model.Rating <= 4);
         }
 
         protected override void OnLoadGame()
         {
             _taskBoardData = CommonGameData.City.TaskBoardData;
+            _taskBoardData.ListTasks.Sort(m_comparer);
 
             foreach (var taskData in _taskBoardData.ListTasks) CreateTask(taskData);
+
 
             CheckNews();
             SetCostReplacement();
@@ -46,13 +87,13 @@ namespace City.Buildings.TaskGiver
         private void CheckNews()
         {
             var taskInNotWork =
-                _taskControllers.Find(taskController => (taskController.GetTask.Status != TaskStatusType.InWork));
-            _onNews.Execute(taskInNotWork != null);
+                TaskControllers.Find(taskController => (taskController.GetTask.Status != TaskStatusType.InWork));
+            OnNewsStatusChangeInternal.Execute(taskInNotWork != null);
         }
 
         protected override void OnFinishTask(BaseTaskController taskController)
         {
-            _onCompleteTask.Execute(taskController);
+            m_onCompleteTask.Execute(taskController);
         }
 
         public override void OnHide()
@@ -83,7 +124,7 @@ namespace City.Buildings.TaskGiver
         private void SetCostReplacement()
         {
             var taskCanReplaceCount = _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
-            var cost = _costReplacement * taskCanReplaceCount;
+            var cost = m_costReplacement * taskCanReplaceCount;
             View.BuyReplacementButton.ChangeCost(cost, StartReplacement);
 
             View.BuyReplacementButton.gameObject.SetActive(taskCanReplaceCount != 0);
@@ -99,13 +140,13 @@ namespace City.Buildings.TaskGiver
                 var tasksForReplacement = _taskBoardData.ListTasks
                     .FindAll(x => x.Status == TaskStatusType.NotStart);
 
-                var cost = _costReplacement * tasksForReplacement.Count;
-                for (var i = 0; i < tasksForReplacement.Count; i++)
+                var cost = m_costReplacement * tasksForReplacement.Count;
+                foreach (var taskForReplace in tasksForReplacement)
                 {
-                    var taskForReplace = tasksForReplacement[i];
                     _taskBoardData.ListTasks.Remove(taskForReplace);
-                    var taskController = _taskControllers
-                        .Find(x => x.GetTask == taskForReplace);
+                    var replace = taskForReplace;
+                    var taskController = TaskControllers
+                        .Find(x => x.GetTask == replace);
 
                     if (taskController == null)
                     {
@@ -113,12 +154,13 @@ namespace City.Buildings.TaskGiver
                         continue;
                     }
 
-                    _taskControllers.Remove(taskController);
+                    TaskControllers.Remove(taskController);
                     UnityEngine.Object.Destroy(taskController.gameObject);
                 }
 
                 var newTasks = _jsonConverter.Deserialize<List<TaskData>>(result);
 
+                newTasks.Sort(m_comparer);
                 foreach (var taskData in newTasks)
                 {
                     _taskBoardData.ListTasks.Add(taskData);

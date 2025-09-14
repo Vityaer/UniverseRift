@@ -8,9 +8,10 @@ namespace UIController.Animations
         public RectTransform rect;
         public float time = 0.1f;
 
-        private Vector2 startSize = new Vector2(1f, 1f);
-        private float minSize = 0.95f, maxSize = 1.05f;
-        private Tween sequenceScalePulse;
+        private readonly Vector2 m_startSize = new Vector2(1f, 1f);
+        private const float MinSize = 0.95f;
+        private readonly float m_maxSize = 1.05f;
+        private Tween m_sequenceScalePulse;
 
         void Start()
         {
@@ -20,31 +21,31 @@ namespace UIController.Animations
 
         public void ScalePulse()
         {
-            if (sequenceScalePulse != null) sequenceScalePulse.Kill();
-            sequenceScalePulse = DOTween.Sequence()
-                            .Append(rect.DOScale(startSize * minSize, time))
-                            .Append(rect.DOScale(startSize, time));
+            m_sequenceScalePulse.Kill();
+            m_sequenceScalePulse = DOTween.Sequence()
+                            .Append(rect.DOScale(m_startSize * MinSize, time))
+                            .Append(rect.DOScale(m_startSize, time));
         }
         public void Squezze()
         {
-            if (sequenceScalePulse != null) sequenceScalePulse.Kill();
-            sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(startSize * minSize, time));
+            m_sequenceScalePulse.Kill();
+            m_sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(m_startSize * MinSize, time));
 
         }
-        public void SquezzeToDefault()
+        public void ToDefaultSize()
         {
-            if (sequenceScalePulse != null) sequenceScalePulse.Kill();
-            sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(startSize, time));
+            m_sequenceScalePulse.Kill();
+            m_sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(m_startSize, time));
         }
         public void Expansion()
         {
-            if (sequenceScalePulse != null) sequenceScalePulse.Kill();
-            sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(startSize * maxSize, time));
+            m_sequenceScalePulse.Kill();
+            m_sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(m_startSize * m_maxSize, time));
         }
-        public void ExpansionToDefault()
+
+        private void OnDestroy()
         {
-            if (sequenceScalePulse != null) sequenceScalePulse.Kill();
-            sequenceScalePulse = DOTween.Sequence().Append(rect.DOScale(startSize, time));
+            m_sequenceScalePulse.Kill();
         }
     }
 }

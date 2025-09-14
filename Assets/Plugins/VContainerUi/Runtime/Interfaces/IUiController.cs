@@ -1,4 +1,6 @@
-﻿namespace VContainerUi.Interfaces
+﻿using System;
+
+namespace VContainerUi.Interfaces
 {
     public interface IUiController : IBaseUiController
     {
@@ -7,5 +9,7 @@
 
         void ProcessStateOrder();
         void ProcessState();
+
+        IObservable<bool> OnNewsStatusChange { get; }
     }
 }

@@ -40,20 +40,20 @@ namespace UIController.GameObservers.Imps
                 return;
             }
 
-            if (m_mineBuildingModel.MineEnergyDatas.Count == 0)
+            if (m_mineBuildingModel.ConfigureContainers.Count == 0)
             {
                 Debug.LogError("m_mineBuildingModel.MineEnergyDatas.Count == 0");
                 return;
             }
 
             var index = 0;
-            for (var i = 0; i < m_mineBuildingModel.MineEnergyDatas.Count; i++)
-                if (administrationMine.Level >= m_mineBuildingModel.MineEnergyDatas[i].RequireLevel)
+            for (var i = 0; i < m_mineBuildingModel.ConfigureContainers.Count; i++)
+                if (administrationMine.Level >= m_mineBuildingModel.ConfigureContainers[i].RequireLevel)
                     index = i;
                 else
                     break;
 
-            var maxEnergyCount = m_mineBuildingModel.MineEnergyDatas[index].MaxEnergyCount;
+            var maxEnergyCount = m_mineBuildingModel.ConfigureContainers[index].MaxEnergyCount;
             textObserver.text = $"{CommonGameData.City.IndustrySave.MineEnergy} / {maxEnergyCount}";
         }
     }

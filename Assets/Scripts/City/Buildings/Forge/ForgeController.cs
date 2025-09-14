@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using City.Panels.Inventories;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UIController.ItemVisual.Forges;
@@ -31,7 +32,7 @@ namespace City.Buildings.Forge
 
         private List<string> SetNames = new List<string>() { "Pupil", "Peasant", "Militiaman", "Monk", "Warrior", "Feller", "Soldier", "Minotaur", "Demon", "Druid", "Obedient", "Devil", "Destiny", "Archangel", "Titan", "God" };
 
-        [Inject] private readonly InventoryController _inventoryController;
+        [Inject] private readonly InventoryPanelController _inventoryPanelController;
         [Inject] private readonly ItemPanelController _itemPanelController;
         [Inject] private readonly ResourceStorageController _resourceStorageController;
         [Inject] private readonly CommonDictionaries _commonDictionaries;
@@ -88,6 +89,12 @@ namespace City.Buildings.Forge
             LoadItemRelations(_necklaces, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Amulet).ToList());
             LoadItemRelations(_boots, _commonDictionaries.Items.Values.Where(item => item.Type == ItemType.Boots).ToList());
             OpenList(_weapons);
+        }
+
+        public override void OnShow()
+        {
+            base.OnShow();
+            View.GridOverrider.RecalculateGridSize();
         }
 
         private void LoadItemRelations(List<GameItemRelation> relations, List<ItemModel> itemModels)
@@ -161,7 +168,7 @@ namespace City.Buildings.Forge
             {
                 var ingredients = new GameItem(_commonDictionaries.Items[_currentItem.Model.ItemIngredientName], createdCount * _currentItem.Model.RequireCount);
                 _resourceStorageController.SubtractResource(cost * createdCount);
-                _inventoryController.Remove(ingredients);
+                _inventoryPanelController.Remove(ingredients);
                 _onCraft.Execute(new BigDigit(createdCount));
 
                 var newItem = new ItemData() { Id = _currentItem.Model.ResultItemName, Amount = createdCount };
@@ -194,7 +201,7 @@ namespace City.Buildings.Forge
 
         private int HowManyThisItems(GameItem item)
         {
-            if (_inventoryController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
+            if (_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
             {
                 return value.Amount;
             }

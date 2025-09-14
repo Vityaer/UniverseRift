@@ -23,5 +23,7 @@ namespace MainPages.Events
         public LocalizeStringEvent EventCycleName;
 
         public SerializableDictionary<GameEventType, EventContainer> EventContainers = new();
+
+        public Button HeroSpaceMarketButton;
     }
 }

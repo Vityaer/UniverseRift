@@ -52,7 +52,7 @@ namespace Fight
         {
             this.target = target;
             Vector3 dir = (target.transform.position - tr.position).normalized;
-            rb.velocity = dir * speed;
+            rb.linearVelocity = dir * speed;
             tr.forward = dir;
         }
     }

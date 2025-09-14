@@ -522,8 +522,13 @@ namespace Fight.WarTable
             OnStartMission.Execute();
             if (View.FastFightToggle.IsOn)
             {
+                base.Close();
                 _fightController.FastFight(_mission, View.LeftTeam, View.RightTeam);
-                Close();
+                _playerTeam = null;
+                _mission = null;
+                OnClose.Execute();
+                ClearPlaces(View.LeftTeam);
+                ClearPlaces(View.RightTeam);
             }
             else
             {

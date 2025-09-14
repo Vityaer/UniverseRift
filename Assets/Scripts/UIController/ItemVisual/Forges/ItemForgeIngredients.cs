@@ -1,4 +1,5 @@
 ﻿using City.Buildings.Forge;
+using City.Panels.Inventories;
 using Db.CommonDictionaries;
 using UIController.Inventory;
 using VContainer;
@@ -8,7 +9,7 @@ namespace UIController.ItemVisual.Forges
 {
     public class ItemForgeIngredients : UiView
     {
-        [Inject] private InventoryController _inventoryController;
+        [Inject] private InventoryPanelController _inventoryPanelController;
         [Inject] private CommonDictionaries _commonDictionaries;
 
         public ItemSliderController ItemSliderController;
@@ -41,7 +42,7 @@ namespace UIController.ItemVisual.Forges
 
         private int HowManyThisItems(GameItem item)
         {
-            if (_inventoryController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
+            if (_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
             {
                 return value.Amount;
             }

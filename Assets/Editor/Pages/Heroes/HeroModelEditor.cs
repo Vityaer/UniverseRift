@@ -40,7 +40,11 @@ namespace Editor.Pages.Heroes
         public string Id
         {
             get => _model.Id;
-            set => _model.Id = value;
+            set
+            {
+                _model.Id = value;
+                _model.General.HeroId = value;
+            }
         }
 
         [FoldoutGroup("GeneralInfo", expanded: true)]
