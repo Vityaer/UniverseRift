@@ -1,8 +1,8 @@
-﻿using Db.CommonDictionaries;
-using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Hero;
 using System;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UnityEngine;
 using VContainer;
 

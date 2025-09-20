@@ -1,11 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Fight.FightInterface;
-using Fight.HeroControllers.Generals;
 using Models.Grid;
 using Models.Heroes;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Fight.Common.FightInterface;
+using Fight.Common.HeroControllers.Generals;
 using UniRx;
 using UnityEngine;
 using Utils.AsyncUtils;
@@ -13,7 +13,7 @@ using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     public class GridController : UiController<GridView>, IInitializable, IDisposable
     {

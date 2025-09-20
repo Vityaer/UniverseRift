@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     public enum CellDirectionType
     {

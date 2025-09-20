@@ -1,8 +1,8 @@
-﻿using Fight.Grid;
-using System.Collections;
+﻿using System.Collections;
 using Cysharp.Threading.Tasks;
+using Fight.Common.Grid;
 
-namespace Fight.HeroControllers.Generals.Movements
+namespace Fight.Common.HeroControllers.Generals.Movements
 {
     public interface IMovementable
     {

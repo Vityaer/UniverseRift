@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fight.Comparers
+namespace Fight.Common.Comparers
 {
     public class WarriorAttackComparer : IComparer<Warrior>
     {

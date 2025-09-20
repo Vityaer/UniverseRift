@@ -1,18 +1,17 @@
-using Fight.Grid;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
 using System.Collections.Generic;
 using VContainer;
 using UniRx;
 using VContainer.Unity;
 using System;
-using UnityEngine;
+using Fight.Common.Grid;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
 
-namespace Fight.AI
+namespace Fight.Common.AI
 {
     public class BaseBot : IInitializable, IDisposable
     {
-        [Inject] private readonly FightController _fightController;
+        [Inject] private readonly Common.FightController _fightController;
         [Inject] private readonly GridController _gridController;
 
         public List<Warrior> _leftTeam;

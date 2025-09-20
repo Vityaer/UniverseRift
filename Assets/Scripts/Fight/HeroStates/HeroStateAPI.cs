@@ -1,15 +1,15 @@
-﻿using Fight.HeroControllers.Generals;
-using System;
+﻿using System;
+using Fight.Common.HeroControllers.Generals;
 using UIController;
 using UnityEngine;
 using VContainer;
 using UniRx;
 
-namespace Fight.HeroStates
+namespace Fight.Common.HeroStates
 {
     public partial class HeroStatus : MonoBehaviour
     {
-        private FightController _fightController;
+        private Common.FightController _fightController;
 
         [SerializeField] private HeroController heroController;
         public SmoothSlider sliderHP;
@@ -23,7 +23,7 @@ namespace Fight.HeroStates
         public int Stamina => stamina;
 
         [Inject]
-        public void Construct(FightController fightController)
+        public void Construct(Common.FightController fightController)
         {
             _fightController = fightController;
             _fightController.OnEndRound.Subscribe(_ => RoundFinish()).AddTo(_disposables);

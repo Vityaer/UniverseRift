@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Fight.Utils
+namespace Fight.Common.Utils
 {
     public static class Utils
     {

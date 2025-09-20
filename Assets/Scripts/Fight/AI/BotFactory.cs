@@ -1,8 +1,8 @@
-using Fight.Misc;
+using Fight.Common.Misc;
 using UnityEngine;
 using VContainer;
 
-namespace Fight.AI
+namespace Fight.Common.AI
 {
     public class BotFactory
     {

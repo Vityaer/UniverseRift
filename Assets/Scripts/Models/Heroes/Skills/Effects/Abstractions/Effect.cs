@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Models.Heroes.Skills.Effects.TypeEvents;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;

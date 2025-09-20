@@ -1,11 +1,11 @@
 ﻿using Campaign;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Models.City.Misc;
 using Models.Fights.Campaign;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Reflection;
+using Common.Db.CommonDictionaries;
 
 namespace Pages.City.ChallengeTower
 {

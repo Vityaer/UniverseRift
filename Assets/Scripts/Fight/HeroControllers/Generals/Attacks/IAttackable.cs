@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 
-namespace Fight.HeroControllers.Generals.Attacks
+namespace Fight.Common.HeroControllers.Generals.Attacks
 {
     public interface IAttackable
     {

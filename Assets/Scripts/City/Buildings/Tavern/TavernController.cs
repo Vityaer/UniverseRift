@@ -4,7 +4,6 @@ using ClientServices;
 using Common.Heroes;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Hero;
 using IdleGame.AdvancedObservers;
 using Misc.Json;
@@ -15,6 +14,7 @@ using Network.DataServer;
 using Network.DataServer.Messages;
 using System;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UniRx;
 using VContainer;
 

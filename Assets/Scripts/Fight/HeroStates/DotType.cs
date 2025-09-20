@@ -1,4 +1,4 @@
-﻿namespace Fight.HeroStates
+﻿namespace Fight.Common.HeroStates
 {
     public enum DotType
     {

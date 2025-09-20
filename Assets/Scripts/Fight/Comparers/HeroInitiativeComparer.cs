@@ -1,7 +1,7 @@
-﻿using Fight.HeroControllers.Generals;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.HeroControllers.Generals;
 
-namespace Fight.Comparers
+namespace Fight.Common.Comparers
 {
     public class HeroInitiativeComparer : IComparer<HeroController>
     {

@@ -1,7 +1,7 @@
-﻿using Fight.Grid;
-using Fight.HeroControllers.Generals;
+﻿using Fight.Common.Grid;
+using Fight.Common.HeroControllers.Generals;
 
-namespace Fight
+namespace Fight.Common
 {
 
     [System.Serializable]

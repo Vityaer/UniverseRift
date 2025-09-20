@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Models.Heroes.Actions;
 using Models.Heroes.Skills.Actions.Effects;
 using Models.Heroes.Skills.Actions.Imps.SimpleActions;

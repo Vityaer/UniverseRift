@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using City.Panels.SubjectPanels.Common;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
-using Db.CommonDictionaries;
 using Models.Guilds;
 using UiExtensions.Scroll.Interfaces;
 using VContainer;

@@ -1,5 +1,5 @@
 ﻿using Common;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Models.Data.Inventories;
 using Newtonsoft.Json;
 

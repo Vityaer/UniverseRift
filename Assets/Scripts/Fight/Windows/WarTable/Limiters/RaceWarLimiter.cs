@@ -1,7 +1,7 @@
 using Hero;
 using Models;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public class RaceWarLimiter : IWarLimiter
     {

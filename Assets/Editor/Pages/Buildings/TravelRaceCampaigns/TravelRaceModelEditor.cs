@@ -1,10 +1,10 @@
 ﻿using City.Buildings.TravelCircle;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Models.City.TravelCircle;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 
 namespace Editor.Pages.Buildings.TravelRaceCampaigns
 {

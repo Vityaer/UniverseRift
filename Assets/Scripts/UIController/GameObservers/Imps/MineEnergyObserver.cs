@@ -1,4 +1,4 @@
-﻿using Db.CommonDictionaries;
+﻿using Common.Db.CommonDictionaries;
 using Models.City.Mines;
 using UIController.Observers;
 using UnityEngine;

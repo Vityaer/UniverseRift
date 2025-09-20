@@ -1,8 +1,8 @@
-﻿using Fight.HeroControllers.Generals;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.HeroControllers.Generals;
 using UnityEngine;
 
-namespace Fight.Statistics
+namespace Fight.Common.Statistics
 {
     public class HeroFightStatistics : MonoBehaviour
     {

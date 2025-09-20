@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Campaign;
 using City.TrainCamp;
-using Common;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models;
@@ -31,88 +30,88 @@ using UniRx;
 using UnityEngine;
 using Utils;
 
-namespace Db.CommonDictionaries
+namespace Common.Db.CommonDictionaries
 {
     public class CommonDictionaries
     {
         public ReactiveCommand OnStartDownloadFiles = new();
         public ReactiveCommand OnFinishDownloadFiles = new();
 
-        private Dictionary<string, HeroModel> _heroes = new();
-        private Dictionary<string, RaceModel> _races = new();
-        private Dictionary<string, VocationModel> _vocations = new();
-        private Dictionary<string, ItemModel> _items = new();
-        private Dictionary<string, RarityModel> _raryties = new();
-        private Dictionary<string, ItemSet> _itemSets = new();
-        private Dictionary<string, ItemRelationModel> _itemRelations = new();
-        private Dictionary<string, RatingModel> _ratings = new();
-        private Dictionary<string, CampaignChapterModel> _campaignChapters = new();
-        private Dictionary<string, LocationModel> _locations = new();
-        private Dictionary<string, SplinterModel> _splinters = new();
-        private Dictionary<string, BaseProductModel> _products = new();
-        private Dictionary<string, MarketModel> _markets = new();
-        private Dictionary<string, MineModel> _mines = new();
-        private Dictionary<string, StorageChallengeModel> _storageChallenges = new();
-        private Dictionary<string, ResistanceModel> _resistances = new();
-        private Dictionary<string, CostLevelUpContainer> _heroesCostLevelUps = new();
-        private Dictionary<string, MonthlyTasksModel> _monthlyTasks = new();
-        private Dictionary<string, GameTaskModel> _gameTaskModels = new();
-        private Dictionary<string, BuildingModel> _buildings = new();
-        private Dictionary<string, RewardModel> _rewards = new();
-        private Dictionary<string, FortuneRewardModel> _fortuneRewardModels = new();
-        private Dictionary<string, DailyRewardModel> _dailyRewardDatas = new();
-        private Dictionary<string, MineRestrictionModel> _mineRestrictions = new();
-        private Dictionary<string, TravelRaceModel> _travelRaceCampaigns = new();
-        private Dictionary<string, AchievmentModel> _achievments = new();
-        private Dictionary<string, AchievmentContainerModel> _achievmentContainers = new();
-        private Dictionary<string, RewardContainerModel> _rewardContainerModels = new();
-        private Dictionary<string, GuildBossContainer> _guildBossContainers = new();
-        private Dictionary<string, AvatarModel> _avatarModels = new();
-        private Dictionary<string, RatingUpContainer> _ratingUpContainers = new();
-        private Dictionary<string, CharacteristicModel> _characteristicModels = new();
-        private Dictionary<string, HireContainerModel> _hireContainerModels = new();
-        private Dictionary<string, LocationModel> _locationModels = new();
-        private Dictionary<string, HelpResourceModel> _helpResourceModels = new();
+        private Dictionary<string, HeroModel> m_heroes = new();
+        private Dictionary<string, RaceModel> m_races = new();
+        private Dictionary<string, VocationModel> m_vocations = new();
+        private Dictionary<string, ItemModel> m_items = new();
+        private Dictionary<string, RarityModel> m_raryties = new();
+        private Dictionary<string, ItemSet> m_itemSets = new();
+        private Dictionary<string, ItemRelationModel> m_itemRelations = new();
+        private Dictionary<string, RatingModel> m_ratings = new();
+        private Dictionary<string, CampaignChapterModel> m_campaignChapters = new();
+        private Dictionary<string, LocationModel> m_locations = new();
+        private Dictionary<string, SplinterModel> m_splinters = new();
+        private Dictionary<string, BaseProductModel> m_products = new();
+        private Dictionary<string, MarketModel> m_markets = new();
+        private Dictionary<string, MineModel> m_mines = new();
+        private Dictionary<string, StorageChallengeModel> m_storageChallenges = new();
+        private Dictionary<string, ResistanceModel> m_resistances = new();
+        private Dictionary<string, CostLevelUpContainer> m_heroesCostLevelUps = new();
+        private Dictionary<string, MonthlyTasksModel> m_monthlyTasks = new();
+        private Dictionary<string, GameTaskModel> m_gameTaskModels = new();
+        private Dictionary<string, BuildingModel> m_buildings = new();
+        private Dictionary<string, RewardModel> m_rewards = new();
+        private Dictionary<string, FortuneRewardModel> m_fortuneRewardModels = new();
+        private Dictionary<string, DailyRewardModel> m_dailyRewardDatas = new();
+        private Dictionary<string, MineRestrictionModel> m_mineRestrictions = new();
+        private Dictionary<string, TravelRaceModel> m_travelRaceCampaigns = new();
+        private Dictionary<string, AchievmentModel> m_achievments = new();
+        private Dictionary<string, AchievmentContainerModel> m_achievmentContainers = new();
+        private Dictionary<string, RewardContainerModel> m_rewardContainerModels = new();
+        private Dictionary<string, GuildBossContainer> m_guildBossContainers = new();
+        private Dictionary<string, AvatarModel> m_avatarModels = new();
+        private Dictionary<string, RatingUpContainer> m_ratingUpContainers = new();
+        private Dictionary<string, CharacteristicModel> m_characteristicModels = new();
+        private Dictionary<string, HireContainerModel> m_hireContainerModels = new();
+        private Dictionary<string, LocationModel> m_locationModels = new();
+        private Dictionary<string, HelpResourceModel> m_helpResourceModels = new();
 
-        private readonly IJsonConverter _converter;
-        private bool _isInited;
+        private readonly IJsonConverter m_converter;
+        private bool m_isInited;
 
-        public bool Inited => _isInited;
-        public Dictionary<string, HeroModel> Heroes => _heroes;
-        public Dictionary<string, ItemModel> Items => _items;
-        public Dictionary<string, RarityModel> Rarities => _raryties;
-        public Dictionary<string, ItemSet> ItemSets => _itemSets;
-        public Dictionary<string, RatingModel> Ratings => _ratings;
-        public Dictionary<string, RaceModel> Races => _races;
-        public Dictionary<string, VocationModel> Vocations => _vocations;
-        public Dictionary<string, CampaignChapterModel> CampaignChapters => _campaignChapters;
-        public Dictionary<string, LocationModel> Locations => _locations;
-        public Dictionary<string, SplinterModel> Splinters => _splinters;
-        public Dictionary<string, BaseProductModel> Products => _products;
-        public Dictionary<string, MarketModel> Markets => _markets;
-        public Dictionary<string, MineModel> Mines => _mines;
-        public Dictionary<string, StorageChallengeModel> StorageChallenges => _storageChallenges;
-        public Dictionary<string, ResistanceModel> Resistances => _resistances;
-        public Dictionary<string, AchievmentModel> Achievments => _achievments;
-        public Dictionary<string, ItemRelationModel> ItemRelations => _itemRelations;
-        public Dictionary<string, CostLevelUpContainer> CostContainers => _heroesCostLevelUps;
-        public Dictionary<string, MonthlyTasksModel> MonthlyTasks => _monthlyTasks;
-        public Dictionary<string, GameTaskModel> GameTaskModels => _gameTaskModels;
-        public Dictionary<string, BuildingModel> Buildings => _buildings;
-        public Dictionary<string, RewardModel> Rewards => _rewards;
-        public Dictionary<string, FortuneRewardModel> FortuneRewardModels => _fortuneRewardModels;
-        public Dictionary<string, DailyRewardModel> DailyRewardDatas => _dailyRewardDatas;
-        public Dictionary<string, AchievmentContainerModel> AchievmentContainers => _achievmentContainers;
-        public Dictionary<string, MineRestrictionModel> MineRestrictions => _mineRestrictions;
-        public Dictionary<string, TravelRaceModel> TravelRaceCampaigns => _travelRaceCampaigns;
-        public Dictionary<string, RewardContainerModel> RewardContainerModels => _rewardContainerModels;
-        public Dictionary<string, GuildBossContainer> GuildBossContainers => _guildBossContainers;
-        public Dictionary<string, AvatarModel> AvatarModels => _avatarModels;
-        public Dictionary<string, RatingUpContainer> RatingUpContainers => _ratingUpContainers;
-        public Dictionary<string, CharacteristicModel> CharacteristicModels => _characteristicModels;
-        public Dictionary<string, HireContainerModel> HireContainerModels => _hireContainerModels;
-        public Dictionary<string, LocationModel> LocationModels => _locationModels;
-        public Dictionary<string, HelpResourceModel> HelpResourceModels => _helpResourceModels;
+        public bool Inited => m_isInited;
+        public Dictionary<string, HeroModel> Heroes => m_heroes;
+        public Dictionary<string, ItemModel> Items => m_items;
+        public Dictionary<string, RarityModel> Rarities => m_raryties;
+        public Dictionary<string, ItemSet> ItemSets => m_itemSets;
+        public Dictionary<string, RatingModel> Ratings => m_ratings;
+        public Dictionary<string, RaceModel> Races => m_races;
+        public Dictionary<string, VocationModel> Vocations => m_vocations;
+        public Dictionary<string, CampaignChapterModel> CampaignChapters => m_campaignChapters;
+        public Dictionary<string, LocationModel> Locations => m_locations;
+        public Dictionary<string, SplinterModel> Splinters => m_splinters;
+        public Dictionary<string, BaseProductModel> Products => m_products;
+        public Dictionary<string, MarketModel> Markets => m_markets;
+        public Dictionary<string, MineModel> Mines => m_mines;
+        public Dictionary<string, StorageChallengeModel> StorageChallenges => m_storageChallenges;
+        public Dictionary<string, ResistanceModel> Resistances => m_resistances;
+        public Dictionary<string, AchievmentModel> Achievments => m_achievments;
+        public Dictionary<string, ItemRelationModel> ItemRelations => m_itemRelations;
+        public Dictionary<string, CostLevelUpContainer> CostContainers => m_heroesCostLevelUps;
+        public Dictionary<string, MonthlyTasksModel> MonthlyTasks => m_monthlyTasks;
+        public Dictionary<string, GameTaskModel> GameTaskModels => m_gameTaskModels;
+        public Dictionary<string, BuildingModel> Buildings => m_buildings;
+        public Dictionary<string, RewardModel> Rewards => m_rewards;
+        public Dictionary<string, FortuneRewardModel> FortuneRewardModels => m_fortuneRewardModels;
+        public Dictionary<string, DailyRewardModel> DailyRewardDatas => m_dailyRewardDatas;
+        public Dictionary<string, AchievmentContainerModel> AchievmentContainers => m_achievmentContainers;
+        public Dictionary<string, MineRestrictionModel> MineRestrictions => m_mineRestrictions;
+        public Dictionary<string, TravelRaceModel> TravelRaceCampaigns => m_travelRaceCampaigns;
+        public Dictionary<string, RewardContainerModel> RewardContainerModels => m_rewardContainerModels;
+        public Dictionary<string, GuildBossContainer> GuildBossContainers => m_guildBossContainers;
+        public Dictionary<string, AvatarModel> AvatarModels => m_avatarModels;
+        public Dictionary<string, RatingUpContainer> RatingUpContainers => m_ratingUpContainers;
+        public Dictionary<string, CharacteristicModel> CharacteristicModels => m_characteristicModels;
+        public Dictionary<string, HireContainerModel> HireContainerModels => m_hireContainerModels;
+        public Dictionary<string, LocationModel> LocationModels => m_locationModels;
+        public Dictionary<string, HelpResourceModel> HelpResourceModels => m_helpResourceModels;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -153,7 +152,7 @@ namespace Db.CommonDictionaries
 
         public CommonDictionaries(IJsonConverter converter)
         {
-            _converter = converter;
+            m_converter = converter;
         }
 
         public async UniTask Init()
@@ -175,12 +174,12 @@ namespace Db.CommonDictionaries
                 LoadFromLocalDirectory();
             }
 
-            _isInited = true;
+            m_isInited = true;
         }
 
         private async UniTask<bool> IsNeedUpdateConfig()
         {
-            var jsonData = string.Empty;
+            string jsonData = string.Empty;
             if (TextUtils.IsLoadedToLocalStorage<ConfigVersion>())
             {
                 jsonData = TextUtils.GetTextFromLocalStorage<ConfigVersion>();
@@ -192,10 +191,10 @@ namespace Db.CommonDictionaries
                 return true;
             }
 
-            var currentConfig = TextUtils.FillModel<ConfigVersion>(jsonData, _converter);
+            var currentConfig = TextUtils.FillModel<ConfigVersion>(jsonData, m_converter);
             var serverConfigJson = await TextUtils.DownloadJsonData(nameof(ConfigVersion));
             Debug.Log($"server load {serverConfigJson}");
-            var serverConfig = TextUtils.FillModel<ConfigVersion>(serverConfigJson, _converter);
+            var serverConfig = TextUtils.FillModel<ConfigVersion>(serverConfigJson, m_converter);
             Debug.Log(
                 $"current config version:{currentConfig.Version}\nserver config version:{serverConfig.Version}");
 
@@ -210,95 +209,95 @@ namespace Db.CommonDictionaries
 
         private async UniTask LoadFromRemoteDirectory()
         {
-            _heroes = await DownloadModels<HeroModel>();
-            _races = await DownloadModels<RaceModel>();
-            _vocations = await DownloadModels<VocationModel>();
-            _items = await DownloadModels<ItemModel>();
-            _raryties = await DownloadModels<RarityModel>();
-            _itemSets = await DownloadModels<ItemSet>();
-            _ratings = await DownloadModels<RatingModel>();
-            _campaignChapters = await DownloadModels<CampaignChapterModel>();
-            _locations = await DownloadModels<LocationModel>();
-            _splinters = await DownloadModels<SplinterModel>();
-            _products = await DownloadModels<BaseProductModel>();
-            _markets = await DownloadModels<MarketModel>();
-            _mines = await DownloadModels<MineModel>();
-            _storageChallenges = await DownloadModels<StorageChallengeModel>();
-            _resistances = await DownloadModels<ResistanceModel>();
-            _achievments = await DownloadModels<AchievmentModel>();
-            _itemRelations = await DownloadModels<ItemRelationModel>();
-            _heroesCostLevelUps = await DownloadModels<CostLevelUpContainer>();
-            _monthlyTasks = await DownloadModels<MonthlyTasksModel>();
-            _gameTaskModels = await DownloadModels<GameTaskModel>();
-            _buildings = await DownloadModels<BuildingModel>();
-            _rewards = await DownloadModels<RewardModel>();
-            _fortuneRewardModels = await DownloadModels<FortuneRewardModel>();
-            _gameTaskModels = await DownloadModels<GameTaskModel>();
-            _dailyRewardDatas = await DownloadModels<DailyRewardModel>();
-            _achievmentContainers = await DownloadModels<AchievmentContainerModel>();
-            _mineRestrictions = await DownloadModels<MineRestrictionModel>();
-            _travelRaceCampaigns = await DownloadModels<TravelRaceModel>();
-            _rewardContainerModels = await DownloadModels<RewardContainerModel>();
-            _guildBossContainers = await DownloadModels<GuildBossContainer>();
-            _avatarModels = await DownloadModels<AvatarModel>();
-            _ratingUpContainers = await DownloadModels<RatingUpContainer>();
-            _characteristicModels = await DownloadModels<CharacteristicModel>();
-            _hireContainerModels = await DownloadModels<HireContainerModel>();
-            _locationModels = await DownloadModels<LocationModel>();
-            _helpResourceModels = await DownloadModels<HelpResourceModel>();
+            m_heroes = await DownloadModels<HeroModel>();
+            m_races = await DownloadModels<RaceModel>();
+            m_vocations = await DownloadModels<VocationModel>();
+            m_items = await DownloadModels<ItemModel>();
+            m_raryties = await DownloadModels<RarityModel>();
+            m_itemSets = await DownloadModels<ItemSet>();
+            m_ratings = await DownloadModels<RatingModel>();
+            m_campaignChapters = await DownloadModels<CampaignChapterModel>();
+            m_locations = await DownloadModels<LocationModel>();
+            m_splinters = await DownloadModels<SplinterModel>();
+            m_products = await DownloadModels<BaseProductModel>();
+            m_markets = await DownloadModels<MarketModel>();
+            m_mines = await DownloadModels<MineModel>();
+            m_storageChallenges = await DownloadModels<StorageChallengeModel>();
+            m_resistances = await DownloadModels<ResistanceModel>();
+            m_achievments = await DownloadModels<AchievmentModel>();
+            m_itemRelations = await DownloadModels<ItemRelationModel>();
+            m_heroesCostLevelUps = await DownloadModels<CostLevelUpContainer>();
+            m_monthlyTasks = await DownloadModels<MonthlyTasksModel>();
+            m_gameTaskModels = await DownloadModels<GameTaskModel>();
+            m_buildings = await DownloadModels<BuildingModel>();
+            m_rewards = await DownloadModels<RewardModel>();
+            m_fortuneRewardModels = await DownloadModels<FortuneRewardModel>();
+            m_gameTaskModels = await DownloadModels<GameTaskModel>();
+            m_dailyRewardDatas = await DownloadModels<DailyRewardModel>();
+            m_achievmentContainers = await DownloadModels<AchievmentContainerModel>();
+            m_mineRestrictions = await DownloadModels<MineRestrictionModel>();
+            m_travelRaceCampaigns = await DownloadModels<TravelRaceModel>();
+            m_rewardContainerModels = await DownloadModels<RewardContainerModel>();
+            m_guildBossContainers = await DownloadModels<GuildBossContainer>();
+            m_avatarModels = await DownloadModels<AvatarModel>();
+            m_ratingUpContainers = await DownloadModels<RatingUpContainer>();
+            m_characteristicModels = await DownloadModels<CharacteristicModel>();
+            m_hireContainerModels = await DownloadModels<HireContainerModel>();
+            m_locationModels = await DownloadModels<LocationModel>();
+            m_helpResourceModels = await DownloadModels<HelpResourceModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
         {
             var jsonData = await TextUtils.DownloadJsonData(typeof(T).Name);
             TextUtils.Save<T>(jsonData);
-            return TextUtils.FillDictionary<T>(jsonData, _converter);
+            return TextUtils.FillDictionary<T>(jsonData, m_converter);
         }
 
         private void LoadFromLocalDirectory()
         {
-            _heroes = GetModels<HeroModel>();
-            _races = GetModels<RaceModel>();
-            _vocations = GetModels<VocationModel>();
-            _items = GetModels<ItemModel>();
-            _raryties = GetModels<RarityModel>();
-            _itemSets = GetModels<ItemSet>();
-            _ratings = GetModels<RatingModel>();
-            _campaignChapters = GetModels<CampaignChapterModel>();
-            _locations = GetModels<LocationModel>();
-            _splinters = GetModels<SplinterModel>();
-            _products = GetModels<BaseProductModel>();
-            _markets = GetModels<MarketModel>();
-            _mines = GetModels<MineModel>();
-            _storageChallenges = GetModels<StorageChallengeModel>();
-            _resistances = GetModels<ResistanceModel>();
-            _achievments = GetModels<AchievmentModel>();
-            _itemRelations = GetModels<ItemRelationModel>();
-            _heroesCostLevelUps = GetModels<CostLevelUpContainer>();
-            _monthlyTasks = GetModels<MonthlyTasksModel>();
-            _gameTaskModels = GetModels<GameTaskModel>();
-            _buildings = GetModels<BuildingModel>();
-            _rewards = GetModels<RewardModel>();
-            _fortuneRewardModels = GetModels<FortuneRewardModel>();
-            _gameTaskModels = GetModels<GameTaskModel>();
-            _dailyRewardDatas = GetModels<DailyRewardModel>();
-            _achievmentContainers = GetModels<AchievmentContainerModel>();
-            _mineRestrictions = GetModels<MineRestrictionModel>();
-            _travelRaceCampaigns = GetModels<TravelRaceModel>();
-            _rewardContainerModels = GetModels<RewardContainerModel>();
-            _guildBossContainers = GetModels<GuildBossContainer>();
-            _avatarModels = GetModels<AvatarModel>();
-            _ratingUpContainers = GetModels<RatingUpContainer>();
-            _characteristicModels = GetModels<CharacteristicModel>();
-            _hireContainerModels = GetModels<HireContainerModel>();
-            _locationModels = GetModels<LocationModel>();
-            _helpResourceModels = GetModels<HelpResourceModel>();
+            m_heroes = GetModels<HeroModel>();
+            m_races = GetModels<RaceModel>();
+            m_vocations = GetModels<VocationModel>();
+            m_items = GetModels<ItemModel>();
+            m_raryties = GetModels<RarityModel>();
+            m_itemSets = GetModels<ItemSet>();
+            m_ratings = GetModels<RatingModel>();
+            m_campaignChapters = GetModels<CampaignChapterModel>();
+            m_locations = GetModels<LocationModel>();
+            m_splinters = GetModels<SplinterModel>();
+            m_products = GetModels<BaseProductModel>();
+            m_markets = GetModels<MarketModel>();
+            m_mines = GetModels<MineModel>();
+            m_storageChallenges = GetModels<StorageChallengeModel>();
+            m_resistances = GetModels<ResistanceModel>();
+            m_achievments = GetModels<AchievmentModel>();
+            m_itemRelations = GetModels<ItemRelationModel>();
+            m_heroesCostLevelUps = GetModels<CostLevelUpContainer>();
+            m_monthlyTasks = GetModels<MonthlyTasksModel>();
+            m_gameTaskModels = GetModels<GameTaskModel>();
+            m_buildings = GetModels<BuildingModel>();
+            m_rewards = GetModels<RewardModel>();
+            m_fortuneRewardModels = GetModels<FortuneRewardModel>();
+            m_gameTaskModels = GetModels<GameTaskModel>();
+            m_dailyRewardDatas = GetModels<DailyRewardModel>();
+            m_achievmentContainers = GetModels<AchievmentContainerModel>();
+            m_mineRestrictions = GetModels<MineRestrictionModel>();
+            m_travelRaceCampaigns = GetModels<TravelRaceModel>();
+            m_rewardContainerModels = GetModels<RewardContainerModel>();
+            m_guildBossContainers = GetModels<GuildBossContainer>();
+            m_avatarModels = GetModels<AvatarModel>();
+            m_ratingUpContainers = GetModels<RatingUpContainer>();
+            m_characteristicModels = GetModels<CharacteristicModel>();
+            m_hireContainerModels = GetModels<HireContainerModel>();
+            m_locationModels = GetModels<LocationModel>();
+            m_helpResourceModels = GetModels<HelpResourceModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel
         {
             var jsonData = TextUtils.GetTextFromLocalStorage<T>();
-            return TextUtils.FillDictionary<T>(jsonData, _converter);
+            return TextUtils.FillDictionary<T>(jsonData, m_converter);
         }
     }
 }

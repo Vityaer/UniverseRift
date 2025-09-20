@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using City.Buildings.CityButtons.EventAgent;
 using City.Panels.SubjectPanels.Common;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using DG.Tweening;
 using TMPro;
 using UIController;

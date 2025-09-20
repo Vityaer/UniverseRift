@@ -1,13 +1,13 @@
 using DG.Tweening;
-using Fight.Common.Strikes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Fight.Common.Strikes;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-namespace Fight.HeroControllers.Generals
+namespace Fight.Common.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {

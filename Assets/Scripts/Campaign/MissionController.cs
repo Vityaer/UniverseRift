@@ -1,9 +1,9 @@
 ﻿using Common.Resourses;
-using Db.CommonDictionaries;
 using LocalizationSystems;
 using Models.Common.BigDigits;
 using Models.Fights.Campaign;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UIController;
 using UniRx;

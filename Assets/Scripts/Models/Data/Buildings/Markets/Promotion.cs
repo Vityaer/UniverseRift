@@ -1,4 +1,4 @@
-﻿using Db.CommonDictionaries;
+﻿using Common.Db.CommonDictionaries;
 using Newtonsoft.Json;
 
 namespace Models.Data.Buildings.Markets

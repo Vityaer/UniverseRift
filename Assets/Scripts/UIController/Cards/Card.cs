@@ -1,6 +1,6 @@
-﻿using Db.CommonDictionaries;
-using Hero;
+﻿using Hero;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UiExtensions.Misc;
 using UniRx;

@@ -1,10 +1,10 @@
-﻿using Db.CommonDictionaries;
-using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
 using Models.Inventory.Splinters;
 using System;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Inventory;
 using UIController.Rewards.PosibleRewards;
 using UnityEngine;

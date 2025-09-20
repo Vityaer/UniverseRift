@@ -1,6 +1,6 @@
 ﻿using City.Buildings.Forge;
 using City.Panels.Inventories;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using UIController.Inventory;
 using VContainer;
 using VContainerUi.Abstraction;

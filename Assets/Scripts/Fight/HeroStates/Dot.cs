@@ -1,9 +1,9 @@
-﻿using Fight.Common.Strikes;
-using Fight.HeroControllers.Generals;
-using Fight.Rounds;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.Strikes;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Rounds;
 
-namespace Fight.HeroStates
+namespace Fight.Common.HeroStates
 {
     public class Dot
     {

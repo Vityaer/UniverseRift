@@ -1,10 +1,11 @@
-﻿using Fight;
-using Fight.WarTable;
+﻿using Fight.Common;
+using Fight.Common.WarTable;
 using System;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
+using FightController = Fight.Common.FightController;
 
 namespace UIController.FadeInOutPanels
 {

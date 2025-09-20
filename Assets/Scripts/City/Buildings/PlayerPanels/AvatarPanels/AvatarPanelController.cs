@@ -1,7 +1,7 @@
 ﻿using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
-using Db.CommonDictionaries;
 using Models.Misc.Avatars;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UiExtensions.Misc;
 using UiExtensions.Scroll.Interfaces;
 using VContainer;

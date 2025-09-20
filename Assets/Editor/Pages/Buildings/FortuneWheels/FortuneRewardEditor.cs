@@ -1,10 +1,10 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.City.FortuneRewards;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Pages.Buildings.FortuneWheels

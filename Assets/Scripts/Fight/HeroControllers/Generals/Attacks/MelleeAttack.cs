@@ -3,7 +3,7 @@ using Fight.Common.Strikes;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Attacks
+namespace Fight.Common.HeroControllers.Generals.Attacks
 {
     public class MelleeAttack : AbstractAttack
     {

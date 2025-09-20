@@ -1,5 +1,5 @@
-using Db.CommonDictionaries;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using Ui.Misc.Widgets;
 using UIController.Cards;
 using UIController.Rewards.PosibleRewards;

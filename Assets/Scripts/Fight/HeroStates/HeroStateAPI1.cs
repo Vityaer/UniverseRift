@@ -1,8 +1,8 @@
-﻿using Fight.Rounds;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.Rounds;
 using UnityEngine;
 
-namespace Fight.HeroStates
+namespace Fight.Common.HeroStates
 {
     public partial class HeroStatus : MonoBehaviour
     {

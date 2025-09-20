@@ -1,6 +1,6 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 
-namespace Fight.Statistics
+namespace Fight.Common.Statistics
 {
     public class HeroStatistic
     {

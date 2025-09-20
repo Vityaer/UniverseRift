@@ -1,4 +1,4 @@
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Models.Fights.Campaign;
 using UIController.Rewards;
 using UnityEngine;

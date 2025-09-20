@@ -1,10 +1,10 @@
 ﻿using Campaign;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Models.City.Forges;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 
 namespace Pages.Buildings.Forge
 {

@@ -1,10 +1,10 @@
 ﻿using Campaign;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Rewards;
 
 namespace Editor.Pages.Campaigns

@@ -6,7 +6,7 @@ using Ui.Misc.Widgets.SwapToggle;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public class WarTableView : BaseBuildingView
     {

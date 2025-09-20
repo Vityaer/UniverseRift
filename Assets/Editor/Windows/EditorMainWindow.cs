@@ -3,7 +3,7 @@ using Assets.Editor.Pages.Avatars;
 using Assets.Editor.Pages.Heroes.Charastectics;
 using Assets.Editor.Pages.Locations;
 using Common;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Editor.Common;
 using Editor.Common.Pages.Buildings.Arenas;
 using Editor.Common.Pages.Buildings.Guilds;

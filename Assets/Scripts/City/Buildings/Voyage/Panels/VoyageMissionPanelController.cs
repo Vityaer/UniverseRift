@@ -1,11 +1,11 @@
 using City.Buildings.Voyage.Panels;
 using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
-using Db.CommonDictionaries;
 using Hero;
 using Models.Fights.Campaign;
 using System;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using LocalizationSystems;
 using UI.Utils.Localizations.Extensions;
 using UiExtensions.Scroll.Interfaces;

@@ -1,4 +1,4 @@
-﻿namespace Fight.HeroStates
+﻿namespace Fight.Common.HeroStates
 {
     //Debuff
     public class Debuff

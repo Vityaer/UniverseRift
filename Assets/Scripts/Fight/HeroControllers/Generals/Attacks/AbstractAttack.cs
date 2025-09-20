@@ -1,11 +1,11 @@
-﻿using Fight.Common.Strikes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Fight.Common.Strikes;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Attacks
+namespace Fight.Common.HeroControllers.Generals.Attacks
 {
     public abstract class AbstractAttack : MonoBehaviour, IAttackable
     {

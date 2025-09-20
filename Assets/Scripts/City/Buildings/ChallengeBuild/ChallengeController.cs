@@ -1,6 +1,6 @@
 ﻿using City.Buildings.Abstractions;
 using Common;
-using Fight.WarTable;
+using Fight.Common.WarTable;
 using Models.Fights.Challenge;
 using System.Collections.Generic;
 using UnityEngine;

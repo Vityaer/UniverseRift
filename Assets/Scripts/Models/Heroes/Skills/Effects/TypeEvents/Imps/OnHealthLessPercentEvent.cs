@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;

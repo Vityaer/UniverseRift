@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Hero;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public class WarTableLimiter
     {

@@ -1,7 +1,7 @@
-using Fight.Grid;
+using Fight.Common.Grid;
 using UnityEngine;
 
-namespace Fight.FightInterface
+namespace Fight.Common.FightInterface
 {
     public class MelleeAttackUI : MonoBehaviour
     {

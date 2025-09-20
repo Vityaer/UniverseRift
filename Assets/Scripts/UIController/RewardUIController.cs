@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using City.Panels.SubjectPanels.Common;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Models.Data.Rewards;
 using UIController.ItemVisual;
 using UIController.Rewards;

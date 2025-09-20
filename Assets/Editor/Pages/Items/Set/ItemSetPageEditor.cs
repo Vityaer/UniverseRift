@@ -1,10 +1,10 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Editor.Pages.Items.Set

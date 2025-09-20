@@ -1,7 +1,7 @@
-using Db.CommonDictionaries;
 using Models.Data.Rewards;
 using Models.Fights.Campaign;
 using System;
+using Common.Db.CommonDictionaries;
 using UnityEngine;
 
 namespace Campaign

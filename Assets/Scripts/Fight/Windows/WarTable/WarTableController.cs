@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using City.Buildings.Abstractions;
+using Common.Db.CommonDictionaries;
 using Common.Heroes;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using DG.Tweening;
 using Hero;
 using Models.Arenas;
@@ -18,13 +18,13 @@ using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public class WarTableController : BaseBuilding<WarTableView>, IInitializable
     {
         [Inject] private readonly CommonDictionaries _commonDictionaries;
         [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly FightController _fightController;
+        [Inject] private readonly Common.FightController _fightController;
 
         private MissionModel _mission;
         private CompositeDisposable _disposables = new();

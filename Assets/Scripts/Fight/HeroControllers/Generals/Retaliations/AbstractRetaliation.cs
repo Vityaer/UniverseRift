@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Retaliations
+namespace Fight.Common.HeroControllers.Generals.Retaliations
 {
     public class AbstractRetaliation : MonoBehaviour
     {

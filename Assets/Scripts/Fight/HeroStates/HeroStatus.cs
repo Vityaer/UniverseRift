@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fight.HeroStates
+namespace Fight.Common.HeroStates
 {
     public partial class HeroStatus : MonoBehaviour
     {

@@ -1,13 +1,13 @@
 ﻿using DG.Tweening;
-using Fight.Grid;
-using Fight.Misc;
 using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
+using Fight.Common.Grid;
+using Fight.Common.Misc;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Movements
+namespace Fight.Common.HeroControllers.Generals.Movements
 {
     public abstract class AbstractMovement : MonoBehaviour, IMovementable
     {

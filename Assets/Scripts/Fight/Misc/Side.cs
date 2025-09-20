@@ -1,4 +1,4 @@
-namespace Fight.Misc
+namespace Fight.Common.Misc
 {
     public enum Side
     {

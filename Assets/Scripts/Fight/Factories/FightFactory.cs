@@ -1,4 +1,4 @@
-﻿namespace Fight.Factories
+﻿namespace Fight.Common.Factories
 {
     public class FightFactory
     {

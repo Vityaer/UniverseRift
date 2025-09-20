@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Models.Common.BigDigits;
 using TMPro;
+using UIController.ControllerPanels.MarketResources;
 using UIController.Observers;
 using UniRx;
 using UnityEngine;

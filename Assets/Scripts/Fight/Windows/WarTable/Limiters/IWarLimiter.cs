@@ -1,6 +1,6 @@
 using Hero;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public interface IWarLimiter
     {

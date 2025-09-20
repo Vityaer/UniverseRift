@@ -6,7 +6,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fight.WarTable
+namespace Fight.Common.WarTable
 {
     public class WarriorPlace : MonoBehaviour, IDisposable
     {

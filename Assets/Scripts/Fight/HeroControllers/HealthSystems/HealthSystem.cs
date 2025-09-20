@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Fight.HeroControllers.HealthSystems
+namespace Fight.Common.HeroControllers.HealthSystems
 {
     public class HealthSystem : MonoBehaviour
     {

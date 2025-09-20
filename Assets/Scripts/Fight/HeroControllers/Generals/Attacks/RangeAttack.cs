@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Attacks
+namespace Fight.Common.HeroControllers.Generals.Attacks
 {
     public class RangeAttack : AbstractAttack
     {

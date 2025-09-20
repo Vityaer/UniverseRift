@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Assets.Scripts.Fight.Common;
 using City.TrainCamp.HeroInstances;
 using Cysharp.Threading.Tasks;
-using Fight.Comparers;
-using Fight.Factories;
-using Fight.FightInterface;
-using Fight.Grid;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
-using Fight.UI;
-using Fight.WarTable;
+using Fight.Common.Comparers;
+using Fight.Common.Factories;
+using Fight.Common.FightInterface;
+using Fight.Common.Grid;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
+using Fight.Common.UI;
+using Fight.Common.WarTable;
 using LocalizationSystems;
 using Models.Fights.Campaign;
 using UI.Utils.Localizations.Extensions;
@@ -24,7 +24,7 @@ using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
 
-namespace Fight
+namespace Fight.Common
 {
     public partial class FightController : UiController<FightView>
     {
@@ -35,18 +35,18 @@ namespace Fight
         private const int MAX_ROUND_COUNT = 15;
         private const int TICK_DELAY = 750;
 
-        [Inject] private readonly HeroFactory _heroFactory;
-        [Inject] private readonly GridController _gridController;
-        [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
-        [Inject] private readonly FightDirectionController _fightDirectionController;
-        [Inject] private readonly HeroInstancesController _heroInstancesController;
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
-        private FightPanelController _fightPanelController;
+        [Inject] private readonly HeroFactory m_heroFactory;
+        [Inject] private readonly GridController m_gridController;
+        [Inject] private readonly IUiMessagesPublisherService m_messagesPublisher;
+        [Inject] private readonly FightDirectionController m_fightDirectionController;
+        [Inject] private readonly HeroInstancesController m_heroInstancesController;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        private FightPanelController m_fightPanelController;
 
-        [Header("Place heroes")] private List<Warrior> _leftTeam = new();
-        private List<Warrior> _rightTeam = new();
-        private List<HeroController> _listInitiative = new();
-        private List<HeroController> _listHeroesWithAction = new();
+        public List<Warrior> m_leftTeam = new();
+        public List<Warrior> m_rightTeam = new();
+        private readonly List<HeroController> m_listInitiative = new();
+        private readonly List<HeroController> m_listHeroesWithAction = new();
 
         public ReactiveCommand<LocalizedString> OnChangeFightUiText = new();
         public ReactiveCommand OnEndRound = new();
@@ -55,22 +55,21 @@ namespace Fight
         public ReactiveCommand OnPlayerFinishFight = new();
         public ReactiveCommand AfterCreateFight = new();
 
-        private bool _isFightFinish = false;
-        private int _currentHeroIndex = -1;
-        private int _round = 1;
-        private MissionModel _mission;
-        private readonly ReactiveCommand<FightResultType> _onFightResult = new();
+        private bool m_isFightFinish = false;
+        private int m_currentHeroIndex = -1;
+        private int m_round = 1;
+        private readonly ReactiveCommand<FightResultType> m_onFightResult = new();
 
-        public List<Warrior> GetLeftTeam => _leftTeam;
-        public List<Warrior> GetRightTeam => _rightTeam;
-        public IObservable<FightResultType> OnFightResult => _onFightResult;
+        public List<Warrior> GetLeftTeam => m_leftTeam;
+        public List<Warrior> GetRightTeam => m_rightTeam;
+        public IObservable<FightResultType> OnFightResult => m_onFightResult;
         public bool IsFastFight { get; private set; }
 
-        public HeroController GetCurrentHero() => _listInitiative[_currentHeroIndex];
+        public HeroController GetCurrentHero() => m_listInitiative[m_currentHeroIndex];
 
         public void SetControllerUi(FightPanelController fightPanelController)
         {
-            _fightPanelController = fightPanelController;
+            m_fightPanelController = fightPanelController;
         }
 
         public void SetMission(MissionModel mission, List<WarriorPlace> leftWarriorPlace,
@@ -79,19 +78,18 @@ namespace Fight
             IsFastFight = false;
             View.gameObject.SetActive(true);
 
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<FightWindow>(openType: OpenType.Exclusive);
-            _isFightFinish = false;
-            _mission = mission;
+            m_messagesPublisher.OpenWindowPublisher.OpenWindow<FightWindow>(openType: OpenType.Exclusive);
+            m_isFightFinish = false;
             //View.LocationController.OpenLocation(mission.Location);
-            _heroInstancesController.HideLight();
-            _gridController.OpenGrid();
+            m_heroInstancesController.HideLight();
+            m_gridController.OpenGrid();
             CreateTeams(leftWarriorPlace, rightWarriorPlace);
         }
 
         private void CreateTeams(List<WarriorPlace> leftWarriorPlace, List<WarriorPlace> rightWarriorPlace)
         {
-            CreateTeam(_gridController.GetLeftTeamPos, leftWarriorPlace, Side.Left, _leftTeam);
-            CreateTeam(_gridController.GetRightTeamPos, rightWarriorPlace, Side.Right, _rightTeam);
+            CreateTeam(m_gridController.GetLeftTeamPos, leftWarriorPlace, Side.Left, m_leftTeam);
+            CreateTeam(m_gridController.GetRightTeamPos, rightWarriorPlace, Side.Right, m_rightTeam);
             WaitDelayBeforeStartFight().Forget();
         }
 
@@ -105,7 +103,7 @@ namespace Fight
             if (!IsFastFight)
                 for (var i = 3; i > 0; i--)
                 {
-                    var localizeTime = _localizationSystem.LocalizationUiContainer
+                    var localizeTime = m_localizationSystem.LocalizationUiContainer
                         .GetLocalizedContainer(START_TIME_LOCALIZATION_KEY)
                         .WithArguments(new List<object> { i });
 
@@ -114,7 +112,7 @@ namespace Fight
                 }
 
             var localize =
-                _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(START_FIGHT_LOCALIZATION_KEY);
+                m_localizationSystem.LocalizationUiContainer.GetLocalizedContainer(START_FIGHT_LOCALIZATION_KEY);
             OnChangeFightUiText.Execute(localize);
 
             if (!IsFastFight)
@@ -122,14 +120,14 @@ namespace Fight
 
             ShowRoundInfo();
             OnStartFight.Execute();
-            _listInitiative.Sort(new HeroInitiativeComparer());
+            m_listInitiative.Sort(new HeroInitiativeComparer());
             StartFight();
         }
 
         private void ShowRoundInfo()
         {
-            var localize = _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(ROUND_LOCALIZATION_KEY)
-                .WithArguments(new List<object> { _round });
+            var localize = m_localizationSystem.LocalizationUiContainer.GetLocalizedContainer(ROUND_LOCALIZATION_KEY)
+                .WithArguments(new List<object> { m_round });
             OnChangeFightUiText.Execute(localize);
         }
 
@@ -139,12 +137,12 @@ namespace Fight
             for (var i = 0; i < team.Count; i++)
                 if (team[i].Hero != null)
                 {
-                    var hero = _heroFactory.Create(team[i].Hero, teamPos[i], side, _gridController.RootTemplateObjects);
+                    var hero = m_heroFactory.Create(team[i].Hero, teamPos[i], side, m_gridController.RootTemplateObjects);
 
                     if (hero == null) continue;
                     warriorTeam.Add(new Warrior(hero));
                     hero.SetData(team[i].Hero, teamPos[i], side, IsFastFight);
-                    _listInitiative.Add(hero);
+                    m_listInitiative.Add(hero);
                 }
         }
 
@@ -157,9 +155,9 @@ namespace Fight
         public void WaitTurn()
         {
             var hero = GetCurrentHero();
-            _listInitiative.Remove(hero);
-            _currentHeroIndex -= 1;
-            _listInitiative.Add(hero);
+            m_listInitiative.Remove(hero);
+            m_currentHeroIndex -= 1;
+            m_listInitiative.Add(hero);
             hero.StartWait();
         }
 
@@ -177,100 +175,100 @@ namespace Fight
 
         public void AddHeroWithAction(HeroController newHero)
         {
-            _listHeroesWithAction.Add(newHero);
+            m_listHeroesWithAction.Add(newHero);
         }
 
         public void RemoveHeroWithAction(HeroController removeHero)
         {
-            _listHeroesWithAction.Remove(removeHero);
-            if (_listHeroesWithAction.Count == 0)
+            m_listHeroesWithAction.Remove(removeHero);
+            if (m_listHeroesWithAction.Count == 0)
                 NextHero();
         }
 
         public void RemoveHeroWithActionAll(HeroController removeHero)
         {
-            _listHeroesWithAction.RemoveAll(x => x == removeHero);
+            m_listHeroesWithAction.RemoveAll(x => x == removeHero);
 
-            if (_listHeroesWithAction.Count == 0)
+            if (m_listHeroesWithAction.Count == 0)
                 NextHero();
         }
 
         private void NextHero()
         {
-            if (_isFightFinish)
+            if (m_isFightFinish)
                 return;
 
-            if ((_currentHeroIndex + 1) < _listInitiative.Count)
-                _currentHeroIndex++;
+            if ((m_currentHeroIndex + 1) < m_listInitiative.Count)
+                m_currentHeroIndex++;
             else
                 NewRound();
 
-            if (!_isFightFinish && _listInitiative.Count > 0)
+            if (!m_isFightFinish && m_listInitiative.Count > 0)
             {
-                _fightPanelController.SetHeroStatus(_listInitiative[_currentHeroIndex]);
-                _listInitiative[_currentHeroIndex].DoTurn();
+                m_fightPanelController.SetHeroStatus(m_listInitiative[m_currentHeroIndex]);
+                m_listInitiative[m_currentHeroIndex].DoTurn();
             }
         }
 
         private void NewRound()
         {
-            if (_isFightFinish)
+            if (m_isFightFinish)
                 return;
 
             UpdateListInitiative();
 
-            foreach (var hero in _listInitiative)
+            foreach (var hero in m_listInitiative)
                 hero.Refresh();
 
-            _currentHeroIndex = 0;
-            _round++;
+            m_currentHeroIndex = 0;
+            m_round++;
 
             ShowRoundInfo();
 
             OnEndRound.Execute();
-            _fightDirectionController.ClearData();
-            if (_round == MAX_ROUND_COUNT) Win(Side.Right);
+            m_fightDirectionController.ClearData();
+            if (m_round == MAX_ROUND_COUNT) Win(Side.Right);
         }
 
         private void UpdateListInitiative()
         {
-            _listInitiative.Clear();
+            m_listInitiative.Clear();
 
-            for (var i = 0; i < _leftTeam.Count; i++)
-                if (_leftTeam[i].heroController != null)
-                    _listInitiative.Add(_leftTeam[i].heroController);
+            for (var i = 0; i < m_leftTeam.Count; i++)
+                if (m_leftTeam[i].heroController != null)
+                    m_listInitiative.Add(m_leftTeam[i].heroController);
                 else
                     Debug.Log("left team hero null");
 
-            for (var i = 0; i < _rightTeam.Count; i++)
-                if (_rightTeam[i].heroController != null)
-                    _listInitiative.Add(_rightTeam[i].heroController);
+            for (var i = 0; i < m_rightTeam.Count; i++)
+                if (m_rightTeam[i].heroController != null)
+                    m_listInitiative.Add(m_rightTeam[i].heroController);
                 else
                     Debug.Log("Right team hero null");
 
-            _listInitiative.Sort(new HeroInitiativeComparer());
+            m_listInitiative.Sort(new HeroInitiativeComparer());
         }
 
         //Result fight
         private void CheckFinishFight()
         {
-            if ((_leftTeam.Count == 0) || (_rightTeam.Count == 0))
-                Win(_leftTeam.Count > 0 ? Side.Left : Side.Right);
+            if ((m_leftTeam.Count == 0) || (m_rightTeam.Count == 0))
+                Win(m_leftTeam.Count > 0 ? Side.Left : Side.Right);
         }
 
         private void Win(Side side)
         {
-            if (_isFightFinish) return;
+            if (m_isFightFinish) return;
 
-            _isFightFinish = true;
-            _fightDirectionController.CloseControllers();
+            m_isFightFinish = true;
+            m_fightDirectionController.CloseControllers();
             FinishFightCountdown(side).Forget();
         }
 
         private async UniTaskVoid FinishFightCountdown(Side side)
         {
             var localize =
-                _localizationSystem.LocalizationUiContainer.GetLocalizedContainer(FINISH_FIGHT_LOCALIZATION_KEY);
+                m_localizationSystem.LocalizationUiContainer.GetLocalizedContainer(FINISH_FIGHT_LOCALIZATION_KEY);
             OnChangeFightUiText.Execute(localize);
 
             if (side == Side.Right) CheckSaveResult();
@@ -278,7 +276,7 @@ namespace Fight
                 await UniTask.Delay(500);
 
             OnFinishFight.Execute();
-            _messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
+            m_messagesPublisher.MessageCloseWindowPublisher.CloseWindow<FightWindow>();
 
             if (!IsFastFight)
             {
@@ -289,20 +287,20 @@ namespace Fight
             var fightResult = (side == Side.Left) ? FightResultType.Win : FightResultType.Defeat;
             ClearAll();
 
-            _onFightResult.Execute(fightResult);
+            m_onFightResult.Execute(fightResult);
         }
 
         private void ClearAll()
         {
-            if (!IsFastFight) _gridController.FinishFight();
+            if (!IsFastFight) m_gridController.FinishFight();
 
-            _heroInstancesController.OpenLight();
-            DeleteTeam(_rightTeam);
-            DeleteTeam(_leftTeam);
-            _listInitiative.Clear();
-            _listHeroesWithAction.Clear();
-            _currentHeroIndex = -1;
-            _round = 1;
+            m_heroInstancesController.OpenLight();
+            DeleteTeam(m_rightTeam);
+            DeleteTeam(m_leftTeam);
+            m_listInitiative.Clear();
+            m_listHeroesWithAction.Clear();
+            m_currentHeroIndex = -1;
+            m_round = 1;
         }
 
         private void DeleteTeam(List<Warrior> team)
@@ -320,31 +318,31 @@ namespace Fight
         //API
         public void MessageAboutDamageForAttacker(float damage)
         {
-            _listInitiative[_currentHeroIndex].MessageDamageAfterStrike(damage);
+            m_listInitiative[m_currentHeroIndex].MessageDamageAfterStrike(damage);
         }
 
         public void DeleteHero(HeroController heroForDelete)
         {
             RemoveHeroWithActionAll(heroForDelete);
-            var warrior = _leftTeam.Find(x => x.heroController == heroForDelete);
+            var warrior = m_leftTeam.Find(x => x.heroController == heroForDelete);
             if (warrior != null)
             {
-                _leftTeam.Remove(warrior);
+                m_leftTeam.Remove(warrior);
             }
             else
             {
-                warrior = _rightTeam.Find(x => x.heroController == heroForDelete);
-                _rightTeam.Remove(warrior);
+                warrior = m_rightTeam.Find(x => x.heroController == heroForDelete);
+                m_rightTeam.Remove(warrior);
             }
 
-            _listInitiative.Remove(heroForDelete);
+            m_listInitiative.Remove(heroForDelete);
             CheckFinishFight();
         }
 
 
         private void KillRightTeam()
         {
-            DeleteTeam(_rightTeam);
+            DeleteTeam(m_rightTeam);
             CheckFinishFight();
         }
 
@@ -353,15 +351,14 @@ namespace Fight
         {
             IsFastFight = true;
             View.gameObject.SetActive(false);
-            _isFightFinish = false;
+            m_isFightFinish = false;
 
-            _mission = mission;
-            _heroInstancesController.HideLight();
-            CreateTeam(_gridController.GetLeftTeamPos, leftWarriorPlace, Side.Left, _leftTeam);
-            CreateTeam(_gridController.GetRightTeamPos, rightWarriorPlace, Side.Right, _rightTeam);
+            m_heroInstancesController.HideLight();
+            CreateTeam(m_gridController.GetLeftTeamPos, leftWarriorPlace, Side.Left, m_leftTeam);
+            CreateTeam(m_gridController.GetRightTeamPos, rightWarriorPlace, Side.Right, m_rightTeam);
             AfterCreateFight.Execute();
             OnStartFight.Execute();
-            _listInitiative.Sort(new HeroInitiativeComparer());
+            m_listInitiative.Sort(new HeroInitiativeComparer());
             StartFight();
         }
     }

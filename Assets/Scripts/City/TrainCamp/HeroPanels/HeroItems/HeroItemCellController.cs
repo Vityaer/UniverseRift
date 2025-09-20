@@ -7,6 +7,8 @@ using Network.DataServer;
 using Network.DataServer.Messages.Items;
 using System;
 using City.Panels.Inventories;
+using City.Panels.SubjectPanels.Items;
+using City.TrainCamp.HeroPanels;
 using UIController.Inventory;
 using UniRx;
 using UnityEngine;
@@ -46,7 +48,7 @@ namespace UIController.ItemVisual
         {
             if (_item != null)
             {
-                _itemPanelController.Open(_item, this, true);
+                _itemPanelController.Open(_item, true);
                 _itemPanelController.OnAction.Subscribe(_ => TakeOff().Forget()).AddTo(_tempDisposables);
                 _itemPanelController.OnSwapAction.Subscribe(_ => StartSwapItems()).AddTo(_tempDisposables);
                 _itemPanelController.OnClose.Subscribe(_ => RefreshTempSubscribe()).AddTo(_tempDisposables);

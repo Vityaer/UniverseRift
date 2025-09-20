@@ -1,9 +1,9 @@
-﻿using Fight.HeroControllers.Generals;
-using Fight.HeroStates;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.HeroStates;
 using UnityEngine;
 
-namespace Fight
+namespace Fight.Common
 {
     public class FightEffectController : MonoBehaviour
     {

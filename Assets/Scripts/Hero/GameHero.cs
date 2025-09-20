@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
@@ -11,56 +11,56 @@ namespace Hero
     [System.Serializable]
     public class GameHero
     {
-        private HeroModel _model;
-        private HeroData _heroData;
-        private HeroController _prefab;
+        private readonly HeroModel m_model;
+        private readonly HeroData m_heroData;
+        private readonly HeroController m_prefab;
 
         public ReactiveCommand OnChangeData => new ReactiveCommand();
-        public GameCostumeHero Costume = new GameCostumeHero();
+        public GameCostumeHero Costume => new GameCostumeHero();
 
         public Sprite Avatar
         {
             get
             {
-                if(_heroData == null)
+                if(m_heroData == null)
                 {
-                    Debug.LogError($"Hero data is null, model.id: {_model.Id}");
+                    Debug.LogError($"Hero data is null, model.id: {m_model.Id}");
                     return null;
                 }
 
-                if (_prefab == null)
+                if (m_prefab == null)
                 {
-                    Debug.LogError($"Prefab is null, model.id: {_model.Id}");
+                    Debug.LogError($"Prefab is null, model.id: {m_model.Id}");
                     return null;
                 }
 
-                if (_prefab.Stages.IsNullOrEmpty())
+                if (m_prefab.Stages.IsNullOrEmpty())
                 {
-                    Debug.LogError($"_prefab.Stages is null or empty, model.id: {_model.Id}");
+                    Debug.LogError($"_prefab.Stages is null or empty, model.id: {m_model.Id}");
                     return null;
                 }
 
-                return _prefab.Stages[_heroData.Stage].Avatar;
+                return m_prefab.Stages[m_heroData.Stage].Avatar;
             }
         }
         
-        public HeroModel Model => _model;
-        public HeroData HeroData => _heroData;
-        public BaseCharacteristicModel GetBaseCharacteristic => _model.Characteristics.Main;
-        public float MaxHP => _model.Characteristics.HP;
+        public HeroModel Model => m_model;
+        public HeroData HeroData => m_heroData;
+        public BaseCharacteristicModel GetBaseCharacteristic => m_model.Characteristics.Main;
+        public float MaxHP => m_model.Characteristics.HP;
         public int Strength => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.HP) / 6 + GetCharacteristic(TypeCharacteristic.Damage));
-        public HeroController Prefab => _prefab;
+        public HeroController Prefab => m_prefab;
 
         public GameHero(HeroModel hero, HeroData data)
         {
-            _model = hero.Clone();
-            _heroData = data;
+            m_model = hero.Clone();
+            m_heroData = data;
 
-            var stage = (_heroData.Rating / 5);
-            _heroData.Stage = stage;
-            var path = $"{Constants.ResourcesPath.HEROES_PATH}{_model.General.HeroId}";
-            _prefab = Resources.Load<HeroController>(path);
-            if (_prefab == null)
+            var stage = (m_heroData.Rating / 5);
+            m_heroData.Stage = stage;
+            var path = $"{Constants.ResourcesPath.HEROES_PATH}{m_model.General.HeroId}";
+            m_prefab = Resources.Load<HeroController>(path);
+            if (m_prefab == null)
             {
                 Debug.LogError($"Failed to load Hero Controller: {path}");
             }
@@ -71,18 +71,20 @@ namespace Hero
 
         private void PrepareHero()
         {
-            Growth.GrowHero(_model.Characteristics, _model.Resistances, _model.IncCharacts, _heroData.Level);
+            Growth.GrowHero(m_model.Characteristics, m_model.Resistances, m_model.IncCharacts, m_heroData.Level);
         }
 
         public void LevelUp(int count = 1)
         {
             for (int i = 0; i < count; i++)
             {
-                if (_heroData.Level < _model.Evolutions.LimitLevel())
+                if (m_heroData.Level >= m_model.Evolutions.LimitLevel())
                 {
-                    _heroData.Level += 1;
-                    Growth.GrowHero(_model.Characteristics, _model.Resistances, _model.IncCharacts);
+                    continue;
                 }
+                
+                m_heroData.Level += 1;
+                Growth.GrowHero(m_model.Characteristics, m_model.Resistances, m_model.IncCharacts);
             }
 
             OnChangeData.Execute();
@@ -90,16 +92,16 @@ namespace Hero
 
         public void UpRating()
         {
-            _heroData.Rating += 1;
-            var increaseStatsContainer = _model.Evolutions.GetGrowth(_heroData.Rating);
-            Growth.GrowHero(_model.Characteristics, _model.Resistances, increaseStatsContainer);
+            m_heroData.Rating += 1;
+            var increaseStatsContainer = m_model.Evolutions.GetGrowth(m_heroData.Rating);
+            Growth.GrowHero(m_model.Characteristics, m_model.Resistances, increaseStatsContainer);
             OnChangeData.Execute();
         }
 
         public HeroData GetSaveData()
         {
-            _heroData.Costume = new CostumeData(Costume);
-            return _heroData;
+            m_heroData.Costume = new CostumeData(Costume);
+            return m_heroData;
         }
 
         private void PrepareCharacts(HeroModel hero)
@@ -142,16 +144,16 @@ namespace Hero
             switch (typeBonus)
             {
                 case TypeCharacteristic.HP:
-                    result += _model.Characteristics.HP;
+                    result += m_model.Characteristics.HP;
                     break;
                 case TypeCharacteristic.Damage:
-                    result += _model.Characteristics.Damage;
+                    result += m_model.Characteristics.Damage;
                     break;
                 case TypeCharacteristic.Initiative:
-                    result += _model.Characteristics.Initiative;
+                    result += m_model.Characteristics.Initiative;
                     break;
                 case TypeCharacteristic.Defense:
-                    result += _model.Characteristics.Main.Defense;
+                    result += m_model.Characteristics.Main.Defense;
                     break;
             }
             result += Costume.GetBonus(typeBonus);

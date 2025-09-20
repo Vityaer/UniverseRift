@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fight.HeroControllers.Generals.Retaliations
+namespace Fight.Common.HeroControllers.Generals.Retaliations
 {
     public class SimpleRetaliation : AbstractRetaliation
     {

@@ -3,7 +3,7 @@ using Models.Grid;
 using UnityEngine;
 using VContainerUi.Abstraction;
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     public class GridView : UiView
     {

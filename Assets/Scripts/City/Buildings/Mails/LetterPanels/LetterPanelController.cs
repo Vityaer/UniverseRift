@@ -1,8 +1,8 @@
 ﻿using Buildings.Mails.LetterPanels;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Misc.Json;
 using Models.Misc;
 using Network.DataServer;

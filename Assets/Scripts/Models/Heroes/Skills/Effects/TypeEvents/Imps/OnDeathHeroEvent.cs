@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using Models.Heroes.Skills.Effects.TypeEvents;
 using System;
 using System.Collections.Generic;

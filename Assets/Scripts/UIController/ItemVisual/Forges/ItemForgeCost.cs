@@ -1,6 +1,6 @@
 ﻿using City.Buildings.Forge;
 using City.TrainCamp;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using UIController.Inventory;
 using VContainer;
 using VContainerUi.Abstraction;

@@ -1,8 +1,8 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.City.Mines;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Pages.Buildings.Mines.Settings

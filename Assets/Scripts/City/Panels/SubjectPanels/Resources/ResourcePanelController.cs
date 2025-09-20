@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using City.Panels.WhereGetSubjectPanels;
+using Common.Db.CommonDictionaries;
 using Common.Resourses;
-using Db.CommonDictionaries;
 using LocalizationSystems;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;

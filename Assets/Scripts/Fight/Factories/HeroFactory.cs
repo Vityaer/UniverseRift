@@ -1,12 +1,12 @@
 ﻿using Common.Factories;
-using Fight.Grid;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
+using Fight.Common.Grid;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
 using Hero;
 using UnityEngine;
 using VContainer;
 
-namespace Fight.Factories
+namespace Fight.Common.Factories
 {
     public class HeroFactory : BaseFactory<HeroController>
     {

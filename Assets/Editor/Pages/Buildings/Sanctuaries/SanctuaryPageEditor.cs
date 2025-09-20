@@ -1,4 +1,4 @@
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Editor.Common.Pages.Buildings.Abstract;
 using Models.City.Sanctuaries;
 

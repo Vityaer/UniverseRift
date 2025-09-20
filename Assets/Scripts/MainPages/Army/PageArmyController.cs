@@ -5,6 +5,7 @@ using Common.Heroes;
 using Hero;
 using System;
 using System.Collections.Generic;
+using City.TrainCamp.HeroPanels;
 using UIController.Cards;
 using UIController.GameSystems;
 using UiExtensions.MainPages;
