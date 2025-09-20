@@ -1,7 +1,7 @@
-﻿using Db.CommonDictionaries;
-using Models.City.AbstactBuildingModels;
+﻿using Models.City.AbstactBuildingModels;
 using Models.Data.Inventories;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UIController.Rewards.PosibleRewards;
 
 namespace Models.City.MagicCircles

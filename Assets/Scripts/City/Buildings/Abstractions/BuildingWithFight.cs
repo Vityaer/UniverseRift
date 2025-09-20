@@ -1,15 +1,16 @@
 using City.Panels.Arenas.Teams;
-using Db.CommonDictionaries;
-using Fight;
-using Fight.WarTable;
+using Fight.Common;
+using Fight.Common.WarTable;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using System;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using UniRx;
 using UnityEngine;
 using VContainer;
+using FightController = Fight.Common.FightController;
 
 namespace City.Buildings.Abstractions
 {

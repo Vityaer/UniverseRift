@@ -1,7 +1,7 @@
-﻿using Fight.Rounds;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fight.Common.Rounds;
 
-namespace Fight.HeroStates
+namespace Fight.Common.HeroStates
 {
     [System.Serializable]
     public class BuffModel

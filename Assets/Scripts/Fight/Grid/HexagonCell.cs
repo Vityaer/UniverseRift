@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
 using Models.Heroes;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
 using UniRx;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     public class HexagonCell : MonoBehaviour
     {

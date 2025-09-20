@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Models.Misc.Helps;
 using Sirenix.OdinInspector;
 using Utils;

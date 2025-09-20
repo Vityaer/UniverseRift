@@ -1,11 +1,11 @@
 ﻿using Effects;
-using Fight.HeroControllers.Generals.Attacks;
-using Fight.HeroControllers.Generals.Movements;
+using Fight.Common.HeroControllers.Generals.Attacks;
+using Fight.Common.HeroControllers.Generals.Movements;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Utils.Development;
 
-namespace Fight.HeroControllers.VisualModels
+namespace Fight.Common.HeroControllers.VisualModels
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(OutlineController))]

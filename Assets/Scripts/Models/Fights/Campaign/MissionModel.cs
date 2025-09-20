@@ -1,8 +1,8 @@
-﻿using Db.CommonDictionaries;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Rewards;
 
 namespace Models.Fights.Campaign

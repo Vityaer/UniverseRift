@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UIController;
 using UnityEngine;
 
-namespace Fight
+namespace Fight.Common
 {
     public class LocationController : MonoBehaviour
     {

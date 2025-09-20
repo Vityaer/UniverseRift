@@ -19,5 +19,9 @@ namespace City.Panels.SubjectPanels
         [Header("Bonuses")]
         public ScrollRect BonusesScroll;
         public ItemBonusView itemBonusViewPrefab;
+        
+        public GameObject SetBonusesPanel;
+        public ScrollRect SetBonusesScroll;
+
     }
 }

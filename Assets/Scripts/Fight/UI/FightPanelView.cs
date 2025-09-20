@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
-namespace Fight.UI
+namespace Fight.Common.UI
 {
     public class FightPanelView : UiView
     {

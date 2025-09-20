@@ -1,9 +1,9 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.Data.Dailies;
 using Models.Data.Inventories;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 
 namespace Editor.Pages.DailyRewards
 {

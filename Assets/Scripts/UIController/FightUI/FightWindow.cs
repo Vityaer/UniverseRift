@@ -1,9 +1,10 @@
-﻿using Fight;
-using Fight.FightInterface;
-using Fight.Grid;
+﻿using Fight.Common;
+using Fight.Common.FightInterface;
+using Fight.Common.Grid;
 using UnityEngine;
 using VContainer;
 using VContainerUi.Abstraction;
+using FightController = Fight.Common.FightController;
 
 namespace UIController.FightUI
 {

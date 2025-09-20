@@ -1,4 +1,4 @@
-using Fight.Grid;
+using Fight.Common.Grid;
 using System.Collections.Generic;
 using UnityEngine;
 

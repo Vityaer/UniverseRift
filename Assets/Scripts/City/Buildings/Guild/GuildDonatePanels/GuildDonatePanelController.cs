@@ -10,7 +10,7 @@ using VContainer;
 using Common.Resourses;
 using ClientServices;
 using System;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using UnityEngine;
 
 namespace City.Buildings.Guild.GuildDonatePanels

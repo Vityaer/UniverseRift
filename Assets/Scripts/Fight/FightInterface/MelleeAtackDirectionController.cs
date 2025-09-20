@@ -1,10 +1,10 @@
 using DG.Tweening;
-using Fight.Grid;
 using System;
 using System.Collections.Generic;
+using Fight.Common.Grid;
 using UnityEngine;
 
-namespace Fight.FightInterface
+namespace Fight.Common.FightInterface
 {
     public class MelleeAtackDirectionController : MonoBehaviour
     {

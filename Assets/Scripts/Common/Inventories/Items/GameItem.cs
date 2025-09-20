@@ -14,20 +14,20 @@ namespace UIController.Inventory
 
         public ItemType Type => Model.Type;
 
-        private static Sprite[] spriteAtlas;
+        private static Sprite[] m_spriteAtlas;
         public override Sprite Image
         {
             get
             {
                 if (sprite == null || !Id.Equals(sprite.name))
                 {
-                    if (spriteAtlas == null) spriteAtlas = Resources.LoadAll<Sprite>("Items/Items");
+                    if (m_spriteAtlas == null) m_spriteAtlas = Resources.LoadAll<Sprite>("Items/Items");
                     LoadData();
-                    for (int i = 0; i < spriteAtlas.Length; i++)
+                    for (int i = 0; i < m_spriteAtlas.Length; i++)
                     {
-                        if (Id.Equals(spriteAtlas[i].name))
+                        if (Id.Equals(m_spriteAtlas[i].name))
                         {
-                            sprite = spriteAtlas[i];
+                            sprite = m_spriteAtlas[i];
                             break;
                         }
                     }

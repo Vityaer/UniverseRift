@@ -2,9 +2,9 @@
 using System.Linq;
 using City.Panels.Rewards;
 using City.Panels.ScreenBlockers;
+using Common.Db.CommonDictionaries;
 using Common.Resourses;
 using Common.Rewards;
-using Db.CommonDictionaries;
 using UIController.Inventory;
 using UniRx;
 using VContainer;

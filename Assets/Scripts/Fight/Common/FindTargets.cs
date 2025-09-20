@@ -1,19 +1,19 @@
-﻿using Fight.Comparers;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
-using Models.Heroes.Actions;
+﻿using Models.Heroes.Actions;
 using System.Collections.Generic;
 using System.Linq;
+using Fight.Common.Comparers;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
 using UnityEngine;
 
-namespace Fight
+namespace Fight.Common
 {
     public partial class FightController
     {
         public void ChooseEnemies(Side side, int countTarget, List<HeroController> listTarget, TypeSelect typeSelect = TypeSelect.Order)
         {
             listTarget.Clear();
-            var workTeam = ((side == Side.Left) ? _rightTeam : _leftTeam).Where(x => x.heroController != null).ToList();
+            var workTeam = ((side == Side.Left) ? m_rightTeam : m_leftTeam).Where(x => x.heroController != null).ToList();
             workTeam = workTeam.Where(x => x?.heroController.IsDeath == false)
                 .ToList();
 
@@ -173,7 +173,7 @@ namespace Fight
         public HeroController ChooseEnemy(Side side)
         {
             HeroController result = null;
-            List<Warrior> workTeam = (side == Side.Left) ? _rightTeam : _leftTeam;
+            List<Warrior> workTeam = (side == Side.Left) ? m_rightTeam : m_leftTeam;
             for (int i = 0; i < workTeam.Count; i++)
             {
                 if (workTeam[i].heroController.IsDeath == false)

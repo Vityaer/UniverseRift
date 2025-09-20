@@ -1,10 +1,10 @@
 using System;
 using City.Panels.Arenas.Teams;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
-using Db.CommonDictionaries;
-using Fight;
-using Fight.WarTable;
+using Fight.Common;
+using Fight.Common.WarTable;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using Ui.Misc.Widgets;
@@ -12,6 +12,7 @@ using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;
 using VContainer;
+using FightController = Fight.Common.FightController;
 
 namespace UiExtensions.Panels
 {

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
+using Fight.Common.HeroControllers.Generals;
 using UnityEngine;
 using Models.Heroes;
-using Fight.HeroControllers.Generals;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     [System.Serializable]
     public class NeighbourCell

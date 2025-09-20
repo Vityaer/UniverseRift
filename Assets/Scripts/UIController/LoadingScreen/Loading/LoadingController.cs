@@ -1,4 +1,4 @@
-﻿using Db.CommonDictionaries;
+﻿using Common.Db.CommonDictionaries;
 using Network.Misc;
 using Ui.LoadingScreen.ProgressBar;
 using UniRx;

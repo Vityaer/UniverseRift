@@ -1,4 +1,4 @@
-﻿namespace Fight.Rounds
+﻿namespace Fight.Common.Rounds
 {
     public enum RoundTypeNumber
     {

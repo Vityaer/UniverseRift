@@ -1,10 +1,10 @@
-﻿using Fight.HeroControllers.Generals;
-using Models.Heroes.Actions;
+﻿using Models.Heroes.Actions;
 using Models.Heroes.Skills;
 using System.Collections.Generic;
+using Fight.Common.HeroControllers.Generals;
 using UniRx;
 
-namespace Fight.HeroControllers.Skills
+namespace Fight.Common.HeroControllers.Skills
 {
     public class GameSkill
     {

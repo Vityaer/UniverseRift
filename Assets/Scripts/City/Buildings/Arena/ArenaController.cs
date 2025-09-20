@@ -3,7 +3,7 @@ using Assets.Scripts.City.Panels.Arenas;
 using City.Buildings.Abstractions;
 using City.Panels.Arenas;
 using City.Panels.Arenas.SimpleArenas;
-using Fight;
+using Fight.Common;
 using Models;
 using Models.Arenas;
 using Models.City.Arena;

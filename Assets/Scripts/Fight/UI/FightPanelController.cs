@@ -1,18 +1,18 @@
-﻿using Fight.HeroControllers.Generals;
-using System;
+﻿using System;
+using Fight.Common.HeroControllers.Generals;
 using UniRx;
 using UnityEngine.Localization;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
-namespace Fight.UI
+namespace Fight.Common.UI
 {
     public class FightPanelController : UiController<FightPanelView>, IInitializable, IDisposable
     {
-        private readonly FightController _fightController;
+        private readonly Common.FightController _fightController;
         private readonly CompositeDisposable _compositeDisposable = new();
 
-        public FightPanelController(FightController fightController)
+        public FightPanelController(Common.FightController fightController)
         {
             _fightController = fightController;
         }

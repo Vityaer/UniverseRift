@@ -1,4 +1,4 @@
-﻿using Fight;
+﻿using Fight.Common;
 using Models.Fights.Challenge;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,8 +1,6 @@
-﻿using Fight;
-using Fight.HeroControllers.Generals;
-using Fight.Misc;
-using Fight.Rounds;
-using Models.Heroes.Skills.Actions.Effects;
+﻿using Fight.Common.HeroControllers.Generals;
+using Fight.Common.Misc;
+using Fight.Common.Rounds;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,4 +1,4 @@
-using Fight;
+using Fight.Common;
 using UIController;
 using UnityEngine;
 

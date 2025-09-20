@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Fight.Rounds
+namespace Fight.Common.Rounds
 {
     [Serializable]
     public class Round

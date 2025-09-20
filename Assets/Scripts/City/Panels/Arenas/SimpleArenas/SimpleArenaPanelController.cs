@@ -1,8 +1,7 @@
 ﻿using City.Buildings.Abstractions;
 using City.Buildings.Arena;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
-using Fight;
+using Fight.Common;
 using Misc.Json;
 using Models;
 using Models.Arenas;

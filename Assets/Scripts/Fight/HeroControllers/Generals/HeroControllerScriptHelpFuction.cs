@@ -1,13 +1,13 @@
 using Effects;
-using Fight.FightInterface;
-using Fight.Grid;
-using Fight.HeroControllers.VisualModels;
-using Fight.Misc;
 using System.Collections.Generic;
+using Fight.Common.FightInterface;
+using Fight.Common.Grid;
+using Fight.Common.HeroControllers.VisualModels;
+using Fight.Common.Misc;
 using UnityEngine;
 using VContainer;
 
-namespace Fight.HeroControllers.Generals
+namespace Fight.Common.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
@@ -45,7 +45,7 @@ namespace Fight.HeroControllers.Generals
             _currentHeroVisualModel = _stages[index];
             _currentHeroVisualModel.Activate();
 
-            _attack = _currentHeroVisualModel.AttackController;
+            m_attack = _currentHeroVisualModel.AttackController;
             if (_currentHeroVisualModel.OverrideMovement)
                 _movement = _currentHeroVisualModel.MovementController;
         }
@@ -56,7 +56,7 @@ namespace Fight.HeroControllers.Generals
             FindAvailableCells();
             ListTarget.Clear();
 
-            if (this._side == Side.Left)
+            if (this.m_side == Misc.Side.Left)
             {
                 _directionController.OpenControllers(this);
                 OutlineController.SwitchOn();
@@ -65,7 +65,7 @@ namespace Fight.HeroControllers.Generals
             else
             {
                 _directionController.CloseControllers();
-                if (_isFastFight)
+                if (m_isFastFight)
                 {
                     WaitingSelectTarget();
                 }
@@ -83,12 +83,12 @@ namespace Fight.HeroControllers.Generals
                 case CellDirectionType.UpLeft:
                 case CellDirectionType.Left:
                 case CellDirectionType.BottomLeft:
-                    result = (_isFacingRight == true);
+                    result = (m_isFacingRight == true);
                     break;
                 case CellDirectionType.UpRight:
                 case CellDirectionType.Right:
                 case CellDirectionType.BottomRight:
-                    result = (_isFacingRight == false);
+                    result = (m_isFacingRight == false);
                     break;
             }
 
@@ -97,18 +97,18 @@ namespace Fight.HeroControllers.Generals
 
         public void FlipX()
         {
-            _isFacingRight = !_isFacingRight;
+            m_isFacingRight = !m_isFacingRight;
             Vector3 locScale = _bodyParent.localScale;
             locScale.z *= -1;
             _bodyParent.localScale = locScale;
         }
 
         //Fight helps
-        protected virtual bool CanAttackHero(HeroController otherHero) => (this._side != otherHero._side);
+        protected virtual bool CanAttackHero(HeroController otherHero) => (this.m_side != otherHero.m_side);
 
         protected void RefreshOnEndRound()
         {
-            CurrentCountCounterAttack = _hero.GetBaseCharacteristic.CountCouterAttack;
+            CurrentCountCounterAttack = m_hero.GetBaseCharacteristic.CountCouterAttack;
         }
 
         protected void ShakeCamera()
@@ -118,16 +118,16 @@ namespace Fight.HeroControllers.Generals
 
         protected void IsSide(Side side)
         {
-            this._side = side;
-            delta = (side == Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
-            if (side == Side.Right) FlipX();
+            this.m_side = side;
+            delta = (side == Misc.Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
+            if (side == Misc.Side.Right) FlipX();
         }
 
         protected bool CanCounterAttack(HeroController heroForCounterAttack, HeroController heroWasAttack)
         {
             bool result = false;
             var isNeighbour = MyPlace.IsCellNeighbour(heroWasAttack.MyPlace);
-            if (isNeighbour && (CurrentCountCounterAttack > 0) && (_statusState.PermissionAction() == true) && !_isDeath)
+            if (isNeighbour && (CurrentCountCounterAttack > 0) && (_statusState.PermissionAction() == true) && !m_isDeath)
             {
                 result = true;
             }
@@ -174,8 +174,8 @@ namespace Fight.HeroControllers.Generals
 
         private bool CanMelleeAttack()
         {
-            return (_hero.Model.Characteristics.Main.Mellee == true)
-                || (!_hero.Model.Characteristics.Main.Mellee && MyPlace.MyEnemyNear(this._side));
+            return (m_hero.Model.Characteristics.Main.Mellee == true)
+                || (!m_hero.Model.Characteristics.Main.Mellee && MyPlace.MyEnemyNear(this.m_side));
         }
 
         [ContextMenu("Add 100 stamina")]

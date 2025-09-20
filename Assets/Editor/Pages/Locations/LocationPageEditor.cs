@@ -1,10 +1,10 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Editor.Pages.Locations;
 using Models.Fights.Misc;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Assets.Editor.Pages.Locations

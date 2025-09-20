@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
-using Fight.Grid;
+using Fight.Common.Grid;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Movements
+namespace Fight.Common.HeroControllers.Generals.Movements
 {
     //public class FlyMovement : AbstractMovement
     //{

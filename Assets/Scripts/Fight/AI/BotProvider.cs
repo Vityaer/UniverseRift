@@ -1,14 +1,14 @@
-﻿using Fight.Misc;
-using System;
+﻿using System;
+using Fight.Common.Misc;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 
-namespace Fight.AI
+namespace Fight.Common.AI
 {
     public class BotProvider : IInitializable, IDisposable
     {
-        [Inject] private readonly FightController _fightController;
+        [Inject] private readonly Common.FightController _fightController;
         [Inject] private readonly BotFactory _botFactory;
         
         private BaseBot _bot;

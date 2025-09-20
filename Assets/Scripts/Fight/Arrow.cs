@@ -1,10 +1,10 @@
 ﻿using Fight.Common.Strikes;
-using Fight.HeroControllers.Generals;
 using System;
+using Fight.Common.HeroControllers.Generals;
 using UniRx;
 using UnityEngine;
 
-namespace Fight
+namespace Fight.Common
 {
     public class Arrow : MonoBehaviour
     {

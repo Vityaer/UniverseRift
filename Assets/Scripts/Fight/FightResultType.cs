@@ -1,4 +1,4 @@
-﻿namespace Fight
+﻿namespace Fight.Common
 {
     public enum FightResultType
     {

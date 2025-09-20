@@ -4,7 +4,6 @@ using City.Buildings.Market;
 using ClientServices;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Models.City.Markets;
 using Models.Common;
 using Network.DataServer.Messages.City;
@@ -17,6 +16,7 @@ using VContainer;
 using Common.Inventories.Splinters;
 using System.Linq;
 using City.Panels.Inventories;
+using Common.Db.CommonDictionaries;
 using Object = UnityEngine.Object;
 
 namespace UiExtensions.Panels

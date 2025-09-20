@@ -1,10 +1,10 @@
-using Fight.HeroControllers.Generals;
+using Fight.Common.HeroControllers.Generals;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainerUi.Abstraction;
 
-namespace Fight.FightInterface
+namespace Fight.Common.FightInterface
 {
     public class FightDirectionView : UiView
     {

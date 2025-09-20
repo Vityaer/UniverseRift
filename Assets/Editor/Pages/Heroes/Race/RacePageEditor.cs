@@ -1,9 +1,9 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.Heroes;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Editor.Pages.Heroes.Race

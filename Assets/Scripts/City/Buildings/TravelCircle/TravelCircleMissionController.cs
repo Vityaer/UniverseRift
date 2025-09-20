@@ -1,8 +1,8 @@
 using City.Panels.SubjectPanels.Common;
-using Db.CommonDictionaries;
 using LocalizationSystems;
 using Models.Fights.Campaign;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UIController;
 using UiExtensions.Misc;

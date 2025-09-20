@@ -1,4 +1,5 @@
-﻿using City.Panels.SubjectPanels.Resources;
+﻿using City.Panels.SubjectPanels.Items;
+using City.Panels.SubjectPanels.Resources;
 using Common;
 using Common.Inventories.Splinters;
 using Common.Resourses;

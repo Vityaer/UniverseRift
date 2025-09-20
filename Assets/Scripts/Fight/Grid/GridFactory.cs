@@ -3,7 +3,7 @@ using Models.Grid;
 using Common.Factories;
 using VContainer;
 
-namespace Fight.Grid
+namespace Fight.Common.Grid
 {
     public class GridFactory : BaseFactory<BaseGrid>
     {

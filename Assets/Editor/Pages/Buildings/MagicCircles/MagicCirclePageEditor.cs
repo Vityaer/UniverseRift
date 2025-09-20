@@ -1,5 +1,4 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.City.AbstactBuildingModels;
 using Models.City.Forges;
 using Models.City.MagicCircles;
@@ -11,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Editor.Pages.Buildings.MagicCircles

@@ -1,10 +1,10 @@
-﻿using Fight.Grid;
-using Models.Heroes;
+﻿using Models.Heroes;
 using System.Collections;
 using Cysharp.Threading.Tasks;
+using Fight.Common.Grid;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals.Movements
+namespace Fight.Common.HeroControllers.Generals.Movements
 {
     public class WalkMovement : AbstractMovement
     {

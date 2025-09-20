@@ -1,6 +1,5 @@
 using Common.Resourses;
 using Common.Rewards;
-using Db.CommonDictionaries;
 using Models.Data.Inventories;
 using System;
 using UIController.Rewards.PosibleRewards;

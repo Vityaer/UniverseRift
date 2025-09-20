@@ -1,17 +1,18 @@
 ﻿using Assets.Scripts.Fight.Common;
-using Fight;
-using Fight.AI;
-using Fight.Factories;
-using Fight.FightInterface;
-using Fight.Grid;
-using Fight.UI;
-using Fight.WarTable;
+using Fight.Common;
+using Fight.Common.AI;
+using Fight.Common.Factories;
+using Fight.Common.FightInterface;
+using Fight.Common.Grid;
+using Fight.Common.UI;
+using Fight.Common.WarTable;
 using UIController.FightUI;
 using UnityEngine;
 using VContainer;
 using VContainer.Extensions;
 using VContainerUi;
 using VContainerUi.Interfaces;
+using FightController = Fight.Common.FightController;
 
 namespace Assets.Scripts.Installers
 {

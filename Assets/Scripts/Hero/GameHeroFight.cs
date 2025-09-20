@@ -1,7 +1,7 @@
 ﻿using Fight.Common.Strikes;
-using Fight.HeroControllers.Generals;
-using Fight.HeroStates;
-using Fight.Rounds;
+using Fight.Common.HeroControllers.Generals;
+using Fight.Common.HeroStates;
+using Fight.Common.Rounds;
 using Models;
 using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;

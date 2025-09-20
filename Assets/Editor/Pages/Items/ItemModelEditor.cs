@@ -1,26 +1,25 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models;
 using Models.Items;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Inventory;
-using UnityEditor;
 
 namespace Editor.Pages.Items
 {
     [HideReferenceObjectPicker]
     public class ItemModelEditor : BaseModelEditor<ItemModel>
     {
-        private readonly CommonDictionaries _dictionaries;
-        private string[] _allRarities => _dictionaries.Rarities.Select(c => c.Value).Select(r => r.Id).ToArray();
-        private string[] _allRatings => _dictionaries.Ratings.Select(c => c.Value).Select(r => r.Id).ToArray();
-        private string[] _allSets => _dictionaries.ItemSets.Select(c => c.Value).Select(r => r.Id).ToArray();
+        private readonly CommonDictionaries m_dictionaries;
+        private string[] _allRarities => m_dictionaries.Rarities.Select(c => c.Value).Select(r => r.Id).ToArray();
+        private string[] _allRatings => m_dictionaries.Ratings.Select(c => c.Value).Select(r => r.Id).ToArray();
+        private string[] _allSets => m_dictionaries.ItemSets.Select(c => c.Value).Select(r => r.Id).ToArray();
 
         public ItemModelEditor(ItemModel item, CommonDictionaries commonDictionaries)
         {
-            _dictionaries = commonDictionaries;
+            m_dictionaries = commonDictionaries;
             _model = item;
         }
 

@@ -1,10 +1,10 @@
 ﻿using Assets.Editor.Pages.Heroes.RatingUps;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Models.Heroes.PowerUps;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using Utils;
 
 namespace Pages.Heroes.RatingUps

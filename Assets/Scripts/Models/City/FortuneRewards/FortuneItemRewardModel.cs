@@ -1,5 +1,5 @@
 ﻿using City.Buildings.WheelFortune;
-using Db.CommonDictionaries;
+using Common.Db.CommonDictionaries;
 using Models.Data.Inventories;
 
 namespace Models.City.FortuneRewards

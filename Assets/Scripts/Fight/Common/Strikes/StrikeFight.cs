@@ -1,4 +1,4 @@
-﻿using Fight.Rounds;
+﻿using Fight.Common.Rounds;
 using UnityEngine;
 
 namespace Fight.Common.Strikes

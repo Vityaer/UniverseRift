@@ -67,6 +67,7 @@ using City.Panels.Rewards;
 using City.Panels.ScreenBlockers;
 using City.Panels.SubjectPanels;
 using City.Panels.SubjectPanels.Common;
+using City.Panels.SubjectPanels.Items;
 using City.Panels.SubjectPanels.Resources;
 using City.Panels.SubjectPanels.Splinters;
 using City.Panels.WhereGetSubjectPanels;

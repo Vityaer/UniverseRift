@@ -1,58 +1,50 @@
+using System.Collections.Generic;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
-using Db.CommonDictionaries;
 using Models.City.Markets;
 using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City;
-using System;
-using System.Collections.Generic;
 using UIController.ControllerPanels.AlchemyPanels;
-using UIController.ControllerPanels.MarketResources;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using VContainer;
-using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
-namespace UIController
+namespace UIController.ControllerPanels.MarketResources
 {
-    public class BuyResourcePanelController : UiPanelController<BuyResourcePanelView>, IStartable
+    public class BuyResourcePanelController : UiPanelController<BuyResourcePanelView>
     {
-        [Inject] private readonly ResourceStorageController _storageController;
-        [Inject] private readonly IObjectResolver _resolver;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly CommonGameData _ñommonGameData;
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly AlchemyPanelController _alchemyPanelController;
+        [Inject] private readonly ResourceStorageController m_storageController;
+        [Inject] private readonly IObjectResolver m_resolver;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly ResourceStorageController m_resourceStorageController;
+        [Inject] private readonly AlchemyPanelController m_alchemyPanelController;
 
-        private Dictionary<ResourceType, ResourceProductContainer> _resources = new();
-        private GameResource _resourceForSell;
-        private GameResource _cost;
-        private ResourceProductContainer _currentProduct;
+        private readonly Dictionary<ResourceType, ResourceProductContainer> m_resources = new();
+        private GameResource m_resourceForSell;
+        private GameResource m_cost;
+        private ResourceProductContainer m_currentProduct;
 
         public override void Start()
         {
             base.Start();
             View.CountController.OnChangeCount.Subscribe(ChangeCount).AddTo(Disposables);
-            _resolver.Inject(View.ResourceObjectCost);
+            m_resolver.Inject(View.ResourceObjectCost);
             View.BuyButton.OnClick += StartBuy;
         }
 
         public bool GetCanSellThisResource(ResourceType typeResource)
         {
-            var result = false;
-            switch (typeResource)
+            var result = typeResource switch
             {
-                case ResourceType.Gold:
-                    result = true;
-                    break;
-                default:
-                    result = _resources.ContainsKey(typeResource);
-                    break;
-            }
+                ResourceType.Gold => true,
+                _ => m_resources.ContainsKey(typeResource)
+            };
             return result;
         }
 
@@ -65,39 +57,39 @@ namespace UIController
                     return;
             }
 
-            var product = _resources[typeResource];
-            _currentProduct = product;
+            var product = m_resources[typeResource];
+            m_currentProduct = product;
 
-            _cost = new GameResource(product.ResourceProduct.Cost);
+            m_cost = new GameResource(product.ResourceProduct.Cost);
 
-            _resourceForSell = new GameResource(product.ResourceProduct.Subject);
+            m_resourceForSell = new GameResource(product.ResourceProduct.Subject);
             ChangeCount(count: View.CountController.MinCount);
-            View.MainImage.SetData(_resourceForSell);
+            View.MainImage.SetData(m_resourceForSell);
             MessagesPublisher.OpenWindowPublisher.OpenWindow<BuyResourcePanelController>(openType: OpenType.Exclusive);
         }
 
         protected override void OnLoadGame()
         {
-            var market = _commonDictionaries.Markets["ResourceMarket"];
-            var marketData = _ñommonGameData.City.MallSave;
+            var market = m_commonDictionaries.Markets["ResourceMarket"];
+            var marketData = m_commonGameData.City.MallSave;
 
             foreach (var productId in market.Products)
             {
-                var productModel = _commonDictionaries.Products[productId] as ResourceProductModel;
+                var productModel = m_commonDictionaries.Products[productId] as ResourceProductModel;
                 if (productModel == null)
                     continue;
 
                 var purchase = marketData.PurchaseDatas.Find(purchase => purchase.ProductId == productModel.Id);
-                var countPurchase = (purchase != null) ? purchase.PurchaseCount : 0;
+                var countPurchase = purchase?.PurchaseCount ?? 0;
 
                 var container = new ResourceProductContainer(productModel, countPurchase, productModel.CountSell);
-                _resources.Add(productModel.Subject.Type, container);
+                m_resources.Add(productModel.Subject.Type, container);
             }
         }
 
         private void ChangeCount(int count)
         {
-            View.BuyButton.ChangeCost(_cost * count);
+            View.BuyButton.ChangeCost(m_cost * count);
         }
 
         private void StartBuy()
@@ -111,8 +103,8 @@ namespace UIController
 
             var message = new BuyProductMessage
             {
-                PlayerId = _ñommonGameData.PlayerInfoData.Id,
-                ProductId = _currentProduct.ResourceProduct.Id,
+                PlayerId = m_commonGameData.PlayerInfoData.Id,
+                ProductId = m_currentProduct.ResourceProduct.Id,
                 Count = count
             };
 
@@ -123,9 +115,9 @@ namespace UIController
                 return;
             }
 
-            var cost = new GameResource(_currentProduct.ResourceProduct.Cost) * count;
-            _resourceStorageController.SubtractResource(cost);
-            _storageController.AddResource(_resourceForSell * count);
+            var cost = new GameResource(m_currentProduct.ResourceProduct.Cost) * count;
+            m_resourceStorageController.SubtractResource(cost);
+            m_storageController.AddResource(m_resourceForSell * count);
         }
 
         public override void Dispose()

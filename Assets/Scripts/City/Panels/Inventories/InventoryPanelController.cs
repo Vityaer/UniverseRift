@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using City.Panels.SubjectPanels;
+using City.Panels.SubjectPanels.Items;
 using City.Panels.SubjectPanels.Resources;
 using ClientServices;
 using Common;
+using Common.Db.CommonDictionaries;
 using Common.Inventories.Splinters;
 using Common.Resourses;
-using Db.CommonDictionaries;
 using Models.Common;
 using Models.Items;
 using UIController.Inventory;

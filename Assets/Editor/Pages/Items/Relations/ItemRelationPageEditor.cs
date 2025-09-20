@@ -1,5 +1,4 @@
 ﻿using Common.Resourses;
-using Db.CommonDictionaries;
 using Editor.Common;
 using Models.Common.BigDigits;
 using Models.Data.Inventories;
@@ -8,6 +7,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Inventory;
 using Utils;
 

@@ -1,4 +1,4 @@
-﻿using Fight.HeroControllers.Generals;
+﻿using Fight.Common.HeroControllers.Generals;
 using UniRx;
 
 namespace Models.Heroes.Skills.Effects.TypeEvents.Imps

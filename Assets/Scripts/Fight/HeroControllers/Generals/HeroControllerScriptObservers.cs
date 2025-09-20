@@ -1,11 +1,11 @@
-using Fight.Common.Strikes;
-using Fight.Grid;
 using System;
 using System.Collections.Generic;
+using Fight.Common.Strikes;
+using Fight.Common.Grid;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.HeroControllers.Generals
+namespace Fight.Common.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {

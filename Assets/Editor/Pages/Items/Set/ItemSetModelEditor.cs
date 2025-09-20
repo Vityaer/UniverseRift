@@ -1,6 +1,8 @@
-﻿using Editor.Common;
+﻿using System.Collections.Generic;
+using Editor.Common;
 using Models;
 using Sirenix.OdinInspector;
+using UIController.Inventory;
 
 namespace Editor.Pages.Items.Set
 {
@@ -23,13 +25,26 @@ namespace Editor.Pages.Items.Set
         }
 
         [ShowInInspector]
-        [HorizontalGroup("1")]
+        [HorizontalGroup("2")]
         [LabelText("Name")]
         [LabelWidth(50)]
         public string Name
         {
             get => _model.Name;
             set => _model.Name = value;
+        }
+        
+        [ShowInInspector]
+        [HorizontalGroup("Item")]
+        [VerticalGroup("Item/Left")]
+        [BoxGroup("Item/Left/Common")]
+        [LabelText("Bonuses")]
+        [PropertyOrder(2)]
+        [LabelWidth(110)]
+        public List<Bonus> ExtraBonuses
+        {
+            get => _model.ExtraBonuses;
+            set => _model.ExtraBonuses = value;
         }
     }
 }

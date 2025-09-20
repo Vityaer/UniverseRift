@@ -1,5 +1,4 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.Heroes;
 using Models.Heroes.Evolutions;
 using Models.Heroes.HeroCharacteristics;
@@ -7,6 +6,7 @@ using Models.Heroes.Skills;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 
 namespace Editor.Pages.Heroes
 {

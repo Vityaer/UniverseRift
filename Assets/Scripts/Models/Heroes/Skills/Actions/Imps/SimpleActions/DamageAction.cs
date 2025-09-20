@@ -1,5 +1,5 @@
 ﻿using Fight.Common.Strikes;
-using Fight.HeroControllers.Generals;
+using Fight.Common.HeroControllers.Generals;
 using Models.Heroes.Actions;
 
 namespace Models.Heroes.Skills.Actions.Imps.SimpleActions

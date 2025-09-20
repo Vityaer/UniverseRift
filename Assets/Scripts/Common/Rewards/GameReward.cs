@@ -1,7 +1,7 @@
-﻿using Db.CommonDictionaries;
-using Models.Data.Rewards;
+﻿using Models.Data.Rewards;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Db.CommonDictionaries;
 using UIController.Rewards;
 
 namespace Common.Rewards

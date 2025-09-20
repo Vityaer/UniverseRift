@@ -1,9 +1,9 @@
-﻿using Db.CommonDictionaries;
-using Editor.Common;
+﻿using Editor.Common;
 using Models.Data.Inventories;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UIController.Rewards;
 
 namespace Pages.Rewards

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Fight
+namespace Fight.Common
 {
     public class Corner : MonoBehaviour
     {
