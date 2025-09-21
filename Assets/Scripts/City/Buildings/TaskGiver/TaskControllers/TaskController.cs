@@ -1,5 +1,6 @@
 ﻿using System;
 using City.TaskBoard;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using UniRx;

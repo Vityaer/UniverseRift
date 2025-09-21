@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using City.Buildings.Abstractions;
 using Common.Db.CommonDictionaries;
 using Common.Heroes;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Fight.Common.WarTable;
 using Hero;
 using Models.Arenas;
 using Models.Fights.Campaign;
@@ -18,59 +20,59 @@ using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
-namespace Fight.Common.WarTable
+namespace Fight.Windows.WarTable
 {
     public class WarTableController : BaseBuilding<WarTableView>, IInitializable
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly Common.FightController _fightController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly HeroesStorageController m_heroesStorageController;
+        [Inject] private readonly Common.FightController m_fightController;
 
-        private MissionModel _mission;
-        private CompositeDisposable _disposables = new();
+        private readonly CompositeDisposable m_disposables = new();
+        private readonly ReactiveCommand<TeamContainer> m_onChangeTeam = new();
 
-        private IDisposable _buttonAction;
-        private Action<TeamContainer> _callback;
-        private TeamContainer _playerTeam;
-        private ReactiveCommand<TeamContainer> _onChangeTeam = new();
+        private MissionModel m_mission;
+        private IDisposable m_buttonAction;
+        private Action<TeamContainer> m_callback;
+        private TeamContainer m_playerTeam;
 
-        private bool _canStartBattle;
+        private bool m_canStartBattle;
         
-        private bool _isDragging;
-        private WarriorPlace _startDragPlace;
-        private CancellationTokenSource _cancellationTokenSource;
-        private Tween _dragTween;
+        private bool m_isDragging;
+        private WarriorPlace m_startDragPlace;
+        private CancellationTokenSource m_cancellationTokenSource;
+        private Tween m_dragTween;
 
-        public ReactiveCommand OnStartMission = new();
-        public ReactiveCommand OnPlayerStartFight = new();
-        public ReactiveCommand OnClose = new();
-        public IObservable<TeamContainer> OnChangeTeam => _onChangeTeam;
+        public readonly ReactiveCommand OnStartMission = new();
+        public readonly ReactiveCommand OnPlayerStartFight = new();
+        public readonly ReactiveCommand OnClose = new();
+        public IObservable<TeamContainer> OnChangeTeam => m_onChangeTeam;
         public bool IsFastFight => View.FastFightToggle.IsOn;
         
         public void Initialize()
         {
-            View.ListCardPanel.OnSelect.Subscribe(SelectCard).AddTo(_disposables);
-            View.ListCardPanel.OnDiselect.Subscribe(UnSelectCard).AddTo(_disposables);
+            View.ListCardPanel.OnSelect.Subscribe(SelectCard).AddTo(m_disposables);
+            View.ListCardPanel.OnDiselect.Subscribe(UnSelectCard).AddTo(m_disposables);
 
             View.StrengthLeftTeam.text = string.Empty;
             View.StrengthRightTeam.text = string.Empty;
 
             foreach (var place in View.LeftTeam)
             {
-                place.OnClick.Subscribe(OnPlaceSelect).AddTo(_disposables);
-                place.OnStartDrag.Subscribe(OnStartDrag).AddTo(_disposables);
-                place.OnDrop.Subscribe(OnDrop).AddTo(_disposables);
+                place.OnClick.Subscribe(OnPlaceSelect).AddTo(m_disposables);
+                place.OnStartDrag.Subscribe(OnStartDrag).AddTo(m_disposables);
+                place.OnDrop.Subscribe(OnDrop).AddTo(m_disposables);
             }
 
             Resolver.Inject(View.ListCardPanel);
 
             View.DragableItem.gameObject.SetActive(false);
-            _fightController.OnFightResult.Subscribe(_ => Close()).AddTo(_disposables);
+            m_fightController.OnFightResult.Subscribe(_ => Close()).AddTo(m_disposables);
         }
 
         private void OnStartDrag(WarriorPlace place)
         {
-            if (_isDragging)
+            if (m_isDragging)
                 return;
 
             if (place.Hero == null)
@@ -82,14 +84,14 @@ namespace Fight.Common.WarTable
             if (place.IsEmpty)
                 return;
 
-            _startDragPlace = place;
-            _startDragPlace.SetDragingStatus(true);
-            _isDragging = true;
+            m_startDragPlace = place;
+            m_startDragPlace.SetDragingStatus(true);
+            m_isDragging = true;
             View.DragableItemImage.sprite = place.Hero.Avatar;
 
-            _cancellationTokenSource.TryCancel();
-            _cancellationTokenSource = new();
-            DragingItem(_cancellationTokenSource.Token).Forget();
+            m_cancellationTokenSource.TryCancel();
+            m_cancellationTokenSource = new();
+            DragingItem(m_cancellationTokenSource.Token).Forget();
         }
 
         private async UniTaskVoid DragingItem(CancellationToken token)
@@ -112,8 +114,8 @@ namespace Fight.Common.WarTable
 
         private void MoveDragableItem()
         {
-            _dragTween.Kill();
-            _dragTween = View.DragableItem
+            m_dragTween.Kill();
+            m_dragTween = View.DragableItem
                 .DOMove(Input.mousePosition, View.DragSpeed)
                 .SetSpeedBased(true);
         }
@@ -121,61 +123,58 @@ namespace Fight.Common.WarTable
         private void OnDrop(WarriorPlace place)
         {
             View.DragableItem.gameObject.SetActive(false);
-            _cancellationTokenSource.TryCancel();
-            _isDragging = false;
+            m_cancellationTokenSource.TryCancel();
+            m_isDragging = false;
 
-            if (_startDragPlace == null)
+            if (m_startDragPlace == null)
                 return;
 
             if (place == null)
             {
-                _startDragPlace.SetDragingStatus(false);
+                m_startDragPlace.SetDragingStatus(false);
                 return;
             }
 
-            if (place == _startDragPlace || place.Hero == _startDragPlace.Hero)
+            if (place == m_startDragPlace || place.Hero == m_startDragPlace.Hero)
             {
-                _startDragPlace.SetDragingStatus(false);
+                m_startDragPlace.SetDragingStatus(false);
                 return;
             }
 
-            var oldIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == _startDragPlace);
+            var oldIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == m_startDragPlace);
             var newIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == place);
-            _playerTeam.Heroes.Remove(oldIndexPlace);
+            m_playerTeam.Heroes.Remove(oldIndexPlace);
 
             if (place.IsEmpty)
             {
-                place.SetHero(_startDragPlace.Hero);
-                _startDragPlace.Clear();
+                place.SetHero(m_startDragPlace.Hero);
+                m_startDragPlace.Clear();
             }
             else
             {
                 var tempHero = place.Hero;
-                place.SetHero(_startDragPlace.Hero);
-                _startDragPlace.SetHero(tempHero);
-                ChangeTeamData(_playerTeam, oldIndexPlace, tempHero.HeroData.Id);
+                place.SetHero(m_startDragPlace.Hero);
+                m_startDragPlace.SetHero(tempHero);
+                ChangeTeamData(m_playerTeam, oldIndexPlace, tempHero.HeroData.Id);
             }
 
-            ChangeTeamData(_playerTeam, newIndexPlace, place.Hero.HeroData.Id);
-            _onChangeTeam.Execute(_playerTeam);
-            _startDragPlace.SetDragingStatus(false);
+            ChangeTeamData(m_playerTeam, newIndexPlace, place.Hero.HeroData.Id);
+            m_onChangeTeam.Execute(m_playerTeam);
+            m_startDragPlace.SetDragingStatus(false);
         }
 
-        private void ChangeTeamData(TeamContainer playerTeam, int indexPlace, int id)
+        private static void ChangeTeamData(TeamContainer playerTeam, int indexPlace, int id)
         {
-            if (playerTeam.Heroes.ContainsKey(indexPlace))
-                playerTeam.Heroes[indexPlace] = id;
-            else
-                playerTeam.Heroes.Add(indexPlace, id);
+            playerTeam.Heroes[indexPlace] = id;
         }
 
         private void OnPlaceSelect(WarriorPlace place)
         {
-            if (_isDragging)
+            if (m_isDragging)
                 return;
 
-            if (place == _startDragPlace)
-                _startDragPlace = null;
+            if (place == m_startDragPlace)
+                m_startDragPlace = null;
 
             if (!place.IsEmpty) UnSelectCard(place.Hero);
         }
@@ -201,76 +200,80 @@ namespace Fight.Common.WarTable
             if (existHero != null)
             {
                 Debug.LogError("Герой уже есть в команде");
-                return result;
+                return false;
             }
 
-            foreach (var place in View.LeftTeam)
-                if (place.IsEmpty)
-                {
-                    place.SetHero(hero);
-                    UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
-                    result = true;
-                    selectedPlace = place;
-                    break;
-                }
-
-            if (result)
+            foreach (var place in View.LeftTeam.Where(place => place.IsEmpty))
             {
-                if (_playerTeam != null)
-                {
-                    if (_playerTeam.Heroes.ContainsKey(selectedPlace.Id))
-                    {
-                        Debug.LogError("Это место в команде уже занято");
-                        return false;
-                    }
-
-                    _playerTeam.Heroes.Add(selectedPlace.Id, hero.HeroData.Id);
-                    _onChangeTeam.Execute(_playerTeam);
-                }
-
-                CheckTeam(View.LeftTeam);
+                place.SetHero(hero);
+                UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
+                result = true;
+                selectedPlace = place;
+                break;
             }
 
-            return result;
+            if (!result)
+            {
+                return false;
+            }
+
+            
+            if (m_playerTeam != null)
+            {
+                if (m_playerTeam.Heroes.ContainsKey(selectedPlace.Id))
+                {
+                    Debug.LogError("Это место в команде уже занято");
+                    return false;
+                }
+
+                m_playerTeam.Heroes.Add(selectedPlace.Id, hero.HeroData.Id);
+                m_onChangeTeam.Execute(m_playerTeam);
+            }
+
+            CheckTeam(View.LeftTeam);
+
+            return true;
         }
 
         private bool RemoveHero(GameHero hero)
         {
-            var result = false;
             var place = View.LeftTeam.Find(place => place.Hero == hero);
 
-            if (place != null)
+            if (place == null)
             {
-                place.Clear();
+                return false;
+            }
+            
+            place.Clear();
 
-                if (_playerTeam != null)
-                {
-                    _playerTeam.Heroes.Remove(place.Id);
-                    _onChangeTeam.Execute(_playerTeam);
-                }
-
-                CheckTeam(View.LeftTeam);
-                UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
-                result = true;
+            if (m_playerTeam != null)
+            {
+                m_playerTeam.Heroes.Remove(place.Id);
+                m_onChangeTeam.Execute(m_playerTeam);
             }
 
-            return result;
+            CheckTeam(View.LeftTeam);
+            UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
+
+            return true;
         }
 
         private void ClearPlaces(List<WarriorPlace> places)
         {
-            foreach (var place in places)
-                if (!place.IsEmpty)
-                    RemoveHero(place.Hero);
+            foreach (var place in places.Where(place => !place.IsEmpty))
+            {
+                RemoveHero(place.Hero);
+            }
+
         }
 
-        private void UpdateStrengthTeam(List<WarriorPlace> team, TextMeshProUGUI textComponent)
+        private void UpdateStrengthTeam(List<WarriorPlace> team, TMP_Text textComponent)
         {
-            var strengthTeam = 0f;
-            for (var i = 0; i < team.Count; i++)
-                if (team[i].Hero != null)
-                    strengthTeam += team[i].Hero.Strength;
-            textComponent.text = strengthTeam.ToString();
+            float strengthTeam = team.Where(t => t.Hero != null)
+                .Aggregate(0f, (current, t)
+                    => current + t.Hero.CalculateStrength(m_commonDictionaries));
+
+            textComponent.text = $"{strengthTeam}";
         }
 
         private void CheckTeam(List<WarriorPlace> team)
@@ -347,15 +350,15 @@ namespace Fight.Common.WarTable
             View.FastFightToggle.gameObject.SetActive(false);
             CheckTeamContainer(team, View.LeftTeam);
             DisposeMainAction();
-            _playerTeam = team;
-            _callback = callback;
-            _buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => SaveTeam());
+            m_playerTeam = team;
+            m_callback = callback;
+            m_buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => SaveTeam());
             MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Exclusive);
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
-            FillListHeroes(_heroesStorageController.ListHeroes);
+            FillListHeroes(m_heroesStorageController.ListHeroes);
 
-            FillTeam(_playerTeam, View.LeftTeam);
+            FillTeam(m_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
             Open();
             CheckTeam(View.LeftTeam);
@@ -374,12 +377,13 @@ namespace Fight.Common.WarTable
                 }
 
                 var suitableHero =
-                    _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
-                if (suitableHero == null)
+                    m_heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                if (suitableHero != null)
                 {
-                    heroesRemove.Add(heroKeyValuePair.Key);
                     continue;
                 }
+
+                heroesRemove.Add(heroKeyValuePair.Key);
             }
 
             foreach (var heroId in heroesRemove) team.Heroes.Remove(heroId);
@@ -396,7 +400,7 @@ namespace Fight.Common.WarTable
                     continue;
 
                 var suitableHero =
-                    _heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
+                    m_heroesStorageController.ListHeroes.Find(hero => hero.HeroData.Id == heroKeyValuePair.Value);
                 if (suitableHero == null) continue;
 
                 suitablePlace.SetHero(suitableHero);
@@ -408,30 +412,29 @@ namespace Fight.Common.WarTable
 
         private void SaveTeam()
         {
-            _playerTeam.Heroes.Clear();
+            m_playerTeam.Heroes.Clear();
             foreach (var place in View.LeftTeam)
                 if (!place.IsEmpty)
-                    _playerTeam.Heroes.Add(place.Id, place.Hero.HeroData.Id);
+                    m_playerTeam.Heroes.Add(place.Id, place.Hero.HeroData.Id);
 
-            UnityEngine.Debug.Log($"_playerTeam.Heroes: {_playerTeam.Heroes.Count}");
-            _callback.Invoke(_playerTeam);
+            m_callback.Invoke(m_playerTeam);
             Close();
         }
 
-        public void OpenMission(MissionModel mission, List<GameHero> listHeroes)
+        private void OpenMission(MissionModel mission, List<GameHero> listHeroes)
         {
             DisposeMainAction();
-            _buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => StartFight());
+            m_buttonAction = View.StartFightButton.OnClickAsObservable().Subscribe(_ => StartFight().Forget());
             MessagesPublisher.OpenWindowPublisher.OpenWindow<WarTableController>(openType: OpenType.Additive);
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
 
-            _mission = mission;
+            m_mission = mission;
 
             for (var i = 0; i < mission.Units.Count; i++)
             {
                 var enemyData = mission.Units[i];
-                var model = _commonDictionaries.Heroes[enemyData.HeroId];
+                var model = m_commonDictionaries.Heroes[enemyData.HeroId];
                 var enemy = new GameHero(model, enemyData);
                 View.RightTeam[i].SetHero(enemy);
             }
@@ -447,22 +450,22 @@ namespace Fight.Common.WarTable
 
         private void DisposeMainAction()
         {
-            if (_buttonAction != null)
+            if (m_buttonAction != null)
             {
-                _buttonAction.Dispose();
-                _buttonAction = null;
+                m_buttonAction.Dispose();
+                m_buttonAction = null;
             }
         }
 
         public void OpenMission(MissionModel mission, TeamContainer teamContainer, bool isFastFight = false, WarTableLimiter limiter = null)
         {
-            _canStartBattle = true;
+            m_canStartBattle = true;
             SetFastFightStatus(isFastFight);
             GetHeroesByLimiter(out var selectedHeroes, limiter);
             OpenMission(mission, selectedHeroes);
-            _playerTeam = teamContainer;
+            m_playerTeam = teamContainer;
 
-            FillTeam(_playerTeam, View.LeftTeam);
+            FillTeam(m_playerTeam, View.LeftTeam);
             UpdateStrengthTeam(View.LeftTeam, View.StrengthLeftTeam);
             CheckTeam(View.LeftTeam);
         }
@@ -483,13 +486,13 @@ namespace Fight.Common.WarTable
         {
             if (limiter == null)
             {
-                selectedHeroes = _heroesStorageController.ListHeroes;
+                selectedHeroes = m_heroesStorageController.ListHeroes;
                 return;
             }
 
             selectedHeroes = new List<GameHero>();
 
-            foreach (GameHero hero in _heroesStorageController.ListHeroes)
+            foreach (GameHero hero in m_heroesStorageController.ListHeroes)
             {
                 if (limiter.CheckHero(hero))
                 {
@@ -500,8 +503,8 @@ namespace Fight.Common.WarTable
 
         public override void Close()
         {
-            _playerTeam = null;
-            _mission = null;
+            m_playerTeam = null;
+            m_mission = null;
             OnClose.Execute();
             ClearPlaces(View.LeftTeam);
             ClearPlaces(View.RightTeam);
@@ -510,12 +513,12 @@ namespace Fight.Common.WarTable
 
         private void FillListHeroes(List<GameHero> listHeroes)
         {
-            View.ListCardPanel.ShowCards(listHeroes, _mission?.HeroRestrictions);
+            View.ListCardPanel.ShowCards(listHeroes, m_mission?.HeroRestrictions);
         }
 
         private async UniTask StartFight()
         {
-            if (!_canStartBattle)
+            if (!m_canStartBattle)
                 return;
             
             Debug.Log("war table start fight");
@@ -523,9 +526,9 @@ namespace Fight.Common.WarTable
             if (View.FastFightToggle.IsOn)
             {
                 base.Close();
-                _fightController.FastFight(_mission, View.LeftTeam, View.RightTeam);
-                _playerTeam = null;
-                _mission = null;
+                m_fightController.FastFight(m_mission, View.LeftTeam, View.RightTeam);
+                m_playerTeam = null;
+                m_mission = null;
                 OnClose.Execute();
                 ClearPlaces(View.LeftTeam);
                 ClearPlaces(View.RightTeam);
@@ -535,7 +538,7 @@ namespace Fight.Common.WarTable
                 OnPlayerStartFight.Execute();
                 await UniTask.Delay(200);
                 base.Close();
-                _fightController.SetMission(_mission, View.LeftTeam, View.RightTeam);
+                m_fightController.SetMission(m_mission, View.LeftTeam, View.RightTeam);
             }
 
             DisposeMainAction();
@@ -543,8 +546,8 @@ namespace Fight.Common.WarTable
 
         public override void Dispose()
         {
-            _cancellationTokenSource.TryCancel();
-            _dragTween.Kill();
+            m_cancellationTokenSource.TryCancel();
+            m_dragTween.Kill();
             base.Dispose();
         }
     }

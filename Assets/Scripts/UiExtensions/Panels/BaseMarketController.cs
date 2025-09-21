@@ -2,7 +2,6 @@
 using City.Buildings.Abstractions;
 using City.Buildings.Market;
 using ClientServices;
-using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Models.City.Markets;
 using Models.Common;
@@ -17,6 +16,7 @@ using Common.Inventories.Splinters;
 using System.Linq;
 using City.Panels.Inventories;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Object = UnityEngine.Object;
 
 namespace UiExtensions.Panels
@@ -24,29 +24,29 @@ namespace UiExtensions.Panels
     public abstract class BaseMarketController<T> : BaseBuilding<T>
         where T : BaseMarketView
     {
-        [Inject] protected readonly CommonGameData _сommonGameData;
-        [Inject] protected readonly CommonDictionaries _commonDictionaries;
-        [Inject] protected readonly ResourceStorageController _resourceStorageController;
+        [Inject] protected readonly CommonGameData СommonGameData;
+        [Inject] protected readonly CommonDictionaries CommonDictionaries;
+        [Inject] protected readonly ResourceStorageController ResourceStorageController;
         [Inject] protected readonly InventoryPanelController InventoryPanelController;
 
-        protected List<MarketProductController> productControllers = new();
+        protected readonly List<MarketProductController> ProductControllers = new();
 
         protected abstract string MarketContainerName { get; }
 
-        protected void CreateProducts()
+        private void CreateProducts()
         {
-            var market = _commonDictionaries.Markets[MarketContainerName];
+            var market = CommonDictionaries.Markets[MarketContainerName];
             var allMarketProducts = new List<string>(market.Products.Count);
             allMarketProducts.AddRange(market.Products);
 
-            var promotions = _сommonGameData.City.MallSave.ShopPromotions
+            var promotions = СommonGameData.City.MallSave.ShopPromotions
                 .FindAll(promo => promo.MarketName.Equals(MarketContainerName))
                 .Select(promo => promo.ProductId)
                 .ToList();
 
             foreach (var promo in promotions)
             {
-                if (!_commonDictionaries.Products.ContainsKey(promo))
+                if (!CommonDictionaries.Products.ContainsKey(promo))
                 {
                     Debug.LogError($"Market: {Name}, promotion {promo} not found");
                     continue;
@@ -55,12 +55,12 @@ namespace UiExtensions.Panels
                 allMarketProducts.Add(promo);
             }
 
-            foreach (var productId in allMarketProducts)
+            foreach (string productId in allMarketProducts)
             {
                 try
                 {
 
-                    var productModel = _commonDictionaries.Products[productId];
+                    var productModel = CommonDictionaries.Products[productId];
 
                     BaseMarketProduct baseMarketProduct = null;
 
@@ -71,12 +71,12 @@ namespace UiExtensions.Panels
                             baseMarketProduct = new MarketProduct<GameResource>(resourceProductModel, resource);
                             break;
                         case ItemProductModel itemProductModel:
-                            var itemModel = _commonDictionaries.Items[itemProductModel.Subject.Id];
+                            var itemModel = CommonDictionaries.Items[itemProductModel.Subject.Id];
                             var item = new GameItem(itemModel, itemProductModel.Subject.Amount);
                             baseMarketProduct = new MarketProduct<GameItem>(itemProductModel, item);
                             break;
                         case SplinterProductModel splinterProductModel:
-                            var splinterModel = _commonDictionaries.Splinters[splinterProductModel.Subject.Id];
+                            var splinterModel = CommonDictionaries.Splinters[splinterProductModel.Subject.Id];
                             var splinter = new GameSplinter(splinterModel, splinterProductModel.Subject.Amount);
                             baseMarketProduct = new MarketProduct<GameSplinter>(splinterProductModel, splinter);
                             break;
@@ -85,7 +85,7 @@ namespace UiExtensions.Panels
 
 
                 var controller = Object.Instantiate(View.Prefab, View.ScrollRect.content);
-                productControllers.Add(controller);
+                ProductControllers.Add(controller);
                 Resolver.Inject(controller);
                 Resolver.Inject(controller.ButtonCost);
                 controller.SetData(productId, baseMarketProduct, () => TryBuyProductOnServer(productId, 1).Forget());
@@ -100,10 +100,10 @@ namespace UiExtensions.Panels
 
         protected override void OnLoadGame()
         {
-            var marketData = _сommonGameData.City.MallSave;
+            var marketData = СommonGameData.City.MallSave;
             CreateProducts();
 
-            foreach (var controller in productControllers)
+            foreach (var controller in ProductControllers)
             {
                 var purchase = marketData.PurchaseDatas.Find(purchase => controller.SubjectId == purchase.ProductId);
                 if (purchase == null)
@@ -115,32 +115,31 @@ namespace UiExtensions.Panels
 
         private async UniTaskVoid TryBuyProductOnServer(string productId, int coutSell)
         {
-            var message = new BuyProductMessage { PlayerId = _сommonGameData.PlayerInfoData.Id, ProductId = productId, Count = coutSell };
+            var message = new BuyProductMessage { PlayerId = СommonGameData.PlayerInfoData.Id, ProductId = productId, Count = coutSell };
             var result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var product = _commonDictionaries.Products[productId];
+                var product = CommonDictionaries.Products[productId];
                 var cost = new GameResource(product.Cost);
-                _resourceStorageController.SubtractResource(cost);
+                ResourceStorageController.SubtractResource(cost);
 
                 switch (product)
                 {
-                    case ResourceProductModel ResourceProduct:
-                        var resource = new GameResource(ResourceProduct.Subject);
-                        _resourceStorageController.AddResource(resource);
+                    case ResourceProductModel resourceProduct:
+                        var resource = new GameResource(resourceProduct.Subject);
+                        ResourceStorageController.AddResource(resource);
                         break;
-                    case ItemProductModel ItemProduct:
-                        var itemModel = _commonDictionaries.Items[ItemProduct.Subject.Id];
-                        var item = new GameItem(itemModel, ItemProduct.Subject.Amount);
+                    case ItemProductModel itemProduct:
+                        var itemModel = CommonDictionaries.Items[itemProduct.Subject.Id];
+                        var item = new GameItem(itemModel, itemProduct.Subject.Amount);
                         InventoryPanelController.Add(item);
                         break;
                 }
 
-                var controller = productControllers.Find(controller => controller.SubjectId == productId);
+                var controller = ProductControllers.Find(controller => controller.SubjectId == productId);
                 controller.FinishBuy();
             }
-
         }
     }
 }

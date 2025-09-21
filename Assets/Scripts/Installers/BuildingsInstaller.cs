@@ -8,6 +8,7 @@ using City.Buildings.LongTravels;
 using City.Buildings.MagicCircle;
 using City.Buildings.Mails;
 using City.Buildings.Market;
+using City.Buildings.Market.CityMarkets;
 using City.Buildings.Mines;
 using City.Buildings.Pets;
 using City.Buildings.Sanctuary;

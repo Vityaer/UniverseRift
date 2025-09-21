@@ -10,6 +10,7 @@ using Network.DataServer.Messages.City.Mines;
 using System;
 using System.Collections.Generic;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;

@@ -1,5 +1,6 @@
 ﻿using Common.Resourses;
 using System.Collections.Generic;
+using Common.Inventories.Resourses;
 using UnityEngine;
 using VContainer;
 

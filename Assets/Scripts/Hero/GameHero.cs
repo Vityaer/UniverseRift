@@ -48,7 +48,6 @@ namespace Hero
         public HeroData HeroData => m_heroData;
         public BaseCharacteristicModel GetBaseCharacteristic => m_model.Characteristics.Main;
         public float MaxHP => m_model.Characteristics.HP;
-        public int Strength => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.HP) / 6 + GetCharacteristic(TypeCharacteristic.Damage));
         public HeroController Prefab => m_prefab;
 
         public GameHero(HeroModel hero, HeroData data)
@@ -137,27 +136,6 @@ namespace Hero
         //}
 
         //public int Strength() => Mathf.RoundToInt(GetCharacteristic(TypeCharacteristic.Damage) + GetCharacteristic(TypeCharacteristic.HP) / 3f);
-
-        public float GetCharacteristic(TypeCharacteristic typeBonus)
-        {
-            float result = 0;
-            switch (typeBonus)
-            {
-                case TypeCharacteristic.HP:
-                    result += m_model.Characteristics.HP;
-                    break;
-                case TypeCharacteristic.Damage:
-                    result += m_model.Characteristics.Damage;
-                    break;
-                case TypeCharacteristic.Initiative:
-                    result += m_model.Characteristics.Initiative;
-                    break;
-                case TypeCharacteristic.Defense:
-                    result += m_model.Characteristics.Main.Defense;
-                    break;
-            }
-            result += Costume.GetBonus(typeBonus);
-            return result;
-        }
+        
     }
 }

@@ -6,6 +6,7 @@ using City.Panels.SubjectPanels.Resources;
 using ClientServices;
 using Common;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Inventories.Splinters;
 using Common.Resourses;
 using Models.Common;

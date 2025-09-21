@@ -5,7 +5,6 @@ using Common.Heroes;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Hero;
-using IdleGame.AdvancedObservers;
 using Misc.Json;
 using Models;
 using Models.City.Hires;
@@ -15,6 +14,7 @@ using Network.DataServer.Messages;
 using System;
 using System.Collections.Generic;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UniRx;
 using VContainer;
 
@@ -22,30 +22,29 @@ namespace City.Buildings.Tavern
 {
     public class TavernController : BaseBuilding<TavernView>
     {
-        [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly HeroesHireResultPanelController _heroesHireResultPanelController;
+        [Inject] private readonly HeroesStorageController m_heroesStorageController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly ResourceStorageController m_resourceStorageController;
+        [Inject] private readonly HeroesHireResultPanelController m_heroesHireResultPanelController;
 
-        private HireContainerModel _simpleHireContainer;
-        private HireContainerModel _specialHireContainer;
-        private HireContainerModel _friendHireContainer;
+        private HireContainerModel m_simpleHireContainer;
+        private HireContainerModel m_specialHireContainer;
+        private HireContainerModel m_friendHireContainer;
 
-        private ReactiveCommand<BigDigit> _observerSimpleHire = new();
-        private ReactiveCommand<BigDigit> _observerSpecialHire = new();
-        private ReactiveCommand<BigDigit> _observerFriendHire = new();
-        private ObserverActionWithHero _observersHireRace = new();
+        private readonly ReactiveCommand<BigDigit> m_observerSimpleHire = new();
+        private readonly ReactiveCommand<BigDigit> m_observerSpecialHire = new();
+        private readonly ReactiveCommand<BigDigit> m_observerFriendHire = new();
 
-        public IObservable<BigDigit> ObserverSimpleHire => _observerSimpleHire;
-        public IObservable<BigDigit> ObserverSpecialHire => _observerSpecialHire;
-        public IObservable<BigDigit> ObserverFriendHire => _observerFriendHire;
+        public IObservable<BigDigit> ObserverSimpleHire => m_observerSimpleHire;
+        public IObservable<BigDigit> ObserverSpecialHire => m_observerSpecialHire;
+        public IObservable<BigDigit> ObserverFriendHire => m_observerFriendHire;
 
         protected override void OnStart()
         {
-            _simpleHireContainer = _commonDictionaries.HireContainerModels["SimpleHireContainer"];
-            _specialHireContainer = _commonDictionaries.HireContainerModels["SpecialHireContainer"];
-            _friendHireContainer = _commonDictionaries.HireContainerModels["FriendHireContainer"];
+            m_simpleHireContainer = m_commonDictionaries.HireContainerModels["SimpleHireContainer"];
+            m_specialHireContainer = m_commonDictionaries.HireContainerModels["SpecialHireContainer"];
+            m_friendHireContainer = m_commonDictionaries.HireContainerModels["FriendHireContainer"];
 
             Resolver.Inject(View.ObserverSimpleHire);
             Resolver.Inject(View.ObserverSpecialHire);
@@ -53,22 +52,22 @@ namespace City.Buildings.Tavern
             Resolver.Inject(View.ResourceObjectCostOneHire);
             Resolver.Inject(View.ResourceObjectCostManyHire);
 
-            SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire);
+            SelectHire<SpecialHire>(new GameResource(m_specialHireContainer.Cost), m_observerSpecialHire);
 
             View.SimpleHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(_simpleHireContainer.Cost), _observerSimpleHire))
+                .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(m_simpleHireContainer.Cost), m_observerSimpleHire))
                 .AddTo(Disposables);
 
             View.SpecialHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SpecialHire>(new GameResource(_specialHireContainer.Cost), _observerSpecialHire))
+                .Subscribe(_ => SelectHire<SpecialHire>(new GameResource(m_specialHireContainer.Cost), m_observerSpecialHire))
                 .AddTo(Disposables);
 
             View.FriendHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<FriendHire>(new GameResource(_friendHireContainer.Cost), _observerFriendHire))
+                .Subscribe(_ => SelectHire<FriendHire>(new GameResource(m_friendHireContainer.Cost), m_observerFriendHire))
                 .AddTo(Disposables);
         }
 
-        public void SelectHire<T>(GameResource costOneHire, ReactiveCommand<BigDigit> onHireHeroes)
+        private void SelectHire<T>(GameResource costOneHire, ReactiveCommand<BigDigit> onHireHeroes)
             where T : AbstractHireMessage, new()
         {
             View.CostOneHireController
@@ -82,14 +81,14 @@ namespace City.Buildings.Tavern
             where T : AbstractHireMessage, new()
         {
             var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
 
             if (string.IsNullOrEmpty(result))
             {
                 return;
 			}
 
-			var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
+			var newHeroDatas = m_jsonConverter.Deserialize<List<HeroData>>(result);
 
             if (newHeroDatas == null)
             {
@@ -97,23 +96,23 @@ namespace City.Buildings.Tavern
             }
 
             var heroes = new List<GameHero>(newHeroDatas.Count);
-            for (int i = 0; i < newHeroDatas.Count; i++)
+            foreach (var t in newHeroDatas)
             {
-                var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
-                var hero = new GameHero(model, newHeroDatas[i]);
+                var model = m_commonDictionaries.Heroes[t.HeroId];
+                var hero = new GameHero(model, t);
                 AddNewHero(hero);
                 heroes.Add(hero);
             }
-            _resourceStorageController.SubtractResource(cost);
+            m_resourceStorageController.SubtractResource(cost);
 
             onHireHeroes.Execute(new BigDigit(count));
 
-            _heroesHireResultPanelController.ShowHeroes(heroes);
+            m_heroesHireResultPanelController.ShowHeroes(heroes);
         }
 
         private void AddNewHero(GameHero hero)
         {
-            _heroesStorageController.AddHero(hero);
+            m_heroesStorageController.AddHero(hero);
         }
     }
 }

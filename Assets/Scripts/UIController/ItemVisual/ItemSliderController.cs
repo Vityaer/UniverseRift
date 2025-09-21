@@ -1,4 +1,5 @@
-﻿using Common.Resourses;
+﻿using Common.Inventories.Resourses;
+using Common.Resourses;
 using DG.Tweening;
 using Models.Common.BigDigits;
 using TMPro;

@@ -3,6 +3,7 @@ using Common.Resourses;
 using Models.City.Mines;
 using System;
 using System.Collections.Generic;
+using Common.Inventories.Resourses;
 
 namespace City.Buildings.Mines
 {

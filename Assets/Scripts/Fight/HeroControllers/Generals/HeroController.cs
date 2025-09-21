@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Common.Db.CommonDictionaries;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Fight.Common.AI;
@@ -24,7 +25,8 @@ namespace Fight.Common.HeroControllers.Generals
         [Inject] public Common.FightController FightController;
         [Inject] protected BotProvider BotProvider;
         [Inject] protected GridController GridController;
-
+        [Inject] private CommonDictionaries m_CommonDictionaries;
+        
         [Header("Components")] [SerializeField]
         private HeroStatus _statusState;
 
@@ -97,7 +99,7 @@ namespace Fight.Common.HeroControllers.Generals
             MyPlace = place;
             place.SetHero(this);
             m_side = side;
-            m_hero = new GameHeroFight(gameHero, _statusState);
+            m_hero = new GameHeroFight(gameHero, m_CommonDictionaries, _statusState);
             m_hero.PrepareSkills(this);
 
             m_attack.Init(this);

@@ -2,6 +2,7 @@
 using Models;
 using Models.Common;
 using System.Collections.Generic;
+using Common.Inventories.Resourses;
 using UnityEngine;
 
 namespace City.TrainCamp

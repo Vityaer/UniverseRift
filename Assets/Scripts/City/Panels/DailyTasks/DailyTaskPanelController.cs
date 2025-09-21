@@ -8,6 +8,7 @@ using City.Panels.SubjectPanels.Common;
 using City.Panels.Widgets.Particles;
 using ClientServices;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Misc.Json;
 using Models;

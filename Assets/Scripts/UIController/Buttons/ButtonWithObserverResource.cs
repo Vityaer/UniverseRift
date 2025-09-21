@@ -1,6 +1,7 @@
 using City.TrainCamp;
 using Common.Resourses;
 using System;
+using Common.Inventories.Resourses;
 using UniRx;
 using UnityEngine;
 

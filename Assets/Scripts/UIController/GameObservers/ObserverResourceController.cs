@@ -2,6 +2,7 @@
 using Common.Resourses;
 using System;
 using System.Collections.Generic;
+using Common.Inventories.Resourses;
 using DG.Tweening;
 using Models.Common.BigDigits;
 using TMPro;

@@ -2,6 +2,7 @@
 using Common.Resourses;
 using System.Collections;
 using System.Collections.Generic;
+using Common.Inventories.Resourses;
 using UIController.Inventory;
 using UnityEngine;
 

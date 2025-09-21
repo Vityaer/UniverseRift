@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using City.Buildings.TaskGiver.Abstracts;
 using City.TaskBoard;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Models.Data;

@@ -3,6 +3,7 @@ using System.Linq;
 using City.Panels.Rewards;
 using City.Panels.ScreenBlockers;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Common.Rewards;
 using UIController.Inventory;

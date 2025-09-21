@@ -16,6 +16,7 @@ using Network.DataServer.Messages.Players;
 using System;
 using System.Collections.Generic;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UI.Utils.Localizations.Extensions;
 using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;

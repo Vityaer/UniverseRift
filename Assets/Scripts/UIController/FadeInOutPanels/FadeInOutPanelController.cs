@@ -1,6 +1,7 @@
 ﻿using Fight.Common;
 using Fight.Common.WarTable;
 using System;
+using Fight.Windows.WarTable;
 using UniRx;
 using VContainer;
 using VContainer.Unity;

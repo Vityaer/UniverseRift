@@ -1,5 +1,4 @@
-﻿using City.Panels.Arenas.SimpleArenas;
-using Models.Common.BigDigits;
+﻿using Models.Common.BigDigits;
 using UIController.ControllerPanels.AlchemyPanels;
 using UniRx;
 using VContainer;
@@ -8,11 +7,12 @@ namespace City.Achievements.ActionGameAchievments
 {
     public class GetAlchemyGoldCountAchievment : GameAchievment
     {
-        [Inject] private readonly AlchemyPanelController _alchemyPanelController;
+        [Inject] private readonly AlchemyPanelController m_alchemyPanelController;
 
         protected override void Subscribe()
         {
-            _alchemyPanelController.OnGetAchemyGold.Subscribe(_ => AddProgress(new BigDigit(1))).AddTo(Disposables);
+            m_alchemyPanelController.OnGetAchemyGold.Subscribe(_ => AddProgress(new BigDigit(1)))
+                .AddTo(Disposables);
         }
     }
 }

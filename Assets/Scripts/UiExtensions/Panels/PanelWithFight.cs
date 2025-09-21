@@ -5,6 +5,7 @@ using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using Fight.Common;
 using Fight.Common.WarTable;
+using Fight.Windows.WarTable;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using Ui.Misc.Widgets;

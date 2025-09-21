@@ -1,20 +1,22 @@
-﻿using Models.Common.BigDigits;
+﻿using System;
+using Common.Resourses;
+using Models.Common.BigDigits;
 using Models.Data.Inventories;
-using System;
 using UniRx;
 using UnityEngine;
 using UniverseRift.Heplers.MathOperations;
 
-namespace Common.Resourses
+namespace Common.Inventories.Resourses
 {
     [Serializable]
     public class GameResource : BaseObject
     {
         public readonly ResourceType Type;
-        public readonly new BigDigit Amount;
-        private ReactiveCommand<GameResource> _onChangeResource = new ReactiveCommand<GameResource>();
+        public new readonly BigDigit Amount;
+        
+        private ReactiveCommand<GameResource> m_onChangeResource = new ReactiveCommand<GameResource>();
 
-        public IObservable<GameResource> OnChangeResource => _onChangeResource;
+        public IObservable<GameResource> OnChangeResource => m_onChangeResource;
 
         public GameResource()
         {
@@ -65,31 +67,31 @@ namespace Common.Resourses
         public void AddResource(float count, float e10 = 0)
         {
             Amount.Add(count, e10);
-            _onChangeResource.Execute(this);
+            m_onChangeResource.Execute(this);
         }
 
         public void AddResource(GameResource res)
         {
             Amount.Add(res.Amount);
-            _onChangeResource.Execute(this);
+            m_onChangeResource.Execute(this);
         }
 
         public void SubtractResource(float count, float e10 = 0)
         {
             Amount.Subtract(count, e10);
-            _onChangeResource.Execute(this);
+            m_onChangeResource.Execute(this);
         }
 
         public void SubtractResource(GameResource res)
         {
             Amount.Subtract(res.Amount);
-            _onChangeResource.Execute(this);
+            m_onChangeResource.Execute(this);
         }
 
         public void Clear()
         {
             Amount.Clear();
-            _onChangeResource.Execute(this);
+            m_onChangeResource.Execute(this);
         }
 
         //Operators

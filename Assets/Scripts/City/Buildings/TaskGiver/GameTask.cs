@@ -4,6 +4,7 @@ using Common.Resourses;
 using Models.Data;
 using Models.Tasks;
 using System;
+using Common.Inventories.Resourses;
 using UnityEngine;
 
 namespace City.Buildings.TaskGiver

@@ -68,7 +68,7 @@ namespace UIController.Inventory
         {
             var result = string.Empty;
             foreach (Bonus bonus in Model.Bonuses)
-                result = string.Concat(result, GetText(bonus.Count, $"{Id}"));
+                result = string.Concat(result, GetText(bonus.Value, $"{Id}"));
             return result;
         }
 
@@ -84,7 +84,7 @@ namespace UIController.Inventory
             var result = 0f;
             var bonus = Model.Bonuses.Find(x => x.Name == typeBonus);
             if (bonus != null)
-                result = bonus.Count;
+                result = bonus.Value;
 
             return result;
         }

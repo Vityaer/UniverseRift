@@ -22,11 +22,11 @@ namespace City.Panels.Events.SweetCycles
             SweetEventData eventData = _jsonConverter
                 .Deserialize<SweetEventData>(CommonGameData.CycleEventsData.CurrentCycle);
 
-            var sweetMarket = _commonDictionaries.Markets[MarketContainerName];
+            var sweetMarket = CommonDictionaries.Markets[MarketContainerName];
 
             foreach (var sweetGoodId in sweetMarket.Products)
             {
-                _commonDictionaries.Products[sweetGoodId].Cost.Type = eventData.ResourceType;
+                CommonDictionaries.Products[sweetGoodId].Cost.Type = eventData.ResourceType;
             }
 
             

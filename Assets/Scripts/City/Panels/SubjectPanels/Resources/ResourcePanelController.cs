@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using City.Panels.WhereGetSubjectPanels;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using LocalizationSystems;
 using UiExtensions.Scroll.Interfaces;
