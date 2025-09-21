@@ -1,5 +1,6 @@
 ﻿using Models.Heroes.HeroCharacteristics;
 using System;
+using UnityEngine.Serialization;
 
 namespace UIController.Inventory
 {
@@ -7,6 +8,6 @@ namespace UIController.Inventory
     public class Bonus
     {
         public TypeCharacteristic Name;
-        public float Count;
+        [FormerlySerializedAs("Count")] public float Value;
     }
 }

@@ -5,6 +5,7 @@ using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Sirenix.Serialization;
 using System;
+using Common.Inventories.Resourses;
 using UIController;
 using UIController.Inventory;
 using UIController.ItemVisual;

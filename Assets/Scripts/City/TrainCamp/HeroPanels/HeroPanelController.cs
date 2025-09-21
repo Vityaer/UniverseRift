@@ -114,11 +114,11 @@ namespace City.TrainCamp.HeroPanels
         public void UpdateTextAboutHero()
         {
             View.textLevel.text = $"{m_currentHero.HeroData.Level}";
-            View.textHP.text = ((int)m_currentHero.GetCharacteristic(TypeCharacteristic.HP)).ToString();
-            View.textAttack.text = ((int)m_currentHero.GetCharacteristic(TypeCharacteristic.Damage)).ToString();
-            View.textArmor.text = ((int)m_currentHero.GetCharacteristic(TypeCharacteristic.Defense)).ToString();
-            View.textInitiative.text = ((int)m_currentHero.GetCharacteristic(TypeCharacteristic.Initiative)).ToString();
-            View.textStrengthHero.text = m_currentHero.Strength.ToString();
+            View.textHP.text = ((int)m_currentHero.GetCharacteristic(m_dictionaries,TypeCharacteristic.HP)).ToString();
+            View.textAttack.text = ((int)m_currentHero.GetCharacteristic(m_dictionaries,TypeCharacteristic.Damage)).ToString();
+            View.textArmor.text = ((int)m_currentHero.GetCharacteristic(m_dictionaries,TypeCharacteristic.Defense)).ToString();
+            View.textInitiative.text = ((int)m_currentHero.GetCharacteristic(m_dictionaries, TypeCharacteristic.Initiative)).ToString();
+            View.textStrengthHero.text = m_currentHero.CalculateStrength(m_dictionaries).ToString();
             ShowSkills();
             View.CostController.ShowCosts(m_costLevelObject.GetCostForLevelUp(m_currentHero.HeroData.Level));
         }

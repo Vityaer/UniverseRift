@@ -1,6 +1,7 @@
 ﻿using ClientServices;
 using Common.Resourses;
 using System;
+using Common.Inventories.Resourses;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -15,30 +16,30 @@ namespace City.TrainCamp
         [SerializeField] private Image Image;
         [SerializeField] private TextMeshProUGUI TextAmount;
 
-        private ResourceStorageController _resourceStorageController;
-        private GameResource _costResource;
-        private IDisposable _disposable;
-        private ReactiveCommand<bool> _observerCanBuy = new ReactiveCommand<bool>();
+        private ResourceStorageController m_resourceStorageController;
+        private GameResource m_costResource;
+        private IDisposable m_disposable;
+        private ReactiveCommand<bool> m_observerCanBuy = new ReactiveCommand<bool>();
 
-        public IObservable<bool> ObserverCanBuy => _observerCanBuy;
+        public IObservable<bool> ObserverCanBuy => m_observerCanBuy;
 
         [Inject]
         public void Construct(ResourceStorageController resourceStorageController)
         {
-            _resourceStorageController = resourceStorageController;
+            m_resourceStorageController = resourceStorageController;
         }
 
         public void SetData(GameResource res)
         {
-            if (_resourceStorageController == null)
+            if (m_resourceStorageController == null)
                 Debug.LogError($"You forgot inject ResourceStorageController, {gameObject.name}", gameObject);
 
-            _disposable?.Dispose();
-            _disposable = _resourceStorageController.Subscribe(res.Type, CheckResource);
+            m_disposable?.Dispose();
+            m_disposable = m_resourceStorageController.Subscribe(res.Type, CheckResource);
 
-            _costResource = res;
+            m_costResource = res;
             CheckResource();
-            Image.sprite = _costResource.Image;
+            Image.sprite = m_costResource.Image;
             gameObject.SetActive(true);
         }
 
@@ -49,11 +50,11 @@ namespace City.TrainCamp
 
         public bool CheckResource()
         {
-            var storeResource = _resourceStorageController.GetResource(_costResource.Type);
-            bool enoughResource = storeResource.CheckCount(_costResource);
+            var storeResource = m_resourceStorageController.GetResource(m_costResource.Type);
+            bool enoughResource = storeResource.CheckCount(m_costResource);
             string color = enoughResource ? "<color=green>" : "<color=red>";
 
-            string result = $"{color}{_costResource}</color>/{storeResource}";
+            string result = $"{color}{m_costResource}</color>/{storeResource}";
             TextAmount.text = result;
             OnCheckResource(enoughResource);
             return enoughResource;
@@ -66,12 +67,12 @@ namespace City.TrainCamp
 
         private void OnCheckResource(bool check)
         {
-            _observerCanBuy?.Execute(check);
+            m_observerCanBuy?.Execute(check);
         }
 
         protected override void OnDestroy()
         {
-            _disposable?.Dispose();
+            m_disposable?.Dispose();
             base.OnDestroy();
         }
     }

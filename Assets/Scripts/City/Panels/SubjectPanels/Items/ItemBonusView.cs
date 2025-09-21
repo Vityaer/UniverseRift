@@ -54,15 +54,15 @@ namespace City.Panels.SubjectPanels.Items
 
         private string GetBonusAmountText()
         {
-            var sign = Data.Count > 0 ? "+ " : "- ";
-            var color = Data.Count > 0 ? "green" : "red";
+            var sign = Data.Value > 0 ? "+ " : "- ";
+            var color = Data.Value > 0 ? "green" : "red";
 
             if (!m_available)
             {
                 color = "gray";
             }
 
-            var bonusText = Mathf.Abs(Data.Count).ToString("N0");
+            var bonusText = Mathf.Abs(Data.Value).ToString("N0");
             string result = $"<color={color}>{sign}{bonusText}</color>";
             return result;
         }

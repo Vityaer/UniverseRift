@@ -7,6 +7,5 @@ namespace Models.City.Arena
     public class ArenaBuildingModel : BuildingModel
     {
 		public Dictionary<ArenaType, ArenaContainerModel> ArenaContainers = new();
-
     }
 }

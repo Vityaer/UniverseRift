@@ -1,6 +1,6 @@
 ﻿using UiExtensions.Panels;
 
-namespace City.Buildings.Market
+namespace City.Buildings.Market.CityMarkets
 {
     public class MarketController : BaseMarketController<MarketView>
     {

@@ -4,6 +4,7 @@ using City.Panels.SubjectPanels.Common;
 using City.TaskBoard;
 using ClientServices;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;

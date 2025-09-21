@@ -7,6 +7,7 @@ using System;
 using ClientServices;
 using Common.Db.CommonDictionaries;
 using Common.Rewards;
+using Fight.Windows.WarTable;
 using UniRx;
 using UnityEngine;
 using VContainer;

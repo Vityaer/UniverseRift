@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading;
 using City.Panels.ScreenBlockers;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UIController.Inventory;
 using UIController.Rewards;
 using UniRx;

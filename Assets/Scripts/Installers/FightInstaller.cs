@@ -6,6 +6,7 @@ using Fight.Common.FightInterface;
 using Fight.Common.Grid;
 using Fight.Common.UI;
 using Fight.Common.WarTable;
+using Fight.Windows.WarTable;
 using UIController.FightUI;
 using UnityEngine;
 using VContainer;

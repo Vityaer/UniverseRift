@@ -1,6 +1,7 @@
 using Common.Resourses;
 using Models.City.Markets;
 using System;
+using Common.Inventories.Resourses;
 using UnityEngine;
 
 namespace City.Buildings.Market

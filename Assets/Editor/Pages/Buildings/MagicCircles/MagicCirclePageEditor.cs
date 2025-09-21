@@ -17,12 +17,12 @@ namespace Editor.Pages.Buildings.MagicCircles
 {
     public class MagicCirclePageEditor : BasePageEditor
     {
-        private CommonDictionaries _dictionaries;
-        private string NAME => nameof(MagicCircleBuildingModel);
+        private readonly CommonDictionaries m_dictionaries;
+        private static string Name => nameof(MagicCircleBuildingModel);
 
         public MagicCirclePageEditor(CommonDictionaries commonDictionaries)
         {
-            _dictionaries = commonDictionaries;
+            m_dictionaries = commonDictionaries;
             Init();
         }
 
@@ -30,27 +30,27 @@ namespace Editor.Pages.Buildings.MagicCircles
         {
             base.Init();
             MagicCircleBuildingModel magicCircleBuildingModel;
-            if (_dictionaries.Buildings.ContainsKey(NAME))
+            if (m_dictionaries.Buildings.ContainsKey(Name))
             {
 
-                magicCircleBuildingModel = _dictionaries.Buildings[NAME] as MagicCircleBuildingModel;
+                magicCircleBuildingModel = m_dictionaries.Buildings[Name] as MagicCircleBuildingModel;
             }
             else
             {
                 magicCircleBuildingModel = new MagicCircleBuildingModel();
-                magicCircleBuildingModel.Id = NAME;
-                _dictionaries.Buildings.Add(NAME, magicCircleBuildingModel);
+                magicCircleBuildingModel.Id = Name;
+                m_dictionaries.Buildings.Add(Name, magicCircleBuildingModel);
             }
 
             MagicCircle = magicCircleBuildingModel;
-            MagicCircle.SetCommonDictionary(_dictionaries);
+            MagicCircle.SetCommonDictionary(m_dictionaries);
             DataExist = true;
         }
 
         public override void Save()
         {
-            _dictionaries.Buildings[NAME] = MagicCircle;
-            var buildings = _dictionaries.Buildings.Values.ToList();
+            m_dictionaries.Buildings[Name] = MagicCircle;
+            var buildings = m_dictionaries.Buildings.Values.ToList();
 
             EditorUtils.Save(buildings);
             base.Save();

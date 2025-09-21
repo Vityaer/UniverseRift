@@ -11,6 +11,7 @@ using Common.Resourses;
 using ClientServices;
 using System;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UnityEngine;
 
 namespace City.Buildings.Guild.GuildDonatePanels

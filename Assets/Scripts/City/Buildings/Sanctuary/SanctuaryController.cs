@@ -5,6 +5,7 @@ using City.Panels.HeroesHireResultPanels;
 using ClientServices;
 using Common.Db.CommonDictionaries;
 using Common.Heroes;
+using Common.Inventories.Resourses;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
 using Hero;

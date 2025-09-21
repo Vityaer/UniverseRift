@@ -1,11 +1,10 @@
-﻿using City.Panels.SubjectPanels.Common;
-using Common;
-using Models.Common;
-using System;
+﻿using System;
 using City.Panels.Helps;
+using City.Panels.SubjectPanels.Common;
+using Common;
 using LocalizationSystems;
+using Models.Common;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
@@ -26,12 +25,12 @@ namespace City.Buildings.Abstractions
 
         [Inject] protected readonly ILocalizationSystem LocalizationSystem;
         [Inject] protected readonly HelpPanelController HelpPanelController;
-        
+
         protected CompositeDisposable Disposables = new();
-        private int _levelForAvailableBuilding = 0;
+        private readonly int m_levelForAvailableBuilding = 0;
 
         private string HelpLocalizeStringId => $"{Name}HelpMainMessage";
-        
+
         public string Name => this.GetType().Name;
 
         public void Start()
@@ -41,42 +40,31 @@ namespace City.Buildings.Abstractions
             View.HelpButton?.OnClickAsObservable().Subscribe(_ => OpenHelp()).AddTo(Disposables);
             View.ButtonCloseBuilding?.OnClickAsObservable().Subscribe(_ => Close()).AddTo(Disposables);
             GameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(Disposables);
-            
+
             View.HelpButton?.gameObject.SetActive(LocalizationSystem.ExistLocaleId(HelpLocalizeStringId));
         }
 
         protected virtual void OpenHelp()
         {
             if (View.HelpContainer != null)
-            {
                 HelpPanelController.OpenHelp(View.HelpContainer);
-            }
             else
-            {
                 HelpPanelController.OpenHelp(HelpLocalizeStringId);
-            }
-
         }
 
         private void AutoInject()
         {
-            foreach (var obj in View.AutoInjectObjects)
-            {
-                Resolver.Inject(obj);
-            }
+            foreach (var obj in View.AutoInjectObjects) Resolver.Inject(obj);
         }
 
         public virtual void Open()
         {
-            if (AvailableFromLevel())
-            {
-                OpenPage();
-            }
+            if (AvailableFromLevel()) OpenPage();
         }
 
         protected bool AvailableFromLevel()
         {
-            bool result = CommonGameData.PlayerInfoData.Level >= _levelForAvailableBuilding;
+            bool result = CommonGameData.PlayerInfoData.Level >= m_levelForAvailableBuilding;
             if (result == false)
             {
                 //MessageController.Instance.ShowErrorMessage($"Откроется на {levelForAvailableBuilding} уровне");
@@ -91,9 +79,17 @@ namespace City.Buildings.Abstractions
             MessagesPublisher.BackWindowPublisher.BackWindow();
         }
 
-        virtual protected void OnStart() { }
-        virtual protected void OpenPage() { }
-        virtual protected void ClosePage() { }
+        protected virtual void OnStart()
+        {
+        }
+
+        protected virtual void OpenPage()
+        {
+        }
+
+        protected virtual void ClosePage()
+        {
+        }
 
         public virtual void Dispose()
         {

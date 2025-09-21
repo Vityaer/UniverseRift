@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using UIController.Rewards;
 using UiExtensions.Scroll.Interfaces;
 using UniRx;

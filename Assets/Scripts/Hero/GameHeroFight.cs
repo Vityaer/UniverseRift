@@ -7,6 +7,7 @@ using Models.Heroes;
 using Models.Heroes.HeroCharacteristics;
 using System;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UniRx;
 using UnityEngine;
 
@@ -18,20 +19,22 @@ namespace Hero
         public readonly HeroModel Model;
         public readonly HeroData HeroData;
 
+        private float m_maxHealth;
         public HeroStatus StatusState;
 
         [field: SerializeField] public float Health { get; private set; }
 
-        public float MaxHealth => Model.Characteristics.HP;
+        public float MaxHealth => m_maxHealth;
         public BaseCharacteristicModel GetBaseCharacteristic => Model.Characteristics.Main;
 
         private ReactiveCommand<float> _onGetDamage = new();
         
         public IObservable<float> OnGetDamage => _onGetDamage;
         
-        public GameHeroFight(GameHero gameHero, HeroStatus statusState)
+        public GameHeroFight(GameHero gameHero, CommonDictionaries commonDictionaries, HeroStatus statusState)
         {
             Model = gameHero.Model.Clone();
+            m_maxHealth = gameHero.GetCharacteristic(commonDictionaries, TypeCharacteristic.HP);
             HeroData = gameHero.HeroData;
             StatusState = statusState;
             Health = MaxHealth;

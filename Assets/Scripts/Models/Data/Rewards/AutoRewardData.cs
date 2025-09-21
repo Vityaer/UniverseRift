@@ -2,6 +2,7 @@ using Common.Resourses;
 using Common.Rewards;
 using Models.Data.Inventories;
 using System;
+using Common.Inventories.Resourses;
 using UIController.Rewards.PosibleRewards;
 using Utils;
 

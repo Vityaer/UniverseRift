@@ -11,6 +11,7 @@ using Editor.Common.Pages.Buildings.Sanctuaries;
 using Editor.Common.Pages.Misc.WhereGetPages;
 using Editor.Pages.Achievments;
 using Editor.Pages.Bosses;
+using Editor.Pages.Buildings.AlchemyPanels;
 using Editor.Pages.Buildings.Hires;
 using Editor.Pages.Buildings.MagicCircles;
 using Editor.Pages.Buildings.Mines.MineRestrictions;
@@ -49,48 +50,48 @@ namespace Editor.Windows
 {
     public class EditorMainWindow : OdinMenuEditorWindow
     {
-        private CommonDictionaries _dictionaries;
-        private ConfigVersion ConfigVersion;
+        private CommonDictionaries m_dictionaries;
+        private ConfigVersion m_configVersion;
 
-        private List<BasePageEditor> _allPages;
-        private HeroPageEditor _heroPageEditor;
-        private RacePageEditor _racePageEditor;
-        private VocationPageEditor _vocationPageEditor;
-        private ItemPageEditor _itemPageEditor;
-        private ItemSetPageEditor _itemSetPageEditor;
-        private ItemRelationPageEditor _itemRelationPageEditor;
-        private RarityPageEditor _rarityPageEditor;
-        private RatingPageEditor _ratingPageEditor;
-        private CampaignPageEditor _campaignPageEditor;
-        private LocationPageEditor _locationPageEditor;
-        private ProductPageEditor _productPageEditor;
-        private SplinterPageEditor _splinterPageEditor;
-        private MarketPageEditor _marketPageEditor;
-        private MinePageEditor _minePageEditor;
-        private StorageChallangePageEditor _storageChallangePageEditor;
-        private CostLevelUpContainerPageEditor _costLevelUpContainerPageEditor;
-        private ForgePageEditor _forgePageEditor;
-        private RewardPageEditor _rewardPageEditor;
-        private GameTaskEditor _gameTaskModelEditor;
-        private FortuneRewardEditor _fortuneRewardEditor;
-        private AchievementPageEditor _achievementPageEditor;
-        private DailyRewardPageEditor _dailyRewardPageEditor;
-        private MineRestrictionPageEditor _mineRestrictionPageEditor;
-        private TravelRaceCircleEditor _travelRaceCircleEditor;
-        private AchievmentContainersPageEditor _achievmentContainersPageEditor;
-        private RewardContrainerPageEditor _rewardContrainerPageEditor;
-        private GuildBossPageEditor _guildBossPageEditor;
-        private AvatarPageEditor _avatarPageEditor;
-        private RatingUpPageEditor _ratingUpPageEditor;
-        private CharacteristicPageEditor _characteristicPageEditor;
-        private HireContainerPageEditor _hireContainerPageEditor;
-        private MagicCirclePageEditor _magicCirclePageEditor;
-        private GuildBuildingPageEditor _guildBuildingPageEditor;
-        private MineSettingsPageEditor _mineSettingsPageEditor;
-        private SanctuaryPageEditor _sanctuaryPageEditor;
-        private ArenaPageEditor _arenaPageEditor;
-        private WhereGetResourcePageEditor _whereGetResourcePageEditor;
-        
+        private List<BasePageEditor> m_allPages;
+        private HeroPageEditor m_heroPageEditor;
+        private RacePageEditor m_racePageEditor;
+        private VocationPageEditor m_vocationPageEditor;
+        private ItemPageEditor m_itemPageEditor;
+        private ItemSetPageEditor m_itemSetPageEditor;
+        private ItemRelationPageEditor m_itemRelationPageEditor;
+        private RarityPageEditor m_rarityPageEditor;
+        private RatingPageEditor m_ratingPageEditor;
+        private CampaignPageEditor m_campaignPageEditor;
+        private LocationPageEditor m_locationPageEditor;
+        private ProductPageEditor m_productPageEditor;
+        private SplinterPageEditor m_splinterPageEditor;
+        private MarketPageEditor m_marketPageEditor;
+        private MinePageEditor m_minePageEditor;
+        private StorageChallangePageEditor m_storageChallangePageEditor;
+        private CostLevelUpContainerPageEditor m_costLevelUpContainerPageEditor;
+        private ForgePageEditor m_forgePageEditor;
+        private RewardPageEditor m_rewardPageEditor;
+        private GameTaskEditor m_gameTaskModelEditor;
+        private FortuneRewardEditor m_fortuneRewardEditor;
+        private AchievementPageEditor m_achievementPageEditor;
+        private DailyRewardPageEditor m_dailyRewardPageEditor;
+        private MineRestrictionPageEditor m_mineRestrictionPageEditor;
+        private TravelRaceCircleEditor m_travelRaceCircleEditor;
+        private AchievmentContainersPageEditor m_achievmentContainersPageEditor;
+        private RewardContrainerPageEditor m_rewardContrainerPageEditor;
+        private GuildBossPageEditor m_guildBossPageEditor;
+        private AvatarPageEditor m_avatarPageEditor;
+        private RatingUpPageEditor m_ratingUpPageEditor;
+        private CharacteristicPageEditor m_characteristicPageEditor;
+        private HireContainerPageEditor m_hireContainerPageEditor;
+        private MagicCirclePageEditor m_magicCirclePageEditor;
+        private GuildBuildingPageEditor m_guildBuildingPageEditor;
+        private MineSettingsPageEditor m_mineSettingsPageEditor;
+        private SanctuaryPageEditor m_sanctuaryPageEditor;
+        private ArenaPageEditor m_arenaPageEditor;
+        private WhereGetResourcePageEditor m_whereGetResourcePageEditor;
+        private AlchemyPanelPageEditor m_alchemyPanelPageEditor;
         private OdinMenuTree _tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
@@ -125,180 +126,185 @@ namespace Editor.Windows
         private void FillTree()
         {
             _tree.Selection.SupportsMultiSelect = false;
-            _tree.Add("Heroes/Heroes", _heroPageEditor);
-            _tree.Add("Heroes/Characteristics", _characteristicPageEditor);
-            _tree.Add("Heroes/Vocations", _vocationPageEditor);
-            _tree.Add("Heroes/Races", _racePageEditor);
-            _tree.Add("Heroes/Rating Requirements", _ratingUpPageEditor);
-            _tree.Add("Costs/Costs Editor", _costLevelUpContainerPageEditor);
-            _tree.Add("Inventory/Items/Items", _itemPageEditor);
-            _tree.Add("Inventory/Items/Set", _itemSetPageEditor);
-            _tree.Add("Inventory/Items/Item Relation", _itemRelationPageEditor);
-            _tree.Add("Inventory/Splinters", _splinterPageEditor);
-            _tree.Add("Rarity/Rarities", _rarityPageEditor);
-            _tree.Add("Rating/Rating", _ratingPageEditor);
-            _tree.Add("Fights/Campaign", _campaignPageEditor);
-            _tree.Add("Fights/Storage Challenge", _storageChallangePageEditor);
-            _tree.Add("Fights/Location", _locationPageEditor);
-            _tree.Add("Mall/Markets", _marketPageEditor);
-            _tree.Add("Mall/Products", _productPageEditor);
-            _tree.Add("City/Hires", _hireContainerPageEditor);
-            _tree.Add("City/Mines/Main Editor", _minePageEditor);
-            _tree.Add("City/Mines/restrictions", _mineRestrictionPageEditor);
-            _tree.Add("City/Mines/Mines Settings", _mineSettingsPageEditor);
-            _tree.Add("City/Sanctuary", _sanctuaryPageEditor);
-            _tree.Add("City/Arena", _arenaPageEditor);
-            _tree.Add("City/Travel/Main Editor", _travelRaceCircleEditor);
-            _tree.Add("City/FortuneWheel/Fortune reward Editor", _fortuneRewardEditor);
-            _tree.Add("Rewards/Reward Editor", _rewardPageEditor);
-            _tree.Add("Task board/Task Editor", _gameTaskModelEditor);
-            _tree.Add("Achievements/Achievement Editor", _achievementPageEditor);
-            _tree.Add("Achievements/Achievements container", _achievmentContainersPageEditor);
-            _tree.Add("Daily/Reward Editor", _dailyRewardPageEditor);
-            _tree.Add("Rewards/Containers", _rewardContrainerPageEditor);
-            _tree.Add("Players/Avatars", _avatarPageEditor);
+            _tree.Add("Heroes/Heroes", m_heroPageEditor);
+            _tree.Add("Heroes/Characteristics", m_characteristicPageEditor);
+            _tree.Add("Heroes/Vocations", m_vocationPageEditor);
+            _tree.Add("Heroes/Races", m_racePageEditor);
+            _tree.Add("Heroes/Rating Requirements", m_ratingUpPageEditor);
+            _tree.Add("Costs/Costs Editor", m_costLevelUpContainerPageEditor);
+            _tree.Add("Inventory/Items/Items", m_itemPageEditor);
+            _tree.Add("Inventory/Items/Set", m_itemSetPageEditor);
+            _tree.Add("Inventory/Items/Item Relation", m_itemRelationPageEditor);
+            _tree.Add("Inventory/Splinters", m_splinterPageEditor);
+            _tree.Add("Rarity/Rarities", m_rarityPageEditor);
+            _tree.Add("Rating/Rating", m_ratingPageEditor);
+            _tree.Add("Fights/Campaign", m_campaignPageEditor);
+            _tree.Add("Fights/Storage Challenge", m_storageChallangePageEditor);
+            _tree.Add("Fights/Location", m_locationPageEditor);
+            _tree.Add("Mall/Markets", m_marketPageEditor);
+            _tree.Add("Mall/Products", m_productPageEditor);
+            _tree.Add("City/Hires", m_hireContainerPageEditor);
+            _tree.Add("City/Mines/Main Editor", m_minePageEditor);
+            _tree.Add("City/Mines/restrictions", m_mineRestrictionPageEditor);
+            _tree.Add("City/Mines/Mines Settings", m_mineSettingsPageEditor);
+            _tree.Add("City/Sanctuary", m_sanctuaryPageEditor);
+            _tree.Add("City/Arena", m_arenaPageEditor);
+            _tree.Add("City/Travel/Main Editor", m_travelRaceCircleEditor);
+            _tree.Add("City/FortuneWheel/Fortune reward Editor", m_fortuneRewardEditor);
+            _tree.Add("Rewards/Reward Editor", m_rewardPageEditor);
+            _tree.Add("Task board/Task Editor", m_gameTaskModelEditor);
+            _tree.Add("Achievements/Achievement Editor", m_achievementPageEditor);
+            _tree.Add("Achievements/Achievements container", m_achievmentContainersPageEditor);
+            _tree.Add("Daily/Reward Editor", m_dailyRewardPageEditor);
+            _tree.Add("Rewards/Containers", m_rewardContrainerPageEditor);
+            _tree.Add("Players/Avatars", m_avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
-            _tree.Add("City/Buildings/Magic Circle", _magicCirclePageEditor);
-            _tree.Add("City/Guild/Main", _guildBuildingPageEditor);
-            _tree.Add("City/Guild/Bosses", _guildBossPageEditor);
-            _tree.Add("Misc/Where get resources", _whereGetResourcePageEditor);
+            _tree.Add("City/Buildings/Magic Circle", m_magicCirclePageEditor);
+            _tree.Add("City/Panels/Alchemy", m_alchemyPanelPageEditor);
+            
+            _tree.Add("City/Guild/Main", m_guildBuildingPageEditor);
+            _tree.Add("City/Guild/Bosses", m_guildBossPageEditor);
+            _tree.Add("Misc/Where get resources", m_whereGetResourcePageEditor);
             
         }
 
         private async void InitPages()
         {
-            ConfigVersion = EditorUtils.Load<ConfigVersion>();
-            if (ConfigVersion == null) ConfigVersion = new ConfigVersion();
+            m_configVersion = EditorUtils.Load<ConfigVersion>();
+            if (m_configVersion == null) m_configVersion = new ConfigVersion();
 
-            Debug.Log($"Config loaded. Current version: {ConfigVersion.Version}");
+            Debug.Log($"Config loaded. Current version: {m_configVersion.Version}");
 
             var converter = new JsonConverter();
-            _dictionaries = new CommonDictionaries(converter);
-            await _dictionaries.Init();
+            m_dictionaries = new CommonDictionaries(converter);
+            await m_dictionaries.Init();
 
-            _allPages = new List<BasePageEditor>();
+            m_allPages = new List<BasePageEditor>();
 
-            _heroPageEditor = new HeroPageEditor(_dictionaries);
-            _allPages.Add(_heroPageEditor);
+            m_heroPageEditor = new HeroPageEditor(m_dictionaries);
+            m_allPages.Add(m_heroPageEditor);
 
-            _itemPageEditor = new ItemPageEditor(_dictionaries);
-            _allPages.Add(_itemPageEditor);
+            m_itemPageEditor = new ItemPageEditor(m_dictionaries);
+            m_allPages.Add(m_itemPageEditor);
 
-            _rarityPageEditor = new RarityPageEditor(_dictionaries);
-            _allPages.Add(_rarityPageEditor);
+            m_rarityPageEditor = new RarityPageEditor(m_dictionaries);
+            m_allPages.Add(m_rarityPageEditor);
 
-            _itemSetPageEditor = new ItemSetPageEditor(_dictionaries);
-            _allPages.Add(_itemSetPageEditor);
+            m_itemSetPageEditor = new ItemSetPageEditor(m_dictionaries);
+            m_allPages.Add(m_itemSetPageEditor);
 
-            _ratingPageEditor = new RatingPageEditor(_dictionaries);
-            _allPages.Add(_ratingPageEditor);
+            m_ratingPageEditor = new RatingPageEditor(m_dictionaries);
+            m_allPages.Add(m_ratingPageEditor);
 
-            _racePageEditor = new RacePageEditor(_dictionaries);
-            _allPages.Add(_racePageEditor);
+            m_racePageEditor = new RacePageEditor(m_dictionaries);
+            m_allPages.Add(m_racePageEditor);
 
-            _vocationPageEditor = new VocationPageEditor(_dictionaries);
-            _allPages.Add(_vocationPageEditor);
+            m_vocationPageEditor = new VocationPageEditor(m_dictionaries);
+            m_allPages.Add(m_vocationPageEditor);
 
-            _campaignPageEditor = new CampaignPageEditor(_dictionaries);
-            _allPages.Add(_campaignPageEditor);
+            m_campaignPageEditor = new CampaignPageEditor(m_dictionaries);
+            m_allPages.Add(m_campaignPageEditor);
 
-            _locationPageEditor = new LocationPageEditor(_dictionaries);
-            _allPages.Add(_locationPageEditor);
+            m_locationPageEditor = new LocationPageEditor(m_dictionaries);
+            m_allPages.Add(m_locationPageEditor);
 
-            _productPageEditor = new ProductPageEditor(_dictionaries);
-            _allPages.Add(_productPageEditor);
+            m_productPageEditor = new ProductPageEditor(m_dictionaries);
+            m_allPages.Add(m_productPageEditor);
 
-            _marketPageEditor = new MarketPageEditor(_dictionaries);
-            _allPages.Add(_marketPageEditor);
+            m_marketPageEditor = new MarketPageEditor(m_dictionaries);
+            m_allPages.Add(m_marketPageEditor);
 
-            _minePageEditor = new MinePageEditor(_dictionaries);
-            _allPages.Add(_minePageEditor);
+            m_minePageEditor = new MinePageEditor(m_dictionaries);
+            m_allPages.Add(m_minePageEditor);
 
-            _costLevelUpContainerPageEditor = new CostLevelUpContainerPageEditor(_dictionaries);
-            _allPages.Add(_costLevelUpContainerPageEditor);
+            m_costLevelUpContainerPageEditor = new CostLevelUpContainerPageEditor(m_dictionaries);
+            m_allPages.Add(m_costLevelUpContainerPageEditor);
 
-            _itemRelationPageEditor = new ItemRelationPageEditor(_dictionaries);
-            _allPages.Add(_itemRelationPageEditor);
+            m_itemRelationPageEditor = new ItemRelationPageEditor(m_dictionaries);
+            m_allPages.Add(m_itemRelationPageEditor);
 
-            _rewardPageEditor = new RewardPageEditor(_dictionaries);
-            _allPages.Add(_rewardPageEditor);
+            m_rewardPageEditor = new RewardPageEditor(m_dictionaries);
+            m_allPages.Add(m_rewardPageEditor);
 
-            _gameTaskModelEditor = new GameTaskEditor(_dictionaries);
-            _allPages.Add(_gameTaskModelEditor);
+            m_gameTaskModelEditor = new GameTaskEditor(m_dictionaries);
+            m_allPages.Add(m_gameTaskModelEditor);
 
-            _fortuneRewardEditor = new FortuneRewardEditor(_dictionaries);
-            _allPages.Add(_fortuneRewardEditor);
+            m_fortuneRewardEditor = new FortuneRewardEditor(m_dictionaries);
+            m_allPages.Add(m_fortuneRewardEditor);
 
             //_forgePageEditor = new ForgePageEditor(_dictionaries);
             //_allPages.Add(_forgePageEditor);
 
-            _achievementPageEditor = new AchievementPageEditor(_dictionaries);
-            _allPages.Add(_achievementPageEditor);
+            m_achievementPageEditor = new AchievementPageEditor(m_dictionaries);
+            m_allPages.Add(m_achievementPageEditor);
 
-            _dailyRewardPageEditor = new DailyRewardPageEditor(_dictionaries);
-            _allPages.Add(_dailyRewardPageEditor);
+            m_dailyRewardPageEditor = new DailyRewardPageEditor(m_dictionaries);
+            m_allPages.Add(m_dailyRewardPageEditor);
 
-            _storageChallangePageEditor = new StorageChallangePageEditor(_dictionaries);
-            _allPages.Add(_storageChallangePageEditor);
+            m_storageChallangePageEditor = new StorageChallangePageEditor(m_dictionaries);
+            m_allPages.Add(m_storageChallangePageEditor);
 
-            _mineRestrictionPageEditor = new MineRestrictionPageEditor(_dictionaries);
-            _allPages.Add(_mineRestrictionPageEditor);
+            m_mineRestrictionPageEditor = new MineRestrictionPageEditor(m_dictionaries);
+            m_allPages.Add(m_mineRestrictionPageEditor);
 
-            _travelRaceCircleEditor = new TravelRaceCircleEditor(_dictionaries);
-            _allPages.Add(_travelRaceCircleEditor);
+            m_travelRaceCircleEditor = new TravelRaceCircleEditor(m_dictionaries);
+            m_allPages.Add(m_travelRaceCircleEditor);
 
-            _splinterPageEditor = new SplinterPageEditor(_dictionaries);
-            _allPages.Add(_splinterPageEditor);
+            m_splinterPageEditor = new SplinterPageEditor(m_dictionaries);
+            m_allPages.Add(m_splinterPageEditor);
 
-            _achievmentContainersPageEditor = new AchievmentContainersPageEditor(_dictionaries);
-            _allPages.Add(_achievmentContainersPageEditor);
+            m_achievmentContainersPageEditor = new AchievmentContainersPageEditor(m_dictionaries);
+            m_allPages.Add(m_achievmentContainersPageEditor);
 
-            _rewardContrainerPageEditor = new RewardContrainerPageEditor(_dictionaries);
-            _allPages.Add(_rewardContrainerPageEditor);
+            m_rewardContrainerPageEditor = new RewardContrainerPageEditor(m_dictionaries);
+            m_allPages.Add(m_rewardContrainerPageEditor);
 
-            _guildBossPageEditor = new GuildBossPageEditor(_dictionaries);
-            _allPages.Add(_guildBossPageEditor);
+            m_guildBossPageEditor = new GuildBossPageEditor(m_dictionaries);
+            m_allPages.Add(m_guildBossPageEditor);
 
-            _avatarPageEditor = new AvatarPageEditor(_dictionaries);
-            _allPages.Add(_avatarPageEditor);
+            m_avatarPageEditor = new AvatarPageEditor(m_dictionaries);
+            m_allPages.Add(m_avatarPageEditor);
 
-            _ratingUpPageEditor = new RatingUpPageEditor(_dictionaries);
-            _allPages.Add(_ratingUpPageEditor);
+            m_ratingUpPageEditor = new RatingUpPageEditor(m_dictionaries);
+            m_allPages.Add(m_ratingUpPageEditor);
 
-            _characteristicPageEditor = new CharacteristicPageEditor(_dictionaries);
-            _allPages.Add(_characteristicPageEditor);
+            m_characteristicPageEditor = new CharacteristicPageEditor(m_dictionaries);
+            m_allPages.Add(m_characteristicPageEditor);
 
-            _hireContainerPageEditor = new HireContainerPageEditor(_dictionaries);
-            _allPages.Add(_hireContainerPageEditor);
+            m_hireContainerPageEditor = new HireContainerPageEditor(m_dictionaries);
+            m_allPages.Add(m_hireContainerPageEditor);
 
-            _magicCirclePageEditor = new MagicCirclePageEditor(_dictionaries);
-            _allPages.Add(_magicCirclePageEditor);
+            m_magicCirclePageEditor = new MagicCirclePageEditor(m_dictionaries);
+            m_allPages.Add(m_magicCirclePageEditor);
             
-            _guildBuildingPageEditor = new GuildBuildingPageEditor(_dictionaries);
-            _allPages.Add(_guildBuildingPageEditor);
+            m_guildBuildingPageEditor = new GuildBuildingPageEditor(m_dictionaries);
+            m_allPages.Add(m_guildBuildingPageEditor);
 
-            _mineSettingsPageEditor = new MineSettingsPageEditor(_dictionaries);
-            _allPages.Add(_mineSettingsPageEditor);
+            m_mineSettingsPageEditor = new MineSettingsPageEditor(m_dictionaries);
+            m_allPages.Add(m_mineSettingsPageEditor);
             
-            _sanctuaryPageEditor = new SanctuaryPageEditor(_dictionaries);
-            _allPages.Add(_sanctuaryPageEditor);
+            m_sanctuaryPageEditor = new SanctuaryPageEditor(m_dictionaries);
+            m_allPages.Add(m_sanctuaryPageEditor);
             
-            _arenaPageEditor = new ArenaPageEditor(_dictionaries);
-            _allPages.Add(_arenaPageEditor);
+            m_arenaPageEditor = new ArenaPageEditor(m_dictionaries);
+            m_allPages.Add(m_arenaPageEditor);
             
-            _whereGetResourcePageEditor = new WhereGetResourcePageEditor(_dictionaries);
-            _allPages.Add(_whereGetResourcePageEditor);
+            m_whereGetResourcePageEditor = new WhereGetResourcePageEditor(m_dictionaries);
+            m_allPages.Add(m_whereGetResourcePageEditor);
+            
+            m_alchemyPanelPageEditor = new AlchemyPanelPageEditor(m_dictionaries);
+            m_allPages.Add(m_alchemyPanelPageEditor);
         }
 
         private void OnValueSaved()
         {
-            EditorUtils.Save(ConfigVersion);
+            EditorUtils.Save(m_configVersion);
         }
 
         protected override void OnDestroy()
         {
-            _allPages?.Clear();
-            _allPages = null;
+            m_allPages?.Clear();
+            m_allPages = null;
             base.OnDestroy();
         }
 
@@ -314,11 +320,11 @@ namespace Editor.Windows
 
         private void Saving()
         {
-            ConfigVersion.Version++;
-            ConfigVersion.FilesCount = _allPages.Count;
+            m_configVersion.Version++;
+            m_configVersion.FilesCount = m_allPages.Count;
 
             Debug.Log("Save configs start");
-            foreach (var page in _allPages) page.Save();
+            foreach (var page in m_allPages) page.Save();
 
             OnValueSaved();
             InitPages();

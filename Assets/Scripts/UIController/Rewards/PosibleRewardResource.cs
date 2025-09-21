@@ -1,5 +1,6 @@
 ﻿using Common.Resourses;
 using System;
+using Common.Inventories.Resourses;
 
 namespace UIController.Rewards
 {
