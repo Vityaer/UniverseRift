@@ -1,60 +1,60 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using Common;
+using Common.Db.CommonDictionaries;
 using Common.Inventories.Splinters;
 using Models.Common;
 using Models.Items;
-using System;
-using System.Collections.Generic;
-using Common.Db.CommonDictionaries;
+using UIController.Inventory;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
 
-namespace UIController.Inventory
+namespace City.Panels.Inventories
 {
     [Serializable]
     public class GameInventory : IInitializable, IDisposable
     {
-        [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly GameController _gameController;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly GameController m_gameController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        private Dictionary<string, BaseObject> _items = new Dictionary<string, BaseObject>();
-        private CompositeDisposable _disposables = new();
-        private ReactiveCommand<BaseObject> _onChange = new ReactiveCommand<BaseObject>();
+        private Dictionary<string, BaseObject> m_items = new Dictionary<string, BaseObject>();
+        private CompositeDisposable m_disposables = new();
+        private readonly ReactiveCommand<BaseObject> m_onChange = new ReactiveCommand<BaseObject>();
 
-        public Dictionary<string, BaseObject> InventoryObjects => _items;
-        public IObservable<BaseObject> OnChange => _onChange;
+        public Dictionary<string, BaseObject> InventoryObjects => m_items;
+        public IObservable<BaseObject> OnChange => m_onChange;
 
         public void Initialize()
         {
-            _gameController.OnLoadedGameData.Subscribe(_ => OnLoadData()).AddTo(_disposables);
+            m_gameController.OnLoadedGameData.Subscribe(_ => OnLoadData()).AddTo(m_disposables);
         }
 
         private void OnLoadData()
         {
-            var inventoryData = _commonGameData.InventoryData;
+            var inventoryData = m_commonGameData.InventoryData;
 
             foreach (var item in inventoryData.Items)
             {
-                var model = _commonDictionaries.Items[item.Id];
+                var model = m_commonDictionaries.Items[item.Id];
                 var gameItem = new GameItem(model, item.Amount);
-                _items.Add(gameItem.Id, gameItem);
+                m_items.Add(gameItem.Id, gameItem);
             }
 
             foreach (var splinter in inventoryData.Splinters)
             {
-                var model = _commonDictionaries.Splinters[splinter.Id];
-                var gameSplinter = new GameSplinter(model, _commonDictionaries, splinter.Amount);
-                _items.Add(splinter.Id, gameSplinter);
+                var model = m_commonDictionaries.Splinters[splinter.Id];
+                var gameSplinter = new GameSplinter(model, m_commonDictionaries, splinter.Amount);
+                m_items.Add(splinter.Id, gameSplinter);
             }
         }
 
         public void GetObjectByType<T>(List<T> values) where T : BaseObject
         {
-            if (values == null)
-                values = new List<T>();
+            values ??= new List<T>();
 
-            foreach (var item in _items)
+            foreach (var item in m_items)
             {
                 if (item.Value.GetType() == typeof(T))
                     values.Add(item.Value as T);
@@ -70,44 +70,41 @@ namespace UIController.Inventory
 
         public void Add(BaseObject inventoryObject)
         {
-            if (_items.ContainsKey(inventoryObject.Id))
+            if (!m_items.TryAdd(inventoryObject.Id, inventoryObject))
             {
-                _items[inventoryObject.Id].Add(inventoryObject.Amount);
+                m_items[inventoryObject.Id].Add(inventoryObject.Amount);
             }
-            else
-            {
-                _items.Add(inventoryObject.Id, inventoryObject);
-            }
-            _onChange.Execute(inventoryObject);
+
+            m_onChange.Execute(inventoryObject);
 
         }
 
         public void Remove(BaseObject inventoryObject)
         {
-            _items[inventoryObject.Id].Remove(inventoryObject.Amount);
-            if (_items[inventoryObject.Id].EqualsZero)
+            m_items[inventoryObject.Id].Remove(inventoryObject.Amount);
+            if (m_items[inventoryObject.Id].EqualsZero)
             {
-                _items.Remove(inventoryObject.Id);
+                m_items.Remove(inventoryObject.Id);
             }
 
-            _onChange.Execute(inventoryObject);
+            m_onChange.Execute(inventoryObject);
         }
 
         public void Remove(string id, int amount)
         {
-            var changedItem = _items[id];
+            var changedItem = m_items[id];
             changedItem.Remove(amount);
             if (changedItem.EqualsZero)
             {
-                _items.Remove(id);
+                m_items.Remove(id);
             }
 
-            _onChange.Execute(changedItem);
+            m_onChange.Execute(changedItem);
         }
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
     }
 }

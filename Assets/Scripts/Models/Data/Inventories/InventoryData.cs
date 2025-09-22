@@ -3,6 +3,7 @@ using Common.Resourses;
 using Models.Data;
 using Models.Data.Inventories;
 using System.Collections.Generic;
+using City.Panels.Inventories;
 using UIController.Inventory;
 
 namespace Models

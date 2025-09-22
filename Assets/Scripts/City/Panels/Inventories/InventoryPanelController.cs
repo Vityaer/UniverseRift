@@ -36,14 +36,14 @@ namespace City.Panels.Inventories
 
         public bool WaitSelected;
 
-        private bool m_isOpen;
+        private bool m_isOpen = false;
         private readonly List<SubjectCell> m_cells = new List<SubjectCell>();
         private readonly ReactiveCommand<BaseObject> m_onObjectSelect = new ReactiveCommand<BaseObject>();
         private IDisposable m_inventoryChangeDisposable;
 
         private InventoryPageType? m_currentPage = null;
 
-        public ReactiveCommand OnClose = new ReactiveCommand();
+        public readonly ReactiveCommand OnClose = new ReactiveCommand();
         public GameInventory GameInventory => m_gameInventory;
         public IObservable<BaseObject> OnObjectSelect => m_onObjectSelect;
 
@@ -217,18 +217,18 @@ namespace City.Panels.Inventories
 
         public void Open(ItemType typeItems, HeroItemCellController cellItem = null)
         {
-            m_gameInventory.GetItemByType(typeItems, out var items);
-            if (cellItem != null)
-                if (cellItem.Item != null)
-                {
-                    var equalsItem = items.Find(item => item.Id.Equals(cellItem.Item.Id));
-                    if (equalsItem != null)
-                        items.Remove(equalsItem);
-                }
-
-            ShowItems(items);
             View.ControllerPanel.SetActive(false);
             OpenWindow();
+            
+            m_gameInventory.GetItemByType(typeItems, out var items);
+            if (cellItem?.Item != null)
+            {
+                var equalsItem = items.Find(item => item.Id.Equals(cellItem.Item.Id));
+                if (equalsItem != null)
+                    items.Remove(equalsItem);
+            }
+
+            ShowItems(items);
         }
 
         private void OpenWindow()
