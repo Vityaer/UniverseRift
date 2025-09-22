@@ -45,12 +45,12 @@ namespace UIController.ItemVisual
             //Background.sprite = baseObject.Rating;
             Amount.text = baseObject.EqualsZero ? string.Empty : baseObject.ToString();
             //Backlight?.backlight?.SetActive(true);
-            if (!gameObject.activeSelf) gameObject.SetActive(true);
         }
 
         private void OnClick()
         {
-            if (Subject != null) m_onSelect.Execute(this);
+            if (Subject != null)
+                m_onSelect.Execute(this);
         }
 
         public void Clear()
@@ -64,7 +64,6 @@ namespace UIController.ItemVisual
         public void Disable()
         {
             Clear();
-            gameObject.SetActive(false);
         }
 
         public void OnBeginDrag(PointerEventData eventData)

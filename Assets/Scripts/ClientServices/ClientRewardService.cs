@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using City.Panels.Inventories;
 using City.Panels.Rewards;
 using City.Panels.ScreenBlockers;
 using Common.Db.CommonDictionaries;
@@ -41,15 +42,16 @@ namespace ClientServices
         {
             _disposable?.Dispose();
 
-            var resources = reward.Objects.Where(obj => obj is GameResource)
-                .Select(obj => (GameResource)obj)
+            var resources = reward.Objects
+                .OfType<GameResource>()
                 .ToList();
+            
             _resourceStorageController.AddResource(resources);
 
-            var items = reward.Objects.Where(obj => obj is GameItem)
-                .Select(obj => (GameItem)obj)
+            var items = reward.Objects
+                .OfType<GameItem>()
                 .ToList();
-
+            
             foreach (var item in items) item.Model = _commonDictionaries.Items[item.Id];
 
             foreach (var item in items) _gameInventory.Add(item);

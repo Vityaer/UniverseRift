@@ -1,4 +1,5 @@
 ﻿using System;
+using City.Panels.Inventories;
 using Common;
 using Common.Db.CommonDictionaries;
 using Common.Players;

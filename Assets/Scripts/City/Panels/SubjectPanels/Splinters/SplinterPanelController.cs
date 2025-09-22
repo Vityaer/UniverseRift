@@ -13,6 +13,7 @@ using Models.Inventory.Splinters;
 using Network.DataServer;
 using Network.DataServer.Messages.Inventories.Splinters;
 using System.Collections.Generic;
+using City.Panels.Inventories;
 using Common.Db.CommonDictionaries;
 using UIController.ControllerPanels.SelectCount;
 using UIController.Rewards;
