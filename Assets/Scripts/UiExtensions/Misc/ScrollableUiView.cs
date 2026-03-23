@@ -1,10 +1,12 @@
 ﻿using City.Buildings.CityButtons.EventAgent;
 using System;
+using Common.Db.CommonDictionaries;
 using LocalizationSystems;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainerUi.Abstraction;
 
 namespace UiExtensions.Misc
@@ -18,7 +20,8 @@ namespace UiExtensions.Misc
         protected CompositeDisposable Disposable = new();
         protected ReactiveCommand<ScrollableUiView<T>> _onSelect = new ReactiveCommand<ScrollableUiView<T>>();
 
-        protected ILocalizationSystem _localizationSystem;
+        protected CommonDictionaries CommonDataDictionaries;
+        protected ILocalizationSystem LocalizationSystem;
         
         public IObservable<ScrollableUiView<T>> OnSelect => _onSelect;
         public T GetData => Data;
@@ -28,15 +31,21 @@ namespace UiExtensions.Misc
             Button?.OnClickAsObservable().Subscribe(_ => _onSelect.Execute(this)).AddTo(Disposable);
         }
 
-        public virtual void SetData(T data, ScrollRect scrollRect)
+        public virtual void SetData(T data, ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
             Data = data;
             Scroll = scrollRect;
+            CommonDataDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            OnSetData();
+        }
+
+        protected virtual void OnSetData()
+        {
         }
 
         public void SetLocalizationSystem(ILocalizationSystem localizationSystem)
         {
-            _localizationSystem = localizationSystem;
+            LocalizationSystem = localizationSystem;
         }
 
         public void OnBeginDrag(PointerEventData eventData)

@@ -1,5 +1,7 @@
 ﻿using Fight.Common.Grid;
 using Fight.Common.HeroControllers.Generals;
+using Fight.Grid;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common
 {

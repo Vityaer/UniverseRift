@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using MessagePipe;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using VContainerUi;
 using VContainerUi.Interfaces;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
-using Object = UnityEngine.Object;
 
-namespace VContainerUi
+namespace Plugins.VContainerUi.Runtime
 {
     public class WindowsController : IWindowsController, IInitializable, IDisposable
     {
-        private readonly IObjectResolver _container;
-        private readonly IReadOnlyList<IWindow> _windows;
+        private readonly IObjectResolver m_container;
+        private readonly IReadOnlyList<IWindow> m_windows;
 
-        private readonly WindowState _windowState;
-        private readonly IUiMessagesReceiverService _uiMessagesReceiver;
-        private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        private readonly Stack<IBaseUiController> _windowsStack = new Stack<IBaseUiController>();
-        private readonly CompositeDisposable _disposables = new CompositeDisposable();
-        private readonly UiScope _scope;
+        private readonly WindowState m_windowState;
+        private readonly IUiMessagesReceiverService m_uiMessagesReceiver;
+        private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        private readonly Stack<IBaseUiController> m_windowsStack = new Stack<IBaseUiController>();
+        private readonly CompositeDisposable m_disposables = new CompositeDisposable();
+        private readonly UiScope m_scope;
 
-        private IBaseUiController _window;
+        private readonly ReactiveCommand<IUiController> m_onElementClose = new ReactiveCommand<IUiController>();
+        private readonly ReactiveCommand<IUiController> m_onElementOpen = new ReactiveCommand<IUiController>();
+        private IBaseUiController m_window;
 
+        public IObservable<IUiController> OnElementClose => m_onElementClose;
+        public IObservable<IUiController> OnElementOpen => m_onElementOpen;
+        
         public WindowsController(
             IObjectResolver container,
             IReadOnlyList<IWindow> windows,
@@ -37,87 +41,99 @@ namespace VContainerUi
             UiScope scope
         )
         {
-            _container = container;
-            _windows = windows;
-            _windowState = windowState;
-            _uiMessagesReceiver = uiMessagesReceiver;
-            _uiMessagesPublisher = uiMessagesPublisher;
-            _scope = scope;
+            m_container = container;
+            m_windows = windows;
+            m_windowState = windowState;
+            m_uiMessagesReceiver = uiMessagesReceiver;
+            m_uiMessagesPublisher = uiMessagesPublisher;
+            m_scope = scope;
         }
 
         public void Initialize()
         {
-            _uiMessagesReceiver.OpenWindowSubscriber.Subscribe(OnOpen, new UiMessageFilter<MessageOpenWindow>(_scope))
-                .AddTo(_disposables);
+            m_uiMessagesReceiver.OpenWindowSubscriber.Subscribe(OnOpen,
+                    new UiMessageFilter<MessageOpenWindow>(m_scope))
+                .AddTo(m_disposables);
 
-            _uiMessagesReceiver.CloseWindowSubscriber
-                .Subscribe(OnClose, new UiMessageFilter<MessageCloseWindow>(_scope)).AddTo(_disposables);
+            m_uiMessagesReceiver.CloseWindowSubscriber
+                .Subscribe(OnClose, new UiMessageFilter<MessageCloseWindow>(m_scope))
+                .AddTo(m_disposables);
 
-            _uiMessagesReceiver.BackWindowSubscriber
-                .Subscribe(_ => OnBack(), new UiMessageFilter<MessageBackWindow>(_scope)).AddTo(_disposables);
-            _uiMessagesReceiver.OpenRootWindowSubscriber.Subscribe(OnOpenRootWindow).AddTo(_disposables);
+            m_uiMessagesReceiver.BackWindowSubscriber
+                .Subscribe(_ => OnBack(), new UiMessageFilter<MessageBackWindow>(m_scope))
+                .AddTo(m_disposables);
+            
+            m_uiMessagesReceiver.OpenRootWindowSubscriber.Subscribe(OnOpenRootWindow)
+                .AddTo(m_disposables);
         }
 
         private void OnClose(MessageCloseWindow message)
         {
-            if (_windowsStack.Count == 0)
+            if (m_windowsStack.Count == 0)
                 return;
 
-            var windowList = _windowsStack.ToList();
-            var removeIndex = windowList.FindLastIndex(window => window.GetType().Equals(message.Type));
+            List<IBaseUiController> windowList = m_windowsStack.ToList();
+            int removeIndex = windowList.FindLastIndex(window
+                => window.GetType() == message.Type);
 
-            if (removeIndex > 0)
+            if (removeIndex <= 0)
             {
-                windowList[removeIndex].Back();
-                windowList.RemoveAt(removeIndex);
-                _windowsStack.Clear();
-                foreach (var window in windowList)
-                    _windowsStack.Push(window);
+                return;
             }
-            //CloseWindow();
+
+            m_onElementClose.Execute(windowList[removeIndex] as IUiController);
+            windowList[removeIndex].Back();
+            windowList.RemoveAt(removeIndex);
+            m_windowsStack.Clear();
+            foreach (IBaseUiController window in windowList)
+            {
+                m_windowsStack.Push(window);
+            }
         }
 
         void IDisposable.Dispose()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
 
         private void OnOpen(MessageOpenWindow message)
         {
             IBaseUiController window;
             if (message.Type != null)
-                window = _container.Resolve(message.Type) as IBaseUiController;
+                window = m_container.Resolve(message.Type) as IBaseUiController;
             else
-                window = _windows.First(f => f.Name == message.Name);
+                window = m_windows.First(f => f.Name == message.Name);
+
             Open(window, message.OpenType);
         }
 
         private void Open(IBaseUiController window, OpenType openType)
         {
-            var isNextWindowPopUp = window is IPopUp;
-            if ((_windowsStack.Count > 0) && (openType == OpenType.Exclusive))
+            bool isNextWindowPopUp = window is IPopUp;
+            if (m_windowsStack.Count > 0 && openType == OpenType.Exclusive)
             {
-                var previousWindows = GetPreviouslyOpenedWindows();
-                foreach (var openedWindow in previousWindows)
+                List<IBaseUiController> previousWindows = GetPreviouslyOpenedWindows();
+                foreach (IBaseUiController openedWindow in previousWindows)
                 {
                     openedWindow.SetState(UiControllerState.NotActiveNotFocus, openType);
                 }
             }
 
+            m_onElementOpen.Execute(window as IUiController);
             window.OpenedType = openType;
-            _windowsStack.Push(window);
-            _windowState.CurrentWindow = window;
+            m_windowsStack.Push(window);
+            m_windowState.CurrentWindow = window;
             window.SetState(UiControllerState.IsActiveAndFocus, openType);
-            _uiMessagesPublisher.MessageShowWindowPublisher.Publish(new MessageShowWindow(window));
+            m_uiMessagesPublisher.MessageShowWindowPublisher.Publish(new MessageShowWindow(window));
             ActiveAndFocus(window, isNextWindowPopUp);
         }
 
         private void OnBack()
         {
-            if (_windowsStack.Count == 0)
+            if (m_windowsStack.Count == 0)
                 return;
 
-            var exclusive = _windowState.CurrentWindow.OpenedType == OpenType.Exclusive;
+            var exclusive = m_windowState.CurrentWindow.OpenedType == OpenType.Exclusive;
             CloseWindow();
             if (exclusive)
                 OpenPreviousWindows();
@@ -125,51 +141,45 @@ namespace VContainerUi
 
         private void CloseWindow()
         {
-            var currentWindow = _windowsStack.Pop();
+            IBaseUiController currentWindow = m_windowsStack.Pop();
             currentWindow.Back();
 
-            if (_windowsStack.Count > 0)
-            {
-                _windowState.CurrentWindow = _windowsStack.Peek();
-            }
-            else
-            {
-                _windowState.CurrentWindow = null;
-            }
+            m_windowState.CurrentWindow = m_windowsStack.Count > 0
+                ? m_windowsStack.Peek()
+                : null;
         }
 
         private void OpenPreviousWindows()
         {
-            if (_windowsStack.Count == 0)
+            if (m_windowsStack.Count == 0)
                 return;
-            var previousWindows = GetPreviouslyOpenedWindows();
+            List<IBaseUiController> previousWindows = GetPreviouslyOpenedWindows();
 
-            foreach (var openedWindow in previousWindows)
+            foreach (IBaseUiController openedWindow in previousWindows)
             {
                 openedWindow.SetState(UiControllerState.IsActiveAndFocus, openedWindow.OpenedType);
             }
 
-            _windowState.CurrentWindow = previousWindows[^1];
+            m_windowState.CurrentWindow = previousWindows[^1];
 
-            var firstWindow = GetFirstWindow();
-            var isFirstPopUp = false;
-            ActiveAndFocus(firstWindow, isFirstPopUp);
+            IBaseUiController firstWindow = GetFirstWindow();
+            ActiveAndFocus(firstWindow, false);
         }
 
         private void ActiveAndFocus(IBaseUiController window, bool isPopUp)
         {
             if (!isPopUp)
-                _window = window;
+                m_window = window;
 
-            _uiMessagesPublisher.MessageActiveWindowPublisher.Publish(new MessageActiveWindow(_window));
-            _uiMessagesPublisher.MessageFocusWindowPublisher.Publish(new MessageFocusWindow(_window));
+            m_uiMessagesPublisher.MessageActiveWindowPublisher.Publish(new MessageActiveWindow(m_window));
+            m_uiMessagesPublisher.MessageFocusWindowPublisher.Publish(new MessageFocusWindow(m_window));
         }
 
         private List<IBaseUiController> GetPreviouslyOpenedWindows()
         {
-            var windows = new List<IBaseUiController>();
+            List<IBaseUiController> windows = new List<IBaseUiController>();
 
-            foreach (var window in _windowsStack)
+            foreach (IBaseUiController window in m_windowsStack)
             {
                 windows.Add(window);
 
@@ -181,7 +191,7 @@ namespace VContainerUi
 
         private IBaseUiController GetFirstWindow()
         {
-            foreach (var element in _windowsStack)
+            foreach (IBaseUiController element in m_windowsStack)
             {
                 if (element is IWindow == false)
                     continue;
@@ -193,7 +203,7 @@ namespace VContainerUi
 
         private void OnOpenRootWindow(MessageOpenRootWindow obj)
         {
-            while (_windowsStack.Count > 1)
+            while (m_windowsStack.Count > 1)
             {
                 OnBack();
             }
@@ -201,11 +211,11 @@ namespace VContainerUi
 
         public void Reset()
         {
-            while (_windowsStack.Count > 0)
+            while (m_windowsStack.Count > 0)
             {
                 OnBack();
             }
-            _window = null;
+            m_window = null;
         }
     }
 }

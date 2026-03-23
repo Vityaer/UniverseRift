@@ -14,9 +14,9 @@ namespace Editor.Pages.DailyTasks
 
         public AchievmentContainerModelEditor(AchievmentContainerModel model, CommonDictionaries dictionaries)
         {
-            _model = model;
+            m_model = model;
             _dictionaries = dictionaries;
-            _model.CommonDictionaries = _dictionaries;
+            m_model.CommonDictionaries = _dictionaries;
 
         }
         [ShowInInspector]
@@ -25,8 +25,8 @@ namespace Editor.Pages.DailyTasks
         [LabelText("Id")]
         public AchievmentContainerModel Model
         {
-            get => _model;
-            set => _model = value;
+            get => m_model;
+            set => m_model = value;
         }
     }
 }

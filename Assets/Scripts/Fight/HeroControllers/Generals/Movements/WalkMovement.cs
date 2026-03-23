@@ -2,6 +2,7 @@
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using Fight.Common.Grid;
+using Fight.Grid;
 using UnityEngine;
 
 namespace Fight.Common.HeroControllers.Generals.Movements

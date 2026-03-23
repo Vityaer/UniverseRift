@@ -1,7 +1,8 @@
-﻿using LocalizationSystems;
-using MainPages.MenuButtons;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using LocalizationSystems;
+using Plugins.VContainerUi.Runtime.Abstraction;
+using Ui.MainMenu.MenuButtons;
 using UIController.Buttons;
 using UniRx;
 using UnityEngine.UI;
@@ -9,24 +10,25 @@ using VContainer.Unity;
 using VContainerUi.Abstraction;
 using VContainerUi.Interfaces;
 
-namespace Ui.MainMenu.MenuButtons
+namespace MainPages.MenuButtons
 {
     public class MenuButtonsController : UiController<MenuButtonsView>, IStartable, IDisposable
     {
-        private readonly ILocalizationSystem _localizationSystem;
-        private readonly List<MenuButtonView> _menuButtons = new List<MenuButtonView>();
-        private readonly IMenuButtonsData _menuButtonsData;
-        private readonly CompositeDisposable _disposables = new();
-        private readonly ReactiveCommand<int> _onSwitchButton = new ReactiveCommand<int>();
+        private readonly ILocalizationSystem m_localizationSystem;
+        private readonly List<MenuButtonView> m_menuButtons = new List<MenuButtonView>();
+        private readonly IMenuButtonsData m_menuButtonsData;
+        private readonly CompositeDisposable m_disposables = new();
+        private readonly ReactiveCommand<int> m_onSwitchButton = new ReactiveCommand<int>();
 
-        private MenuButtonView _currentButton;
+        private MenuButtonView m_currentButton;
 
-        public IObservable<int> OnSwitchButton => _onSwitchButton;
+        public IObservable<int> OnSwitchButton => m_onSwitchButton;
+        public List<MenuButtonView> MenuButtons => m_menuButtons;
 
         public MenuButtonsController(IMenuButtonsData menuButtonsData, ILocalizationSystem localizationSystem)
         {
-            _menuButtonsData = menuButtonsData;
-            _localizationSystem = localizationSystem;
+            m_menuButtonsData = menuButtonsData;
+            m_localizationSystem = localizationSystem;
         }
 
         public void Start()
@@ -37,38 +39,40 @@ namespace Ui.MainMenu.MenuButtons
         public void AddMenuButton<T>(string id)
             where T : IWindow
         {
-            var buttonView = UnityEngine.Object.Instantiate(View.MenuButtonPrefab, View.Content);
-            var buttonIndex = _menuButtons.Count;
+            MenuButtonView buttonView = UnityEngine.Object.Instantiate(View.MenuButtonPrefab, View.Content);
+            int buttonIndex = m_menuButtons.Count;
 
-            _menuButtons.Add(buttonView);
-            var data = _menuButtonsData.ButtonData.Find(buttonData => buttonData.Id == id);
+            m_menuButtons.Add(buttonView);
+            MenuButtonData data = m_menuButtonsData.ButtonData.Find(buttonData => buttonData.Id == id);
+            
             if (data != null)
             {
                 buttonView.Icon.sprite = data.Icon;
-                buttonView.ButtonName.StringReference = _localizationSystem
+                buttonView.ButtonName.StringReference = m_localizationSystem
                     .GetLocalizedContainer($"MenuButton{data.Text}Name");
             }
+            
             buttonView.Button.OnClickAsObservable()
-                .Subscribe(_ => _onSwitchButton.Execute(buttonIndex))
-                .AddTo(_disposables);
+                .Subscribe(_ => m_onSwitchButton.Execute(buttonIndex))
+                .AddTo(m_disposables);
         }
 
         public void SwitchMenuButton(int index)
         {
-            if (_menuButtons[index] == _currentButton)
+            if (m_menuButtons[index] == m_currentButton)
                 return;
 
-            _menuButtons[index].OnSelect();
+            m_menuButtons[index].OnSelect();
 
-            if (_currentButton != null)
-                _currentButton.OnDiselect();
+            if (m_currentButton != null)
+                m_currentButton.OnDiselect();
 
-            _currentButton = _menuButtons[index];
+            m_currentButton = m_menuButtons[index];
         }
 
         public void Dispose()
         {
-            _disposables?.Dispose();
+            m_disposables?.Dispose();
         }
     }
 }

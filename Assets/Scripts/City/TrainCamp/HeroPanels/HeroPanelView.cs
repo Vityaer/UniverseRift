@@ -26,11 +26,15 @@ namespace City.TrainCamp.HeroPanels
         public TextMeshProUGUI textStrengthHero;
         public CostUIList CostController;
         public RatingHero RatingHeroController;
-
+        public RawImage HeroRawImage;
+        
         [Header("Items")]
         public List<HeroItemCellController> CellsForItem = new List<HeroItemCellController>();
 
         [Header("Skills")]
         public List<SkillCell> SkillCells;
+        
+        [Min(0.001f)]
+        public float LevelUpRequestDelay = 0.1f;  
     }
 }

@@ -12,10 +12,10 @@ namespace Assets.Editor.Pages.Bosses
         public GuildBossModelEditor(GuildBossContainer model, CommonDictionaries commonDictionaries)
         {
             _commonDictionaries = commonDictionaries;
-            _model = model;
+            m_model = model;
 
             model.SetDictionary(_commonDictionaries);
-            foreach (var mission in _model.Missions)
+            foreach (var mission in m_model.Missions)
             {
                 mission.SetCommonDictionary(_commonDictionaries);
             }
@@ -27,8 +27,8 @@ namespace Assets.Editor.Pages.Bosses
         [LabelWidth(250)]
         public GuildBossContainer Model
         {
-            get => _model;
-            set => _model = value;
+            get => m_model;
+            set => m_model = value;
         }
     }
 }

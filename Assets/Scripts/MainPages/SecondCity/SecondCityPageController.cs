@@ -6,7 +6,6 @@ using City.Buildings.Tower;
 using City.Buildings.TravelCircle;
 using City.Buildings.Voyage;
 using UiExtensions.MainPages;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -14,24 +13,23 @@ namespace MainPages.SecondCity
 {
     public class SecondCityPageController : UiMainPageController<SecondCityPageView>, IInitializable
     {
-        [Inject] private readonly ChallengeTowerController _challengeTowerController;
-        [Inject] private readonly MagicCircleController _magicCircleController;
-        [Inject] private readonly MinesPageController _minesController;
-        [Inject] private readonly ArenaController _arenaController;
-        [Inject] private readonly VoyageController _voyageController;
-        [Inject] private readonly TravelCircleController _travelCircleController;
-        [Inject] private readonly LongTravelController _longTravelController;
+        [Inject] private readonly ChallengeTowerController m_challengeTowerController;
+        [Inject] private readonly MagicCircleController m_magicCircleController;
+        [Inject] private readonly MinesPageController m_minesController;
+        [Inject] private readonly ArenaController m_arenaController;
+        [Inject] private readonly VoyageController m_voyageController;
+        [Inject] private readonly TravelCircleController m_travelCircleController;
+        [Inject] private readonly LongTravelController m_longTravelController;
 
         public new void Initialize()
         {
-            View.BackgroundCanvas.worldCamera = Camera.main;
-            RegisterBuilding(_challengeTowerController, View.TowerDeath);
-            RegisterBuilding(_magicCircleController, View.MagicCircle);
-            RegisterBuilding(_minesController, View.Mines);
-            RegisterBuilding(_arenaController, View.Arena);
-            RegisterBuilding(_voyageController, View.Voyage);
-            RegisterBuilding(_travelCircleController, View.TravelCirle);
-            RegisterBuilding(_longTravelController, View.RaidTravels);
+            RegisterBuilding(m_challengeTowerController, View.TowerDeath);
+            RegisterBuilding(m_magicCircleController, View.MagicCircle);
+            RegisterBuilding(m_minesController, View.Mines);
+            RegisterBuilding(m_arenaController, View.Arena);
+            RegisterBuilding(m_voyageController, View.Voyage);
+            RegisterBuilding(m_travelCircleController, View.TravelCirle);
+            RegisterBuilding(m_longTravelController, View.RaidTravels);
         }
     }
 }

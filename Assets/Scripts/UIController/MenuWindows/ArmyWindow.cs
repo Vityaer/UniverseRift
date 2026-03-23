@@ -1,4 +1,6 @@
-﻿using Ui.MainMenu.MenuButtons;
+﻿using MainPages.Army;
+using MainPages.MenuButtons;
+using Ui.MainMenu.MenuButtons;
 using VContainer;
 using VContainerUi.Abstraction;
 

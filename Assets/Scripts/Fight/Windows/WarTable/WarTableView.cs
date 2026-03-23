@@ -1,12 +1,13 @@
-﻿using City.Buildings.Abstractions;
+﻿using System.Collections.Generic;
+using City.Buildings.Abstractions;
 using City.Panels.SelectHeroes;
-using System.Collections.Generic;
+using Fight.Common.WarTable;
 using TMPro;
 using Ui.Misc.Widgets.SwapToggle;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fight.Common.WarTable
+namespace Fight.Windows.WarTable
 {
     public class WarTableView : BaseBuildingView
     {

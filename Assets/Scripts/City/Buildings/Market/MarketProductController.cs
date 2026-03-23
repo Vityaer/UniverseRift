@@ -1,17 +1,16 @@
-﻿using City.Panels.SubjectPanels.Common;
-using Common;
-using Common.Inventories.Splinters;
-using Common.Resourses;
-using Cysharp.Threading.Tasks;
-using Sirenix.Serialization;
-using System;
+﻿using System;
+using City.Panels.SubjectPanels.Common;
+using Common.Db.CommonDictionaries;
 using Common.Inventories.Resourses;
+using Common.Inventories.Splinters;
+using Sirenix.Serialization;
 using UIController;
 using UIController.Inventory;
 using UIController.ItemVisual;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
 
 namespace City.Buildings.Market
@@ -23,63 +22,62 @@ namespace City.Buildings.Market
         [SerializeField] private ButtonCostController _buttonCost;
         [SerializeField] private SubjectCell CellProduct;
 
-        private SubjectDetailController _subjectDetailController;
+        private SubjectDetailController m_subjectDetailController;
+        private CommonDictionaries m_commonDictionaries;
 
-        private BaseObject _subject;
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private Action _callback = null;
+        private readonly CompositeDisposable m_disposables = new CompositeDisposable();
+        private Action m_callback = null;
 
         public ButtonCostController ButtonCost => _buttonCost;
         public string SubjectId;
 
         [Inject]
-        private void Construct(SubjectDetailController subjectDetailController)
+        private void Construct(SubjectDetailController subjectDetailController, CommonDictionaries commonDictionaries)
         {
-            _subjectDetailController = subjectDetailController;
-            CellProduct.OnSelect.Subscribe(ShowDataProduct).AddTo(_disposables);
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_subjectDetailController = subjectDetailController.ThrowIfArgumentNull();
+            CellProduct.OnSelect.Subscribe(ShowDataProduct).AddTo(m_disposables);
         }
 
         private void ShowDataProduct(SubjectCell cell)
         {
-            _subjectDetailController.ShowData(cell.Subject);
+            m_subjectDetailController.ShowData(cell.Subject);
         }
 
         private void Start()
         {
-            ButtonCost.OnClick.Subscribe(_ => Buy()).AddTo(_disposables);
+            ButtonCost.OnClick.Subscribe(_ => Buy()).AddTo(m_disposables);
         }
 
         public void SetScroll(ScrollRect scrollRect)
         {
-            CellProduct.SetScroll(scrollRect);
+            CellProduct.Init(scrollRect, m_commonDictionaries);
         }
 
         public void SetData<T>(string productId, T product, Action callback) where T : BaseMarketProduct
         {
             SubjectId = productId;
 
-            _callback = callback;
+            m_callback = callback;
             _marketProduct = product;
             ButtonCost.SetCost(product.Cost);
             switch (product)
             {
                 case MarketProduct<GameItem> item:
-                    _subject = item.Subject;
                     CellProduct.SetData(item.Subject);
                     break;
                 case MarketProduct<GameResource> item:
-                    _subject = item.Subject;
                     CellProduct.SetData(item.Subject);
                     break;
                 case MarketProduct<GameSplinter> item:
-                    _subject = item.Subject;
                     CellProduct.SetData(item.Subject);
                     break;
             }
+
             UpdateUI();
         }
 
-        public void UpdateUI()
+        private void UpdateUI()
         {
             if (_marketProduct.CountLeftProduct == _marketProduct.CountMaxProduct)
             {
@@ -101,7 +99,7 @@ namespace City.Buildings.Market
 
         public void Buy(int count = 1)
         {
-            _callback?.Invoke();
+            m_callback?.Invoke();
         }
 
         public void FinishBuy(int count = 1)
@@ -125,8 +123,8 @@ namespace City.Buildings.Market
 
         private void OnDestroy()
         {
-            _callback = null;
-            _disposables.Dispose();
+            m_callback = null;
+            m_disposables.Dispose();
         }
     }
 }

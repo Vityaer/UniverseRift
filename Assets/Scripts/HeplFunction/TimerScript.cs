@@ -104,11 +104,13 @@ namespace HelpFuction
         {
             while (listTimer.Count > 0)
             {
-                for (int i = 0; i < listTimer.Count; i++)
+                foreach (GameTimer t in listTimer)
                 {
-                    listTimer[i].ChangeTime(Time.deltaTime);
+                    t.ChangeTime(Time.deltaTime);
                 }
-                foreach (GameTimer Item in listTimer.Where(x => (x.IsDone && !x.IsLoop)).ToList())
+
+                List<GameTimer> timers = listTimer.Where(x => (x.IsDone && !x.IsLoop)).ToList();
+                foreach (GameTimer Item in timers)
                 {
                     listTimer.Remove(Item);
                 }

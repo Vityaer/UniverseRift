@@ -11,19 +11,17 @@ using UIController.Observers;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using VContainer;
 
 namespace UIController.GameObservers
 {
     public class ObserverResourceController : BaseObserverUi
     {
-        [Inject] private ResourceStorageController _resourceStorageController;
-        [Inject] private BuyResourcePanelController _buyResourcePanelController;
+        [Inject] private ResourceStorageController m_resourceStorageController;
+        [Inject] private BuyResourcePanelController m_buyResourcePanelController;
 
         [Header("General")]
         public ResourceType TypeResource;
-        public int Cost;
         public float CountDuration;
         
         private GameResource _resource;
@@ -34,14 +32,14 @@ namespace UIController.GameObservers
         public Image imageResource;
         public TextMeshProUGUI countResource;
         public Button ButtonBuyResource;
-        private IDisposable _disposable;
+        private IDisposable m_disposable;
 
-        private BigDigit? _previousBigDigit;
-        private Tween _counterTween;
+        private BigDigit? m_previousBigDigit;
+        private Tween m_counterTween;
         
         protected override void Start()
         {
-            if (_buyResourcePanelController == null)
+            if (m_buyResourcePanelController == null)
             {
                 string path = string.Empty;
 
@@ -61,11 +59,11 @@ namespace UIController.GameObservers
                 
                 path = string.Concat(path, pathObjects[0].name);
 
-                Debug.LogError($"Object: {path} {nameof(_buyResourcePanelController)} is null");
+                Debug.LogError($"Object: {path} {nameof(m_buyResourcePanelController)} is null");
                 return;
             }
             
-            _isMyabeBuy = _buyResourcePanelController.GetCanSellThisResource(TypeResource);
+            _isMyabeBuy = m_buyResourcePanelController.GetCanSellThisResource(TypeResource);
             _resource = new GameResource(TypeResource);
             imageResource.sprite = _resource.Image;
             btnAddResource.SetActive(_isMyabeBuy);
@@ -75,55 +73,55 @@ namespace UIController.GameObservers
         [Inject]
         public override void Construct()
         {
-            if (_disposable != null)
+            if (m_disposable != null)
             {
-                _disposable.Dispose();
-                _disposable = null;
+                m_disposable.Dispose();
+                m_disposable = null;
             }
 
-            _disposable = _resourceStorageController.Subscribe(TypeResource, UpdateUI);
-            UpdateUI(_resourceStorageController.GetResource(TypeResource));
+            m_disposable = m_resourceStorageController.Subscribe(TypeResource, UpdateUI);
+            UpdateUI(m_resourceStorageController.GetResource(TypeResource));
         }
 
         private void UpdateUI(GameResource res)
         {
             _resource = res;
             
-            if (_previousBigDigit == null)
+            if (m_previousBigDigit == null)
             {
-                _previousBigDigit = res.Amount;
+                m_previousBigDigit = res.Amount;
                 countResource.text = _resource.ToString();
                 return;
             }
 
-            if (gameObject.activeInHierarchy || (_previousBigDigit.E10 == res.Amount.E10))
-            {
-                _counterTween.Kill();
-                int startValue = Mathf.FloorToInt(_previousBigDigit.Mantissa);
-                int targetValue = Mathf.FloorToInt(_resource.Amount.Mantissa);
-
-                int value = startValue;
-                _counterTween = DOTween.To(() => startValue, x => value = x, targetValue, CountDuration)
-                    .OnUpdate(() =>
-                    {
-                        countResource.text = new BigDigit(value, _previousBigDigit.E10).ToString();
-                    });
-            }
-            else
+            if (gameObject.activeInHierarchy || (m_previousBigDigit.E10 != res.Amount.E10))
             {
                 countResource.text = _resource.ToString();
+                return;
             }
+
+            m_counterTween?.Kill();
+            int startValue = Mathf.FloorToInt(m_previousBigDigit.Mantissa);
+            int targetValue = Mathf.FloorToInt(_resource.Amount.Mantissa);
+
+            int value = startValue;
+            m_counterTween = DOTween.To(() => startValue, x => value = x, targetValue, CountDuration)
+                .OnUpdate(() =>
+                {
+                    countResource.text = new BigDigit(value, m_previousBigDigit.E10).ToString();
+                });
+
         }
 
         public void OpenPanelForBuyResource()
         {
-            _buyResourcePanelController.Open(TypeResource);
+            m_buyResourcePanelController.Open(TypeResource);
         }
 
         public override void Dispose()
         {
-            _counterTween.Kill();
-            _disposable?.Dispose();
+            m_counterTween?.Kill();
+            m_disposable?.Dispose();
             base.Dispose();
         }
     }

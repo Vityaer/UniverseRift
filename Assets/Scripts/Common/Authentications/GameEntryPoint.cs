@@ -1,9 +1,10 @@
 ﻿using City.Panels.Registrations;
-using Cysharp.Threading.Tasks;
 using Models.Common;
 using Network.DataServer;
 using System;
 using Common.Db.CommonDictionaries;
+using Cysharp.Threading.Tasks;
+using Services.NewPlayerGameStarter;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -15,36 +16,36 @@ namespace Common.Authentications
     {
         private const string PLAYER_ID_KEY = "PlayerId";
 
-        [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly RegistrationPanelController _registrationPanelController;
-        [Inject] private readonly RegistrationPanelView _registrationPanelView;
-        [Inject] private readonly CommonDictionaries _dictionaries;
-
-        private CompositeDisposable _disposables = new();
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly NewPlayerGameStarter m_newPlayerGameStarter;
+        [Inject] private readonly RegistrationPanelView m_registrationPanelView;
+        [Inject] private readonly CommonDictionaries m_dictionaries;
+        
+        private CompositeDisposable m_disposables = new();
 
         public async void Initialize()
         {
-            await _dictionaries.Init();
+            await m_dictionaries.Init();
 
-            DataServer.OnError.Subscribe(OnErrorLoadData).AddTo(_disposables);
-            _commonGameData.OnLoadedData.Subscribe(_ => DisposeSubscribers()).AddTo(_disposables);
+            DataServer.OnError.Subscribe(OnErrorLoadData).AddTo(m_disposables);
+            m_commonGameData.OnLoadedData.Subscribe(_ => DisposeSubscribers()).AddTo(m_disposables);
 #if UNITY_EDITOR
-            if (!_registrationPanelView.OverrideId)
+            if (!m_registrationPanelView.OverrideId)
             {
-                var playerId = GetPlayerId();
+                int playerId = GetPlayerId();
                 if (playerId > 0)
                 {
                     Debug.Log($"пытаемся загрузить данные для: {playerId}");
-                    _commonGameData.Init(playerId).Forget();
+                    m_commonGameData.Init(playerId).Forget();
                 }
                 else
                 {
-                    _registrationPanelController.OpenPanelRegistration();
+                    m_newPlayerGameStarter.StartGame().Forget();
                 }
             }
             else
             {
-                _commonGameData.Init(_registrationPanelView.PlayerId).Forget();
+                m_commonGameData.Init(m_registrationPanelView.PlayerId).Forget();
             }
 #else
             var playerId = GetPlayerId();
@@ -55,27 +56,28 @@ namespace Common.Authentications
             }
             else
             {
-                _registrationPanelController.OpenPanelRegistration();
+                m_commonGameData.Init(m_registrationPanelView.PlayerId).Forget();
             }
 #endif
         }
 
         private void DisposeSubscribers()
         {
-            _disposables?.Dispose();
-            _disposables = null;
+            m_disposables?.Dispose();
+            m_disposables = null;
         }
 
         private void OnErrorLoadData(string error)
         {
-            if (error.Equals("Player not found"))
+            if (!error.Equals("Player not found"))
             {
-                Debug.Log("re registration");
-                _registrationPanelController.OpenPanelRegistration();
+                return;
             }
+            
+            m_newPlayerGameStarter.StartGame().Forget();
         }
 
-        private int GetPlayerId()
+        private static int GetPlayerId()
         {
             return PlayerPrefs.HasKey(PLAYER_ID_KEY) ? PlayerPrefs.GetInt(PLAYER_ID_KEY) : -1;
         }

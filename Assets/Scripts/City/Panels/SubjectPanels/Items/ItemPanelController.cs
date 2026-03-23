@@ -4,7 +4,7 @@ using Common.Db.CommonDictionaries;
 using LocalizationSystems;
 using UIController.Inventory;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer.Unity;
 using VContainerUi.Messages;

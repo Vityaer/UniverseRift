@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using City.Buildings.Mails.LetterPanels;
@@ -13,121 +12,117 @@ using Network.DataServer;
 using Network.DataServer.Messages.Mails;
 using UIController.Rewards;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Mails
 {
     public class MailPanelController : UiPanelController<MailPanelView>
     {
-        private readonly LetterPanelController _letterPanelController;
-        private readonly IJsonConverter _jsonConverter;
-        private readonly ClientRewardService _clientRewardService;
-        private readonly CommonDictionaries _commonDictionaries;
-        private readonly ILocalizationSystem _localizationSystem;
+        private readonly LetterPanelController m_letterPanelController;
+        private readonly IJsonConverter m_jsonConverter;
+        private readonly ClientRewardService m_clientRewardService;
+        private readonly CommonDictionaries m_commonDictionaries;
+        private readonly ILocalizationSystem m_localizationSystem;
 
-        private DynamicUiList<LetterView, LetterData> _lettersWrapper;
+        private DynamicUiList<LetterView, LetterData> m_lettersWrapper;
 
-        private List<LetterData> _letterDatas;
-        
+        private List<LetterData> m_letterDatas;
+
         public MailPanelController(LetterPanelController letterPanelController,
             IJsonConverter jsonConverter,
             ClientRewardService clientRewardService,
             CommonDictionaries commonDictionaries,
             ILocalizationSystem localizationSystem)
         {
-            _letterPanelController = letterPanelController;
-            _jsonConverter = jsonConverter;
-            _clientRewardService = clientRewardService;
-            _commonDictionaries = commonDictionaries;
-            _localizationSystem = localizationSystem;
+            m_letterPanelController = letterPanelController.ThrowIfArgumentNull();
+            m_jsonConverter = jsonConverter.ThrowIfArgumentNull();
+            m_clientRewardService = clientRewardService.ThrowIfArgumentNull();
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_localizationSystem = localizationSystem.ThrowIfArgumentNull();
         }
 
         public override void Start()
         {
-            _lettersWrapper = new(View.LetterPrefab, View.Content, View.Scroll, OnSelectLetterView, OnCreateLetterView);
+            m_lettersWrapper = new(View.LetterPrefab, View.Content, View.Scroll, m_commonDictionaries,
+                OnSelectLetterView, OnCreateLetterView);
             base.Start();
             View.GetAllButton.OnClickAsObservable().Subscribe(_ => GetAllRewards().Forget()).AddTo(Disposables);
             View.DeleteAllButton.OnClickAsObservable().Subscribe(_ => DeleteAllLetters()).AddTo(Disposables);
             View.AdminFilterButton.interactable = false;
-            
-            View.AdminFilterButton.OnClickAsObservable().Subscribe(_=> FilterAdminLetter()).AddTo(Disposables);
+
+            View.AdminFilterButton.OnClickAsObservable().Subscribe(_ => FilterAdminLetter()).AddTo(Disposables);
             View.PlayerFilterButton.OnClickAsObservable().Subscribe(_ => FilterPlayersLetter()).AddTo(Disposables);
         }
 
-        public void OnCreateLetterView(LetterView letterView)
+        private void OnCreateLetterView(LetterView letterView)
         {
-            letterView.SetLocalizationSystem(_localizationSystem);
+            letterView.SetLocalizationSystem(m_localizationSystem);
         }
 
         private void FilterPlayersLetter()
         {
             View.AdminFilterButton.interactable = true;
             View.PlayerFilterButton.interactable = false;
-            var adminLetters = _letterDatas.FindAll(letter => !letter.IsAdmin);
-            _lettersWrapper.ShowDatas(adminLetters);
+            List<LetterData> adminLetters = m_letterDatas.FindAll(letter => !letter.IsAdmin);
+            m_lettersWrapper.ShowDatas(adminLetters);
         }
 
         private void FilterAdminLetter()
         {
             View.AdminFilterButton.interactable = false;
             View.PlayerFilterButton.interactable = true;
-            var adminLetters = _letterDatas.FindAll(letter => letter.IsAdmin);
-            _lettersWrapper.ShowDatas(adminLetters);
+            List<LetterData> adminLetters = m_letterDatas.FindAll(letter => letter.IsAdmin);
+            m_lettersWrapper.ShowDatas(adminLetters);
         }
 
         private void OnSelectLetterView(LetterView letterView)
         {
-            _letterPanelController.ShowLetter(letterView);
+            m_letterPanelController.ShowLetter(letterView);
             CheckNews();
         }
 
         protected override void OnLoadGame()
         {
-            var receiveLetters = CommonGameData.CommunicationData.LetterDatas
+            List<LetterData> receiveLetters = CommonGameData.CommunicationData.LetterDatas
                 .FindAll(letter => letter.ReceiverPlayerId == CommonGameData.PlayerInfoData.Id);
-            
-            _letterDatas = receiveLetters;
+
+            m_letterDatas = receiveLetters;
 
             CheckNews();
             FilterAdminLetter();
         }
 
         private void CheckNews()
-        { 
-            OnNewsStatusChangeInternal.Execute(_letterDatas.Any(letter => !letter.IsOpened));
+        {
+            OnNewsStatusChangeInternal.Execute(m_letterDatas.Any(letter => !letter.IsOpened));
         }
 
         private async UniTask GetAllRewards()
         {
             RewardModel rewardModel = new RewardModel();
-            rewardModel.CommonDictionaries = _commonDictionaries;
+            rewardModel.CommonDictionaries = m_commonDictionaries;
 
             bool showReward = false;
-            foreach (var letter in _letterDatas)
+            foreach (LetterData letter in m_letterDatas)
             {
-                if (letter.IsRewardReceived)
-                {
-                    continue;
-                }
+                if (letter.IsRewardReceived) continue;
 
-                if (string.IsNullOrWhiteSpace(letter.RewardJSON))
-                {
-                    continue;
-                }
+                if (string.IsNullOrWhiteSpace(letter.RewardJSON)) continue;
 
-                var message = new GetRewardFromLetterMessage { PlayerId = CommonGameData.PlayerInfoData.Id,
-                    LetterId = letter.Id };
-                var result = await DataServer.PostData(message);
-
-                if (string.IsNullOrEmpty(result))
+                GetRewardFromLetterMessage message = new GetRewardFromLetterMessage
                 {
-                    continue;
-                }
+                    PlayerId = CommonGameData.PlayerInfoData.Id,
+                    LetterId = letter.Id
+                };
+                string result = await DataServer.PostData(message);
+
+                if (string.IsNullOrEmpty(result)) continue;
 
                 try
                 {
-                    var reward = _jsonConverter.Deserialize<RewardModel>(result);
+                    RewardModel reward = m_jsonConverter.Deserialize<RewardModel>(result);
 
                     rewardModel.Resources.AddRange(reward.Resources);
                     rewardModel.Items.AddRange(reward.Items);
@@ -141,13 +136,10 @@ namespace City.Buildings.Mails
                 }
             }
 
-            if (!showReward)
-            {
-                return;
-            }
+            if (!showReward) return;
 
-            var gameReward = new GameReward(rewardModel, _commonDictionaries);
-            _clientRewardService.ShowReward(gameReward);
+            GameReward gameReward = new GameReward(rewardModel, m_commonDictionaries);
+            m_clientRewardService.ShowReward(gameReward);
         }
 
         private void DeleteAllLetters()

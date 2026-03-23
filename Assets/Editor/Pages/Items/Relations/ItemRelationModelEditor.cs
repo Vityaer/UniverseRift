@@ -15,7 +15,7 @@ namespace Pages.Items.Relations
         public ItemRelationModelEditor(ItemRelationModel item, CommonDictionaries commonDictionaries)
         {
             _dictionaries = commonDictionaries;
-            _model = item;
+            m_model = item;
         }
 
         [ShowInInspector]
@@ -24,8 +24,8 @@ namespace Pages.Items.Relations
         [LabelWidth(110)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -33,8 +33,8 @@ namespace Pages.Items.Relations
         [PropertyOrder(3)]
         public int RequireCount
         {
-            get => _model.RequireCount;
-            set => _model.RequireCount = value;
+            get => m_model.RequireCount;
+            set => m_model.RequireCount = value;
         }
 
         [ShowInInspector]
@@ -43,8 +43,8 @@ namespace Pages.Items.Relations
         [LabelWidth(110)]
         public ResourceData Cost
         {
-            get => _model.Cost;
-            set => _model.Cost = value;
+            get => m_model.Cost;
+            set => m_model.Cost = value;
         }
 
         [ShowInInspector]
@@ -56,7 +56,7 @@ namespace Pages.Items.Relations
         {
             get
             {
-                var result = _model.ItemIngredientName;
+                var result = m_model.ItemIngredientName;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = _allItems.FirstOrDefault();
@@ -64,7 +64,7 @@ namespace Pages.Items.Relations
 
                 return result;
             }
-            set => _model.ItemIngredientName = value;
+            set => m_model.ItemIngredientName = value;
         }
 
         [ShowInInspector]
@@ -76,7 +76,7 @@ namespace Pages.Items.Relations
         {
             get
             {
-                var result = _model.ResultItemName;
+                var result = m_model.ResultItemName;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = _allItems.FirstOrDefault();
@@ -84,7 +84,7 @@ namespace Pages.Items.Relations
 
                 return result;
             }
-            set => _model.ResultItemName = value;
+            set => m_model.ResultItemName = value;
         }
 
 

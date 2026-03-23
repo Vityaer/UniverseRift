@@ -9,8 +9,8 @@ namespace Editor.Pages.Mall.Market
     {
         public MarketModelEditor(MarketModel model, CommonDictionaries dictionaries)
         {
-            _model = model;
-            _model.CommonDictionaries = dictionaries;
+            m_model = model;
+            m_model.CommonDictionaries = dictionaries;
         }
 
         [ShowInInspector]
@@ -18,8 +18,8 @@ namespace Editor.Pages.Mall.Market
         [LabelWidth(150)]
         public MarketModel Model
         {
-            get => _model;
-            set => _model = value;
+            get => m_model;
+            set => m_model = value;
         }
     }
 }

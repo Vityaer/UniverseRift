@@ -3,6 +3,7 @@ using System;
 using Fight.Common.HeroControllers.Generals;
 using UniRx;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common
 {

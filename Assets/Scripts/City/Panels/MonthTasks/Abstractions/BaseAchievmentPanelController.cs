@@ -1,14 +1,14 @@
-﻿using City.Achievements;
-using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.Requirement;
-using City.Panels.SubjectPanels.Common;
-using Models.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using City.Achievements;
+using City.Buildings.Requirements;
 using City.Panels.DailyTasks;
+using City.Panels.SubjectPanels.Common;
 using Common.Db.CommonDictionaries;
-using UiExtensions.Scroll.Interfaces;
+using Models.Achievments;
+using Models.Data;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 
@@ -20,18 +20,18 @@ namespace City.Panels.MonthTasks.Abstractions
         [Inject] private readonly CommonDictionaries m_commonDictionaries;
         [Inject] protected readonly SubjectDetailController SubjectDetailController;
 
-        protected List<AchievmentView> AchievmentViews = new();
+        private readonly List<AchievmentView> m_achievmentViews = new();
 
         protected abstract string AcievmentContainerName { get; }
 
         protected override void OnLoadGame()
         {
-            var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList();//class not matter
+            List<Type> types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList(); //class not matter
 
-            foreach (var taskId in m_commonDictionaries.AchievmentContainers[AcievmentContainerName].TaskIds)
+            foreach (string taskId in m_commonDictionaries.AchievmentContainers[AcievmentContainerName].TaskIds)
             {
-                var taskModel = m_commonDictionaries.Achievments[taskId];
-                var taskData = CommonGameData.AchievmentStorage.Achievments
+                AchievmentModel taskModel = m_commonDictionaries.Achievments[taskId];
+                AchievmentData taskData = CommonGameData.AchievmentStorage.Achievments
                     .Find(data => data.ModelId.Equals(taskId));
 
                 if (taskData == null)
@@ -40,32 +40,31 @@ namespace City.Panels.MonthTasks.Abstractions
                     continue;
                 }
 
-                var taskPrefab = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
+                AchievmentView taskPrefab = UnityEngine.Object.Instantiate(View.Prefab, View.Content);
 
-                var type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
-                var gameTask = Activator.CreateInstance(type) as GameAchievment;
+                Type type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
+                GameAchievment gameTask = Activator.CreateInstance(type) as GameAchievment;
 
                 Resolver.Inject(gameTask);
                 gameTask.SetData(taskModel, taskData);
 
                 Resolver.Inject(taskPrefab);
+                m_achievmentViews.Add(taskPrefab);
                 taskPrefab.ObserverComplete.Subscribe(_ => CheckNews()).AddTo(Disposables);
-                taskPrefab.SetData(gameTask, View.Scroll);
+                taskPrefab.SetData(gameTask, View.Scroll, m_commonDictionaries);
 
-                AchievmentViews.Add(taskPrefab);
                 taskPrefab.SetReward(SubjectDetailController);
-                
             }
 
             base.OnLoadGame();
             CheckNews();
         }
-        
-        
+
+
         private void CheckNews()
         {
             OnNewsStatusChangeInternal.Execute(
-                AchievmentViews.Any(achievment => achievment.CheckDoneForReward()));
+                m_achievmentViews.Any(achievment => achievment.CheckDoneForReward()));
         }
     }
 }

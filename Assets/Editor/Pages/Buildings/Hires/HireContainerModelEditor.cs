@@ -10,7 +10,7 @@ namespace Editor.Pages.Buildings.Hires
     {
         public HireContainerModelEditor(HireContainerModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -19,8 +19,8 @@ namespace Editor.Pages.Buildings.Hires
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
 
@@ -30,8 +30,8 @@ namespace Editor.Pages.Buildings.Hires
         [LabelWidth(150)]
         public ResourceData Cost
         {
-            get => _model.Cost;
-            set => _model.Cost = value;
+            get => m_model.Cost;
+            set => m_model.Cost = value;
         }
 
         [ShowInInspector]
@@ -40,8 +40,8 @@ namespace Editor.Pages.Buildings.Hires
         [LabelWidth(150)]
         public List<HireModel> ChanceHires
         {
-            get => _model.ChanceHires;
-            set => _model.ChanceHires = value;
+            get => m_model.ChanceHires;
+            set => m_model.ChanceHires = value;
         }
     }
 }

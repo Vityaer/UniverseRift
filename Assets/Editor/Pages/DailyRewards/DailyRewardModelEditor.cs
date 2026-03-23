@@ -13,7 +13,7 @@ namespace Editor.Pages.DailyRewards
 
         public DailyRewardModelEditor(DailyRewardModel model, CommonDictionaries dictionaries)
         {
-            _model = model;
+            m_model = model;
             _dictionaries = dictionaries;
         }
 
@@ -23,8 +23,8 @@ namespace Editor.Pages.DailyRewards
         [LabelWidth(200)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [Button]
@@ -44,8 +44,8 @@ namespace Editor.Pages.DailyRewards
         CustomRemoveElementFunction = nameof(RemoveReward))]
         public List<InventoryBaseItem> Rewards
         {
-            get => _model.Rewards;
-            set => _model.Rewards = value;
+            get => m_model.Rewards;
+            set => m_model.Rewards = value;
         }
 
         private void RemoveReward(InventoryBaseItem light, object b, List<InventoryBaseItem> lights)

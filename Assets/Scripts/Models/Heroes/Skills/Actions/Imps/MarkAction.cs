@@ -1,6 +1,7 @@
 ﻿using Fight.Common.HeroControllers.Generals;
 using Fight.Common.HeroStates;
 using Models.Heroes.Skills.Actions.Imps.SimpleActions;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Models.Heroes.Skills.Actions.Imps
 {

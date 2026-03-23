@@ -5,6 +5,7 @@ using Models.Heroes.HeroCharacteristics;
 using Sirenix.Utilities;
 using UniRx;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Hero
 {

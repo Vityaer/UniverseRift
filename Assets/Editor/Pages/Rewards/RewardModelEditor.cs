@@ -14,7 +14,7 @@ namespace Pages.Rewards
 
         public RewardModelEditor(RewardModel model, CommonDictionaries _dictionaries)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -22,8 +22,8 @@ namespace Pages.Rewards
         [LabelWidth(100)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -31,8 +31,8 @@ namespace Pages.Rewards
         [LabelWidth(250)]
         public List<ResourceData> Resources
         {
-            get => _model.Resources;
-            set => _model.Resources = value;
+            get => m_model.Resources;
+            set => m_model.Resources = value;
         }
 
         [ListDrawerSettings(HideRemoveButton = false, DraggableItems = false, Expanded = true,
@@ -40,8 +40,8 @@ namespace Pages.Rewards
         CustomRemoveElementFunction = nameof(RemoveItem), CustomAddFunction = nameof(AddItem))]
         public List<ItemData> Items
         {
-            get => _model.Items;
-            set => _model.Items = value;
+            get => m_model.Items;
+            set => m_model.Items = value;
         }
 
         protected void AddItem()
@@ -56,8 +56,8 @@ namespace Pages.Rewards
 
         public List<SplinterData> Splinters
         {
-            get => _model.Splinters;
-            set => _model.Splinters = value;
+            get => m_model.Splinters;
+            set => m_model.Splinters = value;
         }
 
     }

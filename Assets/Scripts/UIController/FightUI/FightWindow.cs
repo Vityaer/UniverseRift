@@ -1,6 +1,7 @@
 ﻿using Fight.Common;
 using Fight.Common.FightInterface;
 using Fight.Common.Grid;
+using Fight.Grid;
 using UnityEngine;
 using VContainer;
 using VContainerUi.Abstraction;

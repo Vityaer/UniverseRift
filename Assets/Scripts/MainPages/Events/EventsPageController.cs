@@ -4,6 +4,7 @@ using City.Panels.MonthTasks.Evolutions;
 using City.Panels.MonthTasks.Taskboards;
 using City.Panels.MonthTasks.Travels;
 using LocalizationSystems;
+using MainPages.Events.Cycles;
 using Models.Common;
 using Services.TimeLocalizeServices;
 using UiExtensions.MainPages;
@@ -20,10 +21,10 @@ namespace MainPages.Events
 {
     public class EventsPageController : UiMainPageController<EventsPageView>, IStartable
     {
-        [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly IObjectResolver _resolver;
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
-        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly IObjectResolver m_resolver;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        [Inject] private readonly TimeLocalizeService m_timeLocalizeService;
 
         public void Start()
         {
@@ -47,27 +48,27 @@ namespace MainPages.Events
 
         protected override void OnLoadGame()
         {
-            View.SliderEventLeftTime.Init(_localizationSystem, _timeLocalizeService);
+            View.SliderEventLeftTime.Init(m_localizationSystem, m_timeLocalizeService);
             ShowCurrentGameCycle();
             base.OnLoadGame();
         }
 
         private void ShowCurrentGameCycle()
         {
-            var eventContainer = View.EventContainers[_commonGameData.CycleEventsData.CurrentEventType];
+            EventContainer eventContainer = View.EventContainers[m_commonGameData.CycleEventsData.CurrentEventType];
             if (eventContainer == null)
             {
-                Debug.LogError($"Event {_commonGameData.CycleEventsData.CurrentEventType} not found.");
+                Debug.LogError($"Event {m_commonGameData.CycleEventsData.CurrentEventType} not found.");
                 return;
             }
 
-            var containerController = UnityEngine.Object.Instantiate(eventContainer.Container, View.ContentAction);
-            _resolver.Inject(containerController);
+            BaseCycleContainerController containerController = Object.Instantiate(eventContainer.Container, View.ContentAction);
+            m_resolver.Inject(containerController);
             eventContainer.Active();
-            View.EventCycleName.StringReference = _localizationSystem
-                .GetLocalizedContainer($"Cycle{_commonGameData.CycleEventsData.CurrentEventType}Name");
+            View.EventCycleName.StringReference = m_localizationSystem
+                .GetLocalizedContainer($"Cycle{m_commonGameData.CycleEventsData.CurrentEventType}Name");
 
-            var startDateTime = TimeUtils.ParseTime(_commonGameData.CycleEventsData.StartGameCycleDateTime) - Constants.Game.GameCycleTime;
+            var startDateTime = TimeUtils.ParseTime(m_commonGameData.CycleEventsData.StartGameCycleDateTime) - Constants.Game.GameCycleTime;
             View.SliderEventLeftTime.SetData(startDateTime, Constants.Game.GameCycleTime);
             containerController.SetData(startDateTime, Constants.Game.GameCycleTime);
         }

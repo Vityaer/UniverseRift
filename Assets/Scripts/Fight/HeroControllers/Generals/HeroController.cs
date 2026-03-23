@@ -4,28 +4,30 @@ using System.Threading;
 using Common.Db.CommonDictionaries;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Fight.Common.AI;
-using Fight.Common.Strikes;
-using Fight.Common.Grid;
+using Fight.AI;
+using Fight.Common;
 using Fight.Common.HeroControllers.Generals.Attacks;
 using Fight.Common.HeroControllers.Generals.Movements;
 using Fight.Common.HeroStates;
 using Fight.Common.Misc;
 using Fight.Common.Rounds;
+using Fight.Common.Strikes;
+using Fight.Grid;
+using Fight.HeroControllers.Generals.Attacks;
 using Hero;
 using UniRx;
 using UnityEngine;
 using Utils.AsyncUtils;
 using VContainer;
 
-namespace Fight.Common.HeroControllers.Generals
+namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
-        [Inject] public Common.FightController FightController;
+        [Inject] public FightController FightController;
         [Inject] protected BotProvider BotProvider;
         [Inject] protected GridController GridController;
-        [Inject] private CommonDictionaries m_CommonDictionaries;
+        [Inject] private CommonDictionaries m_commonDictionaries;
         
         [Header("Components")] [SerializeField]
         private HeroStatus _statusState;
@@ -38,7 +40,6 @@ namespace Fight.Common.HeroControllers.Generals
         private float _speedMove = 2f;
 
         private bool m_isFacingRight = true;
-        private float m_speedAnimation = 1f;
         private Side m_side = Side.Left;
 
         private GameHeroFight m_hero;
@@ -52,7 +53,7 @@ namespace Fight.Common.HeroControllers.Generals
         protected HexagonCell MyPlace;
 
         private bool m_canWait;
-        private HeroController m_selectHero;
+        private Fight.HeroControllers.Generals.HeroController m_selectHero;
         private float m_damageFromStrike;
         private bool m_isDeath = false;
         private CancellationTokenSource m_actionTokenSource;
@@ -87,7 +88,7 @@ namespace Fight.Common.HeroControllers.Generals
 
         private void Start()
         {
-            _onStartFight.Execute(this);
+            m_onStartFight.Execute(this);
             IsSide(m_side);
         }
 
@@ -99,11 +100,11 @@ namespace Fight.Common.HeroControllers.Generals
             MyPlace = place;
             place.SetHero(this);
             m_side = side;
-            m_hero = new GameHeroFight(gameHero, m_CommonDictionaries, _statusState);
+            m_hero = new GameHeroFight(gameHero, m_commonDictionaries, _statusState);
             m_hero.PrepareSkills(this);
 
             m_attack.Init(this);
-            _movement.Init(GridController, this, MyPlace, _currentHeroVisualModel.Animator);
+            _movement.Init(GridController, this, MyPlace, m_currentHeroVisualModel.Animator);
 
             _movement.OnChangePlace
                 .Subscribe(newPlace => MyPlace = newPlace)
@@ -139,7 +140,7 @@ namespace Fight.Common.HeroControllers.Generals
 
             ClearAction();
             OnEndAction();
-            Animator.Play(ANIMATION_IDLE);
+            ViewAnimator.Play(HeroController.ANIMATION_IDLE);
             FightController.RemoveHeroWithActionAll(this);
         }
 
@@ -212,30 +213,30 @@ namespace Fight.Common.HeroControllers.Generals
             StartMelleeAttackOtherHero(targetCell, m_selectHero);
         }
 
-        public void SelectDirectionAttack(HexagonCell targetCell, HeroController otherHero)
+        public void SelectDirectionAttack(HexagonCell targetCell, Fight.HeroControllers.Generals.HeroController otherHero)
         {
             HexagonCell.UnregisterOnClick(SelectHexagonCell);
             StartMelleeAttackOtherHero(targetCell, otherHero);
         }
 
         //Attack
-        private void StartMelleeAttackOtherHero(HexagonCell targetCell, HeroController enemy)
+        private void StartMelleeAttackOtherHero(HexagonCell targetCell, Fight.HeroControllers.Generals.HeroController enemy)
         {
             OnEndSelectCell();
-            m_actionTokenSource.TryCancel();
+            m_actionTokenSource?.TryCancel();
             m_actionTokenSource = new();
             IMelleeAttackOtherHero(targetCell, enemy, m_actionTokenSource.Token).Forget();
         }
 
-        public void StartDistanceAttackOtherHero(HeroController enemy)
+        public void StartDistanceAttackOtherHero(Fight.HeroControllers.Generals.HeroController enemy)
         {
             OnEndSelectCell();
-            m_actionTokenSource.TryCancel();
+            m_actionTokenSource?.TryCancel();
             m_actionTokenSource = new();
             IDistanceAttackOtherHero(enemy, 20, m_actionTokenSource.Token).Forget();
         }
 
-        private async UniTask IMelleeAttackOtherHero(HexagonCell targetCell, HeroController heroForAttack,
+        private async UniTask IMelleeAttackOtherHero(HexagonCell targetCell, Fight.HeroControllers.Generals.HeroController heroForAttack,
             CancellationToken token)
         {
             if (targetCell != MyPlace) await _movement.Move(targetCell);
@@ -257,14 +258,14 @@ namespace Fight.Common.HeroControllers.Generals
             EndTurn();
         }
 
-        private async UniTask IDistanceAttackOtherHero(HeroController otherHero, int bonusStamina = 20,
+        private async UniTask IDistanceAttackOtherHero(Fight.HeroControllers.Generals.HeroController otherHero, int bonusStamina = 20,
             CancellationToken token = default)
         {
             hitCount = 0;
             if (!IsFastFight)
                 await CheckFlipX(otherHero);
 
-            m_currentActionDisposable = _currentHeroVisualModel.AttackController
+            m_currentActionDisposable = m_currentHeroVisualModel.AttackController
                 .OnRangeDamage.Subscribe(AddHitCount);
 
             m_attack.Attacking(otherHero, bonusStamina);
@@ -279,7 +280,7 @@ namespace Fight.Common.HeroControllers.Generals
 
             SetFaceDefault();
 
-            _onStrike.Execute(new List<HeroController> { otherHero });
+            m_onStrike.Execute(new List<Fight.HeroControllers.Generals.HeroController> { otherHero });
             EndTurn();
         }
 
@@ -292,7 +293,7 @@ namespace Fight.Common.HeroControllers.Generals
             }
         }
 
-        public async UniTask CheckFlipX(HeroController otherHero)
+        public async UniTask CheckFlipX(Fight.HeroControllers.Generals.HeroController otherHero)
         {
             needFlip = NeedFlip(otherHero);
             if (needFlip)
@@ -301,7 +302,7 @@ namespace Fight.Common.HeroControllers.Generals
             await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
 
-        protected virtual async UniTask GetRetaliation(HeroController attackedHero)
+        protected virtual async UniTask GetRetaliation(Fight.HeroControllers.Generals.HeroController attackedHero)
         {
             if (IsDeath)
                 return;
@@ -312,7 +313,7 @@ namespace Fight.Common.HeroControllers.Generals
             await IGetRetaliation(attackedHero);
         }
 
-        protected virtual async UniTask IGetRetaliation(HeroController attackedHero)
+        protected virtual async UniTask IGetRetaliation(Fight.HeroControllers.Generals.HeroController attackedHero)
         {
             if (CanCounterAttack(this, attackedHero))
             {
@@ -322,7 +323,7 @@ namespace Fight.Common.HeroControllers.Generals
             }
         }
 
-        private void AddHitCount(HeroController target)
+        private void AddHitCount(Fight.HeroControllers.Generals.HeroController target)
         {
             CreateDamage(target);
             hitCount += 1;
@@ -331,7 +332,7 @@ namespace Fight.Common.HeroControllers.Generals
         protected virtual void DoSpell()
         {
             _statusState.ChangeStamina(-100);
-            _onSpell.Execute(ListTarget);
+            m_onSpell.Execute(ListTarget);
             EndTurn();
         }
 
@@ -346,29 +347,29 @@ namespace Fight.Common.HeroControllers.Generals
         {
             if (_statusState.PermissionGetStrike(strike))
             {
-                _onTakeDamage.Execute(this);
+                m_onTakeDamage.Execute(this);
                 m_hero.GetDamage(strike);
                 if (m_hero.Health > 0f)
                 {
-                    PlayAnimation(Constants.Visual.ANIMATOR_GET_DAMAGE_NAME_HASH).Forget();
+                    UniTaskExtensions.Forget(PlayAnimation(Constants.Visual.ANIMATOR_GET_DAMAGE_NAME_HASH));
                 }
                 else
                 {
                     m_isDeath = true;
                     MyPlace.ClearSublject();
-                    PlayAnimation
+                    UniTaskExtensions.Forget(PlayAnimation
                     (
                         Constants.Visual.ANIMATOR_DEATH_NAME_HASH,
                         onAnimationFinish: OffAnimator
-                    ).Forget();
+                    ));
                 }
             }
         }
 
         private void OffAnimator()
         {
-            Animator.speed = 0f;
-            Animator.enabled = false;
+            ViewAnimator.speed = 0f;
+            ViewAnimator.enabled = false;
             Death();
         }
 
@@ -377,7 +378,7 @@ namespace Fight.Common.HeroControllers.Generals
             m_hero.GetHeal(heal, typeNumber);
             _statusState.ChangeHP(m_hero.Health);
             FightEffectController.Instance.CreateHealObject(Self);
-            _onHeal.Execute((this, heal));
+            m_onHeal.Execute((this, heal));
         }
 
         public virtual void ChangeMaxHP(int amountChange, RoundTypeNumber typeNumber = RoundTypeNumber.Num)
@@ -389,7 +390,7 @@ namespace Fight.Common.HeroControllers.Generals
         public void DeleteHero()
         {
             MyPlace?.ClearSublject();
-            _sequenceAnimation.Kill();
+            TweenExtensions.Kill(_sequenceAnimation);
             m_actionTokenSource.TryCancel();
             Destroy(gameObject);
         }
@@ -412,7 +413,7 @@ namespace Fight.Common.HeroControllers.Generals
             m_damageFromStrike += damage;
         }
 
-        protected virtual void CreateDamage(HeroController enemy)
+        protected virtual void CreateDamage(Fight.HeroControllers.Generals.HeroController enemy)
         {
             m_currentActionDisposable.Dispose();
             enemy.ApplyDamage(new Strike(m_hero.Model.Characteristics.Damage, m_hero.Model.Characteristics.Main.Attack,
@@ -420,10 +421,10 @@ namespace Fight.Common.HeroControllers.Generals
         }
 
         //Event
-        public void GetListForSpell(List<HeroController> listTarget)
+        public void GetListForSpell(List<Fight.HeroControllers.Generals.HeroController> listTarget)
         {
             _statusState.ChangeStamina(-100);
-            _onListSpell.Execute(listTarget);
+            m_onListSpell.Execute(listTarget);
         }
 
         private void AddFightRecordActionMe()

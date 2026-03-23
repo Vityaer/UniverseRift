@@ -13,9 +13,9 @@ namespace Pages.RewardContainers
 
         public RewardContainerModelEditor(RewardContainerModel model, CommonDictionaries commonDictionaries)
         {
-            _model = model;
+            m_model = model;
             _commonDictionaries = commonDictionaries;
-            foreach (var reward in _model.Rewards)
+            foreach (var reward in m_model.Rewards)
             {
                 reward.CommonDictionaries = _commonDictionaries;
             }
@@ -27,8 +27,8 @@ namespace Pages.RewardContainers
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -40,8 +40,8 @@ namespace Pages.RewardContainers
           CustomRemoveElementFunction = nameof(RemoveReward), CustomAddFunction = nameof(AddReward))]
         public List<RewardModel> Rewards
         {
-            get => _model.Rewards;
-            set => _model.Rewards = value;
+            get => m_model.Rewards;
+            set => m_model.Rewards = value;
         }
 
         protected void AddReward()

@@ -1,12 +1,12 @@
 ﻿using Ui.Misc.Widgets;
 using UIController.ItemVisual;
-using UnityEngine;
+using UnityEngine.UI;
 
 namespace City.Panels.PosibleArtifacts
 {
     public class PosibleArtifactPanelView : BasePanel
     {
-        public Transform Content;
+        public ScrollRect ScrollRect;
         public ArtifactWithPercent Prefab;
     }
 }

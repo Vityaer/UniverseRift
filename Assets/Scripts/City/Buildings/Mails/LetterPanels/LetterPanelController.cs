@@ -8,7 +8,7 @@ using Models.Misc;
 using Network.DataServer;
 using Network.DataServer.Messages.Mails;
 using UIController.Rewards;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainerUi.Messages;
 using VContainerUi.Model;

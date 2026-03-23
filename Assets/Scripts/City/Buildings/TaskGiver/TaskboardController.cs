@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using City.Buildings.TaskGiver.Abstracts;
+using City.Buildings.TaskGiver.TaskControllers;
 using City.TaskBoard;
 using Common.Inventories.Resourses;
 using Common.Resourses;
 using Cysharp.Threading.Tasks;
+using Models.Common;
 using Models.Data;
 using Network.DataServer;
 using Network.DataServer.Messages;
 using Network.DataServer.Messages.City.Taskboards;
 using UniRx;
 using UnityEngine;
+using Utils;
+using VContainer;
 
 namespace City.Buildings.TaskGiver
 {
     public class TaskboardController : BaseTaskboardController<TaskboardView>
     {
+        [Inject] private readonly CommonGameData m_commonGameData;
+
         private readonly GameResource m_simpleTaskCost = new GameResource(ResourceType.SimpleTask, 1, 0);
         private readonly GameResource m_specialTaskCost = new GameResource(ResourceType.SpecialTask, 1, 0);
         private readonly GameResource m_costReplacement = new GameResource(ResourceType.Diamond, 10);
@@ -28,7 +34,7 @@ namespace City.Buildings.TaskGiver
 
         protected override void OnStart()
         {
-            m_comparer = new TaskDataComparer(_commonDictionaries);
+            m_comparer = new TaskDataComparer(CommonDictionaries);
             View.BuySimpleTaskButton.ChangeCost(m_simpleTaskCost, BuySimpleTask);
             View.BuySpecialTaskButton.ChangeCost(m_specialTaskCost, BuySpecialTask);
 
@@ -75,12 +81,14 @@ namespace City.Buildings.TaskGiver
 
         protected override void OnLoadGame()
         {
-            _taskBoardData = CommonGameData.City.TaskBoardData;
-            _taskBoardData.ListTasks.Sort(m_comparer);
+            TaskBoardData = CommonGameData.City.TaskBoardData;
+            TaskBoardData.ListTasks.Sort(m_comparer);
 
-            foreach (var taskData in _taskBoardData.ListTasks) CreateTask(taskData);
+            foreach (var taskData in TaskBoardData.ListTasks) CreateTask(taskData);
 
-
+            DateTime startDateTime = TimeUtils.ParseTime(m_commonGameData.City.TaskBoardData.CreateTasksLeftTime);
+            View.SliderEventLeftTime.SetData(startDateTime, Constants.Game.DayTime);
+            View.SetTaskCount(m_commonGameData.City.TaskBoardData.TaskCountForCreate, 5);
             CheckNews();
             SetCostReplacement();
         }
@@ -105,27 +113,27 @@ namespace City.Buildings.TaskGiver
 
         private async UniTaskVoid BuyTask<T>(GameResource cost) where T : AbstractMessage, new()
         {
-            var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id };
-            var result = await DataServer.PostData(message);
+            T message = new T { PlayerId = CommonGameData.PlayerInfoData.Id };
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var newTasks = _jsonConverter.Deserialize<List<TaskData>>(result);
+                var newTasks = JsonConverter.Deserialize<List<TaskData>>(result);
 
-                foreach (var taskData in newTasks)
+                foreach (TaskData taskData in newTasks)
                 {
-                    _taskBoardData.ListTasks.Add(taskData);
+                    TaskBoardData.ListTasks.Add(taskData);
                     CreateTask(taskData);
                 }
 
-                _resourceStorageController.SubtractResource(cost);
+                ResourceStorageController.SubtractResource(cost);
                 SetCostReplacement();
             }
         }
 
         private void SetCostReplacement()
         {
-            var taskCanReplaceCount = _taskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
-            var cost = m_costReplacement * taskCanReplaceCount;
+            int taskCanReplaceCount = TaskBoardData.ListTasks.FindAll(x => x.Status == TaskStatusType.NotStart).Count;
+            GameResource cost = m_costReplacement * taskCanReplaceCount;
             View.BuyReplacementButton.ChangeCost(cost, StartReplacement);
 
             View.BuyReplacementButton.gameObject.SetActive(taskCanReplaceCount != 0);
@@ -138,13 +146,13 @@ namespace City.Buildings.TaskGiver
 
             if (!string.IsNullOrEmpty(result))
             {
-                var tasksForReplacement = _taskBoardData.ListTasks
+                var tasksForReplacement = TaskBoardData.ListTasks
                     .FindAll(x => x.Status == TaskStatusType.NotStart);
 
                 var cost = m_costReplacement * tasksForReplacement.Count;
                 foreach (var taskForReplace in tasksForReplacement)
                 {
-                    _taskBoardData.ListTasks.Remove(taskForReplace);
+                    TaskBoardData.ListTasks.Remove(taskForReplace);
                     var replace = taskForReplace;
                     var taskController = TaskControllers
                         .Find(x => x.GetTask == replace);
@@ -159,16 +167,16 @@ namespace City.Buildings.TaskGiver
                     UnityEngine.Object.Destroy(taskController.gameObject);
                 }
 
-                var newTasks = _jsonConverter.Deserialize<List<TaskData>>(result);
+                var newTasks = JsonConverter.Deserialize<List<TaskData>>(result);
 
                 newTasks.Sort(m_comparer);
                 foreach (var taskData in newTasks)
                 {
-                    _taskBoardData.ListTasks.Add(taskData);
+                    TaskBoardData.ListTasks.Add(taskData);
                     CreateTask(taskData);
                 }
 
-                _resourceStorageController.SubtractResource(cost);
+                ResourceStorageController.SubtractResource(cost);
                 SetCostReplacement();
             }
         }

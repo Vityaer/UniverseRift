@@ -1,13 +1,16 @@
-﻿using Fight.Common.HeroControllers.Generals;
-using Models;
+﻿using Models;
 using Models.Heroes;
 using Models.Inventory.Splinters;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Db.CommonDictionaries;
-using UIController.Inventory;
+using Models.Data.Inventories;
 using UIController.Rewards.PosibleRewards;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils.DataCheckUtils;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Common.Inventories.Splinters
 {
@@ -15,22 +18,21 @@ namespace Common.Inventories.Splinters
     public class GameSplinter : BaseObject
     {
         public SplinterType typeSplinter;
-        public RaceSplinter race;
         [SerializeField] private int requireCount;
-        [Header("rewards")]
-        public PosibleRewardData reward = new PosibleRewardData();
         public Rare Rare;
 
-        private SplinterModel _model;
-        private CommonDictionaries _commonDictionaries;
-        private BaseModel _dataModel;
+        private SplinterModel m_model;
+        private CommonDictionaries m_commonDictionaries;
+        private BaseModel m_dataModel;
+        private List<RandomSplinterModel> m_posibleRewardData;
 
+        public List<RandomSplinterModel> Reward => m_posibleRewardData;
         //public int CountReward => reward.PosibilityObjectRewards.Count;
         public int CountReward => 1;
         public bool IsCanUse => Amount >= RequireAmount;
         public string GetTextType => typeSplinter.ToString();
         public string GetTextDescription => string.Empty;
-        public SplinterModel Model => _model;
+        public SplinterModel Model => m_model;
         public int RequireAmount
         {
             get
@@ -40,30 +42,13 @@ namespace Common.Inventories.Splinters
             }
         }
 
-        public override Sprite Image
-        {
-            get
-            {
-                if (sprite == null)
-                {
-                    //Debug.Log("ID: " + Id.ToString() + " splinter is founding image...");
-                    //switch (typeSplinter)
-                    //{
-                    //    case TypeSplinter.Hero:
-                    //        //sprite = SystemSprites.Instance.GetSprite((SpriteName)Enum.Parse(typeof(SpriteName), Id));
-                    //        break;
-                    //}
-                }
-                // Debug.Log("splinter was founded: " + (sprite == null).ToString() );
-                return sprite;
-            }
-        }
+        public override Sprite Image => sprite;
         public GameSplinter() { }
 
         public GameSplinter(SplinterModel model, CommonDictionaries commonDictionaries, int count = 0)
         {
-            _commonDictionaries = commonDictionaries;
-            _model = model;
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_model = model.ThrowIfArgumentNull();
             Id = model.Id;
             GetDefaultData();
             Amount = count > 0 ? count : requireCount;
@@ -75,59 +60,50 @@ namespace Common.Inventories.Splinters
             Amount = count > 0 ? count : requireCount;
         }
 
-        public GameSplinter(HeroModel hero)
-        {
-            typeSplinter = SplinterType.Hero;
-            //sprite = hero.General.ImageHero;
-            Rare = hero.General.Rare;
-            Id = hero.General.HeroId;
-            reward = new PosibleRewardData();
-            //reward.Add<GameHero>(Id);
-            requireCount = CalculateRequire();
-        }
-
         public GameSplinter(SplinterModel splinterModel, int amount)
         {
-            _model = splinterModel;
+            m_model = splinterModel;
             Amount = amount;
             GetDefaultData();
         }
 
-        private int CalculateRequire()
-        {
-            //return (20 + ((int)this.rare * 10));
-            return 20;
-        }
-
         public void SetCommonDictionaries(CommonDictionaries commonDictionaries)
         {
-            _commonDictionaries = commonDictionaries;
-            _model = _commonDictionaries.Splinters[Id];
+            m_commonDictionaries = commonDictionaries;
+            m_model = m_commonDictionaries.Splinters[Id];
             GetDefaultData();
         }
 
         private void GetDefaultData()
         {
-            if (_model == null)
+            if (m_model == null)
             {
                 Debug.LogError("_model null");
                 return;
-            }    
-            switch (_model.SplinterType)
+            }   
+            
+            switch (m_model.SplinterType)
             {
                 case SplinterType.Hero:
-                    var path = $"{Constants.ResourcesPath.HEROES_PATH}{_model.ModelId}";
+                    var path = $"{Constants.ResourcesPath.HEROES_PATH}{m_model.ModelIds[0].ModelId}";
                     var prefab = Resources.Load<HeroController>(path);
                     sprite = prefab.Stages[0].Avatar;
                     break;
                 case SplinterType.Item:
-                    var itemModel = _commonDictionaries.Items[_model.ModelId];
+                    var itemModel = m_commonDictionaries.Items[m_model.ModelIds[0].ModelId];
                     var spriteAtlas = Resources.LoadAll<Sprite>("Items/Items");
                     sprite = spriteAtlas.ToList().Find(icon => icon.name.Equals(itemModel.SetName));
                     break;
             }
-            typeSplinter = _model.SplinterType;
-            requireCount = _model.RequireCount;
+            typeSplinter = m_model.SplinterType;
+            requireCount = m_model.RequireCount;
+        }
+        
+        
+        private int CalculateRequire()
+        {
+            //return (20 + ((int)this.rare * 10));
+            return 20;
         }
     }
 }

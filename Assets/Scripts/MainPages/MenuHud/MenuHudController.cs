@@ -4,6 +4,7 @@ using Common;
 using Models.Common;
 using Models.Misc.Avatars;
 using System;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UniRx;
 using UnityEngine;
 using Utils;

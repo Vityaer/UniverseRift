@@ -1,26 +1,25 @@
-﻿using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
-using Models.Misc.Avatars;
+﻿using System.Collections.Generic;
 using System.Linq;
+using City.Buildings.PlayerPanels.AvatarPanels.AvatarPanelDetails;
 using Common.Db.CommonDictionaries;
+using Models.Misc.Avatars;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainer;
-using VContainer.Unity;
-using VContainerUi.Abstraction;
 
 namespace City.Buildings.PlayerPanels.AvatarPanels
 {
     public class AvatarPanelController : UiPanelController<AvatarPanelView>
     {
-        [Inject] private readonly AvatarPanelDetailsController _avatarPanelDetailsController;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly AvatarPanelDetailsController m_avatarPanelDetailsController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        private bool _isCreate = false;
-        private DynamicUiList<AvatarIconView, AvatarModel> _avatarsWrapper;
+        private bool m_isCreate;
+        private DynamicUiList<AvatarIconView, AvatarModel> m_avatarsWrapper;
 
         protected override void Show()
         {
-            if (!_isCreate)
+            if (!m_isCreate)
                 CreateAvatars();
 
             base.Show();
@@ -28,15 +27,16 @@ namespace City.Buildings.PlayerPanels.AvatarPanels
 
         private void CreateAvatars()
         {
-            _isCreate = true;
-            _avatarsWrapper = new(View.AvatarIconPrefab, View.Content, View.Scroll, OnSelectAvatar);
-            var avatars = _commonDictionaries.AvatarModels.Values.ToList();
-            _avatarsWrapper.ShowDatas(avatars);
+            m_isCreate = true;
+            m_avatarsWrapper = new(View.AvatarIconPrefab, View.Content, View.Scroll, m_commonDictionaries,
+                OnSelectAvatar);
+            List<AvatarModel> avatars = m_commonDictionaries.AvatarModels.Values.ToList();
+            m_avatarsWrapper.ShowDatas(avatars);
         }
 
         private void OnSelectAvatar(AvatarIconView view)
         {
-            _avatarPanelDetailsController.ShowAvatarDetail(view);
+            m_avatarPanelDetailsController.ShowAvatarDetail(view);
         }
     }
 }

@@ -1,10 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Models.Common;
-using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages;
-using System;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -15,33 +13,36 @@ using VContainerUi.Services;
 
 namespace City.Panels.Registrations
 {
-    public class RegistrationPanelController : UiPanelController<RegistrationPanelView>, IInitializable, IStartable, IDisposable
+    public class RegistrationPanelController : UiPanelController<RegistrationPanelView>, IInitializable
     {
         private const int NAME_LENGTH_MIN = 5;
         private const string DEFAULT_AVATAR_PATH = "Assets/Resources/UI/HeroIcons/1129.png";
 
-        [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly CommonGameData _commonGameData;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly CommonGameData m_commonGameData;
 
-        private PlayerData _playerInfo;
+        private bool m_isDone = false;
+        private string m_playerInfo;
 
         public new void Initialize()
         {
             View.InputFieldNewNamePlayer.onValueChanged.AddListener(OnChangeNewName);
-            View.StartRegistrationButton.OnClickAsObservable().Subscribe(_ => StartRegistration()).AddTo(Disposables);
+            View.StartRegistrationButton.OnClickAsObservable().Subscribe(_ => StartRegistration())
+                .AddTo(Disposables);
             base.Initialize();
         }
 
-        public void OpenPanelRegistration()
+        public async UniTask RegistrationAsync()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Additive);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RegistrationPanelController>(openType: OpenType.Additive);
+            await UniTask.WaitUntil(() => m_isDone);
         }
 
         private void OnChangeNewName(string newName)
         {
-            if (!newName.Equals(_playerInfo))
+            if (!newName.Equals(m_playerInfo))
             {
-                var enoughLength = newName.Length > NAME_LENGTH_MIN;
+                bool enoughLength = newName.Length > NAME_LENGTH_MIN;
                 View.StartRegistrationButton.interactable = enoughLength;
             }
             else
@@ -59,15 +60,16 @@ namespace City.Panels.Registrations
             CreateAccount(newName).Forget();
         }
 
-        public async UniTaskVoid CreateAccount(string name)
+        private async UniTaskVoid CreateAccount(string name)
         {
-            var message = new PlayerRegistration { Name = name, AvatarPath = DEFAULT_AVATAR_PATH };
-            var result = await DataServer.PostData(message);
+            PlayerRegistration message = new PlayerRegistration { Name = name, AvatarPath = DEFAULT_AVATAR_PATH };
+            string result = await DataServer.PostData(message);
 
             if (int.TryParse(result, out int id))
             {
                 PlayerPrefs.DeleteAll();
-                _commonGameData.Init(id).Forget();
+                m_commonGameData.Init(id).Forget();
+                m_isDone = true;
                 Close();
             }
             else

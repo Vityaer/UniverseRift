@@ -21,16 +21,16 @@ namespace Editor.Pages.Heroes
 
         public HeroModelEditor(HeroModel model, CommonDictionaries commonDictionaries)
         {
-            _model = model;
+            m_model = model;
             _dictionaries = commonDictionaries;
 
-            if (_model.General == null)
+            if (m_model.General == null)
             {
-                _model.General = new GeneralInfoHero();
-                _model.Characteristics = new Characteristics();
-                _model.IncCharacts = new IncreaseCharacteristicsModel();
-                _model.Evolutions = new Evolution();
-                _model.Resistances = new StorageResistances();
+                m_model.General = new GeneralInfoHero();
+                m_model.Characteristics = new Characteristics();
+                m_model.IncCharacts = new IncreaseCharacteristicsModel();
+                m_model.Evolutions = new Evolution();
+                m_model.Resistances = new StorageResistances();
             }
         }
 
@@ -39,19 +39,19 @@ namespace Editor.Pages.Heroes
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
+            get => m_model.Id;
             set
             {
-                _model.Id = value;
-                _model.General.HeroId = value;
+                m_model.Id = value;
+                m_model.General.HeroId = value;
             }
         }
 
         [FoldoutGroup("GeneralInfo", expanded: true)]
         public string HeroId
         {
-            get => _model.General.HeroId;
-            set => _model.General.HeroId = value;
+            get => m_model.General.HeroId;
+            set => m_model.General.HeroId = value;
         }
 
         [ShowInInspector]
@@ -59,8 +59,8 @@ namespace Editor.Pages.Heroes
         [ValueDropdown(nameof(_allRaces), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string Race
         {
-            get => _model.General.Race;
-            set => _model.General.Race = value;
+            get => m_model.General.Race;
+            set => m_model.General.Race = value;
         }
 
         [ShowInInspector]
@@ -68,16 +68,16 @@ namespace Editor.Pages.Heroes
         [ValueDropdown(nameof(_allVocations), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string ClassHero
         {
-            get => _model.General.Vocation;
-            set => _model.General.Vocation = value;
+            get => m_model.General.Vocation;
+            set => m_model.General.Vocation = value;
         }
 
         [ShowInInspector]
         [FoldoutGroup("GeneralInfo")]
         public Rare Rare
         {
-            get => _model.General.Rare;
-            set => _model.General.Rare = value;
+            get => m_model.General.Rare;
+            set => m_model.General.Rare = value;
         }
 
         [ShowInInspector]
@@ -85,8 +85,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public Characteristics Characts
         {
-            get => _model.Characteristics;
-            set => _model.Characteristics = value;
+            get => m_model.Characteristics;
+            set => m_model.Characteristics = value;
         }
 
         [ShowInInspector]
@@ -94,8 +94,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public IncreaseCharacteristicsModel IncCharacts
         {
-            get => _model.IncCharacts;
-            set => _model.IncCharacts = value;
+            get => m_model.IncCharacts;
+            set => m_model.IncCharacts = value;
         }
 
         [ShowInInspector]
@@ -103,8 +103,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public Evolution Evolutions
         {
-            get => _model.Evolutions;
-            set => _model.Evolutions = value;
+            get => m_model.Evolutions;
+            set => m_model.Evolutions = value;
         }
         
 
@@ -113,8 +113,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public StorageResistances Resistance
         {
-            get => _model.Resistances;
-            set => _model.Resistances = value;
+            get => m_model.Resistances;
+            set => m_model.Resistances = value;
         }
 
         [ShowInInspector]
@@ -122,8 +122,8 @@ namespace Editor.Pages.Heroes
         [LabelWidth(150)]
         public List<SkillModel> Skills
         {
-            get => _model.Skills;
-            set => _model.Skills = value;
+            get => m_model.Skills;
+            set => m_model.Skills = value;
         }
     }
 }

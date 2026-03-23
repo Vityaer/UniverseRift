@@ -45,7 +45,7 @@ namespace City.Achievements
             Disposables.Dispose();
         }
 
-        public void AddProgress(BigDigit amount)
+        protected void AddProgress(BigDigit amount)
         {
             if (!IsComplete)
             {

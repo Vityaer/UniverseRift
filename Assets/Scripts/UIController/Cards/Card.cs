@@ -12,7 +12,7 @@ namespace UIController.Cards
 {
     public class Card : ScrollableUiView<GameHero>
     {
-        [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private CommonDictionaries m_commonDictionaries;
 
         public GameHero Hero;
         public bool Selected = false;
@@ -25,20 +25,20 @@ namespace UIController.Cards
         [SerializeField] private CardDetailImageView _vocation;
         [SerializeField] private CardDetailImageView _race;
 
-        private ReactiveCommand<Card> _onClick = new ReactiveCommand<Card>();
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private IDisposable _heroSubscribe;
+        private ReactiveCommand<Card> m_onClick = new ReactiveCommand<Card>();
+        private CompositeDisposable m_disposables = new CompositeDisposable();
+        private IDisposable m_heroSubscribe;
 
-        public IObservable<Card> OnClick => _onClick;
+        public IObservable<Card> OnClick => m_onClick;
 
         protected override void Awake()
         {
-            Button.OnClickAsObservable().Subscribe(_ => ClickOnCard()).AddTo(_disposables);
+            Button.OnClickAsObservable().Subscribe(_ => ClickOnCard()).AddTo(m_disposables);
         }
 
-        public override void SetData(GameHero data, ScrollRect scrollRect)
+        public override void SetData(GameHero data, ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
-            base.SetData(data, scrollRect);
+            base.SetData(data, scrollRect, commonDictionaries);
             SetData(data);
         }
 
@@ -49,23 +49,22 @@ namespace UIController.Cards
 
             Hero = hero;
             UpdateUI();
-            _heroSubscribe = hero.OnChangeData.Subscribe(_ => UpdateUI());
+            m_heroSubscribe = hero.OnChangeData.Subscribe(_ => UpdateUI());
         }
 
         private void UpdateUI()
         {
             _imageUI.sprite = Hero.Avatar;
-            _vocation.SetData(_commonDictionaries.Vocations[Hero.Model.General.Vocation].SpritePath);
-            _race.SetData(_commonDictionaries.Races[Hero.Model.General.Race].SpritePath);
+            _vocation.SetData(m_commonDictionaries.Vocations[Hero.Model.General.Vocation].SpritePath);
+            _race.SetData(m_commonDictionaries.Races[Hero.Model.General.Race].SpritePath);
             _levelUI.text = $"{Hero.HeroData.Level}";
             _ratingController.ShowRating(Hero.HeroData.Rating);
-
         }
 
         //API
-        public void ClickOnCard()
+        private void ClickOnCard()
         {
-            _onClick.Execute(this);
+            m_onClick.Execute(this);
         }
 
         public void Select()
@@ -85,19 +84,19 @@ namespace UIController.Cards
             _imageUI.sprite = null;
             _levelUI.text = string.Empty;
             gameObject.SetActive(false);
-            _heroSubscribe?.Dispose();
+            m_heroSubscribe?.Dispose();
         }
 
 
         public void SetRace(string race)
         {
-            _race.SetData(_commonDictionaries.Races[race].SpritePath);
+            _race.SetData(m_commonDictionaries.Races[race].SpritePath);
         }
 
         public override void Dispose()
         {
-            _heroSubscribe?.Dispose();
-            _disposables?.Dispose();
+            m_heroSubscribe?.Dispose();
+            m_disposables?.Dispose();
         }
     }
 }

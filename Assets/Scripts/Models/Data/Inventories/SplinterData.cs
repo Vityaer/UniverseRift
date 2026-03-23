@@ -14,6 +14,8 @@ namespace Models.Data.Inventories
 
         public int Amount;
 
+        public int SubjectRating;
+
         public SplinterData() { }
 
         public SplinterData(GameSplinter splinter)

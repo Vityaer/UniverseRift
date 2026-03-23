@@ -22,5 +22,6 @@ namespace City.Buildings.Guild.BossRaid
         public RectTransform Content;
         
         public Button OpenRewardPanelButton;
+        public RawImage BossRawImage;
     }
 }

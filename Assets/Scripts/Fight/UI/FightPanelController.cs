@@ -1,9 +1,11 @@
 ﻿using System;
 using Fight.Common.HeroControllers.Generals;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UniRx;
 using UnityEngine.Localization;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.UI
 {

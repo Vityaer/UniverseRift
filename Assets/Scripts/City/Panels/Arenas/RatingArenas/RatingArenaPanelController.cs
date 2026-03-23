@@ -1,5 +1,5 @@
 ﻿using City.Panels.Arenas.RatingArenas;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 
 namespace Assets.Scripts.City.Panels.Arenas
 {

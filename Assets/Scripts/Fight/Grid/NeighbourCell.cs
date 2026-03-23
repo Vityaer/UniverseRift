@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Fight.Common.HeroControllers.Generals;
+using Fight.Grid;
 using UnityEngine;
 using Models.Heroes;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif

@@ -7,7 +7,8 @@ using Models.Common.BigDigits;
 using Models.Data.Rewards;
 using Services.TimeLocalizeServices;
 using System;
-using UiExtensions.Scroll.Interfaces;
+using Common.Db.CommonDictionaries;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
@@ -20,34 +21,35 @@ namespace City.Panels.AutoFights
 {
     public class AutoFightRewardPanelController : UiPanelController<AutoFightRewardPanelView>
     {
-        [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly SubjectDetailController _subjectDetailController;
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
-        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
-        [Inject] private readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly SubjectDetailController m_subjectDetailController;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        [Inject] private readonly TimeLocalizeService m_timeLocalizeService;
+        [Inject] private readonly ClientRewardService m_clientRewardService;
 
-        private TimeSpan maxTime = new TimeSpan(12, 0, 0);
-        private GameReward _calculatedReward;
+        private readonly TimeSpan m_maxTime = new TimeSpan(12, 0, 0);
+        private GameReward m_calculatedReward;
 
-        public ReactiveCommand OnClose = new();
+        public readonly ReactiveCommand OnClose = new();
 
         public override void Start()
         {
-            View.RewardUIController.SetDetailsController(_subjectDetailController);
-            View.AccumulationSlider.Init(_localizationSystem, _timeLocalizeService);
+            View.RewardUIController.SetDetailsController(m_subjectDetailController);
+            View.AccumulationSlider.Init(m_localizationSystem, m_timeLocalizeService);
             base.Start();
         }
 
         public void Open(AutoRewardData autoReward, GameReward calculatedReward, DateTime previousDateTime)
         {
-            _calculatedReward = calculatedReward;
+            m_calculatedReward = calculatedReward;
             SetAutoResourceData(View.AutoRewardGoldText, autoReward.BaseResource[ResourceType.Gold].Amount);
             SetAutoResourceData(View.AutoRewardStoneText, autoReward.BaseResource[ResourceType.ContinuumStone].Amount);
             SetAutoResourceData(View.AutoRewardExperienceText, autoReward.BaseResource[ResourceType.Exp].Amount);
 
-            View.RewardUIController.ShowReward(calculatedReward, lengthReward: true);
-            View.AccumulationSlider.SetData(previousDateTime, maxTime);
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<AutoFightRewardPanelController>(openType: OpenType.Exclusive);
+            View.RewardUIController.ShowReward(calculatedReward, m_commonDictionaries, lengthReward: true);
+            View.AccumulationSlider.SetData(previousDateTime, m_maxTime);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<AutoFightRewardPanelController>(openType: OpenType.Exclusive);
         }
 
         private void SetAutoResourceData(LocalizeStringEvent localizeStringEvent, BigDigit amount)
@@ -68,7 +70,7 @@ namespace City.Panels.AutoFights
         {
             OnClose.Execute();
             base.Close();
-            _clientRewardService.GetReward(_calculatedReward);
+            m_clientRewardService.GetReward(m_calculatedReward);
         }
 
     }

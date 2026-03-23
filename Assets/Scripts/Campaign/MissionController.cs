@@ -17,7 +17,7 @@ namespace Campaign
 {
     public class MissionController : MonoBehaviour
     {
-        [Inject] private ILocalizationSystem _localizationSystem;
+        [Inject] private ILocalizationSystem m_localizationSystem;
 
         [Header("UI")]
         public TextMeshProUGUI textNameMission;
@@ -100,7 +100,6 @@ namespace Campaign
 
         public void MissionWin()
         {
-            Status = StatusMission.InAutoFight;
             UpdateAutoRewardUI();
             UpdateUI();
             StartAutoFight();
@@ -134,14 +133,14 @@ namespace Campaign
                 case StatusMission.Open:
                     rewardController.ShowReward(mission.WinReward, _commonDictionaries);
                     rewardController.OpenReward();
-                    ButtonActionLocalizeText.StringReference = _localizationSystem
+                    ButtonActionLocalizeText.StringReference = m_localizationSystem
                         .GetLocalizedContainer("MissionStartFightButtonLabel");
                     break;
                 case StatusMission.Complete:
                 case StatusMission.InAutoFight:
                     rewardController.ShowAutoReward(mission.AutoFightReward, _commonDictionaries);
                     rewardController.OpenReward();
-                    ButtonActionLocalizeText.StringReference = _localizationSystem
+                    ButtonActionLocalizeText.StringReference = m_localizationSystem
                         .GetLocalizedContainer("MissionAutoFightButtonLabel");
                     break;
             }

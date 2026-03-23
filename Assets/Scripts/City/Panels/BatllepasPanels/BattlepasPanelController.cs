@@ -11,10 +11,9 @@ using Network.DataServer;
 using Network.DataServer.Messages.Battlepases;
 using UIController.Rewards;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
-using Utils;
 using VContainer;
 
 namespace City.Panels.BatllepasPanels
@@ -25,50 +24,52 @@ namespace City.Panels.BatllepasPanels
 
         private const int REWARD_COUNT = 30;
 
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] protected readonly ClientRewardService _clientRewardService;
+        [Inject] private readonly ResourceStorageController m_resourceStorageController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] protected readonly ClientRewardService ClientRewardService;
 
-        private int _currentProgress = 0;
-        private List<RewardModel> _listRewards;
-        private List<int> _idReceivedReward = new List<int>(REWARD_COUNT);
-        private List<BattlepasRewardView> _rewardsUi = new(REWARD_COUNT);
+        private List<RewardModel> m_listRewards;
+        private readonly List<BattlepasRewardView> m_rewardsUi = new(REWARD_COUNT);
 
         public override void Start()
         {
             View.MainSliderController.OnFillReward.Subscribe(OnFillReward).AddTo(Disposables);
-
+            
+#if UNITY_EDITOR
             Observable.EveryUpdate()
                 .Where(_ => Input.GetKeyDown(KeyCode.Z))
                 .Subscribe(_ => AddResource())
                 .AddTo(Disposables);
+#endif
             base.Start();
         }
-
+        
+#if UNITY_EDITOR
         private void AddResource()
         {
             Debug.Log("cheat add resource");
-            _resourceStorageController.AddResource(new GameResource(ResourceType.EventAgentMonet, 100));
+            m_resourceStorageController.AddResource(new GameResource(ResourceType.EventAgentMonet, 100));
         }
-
+#endif
+        
         private void OnFillReward(int rewardIndexOpen)
         {
-            _rewardsUi[rewardIndexOpen - 1].OpenWithAnimation();
+            m_rewardsUi[rewardIndexOpen - 1].OpenWithAnimation();
         }
 
         protected override void OnLoadGame()
         {
-            var currentMonetResource = _resourceStorageController.Resources[ResourceType.EventAgentMonet];
+            var currentMonetResource = m_resourceStorageController.Resources[ResourceType.EventAgentMonet];
             View.MainSliderController.SetValue(currentMonetResource.ConvertToInt(),
-                _commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards.Count * 100);
+                m_commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards.Count * 100);
 
             var index = 0;
-            foreach (var rewardModel in _commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards)
+            foreach (var rewardModel in m_commonDictionaries.RewardContainerModels[BATTLEPAS_NAME].Rewards)
             {
                 var rewardViewPrefab = UnityEngine.Object.Instantiate(View.BattlepasRewardViewPrefab, View.Content);
 
                 var data = new GameBattlepasReward(rewardModel);
-                rewardViewPrefab.SetData(data, View.Scroll);
+                rewardViewPrefab.SetData(data, View.Scroll, m_commonDictionaries);
                 rewardViewPrefab.OnSelect.Subscribe(OnTryGetReward).AddTo(Disposables);
 
                 var status = ScrollableViewStatus.Close;
@@ -80,7 +81,7 @@ namespace City.Panels.BatllepasPanels
 
                 Resolver.Inject(rewardViewPrefab);
                 rewardViewPrefab.SetStatus(status);
-                _rewardsUi.Add(rewardViewPrefab);
+                m_rewardsUi.Add(rewardViewPrefab);
             }
 
             View.MainSliderController.transform.SetAsLastSibling();
@@ -93,7 +94,7 @@ namespace City.Panels.BatllepasPanels
             if ((index > previousIndex + 1) || (index <= previousIndex))
                 return;
 
-            var currentMonet = _resourceStorageController.Resources[ResourceType.EventAgentMonet].ConvertToInt();
+            var currentMonet = m_resourceStorageController.Resources[ResourceType.EventAgentMonet].ConvertToInt();
             if (currentMonet >= (index + 1) * 100)
                 GetReward(rewardView).Forget();
         }
@@ -105,25 +106,25 @@ namespace City.Panels.BatllepasPanels
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(rewardView.GetData.RewardModel, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                var reward = new GameReward(rewardView.GetData.RewardModel, m_commonDictionaries);
+                ClientRewardService.ShowReward(reward);
                 CommonGameData.BattlepasData.CurrentDailyBattlepasStage += 1;
                 rewardView.SetStatus(ScrollableViewStatus.Completed);
                 var cost = new GameResource(ResourceType.EventAgentMonet, 100);
-                _resourceStorageController.SubtractResource(cost);
+                m_resourceStorageController.SubtractResource(cost);
             }
         }
 
         public override void OnShow()
         {
-            var currentMonetResource = _resourceStorageController.Resources[ResourceType.EventAgentMonet];
+            var currentMonetResource = m_resourceStorageController.Resources[ResourceType.EventAgentMonet];
             OnGetMonet(currentMonetResource);
             base.OnShow();
         }
 
         private void OnGetMonet(GameResource res)
         {
-            _currentProgress = res.ConvertToInt();
+            res.ConvertToInt();
             View.MainSliderController.SetNewValueWithAnim(res.ConvertToInt());
         }
     }

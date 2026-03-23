@@ -1,13 +1,8 @@
-﻿using City.MainPages.Army;
+﻿using System.Collections.Generic;
 using City.SliderCity;
-using City.TrainCamp;
+using City.TrainCamp.HeroPanels;
 using Common.Heroes;
 using Hero;
-using System;
-using System.Collections.Generic;
-using City.TrainCamp.HeroPanels;
-using UIController.Cards;
-using UIController.GameSystems;
 using UiExtensions.MainPages;
 using UniRx;
 using UnityEngine;
@@ -17,43 +12,39 @@ using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
 
-namespace UIController
+namespace MainPages.Army
 {
     public class PageArmyController : UiMainPageController<PageArmyView>, IInitializable
     {
-        [Inject] private IObjectResolver _resolver;
-        [Inject] private readonly HeroPanelController _heroPanel;
-        [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
+        [Inject] private readonly IObjectResolver m_resolver;
+        [Inject] private readonly HeroPanelController m_heroPanel;
+        [Inject] private readonly HeroesStorageController m_heroesStorageController;
+        [Inject] private readonly IUiMessagesPublisherService m_messagesPublisher;
 
-        private int numSelectHero = 0;
-        private List<GameHero> _listHeroes = new();
-        private GameHero hero;
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private bool _created;
+        private readonly CompositeDisposable m_disposables = new();
+        
+        private int m_numSelectHero;
+        private List<GameHero> m_listHeroes = new();
+        private GameHero m_hero;
+        private bool m_created;
 
         public new void Initialize()
         {
             base.Initialize();
-            _heroPanel.OnSwipe.Subscribe(OnSwipe).AddTo(_disposables);
-            View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(_disposables);
-            _resolver.Inject(View.CardsContainer);
+            m_heroPanel.OnSwipe.Subscribe(OnSwipe).AddTo(m_disposables);
+            View.CardsContainer.OnSelect.Subscribe(SelectHero).AddTo(m_disposables);
+            m_resolver.Inject(View.CardsContainer);
         }
 
         protected override void OnLoadGame()
         {
-            _listHeroes = _heroesStorageController.ListHeroes;
+            m_listHeroes = m_heroesStorageController.ListHeroes;
         }
 
         public override void OnShow()
         {
-            View.CardsContainer.ShowCards(_listHeroes);
+            View.CardsContainer.ShowCards(m_listHeroes);
             base.OnShow();
-        }
-
-        public override void OnHide()
-        {
-            base.OnHide();
         }
 
         private void OnSwipe(SwipeType typeSwipe)
@@ -61,46 +52,46 @@ namespace UIController
             switch (typeSwipe)
             {
                 case SwipeType.Left:
-                    SelectHero(numSelectHero - 1);
+                    SelectHero(m_numSelectHero - 1);
                     break;
                 case SwipeType.Right:
-                    SelectHero(numSelectHero + 1);
+                    SelectHero(m_numSelectHero + 1);
                     break;
             }
         }
 
         private void SelectHero(int num)
         {
-            num = Mathf.Clamp(num, 0, _listHeroes.Count - 1);
+            num = Mathf.Clamp(num, 0, m_listHeroes.Count - 1);
 
-            numSelectHero = num;
-            hero = _listHeroes[numSelectHero];
-            _heroPanel.ShowHero(hero);
+            m_numSelectHero = num;
+            m_hero = m_listHeroes[m_numSelectHero];
+            m_heroPanel.ShowHero(m_hero);
 
             ChangeArrows();
         }
 
         private void ChangeArrows()
         {
-            _heroPanel.ShowLeftArrow(numSelectHero != 0);
-            _heroPanel.ShowRightArrow(numSelectHero != _listHeroes.Count - 1);
+            m_heroPanel.ShowLeftArrow(m_numSelectHero != 0);
+            m_heroPanel.ShowRightArrow(m_numSelectHero != m_listHeroes.Count - 1);
         }
 
         private void SelectHero(GameHero hero)
         {
-            numSelectHero = _listHeroes.IndexOf(hero);
-            SelectHero(numSelectHero);
+            m_numSelectHero = m_listHeroes.IndexOf(hero);
+            SelectHero(m_numSelectHero);
             OpenHeroPanel();
         }
 
         private void OpenHeroPanel()
         {
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<HeroPanelController>(openType: OpenType.Exclusive);
+            m_messagesPublisher.OpenWindowPublisher.OpenWindow<HeroPanelController>(openType: OpenType.Exclusive);
         }
 
         public GameHero ReturnSelectHero()
         {
-            return hero;
+            return m_hero;
         }
     }
 }

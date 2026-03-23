@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Common.Db.CommonDictionaries;
 using UniRx;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Hero
 {

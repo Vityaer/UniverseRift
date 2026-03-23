@@ -4,10 +4,8 @@ using Models.Common;
 using Models.Data.Inventories;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Common.Inventories.Resourses;
-using UIController.ControllerPanels.AlchemyPanels;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -16,106 +14,100 @@ namespace ClientServices
 {
     public class ResourceStorageController : IInitializable, IDisposable
     {
-        [Inject] private readonly GameController _gameController;
-        [Inject] private readonly CommonGameData _commonGameData;
+        [Inject] private readonly GameController m_gameController;
+        [Inject] private readonly CommonGameData m_commonGameData;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
-        private Dictionary<ResourceType, GameResource> _resources = new Dictionary<ResourceType, GameResource>();
+        private readonly CompositeDisposable m_disposables = new();
+        private readonly Dictionary<ResourceType, GameResource> m_resources = new();
 
-        public Dictionary<ResourceType, GameResource> Resources => _resources;
+        public Dictionary<ResourceType, GameResource> Resources => m_resources;
 
         public void Initialize()
         {
-            _gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(_disposables);
-            _gameController.OnGameSave.Subscribe(_ => OnSave()).AddTo(_disposables);
+            m_gameController.OnLoadedGameData.Subscribe(_ => OnLoadGame()).AddTo(m_disposables);
+            m_gameController.OnGameSave.Subscribe(_ => OnSave()).AddTo(m_disposables);
         }
 
         private void OnLoadGame()
         {
-            var resourcesDatas = _commonGameData.Resources;
+            var resourcesDatas = m_commonGameData.Resources;
             foreach (var typeResource in (ResourceType[])Enum.GetValues(typeof(ResourceType)))
             {
-                GameResource resource;
-                var data = resourcesDatas?.Find(resource => resource.Type == typeResource);
-                if (data != null)
-                {
-                    resource = new GameResource(typeResource, data.Amount.Mantissa, data.Amount.E10);
-                }
-                else
-                {
-                    resource = new GameResource(typeResource);
-                }
+                ResourceData data = resourcesDatas?.Find(resource => resource.Type == typeResource);
+                GameResource resource = data != null
+                    ? new GameResource(typeResource, data.Amount.Mantissa, data.Amount.E10)
+                    : new GameResource(typeResource);
 
-                if (!_resources.ContainsKey(typeResource))
+                if (!m_resources.TryGetValue(typeResource, out GameResource storageResource))
                 {
-                    _resources.Add(typeResource, resource);
+                    m_resources.Add(typeResource, resource);
                 }
                 else
                 {
-                    _resources[typeResource].AddResource(resource);
+                    storageResource.AddResource(resource);
                 }
             }
         }
 
         private void OnSave()
         {
-            var data = new List<ResourceData>();
-            foreach (var resource in _resources.Values)
+            List<ResourceData> data = new();
+            foreach (GameResource resource in m_resources.Values)
             {
                 if (!resource.Amount.EqualsZero())
                     data.Add(new ResourceData() { Type = resource.Type, Amount = resource.Amount });
             }
 
-            _commonGameData.Resources = data;
+            m_commonGameData.Resources = data;
         }
 
         public IDisposable Subscribe(ResourceType type, Action<GameResource> action)
         {
-            if (!_resources.ContainsKey(type))
+            if (!m_resources.ContainsKey(type))
             {
-                _resources.Add(type, new GameResource(type));
+                m_resources.Add(type, new GameResource(type));
             }
-            return _resources[type].OnChangeResource.Subscribe(action);
+            return m_resources[type].OnChangeResource.Subscribe(action);
 
         }
 
         public GameResource GetResource(ResourceType type)
         {
-            if (!_resources.ContainsKey(type))
+            if (!m_resources.ContainsKey(type))
             {
-                _resources.Add(type, new GameResource(type));
+                m_resources.Add(type, new GameResource(type));
             }
 
-            return _resources[type];
+            return m_resources[type];
         }
 
         public bool CheckResource(GameResource resource)
         {
-            if (!_resources.ContainsKey(resource.Type))
+            if (!m_resources.ContainsKey(resource.Type))
             {
-                _resources.Add(resource.Type, new GameResource(resource.Type));
+                m_resources.Add(resource.Type, new GameResource(resource.Type));
             }
 
-            return _resources[resource.Type].CheckCount(resource);
+            return m_resources[resource.Type].CheckCount(resource);
         }
 
         public bool CheckResource(List<GameResource> resources) =>
-            resources.All(resource => CheckResource(resource));
+            resources.All(CheckResource);
 
         public void AddResource(GameResource resource)
         {
-            if (!_resources.ContainsKey(resource.Type))
+            if (!m_resources.TryGetValue(resource.Type, out GameResource storageResource))
             {
-                _resources.Add(resource.Type, resource);
+                m_resources.Add(resource.Type, resource);
                 return;
             }
 
-            _resources[resource.Type].AddResource(resource);
+            storageResource.AddResource(resource);
         }
 
         public void AddResource(List<GameResource> listResource)
         {
-            foreach (var resource in listResource)
+            foreach (GameResource resource in listResource)
             {
                 AddResource(resource);
             }
@@ -123,25 +115,25 @@ namespace ClientServices
 
         public void SubtractResource(GameResource resource)
         {
-            if (!_resources.ContainsKey(resource.Type))
+            if (!m_resources.ContainsKey(resource.Type))
             {
-                _resources.Add(resource.Type, new GameResource(resource.Type));
+                m_resources.Add(resource.Type, new GameResource(resource.Type));
             }
 
-            _resources[resource.Type].SubtractResource(resource);
+            m_resources[resource.Type].SubtractResource(resource);
         }
 
         public void SubtractResource(List<GameResource> listResource)
         {
-            foreach (var resource in listResource)
+            foreach (GameResource resource in listResource)
             {
                 SubtractResource(resource);
             }
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
 
     }

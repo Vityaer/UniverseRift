@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.UIController.MenuWindows;
-using City.MainPages.Army;
 using Common.ScriptableObjects;
 using MainPages.Campaign;
 using MainPages.City;
@@ -8,7 +7,10 @@ using MainPages.MenuButtons;
 using MainPages.MenuHud;
 using MainPages.SecondCity;
 using System.Collections.Generic;
+using MainPages;
+using MainPages.Army;
 using MainPages.City.CityUi;
+using Plugins.VContainerUi.Runtime;
 using Ui.MainMenu;
 using Ui.MainMenu.MenuButtons;
 using UIController;
@@ -45,21 +47,18 @@ namespace Installers
 
         public override void Install(IContainerBuilder builder)
         {
-            var canvas = Instantiate(_canvas);
+            Canvas canvas = Instantiate(_canvas);
             canvas.gameObject.name = MAIN_PAGES;
             canvas.GetComponent<Canvas>().sortingOrder = CANVAS_ORDER;
 
-            var safeArea = Instantiate(_safeArea, canvas.transform);
-            builder.RegisterInstance(safeArea);
-
-            var rootCity = new GameObject();
-            rootCity.name = nameof(rootCity);
-
             builder.Register<MainMenuController>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
-            builder.RegisterUiView<CityPageController, CityPageView>(_cityPageView, rootCity.transform);
-            builder.RegisterUiView<SecondCityPageController, SecondCityPageView>(_secondCityPageView, rootCity.transform);
-
+            SafeArea safeArea = Instantiate(_safeArea, canvas.transform);
+            builder.RegisterInstance(safeArea);
+            
+            builder.RegisterUiView<CityPageController, CityPageView>(_cityPageView, safeArea.RootTemporallyWindows);
+            builder.RegisterUiView<SecondCityPageController, SecondCityPageView>(_secondCityPageView, safeArea.RootTemporallyWindows);
+            
             builder.RegisterUiView<EventsPageController, EventsPageView>(_eventsPageView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<CampaignPageController, CampaignPageView>(_campaignPageView, safeArea.RootTemporallyWindows);
             builder.RegisterUiView<PageArmyController, PageArmyView>(_pageArmyView, safeArea.RootTemporallyWindows);

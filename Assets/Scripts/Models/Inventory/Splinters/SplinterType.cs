@@ -4,6 +4,5 @@
     {
         Hero = 0,
         Item = 1,
-        RandomReward = 2,
     }
 }

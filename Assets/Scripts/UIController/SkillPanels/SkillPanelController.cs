@@ -3,7 +3,7 @@ using LocalizationSystems;
 using Models.Heroes.Skills;
 using System.Collections.Generic;
 using UI.Utils.Localizations.Extensions;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 

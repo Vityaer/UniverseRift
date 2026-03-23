@@ -5,7 +5,9 @@ using UiExtensions.Misc;
 using UnityEngine.UI;
 using UnityEngine;
 using City.Buildings.PlayerPanels.PlayerMiniPanels;
+using Common.Db.CommonDictionaries;
 using Models.Data.Players;
+using Utils.DataCheckUtils;
 
 namespace City.Panels.Chats
 {
@@ -16,20 +18,19 @@ namespace City.Panels.Chats
         [SerializeField] private TMP_Text _message;
         [SerializeField] private TMP_Text _senderDate;
 
-        private Tween _tween;
-        private PlayerData _playerData;
+        private Tween m_tween;
 
         public void SetPlayerData(PlayerData playerData)
         {
-            _playerData = playerData;
             _playerAvatar.SetData(playerData);
             _playerWritterName.text = playerData.Name;
         }
 
-        public override void SetData(ChatMessageData data, ScrollRect scrollRect)
+        public override void SetData(ChatMessageData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
             UpdateUi();
         }
 
@@ -42,7 +43,7 @@ namespace City.Panels.Chats
 
         protected override void OnDestroy()
         {
-            _tween.Kill();
+            m_tween.Kill();
             base.OnDestroy();
         }
     }

@@ -21,6 +21,7 @@ using Editor.Pages.Campaigns;
 using Editor.Pages.City.Mines;
 using Editor.Pages.DailyRewards;
 using Editor.Pages.DailyTasks;
+using Editor.Pages.Dialogs;
 using Editor.Pages.Heroes;
 using Editor.Pages.Heroes.Race;
 using Editor.Pages.Items;
@@ -30,6 +31,7 @@ using Editor.Pages.Mall.Products;
 using Editor.Pages.Rating;
 using Editor.Pages.Rewards;
 using Editor.Pages.Splinters;
+using Editor.Pages.Tutorials;
 using Editor.Units;
 using Misc.Json.Impl;
 using Pages.BattlePases;
@@ -92,7 +94,10 @@ namespace Editor.Windows
         private ArenaPageEditor m_arenaPageEditor;
         private WhereGetResourcePageEditor m_whereGetResourcePageEditor;
         private AlchemyPanelPageEditor m_alchemyPanelPageEditor;
-        private OdinMenuTree _tree;
+        private TutorialPageEditor m_tutorialPageEditor;
+        private DialogsPageEditor m_dialogsPageEditor;
+        
+        private OdinMenuTree m_tree;
 
         [MenuItem("TD_Editor/Main _%#T")]
         public static void OpenWindow()
@@ -104,11 +109,11 @@ namespace Editor.Windows
         {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Save All",
-                    new GUILayoutOption[] { GUILayout.Width(100), GUILayout.Height(40) }))
+                    new[] { GUILayout.Width(100), GUILayout.Height(40) }))
                 Saving();
 
             if (GUILayout.Button("Load All",
-                    new GUILayoutOption[] { GUILayout.Width(100), GUILayout.Height(40) }))
+                    new[] { GUILayout.Width(100), GUILayout.Height(40) }))
                 ForceMenuTreeRebuild();
 
             GUILayout.EndHorizontal();
@@ -118,54 +123,54 @@ namespace Editor.Windows
         protected override OdinMenuTree BuildMenuTree()
         {
             InitPages();
-            _tree = new OdinMenuTree();
+            m_tree = new OdinMenuTree();
             FillTree();
-            return _tree;
+            return m_tree;
         }
 
         private void FillTree()
         {
-            _tree.Selection.SupportsMultiSelect = false;
-            _tree.Add("Heroes/Heroes", m_heroPageEditor);
-            _tree.Add("Heroes/Characteristics", m_characteristicPageEditor);
-            _tree.Add("Heroes/Vocations", m_vocationPageEditor);
-            _tree.Add("Heroes/Races", m_racePageEditor);
-            _tree.Add("Heroes/Rating Requirements", m_ratingUpPageEditor);
-            _tree.Add("Costs/Costs Editor", m_costLevelUpContainerPageEditor);
-            _tree.Add("Inventory/Items/Items", m_itemPageEditor);
-            _tree.Add("Inventory/Items/Set", m_itemSetPageEditor);
-            _tree.Add("Inventory/Items/Item Relation", m_itemRelationPageEditor);
-            _tree.Add("Inventory/Splinters", m_splinterPageEditor);
-            _tree.Add("Rarity/Rarities", m_rarityPageEditor);
-            _tree.Add("Rating/Rating", m_ratingPageEditor);
-            _tree.Add("Fights/Campaign", m_campaignPageEditor);
-            _tree.Add("Fights/Storage Challenge", m_storageChallangePageEditor);
-            _tree.Add("Fights/Location", m_locationPageEditor);
-            _tree.Add("Mall/Markets", m_marketPageEditor);
-            _tree.Add("Mall/Products", m_productPageEditor);
-            _tree.Add("City/Hires", m_hireContainerPageEditor);
-            _tree.Add("City/Mines/Main Editor", m_minePageEditor);
-            _tree.Add("City/Mines/restrictions", m_mineRestrictionPageEditor);
-            _tree.Add("City/Mines/Mines Settings", m_mineSettingsPageEditor);
-            _tree.Add("City/Sanctuary", m_sanctuaryPageEditor);
-            _tree.Add("City/Arena", m_arenaPageEditor);
-            _tree.Add("City/Travel/Main Editor", m_travelRaceCircleEditor);
-            _tree.Add("City/FortuneWheel/Fortune reward Editor", m_fortuneRewardEditor);
-            _tree.Add("Rewards/Reward Editor", m_rewardPageEditor);
-            _tree.Add("Task board/Task Editor", m_gameTaskModelEditor);
-            _tree.Add("Achievements/Achievement Editor", m_achievementPageEditor);
-            _tree.Add("Achievements/Achievements container", m_achievmentContainersPageEditor);
-            _tree.Add("Daily/Reward Editor", m_dailyRewardPageEditor);
-            _tree.Add("Rewards/Containers", m_rewardContrainerPageEditor);
-            _tree.Add("Players/Avatars", m_avatarPageEditor);
+            m_tree.Selection.SupportsMultiSelect = false;
+            m_tree.Add("Heroes/Heroes", m_heroPageEditor);
+            m_tree.Add("Heroes/Characteristics", m_characteristicPageEditor);
+            m_tree.Add("Heroes/Vocations", m_vocationPageEditor);
+            m_tree.Add("Heroes/Races", m_racePageEditor);
+            m_tree.Add("Heroes/Rating Requirements", m_ratingUpPageEditor);
+            m_tree.Add("Costs/Costs Editor", m_costLevelUpContainerPageEditor);
+            m_tree.Add("Inventory/Items/Items", m_itemPageEditor);
+            m_tree.Add("Inventory/Items/Set", m_itemSetPageEditor);
+            m_tree.Add("Inventory/Items/Item Relation", m_itemRelationPageEditor);
+            m_tree.Add("Inventory/Splinters", m_splinterPageEditor);
+            m_tree.Add("Rarity/Rarities", m_rarityPageEditor);
+            m_tree.Add("Rating/Rating", m_ratingPageEditor);
+            m_tree.Add("Fights/Campaign", m_campaignPageEditor);
+            m_tree.Add("Fights/Storage Challenge", m_storageChallangePageEditor);
+            m_tree.Add("Fights/Location", m_locationPageEditor);
+            m_tree.Add("Mall/Markets", m_marketPageEditor);
+            m_tree.Add("Mall/Products", m_productPageEditor);
+            m_tree.Add("City/Hires", m_hireContainerPageEditor);
+            m_tree.Add("City/Mines/Main Editor", m_minePageEditor);
+            m_tree.Add("City/Mines/restrictions", m_mineRestrictionPageEditor);
+            m_tree.Add("City/Mines/Mines Settings", m_mineSettingsPageEditor);
+            m_tree.Add("City/Sanctuary", m_sanctuaryPageEditor);
+            m_tree.Add("City/Arena", m_arenaPageEditor);
+            m_tree.Add("City/Travel/Main Editor", m_travelRaceCircleEditor);
+            m_tree.Add("City/FortuneWheel/Fortune reward Editor", m_fortuneRewardEditor);
+            m_tree.Add("Rewards/Reward Editor", m_rewardPageEditor);
+            m_tree.Add("Task board/Task Editor", m_gameTaskModelEditor);
+            m_tree.Add("Achievements/Achievement Editor", m_achievementPageEditor);
+            m_tree.Add("Achievements/Achievements container", m_achievmentContainersPageEditor);
+            m_tree.Add("Daily/Reward Editor", m_dailyRewardPageEditor);
+            m_tree.Add("Rewards/Containers", m_rewardContrainerPageEditor);
+            m_tree.Add("Players/Avatars", m_avatarPageEditor);
             //_tree.Add("City/Buildings/Forge Editor", _forgePageEditor);
-            _tree.Add("City/Buildings/Magic Circle", m_magicCirclePageEditor);
-            _tree.Add("City/Panels/Alchemy", m_alchemyPanelPageEditor);
-            
-            _tree.Add("City/Guild/Main", m_guildBuildingPageEditor);
-            _tree.Add("City/Guild/Bosses", m_guildBossPageEditor);
-            _tree.Add("Misc/Where get resources", m_whereGetResourcePageEditor);
-            
+            m_tree.Add("City/Buildings/Magic Circle", m_magicCirclePageEditor);
+            m_tree.Add("City/Panels/Alchemy", m_alchemyPanelPageEditor);
+            m_tree.Add("City/Guild/Main", m_guildBuildingPageEditor);
+            m_tree.Add("City/Guild/Bosses", m_guildBossPageEditor);
+            m_tree.Add("Misc/Where get resources", m_whereGetResourcePageEditor);
+            m_tree.Add("Misc/Tutorial", m_tutorialPageEditor);
+            m_tree.Add("Misc/Dialogs", m_dialogsPageEditor);
         }
 
         private async void InitPages()
@@ -294,6 +299,12 @@ namespace Editor.Windows
             
             m_alchemyPanelPageEditor = new AlchemyPanelPageEditor(m_dictionaries);
             m_allPages.Add(m_alchemyPanelPageEditor);
+            
+            m_tutorialPageEditor = new TutorialPageEditor(m_dictionaries);
+            m_allPages.Add(m_tutorialPageEditor);
+            
+            m_dialogsPageEditor = new DialogsPageEditor(m_dictionaries);
+            m_allPages.Add(m_dialogsPageEditor);
         }
 
         private void OnValueSaved()
@@ -324,7 +335,7 @@ namespace Editor.Windows
             m_configVersion.FilesCount = m_allPages.Count;
 
             Debug.Log("Save configs start");
-            foreach (var page in m_allPages) page.Save();
+            foreach (BasePageEditor page in m_allPages) page.Save();
 
             OnValueSaved();
             InitPages();

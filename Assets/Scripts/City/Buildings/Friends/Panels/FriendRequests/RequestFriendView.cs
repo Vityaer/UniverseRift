@@ -2,12 +2,14 @@
 using Models.Data.Players;
 using Models.Misc;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UiExtensions.Misc;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Friends.Panels.FriendRequests
 {
@@ -19,37 +21,38 @@ namespace City.Buildings.Friends.Panels.FriendRequests
         [SerializeField] private Button _agreeButton;
         [SerializeField] private Button _deniedButton;
 
-        private ReactiveCommand<RequestFriendView> _onAgreeFriendship = new();
-        private ReactiveCommand<RequestFriendView> _onDeniedFriendship = new();
-        private PlayerData _playerData;
+        private ReactiveCommand<RequestFriendView> m_onAgreeFriendship = new();
+        private ReactiveCommand<RequestFriendView> m_onDeniedFriendship = new();
+        private PlayerData m_playerData;
 
-        public IObservable<RequestFriendView> OnAgreeFriendship => _onAgreeFriendship;
-        public IObservable<RequestFriendView> OnDeniedFriendship => _onDeniedFriendship;
+        public IObservable<RequestFriendView> OnAgreeFriendship => m_onAgreeFriendship;
+        public IObservable<RequestFriendView> OnDeniedFriendship => m_onDeniedFriendship;
 
         protected override void Start()
         {
-            _agreeButton.OnClickAsObservable().Subscribe(_ => _onAgreeFriendship.Execute(this)).AddTo(Disposable);
-            _deniedButton.OnClickAsObservable().Subscribe(_ => _onDeniedFriendship.Execute(this)).AddTo(Disposable);
+            _agreeButton.OnClickAsObservable().Subscribe(_ => m_onAgreeFriendship.Execute(this)).AddTo(Disposable);
+            _deniedButton.OnClickAsObservable().Subscribe(_ => m_onDeniedFriendship.Execute(this)).AddTo(Disposable);
             base.Start();
         }
 
-        public override void SetData(FriendshipRequest data, ScrollRect scrollRect)
+        public override void SetData(FriendshipRequest data, ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = commonDictionaries.ThrowIfArgumentNull();
         }
 
         public void SetData(PlayerData playerData)
         {
-            _playerData = playerData;
+            m_playerData = playerData;
             UpdateUi();
         }
 
         private void UpdateUi()
         {
-            _avatar.sprite = SpriteUtils.LoadSprite(_playerData.AvatarPath);
-            _nickname.text = $"{_playerData.Name}";
-            _level.text = $"{_playerData.Level}";
+            _avatar.sprite = SpriteUtils.LoadSprite(m_playerData.AvatarPath);
+            _nickname.text = $"{m_playerData.Name}";
+            _level.text = $"{m_playerData.Level}";
         }
     }
 }

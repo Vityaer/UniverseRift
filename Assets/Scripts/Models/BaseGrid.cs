@@ -1,5 +1,6 @@
 using Fight.Common.Grid;
 using System.Collections.Generic;
+using Fight.Grid;
 using UnityEngine;
 
 namespace Models.Grid

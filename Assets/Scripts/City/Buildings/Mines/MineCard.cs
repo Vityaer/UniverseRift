@@ -1,12 +1,10 @@
-using Models.City.Mines;
 using System;
+using Models.City.Mines;
 using TMPro;
 using UniRx;
-using Unity.Barracuda;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
-using VContainer;
 using VContainerUi.Abstraction;
 
 namespace City.Buildings.Mines
@@ -19,13 +17,17 @@ namespace City.Buildings.Mines
         public TextMeshProUGUI CountRequirementText;
         public Button MainButton;
 
-        private MineModel _mineModel;
-        private GameMineRestriction _mineRestriction;
-        private ReactiveCommand<MineCard> _onSelect = new();
+        private bool m_isOpen;
+        private MineModel m_mineModel;
+        private GameMineRestriction m_mineRestriction;
+        private ReactiveCommand<MineCard> m_onSelect = new();
 
-        public IObservable<MineCard> OnSelect => _onSelect;
-        public bool GetCanCreateFromCount { get => _mineRestriction.CurrentCount < _mineRestriction.MaxCount; }
-        public MineModel Model => _mineModel;
+        public IObservable<MineCard> OnSelect => m_onSelect;
+
+        public bool IsOpen => m_isOpen;
+        public bool GetCanCreateFromCount => m_mineRestriction.CurrentCount < m_mineRestriction.MaxCount;
+
+        public MineModel Model => m_mineModel;
 
         protected override void Awake()
         {
@@ -35,23 +37,23 @@ namespace City.Buildings.Mines
 
         public void SetData(MineModel mineModel, GameMineRestriction mineRestriction)
         {
-            _mineModel = mineModel;
-            _mineRestriction = mineRestriction;
+            m_mineModel = mineModel;
+            m_mineRestriction = mineRestriction;
 
-            var path = _mineModel.SpritePath.ReplaceForResources();
+            string path = m_mineModel.SpritePath.ReplaceForResources();
             path = path.Replace(".png", "");
-            var sprite = Resources.Load<Sprite>(path);
+            Sprite sprite = Resources.Load<Sprite>(path);
             MineImage.sprite = sprite;
-            CountRequirementText.text = FunctionHelp.AmountFromRequireCount(_mineRestriction.CurrentCount, _mineRestriction.MaxCount);
+            CountRequirementText.text =
+                FunctionHelp.AmountFromRequireCount(m_mineRestriction.CurrentCount, m_mineRestriction.MaxCount);
             Panel.SetActive(true);
+
+            m_isOpen = true;
         }
 
-        public void Click()
+        private void Click()
         {
-            if (_mineRestriction.CurrentCount < _mineRestriction.MaxCount)
-            {
-                _onSelect.Execute(this);
-            }
+            if (m_mineRestriction.CurrentCount < m_mineRestriction.MaxCount) m_onSelect.Execute(this);
         }
 
         public void Select()
@@ -64,8 +66,14 @@ namespace City.Buildings.Mines
             OutLight.enabled = false;
         }
 
-        public void Hide()
+        public void ShowPanel()
         {
+            m_isOpen = true;
+            Panel.SetActive(true);
+        }
+        public void HidePanel()
+        {
+            m_isOpen = false;
             Panel.SetActive(false);
         }
     }

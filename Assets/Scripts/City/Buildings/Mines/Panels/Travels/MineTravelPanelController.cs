@@ -11,6 +11,7 @@ using Models.Fights.Campaign;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Mines;
 using System.Collections.Generic;
+using City.Buildings.Voyage.Panels;
 using Common.Db.CommonDictionaries;
 using UniRx;
 using UnityEngine;

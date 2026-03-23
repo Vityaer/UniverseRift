@@ -1,63 +1,68 @@
-using City.Buildings.CityButtons.EventAgent;
-using Common.Rewards;
-using LocalizationSystems;
 using System;
 using System.Collections.Generic;
+using City.Buildings.CityButtons.EventAgent;
+using Common.Db.CommonDictionaries;
+using Common.Rewards;
+using LocalizationSystems;
 using TMPro;
 using UI.Utils.Localizations.Extensions;
 using UIController;
 using UiExtensions.Misc;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
-using UniRx;
 
-namespace City.Buildings.CityButtons.DailyReward
+namespace City.Panels.DailyRewards
 {
     public class DailyRewardUI : ScrollableUiView<GameReward>
     {
-        private ILocalizationSystem _localizationSystem;
+        private ILocalizationSystem m_localizationSystem;
 
         public GameObject blockPanel;
         public GameObject readyForGet;
         public TMP_Text Label;
         public RewardUIController RewardController;
 
-        private IDisposable _disposable;
-        private ScrollableViewStatus statusReward = ScrollableViewStatus.Close;
-        private int _id;
+        private IDisposable m_disposable;
+        private ScrollableViewStatus m_statusReward = ScrollableViewStatus.Close;
+        private int m_id;
 
         [Inject]
         private void Construct(ILocalizationSystem localizationSystem)
         {
-            _localizationSystem = localizationSystem;
-            _disposable = _localizationSystem.OnChangeLanguage.Subscribe(_ => ChangeUi());
+            m_localizationSystem = localizationSystem;
+            m_disposable = m_localizationSystem.OnChangeLanguage.Subscribe(_ => ChangeUi());
         }
 
         private void ChangeUi()
         {
-            _id = transform.GetSiblingIndex();
-            Label.text = _localizationSystem.GetLocalizedContainer("DailyRewardName")
-                .WithArguments(new List<object> { _id + 1 }).GetLocalizedString();
+            m_id = transform.GetSiblingIndex();
+            Label.text = m_localizationSystem.GetLocalizedContainer("DailyRewardName")
+                .WithArguments(new List<object> { m_id + 1 }).GetLocalizedString();
         }
 
-        public override void SetData(GameReward data, ScrollRect scrollRect)
+        public override void SetData(GameReward data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
-            Data = data;
-            Scroll = scrollRect;
-            RewardController.ShowReward(data);
+            Data = data.ThrowIfArgumentNull();
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
+
+            RewardController.Init(Scroll, CommonDataDictionaries);
+            RewardController.ShowReward(data, CommonDataDictionaries);
             ChangeUi();
         }
 
         public override void SetStatus(ScrollableViewStatus newStatusReward)
         {
-            statusReward = newStatusReward;
+            m_statusReward = newStatusReward;
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            switch (statusReward)
+            switch (m_statusReward)
             {
                 case ScrollableViewStatus.Completed:
                     blockPanel.SetActive(true);
@@ -76,7 +81,7 @@ namespace City.Buildings.CityButtons.DailyReward
 
         public void GetReward()
         {
-            switch (statusReward)
+            switch (m_statusReward)
             {
                 case ScrollableViewStatus.Close:
                     //MessageController.Instance.AddMessage("Награда не открыта, приходите позже");
@@ -93,8 +98,8 @@ namespace City.Buildings.CityButtons.DailyReward
 
         public override void Dispose()
         {
-            _disposable?.Dispose();
-            _disposable = null;
+            m_disposable?.Dispose();
+            m_disposable = null;
             base.Dispose();
         }
     }

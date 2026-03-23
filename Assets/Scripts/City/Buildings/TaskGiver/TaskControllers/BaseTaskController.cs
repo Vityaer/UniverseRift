@@ -23,9 +23,10 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
 
-namespace City.Buildings.TaskGiver
+namespace City.Buildings.TaskGiver.TaskControllers
 {
     public abstract class BaseTaskController  : ScrollableUiView<TaskData>
     {
@@ -44,10 +45,11 @@ namespace City.Buildings.TaskGiver
         [SerializeField] protected RatingHero ratingController;
         [SerializeField] protected RewardUIController RewardUIController;
 
-        private GameReward _gameReward;
+        private GameReward m_gameReward;
+        private CommonDictionaries m_gameDictionaries;
         
-        protected IDisposable _disposable;
-        protected IDisposable _timeSliderDisposable;
+        protected IDisposable m_disposable;
+        protected IDisposable TimeSliderDisposable;
         protected GameTaskModel _model;
         protected ReactiveCommand<BaseTaskController> _onGetReward = new(); 
         protected ReactiveCommand<BaseTaskController> m_onStartTask = new();
@@ -58,33 +60,36 @@ namespace City.Buildings.TaskGiver
         public GameTaskModel Model => _model;
 
         [Inject]
-        private void Construct(SubjectDetailController subjectDetailController, TimeLocalizeService timeLocalizeService)
+        private void Construct(SubjectDetailController subjectDetailController, TimeLocalizeService timeLocalizeService,  CommonDictionaries gameDictionaries)
         {
+            subjectDetailController.ThrowIfArgumentNull();
             RewardUIController.SetDetailsController(subjectDetailController);
-            _timeLocalizeService = timeLocalizeService;
+            _timeLocalizeService = timeLocalizeService.ThrowIfArgumentNull();
+            m_gameDictionaries = gameDictionaries.ThrowIfArgumentNull();
         }
 
         public void SetData(TaskData data, ScrollRect scrollRect, GameTaskModel model)
         {
             sliderTime.Init(_localizationSystem, _timeLocalizeService);
-            SetData(data, scrollRect);
+            SetData(data, scrollRect, m_gameDictionaries);
             _model = model;
 
             _name.StringReference = _localizationSystem.GetLocalizedContainer($"Task{_model.Id}Name");
             ratingController.ShowRating(_model.Rating);
 
             RewardModel rewardWithFactor = _model.Reward * data.Factor;
-            _gameReward = new GameReward(rewardWithFactor, _commonDictionaries);
+            m_gameReward = new GameReward(rewardWithFactor, _commonDictionaries);
             
             RewardUIController.ShowReward(rewardWithFactor, _commonDictionaries);
             UpdateStatus();
 
         }
 
-        public override void SetData(TaskData data, ScrollRect scrollRect)
+        public override void SetData(TaskData data, ScrollRect scrollRect, CommonDictionaries gameDictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = gameDictionaries.ThrowIfArgumentNull();
         }
 
         private void UpdateStatus()
@@ -93,7 +98,7 @@ namespace City.Buildings.TaskGiver
 
             var requireTime = new TimeSpan(_model.RequireHour, 0, 0);
 
-            _disposable?.Dispose();
+            m_disposable?.Dispose();
             DateTime startDateTime = new();
 
             if (!Data.DateTimeStart.IsNullOrWhitespace())
@@ -133,8 +138,8 @@ namespace City.Buildings.TaskGiver
         
         protected void FinishFromSlider()
         {
-            _timeSliderDisposable?.Dispose();
-            _timeSliderDisposable = null;
+            TimeSliderDisposable?.Dispose();
+            TimeSliderDisposable = null;
             UpdateStatus();
         }
 
@@ -185,7 +190,7 @@ namespace City.Buildings.TaskGiver
         private void CreateReward()
         {
             Data.Status = TaskStatusType.Done;
-            _clientRewardService.ShowReward(_gameReward);
+            _clientRewardService.ShowReward(m_gameReward);
             _onGetReward.Execute(this);
         }
     }

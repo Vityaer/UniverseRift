@@ -1,17 +1,16 @@
-﻿using Common;
+﻿using System;
+using Common;
 using Models.Common;
-using System;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using Ui.Misc.Widgets;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using VContainerUi.Abstraction;
 using VContainerUi.Interfaces;
 using VContainerUi.Messages;
 using VContainerUi.Services;
 
-namespace UiExtensions.Scroll.Interfaces
+namespace UiExtensions.Panels
 {
     public abstract class UiPanelController<T> : UiController<T>, IInitializable, IStartable, IPopUp, IDisposable
         where T : BasePanel
@@ -38,17 +37,16 @@ namespace UiExtensions.Scroll.Interfaces
 
         private void AutoInject()
         {
+            if (Resolver == null)
+            {
+                UnityEngine.Debug.LogError($"{View.gameObject.name} without a resolver");
+                return;
+            }
+            
             foreach (var obj in View.AutoInjectObjects)
             {
-                if (Resolver == null)
-                    UnityEngine.Debug.Log($"{View.gameObject.name}");
                 Resolver.Inject(obj);
             }
-        }
-
-        public override void OnShow()
-        {
-            base.OnShow();
         }
 
         protected virtual void Close()

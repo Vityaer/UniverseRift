@@ -1,0 +1,44 @@
+[
+  {
+    "Stages": [
+      {
+        "$type": "Models.Tutorials.WaitLoadGameTutorial, Assembly-CSharp",
+        "StartDialogId": "WaitLoadGameTutorialDialog"
+      },
+      {
+        "$type": "Models.Tutorials.OpenPanelTutorial, Assembly-CSharp",
+        "OpenTavernDialogId": "OpenTavernTutorialDialog",
+        "PanelControllerName": "TavernController"
+      },
+      {
+        "$type": "Models.Tutorials.TavernHireTutorial, Assembly-CSharp",
+        "SelectSimpleHireDialogId": "TavernSelectSimpleHireTutorialDialog",
+        "HireDialogId": "TavernHireTutorialDialog",
+        "HireTargetType": 0
+      },
+      {
+        "$type": "Models.Tutorials.OpenPageTutorial, Assembly-CSharp",
+        "StartDialogId": "OpenArmyPageTutorialDialog",
+        "TargetPage": 4
+      },
+      {
+        "$type": "Models.Tutorials.HeroesTrainingTutorial, Assembly-CSharp",
+        "LevelUpFirstHero": 8,
+        "LevelUpSecondHero": 5
+      },
+      {
+        "$type": "Models.Tutorials.OpenPageTutorial, Assembly-CSharp",
+        "StartDialogId": "OpenPageTutorialDialog",
+        "TargetPage": 2
+      },
+      {
+        "$type": "Models.Tutorials.WarTableTutorial, Assembly-CSharp",
+        "OpenCampaignDialogId": "OpenCampaignTutorialDialog",
+        "SelectMissionDialogId": "SelectMissionTutorialDialog",
+        "CreateTeamDialogId": "CreateTeamTutorialDialog",
+        "StartFightDialogId": "StartFightTutorialDialog"
+      }
+    ],
+    "Id": "StartTutorial"
+  }
+]

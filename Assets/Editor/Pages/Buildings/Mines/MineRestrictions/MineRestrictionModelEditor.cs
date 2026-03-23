@@ -12,7 +12,7 @@ namespace Editor.Pages.Buildings.Mines.MineRestrictions
 
         public MineRestrictionModelEditor(MineRestrictionModel model, CommonDictionaries commonDictionaries)
         {
-            _model = model;
+            m_model = model;
             _commonDictionaries = commonDictionaries;
         }
 
@@ -22,8 +22,8 @@ namespace Editor.Pages.Buildings.Mines.MineRestrictions
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -33,8 +33,8 @@ namespace Editor.Pages.Buildings.Mines.MineRestrictions
         [ValueDropdown(nameof(_allMinesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string MineId
         {
-            get => _model.MineId;
-            set => _model.MineId = value;
+            get => m_model.MineId;
+            set => m_model.MineId = value;
         }
 
         [ShowInInspector]
@@ -43,8 +43,8 @@ namespace Editor.Pages.Buildings.Mines.MineRestrictions
         [LabelWidth(150)]
         public int MaxCount
         {
-            get => _model.MaxCount;
-            set => _model.MaxCount = value;
+            get => m_model.MaxCount;
+            set => m_model.MaxCount = value;
         }
 
         private string[] _allMinesName => _commonDictionaries.Mines.Values.Select(r => r.Id).ToArray();

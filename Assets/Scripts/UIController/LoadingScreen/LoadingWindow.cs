@@ -1,5 +1,6 @@
 ﻿using Ui.LoadingScreen.Loading;
 using Ui.LoadingScreen.ProgressBar;
+using UIController.LoadingScreen.Loading;
 using VContainer;
 using VContainerUi.Abstraction;
 

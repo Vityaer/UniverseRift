@@ -2,7 +2,7 @@
 using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages.Mails;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainerUi.Messages;
 using VContainerUi.Model;

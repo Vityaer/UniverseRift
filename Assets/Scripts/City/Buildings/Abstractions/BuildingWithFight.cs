@@ -89,7 +89,7 @@ namespace City.Buildings.Abstractions
             TeamUtils.SaveTeam(TeamContainer);
         }
 
-        protected virtual void OnStartMission()
+        protected void OnStartMission()
         {
             _teamChangeDisposable?.Dispose();
             _teamChangeDisposable = null;

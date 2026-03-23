@@ -5,9 +5,9 @@ using City.Buildings.Abstractions;
 using City.Panels.Inventories;
 using City.Panels.SubjectPanels.Items;
 using ClientServices;
+using Common;
 using Common.Db.CommonDictionaries;
 using Common.Inventories.Resourses;
-using Common.Resourses;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Models;
@@ -22,10 +22,11 @@ using UIController.ItemVisual.Forges;
 using UIController.Rewards;
 using UniRx;
 using VContainer;
+using VContainer.Unity;
 
 namespace City.Buildings.Forge
 {
-    public class ForgeController : BaseBuilding<ForgeView>
+    public class ForgeController : BaseBuilding<ForgeView>, IInitializable
     {
         private const int ITEMS_COUNT = 16;
 
@@ -58,6 +59,12 @@ namespace City.Buildings.Forge
 
         public IObservable<BigDigit> OnCraft => m_onCraft;
 
+        public void Initialize()
+        {
+            View.ForgeItemVisualPrefab.Cell.Init(null, m_commonDictionaries);
+
+        }
+        
         protected override void OnStart()
         {
             View.WeaponPanelButton.OnClickAsObservable().Subscribe(_ => OpenList(m_weapons)).AddTo(Disposables);
@@ -68,7 +75,7 @@ namespace City.Buildings.Forge
 
             for (int i = 0; i < ITEMS_COUNT; i++)
             {
-                var itemVisual = UnityEngine.Object.Instantiate(View.ForgeItemVisualPrefab, View.Content);
+                ForgeItemVisual itemVisual = UnityEngine.Object.Instantiate(View.ForgeItemVisualPrefab, View.Content);
                 itemVisual.OnSelected.Subscribe(SelectItem).AddTo(Disposables);
                 m_listPlace.Add(itemVisual);
             }
@@ -108,13 +115,14 @@ namespace City.Buildings.Forge
         {
             foreach (string name in m_setNames)
             {
-                var item = itemModels.Find(item => item.SetName == name);
+                ItemModel item = itemModels.Find(item => item.SetName == name);
 
-                if (m_commonDictionaries.ItemRelations.TryGetValue($"Recipe{item.Id}", out var relationModel))
+                if (m_commonDictionaries.ItemRelations.TryGetValue($"Recipe{item.Id}",
+                        out ItemRelationModel relationModel))
                 {
-                    var result = new GameItem(m_commonDictionaries.Items[relationModel.ResultItemName], 0);
-                    var ingredient = new GameItem(m_commonDictionaries.Items[relationModel.ItemIngredientName], 0);
-                    var relation = new GameItemRelation(relationModel, ingredient, result);
+                    GameItem result = new GameItem(m_commonDictionaries.Items[relationModel.ResultItemName], 0);
+                    GameItem ingredient = new GameItem(m_commonDictionaries.Items[relationModel.ItemIngredientName], 0);
+                    GameItemRelation relation = new GameItemRelation(relationModel, ingredient, result);
                     relations.Add(relation);
                 }
             }
@@ -125,6 +133,7 @@ namespace City.Buildings.Forge
             m_currentItems = items;
             for (int i = 0; i < items.Count; i++)
             {
+                m_listPlace[i].Cell.Init(null, m_commonDictionaries);
                 m_listPlace[i].SetItem(items[i]);
                 CheckItemCount(i);
             }
@@ -140,6 +149,8 @@ namespace City.Buildings.Forge
             m_currentIndex = m_listPlace.FindIndex(place => place == selectedCell);
             m_currentCell = selectedCell;
             m_currentCell.Select();
+            View.LeftItem.SubjectCell.Init(null, m_commonDictionaries);
+            View.RightItem.SubjectCell.Init(null, m_commonDictionaries);
             View.LeftItem.SetInfo(m_currentItems[m_currentIndex]);
             View.RightItem.SetInfo(m_currentItems[m_currentIndex]);
             CheckResources();
@@ -156,16 +167,16 @@ namespace City.Buildings.Forge
         private async UniTaskVoid SynthesisItem()
         {
             int createdCount = 0;
-            var rewardModel = new RewardModel();
+            RewardModel rewardModel = new RewardModel();
             int currentCount = HowManyThisItems(m_currentItem.Ingredient);
-            var cost = m_currentItem.Cost;
+            GameResource cost = m_currentItem.Cost;
             int maxCanCreateCount = currentCount / m_currentItem.Model.RequireCount;
 
             for (int i = 1; i <= maxCanCreateCount; i++)
                 if (m_resourceStorageController.CheckResource(cost * i))
                     createdCount = i;
 
-            var message = new SynthesisItemMessage
+            SynthesisItemMessage message = new SynthesisItemMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id, ItemId = m_currentItem.Model.ResultItemName,
                 Count = createdCount
@@ -173,15 +184,15 @@ namespace City.Buildings.Forge
             string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var ingredients = new GameItem(m_commonDictionaries.Items[m_currentItem.Model.ItemIngredientName],
+                GameItem ingredients = new GameItem(m_commonDictionaries.Items[m_currentItem.Model.ItemIngredientName],
                     createdCount * m_currentItem.Model.RequireCount);
                 m_resourceStorageController.SubtractResource(cost * createdCount);
                 m_inventoryPanelController.Remove(ingredients);
                 m_onCraft.Execute(new BigDigit(createdCount));
 
-                var newItem = new ItemData() { Id = m_currentItem.Model.ResultItemName, Amount = createdCount };
+                ItemData newItem = new ItemData() { Id = m_currentItem.Model.ResultItemName, Amount = createdCount };
                 rewardModel.Items.Add(newItem);
-                var gameReward = new GameReward(rewardModel, m_commonDictionaries);
+                GameReward gameReward = new GameReward(rewardModel, m_commonDictionaries);
                 m_clientRewardService.ShowReward(gameReward);
                 m_onGetReward = m_clientRewardService.OnGetReward.Subscribe(_ => Refresh());
             }
@@ -198,7 +209,7 @@ namespace City.Buildings.Forge
 
         private void CheckItemCount(int index)
         {
-            var item = m_listPlace[index].Thing;
+            GameItemRelation item = m_listPlace[index].Thing;
 
             //var flag = _inventoryController.GameInventory
             //    .InventoryObjects[item.Ingredient.Id]
@@ -209,7 +220,7 @@ namespace City.Buildings.Forge
 
         private int HowManyThisItems(GameItem item)
         {
-            return m_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value)
+            return m_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out BaseObject value)
                 ? value.Amount
                 : 0;
         }

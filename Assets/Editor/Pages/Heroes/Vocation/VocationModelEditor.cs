@@ -12,7 +12,7 @@ namespace Editor.Pages.Heroes.Vocation
     {
         public VocationModelEditor(VocationModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -21,8 +21,8 @@ namespace Editor.Pages.Heroes.Vocation
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         private Sprite _sprite;
@@ -37,7 +37,7 @@ namespace Editor.Pages.Heroes.Vocation
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.SpritePath);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(m_model.SpritePath);
                 }
 
                 return _sprite;
@@ -46,7 +46,7 @@ namespace Editor.Pages.Heroes.Vocation
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.SpritePath = path;
+                m_model.SpritePath = path;
             }
         }
     }

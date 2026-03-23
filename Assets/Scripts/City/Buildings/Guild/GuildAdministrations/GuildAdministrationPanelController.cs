@@ -6,8 +6,9 @@ using Misc.Json;
 using Network.DataServer.Models;
 using Network.DataServer.Models.Guilds;
 using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainerUi.Messages;
@@ -18,14 +19,15 @@ namespace City.Buildings.Guild.GuildAdministrations
 {
     public class GuildAdministrationPanelController : UiPanelController<GuildAdministrationPanelView>
     {
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly IObjectResolver _diContainer;
-        [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly GuildRecruitDetailPanelController _guildRecruitDetailPanelController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly IObjectResolver m_diContainer;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly GuildRecruitDetailPanelController m_guildRecruitDetailPanelController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        
+        private readonly Dictionary<int, GuildRecruitView> m_recruitsView = new();
 
-        private Dictionary<int, GuildRecruitView> _recruitsView = new();
-
-        private GuildData _guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
+        private GuildData GuildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
 
         public override void Start()
         {
@@ -41,7 +43,7 @@ namespace City.Buildings.Guild.GuildAdministrations
 
         private void OpenRequestsPanel()
         {
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Additive);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<RecruitRequestPanelController>(openType: OpenType.Additive);
         }
 
         protected override void Show()
@@ -52,12 +54,12 @@ namespace City.Buildings.Guild.GuildAdministrations
 
         private void UpdateUi()
         {
-            if (_guildData == null)
+            if (GuildData == null)
                 return;
 
-            View.GuildName.text = _guildData.Name;
-            View.GuildLevel.text = $"Level {_guildData.Level}";
-            View.GuildId.text = $"ID: {_guildData.Id}";
+            View.GuildName.text = GuildData.Name;
+            View.GuildLevel.text = $"Level {GuildData.Level}";
+            View.GuildId.text = $"ID: {GuildData.Id}";
 
             var recruits = CommonGameData.City.GuildPlayerSaveContainer.GuildRecruits;
             recruits.Sort(new RecruitDamageComparer());
@@ -68,16 +70,16 @@ namespace City.Buildings.Guild.GuildAdministrations
             foreach (var recruit in recruits)
             {
                 GuildRecruitView prefab = null;
-                if (_recruitsView.TryGetValue(recruit.PlayerId, out prefab))
+                if (m_recruitsView.TryGetValue(recruit.PlayerId, out prefab))
                 {
-                    prefab.SetData(recruit, View.Scroll);
+                    prefab.SetData(recruit, View.Scroll, m_commonDictionaries);
                 }
                 else
                 {
                     prefab = UnityEngine.GameObject.Instantiate(View.GuildRecruitViewPrefab, View.Content);
-                    _recruitsView.Add(recruit.PlayerId, prefab);
-                    _diContainer.Inject(prefab);
-                    prefab.SetData(recruit, View.Scroll);
+                    m_recruitsView.Add(recruit.PlayerId, prefab);
+                    m_diContainer.Inject(prefab);
+                    prefab.SetData(recruit, View.Scroll, m_commonDictionaries);
                     prefab.OnSelect.Subscribe(OpenRecruitDetails).AddTo(Disposables);
                 }
 
@@ -91,7 +93,7 @@ namespace City.Buildings.Guild.GuildAdministrations
 
         private void OpenRecruitDetails(ScrollableUiView<RecruitData> view)
         {
-            _guildRecruitDetailPanelController.ShowRecruitDetail(view.GetData);
+            m_guildRecruitDetailPanelController.ShowRecruitDetail(view.GetData);
         }
     }
 }

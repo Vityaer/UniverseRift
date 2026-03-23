@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
 using Fight.Common.Grid;
+using Fight.Grid;
 
 namespace Fight.Common.HeroControllers.Generals.Movements
 {

@@ -1,5 +1,5 @@
 using LocalizationSystems;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UnityEngine;
 using VContainer;
 using VContainerUi.Messages;

@@ -1,83 +1,80 @@
-﻿using Assets.Scripts.UIController.MenuWindows;
-using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+using Assets.Scripts.UIController.MenuWindows;
+using Common;
+using MainPages.MenuButtons;
 using Ui.MainMenu.MenuButtons;
-using UIController.GameSystems;
 using UIController.MenuWindows;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Interfaces;
 using VContainerUi.Messages;
 using VContainerUi.Services;
 
-namespace Ui.MainMenu
+namespace MainPages
 {
     public class MainMenuController : IInitializable, IDisposable
     {
-        [Inject] private readonly MenuButtonsController _menuButtonsController;
-        [Inject] private readonly IUiMessagesPublisherService _messagesPublisher;
-        [Inject] private readonly IObjectResolver _objectResolver;
-        [Inject] private readonly GameController _gameController;
+        [Inject] private readonly MenuButtonsController m_menuButtonsController;
+        [Inject] private readonly IUiMessagesPublisherService m_messagesPublisher;
+        [Inject] private readonly IObjectResolver m_objectResolver;
+        [Inject] private readonly GameController m_gameController;
 
-        private readonly CompositeDisposable _disposables = new();
+        private readonly CompositeDisposable m_disposables = new();
 
+        private readonly List<Action> m_windowOpenActions = new List<Action>();
+        private readonly ReactiveCommand<int> m_onPageIndexChange = new ReactiveCommand<int>();
+        
+        private int m_currentPageIndex;
+        
         public OpenMenuPageType OpenType { get; private set; }
-
-        private int _currentPageIndex;
-
-        private List<Action> _windowOpenActions = new List<Action>();
-        private ReactiveCommand<int> _onPageIndexChange = new ReactiveCommand<int>();
-
-        public IObservable<int> OnPageIndexChange => _onPageIndexChange;
+        public IObservable<int> OnPageIndexChange => m_onPageIndexChange;
 
         public void Initialize()
         {
-            _menuButtonsController.OnSwitchButton.Subscribe(PageSwitch).AddTo(_disposables);
+            m_menuButtonsController.OnSwitchButton.Subscribe(PageSwitch).AddTo(m_disposables);
             AddMenuWindow<EventWindow>();
             AddMenuWindow<CityWindow>();
             AddMenuWindow<CampaignWindow>();
             AddMenuWindow<SecondCityWindow>();
             AddMenuWindow<ArmyWindow>();
-            _gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(_disposables);
+            m_gameController.OnLoadedGameData.Subscribe(_ => OpenStartPage()).AddTo(m_disposables);
         }
 
-        public void OpenStartPage()
+        private void OpenStartPage()
         {
             OpenPage<CityWindow>(1);
         }
 
         private void AddMenuWindow<T>() where T : IWindow
         {
-            var window = _objectResolver.Resolve<T>();
-            var numWindow = _windowOpenActions.Count;
+            T window = m_objectResolver.Resolve<T>();
+            int numWindow = m_windowOpenActions.Count;
 
             Action action = () => OpenPage<T>(numWindow);
-            _windowOpenActions.Add(action);
-            _menuButtonsController.AddMenuButton<T>(window.Name);
+            m_windowOpenActions.Add(action);
+            m_menuButtonsController.AddMenuButton<T>(window.Name);
         }
 
         private void OpenPage<T>(int index) where T : IWindow
         {
-            _menuButtonsController.SwitchMenuButton(index);
-            _messagesPublisher.BackWindowPublisher.BackWindow();
-            _messagesPublisher.OpenWindowPublisher.OpenWindow<T>();
-            _onPageIndexChange.Execute(index);
+            m_menuButtonsController.SwitchMenuButton(index);
+            m_messagesPublisher.BackWindowPublisher.BackWindow();
+            m_messagesPublisher.OpenWindowPublisher.OpenWindow<T>();
+            m_onPageIndexChange.Execute(index);
         }
 
-        public void PageSwitch(int newPageIndex)
+        private void PageSwitch(int newPageIndex)
         {
             OpenType = OpenMenuPageType.Click;
-            _windowOpenActions[newPageIndex]();
-            _currentPageIndex = newPageIndex;
+            m_windowOpenActions[newPageIndex]();
+            m_currentPageIndex = newPageIndex;
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            _disposables?.Dispose();
+            m_disposables?.Dispose();
         }
     }
 }

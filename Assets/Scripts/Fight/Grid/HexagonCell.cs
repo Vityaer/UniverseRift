@@ -1,24 +1,24 @@
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using Fight.Common.Grid;
 using Fight.Common.HeroControllers.Generals;
 using Fight.Common.Misc;
 using Models.Heroes;
 using UniRx;
-#if UNITY_EDITOR_WIN
 using UnityEditor;
-#endif
+using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
-namespace Fight.Common.Grid
+namespace Fight.Grid
 {
     public class HexagonCell : MonoBehaviour
     {
-        private GridController _gridController;
+        private GridController m_gridController;
 
         public bool available = true;
         public bool availableMove = true;
         public bool achievableMove = false;
-        public int step = 0;
+        private int m_step = 0;
         public SpriteRenderer SpriteCell;
         public SpriteRenderer SpriteAvailable;
 
@@ -26,26 +26,26 @@ namespace Fight.Common.Grid
         [SerializeField] private HeroController heroScript;
         [SerializeField] private Transform tr;
 
-        private GameObject subject;
-        private bool showAchievable = false;
-        private static HeroController requestHero = null;
-        private static Action<HexagonCell> observerClick, observerSelectDirection, observerAchivableMove;
-        private int _dist = 100;
-        private HexagonCell _previousCell = null;
-        private IDisposable _disposable;
+        private GameObject m_subject;
+        private bool m_showAchievable = false;
+        private static HeroController _requestHero = null;
+        private static Action<HexagonCell> _observerClick, _observerSelectDirection, _observerAchivableMove;
+        private int m_dist = 100;
+        private HexagonCell m_previousCell = null;
+        private IDisposable m_disposable;
 
-        private bool checkNext = false;
-        List<NeighbourCell> asumptionNeighbourCell = new();
-        CellDirectionType directionToTarget;
+        private bool m_checkNext = false;
+        private readonly List<NeighbourCell> m_asumptionNeighbourCell = new();
+        private CellDirectionType m_directionToTarget;
 
-        private Vector2 deltaSize => Constants.Fight.CellDeltaStep;
-        public int GetDist => _dist;
+        private static Vector2 DeltaSize => Constants.Fight.CellDeltaStep;
+        private int GetDist => m_dist;
         public Vector3 Position => transform.position;
-        public List<NeighbourCell> GetAvailableNeighbours => neighbours.FindAll(x => x.available == true);
+        private List<NeighbourCell> GetAvailableNeighbours => neighbours.FindAll(x => x.available == true);
         public bool CanStand => availableMove && heroScript == null;
         public HeroController Hero => heroScript;
         public bool GetCanAttackCell => neighbours.Find(x => x.achievableMove == true) != null;
-        public HexagonCell PreviousCell => _previousCell;
+        public HexagonCell PreviousCell => m_previousCell;
 
         void Awake()
         {
@@ -59,7 +59,7 @@ namespace Fight.Common.Grid
 
         public void SetData(GridController gridController)
         {
-            _gridController = gridController;
+            m_gridController = gridController;
 
         }
 
@@ -70,12 +70,12 @@ namespace Fight.Common.Grid
 
         public void StartCheckMove(int step, HeroController newRequestHero, bool playerCanController)
         {
-            _gridController.ClearWays();
-            requestHero = newRequestHero;
+            m_gridController.ClearWays();
+            _requestHero = newRequestHero;
             GridController.PlayerCanController = playerCanController;
-            this.step = step;
+            this.m_step = step;
             achievableMove = true;
-            requestHero.RegisterOnEndSelectCell(ClearCanMove);
+            _requestHero.RegisterOnEndSelectCell(ClearCanMove);
             
             for (int i = 0; i < neighbours.Count; i++)
             {
@@ -87,19 +87,19 @@ namespace Fight.Common.Grid
         {
             if (available && availableMove)
             {
-                if (achievableMove == false || this.step < step)
+                if (achievableMove == false || this.m_step < step)
                 {
-                    this.step = step;
+                    this.m_step = step;
                     if (achievableMove == false)
                     {
-                        requestHero.RegisterOnEndSelectCell(ClearCanMove);
+                        _requestHero.RegisterOnEndSelectCell(ClearCanMove);
                         OnAchivableMove();
                     }
                     achievableMove = true;
 
-                    if (showAchievable == false/* && GridController.PlayerCanController*/)
+                    if (m_showAchievable == false/* && GridController.PlayerCanController*/)
                     {
-                        showAchievable = true;
+                        m_showAchievable = true;
                         SpriteAvailable.enabled = true;
                         SpriteAvailable.color = Constants.Colors.ACHIEVABLE_CELL_COLOR;
                     }
@@ -113,49 +113,48 @@ namespace Fight.Common.Grid
 
         public HexagonCell GetAchivableNeighbourCell()
         {
-            var achievableNeighbours = neighbours.FindAll(x => x.achievableMove);
+            List<NeighbourCell> achievableNeighbours = neighbours.FindAll(x => x.achievableMove);
 
-            if (achievableNeighbours.Count == 0)
-                return null;
-
-            return achievableNeighbours[UnityEngine.Random.Range(0, achievableNeighbours.Count)]?.Cell;
+            return achievableNeighbours.Count == 0
+                ? null
+                : achievableNeighbours[UnityEngine.Random.Range(0, achievableNeighbours.Count)]?.Cell;
         }
 
         public void RegisterOnSelectDirection(Action<HexagonCell> selectDirectionForHero, bool showUIDirection = true)
         {
-            observerSelectDirection = selectDirectionForHero;
+            _observerSelectDirection = selectDirectionForHero;
             if (showUIDirection)
                 ShowDirectionsAttack();
         }
 
         private void ShowDirectionsAttack()
         {
-            _gridController.ShowAttackDirections(SelectDirection, this, GetAvailableNeighbours);
+            m_gridController.ShowAttackDirections(SelectDirection, this, GetAvailableNeighbours);
         }
 
         private void SelectDirection(CellDirectionType direction)
         {
-            if (observerSelectDirection != null)
+            if (_observerSelectDirection != null)
             {
-                observerSelectDirection(GetNeighbourCellOnDirection(direction));
-                observerSelectDirection = null;
+                _observerSelectDirection(GetNeighbourCellOnDirection(direction));
+                _observerSelectDirection = null;
             }
         }
 
         private HexagonCell GetNeighbourCellOnDirection(CellDirectionType direction)
         {
-            HexagonCell result = neighbours.Find(x => x.direction == direction).Cell;
+            HexagonCell result = neighbours.Find(x => x.direction == direction)?.Cell;
             return result;
         }
 
         public void ClearCanMove()
         {
-            showAchievable = false;
-            step = 0;
+            m_showAchievable = false;
+            m_step = 0;
             achievableMove = false;
             SpriteAvailable.enabled = false;
-            _dist = 100;
-            requestHero?.UnregisterOnEndSelectCell(ClearCanMove);
+            m_dist = 100;
+            _requestHero?.UnregisterOnEndSelectCell(ClearCanMove);
         }
 
         public bool MyEnemyNear(Side masterSide)
@@ -167,13 +166,13 @@ namespace Fight.Common.Grid
 
         public void SetSubject(GameObject newSubject)
         {
-            subject = newSubject;
+            m_subject = newSubject;
         }
 
         public void SetHero(HeroController hero)
         {
             heroScript = hero;
-            subject = hero.gameObject;
+            m_subject = hero.gameObject;
             availableMove = false;
         }
 
@@ -185,7 +184,7 @@ namespace Fight.Common.Grid
 
         public void ClearSublject()
         {
-            subject = null;
+            m_subject = null;
             heroScript = null;
             availableMove = true;
             SpriteAvailable.enabled = false;
@@ -207,21 +206,24 @@ namespace Fight.Common.Grid
             OnClickCell();
         }
 
-        public static void RegisterOnClick(Action<HexagonCell> d) { observerClick += d; }
-        public static void UnregisterOnClick(Action<HexagonCell> d) { observerClick -= d; }
-        private void OnClickCell() { if (observerClick != null && available == true) observerClick(this); }
+        public static void RegisterOnClick(Action<HexagonCell> d) { _observerClick += d; }
+        public static void UnregisterOnClick(Action<HexagonCell> d) { _observerClick -= d; }
+        private void OnClickCell() { if (_observerClick != null && available == true) _observerClick(this); }
 
 
-        public static void RegisterOnAchivableMove(Action<HexagonCell> d) { observerAchivableMove += d; }
-        public static void UnregisterOnAchivableMove(Action<HexagonCell> d) { observerAchivableMove += d; }
-        private void OnAchivableMove() { if (observerAchivableMove != null) observerAchivableMove(this); }
+        public static void RegisterOnAchivableMove(Action<HexagonCell> d) { _observerAchivableMove += d; }
+        public static void UnregisterOnAchivableMove(Action<HexagonCell> d) { _observerAchivableMove -= d; }
+        private void OnAchivableMove()
+        {
+            _observerAchivableMove?.Invoke(this);
+        }
 
         public void CheckOnNeighbour(HexagonCell otherCell)
         {
 #if UNITY_EDITOR_WIN
             Undo.RecordObject(this, "fill cell");
 #endif
-            if (Vector3.Distance(Position, otherCell.Position) <= deltaSize.x * transform.localScale.x / 2 * 1.05f)
+            if (Vector3.Distance(Position, otherCell.Position) <= DeltaSize.x * transform.localScale.x / 2 * 1.05f)
             {
                 NeighbourCell newNeighbour = new NeighbourCell(this, otherCell);
                 neighbours.Add(newNeighbour);
@@ -238,34 +240,34 @@ namespace Fight.Common.Grid
         {
             if (available && (availableMove || previousCell == null || this == target))
             {
-                if (step < _dist)
+                if (step < m_dist)
                 {
-                    checkNext = true;
-                    _dist = step;
+                    m_checkNext = true;
+                    m_dist = step;
                 }
-                else if (step == _dist)
+                else if (step == m_dist)
                 {
-                    checkNext = UnityEngine.Random.Range(0f, 1f) > 0.5f;
+                    m_checkNext = UnityEngine.Random.Range(0f, 1f) > 0.5f;
                 }
                 else
                 {
-                    checkNext = false;
+                    m_checkNext = false;
                 }
 
-                if (!checkNext)
+                if (!m_checkNext)
                     return;
 
-                if (_previousCell == null)
-                    _disposable = _gridController.OnFinishFoundWay.Subscribe(_ => ClearFindWay());
+                if (m_previousCell == null)
+                    m_disposable = m_gridController.OnFinishFoundWay.Subscribe(_ => ClearFindWay());
 
-                _previousCell = previousCell;
+                m_previousCell = previousCell;
                 if (target.GetDist > step && this != target)
                 {
-                    directionToTarget = NeighbourCell.GetDirection(this, target);
+                    m_directionToTarget = NeighbourCell.GetDirection(this, target);
                     for (int level = 0; level <= 3; level++)
                     {
-                        NeighbourCell.GetNeighboursOnLevelNear(neighbours, directionToTarget, level, asumptionNeighbourCell);
-                        if (asumptionNeighbourCell.Count > 0) CheckNeighbour(previousCell, target, typeMovement, step);
+                        NeighbourCell.GetNeighboursOnLevelNear(neighbours, m_directionToTarget, level, m_asumptionNeighbourCell);
+                        if (m_asumptionNeighbourCell.Count > 0) CheckNeighbour(previousCell, target, typeMovement, step);
 
                     }
                 }
@@ -273,40 +275,39 @@ namespace Fight.Common.Grid
         }
         private void CheckNeighbour(HexagonCell previousCell, HexagonCell target, TypeMovement typeMovement, int step)
         {
-            for (int i = 0; i < asumptionNeighbourCell.Count; i++)
+            foreach (NeighbourCell t in m_asumptionNeighbourCell)
             {
-                if (asumptionNeighbourCell[i].Cell != previousCell) asumptionNeighbourCell[i].FindWay(this, target, typeMovement, step: step + 1);
-
+                if (t.Cell != previousCell) t.FindWay(this, target, typeMovement, step: step + 1);
             }
         }
 
-        public void ClearFindWay()
+        private void ClearFindWay()
         {
-            _disposable.Dispose();
-            _dist = 100;
-            _previousCell = null;
-            checkNext = false;
+            m_disposable?.Dispose();
+            m_dist = 100;
+            m_previousCell = null;
+            m_checkNext = false;
         }
 
         //Potision controller	
 #if UNITY_EDITOR_WIN
         [ContextMenu("UpLeft")]
-        public void MoveUpLeft() { Move(new Vector3(-deltaSize.x * transform.localScale.x / 2, deltaSize.y * transform.localScale.y, 0)); }
+        private void MoveUpLeft() { Move(new Vector3(-DeltaSize.x * transform.localScale.x / 2, DeltaSize.y * transform.localScale.y, 0)); }
 
         [ContextMenu("UpRight")]
-        public void MoveUpRight() { Move(new Vector3(deltaSize.x * transform.localScale.x / 2, deltaSize.y * transform.localScale.y, 0)); }
+        private void MoveUpRight() { Move(new Vector3(DeltaSize.x * transform.localScale.x / 2, DeltaSize.y * transform.localScale.y, 0)); }
 
         [ContextMenu("Left")]
-        public void MoveLeft() { Move(new Vector3(-deltaSize.x * transform.localScale.x, 0, 0)); }
+        private void MoveLeft() { Move(new Vector3(-DeltaSize.x * transform.localScale.x, 0, 0)); }
 
         [ContextMenu("Right")]
-        public void MoveRight() { Move(new Vector3(deltaSize.x * transform.localScale.x, 0, 0)); }
+        private void MoveRight() { Move(new Vector3(DeltaSize.x * transform.localScale.x, 0, 0)); }
 
         [ContextMenu("DownLeft")]
-        public void MoveDownLeft() { Move(new Vector3(-deltaSize.x * transform.localScale.x / 2, -deltaSize.y * transform.localScale.y, 0)); }
+        private void MoveDownLeft() { Move(new Vector3(-DeltaSize.x * transform.localScale.x / 2, -DeltaSize.y * transform.localScale.y, 0)); }
 
         [ContextMenu("DownRight")]
-        public void MoveDownRight() { Move(new Vector3(deltaSize.x * transform.localScale.x / 2, -deltaSize.y * transform.localScale.y, 0)); }
+        private void MoveDownRight() { Move(new Vector3(DeltaSize.x * transform.localScale.x / 2, -DeltaSize.y * transform.localScale.y, 0)); }
 
 
         private void Move(Vector3 dir)

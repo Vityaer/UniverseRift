@@ -1,8 +1,10 @@
-﻿using Models.Misc.Avatars;
+﻿using Common.Db.CommonDictionaries;
+using Models.Misc.Avatars;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.PlayerPanels.AvatarPanels
 {
@@ -13,10 +15,11 @@ namespace City.Buildings.PlayerPanels.AvatarPanels
 
         public Image Avatar => _avatar;
 
-        public override void SetData(AvatarModel data, ScrollRect scrollRect)
+        public override void SetData(AvatarModel data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
 
             UpdateUi();
         }

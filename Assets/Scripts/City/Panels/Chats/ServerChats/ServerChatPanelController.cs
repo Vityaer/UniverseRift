@@ -6,8 +6,9 @@ using Models.Misc;
 using Network.DataServer;
 using Network.DataServer.Messages.Chats;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
+using Utils.DataCheckUtils;
 
 namespace City.Panels.Chats.ServerChats
 {
@@ -16,19 +17,20 @@ namespace City.Panels.Chats.ServerChats
         private readonly IJsonConverter m_jsonConverter;
         private readonly CommonDictionaries m_commonDictionaries;
 
-        private List<ChatMessageData> m_chatMesagges = new();
         private DynamicUiList<ChatMessageView, ChatMessageData> m_chatWrapper;
 
         public ServerChatPanelController(IJsonConverter jsonConverter, CommonDictionaries commonDictionaries)
         {
-            m_jsonConverter = jsonConverter;
+            m_jsonConverter = jsonConverter.ThrowIfArgumentNull();
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
         }
 
         protected override void OnLoadGame()
         {
             m_chatWrapper = new(View.ChatMessagePrefab,
                 View.ChatScrollRect.content,
-                View.ChatScrollRect);
+                View.ChatScrollRect,
+                m_commonDictionaries);
             
             View.SendMessageButton.OnClickAsObservable().Subscribe(_ => SendChatMessage().Forget())
                 .AddTo(Disposables);
@@ -59,7 +61,6 @@ namespace City.Panels.Chats.ServerChats
 
         private void ShowChats(List<ChatMessageData> messages)
         {
-            m_chatMesagges = messages;
             m_chatWrapper.ShowDatas(messages);
             foreach (var chatMessage in m_chatWrapper.Views)
                 if (CommonGameData.CommunicationData.PlayersData

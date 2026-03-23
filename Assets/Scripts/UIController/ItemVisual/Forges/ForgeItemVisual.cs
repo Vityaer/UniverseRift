@@ -42,12 +42,12 @@ namespace UIController.ItemVisual.Forges
 
         private void SelectItem()
         {
-            if (matter == TypeMatter.Synthesis)
+            if (matter != TypeMatter.Synthesis)
+                return;
+            
+            if (!_selected)
             {
-                if (!_selected)
-                {
-                    _onSelected.Execute(this);
-                }
+                _onSelected.Execute(this);
             }
         }
 

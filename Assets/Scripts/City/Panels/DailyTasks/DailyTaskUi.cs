@@ -1,12 +1,14 @@
+using City.Buildings.CityButtons.EventAgent;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using TMPro;
 using UIController;
-using UIController.Rewards;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 
-namespace City.Buildings.CityButtons.EventAgent
+namespace City.Panels.DailyTasks
 {
     public class DailyTaskUi : ScrollableUiView<GameReward>
     {
@@ -20,27 +22,26 @@ namespace City.Buildings.CityButtons.EventAgent
         public TMP_Text Name;
         public TMP_Text Description;
 
-        private GameReward _reward;
-        private ScrollableViewStatus _status;
+        private ScrollableViewStatus m_status;
 
-        public ScrollableViewStatus Status => _status;
+        public ScrollableViewStatus Status => m_status;
 
-        public override void SetData(GameReward data, ScrollRect scroll)
+        public override void SetData(GameReward data, ScrollRect scroll, CommonDictionaries dictionaries)
         {
-            _reward = data;
-            Scroll = scroll;
-            RewardController.ShowReward(data);
+            Scroll = scroll.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
+            RewardController.ShowReward(data, CommonDataDictionaries);
         }
 
         public void SetStatus(ScrollableViewStatus newStatusReward)
         {
-            _status = newStatusReward;
+            m_status = newStatusReward;
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            switch (_status)
+            switch (m_status)
             {
                 case ScrollableViewStatus.Close:
                     BlockPanel.color = CloseColor;

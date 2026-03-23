@@ -2,6 +2,7 @@
 using Fight.Common.Strikes;
 using Fight.Common.HeroControllers.Generals;
 using Fight.Common.Rounds;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.HeroStates
 {

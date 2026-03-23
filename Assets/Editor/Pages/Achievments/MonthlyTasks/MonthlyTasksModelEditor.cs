@@ -11,7 +11,7 @@ namespace Editor.Pages.Achievments
 
         public MonthlyTasksModelEditor(MonthlyTasksModel model, CommonDictionaries commonDictionaries)
         {
-            _model = model;
+            m_model = model;
             _commonDictionaries = commonDictionaries;
         }
 
@@ -21,8 +21,8 @@ namespace Editor.Pages.Achievments
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
     }
 }

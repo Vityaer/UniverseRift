@@ -2,6 +2,7 @@
 using Fight.Common.WarTable;
 using System;
 using Fight.Windows.WarTable;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UniRx;
 using VContainer;
 using VContainer.Unity;

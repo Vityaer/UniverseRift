@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using City.Buildings.Abstractions;
+using City.Buildings.Mines.Panels.CreateMines;
+using City.Buildings.Mines.Panels.MineInformations;
 using City.Buildings.Mines.Panels.Travels;
 using ClientServices;
 using Common.Db.CommonDictionaries;

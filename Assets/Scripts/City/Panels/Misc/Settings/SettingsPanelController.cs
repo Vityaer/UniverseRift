@@ -4,7 +4,7 @@ using Misc.Json;
 using Models.Common;
 using System.Collections.Generic;
 using TMPro;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Localization.Settings;

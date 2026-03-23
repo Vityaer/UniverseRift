@@ -1,4 +1,5 @@
 ﻿using System;
+using City.Buildings.TaskGiver.TaskControllers;
 using City.TaskBoard;
 using Common.Inventories.Resourses;
 using Common.Resourses;
@@ -15,25 +16,25 @@ namespace City.Buildings.TaskGiver
                 case TaskStatusType.NotStart:
                     sliderTime.SetMaxValue(requireTime);
                     TaskControllerButton.SetLabel(_localizationSystem.GetString("StartButtonLabel"));
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
+                    m_disposable = TaskControllerButton.OnClick.Subscribe(_ => StartTask().Forget());
                     break;
 
                 case TaskStatusType.InWork:
-                    _timeSliderDisposable = sliderTime.OnTimerFinish.Subscribe(_ => FinishFromSlider());
+                    TimeSliderDisposable = sliderTime.OnTimerFinish.Subscribe(_ => FinishFromSlider());
                     var costFastFinish = new GameResource(ResourceType.Diamond, _model.Rating * 10, 0);
                     TaskControllerButton.SetCost(costFastFinish);
                     sliderTime.SetData(startDateTime, requireTime);
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => BuyProgress().Forget());
+                    m_disposable = TaskControllerButton.OnClick.Subscribe(_ => BuyProgress().Forget());
                     break;
 
                 case TaskStatusType.Done:
                     sliderTime.SetData(startDateTime, requireTime);
 
-                    _timeSliderDisposable?.Dispose();
-                    _timeSliderDisposable = null;
+                    TimeSliderDisposable?.Dispose();
+                    TimeSliderDisposable = null;
                     
                     TaskControllerButton.SetLabel(_localizationSystem.GetString("TaskCompleteButtonLabel"));
-                    _disposable = TaskControllerButton.OnClick.Subscribe(_ => GetReward().Forget());
+                    m_disposable = TaskControllerButton.OnClick.Subscribe(_ => GetReward().Forget());
                     break;
             }
         }

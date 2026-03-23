@@ -94,7 +94,7 @@ namespace Models.Common.BigDigits
             while (Mantissa > 1000)
             {
                 E10 += 3;
-                Mantissa *= 0.001f;
+                Mantissa /= 1000f;
             }
             while (Mantissa < 1 && E10 > 0)
             {

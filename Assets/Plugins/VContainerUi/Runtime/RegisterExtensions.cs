@@ -5,7 +5,7 @@ using VContainerUi.Abstraction;
 using VContainerUi.Interfaces;
 using VContainerUi.Messages;
 
-namespace VContainerUi
+namespace Plugins.VContainerUi.Runtime
 {
 	public static class RegisterExtensions
 	{
@@ -18,7 +18,12 @@ namespace VContainerUi
 			
 			builder.Register((resolver) =>
 				{
-					var view = Object.Instantiate(viewPrefab, parent);
+					if (viewPrefab == null)
+					{
+						Debug.LogError($"{typeof(TView)} is null");
+					}
+
+					TView view = Object.Instantiate(viewPrefab, parent);
 					resolver.Inject(view);
 
 					if(!isStartActive)

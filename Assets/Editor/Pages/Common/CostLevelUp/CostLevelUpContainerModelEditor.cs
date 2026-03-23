@@ -12,7 +12,7 @@ namespace Pages.Heroes.CostLevelUp
     {
         public CostLevelUpContainerModelEditor(CostLevelUpContainer model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -21,8 +21,8 @@ namespace Pages.Heroes.CostLevelUp
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -31,8 +31,8 @@ namespace Pages.Heroes.CostLevelUp
         [LabelWidth(300)]
         public List<CostLevelUpModel> LevelsCost
         {
-            get => _model.LevelsCost;
-            set => _model.LevelsCost = value;
+            get => m_model.LevelsCost;
+            set => m_model.LevelsCost = value;
         }
     }
 }

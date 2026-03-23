@@ -1,7 +1,7 @@
 ﻿using City.Panels.ScreenBlockers;
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
-using Cysharp.Threading.Tasks;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -14,12 +14,13 @@ namespace City.Panels.Rewards
     public class RewardPanelController : UiPanelController<RewardPanelView>
     {
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
-        [Inject] private readonly ScreenBlockerController _screenBlockerController;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly ScreenBlockerController m_screenBlockerController;
 
-        private GameObject _currentLabel;
+        private GameObject m_currentLabel;
 
         private bool m_isOpen;
-        public ReactiveCommand OnClose = new ReactiveCommand();
+        public readonly ReactiveCommand OnClose = new ReactiveCommand();
 
         public override void Start()
         {
@@ -33,33 +34,34 @@ namespace City.Panels.Rewards
         {
             if (m_isOpen)
                 return;
-            
-            m_isOpen = true;
-            View.RewardUIController.ShowReward(reward, fast);
 
-            _currentLabel?.SetActive(false);
+            m_isOpen = true;
+            View.RewardUIController.ShowReward(reward, m_commonDictionaries, fast);
+
+            m_currentLabel?.SetActive(false);
 
             switch (rewardType)
             {
                 case RewardType.Simple:
-                    _currentLabel = View.SimpleRewardLabel;
+                    m_currentLabel = View.SimpleRewardLabel;
                     break;
                 case RewardType.Win:
-                    _currentLabel = View.WinLabel;
+                    m_currentLabel = View.WinLabel;
                     break;
                 case RewardType.Defeat:
-                    _currentLabel = View.DefeatLabel;
+                    m_currentLabel = View.DefeatLabel;
                     break;
             }
 
-            _currentLabel.SetActive(true);
+            if (m_currentLabel != null)
+                m_currentLabel.SetActive(true);
             UiMessagesPublisher.OpenWindowPublisher.OpenWindow<RewardPanelController>(openType: OpenType.Additive);
         }
 
         protected override void Close()
         {
             m_isOpen = false;
-            _currentLabel.SetActive(false);
+            m_currentLabel.SetActive(false);
             OnClose.Execute();
             base.Close();
         }
