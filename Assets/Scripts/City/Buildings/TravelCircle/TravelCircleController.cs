@@ -3,7 +3,6 @@ using ClientServices;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using Fight.Common;
-using Models.Common;
 using Models.Fights.Campaign;
 using Models.TravelRaceDatas;
 using Network.DataServer;
@@ -21,29 +20,29 @@ namespace City.Buildings.TravelCircle
 {
     public class TravelCircleController : BuildingWithFight<TravelCircleView>, IInitializable
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly ClientRewardService _clientRewardService;
-        [Inject] private readonly IObjectResolver _objectResolver;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly ClientRewardService m_clientRewardService;
+        [Inject] private readonly IObjectResolver m_objectResolver;
 
         private const int SHOW_MISSION_COUNT = 10;
 
-        private List<TravelCircleMissionController> _missionsUI = new();
-        private TravelRaceCampaignButton _currentCampaingSelector;
-        private bool _loadCurrentTravel;
-        private TravelBuildingData _travelCircleSave;
-        private TravelRaceData _currentTravelData;
-        private TravelCircleMissionController _selectedMissionUi;
+        private readonly List<TravelCircleMissionController> m_missionsUI = new();
+        private TravelRaceCampaignButton m_currentCampaignSelector;
+        private bool m_loadCurrentTravel;
+        private TravelBuildingData m_travelCircleSave;
+        private TravelRaceData m_currentTravelData;
+        private TravelCircleMissionController m_selectedMissionUi;
 
         public void Initialize()
         {
-            for (var i = 0; i < SHOW_MISSION_COUNT; i++)
+            for (int i = 0; i < SHOW_MISSION_COUNT; i++)
             {
-                var missionUi = UnityEngine.Object.Instantiate(View.MissionPrefab, View.Content);
-                _objectResolver.Inject(missionUi);
+                TravelCircleMissionController missionUi = Object.Instantiate(View.MissionPrefab, View.Content);
+                m_objectResolver.Inject(missionUi);
 
                 missionUi.OnSelect.Subscribe(OnMissionSelect).AddTo(Disposables);
-                _missionsUI.Add(missionUi);
-                missionUi.SetData(null, View.ScrollRect);
+                m_missionsUI.Add(missionUi);
+                missionUi.SetData(null, View.ScrollRect, m_commonDictionaries);
             }
 
             foreach (var campaignSelector in View.TravelRaceCampaignButtons)
@@ -57,9 +56,9 @@ namespace City.Buildings.TravelCircle
 
         protected override void OnLoadGame()
         {
-            _travelCircleSave = CommonGameData.City.TravelCircleSave;
+            m_travelCircleSave = CommonGameData.City.TravelCircleSave;
 
-            foreach (var travelData in _travelCircleSave.TravelRaceDatas)
+            foreach (var travelData in m_travelCircleSave.TravelRaceDatas)
             {
                 var campaignSelector = View.TravelRaceCampaignButtons
                     .Find(selector => selector.RaceId.Equals(travelData.RaceId));
@@ -70,8 +69,8 @@ namespace City.Buildings.TravelCircle
                     continue;
                 }
 
-                var travelModel = _commonDictionaries.TravelRaceCampaigns[$"{travelData.RaceId}Travel"];
-                var raceContainer = _commonDictionaries.Races[travelData.RaceId];
+                var travelModel = m_commonDictionaries.TravelRaceCampaigns[$"{travelData.RaceId}Travel"];
+                var raceContainer = m_commonDictionaries.Races[travelData.RaceId];
 
 
                 var icon = SpriteUtils.LoadSprite(raceContainer.SpritePath);
@@ -85,55 +84,55 @@ namespace City.Buildings.TravelCircle
 
         private void LoadMissions()
         {
-            if (_loadCurrentTravel)
+            if (m_loadCurrentTravel)
                 return;
 
             var currentMission = 0;
 
-            var currentTravelData = _travelCircleSave.TravelRaceDatas
-                .Find(data => data.RaceId.Equals(_currentCampaingSelector.RaceId));
+            var currentTravelData = m_travelCircleSave.TravelRaceDatas
+                .Find(data => data.RaceId.Equals(m_currentCampaignSelector.RaceId));
 
             if (currentTravelData != null)
             {
-                _currentTravelData = currentTravelData;
+                m_currentTravelData = currentTravelData;
                 currentMission = currentTravelData.MissionIndexCompleted + 1;
             }
 
-            var currentTravelModel = _commonDictionaries.TravelRaceCampaigns[$"{_currentCampaingSelector.RaceId}Travel"];
+            var currentTravelModel = m_commonDictionaries.TravelRaceCampaigns[$"{m_currentCampaignSelector.RaceId}Travel"];
             for (int i = 0; i < currentMission; i++)
             {
-                _missionsUI[i].SetData(currentTravelModel.Missions[i], View.ScrollRect, i + 1);
+                m_missionsUI[i].SetData(currentTravelModel.Missions[i], View.ScrollRect, i + 1);
                 //_missionsUI[i].SetCanSmash();
-                _missionsUI[i].Hide();
+                m_missionsUI[i].Hide();
             }
 
-            for (int i = currentMission; i < currentTravelModel.Missions.Count && i < _missionsUI.Count; i++)
+            for (int i = currentMission; i < currentTravelModel.Missions.Count && i < m_missionsUI.Count; i++)
             {
-                _missionsUI[i].SetData(currentTravelModel.Missions[i], View.ScrollRect, i + 1);
+                m_missionsUI[i].SetData(currentTravelModel.Missions[i], View.ScrollRect, i + 1);
             }
-            for (int i = currentTravelModel.Missions.Count; i < _missionsUI.Count; i++)
+            for (int i = currentTravelModel.Missions.Count; i < m_missionsUI.Count; i++)
             {
-                _missionsUI[i].Hide();
+                m_missionsUI[i].Hide();
             }
 
-            _missionsUI[currentMission].OpenForFight();
-            _loadCurrentTravel = true;
+            m_missionsUI[currentMission].OpenForFight();
+            m_loadCurrentTravel = true;
         }
 
         private void OnSelectCampaign(TravelRaceCampaignButton newSelector)
         {
-            if (_currentCampaingSelector == newSelector)
+            if (m_currentCampaignSelector == newSelector)
                 return;
 
-            _currentCampaingSelector?.Diselect();
-            _currentCampaingSelector = newSelector;
-            _currentCampaingSelector.Select();
-            _loadCurrentTravel = false;
+            m_currentCampaignSelector?.Diselect();
+            m_currentCampaignSelector = newSelector;
+            m_currentCampaignSelector.Select();
+            m_loadCurrentTravel = false;
         }
 
         private void OnMissionSelect(TravelCircleMissionController missionUi)
         {
-            _selectedMissionUi = missionUi;
+            m_selectedMissionUi = missionUi;
 
             switch (missionUi.Status)
             {
@@ -151,16 +150,16 @@ namespace City.Buildings.TravelCircle
             var message = new MissionRaceTravelSmashMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                TravelId = _currentTravelData.Id,
+                TravelId = m_currentTravelData.Id,
                 MissionIndex = mission.Index - 1,
                 Count = 1
             };
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(mission.GetData.SmashReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward, RewardType.Win);
+                GameReward reward = new GameReward(mission.GetData.SmashReward, m_commonDictionaries);
+                m_clientRewardService.ShowReward(reward, RewardType.Win);
             }
         }
 
@@ -170,28 +169,32 @@ namespace City.Buildings.TravelCircle
             {
                 SendData().Forget();
 
-                _selectedMissionUi.SetCanSmash();
-                _currentTravelData.MissionIndexCompleted += 1;
-                _missionsUI[_currentTravelData.MissionIndexCompleted].OpenForFight();
+                m_selectedMissionUi.SetCanSmash();
+                m_currentTravelData.MissionIndexCompleted += 1;
+                m_missionsUI[m_currentTravelData.MissionIndexCompleted].OpenForFight();
 
-                var travelModel = _commonDictionaries.TravelRaceCampaigns[$"{_currentTravelData.RaceId}Travel"];
-                _currentCampaingSelector.SetData(travelModel, _currentTravelData.MissionIndexCompleted);
+                var travelModel = m_commonDictionaries.TravelRaceCampaigns[$"{m_currentTravelData.RaceId}Travel"];
+                m_currentCampaignSelector.SetData(travelModel, m_currentTravelData.MissionIndexCompleted);
             }
             else
             {
-                _clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
+                m_clientRewardService.ShowReward(new GameReward(), RewardType.Defeat);
             }
         }
 
         private async UniTaskVoid SendData()
         {
-            var message = new MissionRaceTravelCompleteMessage { PlayerId = CommonGameData.PlayerInfoData.Id, TravelId = _currentTravelData.Id };
-            var result = await DataServer.PostData(message);
+            MissionRaceTravelCompleteMessage message = new MissionRaceTravelCompleteMessage
+                {
+                    PlayerId = CommonGameData.PlayerInfoData.Id,
+                    TravelId = m_currentTravelData.Id
+                };
+            string result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(_selectedMissionUi.GetData.WinReward, _commonDictionaries);
-                _clientRewardService.ShowReward(reward);
+                GameReward reward = new GameReward(m_selectedMissionUi.GetData.WinReward, m_commonDictionaries);
+                m_clientRewardService.ShowReward(reward);
             }
         }
 
@@ -200,7 +203,6 @@ namespace City.Buildings.TravelCircle
             LoadMissions();
             View.MissionsPanel.SetActive(true);
         }
-
 
         private void CloseTravel()
         {

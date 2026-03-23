@@ -1,19 +1,15 @@
-﻿using City.Buildings.CityButtons;
-using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.Friends;
+﻿using City.Buildings.Friends;
 using City.Buildings.Mails;
-using City.Buildings.Requirement;
 using City.Panels.Achievments;
 using City.Panels.Chats.ServerChats;
 using City.Panels.DailyRewards;
 using City.Panels.DailyTasks;
 using City.Panels.Inventories;
 using MainPages.MenuHud;
-using UIController.Inventory;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
-using VContainerUi.Abstraction;
 using VContainerUi.Interfaces;
 using VContainerUi.Messages;
 using VContainerUi.Model;
@@ -47,7 +43,7 @@ namespace MainPages.City.CityUi
         private void OpenPanelOnClick<T>(ButtonWithNewsView buttonWithNews) where T : IPopUp
         {
             buttonWithNews.Button.OnClickAsObservable().Subscribe(_ => OpenBuilding<T>()).AddTo(m_disposables);
-            var uiController = m_diContainer.Resolve<T>();
+            T uiController = m_diContainer.Resolve<T>();
             uiController.OnNewsStatusChange.Subscribe(flag => ChangeNewsStatus(buttonWithNews, flag))
                 .AddTo(m_disposables);
         }

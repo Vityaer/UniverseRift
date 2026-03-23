@@ -38,9 +38,16 @@ namespace Fight.Common.Strikes
             }
             
             result *= 1f + skillFactor * 0.05f;
-            if (result < 0) Debug.LogError("negative damage");
-            if(result < 1f) result = 1f;
-            
+            switch (result)
+            {
+                case < 0:
+                    Debug.LogError("negative damage");
+                    return 0f;
+                case < 1f:
+                    result = 1f;
+                    break;
+            }
+
             return Mathf.Ceil(result);
         }
 

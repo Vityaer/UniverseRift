@@ -11,14 +11,14 @@ namespace Editor.Pages.Heroes
 {
     public class HeroPageEditor : BasePageEditor
     {
-        private CommonDictionaries _dictionaries;
-        private List<HeroModel> _heroes => _dictionaries.Heroes.Select(l => l.Value).ToList();
+        private readonly CommonDictionaries m_dictionaries;
+        private List<HeroModel> _heroes => m_dictionaries.Heroes.Select(l => l.Value).ToList();
 
         public HeroPageEditor(CommonDictionaries commonDictionaries)
         {
-            _dictionaries = commonDictionaries;
+            m_dictionaries = commonDictionaries;
 
-            Heroes = _heroes.Select(heroModel => new HeroModelEditor(heroModel, _dictionaries)).ToList();
+            Heroes = _heroes.Select(heroModel => new HeroModelEditor(heroModel, m_dictionaries)).ToList();
             foreach (var hero in Heroes)
             {
                 if (hero.GetModel().General.HeroId == null)
@@ -42,12 +42,12 @@ namespace Editor.Pages.Heroes
         {
             base.AddElement();
             var id = UnityEngine.Random.Range(0, 99999).ToString();
-            _dictionaries.Heroes.Add(id, new HeroModel()
+            m_dictionaries.Heroes.Add(id, new HeroModel()
             {
                 Id = id,
 
             });
-            Heroes.Add(new HeroModelEditor(_dictionaries.Heroes[id], _dictionaries));
+            Heroes.Add(new HeroModelEditor(m_dictionaries.Heroes[id], m_dictionaries));
         }
 
         private void RemoveElements(HeroModelEditor light, object b, List<HeroModelEditor> lights)

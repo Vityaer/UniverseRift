@@ -12,10 +12,11 @@ namespace City.Panels.HeroesHireResultPanels
 {
     public class HeroesHireResultPanelController : BaseBuilding<HeroesHireResultPanelView>
     {
-        [Inject] private readonly HeroInstancesController _heroInstancesController;
+        [Inject] private readonly HeroInstancesController m_heroInstancesController;
 
-        private GameObject _currentPanel;
-        private Tween _tween;
+        private HeroRenderContainer m_heroRenderContainer;
+        private GameObject m_currentPanel;
+        private Tween m_tween;
 
         protected override void OnStart()
         {
@@ -25,7 +26,8 @@ namespace City.Panels.HeroesHireResultPanels
 
         public void ShowHeroes(List<GameHero> heroes)
         {
-            MessagesPublisher.OpenWindowPublisher.OpenWindow<HeroesHireResultPanelController>(openType: OpenType.Exclusive);
+            MessagesPublisher.OpenWindowPublisher
+                .OpenWindow<HeroesHireResultPanelController>(openType: OpenType.Exclusive);
             if (heroes.Count == 1)
             {
                 ShowOneHero(heroes[0]);
@@ -44,20 +46,28 @@ namespace City.Panels.HeroesHireResultPanels
         private void ShowOneHero(GameHero hero)
         {
             View.ButtonCloseBuilding.interactable = false;
-            _currentPanel = View.OneHeroPanel;
-            _currentPanel.SetActive(true);
-            _heroInstancesController.ShowHero(hero);
-            _currentPanel.transform.localScale = Vector3.one * 2;
+            m_currentPanel = View.OneHeroPanel;
+            m_currentPanel.SetActive(true);
+            
+            if (m_heroRenderContainer != null)
+            {
+                m_heroInstancesController.ReleaseRender(m_heroRenderContainer);
+            }
+
+            m_heroRenderContainer = m_heroInstancesController.ShowHero(hero);
+            View.OneHeroRawImage.texture = m_heroRenderContainer.RenderTexture;
+            
+            m_currentPanel.transform.localScale = Vector3.one * 2;
             View.RatingHeroController.ShowRating(hero.HeroData.Rating);
-            _tween.Kill();
-            _tween = _currentPanel.transform.DOScale(Vector3.one, View.AnimationTime).OnComplete(() => SwitchOnButtonClose());
+            m_tween.Kill();
+            m_tween = m_currentPanel.transform.DOScale(Vector3.one, View.AnimationTime).OnComplete(() => SwitchOnButtonClose());
         }
 
         private void ShowManyHeroes(List<GameHero> heroes)
         {
             View.ButtonCloseBuilding.interactable = true;
-            _currentPanel = View.ManyHeroesPanel;
-            _currentPanel.SetActive(true);
+            m_currentPanel = View.ManyHeroesPanel;
+            m_currentPanel.SetActive(true);
             for (var i = 0; i < heroes.Count; i++)
             {
                 View.Cards[i].SetData(heroes[i]);
@@ -71,18 +81,23 @@ namespace City.Panels.HeroesHireResultPanels
 
         protected override void ClosePage()
         {
-            _currentPanel.SetActive(false);
+            m_currentPanel.SetActive(false);
         }
 
         public override void Close()
         {
-            _heroInstancesController.Hide();
+            if (m_heroRenderContainer != null)
+            {
+                m_heroInstancesController.ReleaseRender(m_heroRenderContainer);
+                m_heroRenderContainer = null;
+            }
+
             base.Close();
         }
 
         public override void Dispose()
         {
-            _tween.Kill();
+            m_tween.Kill();
             base.Dispose();
         }
     }

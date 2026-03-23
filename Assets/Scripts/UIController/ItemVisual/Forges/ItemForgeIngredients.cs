@@ -9,30 +9,31 @@ namespace UIController.ItemVisual.Forges
 {
     public class ItemForgeIngredients : UiView
     {
-        [Inject] private InventoryPanelController _inventoryPanelController;
-        [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private InventoryPanelController m_inventoryPanelController;
+        [Inject] private CommonDictionaries m_commonDictionaries;
 
         public ItemSliderController ItemSliderController;
         public SubjectCell SubjectCell;
 
-        private GameItemRelation _relation;
-        private GameItem _item;
+        private GameItemRelation m_relation;
+        private GameItem m_item;
 
         public bool IsEnough =>
-            (HowManyThisItems(_item) >= _relation.Model.RequireCount); 
+            (HowManyThisItems(m_item) >= m_relation.Model.RequireCount); 
 
         public void SetInfo(GameItemRelation relation)
         {
-            _relation = relation;
-            _item = new GameItem(_commonDictionaries.Items[relation.Model.ItemIngredientName], 0);
-            SubjectCell.SetData(_item);
+            m_relation = relation;
+            m_item = new GameItem(m_commonDictionaries.Items[relation.Model.ItemIngredientName], 0);
+            SubjectCell.Init(null, m_commonDictionaries);
+            SubjectCell.SetData(m_item);
             CheckItems();
         }
 
         public void CheckItems()
         {
-            int currentCount = HowManyThisItems(_item);
-            ItemSliderController.SetAmount(currentCount, _relation.Model.RequireCount);
+            int currentCount = HowManyThisItems(m_item);
+            ItemSliderController.SetAmount(currentCount, m_relation.Model.RequireCount);
             //string result = currentCount >= _relation.Model.RequireCount ? "<color=black>" : "<color=red>";
 
             //result = $"{result}{currentCount}</color> / {_relation.Model.RequireCount}";
@@ -42,14 +43,9 @@ namespace UIController.ItemVisual.Forges
 
         private int HowManyThisItems(GameItem item)
         {
-            if (_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value))
-            {
-                return value.Amount;
-            }
-            else
-            {
-                return 0;
-            }
+            return m_inventoryPanelController.GameInventory.InventoryObjects.TryGetValue(item.Id, out var value)
+                ? value.Amount
+                : 0;
         }
     }
 }

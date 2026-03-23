@@ -1,5 +1,3 @@
-using System.Linq;
-using City.Buildings.Requirement;
 using City.Panels.MonthTasks.Abstractions;
 
 namespace City.Panels.Achievments

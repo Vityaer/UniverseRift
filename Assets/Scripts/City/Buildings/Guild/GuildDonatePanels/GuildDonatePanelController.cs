@@ -2,7 +2,6 @@
 using Network.DataServer.Messages.Guilds;
 using Network.DataServer.Models;
 using Network.DataServer;
-using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using Models.Common.BigDigits;
 using Misc.Json;
@@ -12,6 +11,7 @@ using ClientServices;
 using System;
 using Common.Db.CommonDictionaries;
 using Common.Inventories.Resourses;
+using UiExtensions.Panels;
 using UnityEngine;
 
 namespace City.Buildings.Guild.GuildDonatePanels

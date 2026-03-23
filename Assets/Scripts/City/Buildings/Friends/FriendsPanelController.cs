@@ -5,6 +5,7 @@ using City.Buildings.Friends.FriendViews;
 using City.Buildings.Friends.Panels.AvailableFriends;
 using City.Buildings.Friends.Panels.FriendRequests;
 using City.Panels.PlayerInfoPanels;
+using Common.Db.CommonDictionaries;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models.Misc;
@@ -12,7 +13,7 @@ using Models.Misc.Communications;
 using Network.DataServer;
 using Network.DataServer.Messages.Friendships;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -26,7 +27,8 @@ namespace City.Buildings.Friends
         [Inject] private readonly FriendRequestsPanelController m_friendRequestsPanelController;
         [Inject] private readonly IJsonConverter m_jsonConverter;
         [Inject] private readonly PlayerMiniInfoPanelController m_playerMiniInfoPanelController;
-
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        
         private DynamicUiList<FriendView, FriendshipData> m_friendsWrapper;
         private readonly ReactiveCommand<int> m_onSendHearts = new();
         private readonly ReactiveCommand<int> m_onReceiveHearts = new();
@@ -38,7 +40,7 @@ namespace City.Buildings.Friends
         {
             m_friendRequestsPanelController.OnAgreeRequestFriendship.Subscribe(CreateFriend).AddTo(Disposables);
 
-            m_friendsWrapper = new(View.FriendPrefab, View.Content, View.Scroll, OnSelectFriend);
+            m_friendsWrapper = new(View.FriendPrefab, View.Content, View.Scroll, m_commonDictionaries, OnSelectFriend);
             View.OpenListFriendshipRequestsButton.OnClickAsObservable().Subscribe(_ => OpenFriendshipRequestPanel())
                 .AddTo(Disposables);
             View.OpenListAvailablePlayerAsFriendsButton.OnClickAsObservable().Subscribe(_ => OpenAvailablePlayers())

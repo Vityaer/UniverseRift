@@ -1,43 +1,46 @@
 using System.Collections.Generic;
+using System.Linq;
 using Common.Db.CommonDictionaries;
-using Ui.Misc.Widgets;
-using UIController.Cards;
-using UIController.Rewards.PosibleRewards;
-using UiExtensions.Scroll.Interfaces;
-using UnityEngine;
+using Models.Inventory.Splinters;
+using UIController.ItemVisual;
+using UiExtensions.Misc;
+using UiExtensions.Panels;
 using VContainer;
 
 namespace City.Panels.PosibleHeroes
 {
     public class PosibleHeroesPanelController : UiPanelController<PosibleHeroesPanelView>
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries; 
-        public List<CardWithPercent> cardsWithPercent = new List<CardWithPercent>();
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        public void SetData(PosibleRewardData rewardInfo)
+        private DynamicUiList<ArtifactWithPercent, GameRandomSplinterData> m_artifactViews;
+
+        public override void Start()
         {
-            //CheckCountAvailableCard(rewardInfo.PosibilityObjectRewards.Count);
-            //FillData(rewardInfo);
+            base.Start();
+            m_artifactViews = new DynamicUiList<ArtifactWithPercent, GameRandomSplinterData>(View.Prefab,
+                View.ScrollRect.content,
+                View.ScrollRect,
+                m_commonDictionaries,
+                onCreate: CreateArtifactView
+            );
         }
 
-        private void CheckCountAvailableCard(int requireCount)
+        public void SetData(List<RandomSplinterModel> splinterDatas)
         {
-            if (cardsWithPercent.Count < requireCount)
-                for (int i = cardsWithPercent.Count; i < requireCount; i++)
-                    cardsWithPercent.Add(Object.Instantiate(View.Prefab, View.Content));
+            List<GameRandomSplinterData> preparedDatas = new(splinterDatas.Count);
+            float sum = splinterDatas.Sum(artifact => artifact.Valuation);
+            preparedDatas.AddRange(from model
+                    in splinterDatas
+                let percent = model.Valuation / sum
+                select new GameRandomSplinterData(model, percent));
+
+            m_artifactViews.ShowDatas(preparedDatas);
         }
 
-        private void FillData(PosibleRewardData rewardInfo)
+        private void CreateArtifactView(ArtifactWithPercent obj)
         {
-            //for (int i = 0; i < rewardInfo.PosibilityObjectRewards.Count; i++)
-            //{
-            //    var name = rewardInfo.PosibilityObjectRewards[i].ModelId;
-            //    cardsWithPercent[i].SetData(_commonDictionaries.Heroes[name], rewardInfo.PosibleNumObject(i));
-            //}
-            //for (int i = rewardInfo.PosibilityObjectRewards.Count; i < cardsWithPercent.Count; i++)
-            //{
-            //    cardsWithPercent[i].Hide();
-            //}
+            obj.Init(View.ScrollRect, m_commonDictionaries);
         }
     }
 }

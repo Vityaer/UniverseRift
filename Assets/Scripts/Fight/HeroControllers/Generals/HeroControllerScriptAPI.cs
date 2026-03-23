@@ -1,7 +1,7 @@
 using Fight.Common.HeroStates;
 using UnityEngine;
 
-namespace Fight.Common.HeroControllers.Generals
+namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {

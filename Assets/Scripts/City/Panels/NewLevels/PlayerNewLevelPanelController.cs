@@ -3,7 +3,7 @@ using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using Models.Common;
 using UIController.Rewards;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainer;
 using VContainerUi.Model;
 using VContainerUi.Messages;

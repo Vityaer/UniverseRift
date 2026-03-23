@@ -16,9 +16,9 @@ namespace Editor.Pages.Buildings.TravelRaceCampaigns
         public TravelRaceModelEditor(TravelRaceModel model, CommonDictionaries dictionaries)
         {
             _commonDictionaries = dictionaries;
-            _model = model;
+            m_model = model;
 
-            foreach (var mission in _model.Missions)
+            foreach (var mission in m_model.Missions)
             {
                 mission.Dictionaries = _commonDictionaries;
                 if (mission.Units != null)
@@ -45,8 +45,8 @@ namespace Editor.Pages.Buildings.TravelRaceCampaigns
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -56,8 +56,8 @@ namespace Editor.Pages.Buildings.TravelRaceCampaigns
         [ValueDropdown(nameof(_allRaces), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string Race
         {
-            get => _model.Race;
-            set => _model.Race = value;
+            get => m_model.Race;
+            set => m_model.Race = value;
         }
 
         [ShowInInspector]
@@ -69,8 +69,8 @@ namespace Editor.Pages.Buildings.TravelRaceCampaigns
             CustomRemoveElementFunction = nameof(RemoveMission), CustomAddFunction = nameof(AddMission))]
         public List<MissionWithSmashReward> Missions
         {
-            get => _model.Missions;
-            set => _model.Missions = value;
+            get => m_model.Missions;
+            set => m_model.Missions = value;
         }
 
         protected void AddMission()

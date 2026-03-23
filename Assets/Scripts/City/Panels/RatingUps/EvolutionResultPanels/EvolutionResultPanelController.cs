@@ -1,7 +1,7 @@
 ﻿using Common.Db.CommonDictionaries;
 using Hero;
 using Models.Heroes.HeroCharacteristics;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 

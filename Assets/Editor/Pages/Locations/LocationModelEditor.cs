@@ -13,7 +13,7 @@ namespace Editor.Pages.Locations
 
         public LocationModelEditor(LocationModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -22,8 +22,8 @@ namespace Editor.Pages.Locations
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -36,7 +36,7 @@ namespace Editor.Pages.Locations
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.MissionBackground);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(m_model.MissionBackground);
                 }
 
                 return _sprite;
@@ -45,7 +45,7 @@ namespace Editor.Pages.Locations
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.MissionBackground = path;
+                m_model.MissionBackground = path;
             }
         }
         
@@ -61,7 +61,7 @@ namespace Editor.Pages.Locations
             {
                 if (_mapPrefab == null)
                 {
-                    _mapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(_model.MapPrefabPath);
+                    _mapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(m_model.MapPrefabPath);
                 }
 
                 return _mapPrefab;
@@ -70,7 +70,7 @@ namespace Editor.Pages.Locations
             {
                 _mapPrefab = value;
                 var path = AssetDatabase.GetAssetPath(_mapPrefab);
-                _model.MapPrefabPath = path;
+                m_model.MapPrefabPath = path;
             }
         }
     }

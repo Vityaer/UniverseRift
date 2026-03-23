@@ -1,4 +1,5 @@
 ﻿using City.Buildings.PlayerPanels.PlayerMiniPanels;
+using Common.Db.CommonDictionaries;
 using Common.Players;
 using DG.Tweening;
 using Models.Data.Players;
@@ -24,19 +25,19 @@ namespace City.Buildings.Guild.RecruitViews
         [SerializeField] private float _imageCheckOff;
         [SerializeField] private float _imageCheckOn;
 
-        private PlayersStorage _playersStorage;
-        private PlayerData _playerData;
+        private PlayersStorage m_playersStorage;
+        private PlayerData m_playerData;
 
         [Inject]
         private void Construct(PlayersStorage playersStorage)
         {
-            _playersStorage = playersStorage;
+            m_playersStorage = playersStorage;
         }
 
-        public override void SetData(RecruitData data, ScrollRect scrollRect)
+        public override void SetData(RecruitData data, ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
-            base.SetData(data, scrollRect);
-            _playerData = _playersStorage.GetPlayerData(data.PlayerId);
+            base.SetData(data, scrollRect, commonDictionaries);
+            m_playerData = m_playersStorage.GetPlayerData(data.PlayerId);
             UpdateUi();
         }
 
@@ -45,9 +46,9 @@ namespace City.Buildings.Guild.RecruitViews
             if (Data == null)
                 return;
 
-            _name.text = $"{_playerData.Name}";
+            _name.text = $"{m_playerData.Name}";
             _placeText.text = $"{transform.GetSiblingIndex() + 1}";
-            _playerAvatar.SetData(_playerData);
+            _playerAvatar.SetData(m_playerData);
 
             _raidBossCheckimage.DOFade(Data.TodayRaidBoss ? _imageCheckOn : _imageCheckOff, 0f);
             _donateCheckImage.DOFade(Data.TodayDonate ? _imageCheckOn : _imageCheckOff, 0f);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using City.Buildings.Abstractions;
+using City.Buildings.Voyage.Panels;
 using City.Buildings.Voyage.Shops;
 using ClientServices;
 using Common.Db.CommonDictionaries;

@@ -1,21 +1,22 @@
-﻿using City.Buildings.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using City.Buildings.Abstractions;
 using City.Panels.HeroesHireResultPanels;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Heroes;
-using Common.Resourses;
+using Common.Inventories.Resourses;
 using Cysharp.Threading.Tasks;
 using Hero;
 using Misc.Json;
 using Models;
 using Models.City.Hires;
 using Models.Common.BigDigits;
+using Models.Heroes;
 using Network.DataServer;
 using Network.DataServer.Messages;
-using System;
-using System.Collections.Generic;
-using Common.Db.CommonDictionaries;
-using Common.Inventories.Resourses;
 using UniRx;
+using UnityEngine;
 using VContainer;
 
 namespace City.Buildings.Tavern
@@ -55,15 +56,18 @@ namespace City.Buildings.Tavern
             SelectHire<SpecialHire>(new GameResource(m_specialHireContainer.Cost), m_observerSpecialHire);
 
             View.SimpleHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SimpleHire>(new GameResource(m_simpleHireContainer.Cost), m_observerSimpleHire))
+                .Subscribe(_ =>
+                    SelectHire<SimpleHire>(new GameResource(m_simpleHireContainer.Cost), m_observerSimpleHire))
                 .AddTo(Disposables);
 
             View.SpecialHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<SpecialHire>(new GameResource(m_specialHireContainer.Cost), m_observerSpecialHire))
+                .Subscribe(_ =>
+                    SelectHire<SpecialHire>(new GameResource(m_specialHireContainer.Cost), m_observerSpecialHire))
                 .AddTo(Disposables);
 
             View.FriendHireButton.OnClickAsObservable()
-                .Subscribe(_ => SelectHire<FriendHire>(new GameResource(m_friendHireContainer.Cost), m_observerFriendHire))
+                .Subscribe(_ =>
+                    SelectHire<FriendHire>(new GameResource(m_friendHireContainer.Cost), m_observerFriendHire))
                 .AddTo(Disposables);
         }
 
@@ -80,29 +84,30 @@ namespace City.Buildings.Tavern
         private async UniTaskVoid HireHero<T>(int count, ReactiveCommand<BigDigit> onHireHeroes, GameResource cost)
             where T : AbstractHireMessage, new()
         {
-            var message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
+            T message = new T { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
             string result = await DataServer.PostData(message);
 
-            if (string.IsNullOrEmpty(result))
-            {
-                return;
-			}
+            if (string.IsNullOrEmpty(result)) return;
 
-			var newHeroDatas = m_jsonConverter.Deserialize<List<HeroData>>(result);
+            List<HeroData> newHeroDatas = m_jsonConverter.Deserialize<List<HeroData>>(result);
 
-            if (newHeroDatas == null)
+            if (newHeroDatas == null) return;
+
+            List<GameHero> heroes = new List<GameHero>(newHeroDatas.Count);
+            foreach (HeroData t in newHeroDatas)
             {
-                return;
+                if (m_commonDictionaries.Heroes.TryGetValue(t.HeroId, out HeroModel model))
+                {
+                    GameHero hero = new GameHero(model, t);
+                    AddNewHero(hero);
+                    heroes.Add(hero);
+                }
+                else
+                {
+                    Debug.LogError($"Hero model not found: {t.HeroId}");
+                }
             }
 
-            var heroes = new List<GameHero>(newHeroDatas.Count);
-            foreach (var t in newHeroDatas)
-            {
-                var model = m_commonDictionaries.Heroes[t.HeroId];
-                var hero = new GameHero(model, t);
-                AddNewHero(hero);
-                heroes.Add(hero);
-            }
             m_resourceStorageController.SubtractResource(cost);
 
             onHireHeroes.Execute(new BigDigit(count));

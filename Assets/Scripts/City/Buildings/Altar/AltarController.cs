@@ -1,47 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using UIController.Cards;
-using UnityEngine;
-using UIController.Rewards;
 using City.Buildings.Abstractions;
-using Models.Common.BigDigits;
-using City.Buildings.Altar;
 using City.Panels.AltarMarkets;
-using UniRx;
-using VContainer.Unity;
-using Common.Heroes;
-using VContainer;
-using Hero;
-using Cysharp.Threading.Tasks;
-using Network.DataServer.Models;
-using Network.DataServer;
 using ClientServices;
 using Common.Db.CommonDictionaries;
+using Common.Heroes;
 using Common.Rewards;
+using Cysharp.Threading.Tasks;
+using Hero;
 using Misc.Json;
+using Models.Common.BigDigits;
+using Network.DataServer;
 using Network.DataServer.Messages;
+using Network.DataServer.Models;
+using UIController.Cards;
+using UIController.Rewards;
+using UniRx;
+using VContainer;
+using VContainer.Unity;
+using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
-using VContainerUi.Messages;
 
-namespace Altar
+namespace City.Buildings.Altar
 {
     public class AltarController : BuildingWithHeroesList<AltarView>, IInitializable
     {
-        [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly ClientRewardService _clientRewardService;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly HeroesStorageController m_heroesStorageController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly ClientRewardService m_clientRewardService;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
         [Inject] protected readonly IUiMessagesPublisherService UiMessagesPublisher;
 
-        [SerializeField] private List<AltarReward> _templateRewards = new List<AltarReward>();
+        private readonly ReactiveCommand<BigDigit> m_onDissamble = new ReactiveCommand<BigDigit>();
 
-        private readonly ReactiveCommand<BigDigit> _onDissamble = new ReactiveCommand<BigDigit>();
+        private List<GameHero> m_listHeroes;
+        private readonly List<Card> m_selectedHeroCards = new();
 
-        private List<GameHero> _listHeroes;
-        private List<Card> _selectedHeroCards = new();
-
-        public IObservable<BigDigit> OnDissamble => _onDissamble;
+        public IObservable<BigDigit> OnDissamble => m_onDissamble;
 
         public void Initialize()
         {
@@ -57,12 +53,12 @@ namespace Altar
 
         protected override void OnLoadGame()
         {
-            _listHeroes = _heroesStorageController.ListHeroes;
+            m_listHeroes = m_heroesStorageController.ListHeroes;
         }
 
         public override void OnShow()
         {
-            View.CardsContainer.ShowCards(_listHeroes);
+            View.CardsContainer.ShowCards(m_listHeroes);
             base.OnShow();
         }
 
@@ -73,54 +69,60 @@ namespace Altar
         
         private async UniTaskVoid FiredHeroes()
         {
-            var fireContainer = new FireContainer();
+            FireContainer fireContainer = new FireContainer();
 
-            foreach (var card in _selectedHeroCards)
+            foreach (var card in m_selectedHeroCards)
             {
                 fireContainer.HeroesIds.Add(card.Hero.HeroData.Id);
             }
 
-            var message = new FireHeroesMessage { PlayerId = CommonGameData.PlayerInfoData.Id, Container = fireContainer };
-            var result = await DataServer.PostData(message);
+            FireHeroesMessage message = new FireHeroesMessage
+            {
+                PlayerId = CommonGameData.PlayerInfoData.Id,
+                Container = fireContainer
+            };
+            
+            string result = await DataServer.PostData(message);
 
-            var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
-            var reward = new GameReward(rewardModel, _commonDictionaries);
-            _clientRewardService.ShowReward(reward);
+            RewardModel rewardModel = m_jsonConverter.Deserialize<RewardModel>(result);
+            GameReward reward = new GameReward(rewardModel, m_commonDictionaries);
+            m_clientRewardService.ShowReward(reward);
 
-            var heroes = new List<GameHero>();
+            List<GameHero> heroes = new List<GameHero>();
 
-            _onDissamble.Execute(new BigDigit(_selectedHeroCards.Count));
+            m_onDissamble.Execute(new BigDigit(m_selectedHeroCards.Count));
 
-            foreach (var card in _selectedHeroCards)
+            foreach (Card card in m_selectedHeroCards)
             {
                 heroes.Add(card.Hero);
                 card.Unselect();
             }
-            View.CardsContainer.RemoveCards(_selectedHeroCards);
-            _selectedHeroCards.Clear();
+            
+            View.CardsContainer.RemoveCards(m_selectedHeroCards);
+            m_selectedHeroCards.Clear();
 
-            for (int i = 0; i < heroes.Count; i++)
+            foreach (GameHero hero in heroes)
             {
-                _heroesStorageController.RemoveHero(heroes[i]);
+                m_heroesStorageController.RemoveHero(hero);
             }
         }
 
         private void SelectHero(GameHero hero)
         {
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
-            _selectedHeroCards.Add(selectedCard);
+            m_selectedHeroCards.Add(selectedCard);
             selectedCard.Select();
 
-			View.MusterOutButton.interactable = _selectedHeroCards.Count > 0;
+			View.MusterOutButton.interactable = m_selectedHeroCards.Count > 0;
 		}
 
         private void UnselectHero(GameHero hero)
         {
             var selectedCard = View.CardsContainer.Cards.Find(card => card.Hero == hero);
-            _selectedHeroCards.Remove(selectedCard);
+            m_selectedHeroCards.Remove(selectedCard);
             selectedCard.Unselect();
 
-			View.MusterOutButton.interactable = _selectedHeroCards.Count > 0;
+			View.MusterOutButton.interactable = m_selectedHeroCards.Count > 0;
 		}
     }
 }

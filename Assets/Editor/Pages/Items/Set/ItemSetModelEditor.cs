@@ -11,7 +11,7 @@ namespace Editor.Pages.Items.Set
     {
         public ItemSetModelEditor(ItemSet model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -20,8 +20,8 @@ namespace Editor.Pages.Items.Set
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -30,8 +30,18 @@ namespace Editor.Pages.Items.Set
         [LabelWidth(50)]
         public string Name
         {
-            get => _model.Name;
-            set => _model.Name = value;
+            get => m_model.Name;
+            set => m_model.Name = value;
+        }
+        
+        [ShowInInspector]
+        [HorizontalGroup("3")]
+        [LabelText("Rating")]
+        [LabelWidth(50)]
+        public int Rating
+        {
+            get => m_model.Rating;
+            set => m_model.Rating = value;
         }
         
         [ShowInInspector]
@@ -39,12 +49,12 @@ namespace Editor.Pages.Items.Set
         [VerticalGroup("Item/Left")]
         [BoxGroup("Item/Left/Common")]
         [LabelText("Bonuses")]
-        [PropertyOrder(2)]
+        [PropertyOrder(4)]
         [LabelWidth(110)]
         public List<Bonus> ExtraBonuses
         {
-            get => _model.ExtraBonuses;
-            set => _model.ExtraBonuses = value;
+            get => m_model.ExtraBonuses;
+            set => m_model.ExtraBonuses = value;
         }
     }
 }

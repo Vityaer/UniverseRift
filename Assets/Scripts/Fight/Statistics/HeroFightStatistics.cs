@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Fight.Common.HeroControllers.Generals;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.Statistics
 {

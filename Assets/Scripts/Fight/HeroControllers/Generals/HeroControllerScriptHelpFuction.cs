@@ -1,5 +1,5 @@
-using Effects;
 using System.Collections.Generic;
+using Effects;
 using Fight.Common.FightInterface;
 using Fight.Common.Grid;
 using Fight.Common.HeroControllers.VisualModels;
@@ -7,23 +7,21 @@ using Fight.Common.Misc;
 using UnityEngine;
 using VContainer;
 
-namespace Fight.Common.HeroControllers.Generals
+namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
-        [Inject] private FightDirectionController _directionController;
+        [Inject] private FightDirectionController m_directionController;
 
         [SerializeField] private Transform _bodyParent;
-
         [SerializeField] private List<HeroVisualModel> _stages = new(); 
 
-        private SpriteRenderer _spriteRenderer;
-        private HeroVisualModel _currentHeroVisualModel;
+        private SpriteRenderer m_spriteRenderer;
+        private HeroVisualModel m_currentHeroVisualModel;
 
-        public HeroVisualModel HeroVisualModel => _currentHeroVisualModel;
-        public Sprite Avatar => _currentHeroVisualModel.Avatar;
-        public OutlineController OutlineController => _currentHeroVisualModel.OutlineController;
-        public Animator Animator => _currentHeroVisualModel.Animator;
+        public HeroVisualModel CurrentHeroVisualModel => m_currentHeroVisualModel;
+        public OutlineController OutlineController => m_currentHeroVisualModel.OutlineController;
+        public Animator ViewAnimator => m_currentHeroVisualModel.Animator;
         public bool SpellExist => CheckExistAnimation(Constants.Visual.ANIMATOR_SPELL_NAME_HASH);
         public List<HeroVisualModel> Stages => _stages;
 
@@ -31,23 +29,27 @@ namespace Fight.Common.HeroControllers.Generals
         {
             get
             {
-                if (_spriteRenderer == null)
-                    _spriteRenderer = _bodyParent.Find("Body").GetComponent<SpriteRenderer>();
-                return _spriteRenderer;
+                if (m_spriteRenderer == null)
+                    m_spriteRenderer = _bodyParent.Find("Body").GetComponent<SpriteRenderer>();
+                return m_spriteRenderer;
             }
         }
 
         public void SetStage(int index)
         {
-            _currentHeroVisualModel?.Deactivate();
+            if (m_currentHeroVisualModel == null)
+            {
+                m_currentHeroVisualModel = _stages[0];
+            }
 
+            m_currentHeroVisualModel.Deactivate();
             index = Mathf.Clamp(index, 0, _stages.Count);
-            _currentHeroVisualModel = _stages[index];
-            _currentHeroVisualModel.Activate();
+            m_currentHeroVisualModel = _stages[index];
+            m_currentHeroVisualModel.Activate();
 
-            m_attack = _currentHeroVisualModel.AttackController;
-            if (_currentHeroVisualModel.OverrideMovement)
-                _movement = _currentHeroVisualModel.MovementController;
+            m_attack = m_currentHeroVisualModel.AttackController;
+            if (m_currentHeroVisualModel.OverrideMovement)
+                _movement = m_currentHeroVisualModel.MovementController;
         }
 
         protected virtual void PrepareOnStartTurn()
@@ -56,15 +58,15 @@ namespace Fight.Common.HeroControllers.Generals
             FindAvailableCells();
             ListTarget.Clear();
 
-            if (this.m_side == Misc.Side.Left)
+            if (this.m_side == Common.Misc.Side.Left)
             {
-                _directionController.OpenControllers(this);
+                m_directionController.OpenControllers(this);
                 OutlineController.SwitchOn();
                 WaitingSelectTarget();
             }
             else
             {
-                _directionController.CloseControllers();
+                m_directionController.CloseControllers();
                 if (m_isFastFight)
                 {
                     WaitingSelectTarget();
@@ -74,7 +76,7 @@ namespace Fight.Common.HeroControllers.Generals
             OnStartAction();
         }
 
-        private bool NeedFlip(HeroController enemy)
+        private bool NeedFlip(Fight.HeroControllers.Generals.HeroController enemy)
         {
             bool result = false;
             CellDirectionType direction = NeighbourCell.GetDirection(MyPlace, enemy.Cell);
@@ -104,9 +106,9 @@ namespace Fight.Common.HeroControllers.Generals
         }
 
         //Fight helps
-        protected virtual bool CanAttackHero(HeroController otherHero) => (this.m_side != otherHero.m_side);
+        protected virtual bool CanAttackHero(Fight.HeroControllers.Generals.HeroController otherHero) => (this.m_side != otherHero.m_side);
 
-        protected void RefreshOnEndRound()
+        private void RefreshOnEndRound()
         {
             CurrentCountCounterAttack = m_hero.GetBaseCharacteristic.CountCouterAttack;
         }
@@ -116,14 +118,14 @@ namespace Fight.Common.HeroControllers.Generals
             CameraShake.Shake(0.8f, 2f, CameraShake.ShakeMode.XY);
         }
 
-        protected void IsSide(Side side)
+        private void IsSide(Side side)
         {
             this.m_side = side;
-            delta = (side == Misc.Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
-            if (side == Misc.Side.Right) FlipX();
+            delta = (side == Common.Misc.Side.Left) ? new Vector2(-0.6f, 0f) : new Vector2(0.6f, 0f);
+            if (side == Common.Misc.Side.Right) FlipX();
         }
 
-        protected bool CanCounterAttack(HeroController heroForCounterAttack, HeroController heroWasAttack)
+        private bool CanCounterAttack(Fight.HeroControllers.Generals.HeroController heroForCounterAttack, Fight.HeroControllers.Generals.HeroController heroWasAttack)
         {
             bool result = false;
             var isNeighbour = MyPlace.IsCellNeighbour(heroWasAttack.MyPlace);
@@ -137,7 +139,7 @@ namespace Fight.Common.HeroControllers.Generals
         private void CreateSpell()
         {
             ListTarget.Clear();
-            _onSpell.Execute(ListTarget);
+            m_onSpell.Execute(ListTarget);
             EndTurn();
         }
 
@@ -159,7 +161,7 @@ namespace Fight.Common.HeroControllers.Generals
 
             foreach (var warrior in FightController.GetRightTeam)
             {
-                Color color = Color.red;
+                Color color;
                 if (warrior.Cell.GetAchivableNeighbourCell() == null || !CanMelleeAttack())
                 {
                     color = Constants.Colors.ACHIEVABLE_ENEMY_CELL_COLOR;

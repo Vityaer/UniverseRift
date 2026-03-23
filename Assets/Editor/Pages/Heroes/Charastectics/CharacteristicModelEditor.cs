@@ -10,7 +10,7 @@ namespace Assets.Editor.Pages.Heroes.Charastectics
     {
         public CharacteristicModelEditor(CharacteristicModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -19,8 +19,8 @@ namespace Assets.Editor.Pages.Heroes.Charastectics
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -29,8 +29,8 @@ namespace Assets.Editor.Pages.Heroes.Charastectics
         [LabelWidth(150)]
         public string Name
         {
-            get => _model.Name;
-            set => _model.Name = value;
+            get => m_model.Name;
+            set => m_model.Name = value;
         }
 
         private Sprite _sprite;
@@ -45,7 +45,7 @@ namespace Assets.Editor.Pages.Heroes.Charastectics
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.SpritePath);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(m_model.SpritePath);
                 }
 
                 return _sprite;
@@ -54,7 +54,7 @@ namespace Assets.Editor.Pages.Heroes.Charastectics
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.SpritePath = path;
+                m_model.SpritePath = path;
             }
         }
     }

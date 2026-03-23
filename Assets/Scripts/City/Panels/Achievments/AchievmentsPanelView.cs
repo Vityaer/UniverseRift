@@ -1,10 +1,6 @@
 ﻿using City.Panels.MonthTasks.Abstractions;
-using Ui.Misc.Widgets;
-using UiExtensions.Misc;
-using UnityEngine;
-using UnityEngine.UI;
 
-namespace City.Buildings.Requirement
+namespace City.Panels.Achievments
 {
     public class AchievmentsPanelView : BaseAchievmentPanelView
     {

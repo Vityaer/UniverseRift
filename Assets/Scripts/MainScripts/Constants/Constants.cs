@@ -59,6 +59,7 @@ public class Constants
         public const int MAX_FRIENDS_COUNT = 30;
         public const int MINE_MISSION_REFRESH_HOURS = 8;
         public static TimeSpan GameCycleTime = new TimeSpan(5, 0, 0, 0);
+        public static TimeSpan DayTime = new TimeSpan(24, 0, 0);
     }
 
     public static class Fight

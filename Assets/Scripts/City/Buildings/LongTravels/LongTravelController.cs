@@ -10,6 +10,7 @@ using Models.Fights.Campaign;
 using Network.DataServer;
 using Network.DataServer.Messages.City.LongTravels;
 using System;
+using City.Buildings.Voyage.Panels;
 using Common.Db.CommonDictionaries;
 using UniRx;
 using VContainer;

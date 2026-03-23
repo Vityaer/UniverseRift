@@ -1,10 +1,11 @@
 ﻿using Models.Misc;
-using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Friends.Panels.AvailableFriends
 {
@@ -14,10 +15,11 @@ namespace City.Buildings.Friends.Panels.AvailableFriends
         [SerializeField] private TMP_Text _nickname;
         [SerializeField] private TMP_Text _level;
 
-        public override void SetData(AvailableFriendData data, ScrollRect scrollRect)
+        public override void SetData(AvailableFriendData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
             UpdateUi();
         }
 

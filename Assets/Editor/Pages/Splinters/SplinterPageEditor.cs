@@ -76,7 +76,7 @@ namespace Editor.Pages.Splinters
                 var splinterModel = new SplinterModel()
                 {
                     Id = key,
-                    ModelId = hero.Key,
+                    ModelIds = new List<RandomSplinterModel>{new RandomSplinterModel(modelId: hero.Key, valuation: 1)},
                     SplinterType = SplinterType.Hero,
                     RequireCount = 30
                 };

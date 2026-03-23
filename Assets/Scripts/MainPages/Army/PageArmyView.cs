@@ -1,7 +1,7 @@
 ﻿using City.General;
 using City.Panels.SelectHeroes;
 
-namespace City.MainPages.Army
+namespace MainPages.Army
 {
     public class PageArmyView : MainPage
     {

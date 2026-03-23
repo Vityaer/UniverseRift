@@ -1,12 +1,14 @@
 ﻿using Ui.Misc.Widgets;
 using UIController.Cards;
+using UIController.ItemVisual;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace City.Panels.PosibleHeroes
 {
     public class PosibleHeroesPanelView : BasePanel
     {
-        public Transform Content;
-        public CardWithPercent Prefab;
+        public ScrollRect ScrollRect;
+        public ArtifactWithPercent Prefab;
     }
 }

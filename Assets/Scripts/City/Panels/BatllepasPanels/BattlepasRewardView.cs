@@ -7,8 +7,8 @@ using TMPro;
 using UIController;
 using UiExtensions.Misc;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
 
 namespace City.Panels.BatllepasPanels
@@ -30,10 +30,8 @@ namespace City.Panels.BatllepasPanels
         [SerializeField] private float _animationSecondStageOpenTime;
         [SerializeField] private Ease _animationOpenEase;
 
-        [Inject] private CommonDictionaries _commonDictionaries;
-
-        private Tween _tweenFade;
-        private Tween _tweenOpen;
+        private Tween m_tweenFade;
+        private Tween m_tweenOpen;
 
         [Inject]
         private void Construct(SubjectDetailController subjectDetailController)
@@ -41,18 +39,19 @@ namespace City.Panels.BatllepasPanels
             _rewardController.SetDetailsController(subjectDetailController);
         }
 
-        public override void SetData(GameBattlepasReward data, ScrollRect scrollRect)
+        public override void SetData(GameBattlepasReward data, ScrollRect scrollRect, CommonDictionaries dataCommonDictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
-            _rewardController.ShowReward(data.RewardModel, _commonDictionaries);
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dataCommonDictionaries.ThrowIfArgumentNull();
+            _rewardController.ShowReward(data.RewardModel, CommonDataDictionaries);
             NumberText.text = $"{transform.GetSiblingIndex()}";
         }
 
         public void OpenWithAnimation()
         {
-            _tweenOpen.Kill();
-            _tweenOpen = DOTween.Sequence()
+            m_tweenOpen.Kill();
+            m_tweenOpen = DOTween.Sequence()
                 .Append(_rect.DOScale(_openScale, _animationFirstStageOpenTime))
                 .Append(_rect.DOScale(1, _animationSecondStageOpenTime))
                 .SetEase(_animationOpenEase);
@@ -64,8 +63,8 @@ namespace City.Panels.BatllepasPanels
         {
             if (_alphas.TryGetValue(status, out float alpha))
             {
-                _tweenFade.Kill();
-                _tweenFade = _canvasGroup.DOFade(alpha, _animationFadeTime);
+                m_tweenFade.Kill();
+                m_tweenFade = _canvasGroup.DOFade(alpha, _animationFadeTime);
             }
 
             switch (status)
@@ -82,8 +81,8 @@ namespace City.Panels.BatllepasPanels
 
         public override void Dispose()
         {
-            _tweenOpen.Kill();
-            _tweenFade.Kill();
+            m_tweenOpen.Kill();
+            m_tweenFade.Kill();
             base.Dispose();
         }
     }

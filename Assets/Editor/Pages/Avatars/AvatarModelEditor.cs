@@ -15,7 +15,7 @@ namespace Assets.Editor.Pages.Avatars
 
         public AvatarModelEditor(AvatarModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -24,8 +24,8 @@ namespace Assets.Editor.Pages.Avatars
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -38,7 +38,7 @@ namespace Assets.Editor.Pages.Avatars
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.Path);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(m_model.Path);
                 }
 
                 return _sprite;
@@ -47,7 +47,7 @@ namespace Assets.Editor.Pages.Avatars
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.Path = path;
+                m_model.Path = path;
             }
         }
     }

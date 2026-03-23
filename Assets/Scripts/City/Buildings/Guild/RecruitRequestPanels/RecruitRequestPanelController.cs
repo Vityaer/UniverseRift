@@ -1,11 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
+using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Network.DataServer;
 using Network.DataServer.Messages.Guilds;
-using Network.DataServer.Models;
 using Network.DataServer.Models.Guilds;
-using System.Collections.Generic;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 
@@ -13,12 +13,11 @@ namespace City.Buildings.Guild.RecruitRequestPanels
 {
     public class RecruitRequestPanelController : UiPanelController<RecruitRequestPanelView>
     {
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly IObjectResolver _diContainer;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly IObjectResolver m_diContainer;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        private Dictionary<int, GuildRecruitRequestView> _views = new();
-
-        private GuildData _guildData => CommonGameData.City.GuildPlayerSaveContainer.GuildData;
+        private readonly Dictionary<int, GuildRecruitRequestView> m_views = new();
 
         protected override void OnLoadGame()
         {
@@ -41,50 +40,47 @@ namespace City.Buildings.Guild.RecruitRequestPanels
             View.RequestList.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count > 0);
             View.RequestListEmpty.SetActive(CommonGameData.City.GuildPlayerSaveContainer.Requests.Count == 0);
 
-            foreach (var request in CommonGameData.City.GuildPlayerSaveContainer.Requests)
-            {
-                if (!_views.ContainsKey(request.Id))
+            foreach (GuildPlayerRequest request in CommonGameData.City.GuildPlayerSaveContainer.Requests)
+                if (!m_views.ContainsKey(request.Id))
                 {
-                    var prefab = UnityEngine.Object.Instantiate(View.GuildRecruitRequestViewPrefab, View.Content);
-                    _diContainer.Inject(prefab);
-                    prefab.SetData(request, View.Scroll);
+                    GuildRecruitRequestView prefab =
+                        UnityEngine.Object.Instantiate(View.GuildRecruitRequestViewPrefab, View.Content);
+                    m_diContainer.Inject(prefab);
+                    prefab.SetData(request, View.Scroll, m_commonDictionaries);
                     prefab.OnAccept.Subscribe(x => OnApplyRequest(x).Forget()).AddTo(Disposables);
                     prefab.OnDecline.Subscribe(x => OnDenyRequest(x).Forget()).AddTo(Disposables);
-                    _views.Add(request.Id, prefab);
+                    m_views.Add(request.Id, prefab);
                 }
-            }
         }
 
         private async UniTaskVoid OnDenyRequest(GuildRecruitRequestView view)
         {
-            var message = new DenyRequestMessage
+            DenyRequestMessage message = new DenyRequestMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
                 GuildId = view.GetData.GuildId,
                 RequestId = view.GetData.Id
             };
 
-            var result = await DataServer.PostData(message);
-            if (!string.IsNullOrEmpty(result))
-            {
-                DeleteView(view);
-            }
+            string result = await DataServer.PostData(message);
+            if (!string.IsNullOrEmpty(result)) DeleteView(view);
         }
 
         private async UniTaskVoid OnApplyRequest(GuildRecruitRequestView view)
         {
-            var message = new ApplyRequestMessage
+            ApplyRequestMessage message = new ApplyRequestMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
                 GuildId = view.GetData.GuildId,
                 RequestId = view.GetData.Id
             };
 
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
                 DeleteView(view);
-                var guildPlayerSaveContainer = _jsonConverter.Deserialize<GuildPlayerSaveContainer>(result);
+                GuildPlayerSaveContainer guildPlayerSaveContainer =
+                    m_jsonConverter.Deserialize<GuildPlayerSaveContainer>(result);
                 CommonGameData.PlayerInfoData.GuildId = guildPlayerSaveContainer.GuildData.Id;
                 CommonGameData.City.GuildPlayerSaveContainer = guildPlayerSaveContainer;
             }
@@ -93,8 +89,8 @@ namespace City.Buildings.Guild.RecruitRequestPanels
         private void DeleteView(GuildRecruitRequestView view)
         {
             CommonGameData.City.GuildPlayerSaveContainer.Requests.Remove(view.GetData);
-            _views.Remove(view.GetData.Id);
-            UnityEngine.GameObject.Destroy(view.gameObject);
+            m_views.Remove(view.GetData.Id);
+            UnityEngine.Object.Destroy(view.gameObject);
             UpdateUI();
         }
     }

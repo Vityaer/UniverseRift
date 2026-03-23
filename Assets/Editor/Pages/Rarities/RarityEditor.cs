@@ -9,7 +9,7 @@ namespace Editor.Units
     {
         public RarityEditor(RarityModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -18,8 +18,8 @@ namespace Editor.Units
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -28,8 +28,8 @@ namespace Editor.Units
         [LabelWidth(50)]
         public string Name
         {
-            get => _model.Name;
-            set => _model.Name = value;
+            get => m_model.Name;
+            set => m_model.Name = value;
         }
     }
 }

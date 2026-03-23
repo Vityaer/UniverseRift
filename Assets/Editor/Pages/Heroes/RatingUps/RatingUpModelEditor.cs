@@ -11,7 +11,7 @@ namespace Assets.Editor.Pages.Heroes.RatingUps
     {
         public RatingUpModelEditor(RatingUpContainer model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -20,8 +20,8 @@ namespace Assets.Editor.Pages.Heroes.RatingUps
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -30,8 +30,8 @@ namespace Assets.Editor.Pages.Heroes.RatingUps
         [LabelWidth(150)]
         public List<ResourceData> Cost
         {
-            get => _model.Cost;
-            set => _model.Cost = value;
+            get => m_model.Cost;
+            set => m_model.Cost = value;
         }
 
         [ShowInInspector]
@@ -40,8 +40,8 @@ namespace Assets.Editor.Pages.Heroes.RatingUps
         [LabelWidth(150)]
         public List<RequirementHeroModel> RequirementHeroes
         {
-            get => _model.RequirementHeroes;
-            set => _model.RequirementHeroes = value;
+            get => m_model.RequirementHeroes;
+            set => m_model.RequirementHeroes = value;
         }
     }
 }

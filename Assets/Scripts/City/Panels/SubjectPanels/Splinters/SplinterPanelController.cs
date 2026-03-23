@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+using City.Panels.Inventories;
 using City.Panels.PosibleArtifacts;
 using City.Panels.PosibleHeroes;
-using City.Panels.SubjectPanels.Splinters;
 using ClientServices;
+using Common.Db.CommonDictionaries;
 using Common.Heroes;
 using Common.Inventories.Splinters;
 using Common.Rewards;
@@ -12,47 +14,44 @@ using Models;
 using Models.Inventory.Splinters;
 using Network.DataServer;
 using Network.DataServer.Messages.Inventories.Splinters;
-using System.Collections.Generic;
-using City.Panels.Inventories;
-using Common.Db.CommonDictionaries;
 using UIController.ControllerPanels.SelectCount;
+using UIController.Inventory;
 using UIController.Rewards;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
-namespace UIController.Inventory
+namespace City.Panels.SubjectPanels.Splinters
 {
     public class SplinterPanelController : UiPanelController<SplinterPanelView>, IInitializable
     {
-        [Inject] private readonly SplinterSelectCountPanelController _selectCountPanelController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly HeroesStorageController _heroesStorageController;
-        [Inject] private readonly ClientRewardService _clientRewardService;
-        [Inject] private readonly GameInventory _gameInventory;
+        [Inject] private readonly SplinterSelectCountPanelController m_selectCountPanelController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly HeroesStorageController m_heroesStorageController;
+        [Inject] private readonly ClientRewardService m_clientRewardService;
+        [Inject] private readonly GameInventory m_gameInventory;
+        [Inject] private readonly PosibleHeroesPanelController m_panelPosibleHeroes;
+        [Inject] private readonly PosibleArtifactPanelController m_panelPosibleArtifact;
 
-        private GameItem _selectItem = null;
-
-        [Header("Other Panel")]
-        public PosibleHeroesPanelController panelPosibleHeroes;
-        public PosibleArtifactPanelController PanelPosibleArtifact;
-        GameSplinter _splinter;
+        private GameItem m_selectItem = null;
+        private GameSplinter m_splinter;
 
         public new void Initialize()
         {
             View.ActionButton.OnClickAsObservable().Subscribe(_ => OpenCountPanel()).AddTo(Disposables);
-            _selectCountPanelController.ActionAfterUse.Subscribe(_ => Close()).AddTo(Disposables);
-            _selectCountPanelController.ActionOnSelectedCount.Subscribe(count => OnStartUseSplinters(count).Forget()).AddTo(Disposables);
+            m_selectCountPanelController.ActionAfterUse.Subscribe(_ => Close()).AddTo(Disposables);
+            m_selectCountPanelController.ActionOnSelectedCount
+                .Subscribe(count => OnStartUseSplinters(count).Forget())
+                .AddTo(Disposables);
         }
 
         public void ShowData(GameSplinter splinterController, bool withControl = false)
         {
-            _splinter = splinterController;
+            m_splinter = splinterController;
             UpdateUIInfo();
             View.PosibilityButton.SetActive(splinterController.CountReward > 1);
             View.ActionButton.interactable = splinterController.IsCanUse;
@@ -62,7 +61,7 @@ namespace UIController.Inventory
 
         private void OpenCountPanel()
         {
-            _selectCountPanelController.Open(_splinter);
+            m_selectCountPanelController.Open(m_splinter);
         }
 
         private async UniTaskVoid OnStartUseSplinters(int count)
@@ -70,62 +69,63 @@ namespace UIController.Inventory
             var message = new UseSplinterMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                SplinterId = _splinter.Id,
+                SplinterId = m_splinter.Id,
                 Count = count
             };
 
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                switch (_splinter.typeSplinter)
+                switch (m_splinter.typeSplinter)
                 {
                     case SplinterType.Hero:
-                        var newHeroDatas = _jsonConverter.Deserialize<List<HeroData>>(result);
+                        var newHeroDatas = m_jsonConverter.Deserialize<List<HeroData>>(result);
 
                         var heroes = new List<GameHero>(newHeroDatas.Count);
                         for (var i = 0; i < newHeroDatas.Count; i++)
                         {
-                            var model = _commonDictionaries.Heroes[newHeroDatas[i].HeroId];
+                            var model = m_commonDictionaries.Heroes[newHeroDatas[i].HeroId];
                             var hero = new GameHero(model, newHeroDatas[i]);
-                            _heroesStorageController.AddHero(hero);
+                            m_heroesStorageController.AddHero(hero);
                             heroes.Add(hero);
                         }
                         break;
                     case SplinterType.Item:
-                        var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
-                        var reward = new GameReward(rewardModel, _commonDictionaries);
-                        _clientRewardService.ShowReward(reward);
+                        var rewardModel = m_jsonConverter.Deserialize<RewardModel>(result);
+                        var reward = new GameReward(rewardModel, m_commonDictionaries);
+                        m_clientRewardService.ShowReward(reward);
                         break;
                 }
 
-                _gameInventory.Remove(_splinter.Id, _splinter.RequireAmount * count);
+                m_gameInventory.Remove(m_splinter.Id, m_splinter.RequireAmount * count);
             }
         }
 
         public void OpenPosibleRewards()
         {
-            switch (_splinter.typeSplinter)
+            switch (m_splinter.typeSplinter)
             {
                 case SplinterType.Hero:
-                    panelPosibleHeroes.SetData(_splinter.reward);
+                    m_panelPosibleHeroes.SetData(m_splinter.Reward);
                     break;
                 case SplinterType.Item:
-                    PanelPosibleArtifact.SetData(_splinter.reward);
+                    m_panelPosibleArtifact.SetData(m_splinter.Reward);
                     break;
             }
         }
 
         void UpdateUIInfo()
         {
-            View.MainImage.SetData(_splinter);
-            View.MainLabel.text = _splinter.Id;
-            View.ItemType.text = _splinter.GetTextType;
-            View.GeneralInfo.text = _splinter.GetTextDescription;
+            View.MainImage.Init(null, m_commonDictionaries);
+            View.MainImage.SetData(m_splinter);
+            View.MainLabel.text = m_splinter.Id;
+            View.ItemType.text = m_splinter.GetTextType;
+            View.GeneralInfo.text = m_splinter.GetTextDescription;
         }
 
         public void StartSummon()
         {
-            _selectCountPanelController.Open(_splinter);
+            m_selectCountPanelController.Open(m_splinter);
         }
 
     }

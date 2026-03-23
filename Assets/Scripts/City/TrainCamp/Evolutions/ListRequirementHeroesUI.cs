@@ -3,6 +3,7 @@ using Hero;
 using Models.City.TrainCamp;
 using System;
 using System.Collections.Generic;
+using City.Panels.RatingUps;
 using UIController;
 using UniRx;
 using UnityEngine;

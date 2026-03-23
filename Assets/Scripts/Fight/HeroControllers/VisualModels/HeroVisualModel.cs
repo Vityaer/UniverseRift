@@ -1,6 +1,7 @@
 ﻿using Effects;
 using Fight.Common.HeroControllers.Generals.Attacks;
 using Fight.Common.HeroControllers.Generals.Movements;
+using Fight.HeroControllers.Generals.Attacks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Utils.Development;

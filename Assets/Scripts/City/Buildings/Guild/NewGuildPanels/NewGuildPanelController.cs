@@ -4,7 +4,7 @@ using Network.DataServer;
 using Network.DataServer.Messages.Guilds;
 using Network.DataServer.Models.Guilds;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainerUi.Messages;

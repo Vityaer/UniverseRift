@@ -16,7 +16,7 @@ namespace Editor.Pages.Buildings.AlchemyPanels
         public AlchemyPanelBuildingModelEditor(AlchemyPanelBuildingModel model, CommonDictionaries commonDictionaries)
         {
             m_dictionary = commonDictionaries;
-            _model = model;
+            m_model = model;
         }
         
         [ShowInInspector]
@@ -25,8 +25,8 @@ namespace Editor.Pages.Buildings.AlchemyPanels
         [LabelWidth(250)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -36,8 +36,8 @@ namespace Editor.Pages.Buildings.AlchemyPanels
         [ValueDropdown(nameof(AllProducts), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public List<string> Sets
         {
-            get => _model.Products;
-            set => _model.Products = value;
+            get => m_model.Products;
+            set => m_model.Products = value;
         }
     }
 }

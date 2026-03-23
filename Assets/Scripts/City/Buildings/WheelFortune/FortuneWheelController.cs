@@ -37,9 +37,9 @@ namespace City.Buildings.WheelFortune
         [Inject] private readonly ResourceStorageController m_resourceStorageController;
         [Inject] private readonly ScreenBlockerController m_screenBlockerController;
         
-        private readonly GameResource m_oneRotate = new GameResource(ResourceType.CoinFortune, 1, 0);
-        private readonly GameResource m_tenRotate = new GameResource(ResourceType.CoinFortune, 8, 0);
-        private readonly GameResource m_refreshCost = new GameResource(ResourceType.Diamond, 0, 0);
+        private readonly GameResource m_oneRotate = new(ResourceType.CoinFortune, 1, 0);
+        private readonly GameResource m_tenRotate = new(ResourceType.CoinFortune, 8, 0);
+        private readonly GameResource m_refreshCost = new(ResourceType.Diamond, 0, 0);
 
         private FortuneWheelData m_data;
         private readonly ReactiveCommand<BigDigit> m_onSimpleRotate = new();
@@ -61,7 +61,8 @@ namespace City.Buildings.WheelFortune
             View.RefreshWheelButton.OnClick.Subscribe(_ => RefreshRewards().Forget()).AddTo(Disposables);
 
             foreach (var rewardCell in View.RewardCells)
-                rewardCell.OnSelect.Subscribe(_ => SubjectDetailController.ShowData(rewardCell.Subject)).AddTo(Disposables);
+                rewardCell.OnSelect.Subscribe(_ => SubjectDetailController.ShowData(rewardCell.Subject))
+                    .AddTo(Disposables);
         }
 
 
@@ -82,13 +83,13 @@ namespace City.Buildings.WheelFortune
 
         public override void OnHide()
         {
-            m_sequence.Kill();
+            m_sequence?.Kill();
             base.OnHide();
         }
 
         private void PlayEternalRotate()
         {
-            m_sequence.Kill();
+            m_sequence?.Kill();
             m_sequence = DOTween.Sequence()
                 .AppendInterval(View.EternalRotateDelay)
                 .Append(View.Arrow
@@ -117,8 +118,8 @@ namespace City.Buildings.WheelFortune
             m_shakingFlag = true;
             PlaySimpleRoulette(m_tenRotate, MANY_TIME).Forget();
         }
-        
-        public async UniTaskVoid PlaySimpleRoulette(GameResource cost, int count = 1)
+
+        private async UniTaskVoid PlaySimpleRoulette(GameResource cost, int count = 1)
         {
             m_screenBlockerController.Open();
             var message = new FortuneWheelRotate { PlayerId = CommonGameData.PlayerInfoData.Id, Count = count };
@@ -164,6 +165,7 @@ namespace City.Buildings.WheelFortune
             {
                 var rewardModel = m_commonDictionaries.FortuneRewardModels[rewards[i].RewardModelId];
 
+                View.RewardCells[i].Init(null, m_commonDictionaries);
                 switch (rewardModel)
                 {
                     case FortuneResourseRewardModel resourceProductModel:

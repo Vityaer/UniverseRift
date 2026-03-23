@@ -10,14 +10,15 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
 
 namespace City.Buildings.TravelCircle
 {
     public class TravelCircleMissionController : ScrollableUiView<MissionWithSmashReward>
     {
-        [Inject] private CommonDictionaries _commonDictionaries;
-        [Inject] private ILocalizationSystem _localizationSystem;
+        [Inject] private CommonDictionaries m_commonDictionaries;
+        [Inject] private ILocalizationSystem m_localizationSystem;
 
         [Header("UI")]
         public RewardUIController rewardController;
@@ -28,15 +29,15 @@ namespace City.Buildings.TravelCircle
         public Image backgoundMission;
         [SerializeField] private Button mainButton;
 
-        private MissionWithSmashReward _mission;
-        private StatusMission _status = StatusMission.NotOpen;
-        private int _numMission = 0;
+        private MissionWithSmashReward m_mission;
+        private StatusMission m_status = StatusMission.NotOpen;
+        private int m_numMission = 0;
 
-        private new ReactiveCommand<TravelCircleMissionController> _onSelect = new();
+        private ReactiveCommand<TravelCircleMissionController> m_onSelect = new();
 
-        public new IObservable<TravelCircleMissionController> OnSelect => _onSelect;
-        public StatusMission Status => _status;
-        public int Index => _numMission;
+        public new IObservable<TravelCircleMissionController> OnSelect => m_onSelect;
+        public StatusMission Status => m_status;
+        public int Index => m_numMission;
 
         [Inject]
         private void Construct(SubjectDetailController subjectDetailController)
@@ -50,43 +51,44 @@ namespace City.Buildings.TravelCircle
             base.Start();
         }
 
-        public override void SetData(MissionWithSmashReward data, ScrollRect scrollRect)
+        public override void SetData(MissionWithSmashReward data, ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
             Data = data;
+            CommonDataDictionaries = commonDictionaries.ThrowIfArgumentNull();
         }
 
         public void SetData(MissionWithSmashReward mission, ScrollRect scrollRect, int numMission, bool canOpenMission = false)
         {
-            SetData(mission, scrollRect);
+            SetData(mission, scrollRect, m_commonDictionaries);
             gameObject.SetActive(true);
-            _status = StatusMission.NotOpen;
-            this._mission = mission;
-            this._numMission = numMission;
+            m_status = StatusMission.NotOpen;
+            this.m_mission = mission;
+            this.m_numMission = numMission;
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            NumMissionText.text = $"{_numMission}";
-            switch (_status)
+            NumMissionText.text = $"{m_numMission}";
+            switch (m_status)
             {
                 case StatusMission.Open:
-                    rewardController.ShowReward(_mission.WinReward, _commonDictionaries);
-                    OnButtonSelectLacalizeString.StringReference = _localizationSystem
+                    rewardController.ShowReward(m_mission.WinReward, m_commonDictionaries);
+                    OnButtonSelectLacalizeString.StringReference = m_localizationSystem
                         .GetLocalizedContainer("MissionStartFightButtonLabel");
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.InAutoFight:
-                    rewardController.ShowReward(_mission.SmashReward, _commonDictionaries);
-                    OnButtonSelectLacalizeString.StringReference = _localizationSystem
+                    rewardController.ShowReward(m_mission.SmashReward, m_commonDictionaries);
+                    OnButtonSelectLacalizeString.StringReference = m_localizationSystem
                         .GetLocalizedContainer("MissionRaidFightButtonLabel");
                     buttonSelect.SetActive(true);
                     imageCloseMission.SetActive(false);
                     break;
                 case StatusMission.NotOpen:
-                    rewardController.ShowReward(_mission.WinReward, _commonDictionaries);
+                    rewardController.ShowReward(m_mission.WinReward, m_commonDictionaries);
                     buttonSelect.SetActive(false);
                     imageCloseMission.SetActive(true);
                     break;
@@ -95,26 +97,26 @@ namespace City.Buildings.TravelCircle
 
         public void OpenForFight()
         {
-            _status = StatusMission.Open;
+            m_status = StatusMission.Open;
             UpdateUI();
         }
 
         public void Hide()
         {
-            _status = StatusMission.Complete;
+            m_status = StatusMission.Complete;
             gameObject.SetActive(false);
         }
 
         public void SetCanSmash()
         {
             Debug.Log("SetCanSmash");
-            _status = StatusMission.InAutoFight;
+            m_status = StatusMission.InAutoFight;
             UpdateUI();
         }
 
         public void OpenMission()
         {
-            _onSelect.Execute(this);
+            m_onSelect.Execute(this);
         }
     }
 }

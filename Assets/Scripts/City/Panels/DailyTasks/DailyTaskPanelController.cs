@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using City.Achievements;
-using City.Buildings.Requirement;
+using City.Acievements;
+using City.Buildings.Requirements;
 using City.Panels.BatllepasPanels;
 using City.Panels.SubjectPanels.Common;
 using City.Panels.Widgets.Particles;
@@ -12,14 +13,16 @@ using Common.Inventories.Resourses;
 using Common.Resourses;
 using Misc.Json;
 using Models;
+using Models.Achievments;
 using Models.Common.BigDigits;
+using Models.Data;
 using Models.Data.Inventories;
 using Models.Events;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using Utils;
-using VContainer;
+using Utils.DataCheckUtils;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 
@@ -32,18 +35,29 @@ namespace City.Panels.DailyTasks
 
         private const int REWARD_COUNT = 30;
 
-        [Inject] private readonly ResourceStorageController m_resourceStorageController;
-        [Inject] private readonly CommonDictionaries m_commonDictionaries;
-        [Inject] private readonly SubjectDetailController m_subjectDetailController;
-        [Inject] private readonly IJsonConverter m_jsonConverter;
+        private readonly ResourceStorageController m_resourceStorageController;
+        private readonly CommonDictionaries m_commonDictionaries;
+        private readonly SubjectDetailController m_subjectDetailController;
+        private readonly IJsonConverter m_jsonConverter;
 
-        private int m_currentProgress = 0;
-        private readonly List<int> m_idReceivedReward = new List<int>(REWARD_COUNT);
+        private int m_currentProgress;
+        private readonly List<int> m_idReceivedReward = new(REWARD_COUNT);
 
-        private List<DailyTaskAchievmentView> m_dailyTaskAchievments = new List<DailyTaskAchievmentView>();
+        private readonly List<DailyTaskAchievmentView> m_dailyTaskAchievments = new();
         private WrapperPool<ParticlesAttraction> m_particleAttractionPool;
 
-        private bool _fastChangeVisualCount = true;
+        private bool m_fastChangeVisualCount = true;
+
+        public DailyTaskPanelController(ResourceStorageController resourceStorageController,
+            CommonDictionaries commonDictionaries,
+            SubjectDetailController subjectDetailController,
+            IJsonConverter jsonConverter)
+        {
+            m_resourceStorageController = resourceStorageController.ThrowIfArgumentNull();
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_subjectDetailController = subjectDetailController.ThrowIfArgumentNull();
+            m_jsonConverter = jsonConverter.ThrowIfArgumentNull();
+        }
 
         public override void Start()
         {
@@ -56,7 +70,7 @@ namespace City.Panels.DailyTasks
 
         public override void OnShow()
         {
-            var res = m_resourceStorageController.GetResource(ResourceType.EventAgentMonet);
+            GameResource res = m_resourceStorageController.GetResource(ResourceType.EventAgentMonet);
             m_currentProgress = res.ConvertToInt();
             SetAmount();
             base.OnShow();
@@ -64,7 +78,7 @@ namespace City.Panels.DailyTasks
 
         private void OnChangeCountMonet(GameResource obj)
         {
-            if (_fastChangeVisualCount) SetAmount();
+            if (m_fastChangeVisualCount) SetAmount();
         }
 
         private void OnCreateParticle(ParticlesAttraction particle)
@@ -81,7 +95,7 @@ namespace City.Panels.DailyTasks
 
         private void SetAmount()
         {
-            var overMonet = OverMonet();
+            int overMonet = OverMonet();
             View.miniSliderAmount.SetAmount(overMonet, 100);
             if (overMonet >= 100)
                 View.miniSliderAmount.ShowDone();
@@ -93,7 +107,7 @@ namespace City.Panels.DailyTasks
         {
             m_particleAttractionPool.Release(particle);
 
-            if (m_particleAttractionPool.CurrentCountInWork == 0) _fastChangeVisualCount = true;
+            if (m_particleAttractionPool.CurrentCountInWork == 0) m_fastChangeVisualCount = true;
         }
 
         private void OpenBattlePasPanel()
@@ -108,18 +122,18 @@ namespace City.Panels.DailyTasks
 
         private void CreateTaskViews()
         {
-            var types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList(); //class not matter
+            List<Type> types = typeof(DailyTaskPanelController).Assembly.GetTypes().ToList(); //class not matter
 
-            foreach (var taskId in m_commonDictionaries.AchievmentContainers[DAILY_TASKS].TaskIds)
+            foreach (string taskId in m_commonDictionaries.AchievmentContainers[DAILY_TASKS].TaskIds)
             {
-                var taskModel = m_commonDictionaries.Achievments[taskId];
+                AchievmentModel taskModel = m_commonDictionaries.Achievments[taskId];
 
                 if (CommonGameData.CycleEventsData.CurrentEventType == GameEventType.Sweet)
                 {
-                    var eventData = m_jsonConverter
+                    SweetEventData eventData = m_jsonConverter
                         .Deserialize<SweetEventData>(CommonGameData.CycleEventsData.CurrentCycle);
 
-                    foreach (var stage in taskModel.Stages)
+                    foreach (AchievmentStageModel stage in taskModel.Stages)
                         stage.Reward.Resources.Add(
                             new ResourceData
                             {
@@ -129,7 +143,7 @@ namespace City.Panels.DailyTasks
                         );
                 }
 
-                var taskData = CommonGameData.AchievmentStorage.Achievments
+                AchievmentData taskData = CommonGameData.AchievmentStorage.Achievments
                     .Find(data => data.ModelId.Equals(taskId));
 
                 if (taskData == null)
@@ -138,17 +152,19 @@ namespace City.Panels.DailyTasks
                     continue;
                 }
 
-                var taskPrefab = UnityEngine.Object.Instantiate(View.AchievmentViewPrefab, View.Content);
+                DailyTaskAchievmentView taskPrefab =
+                    UnityEngine.Object.Instantiate(View.AchievmentViewPrefab, View.Content);
 
-                var type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
-                var gameTask = Activator.CreateInstance(type) as GameAchievment;
+                Type type = types.Find(type => type.Name.Equals(taskModel.ImplementationName));
+                GameAchievment gameTask = Activator.CreateInstance(type) as GameAchievment;
 
                 Resolver.Inject(gameTask);
                 gameTask.SetData(taskModel, taskData);
 
                 Resolver.Inject(taskPrefab);
+                m_dailyTaskAchievments.Add(taskPrefab);
                 taskPrefab.ObserverComplete.Subscribe(_ => CheckNews()).AddTo(Disposables);
-                taskPrefab.SetData(gameTask, View.Scroll);
+                taskPrefab.SetData(gameTask, View.Scroll, m_commonDictionaries);
 
                 taskPrefab.SetReward(m_subjectDetailController);
 
@@ -163,12 +179,13 @@ namespace City.Panels.DailyTasks
 
         private void OnGetRewardDailyTask(AchievmentView achievement)
         {
-            var particle = m_particleAttractionPool.Get();
+            ParticlesAttraction particle = m_particleAttractionPool.Get();
             particle.SetData(achievement.GetButton.GetComponent<RectTransform>(),
                 View.OpenBattlePasPanelButton.GetComponent<RectTransform>());
             particle.transform.SetParent(View.ParticlesContainer);
 
-            _fastChangeVisualCount = false;
+            m_fastChangeVisualCount = false;
+            CheckNews();
         }
 
         private int GetMaxLevelReceivedReward()
@@ -178,7 +195,7 @@ namespace City.Panels.DailyTasks
 
         private int OverMonet()
         {
-            var maxLevel = GetMaxLevelReceivedReward();
+            int maxLevel = GetMaxLevelReceivedReward();
             return m_currentProgress - maxLevel * 100;
         }
     }

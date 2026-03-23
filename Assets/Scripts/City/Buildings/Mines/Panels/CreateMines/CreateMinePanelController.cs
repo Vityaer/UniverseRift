@@ -1,17 +1,16 @@
-using City.Buildings.Mines.Panels.CreateMines;
+using System;
+using System.Collections.Generic;
 using ClientServices;
-using Common.Resourses;
+using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Cysharp.Threading.Tasks;
 using Misc.Json;
 using Models.City.Mines;
 using Models.Common;
+using Models.Data.Inventories;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Mines;
-using System;
-using System.Collections.Generic;
-using Common.Db.CommonDictionaries;
-using Common.Inventories.Resourses;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -20,76 +19,75 @@ using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
 
-namespace City.Buildings.Mines
+namespace City.Buildings.Mines.Panels.CreateMines
 {
     public class CreateMinePanelController : UiPanelController<CreateMinePanelView>, IStartable
     {
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
-        [Inject] private readonly CommonGameData _commonGameData;
-        [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        [Inject] private readonly CommonGameData m_commonGameData;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly ResourceStorageController m_resourceStorageController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
 
-        private PlaceForMine _place;
-        private MineData _data;
-        private MineCard _currentMineCard;
-        private ReactiveCommand<MineData> _onMineCreate = new();
-        private List<GameResource> _cost = new();
+        private readonly ReactiveCommand<MineData> m_onMineCreate = new();
+        private readonly List<GameResource> m_cost = new();
+        
+        private PlaceForMine m_place;
+        private MineData m_data;
+        private MineCard m_currentMineCard;
 
-        public IObservable<MineData> OnMineCreate => _onMineCreate;
+        public IObservable<MineData> OnMineCreate => m_onMineCreate;
 
         public override void Start()
         {
-            foreach (var card in View.MineCards)
+            foreach (MineCard card in View.MineCards)
             {
                 card.OnSelect.Subscribe(MineCardClick).AddTo(Disposables);
             }
-            View.CreateButton.OnClickAsObservable().Subscribe(_ => CreateNewMine(_place, _currentMineCard.Model).Forget()).AddTo(Disposables);
+            View.CreateButton.OnClickAsObservable().Subscribe(_ => CreateNewMine(m_place, m_currentMineCard.Model).Forget()).AddTo(Disposables);
             base.Start();
         }
 
         private void MineCardClick(MineCard mineCard)
         {
-            if (mineCard.GetCanCreateFromCount)
-            {
-                if (_currentMineCard != null)
-                    _currentMineCard.Diselect();
+            if (!mineCard.GetCanCreateFromCount) return;
+            if (m_currentMineCard != null)
+                m_currentMineCard.Diselect();
 
-                _currentMineCard = mineCard;
-                _currentMineCard.Select();
-                CheckCreate();
-            }
+            m_currentMineCard = mineCard;
+            m_currentMineCard.Select();
+            CheckCreate();
         }
 
         private void CheckCreate()
         {
-            _cost.Clear();
-            var costData = _currentMineCard.Model.CreateCost;
-            foreach (var cost in costData)
-                _cost.Add(new GameResource(cost));
+            m_cost.Clear();
+            List<ResourceData> costData = m_currentMineCard.Model.CreateCost;
+            foreach (ResourceData cost in costData)
+                m_cost.Add(new GameResource(cost));
 
-            View.CostController.ShowCosts(_cost);
+            View.CostController.ShowCosts(m_cost);
 
-            var enoughResource = _resourceStorageController.CheckResource(_cost);
+            bool enoughResource = m_resourceStorageController.CheckResource(m_cost);
             View.CreateButton.interactable = enoughResource;
         }
 
         protected override void OnLoadGame()
         {
-            var restrictionModels = _commonDictionaries.MineRestrictions;
-            var mineDatas = _commonGameData.City.IndustrySave.Mines;
+            Dictionary<string, MineRestrictionModel> restrictionModels = m_commonDictionaries.MineRestrictions;
+            List<MineData> mineDatas = m_commonGameData.City.IndustrySave.Mines;
 
-            var index = 0;
-            foreach (var model in restrictionModels.Values)
+            int index = 0;
+            foreach (MineRestrictionModel model in restrictionModels.Values)
             {
-                if (!_commonDictionaries.Mines.TryGetValue(model.MineId, out var mineModel))
+                if (!m_commonDictionaries.Mines.TryGetValue(model.MineId, out MineModel mineModel))
                 {
                     Debug.LogError($"Not found Mine from {model.MineId}");
                     continue;
                 }
 
-                var currentCount = mineDatas.FindAll(data => data.MineId == model.MineId).Count;
-                var restriction = new GameMineRestriction(model, currentCount);
+                int currentCount = mineDatas.FindAll(data => data.MineId == model.MineId).Count;
+                GameMineRestriction restriction = new GameMineRestriction(model, currentCount);
                 View.MineCards[index].SetData(mineModel, restriction);
                 index++;
             }
@@ -102,28 +100,42 @@ namespace City.Buildings.Mines
 
         public void Open(PlaceForMine placeMine)
         {
-            _place = placeMine;
+            m_place = placeMine;
 
-            for (int i = placeMine.Types.Count; i < View.MineCards.Count; i++)
+            foreach (MineCard card in View.MineCards)
             {
-                View.MineCards[i].Hide();
+
+                if (card.Model == null)
+                {
+                    card.HidePanel();
+                    continue;
+                }
+
+                if (placeMine.Types.Contains(card.Model.Type))
+                {
+                    card.ShowPanel();
+                }
+                else
+                {
+                    card.HidePanel();
+                }
             }
 
-            var startSelectCard = View.MineCards.Find(x => x.GetCanCreateFromCount == true);
+            MineCard startSelectCard = View.MineCards.Find(x => x.IsOpen && x.GetCanCreateFromCount);
             MineCardClick(startSelectCard);
 
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<CreateMinePanelController>(openType: OpenType.Additive);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<CreateMinePanelController>(openType: OpenType.Additive);
         }
 
-        public async UniTaskVoid CreateNewMine(PlaceForMine place, MineModel model)
+        private async UniTaskVoid CreateNewMine(PlaceForMine place, MineModel model)
         {
-            var message = new CreateNewMineMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineModelId = model.Id, PlaceId = place.Id };
-            var result = await DataServer.PostData(message);
+            CreateNewMineMessage message = new CreateNewMineMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineModelId = model.Id, PlaceId = place.Id };
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var mineData = _jsonConverter.Deserialize<MineData>(result);
-                _onMineCreate.Execute(mineData);
-                _resourceStorageController.SubtractResource(_cost);
+                var mineData = m_jsonConverter.Deserialize<MineData>(result);
+                m_onMineCreate.Execute(mineData);
+                m_resourceStorageController.SubtractResource(m_cost);
                 Close();
             }
         }

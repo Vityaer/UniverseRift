@@ -1,4 +1,5 @@
-﻿using Models.Data;
+﻿using System;
+using Models.Data;
 using Models.Heroes;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Models
         public int petID = -1;
         public TeamFightData(List<int> newListID, int newPetId = -1)
         {
-            for (int i = 0; i < newListID.Count; i++)
+            for (int i = 0; i < Math.Min(newListID.Count, this.listID.Count); i++)
                 this.listID[i] = newListID[i];
             this.petID = newPetId;
         }

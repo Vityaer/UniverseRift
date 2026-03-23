@@ -4,6 +4,7 @@ using Models.Heroes.Skills.Actions.Effects;
 using Models.Heroes.Skills.Actions.Imps.SimpleActions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Models.Heroes.Skills.Actions.Imps
 {

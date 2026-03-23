@@ -1,5 +1,4 @@
-﻿using UiExtensions.Scroll.Interfaces;
-using UniRx;
+﻿using UniRx;
 using VContainerUi.Model;
 using VContainerUi.Messages;
 using City.Buildings.Guild.GuildDonatePanels;

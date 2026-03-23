@@ -1,4 +1,5 @@
-﻿using LocalizationSystems;
+﻿using Common.Db.CommonDictionaries;
+using LocalizationSystems;
 using UIController.Inventory;
 using UiExtensions.Misc;
 using UnityEngine;
@@ -22,10 +23,10 @@ namespace City.Panels.SubjectPanels.Items
             m_available = true; 
         }
 
-        public override void SetData(Bonus data, ScrollRect scrollRect)
+        public override void SetData(Bonus data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             m_available = true;
-            base.SetData(data, scrollRect);
+            base.SetData(data, scrollRect, dictionaries);
             UpdateUi();
         }
         

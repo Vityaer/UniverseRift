@@ -17,8 +17,8 @@ namespace Editor.Pages.Campaigns
         public CampaignModelEditor(CampaignChapterModel model, CommonDictionaries commonDictionaries)
         {
             _commonDictionaries = commonDictionaries;
-            _model = model;
-            foreach (var mission in _model.Missions)
+            m_model = model;
+            foreach (var mission in m_model.Missions)
             {
                 mission.Dictionaries = _commonDictionaries;
                 if(mission.Units != null)
@@ -42,8 +42,8 @@ namespace Editor.Pages.Campaigns
         [LabelWidth(250)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -52,8 +52,8 @@ namespace Editor.Pages.Campaigns
         [LabelWidth(250)]
         public string Name
         {
-            get => _model.Name;
-            set => _model.Name = value;
+            get => m_model.Name;
+            set => m_model.Name = value;
         }
 
         [ShowInInspector]
@@ -65,8 +65,8 @@ namespace Editor.Pages.Campaigns
             CustomRemoveElementFunction = nameof(RemoveMission), CustomAddFunction = nameof(AddMission))]
         public List<CampaignMissionModel> Missions
         {
-            get => _model.Missions;
-            set => _model.Missions = value;
+            get => m_model.Missions;
+            set => m_model.Missions = value;
         }
 
         protected void AddMission()

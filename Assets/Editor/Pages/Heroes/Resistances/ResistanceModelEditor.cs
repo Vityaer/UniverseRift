@@ -9,7 +9,7 @@ namespace Editor.Pages.Heroes.Resistances
     {
         public ResistanceModelEditor(ResistanceModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -18,8 +18,8 @@ namespace Editor.Pages.Heroes.Resistances
         [LabelWidth(50)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
     }
 }

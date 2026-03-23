@@ -6,49 +6,48 @@ namespace Utils
 {
     public class WrapperPool<T> where T : MonoBehaviour
     {
-        protected ObjectPool<T> Pool;
-        protected Action<T> ActionOnCreate;
-        protected T Prefab;
-        protected Transform _parent;
+        private readonly ObjectPool<T> m_pool;
+        private readonly Action<T> m_actionOnCreate;
+        private readonly T m_prefab;
+        private readonly Transform m_parent;
 
-        private int _currentCountInWork = 0;
-        
-        public int CurrentCountInWork => _currentCountInWork;
-        
+        private int m_currentCountInWork = 0;
+
+        public int CurrentCountInWork => m_currentCountInWork;
+
         public WrapperPool(T prefab, Action<T> actionOnCreate, Transform parent = null)
         {
-            Pool = new ObjectPool<T>(Create, actionOnRelease: ActionOnRelease);
-            ActionOnCreate = actionOnCreate;
-            Prefab = prefab;
-            _parent = parent;
+            m_pool = new ObjectPool<T>(Create, actionOnRelease: ActionOnRelease);
+            m_actionOnCreate = actionOnCreate;
+            m_prefab = prefab;
+            m_parent = parent;
         }
 
         public virtual T Get()
         {
-            var result = Pool.Get();
+            T result = m_pool.Get();
             result.gameObject.SetActive(true);
-            _currentCountInWork += 1;
+            m_currentCountInWork += 1;
             return result;
         }
 
         public virtual void Release(T obj)
         {
             obj.gameObject.SetActive(false);
-            _currentCountInWork -= 1;
-            Pool.Release(obj);
+            m_currentCountInWork -= 1;
+            m_pool.Release(obj);
         }
 
-        protected void ActionOnRelease(T obj)
+        private void ActionOnRelease(T obj)
         {
             obj.gameObject.SetActive(false);
         }
 
-        protected T Create()
+        private T Create()
         {
-            var result = UnityEngine.Object.Instantiate(Prefab, _parent);
+            T result = UnityEngine.Object.Instantiate(m_prefab, m_parent);
 
-            if (ActionOnCreate != null)
-                ActionOnCreate(result);
+            m_actionOnCreate?.Invoke(result);
 
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿using City.Buildings.TaskGiver;
+using City.Panels.RatingUps;
 using City.TrainCamp;
 using Hero;
 using Models.Common.BigDigits;

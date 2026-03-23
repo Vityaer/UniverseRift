@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using City.Buildings.Abstractions;
+using City.Buildings.TaskGiver.TaskControllers;
 using ClientServices;
 using Common.Db.CommonDictionaries;
 using Misc.Json;
@@ -13,12 +14,12 @@ namespace City.Buildings.TaskGiver.Abstracts
     public class BaseTaskboardController<T> : BaseBuilding<T>
     where T : BaseTaskboardView
     {
-        [Inject] protected readonly ResourceStorageController _resourceStorageController;
-        [Inject] protected readonly IJsonConverter _jsonConverter;
-        [Inject] protected readonly CommonDictionaries _commonDictionaries;
+        [Inject] protected readonly ResourceStorageController ResourceStorageController;
+        [Inject] protected readonly IJsonConverter JsonConverter;
+        [Inject] protected readonly CommonDictionaries CommonDictionaries;
         
-        protected TaskBoardData _taskBoardData;
-        protected List<BaseTaskController> TaskControllers = new List<BaseTaskController>();
+        protected TaskBoardData TaskBoardData;
+        protected readonly List<BaseTaskController> TaskControllers = new List<BaseTaskController>();
 
         protected virtual void CreateTask(TaskData taskData)
         {
@@ -26,7 +27,7 @@ namespace City.Buildings.TaskGiver.Abstracts
             TaskControllers.Add(newTaskController);
             Resolver.Inject(newTaskController);
             Resolver.Inject(newTaskController.TaskControllerButton);
-            newTaskController.SetData(taskData, View.Scroll, _commonDictionaries.GameTaskModels[taskData.TaskModelId]);
+            newTaskController.SetData(taskData, View.Scroll, CommonDictionaries.GameTaskModels[taskData.TaskModelId]);
             newTaskController.OnGetReward.Subscribe(FinishTask).AddTo(Disposables);
             newTaskController.OnStartTask.Subscribe(OnStartTask).AddTo(Disposables);
         }
@@ -58,7 +59,7 @@ namespace City.Buildings.TaskGiver.Abstracts
         protected void DeleteTask(BaseTaskController taskController)
         {
             TaskControllers.Remove(taskController);
-            _taskBoardData.ListTasks.Remove(taskController.GetTask);
+            TaskBoardData.ListTasks.Remove(taskController.GetTask);
             UnityEngine.Object.Destroy(taskController.gameObject);
         }
 

@@ -1,5 +1,5 @@
 using Common.Resourses;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainerUi.Model;
 using VContainerUi.Messages;
 

@@ -9,6 +9,7 @@ using System;
 using City.Panels.Inventories;
 using City.Panels.SubjectPanels.Items;
 using City.TrainCamp.HeroPanels;
+using MainPages.Army;
 using UIController.Inventory;
 using UniRx;
 using UnityEngine;

@@ -89,7 +89,7 @@ namespace Fight.Windows.WarTable
             m_isDragging = true;
             View.DragableItemImage.sprite = place.Hero.Avatar;
 
-            m_cancellationTokenSource.TryCancel();
+            m_cancellationTokenSource?.TryCancel();
             m_cancellationTokenSource = new();
             DragingItem(m_cancellationTokenSource.Token).Forget();
         }
@@ -141,9 +141,13 @@ namespace Fight.Windows.WarTable
                 return;
             }
 
-            var oldIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == m_startDragPlace);
-            var newIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == place);
-            m_playerTeam.Heroes.Remove(oldIndexPlace);
+            int oldIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == m_startDragPlace);
+            int newIndexPlace = View.LeftTeam.FindIndex(warPlace => warPlace == place);
+
+            if (oldIndexPlace <= 0 && oldIndexPlace < View.LeftTeam.Count)
+            {
+                m_playerTeam.Heroes.Remove(oldIndexPlace);
+            }
 
             if (place.IsEmpty)
             {
@@ -152,7 +156,7 @@ namespace Fight.Windows.WarTable
             }
             else
             {
-                var tempHero = place.Hero;
+                GameHero tempHero = place.Hero;
                 place.SetHero(m_startDragPlace.Hero);
                 m_startDragPlace.SetHero(tempHero);
                 ChangeTeamData(m_playerTeam, oldIndexPlace, tempHero.HeroData.Id);

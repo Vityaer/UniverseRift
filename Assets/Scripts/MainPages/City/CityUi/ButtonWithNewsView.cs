@@ -10,6 +10,8 @@ namespace MainPages.City.CityUi
 
         public void SetNewsEnabled(bool flag)
         {
+            Debug.Assert(m_news != null);
+            Debug.Log($"SetNewsEnabled: {flag}", gameObject);
             m_news.SetActive(flag);
         }
     }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using Fight.Common.Grid;
+using Fight.Grid;
 using UnityEngine;
 
 namespace Fight.Common.FightInterface

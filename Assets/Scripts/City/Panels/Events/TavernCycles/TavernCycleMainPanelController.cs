@@ -1,7 +1,6 @@
 ﻿using City.Panels.Events.TavernCycleMainPanels;
 using City.Panels.MonthTasks.Abstractions;
 using Models.Events;
-using UiExtensions.Scroll.Interfaces;
 
 namespace MainPages.Events.Cycles.TavernCycles.Panels
 {

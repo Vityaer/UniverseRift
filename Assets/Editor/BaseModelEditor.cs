@@ -5,11 +5,11 @@ namespace Editor.Common
 {
     public class BaseModelEditor<T>
     {
-        [NonSerialized] protected T _model;
+        [NonSerialized] protected T m_model;
 
         public T GetModel()
         {
-            return _model;
+            return m_model;
         }
     }
 }

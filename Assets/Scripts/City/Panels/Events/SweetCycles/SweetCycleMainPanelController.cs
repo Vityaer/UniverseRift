@@ -1,16 +1,15 @@
 ﻿using Misc.Json;
 using Models;
-using Models.Common;
+using Models.City.Markets;
 using Models.Events;
 using UiExtensions.Panels;
-using UnityEngine;
 using VContainer;
 
 namespace City.Panels.Events.SweetCycles
 {
     public class SweetCycleMainPanelController : BaseMarketController<SweetCycleMainPanelView>
     {
-        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
 
         protected override string MarketContainerName => "SweetCycleMarket";
 
@@ -19,17 +18,16 @@ namespace City.Panels.Events.SweetCycles
             if (CommonGameData.CycleEventsData.CurrentEventType != GameEventType.Sweet)
                 return;
 
-            SweetEventData eventData = _jsonConverter
+            SweetEventData eventData = m_jsonConverter
                 .Deserialize<SweetEventData>(CommonGameData.CycleEventsData.CurrentCycle);
 
-            var sweetMarket = CommonDictionaries.Markets[MarketContainerName];
+            MarketModel sweetMarket = CommonDictionaries.Markets[MarketContainerName];
 
-            foreach (var sweetGoodId in sweetMarket.Products)
+            foreach (string sweetGoodId in sweetMarket.Products)
             {
                 CommonDictionaries.Products[sweetGoodId].Cost.Type = eventData.ResourceType;
             }
 
-            
             View.ObserverCycleCandy.TypeResource = eventData.ResourceType;
             View.ObserverCycleCandy.Construct();
             base.OnLoadGame();

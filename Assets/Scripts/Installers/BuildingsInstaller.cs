@@ -21,6 +21,7 @@ using City.Buildings.Voyage.Shops;
 using City.Buildings.WheelFortune;
 using City.Panels.AltarMarkets;
 using MainPages.City;
+using Plugins.VContainerUi.Runtime;
 using UIController.Common;
 using UnityEngine;
 using VContainer;

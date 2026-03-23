@@ -4,7 +4,7 @@ using Models.Data.Players;
 using Network.DataServer;
 using Network.DataServer.Messages.Friendships;
 using System;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using Utils;

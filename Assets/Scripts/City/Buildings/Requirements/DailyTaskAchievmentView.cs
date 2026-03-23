@@ -1,4 +1,4 @@
-namespace City.Buildings.Requirement
+namespace City.Buildings.Requirements
 {
     public class DailyTaskAchievmentView : AchievmentView
     {

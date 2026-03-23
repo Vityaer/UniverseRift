@@ -1,12 +1,13 @@
-﻿using DG.Tweening;
+﻿using Common.Db.CommonDictionaries;
+using DG.Tweening;
 using Models.Data.Players;
 using Models.Misc;
-using System;
 using TMPro;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Friends.FriendViews
 {
@@ -20,26 +21,27 @@ namespace City.Buildings.Friends.FriendViews
         [SerializeField] private Image _sendedImage;
         [SerializeField] private Image _receivedImage;
 
-        private Tween _tweenSended;
-        private Tween _tweenReceived;
-        private int _myId;
-        private PlayerData _playerData;
-        private bool _increased;
+        private Tween m_tweenSended;
+        private Tween m_tweenReceived;
+        private int m_myId;
+        private PlayerData m_playerData;
+        private bool m_increased;
 
         public float AnimationTime = 0.5f;
 
-        public override void SetData(FriendshipData data, ScrollRect scrollRect)
+        public override void SetData(FriendshipData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
         }
 
         public void SetData(int id, PlayerData playerData)
         {
-            _myId = id;
-            _playerData = playerData;
+            m_myId = id;
+            m_playerData = playerData;
 
-            if (Data.FirstPlayerId == _myId)
+            if (Data.FirstPlayerId == m_myId)
             {
                 if (Data.PresentForSecondPlayer)
                     _sendedImage.DOFade(1f, 0f);
@@ -50,7 +52,7 @@ namespace City.Buildings.Friends.FriendViews
                     _sendedImage.DOFade(1f, 0f);
             }
 
-            if (Data.FirstPlayerId == _myId)
+            if (Data.FirstPlayerId == m_myId)
             {
                 if (Data.FirstPlayerRecieved)
                     _receivedImage.DOFade(1f, 0f);
@@ -66,7 +68,7 @@ namespace City.Buildings.Friends.FriendViews
 
         public void ShowSendedHeart()
         {
-            if (Data.FirstPlayerId == _myId)
+            if (Data.FirstPlayerId == m_myId)
             {
                 Data.PresentForSecondPlayer = true;
             }
@@ -75,12 +77,12 @@ namespace City.Buildings.Friends.FriendViews
                 Data.PresentForFirstPlayer = true;
             }
 
-            _tweenSended = _sendedImage.DOFade(1f, AnimationTime);
+            m_tweenSended = _sendedImage.DOFade(1f, AnimationTime);
         }
 
         public void ShowReceivedHeart()
         {
-            if (Data.FirstPlayerId == _myId)
+            if (Data.FirstPlayerId == m_myId)
             {
                 Data.FirstPlayerRecieved = true;
             }
@@ -89,21 +91,21 @@ namespace City.Buildings.Friends.FriendViews
                 Data.SecondPlayerRecieved = true;
             }
 
-            _tweenReceived = _receivedImage.DOFade(1f, AnimationTime);
+            m_tweenReceived = _receivedImage.DOFade(1f, AnimationTime);
         }
 
         private void UpdateUi()
         {
-            _playerName.text = $"{_playerData.Name}";
-            _playerLevel.text = $"{_playerData.Level}";
-            _playerAvatar.sprite = SpriteUtils.LoadSprite(_playerData.AvatarPath);
+            _playerName.text = $"{m_playerData.Name}";
+            _playerLevel.text = $"{m_playerData.Level}";
+            _playerAvatar.sprite = SpriteUtils.LoadSprite(m_playerData.AvatarPath);
             _friendshipLevel.text = $"{Data.Level} / 30";
         }
 
         protected override void OnDestroy()
         {
-            _tweenSended.Kill();
-            _tweenReceived.Kill();
+            m_tweenSended.Kill();
+            m_tweenReceived.Kill();
             base.OnDestroy();
         }
     }

@@ -14,6 +14,7 @@ using Models.City.Misc;
 using Models.City.TravelCircle;
 using Models.Data.Dailies;
 using Models.Data.Dailies.Tasks;
+using Models.Dialogs;
 using Models.Fights.Misc;
 using Models.Guilds;
 using Models.Heroes;
@@ -25,6 +26,7 @@ using Models.Misc.Avatars;
 using Models.Misc.Helps;
 using Models.Rewards;
 using Models.Tasks;
+using Models.Tutorials;
 using UIController.Rewards;
 using UniRx;
 using UnityEngine;
@@ -34,8 +36,8 @@ namespace Common.Db.CommonDictionaries
 {
     public class CommonDictionaries
     {
-        public ReactiveCommand OnStartDownloadFiles = new();
-        public ReactiveCommand OnFinishDownloadFiles = new();
+        public readonly ReactiveCommand OnStartDownloadFiles = new();
+        public readonly ReactiveCommand OnFinishDownloadFiles = new();
 
         private Dictionary<string, HeroModel> m_heroes = new();
         private Dictionary<string, RaceModel> m_races = new();
@@ -72,7 +74,9 @@ namespace Common.Db.CommonDictionaries
         private Dictionary<string, HireContainerModel> m_hireContainerModels = new();
         private Dictionary<string, LocationModel> m_locationModels = new();
         private Dictionary<string, HelpResourceModel> m_helpResourceModels = new();
-
+        private Dictionary<string, TutorialModel> m_tutorials = new();
+        private Dictionary<string, DialogModel> m_dialogs = new();
+        
         private readonly IJsonConverter m_converter;
         private bool m_isInited;
 
@@ -112,6 +116,8 @@ namespace Common.Db.CommonDictionaries
         public Dictionary<string, HireContainerModel> HireContainerModels => m_hireContainerModels;
         public Dictionary<string, LocationModel> LocationModels => m_locationModels;
         public Dictionary<string, HelpResourceModel> HelpResourceModels => m_helpResourceModels;
+        public Dictionary<string, TutorialModel> Tutorials => m_tutorials;
+        public Dictionary<string, DialogModel> Dialogs => m_dialogs;
 
         private bool IsDownloadedInLocalStorage
         {
@@ -145,6 +151,7 @@ namespace Common.Db.CommonDictionaries
                 //result &= TextUtils.IsLoadedToLocalStorage<GuildBossContainer>();
                 //result &= TextUtils.IsLoadedToLocalStorage<AvatarModel>();
                 //result &= TextUtils.IsLoadedToLocalStorage<CostRatingUpContainer>();
+                
 
                 return result;
             }
@@ -245,6 +252,8 @@ namespace Common.Db.CommonDictionaries
             m_hireContainerModels = await DownloadModels<HireContainerModel>();
             m_locationModels = await DownloadModels<LocationModel>();
             m_helpResourceModels = await DownloadModels<HelpResourceModel>();
+            m_tutorials = await DownloadModels<TutorialModel>();
+            m_dialogs = await DownloadModels<DialogModel>();
         }
 
         private async UniTask<Dictionary<string, T>> DownloadModels<T>() where T : BaseModel
@@ -292,6 +301,8 @@ namespace Common.Db.CommonDictionaries
             m_hireContainerModels = GetModels<HireContainerModel>();
             m_locationModels = GetModels<LocationModel>();
             m_helpResourceModels = GetModels<HelpResourceModel>();
+            m_tutorials = GetModels<TutorialModel>();
+            m_dialogs = GetModels<DialogModel>();
         }
 
         private Dictionary<string, T> GetModels<T>() where T : BaseModel

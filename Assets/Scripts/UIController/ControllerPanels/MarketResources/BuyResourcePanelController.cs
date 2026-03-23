@@ -9,7 +9,7 @@ using Models.Common;
 using Network.DataServer;
 using Network.DataServer.Messages.City;
 using UIController.ControllerPanels.AlchemyPanels;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainerUi.Messages;

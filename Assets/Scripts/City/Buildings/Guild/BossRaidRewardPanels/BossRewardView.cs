@@ -1,3 +1,4 @@
+using Common.Db.CommonDictionaries;
 using Common.Rewards;
 using TMPro;
 using UIController;
@@ -11,14 +12,15 @@ namespace City.Buildings.Guild.BossRaidRewardPanels
         public RewardUIController RewardController;
         public TMP_Text Label;
 
-        public void SetData(GameReward data, int startIndex, int finishIndex, ScrollRect scrollRect)
+        public void SetData(GameReward data, int startIndex, int finishIndex, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Label.text = startIndex == finishIndex
                 ? $"{startIndex}"
                 : $"{startIndex} - {finishIndex}";
             
-            RewardController.ShowReward(data);
-            base.SetData(data, scrollRect);
+            RewardController.Init(null, dictionaries);
+            RewardController.ShowReward(data, dictionaries);
+            base.SetData(data, scrollRect, dictionaries);
         }
     }
 }

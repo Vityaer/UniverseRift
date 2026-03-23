@@ -4,42 +4,43 @@ using UniRx;
 using VContainer;
 using VContainer.Unity;
 
-namespace Fight.Common.AI
+namespace Fight.AI
 {
     public class BotProvider : IInitializable, IDisposable
     {
-        [Inject] private readonly Common.FightController _fightController;
-        [Inject] private readonly BotFactory _botFactory;
+        [Inject] private readonly Common.FightController m_fightController;
+        [Inject] private readonly BotFactory m_botFactory;
         
-        private BaseBot _bot;
-        private CompositeDisposable _disposables = new CompositeDisposable(); 
+        private readonly CompositeDisposable m_disposables = new(); 
+        
+        private BaseBot m_bot;
 
         public void Initialize()
         {
-            _fightController.OnStartFight.Subscribe(_ => OnStartFight()).AddTo(_disposables);
-            _fightController.OnFinishFight.Subscribe(_ => OnFinishFight()).AddTo(_disposables);
+            m_fightController.OnStartFight.Subscribe(_ => OnStartFight()).AddTo(m_disposables);
+            m_fightController.OnFinishFight.Subscribe(_ => OnFinishFight()).AddTo(m_disposables);
         }
 
         private void OnStartFight()
         {
-            _bot = _botFactory.Create<BaseBot>();
-            _bot.Initialize();
-            _bot.SetSideAI(_fightController.IsFastFight ? Side.All : Side.Right);
+            m_bot = m_botFactory.Create<BaseBot>();
+            m_bot.Initialize();
+            m_bot.SetSideAI(m_fightController.IsFastFight ? Side.All : Side.Right);
         }
 
         private void OnFinishFight()
         {
-            _bot = null;
+            m_bot = null;
         }
 
         public bool CheckMeOnSubmission(Side side)
         {
-            return _bot.CheckMeOnSubmission(side);
+            return m_bot.CheckMeOnSubmission(side);
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
     }
 }

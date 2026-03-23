@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Fight.Common.HeroControllers.Generals;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UniRx;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.FightInterface
 {

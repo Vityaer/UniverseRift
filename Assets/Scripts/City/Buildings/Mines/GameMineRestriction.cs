@@ -4,16 +4,16 @@ namespace City.Buildings.Mines
 {
     public class GameMineRestriction
     {
-        private MineRestrictionModel _model;
-        private int _currentCount;
+        private readonly MineRestrictionModel m_model;
+        private readonly int m_currentCount;
 
-        public int CurrentCount => _currentCount;
-        public int MaxCount => _model.MaxCount;
+        public int CurrentCount => m_currentCount;
+        public int MaxCount => m_model.MaxCount;
 
         public GameMineRestriction(MineRestrictionModel model, int currentCount)
         {
-            _model = model;
-            _currentCount = currentCount;
+            m_model = model;
+            m_currentCount = currentCount;
         }
     }
 }

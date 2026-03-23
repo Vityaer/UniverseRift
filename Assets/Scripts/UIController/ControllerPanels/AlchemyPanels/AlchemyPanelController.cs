@@ -4,10 +4,10 @@ using City.Panels.Inventories;
 using ClientServices;
 using Common.Db.CommonDictionaries;
 using Common.Inventories.Resourses;
-using Common.Resourses;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using LocalizationSystems;
+using Models;
 using Models.City.Alchemies;
 using Models.City.Markets;
 using Models.Common;
@@ -55,16 +55,10 @@ namespace UIController.ControllerPanels.AlchemyPanels
             m_lastGetAlchemyDateTime = TimeUtils.ParseTime(CommonGameData.CycleEventsData.LastGetAlchemyDateTime);
             CheckAlchemyButton();
 
-            try
-            {
-                var reward = new GameReward(m_commonDictionaries.Rewards["Alchemy"], m_commonDictionaries);
-                View.RewardView.ShowReward(reward);
-                ShowProducts();
-            }
-            catch(Exception ex)
-            {
-                Debug.LogError(ex);
-            }
+            GameReward reward = new GameReward(m_commonDictionaries.Rewards["Alchemy"], m_commonDictionaries);
+            View.RewardView.Init(null, m_commonDictionaries);
+            View.RewardView.ShowReward(reward, m_commonDictionaries);
+            ShowProducts();
 
         }
 
@@ -75,22 +69,17 @@ namespace UIController.ControllerPanels.AlchemyPanels
                 Debug.LogError("View.ProductButtons is null");
                 return;
             }
-            
+
             m_alchemyPanelBuildingModel = m_commonDictionaries.Buildings[nameof(AlchemyPanelBuildingModel)]
                 as AlchemyPanelBuildingModel;
 
-            if (m_alchemyPanelBuildingModel == null)
-            {
-                return;
-            }
+            if (m_alchemyPanelBuildingModel == null) return;
 
-            for(int i = 0; i < m_alchemyPanelBuildingModel.Products.Count && i < View.ProductButtons.Count; i++)
+            for (int i = 0; i < m_alchemyPanelBuildingModel.Products.Count && i < View.ProductButtons.Count; i++)
             {
                 string productName = m_alchemyPanelBuildingModel.Products[i];
                 if (!m_commonDictionaries.Products.TryGetValue(productName, out BaseProductModel basProductModel))
-                {
                     continue;
-                }
                 ResourceProductModel productModel = basProductModel as ResourceProductModel;
                 if (productModel == null)
                 {
@@ -99,11 +88,11 @@ namespace UIController.ControllerPanels.AlchemyPanels
                 }
 
                 GameResource cost = new GameResource(productModel.Cost);
-                var view = View.ProductButtons[i];
+                ButtonWithObserverResource view = View.ProductButtons[i];
                 view.ChangeCost(cost, () => BuyProduct(view, productModel));
-                var rewardModel = new RewardModel();
-                
-                var resourceData = productModel.Subject as ResourceData;
+                RewardModel rewardModel = new RewardModel();
+
+                ResourceData resourceData = productModel.Subject as ResourceData;
                 if (resourceData == null)
                 {
                     Debug.LogError(productModel.Subject);
@@ -111,7 +100,8 @@ namespace UIController.ControllerPanels.AlchemyPanels
                 }
 
                 rewardModel.Resources.Add(resourceData);
-                View.ProductsRewards[i].ShowReward(new GameReward(rewardModel, m_commonDictionaries));
+                View.ProductsRewards[i].Init(null, m_commonDictionaries);
+                View.ProductsRewards[i].ShowReward(new GameReward(rewardModel, m_commonDictionaries), m_commonDictionaries);
             }
         }
 
@@ -122,7 +112,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
         private void CheckAlchemyButton()
         {
-            var delta = DateTime.UtcNow - m_lastGetAlchemyDateTime;
+            TimeSpan delta = DateTime.UtcNow - m_lastGetAlchemyDateTime;
             View.SliderTimeAlchemy.SetData(m_lastGetAlchemyDateTime, m_alchemyTimespan);
             View.AlchemyButton.interactable = delta >= m_alchemyTimespan;
         }
@@ -135,7 +125,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
         private async UniTaskVoid GetAlchemyGold()
         {
             View.AlchemyButton.interactable = false;
-            var message = new GetAlchemyMessage
+            GetAlchemyMessage message = new GetAlchemyMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id
             };
@@ -144,7 +134,7 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
             if (!string.IsNullOrEmpty(result))
             {
-                var reward = new GameReward(m_commonDictionaries.Rewards["Alchemy"], m_commonDictionaries);
+                GameReward reward = new GameReward(m_commonDictionaries.Rewards["Alchemy"], m_commonDictionaries);
                 m_clientRewardService.ShowReward(reward);
                 m_lastGetAlchemyDateTime = DateTime.UtcNow;
                 OnGetAchemyGold.Execute();
@@ -152,27 +142,28 @@ namespace UIController.ControllerPanels.AlchemyPanels
 
             CheckAlchemyButton();
         }
-        
+
         private async UniTaskVoid TryBuyProductOnServer(string productId, ButtonWithObserverResource view)
         {
-            var message = new BuyProductMessage { PlayerId = m_сommonGameData.PlayerInfoData.Id, ProductId = productId, Count = 1 };
-            var result = await DataServer.PostData(message);
+            BuyProductMessage message = new BuyProductMessage
+                { PlayerId = m_сommonGameData.PlayerInfoData.Id, ProductId = productId, Count = 1 };
+            string result = await DataServer.PostData(message);
 
             if (!string.IsNullOrEmpty(result))
             {
-                var product = m_commonDictionaries.Products[productId];
-                var cost = new GameResource(product.Cost);
+                BaseProductModel product = m_commonDictionaries.Products[productId];
+                GameResource cost = new GameResource(product.Cost);
                 m_resourceStorageController.SubtractResource(cost);
 
                 switch (product)
                 {
                     case ResourceProductModel resourceProduct:
-                        var resource = new GameResource(resourceProduct.Subject);
+                        GameResource resource = new GameResource(resourceProduct.Subject);
                         m_resourceStorageController.AddResource(resource);
                         break;
                     case ItemProductModel itemProduct:
-                        var itemModel = m_commonDictionaries.Items[itemProduct.Subject.Id];
-                        var item = new GameItem(itemModel, itemProduct.Subject.Amount);
+                        ItemModel itemModel = m_commonDictionaries.Items[itemProduct.Subject.Id];
+                        GameItem item = new GameItem(itemModel, itemProduct.Subject.Amount);
                         m_inventoryPanelController.Add(item);
                         break;
                 }

@@ -85,7 +85,7 @@ namespace UnityEngine.UI
 		//------------------------------------------------------------------------------------------------------
 		public float GetColumnPositionWithinGrid( int column ) {
 
-			if (column <= 0 || column >= columns)
+			if (column < 0 || column >= columns)
 				return 0;
 
 			float pos = 0;
@@ -98,7 +98,7 @@ namespace UnityEngine.UI
 		//------------------------------------------------------------------------------------------------------
 		public float GetRowPositionWithinGrid( int row ) {
 
-			if (row <= 0 || row >= rows)
+			if (row < 0 || row >= rows)
 				return 0;
 
 			float pos = 0;

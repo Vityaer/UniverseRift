@@ -5,6 +5,7 @@ using Fight.Common.Comparers;
 using Fight.Common.HeroControllers.Generals;
 using Fight.Common.Misc;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common
 {

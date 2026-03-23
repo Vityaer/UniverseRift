@@ -13,7 +13,7 @@ namespace Editor.Pages.Achievments
     {
         public AchievmentModelEditor(AchievmentModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -22,8 +22,8 @@ namespace Editor.Pages.Achievments
         [LabelWidth(200)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -32,8 +32,8 @@ namespace Editor.Pages.Achievments
         [LabelWidth(200)]
         public ProgressType ProgressType
         {
-            get => _model.ProgressType;
-            set => _model.ProgressType = value;
+            get => m_model.ProgressType;
+            set => m_model.ProgressType = value;
         }
 
         [ShowInInspector]
@@ -42,8 +42,8 @@ namespace Editor.Pages.Achievments
         [LabelWidth(200)]
         public List<AchievmentStageModel> Stages
         {
-            get => _model.Stages;
-            set => _model.Stages = value;
+            get => m_model.Stages;
+            set => m_model.Stages = value;
         }
 
         [ShowInInspector]
@@ -53,8 +53,8 @@ namespace Editor.Pages.Achievments
         [ValueDropdown(nameof(_allAbilitiesName), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public string ImplementationName
         {
-            get => _model.ImplementationName;
-            set => _model.ImplementationName = value;
+            get => m_model.ImplementationName;
+            set => m_model.ImplementationName = value;
         }
         [JsonIgnore] private string[] _allAbilitiesName => InheritanceUtils.GetAllTypeNames<GameAchievment>();
     }

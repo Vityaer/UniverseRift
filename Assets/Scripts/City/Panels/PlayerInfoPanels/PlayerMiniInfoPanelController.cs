@@ -1,7 +1,7 @@
 ﻿using City.Panels.CreatorMessagePanels;
 using Common.Players;
 using Models.Data.Players;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainerUi.Messages;
 using VContainerUi.Model;

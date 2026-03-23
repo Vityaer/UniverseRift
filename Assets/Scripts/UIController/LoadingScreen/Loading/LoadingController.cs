@@ -1,67 +1,72 @@
-﻿using Common.Db.CommonDictionaries;
+﻿using System;
+using Common.Db.CommonDictionaries;
 using Network.Misc;
+using Plugins.VContainerUi.Runtime.Abstraction;
+using Ui.LoadingScreen.Loading;
 using Ui.LoadingScreen.ProgressBar;
 using UniRx;
+using UnityEngine;
 using Utils;
 using VContainer.Unity;
 using VContainerUi.Abstraction;
 
-namespace Ui.LoadingScreen.Loading
+namespace UIController.LoadingScreen.Loading
 {
-    public class LoadingController : UiController<LoadingView>, IInitializable
+    public class LoadingController : UiController<LoadingView>, IInitializable, IDisposable
     {
-        private readonly ProgressBarController _progressBarController;
-        private readonly CompositeDisposable _disposable = new CompositeDisposable();
-        private readonly CommonDictionaries _commonDictionaries;
+        private readonly ProgressBarController m_progressBarController;
+        private readonly CompositeDisposable m_disposable = new();
+        private readonly CommonDictionaries m_commonDictionaries;
 
 #if UNITY_EDITOR
         private const int FILES_COUNT = 29;
 #else
         private const int FILES_COUNT = 30;
 #endif
-        private float _progressFileDelta;
-        private bool _isOpen;
+        private float m_progressFileDelta;
+        private bool m_isOpen;
 
+        
         public LoadingController(CommonDictionaries commonDictionaries, ProgressBarController progressBarController)
         {
-            _progressBarController = progressBarController;
-            _commonDictionaries = commonDictionaries;
+            m_progressBarController = progressBarController;
+            m_commonDictionaries = commonDictionaries;
         }
 
         public void Initialize()
         {
-            _commonDictionaries.OnStartDownloadFiles.Subscribe(_ => OnStartDownload()).AddTo(_disposable);
-            _commonDictionaries.OnFinishDownloadFiles.Subscribe(_ => OnFinishDownLoad()).AddTo(_disposable);
+            m_commonDictionaries.OnStartDownloadFiles.Subscribe(_ => OnStartDownload()).AddTo(m_disposable);
+            m_commonDictionaries.OnFinishDownloadFiles.Subscribe(_ => OnFinishDownLoad()).AddTo(m_disposable);
         }
 
-        public void OnStartDownload()
+        private void OnStartDownload()
         {
-            if (_isOpen)
+            if (m_isOpen)
                 return;
 
-            _isOpen = true;
+            m_isOpen = true;
 
             Show();
-            TextUtils.DownloadProgress.Subscribe(ShowDownloadProgress).AddTo(_disposable);
-            _progressBarController.Open();
-            _progressFileDelta = 1f / FILES_COUNT;
+            TextUtils.DownloadProgress.Subscribe(ShowDownloadProgress).AddTo(m_disposable);
+            m_progressBarController.Open();
+            m_progressFileDelta = 1f / FILES_COUNT;
         }
 
-        public void ShowDownloadProgress(FileLoadingProgress newFileProgress)
+        private void ShowDownloadProgress(FileLoadingProgress newFileProgress)
         {
-            var newProgress = _progressFileDelta * (newFileProgress.Progress + newFileProgress.FileIndex - 1);
-            _progressBarController.ChangeProgress(newProgress);
+            var newProgress = m_progressFileDelta * (newFileProgress.Progress + newFileProgress.FileIndex - 1);
+            m_progressBarController.ChangeProgress(newProgress);
         }
 
         private void OnFinishDownLoad()
         {
             Hide();
-            _progressBarController.Close();
+            m_progressBarController.Close();
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            _disposable?.Dispose();
+            m_disposable?.Dispose();
         }
 
     }

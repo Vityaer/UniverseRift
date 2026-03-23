@@ -12,7 +12,7 @@ namespace Editor.Pages.Buildings.TaskBoards
         public GameTaskModelEditor(GameTaskModel model, CommonDictionaries dictionaries)
         {
             _dictionaries = dictionaries;
-            _model = model;
+            m_model = model;
 
             model.Reward.CommonDictionaries = _dictionaries;
         }
@@ -23,8 +23,8 @@ namespace Editor.Pages.Buildings.TaskBoards
         [LabelWidth(150)]
         public GameTaskModel Task
         {
-            get => _model;
-            set => _model = value;
+            get => m_model;
+            set => m_model = value;
         }
     }
 }

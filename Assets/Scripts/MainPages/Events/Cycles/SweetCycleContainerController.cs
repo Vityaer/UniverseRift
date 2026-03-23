@@ -15,7 +15,7 @@ namespace MainPages.Events.Cycles
 {
     public class SweetCycleContainerController : BaseCycleContainerController
     {
-        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
         
         [SerializeField] private Image _candyImage;
         
@@ -26,7 +26,7 @@ namespace MainPages.Events.Cycles
 
         public override void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
         {
-            var data = _jsonConverter.Deserialize<SweetEventData>(CommonGameData.CycleEventsData.CurrentCycle);
+            var data = m_jsonConverter.Deserialize<SweetEventData>(CommonGameData.CycleEventsData.CurrentCycle);
             var resource = new GameResource(data.ResourceType);
             _candyImage.sprite = resource.Image;
             base.SetData(startDateTime, gameCycleTime);

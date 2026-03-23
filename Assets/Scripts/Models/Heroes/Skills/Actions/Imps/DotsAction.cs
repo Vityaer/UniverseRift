@@ -3,6 +3,7 @@ using Fight.Common.HeroStates;
 using Models.Heroes.Actions;
 using Models.Heroes.Skills.Actions.Effects;
 using Models.Heroes.Skills.Actions.Imps.SimpleActions;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Models.Heroes.Skills.Actions.Imps
 {

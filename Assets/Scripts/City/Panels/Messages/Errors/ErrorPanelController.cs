@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UnityEngine;
 using VContainer.Unity;
 using VContainerUi.Abstraction;

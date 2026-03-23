@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniRx;
-using UnityEngine;
 using VContainer;
 using VContainerUi.Interfaces;
 using VContainerUi.Model;
 
-namespace VContainerUi.Abstraction
+namespace Plugins.VContainerUi.Runtime.Abstraction
 {
     public abstract class UiController<T> : IPopUp, IUiController where T : IUiView
     {
-        private readonly Stack<UiControllerState> _states = new Stack<UiControllerState>();
-        private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
+        private readonly Stack<UiControllerState> m_states = new Stack<UiControllerState>();
+        private readonly UiControllerState m_defaultState = new UiControllerState(false, false, 0);
 
-        private UiControllerState _currentState;
+        private UiControllerState m_currentState;
         protected readonly ReactiveCommand<bool> OnNewsStatusChangeInternal = new();
 
         [Inject] protected readonly T View;
@@ -26,24 +25,24 @@ namespace VContainerUi.Abstraction
         public void SetState(UiControllerState state, OpenType openedType = OpenType.Exclusive)
         {
             OpenedType = openedType;
-            _currentState = state;
-            _states.Push(state);
+            m_currentState = state;
+            m_states.Push(state);
             ProcessState();
         }
 
         public virtual void ProcessStateOrder()
         {
-            if (!_currentState.IsActive)
+            if (!m_currentState.IsActive)
                 return;
-            SetOrder(_currentState.Order);
+            SetOrder(m_currentState.Order);
         }
 
         public void ProcessState()
         {
-            if (IsActive != _currentState.IsActive)
+            if (IsActive != m_currentState.IsActive)
             {
-                IsActive = _currentState.IsActive;
-                if (_currentState.IsActive)
+                IsActive = m_currentState.IsActive;
+                if (m_currentState.IsActive)
                 {
                     Show();
                 }
@@ -54,26 +53,26 @@ namespace VContainerUi.Abstraction
                 }
             }
 
-            if (InFocus == _currentState.InFocus)
+            if (InFocus == m_currentState.InFocus)
                 return;
 
-            InFocus = _currentState.InFocus;
-            OnHasFocus(_currentState.InFocus);
+            InFocus = m_currentState.InFocus;
+            OnHasFocus(m_currentState.InFocus);
         }
 
         public void Back()
         {
-            if (_states.Count > 0)
-                _states.Pop();
+            if (m_states.Count > 0)
+                m_states.Pop();
 
-            if (_states.Count == 0)
+            if (m_states.Count == 0)
             {
-                _currentState = _defaultState;
-                SetState(_defaultState);
+                m_currentState = m_defaultState;
+                SetState(m_defaultState);
                 return;
             }
 
-            SetState(_states.Pop());
+            SetState(m_states.Pop());
         }
 
         protected virtual void Show()

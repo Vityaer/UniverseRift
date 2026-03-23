@@ -1,4 +1,4 @@
-﻿using City.Buildings.Requirement;
+﻿using City.Buildings.Requirements;
 using Ui.Misc.Widgets;
 using UnityEngine.UI;
 using UnityEngine;

@@ -19,8 +19,18 @@ namespace Network.DataServer
             
             UnityWebRequest request = UnityWebRequest.Post(targetUri, message.Form);
             request.SetRequestHeader("TestHeader", "TestHeaderValue");
-            var asyncRequest = await request.SendWebRequest();
-            var answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
+            AnswerModel answer = null;
+
+            try
+            {
+                UnityWebRequest asyncRequest = await request.SendWebRequest();
+                answer = JsonConvert.DeserializeObject<AnswerModel>(asyncRequest.downloadHandler.text);
+            }
+            catch(Exception exception)
+            {
+               Debug.LogError(exception); 
+            }
+
 
             if (ReferenceEquals(answer, null))
                 return string.Empty;
@@ -38,10 +48,21 @@ namespace Network.DataServer
 
         public static async UniTask<string> GetFileText<T>(T message) where T : INetworkMessage
         {
-            var url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
-            UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
-            var asyncRequest = await request.SendWebRequest();
-            return asyncRequest.downloadHandler.text;
+            string url = string.Concat(Constants.Common.GAME_SERVER_ADDRESS, message.Route);
+            string result = null;
+
+            try
+            {
+                UnityWebRequest request = UnityWebRequest.Post(url, message.Form);
+                UnityWebRequest asyncRequest = await request.SendWebRequest();
+                result = asyncRequest.downloadHandler.text;
+            }
+            catch(Exception exception)
+            {
+                Debug.LogError(exception); 
+            }
+
+            return result;
         }
     }
 }

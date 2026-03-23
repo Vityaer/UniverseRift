@@ -1,5 +1,4 @@
-﻿using City.Buildings.CityButtons.DailyReward;
-using Ui.Misc.Widgets;
+﻿using Ui.Misc.Widgets;
 using UIController;
 using UnityEngine;
 using UnityEngine.UI;

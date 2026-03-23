@@ -9,25 +9,25 @@ namespace UIController.ItemVisual.Forges
 {
     public class ItemForgeCost : UiView
     {
-        [Inject] private CommonDictionaries _commonDictionaries;
+        [Inject] private CommonDictionaries m_commonDictionaries;
 
         public ResourceObjectCost ResourceObjectCost;
         public SubjectCell SubjectCell;
 
-        private GameItemRelation _relation;
-        private GameItem _item;
+        private GameItemRelation m_relation;
+        private GameItem m_item;
 
         public void SetInfo(GameItemRelation relation)
         {
-            _relation = relation;
-            _item = new GameItem(_commonDictionaries.Items[relation.Model.ResultItemName], 0);
-            SubjectCell.SetData(_item);
+            m_relation = relation;
+            m_item = new GameItem(m_commonDictionaries.Items[relation.Model.ResultItemName], 0);
+            SubjectCell.SetData(m_item);
             SetCost();
         }
 
         private void SetCost()
         {
-            ResourceObjectCost.SetData(_relation.Cost);
+            ResourceObjectCost.SetData(m_relation.Cost);
         }
     }
 }

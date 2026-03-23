@@ -9,7 +9,6 @@ using Fight.Windows.WarTable;
 using Models.Arenas;
 using Models.Fights.Campaign;
 using Ui.Misc.Widgets;
-using UiExtensions.Scroll.Interfaces;
 using UniRx;
 using UnityEngine;
 using VContainer;

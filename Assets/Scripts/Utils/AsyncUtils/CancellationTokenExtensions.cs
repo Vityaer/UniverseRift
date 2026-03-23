@@ -6,11 +6,18 @@ namespace Utils.AsyncUtils
     {
         public static void TryCancel(this CancellationTokenSource cancellationTokenSource)
         {
-            if (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested)
+            if (cancellationTokenSource == null)
             {
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource.Dispose();
+                return;
             }
+
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
+
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
     }
 }

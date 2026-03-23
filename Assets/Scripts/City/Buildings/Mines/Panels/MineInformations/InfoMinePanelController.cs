@@ -1,30 +1,28 @@
-using City.Buildings.Mines.Panels;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using ClientServices;
-using Common.Resourses;
+using Common.Db.CommonDictionaries;
+using Common.Inventories.Resourses;
 using Common.Rewards;
 using Cysharp.Threading.Tasks;
 using LocalizationSystems;
 using Misc.Json;
 using Network.DataServer;
 using Network.DataServer.Messages.City.Mines;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
-using Common.Db.CommonDictionaries;
-using Common.Inventories.Resourses;
 using UIController.Rewards;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using UnityEngine;
 using Utils;
+using Utils.AsyncUtils;
 using VContainer;
-using VContainer.Unity;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
 
-namespace City.Buildings.Mines
+namespace City.Buildings.Mines.Panels.MineInformations
 {
     public class InfoMinePanelController : UiPanelController<InfoMinePanelView>
     {
@@ -32,20 +30,20 @@ namespace City.Buildings.Mines
         private const int INCOME_MIN_SECONDS = 10;
         private const string MAIN_BUILDING_MINE_ID = "MainMineBuilding";
 
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
-        [Inject] private readonly IUiMessagesPublisherService _uiMessagesPublisher;
-        [Inject] private readonly ResourceStorageController _resourceStorageController;
-        [Inject] private readonly IJsonConverter _jsonConverter;
-        [Inject] private readonly ClientRewardService _clientRewardService;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        [Inject] private readonly IUiMessagesPublisherService m_uiMessagesPublisher;
+        [Inject] private readonly ResourceStorageController m_resourceStorageController;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly ClientRewardService m_clientRewardService;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        private PlaceForMine _place;
-        private List<GameResource> _cost;
-        private MineData _mainMineData;
-        private ReactiveCommand<PlaceForMine> _onMineDestroy = new();
-        private CancellationTokenSource _cancellationTokenSource;
+        private PlaceForMine m_place;
+        private List<GameResource> m_cost;
+        private MineData m_mainMineData;
+        private readonly ReactiveCommand<PlaceForMine> m_onMineDestroy = new();
+        private CancellationTokenSource m_cancellationTokenSource;
 
-        public IObservable<PlaceForMine> OnMineDestroy => _onMineDestroy;
+        public IObservable<PlaceForMine> OnMineDestroy => m_onMineDestroy;
 
         public override void Start()
         {
@@ -60,22 +58,21 @@ namespace City.Buildings.Mines
 
         public void Open(PlaceForMine place, MineData mainMineData)
         {
-            _mainMineData = mainMineData;
-            _place = place;
+            m_mainMineData = mainMineData;
+            m_place = place;
 
             var canDestroasble = !place.MineModel.Id.Equals(MAIN_BUILDING_MINE_ID);
             View.OpenPanelDestroyMineButton.gameObject.SetActive(canDestroasble);
             View.InfoDataContainer.SetActive(canDestroasble);
 
             UpdateUI();
-            _uiMessagesPublisher.OpenWindowPublisher.OpenWindow<InfoMinePanelController>(openType: OpenType.Additive);
+            m_uiMessagesPublisher.OpenWindowPublisher.OpenWindow<InfoMinePanelController>(openType: OpenType.Additive);
         }
 
         public override void OnHide()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
-            _cancellationTokenSource = null;
+            m_cancellationTokenSource?.TryCancel();
+            m_cancellationTokenSource = null;
 
             base.OnHide();
         }
@@ -85,14 +82,14 @@ namespace City.Buildings.Mines
             var message = new MineLevelUpMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                MineId = _place.MineData.Id
+                MineId = m_place.MineData.Id
             };
 
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                _place.LevelUp();
-                _resourceStorageController.SubtractResource(_cost);
+                m_place.LevelUp();
+                m_resourceStorageController.SubtractResource(m_cost);
                 UpdateUI();
             }
         }
@@ -100,46 +97,43 @@ namespace City.Buildings.Mines
         private async UniTaskVoid GetResources()
         {
             Close();
-            var message = new MineTakeResourceMessage
+            MineTakeResourceMessage message = new MineTakeResourceMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
-                MineId = _place.MineData.Id
+                MineId = m_place.MineData.Id
             };
 
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var rewardModel = _jsonConverter.Deserialize<RewardModel>(result);
-                var calculatedReward = new GameReward(rewardModel, _commonDictionaries);
-                _clientRewardService.ShowReward(calculatedReward);
-                _place.MineData.LastDateTimeGetIncome = DateTime.UtcNow.ToString();
+                var rewardModel = m_jsonConverter.Deserialize<RewardModel>(result);
+                var calculatedReward = new GameReward(rewardModel, m_commonDictionaries);
+                m_clientRewardService.ShowReward(calculatedReward);
+                m_place.MineData.LastDateTimeGetIncome = DateTime.UtcNow.ToString();
                 UpdateUI();
 
-                _cancellationTokenSource?.Cancel();
-                _cancellationTokenSource?.Dispose();
-                _cancellationTokenSource = null;
-
-                _cancellationTokenSource = new();
-                WaitCanCollect(INCOME_MIN_SECONDS, _cancellationTokenSource.Token).Forget();
+                m_cancellationTokenSource?.TryCancel();
+                m_cancellationTokenSource = new();
+                WaitCanCollect(INCOME_MIN_SECONDS, m_cancellationTokenSource.Token).Forget();
             }
         }
 
         private void UpdateUI()
         {
-            View.NameMineText.StringReference = _localizationSystem
-                .GetLocalizedContainer($"{_place.MineModel.Id}Name");
+            View.NameMineText.StringReference = m_localizationSystem
+                .GetLocalizedContainer($"{m_place.MineModel.Id}Name");
 
-            View.LevelMineText.text = $"{_place.MineData.Level}";
+            View.LevelMineText.text = $"{m_place.MineData.Level}";
 
-            var income = _place.MineModel.IncomesContainer.GetCostForLevelUp(_place.MineData.Level)[0];
-            var levelUpCost = _place.MineModel.CostLevelUpContainer.GetCostForLevelUp(_place.MineData.Level + 1);
+            var income = m_place.MineModel.IncomesContainer.GetCostForLevelUp(m_place.MineData.Level)[0];
+            var levelUpCost = m_place.MineModel.CostLevelUpContainer.GetCostForLevelUp(m_place.MineData.Level + 1);
 
-            View.MainImage.sprite = _place.MineModel.SpritePath.LoadSpriteFromResources();
+            View.MainImage.sprite = m_place.MineModel.SpritePath.LoadSpriteFromResources();
 
             View.IncomeText.text = income.GetTextAmount();
 
             var startDateTime = DateTime.ParseExact(
-                    _place.MineData.LastDateTimeGetIncome,
+                    m_place.MineData.LastDateTimeGetIncome,
                     Constants.Common.DateTimeFormat,
                     CultureInfo.InvariantCulture
                     );
@@ -151,12 +145,12 @@ namespace City.Buildings.Mines
 
             if (currentTimeSpan.TotalSeconds < INCOME_MIN_SECONDS)
             {
-                _cancellationTokenSource?.Cancel();
-                _cancellationTokenSource?.Dispose();
-                _cancellationTokenSource = null;
+                m_cancellationTokenSource?.Cancel();
+                m_cancellationTokenSource?.Dispose();
+                m_cancellationTokenSource = null;
 
-                _cancellationTokenSource = new();
-                WaitCanCollect(INCOME_MIN_SECONDS - currentTimeSpan.TotalSeconds, _cancellationTokenSource.Token).Forget();
+                m_cancellationTokenSource = new();
+                WaitCanCollect(INCOME_MIN_SECONDS - currentTimeSpan.TotalSeconds, m_cancellationTokenSource.Token).Forget();
             }
             else
             {
@@ -169,19 +163,19 @@ namespace City.Buildings.Mines
 
             View.SliderAmount.SetAmount(currentResource.Amount, income.Amount);
             View.CostController.ShowCosts(levelUpCost);
-            _cost = levelUpCost;
+            m_cost = levelUpCost;
 
-            var requireLevel = (_mainMineData.Level * 2) >= (_place.MineData.Level + 1);
+            var requireLevel = (m_mainMineData.Level * 2) >= (m_place.MineData.Level + 1);
             if (!requireLevel)
             {
-                View.RequireLevelText.text = $"Require main building level {_mainMineData.Level + 1}";
+                View.RequireLevelText.text = $"Require main building level {m_mainMineData.Level + 1}";
                 View.LevelUpButton.interactable = false;
                 View.PanelController.SetActive(false);
             }
             else
             {
                 View.RequireLevelText.text = string.Empty;
-                View.LevelUpButton.interactable = _resourceStorageController.CheckResource(levelUpCost);
+                View.LevelUpButton.interactable = m_resourceStorageController.CheckResource(levelUpCost);
                 View.PanelController.SetActive(true);
             }
         }
@@ -202,11 +196,11 @@ namespace City.Buildings.Mines
 
         private async UniTaskVoid DestroyMine()
         {
-            var message = new MineDestroyMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = _place.MineData.Id };
+            var message = new MineDestroyMessage { PlayerId = CommonGameData.PlayerInfoData.Id, MineId = m_place.MineData.Id };
             var result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                _onMineDestroy.Execute(_place);
+                m_onMineDestroy.Execute(m_place);
                 View.DestroyMinePanel.SetActive(false);
                 Close();
             }
@@ -219,8 +213,7 @@ namespace City.Buildings.Mines
 
         public override void Dispose()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
+            m_cancellationTokenSource.TryCancel();
         }
     }
 }

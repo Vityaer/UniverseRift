@@ -2,9 +2,11 @@
 using Fight.Common.Grid;
 using Fight.Common.HeroControllers.Generals;
 using Fight.Common.Misc;
+using Fight.Grid;
 using Hero;
 using UnityEngine;
 using VContainer;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.Factories
 {

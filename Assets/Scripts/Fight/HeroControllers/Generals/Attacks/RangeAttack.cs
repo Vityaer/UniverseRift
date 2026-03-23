@@ -1,47 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Fight.Common;
 using UniRx;
 using UnityEngine;
 
-namespace Fight.Common.HeroControllers.Generals.Attacks
+namespace Fight.HeroControllers.Generals.Attacks
 {
     public class RangeAttack : AbstractAttack
     {
         public Arrow Prefab;
 
-        private CompositeDisposable _disposables;
-        private int _hitTargetCount;
-        private int _hitCurrentCount;
-        private List<HeroController> _targets = new();
-        private bool _finishAttack;
+        private CompositeDisposable m_disposables;
+        private int m_hitTargetCount;
+        private int m_hitCurrentCount;
+        private List<HeroController> m_targets = new();
+        private bool m_finishAttack;
 
         protected override void Attack(List<HeroController> targets)
         {
             Refresh(targets.Count);
 
-            _targets = targets;
-            foreach (var target in targets)
+            m_targets = targets;
+            foreach (HeroController target in targets)
                 CreateArrow(target);
         }
 
         public override void Attack(HeroController target)
         {
             Refresh();
-            _targets.Add(target);
+            m_targets.Add(target);
         }
 
         private void Refresh(int countTarget = 1)
         {
-            _disposables = new();
-            _hitCurrentCount = 0;
-            _hitTargetCount = countTarget;
-            _targets.Clear();
+            m_disposables = new();
+            m_hitCurrentCount = 0;
+            m_hitTargetCount = countTarget;
+            m_targets.Clear();
         }
 
         private void CreateArrows()
         {
-            foreach (var target in _targets)
+            foreach (HeroController target in m_targets)
                 CreateArrow(target);
         }
 
@@ -49,20 +49,22 @@ namespace Fight.Common.HeroControllers.Generals.Attacks
         {
             var arrow = Instantiate(Prefab, transform.position, Quaternion.identity);
             arrow.SetTarget(target);
-            arrow.OnReachTarget.Subscribe(OnReachTarget).AddTo(_disposables);
+            arrow.OnReachTarget.Subscribe(OnReachTarget).AddTo(m_disposables);
         }
 
-        private void OnReachTarget(HeroController target)
+        private void OnReachTarget(Fight.HeroControllers.Generals.HeroController target)
         {
             OnRangeDamage.Execute(target);
-            _hitCurrentCount += 1;
+            m_hitCurrentCount += 1;
 
-            if (_hitCurrentCount == _hitTargetCount)
+            if (m_hitCurrentCount != m_hitTargetCount)
             {
-                _disposables.Dispose();
-                _disposables = null;
-                _finishAttack = true;
+                return;
             }
+            
+            m_disposables.Dispose();
+            m_disposables = null;
+            m_finishAttack = true;
         }
 
         public override async UniTask Attacking(HeroController target, int bonus)
@@ -72,16 +74,17 @@ namespace Fight.Common.HeroControllers.Generals.Attacks
 
             if (!Hero.IsFastFight)
             {
-                _finishAttack = false;
-                await UniTask.WaitUntil(() => _finishAttack);
+                m_finishAttack = false;
+                await UniTask.WaitUntil(() => m_finishAttack);
             }
             else
             {
-                foreach (var hero in _targets)
+                foreach (HeroController hero in m_targets)
                 {
-                    OnRangeDamage.Execute(target);
+                    OnRangeDamage.Execute(hero);
                 }
-                _finishAttack = true;
+                
+                m_finishAttack = true;
             }
         }
     }

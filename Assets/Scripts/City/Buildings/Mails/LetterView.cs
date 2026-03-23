@@ -1,10 +1,12 @@
-﻿using DG.Tweening;
+﻿using Common.Db.CommonDictionaries;
+using DG.Tweening;
 using Models.Misc;
 using TMPro;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Mails
 {
@@ -24,12 +26,13 @@ namespace City.Buildings.Mails
         [SerializeField] private Sprite _closeLetterSprite;
         [SerializeField] private Sprite _openLetterSprite;
 
-        private Tween _tween;
+        private Tween m_tween;
 
-        public override void SetData(LetterData data, ScrollRect scrollRect)
+        public override void SetData(LetterData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
             UpdateUi();
         }
 
@@ -37,7 +40,7 @@ namespace City.Buildings.Mails
         {
             ShowReadStatus();
 
-            _letterTopic.StringReference = _localizationSystem.GetLocalizedContainer(Data.Topic);
+            _letterTopic.StringReference = LocalizationSystem.GetLocalizedContainer(Data.Topic);
 
             _senderDate.text = Data.CreateDateTime;
 
@@ -59,21 +62,21 @@ namespace City.Buildings.Mails
         {
             if (Data.IsOpened)
             {
-                _tween.Kill();
-                _tween = _background.DOFade(_readFadeAlpha, _readAnimationTime);
+                m_tween.Kill();
+                m_tween = _background.DOFade(_readFadeAlpha, _readAnimationTime);
                 _readStatusImage.sprite = _openLetterSprite;
             }
             else
             {
-                _tween.Kill();
+                m_tween.Kill();
                 _readStatusImage.sprite = _closeLetterSprite;
-                _tween = _background.DOFade(1f, _readAnimationTime);
+                m_tween = _background.DOFade(1f, _readAnimationTime);
             }
         }
 
         protected override void OnDestroy()
         {
-            _tween.Kill();
+            m_tween.Kill();
             base.OnDestroy();
         }
     }

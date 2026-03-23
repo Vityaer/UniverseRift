@@ -4,6 +4,7 @@ using UIController;
 using UnityEngine;
 using VContainer;
 using UniRx;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common.HeroStates
 {

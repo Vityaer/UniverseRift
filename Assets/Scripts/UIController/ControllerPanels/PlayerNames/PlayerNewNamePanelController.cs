@@ -1,4 +1,4 @@
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainer.Unity;
 
 namespace UIController.ControllerPanels.PlayerNames

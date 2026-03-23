@@ -104,6 +104,7 @@ namespace City.Buildings.Mines
                 var stringVariable = variable as IntVariable;
                 stringVariable.Value = _mineData.Level;
             }
+            LevelText.RefreshString();
         }
 
         public void OpenPanelForCreateMine()

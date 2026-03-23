@@ -17,17 +17,17 @@ namespace MainPages.Events.Cycles
         [Inject] protected IUiMessagesPublisherService UiMessagesPublisher;
         [Inject] protected CommonDictionaries CommonDictionaries;
         [Inject] protected CommonGameData CommonGameData;
-        [Inject] private readonly ILocalizationSystem _localizationSystem;
-        [Inject] private readonly TimeLocalizeService _timeLocalizeService;
+        [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        [Inject] private readonly TimeLocalizeService m_timeLocalizeService;
 
-        protected CompositeDisposable Disposables = new();
+        protected readonly CompositeDisposable Disposables = new();
 
         [SerializeField] protected SliderTime CycleGameEventSliderTime;
         [SerializeField] protected Button MainPanelButton;
 
         public virtual void SetData(DateTime startDateTime, TimeSpan gameCycleTime)
         {
-            CycleGameEventSliderTime.Init(_localizationSystem, _timeLocalizeService);
+            CycleGameEventSliderTime.Init(m_localizationSystem, m_timeLocalizeService);
             CycleGameEventSliderTime.SetData(startDateTime, gameCycleTime);
         }
 

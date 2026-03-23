@@ -1,141 +1,130 @@
-using System.Collections.Generic;
-using VContainer;
-using UniRx;
-using VContainer.Unity;
 using System;
-using Fight.Common.Grid;
-using Fight.Common.HeroControllers.Generals;
+using System.Collections.Generic;
+using Fight.Common;
 using Fight.Common.Misc;
+using Fight.Grid;
+using UniRx;
+using VContainer;
+using VContainer.Unity;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
-namespace Fight.Common.AI
+namespace Fight.AI
 {
     public class BaseBot : IInitializable, IDisposable
     {
-        [Inject] private readonly Common.FightController _fightController;
-        [Inject] private readonly GridController _gridController;
+        [Inject] private readonly FightController m_fightController;
+        [Inject] private readonly GridController m_gridController;
 
-        public List<Warrior> _leftTeam;
-        public List<Warrior> _rightTeam;
-        public List<HexagonCell> _achievableMoveCells = new List<HexagonCell>();
+        private List<Warrior> m_leftTeam;
+        private List<Warrior> m_rightTeam;
+        private readonly List<HexagonCell> m_achievableMoveCells = new();
 
-        private Side _sideForAI = Side.Right;
-        private HeroController _currentHero = null;
-        private CompositeDisposable _disposables;
+        private Side m_sideForAI = Side.Right;
+        private HeroController m_currentHero;
+        private CompositeDisposable m_disposables;
 
         public void Initialize()
         {
-            _disposables = new();
-            _fightController.OnFinishFight.Subscribe(_ => FinishFight()).AddTo(_disposables);
+            m_disposables = new();
+            m_fightController.OnFinishFight.Subscribe(_ => FinishFight()).AddTo(m_disposables);
             HexagonCell.RegisterOnAchivableMove(AddAchivableMoveCell);
             HeroController.RegisterOnStartAction(OnHeroStartAction);
             HeroController.RegisterOnEndAction(ClearInfo);
-            _rightTeam = _fightController.GetRightTeam;
-            _leftTeam = _fightController.GetLeftTeam;
+            m_rightTeam = m_fightController.GetRightTeam;
+            m_leftTeam = m_fightController.GetLeftTeam;
             ClearInfo();
         }
 
         public void SetSideAI(Side sideAi)
         {
-            _sideForAI = sideAi;
+            m_sideForAI = sideAi;
         }
 
         private void ClearInfo()
         {
-            _achievableMoveCells.Clear();
+            m_achievableMoveCells.Clear();
         }
 
         private void FinishFight()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
             HeroController.UnregisterOnStartAction(OnHeroStartAction);
             HeroController.UnregisterOnEndAction(ClearInfo);
             HexagonCell.UnregisterOnAchivableMove(AddAchivableMoveCell);
         }
 
-        private void OnHeroStartAction(HeroController heroConroller)
+        private void OnHeroStartAction(HeroController heroController)
         {
-            if (heroConroller.Side == _sideForAI || _sideForAI == Side.All)
+            if (heroController.Side != m_sideForAI && m_sideForAI != Side.All) return;
+
+            m_currentHero = heroController;
+            List<Warrior> workTeam = heroController.Side == Side.Right ? m_leftTeam : m_rightTeam;
+
+            if (heroController.Mellee)
             {
-                _currentHero = heroConroller;
-                var workTeam = heroConroller.Side == Side.Right ? _leftTeam : _rightTeam;
-                var availableEnemies = workTeam.FindAll(x => x.Cell.GetCanAttackCell == true);
+                List<Warrior> availableEnemies = workTeam.FindAll(x => x.Cell.GetCanAttackCell);
                 Warrior enemy = null;
                 if (availableEnemies.Count > 0)
                     enemy = availableEnemies[UnityEngine.Random.Range(0, availableEnemies.Count)];
-
-                if (heroConroller.Mellee)
+                
+                if (enemy != null && enemy.heroController != null)
                 {
-                    if (enemy != null && enemy.heroController != null)
-                    {
-                        heroConroller.SelectDirectionAttack(enemy.Cell.GetAchivableNeighbourCell(), enemy.heroController);
-                    }
-                    else
-                    {
-                        if (_achievableMoveCells.Count == 0)
-                        {
-                            heroConroller.Cell.AITurn();
-                        }
-                        else
-                        {
-                            SelectCellForMove(_achievableMoveCells, workTeam).AITurn();
-                        }
-
-                    }
+                    heroController.SelectDirectionAttack(enemy.Cell.GetAchivableNeighbourCell(), enemy.heroController);
                 }
                 else
                 {
-                    var randomEnemy = workTeam[UnityEngine.Random.Range(0, workTeam.Count)];
-                    heroConroller.StartDistanceAttackOtherHero(randomEnemy.heroController);
+                    if (m_achievableMoveCells.Count == 0)
+                        heroController.Cell.AITurn();
+                    else
+                        SelectCellForMove(m_achievableMoveCells, workTeam).AITurn();
                 }
+            }
+            else
+            {
+                Warrior randomEnemy = workTeam[UnityEngine.Random.Range(0, workTeam.Count)];
+                heroController.StartDistanceAttackOtherHero(randomEnemy.heroController);
             }
         }
 
         public bool CheckMeOnSubmission(Side side)
         {
-            return side == _sideForAI || _sideForAI == Side.All;
+            return side == m_sideForAI || m_sideForAI == Side.All;
         }
 
         private void AddAchivableMoveCell(HexagonCell newCell)
         {
-            _achievableMoveCells.Add(newCell);
+            m_achievableMoveCells.Add(newCell);
         }
 
         private HexagonCell SelectCellForMove(List<HexagonCell> achievableMoveCells, List<Warrior> enemies)
         {
+            HexagonCell result = achievableMoveCells[UnityEngine.Random.Range(0, achievableMoveCells.Count)];
+            int min = 1000;
+            Stack<HexagonCell> way;
+            Stack<HexagonCell> minWay = new(0);
 
-            var result = achievableMoveCells[UnityEngine.Random.Range(0, achievableMoveCells.Count)];
-            var min = 1000;
-            var way = new Stack<HexagonCell>();
-            var minWay = new Stack<HexagonCell>(0);
-
-            Warrior selectEnemy;
-            for (int i = 0; i < enemies.Count; i++)
+            foreach (Warrior enemy in enemies)
             {
-                way = _gridController.FindWay(_currentHero.Cell, enemies[i].Cell);
-                if (way.Count < min)
-                {
-                    min = way.Count;
-                    selectEnemy = enemies[i];
-                    minWay = way;
-                }
+                way = m_gridController.FindWay(m_currentHero.Cell, enemy.Cell);
+                if (way.Count >= min) continue;
+
+                min = way.Count;
+                minWay = way;
             }
 
-            HexagonCell workCell = null;
             for (int i = 0; i < minWay.Count; i++)
             {
-                workCell = minWay.Pop();
+                HexagonCell workCell = minWay.Pop();
 
-                if (achievableMoveCells.Contains(workCell))
-                {
-                    result = workCell;
-                }
+                if (achievableMoveCells.Contains(workCell)) result = workCell;
             }
+
             return result;
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
     }
 }

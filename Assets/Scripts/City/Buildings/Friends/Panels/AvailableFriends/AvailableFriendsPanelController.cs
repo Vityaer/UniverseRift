@@ -1,64 +1,66 @@
-﻿using Cysharp.Threading.Tasks;
-using Models.Misc;
-using Network.DataServer.Messages.Friendships;
-using Network.DataServer;
-using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+﻿using System.Collections.Generic;
+using Common.Db.CommonDictionaries;
+using Cysharp.Threading.Tasks;
 using Misc.Json;
+using Models.Misc;
+using Network.DataServer;
+using Network.DataServer.Messages.Friendships;
+using UiExtensions.Misc;
+using UiExtensions.Panels;
 using VContainer;
-using System.Collections.Generic;
 
 namespace City.Buildings.Friends.Panels.AvailableFriends
 {
     public class AvailableFriendsPanelController : UiPanelController<AvailableFriendsPanelView>
     {
-        [Inject] private readonly IJsonConverter _jsonConverter;
+        [Inject] private readonly IJsonConverter m_jsonConverter;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
-        private DynamicUiList<AvailableFriendView, AvailableFriendData> _availableFriendsWrapper;
-        private bool _isLoadAvailableFriends;
+        private DynamicUiList<AvailableFriendView, AvailableFriendData> m_availableFriendsWrapper;
+        private bool m_isLoadAvailableFriends;
 
         public override void Start()
         {
-            _availableFriendsWrapper = new(View.AvailableFriendPrefab, View.Content, View.ScrollRect, view => CreateRequestFriendship(view).Forget());
+            m_availableFriendsWrapper = new(View.AvailableFriendPrefab, View.Content,
+                View.ScrollRect, m_commonDictionaries,
+                view => CreateRequestFriendship(view).Forget());
             base.Start();
         }
 
         public override void OnShow()
         {
-            if(!_isLoadAvailableFriends)
+            if (!m_isLoadAvailableFriends)
                 LoadAvailableFrieds().Forget();
             base.OnShow();
         }
 
         private async UniTaskVoid LoadAvailableFrieds()
         {
-            _isLoadAvailableFriends = true;
-            var message = new GetAvailableFriendsMessage
+            m_isLoadAvailableFriends = true;
+            GetAvailableFriendsMessage message = new GetAvailableFriendsMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id
             };
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
             if (!string.IsNullOrEmpty(result))
             {
-                var availableFriendDatas = _jsonConverter.Deserialize<List<AvailableFriendData>>(result);
-                _availableFriendsWrapper.ShowDatas(availableFriendDatas);
+                List<AvailableFriendData> availableFriendDatas =
+                    m_jsonConverter.Deserialize<List<AvailableFriendData>>(result);
+                m_availableFriendsWrapper.ShowDatas(availableFriendDatas);
             }
         }
 
         private async UniTaskVoid CreateRequestFriendship(AvailableFriendView view)
         {
-            var message = new CreateFriendRequestMessage
+            CreateFriendRequestMessage message = new CreateFriendRequestMessage
             {
                 PlayerId = CommonGameData.PlayerInfoData.Id,
                 OtherPlayerId = view.GetData.PlayerId
             };
 
-            var result = await DataServer.PostData(message);
+            string result = await DataServer.PostData(message);
 
-            if (!string.IsNullOrEmpty(result))
-            {
-                view.SetDone();
-            }
+            if (!string.IsNullOrEmpty(result)) view.SetDone();
         }
     }
 }

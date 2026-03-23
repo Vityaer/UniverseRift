@@ -1,6 +1,6 @@
 using Common.Inventories.Splinters;
 using System;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer.Unity;
 using VContainerUi.Model;

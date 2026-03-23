@@ -4,7 +4,7 @@ using Common.Db.CommonDictionaries;
 using Common.Inventories.Resourses;
 using Common.Resourses;
 using LocalizationSystems;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainerUi.Model;

@@ -20,7 +20,7 @@ namespace Editor.Pages.Items
         public ItemModelEditor(ItemModel item, CommonDictionaries commonDictionaries)
         {
             m_dictionaries = commonDictionaries;
-            _model = item;
+            m_model = item;
         }
 
         [ShowInInspector]
@@ -32,8 +32,8 @@ namespace Editor.Pages.Items
         [LabelWidth(110)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -45,8 +45,8 @@ namespace Editor.Pages.Items
         [LabelWidth(110)]
         public ItemType Type
         {
-            get => _model.Type;
-            set => _model.Type = value;
+            get => m_model.Type;
+            set => m_model.Type = value;
         }
 
         [ShowInInspector]
@@ -58,8 +58,8 @@ namespace Editor.Pages.Items
         [LabelWidth(110)]
         public List<Bonus> ListBonuses
         {
-            get => _model.Bonuses;
-            set => _model.Bonuses = value;
+            get => m_model.Bonuses;
+            set => m_model.Bonuses = value;
         }
 
         [ShowInInspector]
@@ -72,7 +72,7 @@ namespace Editor.Pages.Items
         {
             get
             {
-                var result = _model.Rating;
+                var result = m_model.Rating;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = _allRatings.FirstOrDefault();
@@ -80,7 +80,7 @@ namespace Editor.Pages.Items
 
                 return result;
             }
-            set => _model.Rating = value;
+            set => m_model.Rating = value;
         }
 
         [ShowInInspector]
@@ -93,7 +93,7 @@ namespace Editor.Pages.Items
         {
             get
             {
-                var result = _model.SetName;
+                var result = m_model.SetName;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = _allSets.FirstOrDefault();
@@ -101,7 +101,7 @@ namespace Editor.Pages.Items
 
                 return result;
             }
-            set => _model.SetName = value;
+            set => m_model.SetName = value;
         }
     }
 }

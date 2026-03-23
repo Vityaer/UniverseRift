@@ -95,7 +95,6 @@ namespace Utils
         {
             var message = new GetJsonDataMessage { Name = modelType };
             var result = await DataServer.GetFileText(message);
-            Debug.Log(result);
             return result;
         }
 

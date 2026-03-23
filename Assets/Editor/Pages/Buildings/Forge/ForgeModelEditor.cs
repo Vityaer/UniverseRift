@@ -16,7 +16,7 @@ namespace Pages.Buildings.Forge
         public ForgeModelEditor(ForgeModel model, CommonDictionaries commonDictionaries)
         {
             _commonDictionaries = commonDictionaries;
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -25,8 +25,8 @@ namespace Pages.Buildings.Forge
         [LabelWidth(250)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         [ShowInInspector]
@@ -36,8 +36,8 @@ namespace Pages.Buildings.Forge
         [ValueDropdown(nameof(_allSets), IsUniqueList = true, DropdownWidth = 250, SortDropdownItems = true)]
         public List<string> Sets
         {
-            get => _model.Sets;
-            set => _model.Sets = value;
+            get => m_model.Sets;
+            set => m_model.Sets = value;
         }
     }
 }

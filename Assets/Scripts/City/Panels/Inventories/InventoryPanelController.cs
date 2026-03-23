@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using City.Panels.SubjectPanels;
 using City.Panels.SubjectPanels.Items;
 using City.Panels.SubjectPanels.Resources;
+using City.Panels.SubjectPanels.Splinters;
 using ClientServices;
 using Common;
 using Common.Db.CommonDictionaries;
@@ -13,7 +13,7 @@ using Models.Common;
 using Models.Items;
 using UIController.Inventory;
 using UIController.ItemVisual;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -36,7 +36,6 @@ namespace City.Panels.Inventories
 
         public bool WaitSelected;
 
-        private bool m_isOpen = false;
         private readonly List<SubjectCell> m_cells = new List<SubjectCell>();
         private readonly ReactiveCommand<BaseObject> m_onObjectSelect = new ReactiveCommand<BaseObject>();
         private IDisposable m_inventoryChangeDisposable;
@@ -49,15 +48,15 @@ namespace City.Panels.Inventories
 
         public new void Initialize()
         {
-            for (var i = 0; i < CELLS_COUNT; i++)
+            for (int i = 0; i < CELLS_COUNT; i++)
             {
-                var cell = UnityEngine.Object.Instantiate(View.CellPrefab, View.GridParent);
-                cell.SetScroll(View.ScrollRect);
+                SubjectCell cell = UnityEngine.Object.Instantiate(View.CellPrefab, View.GridParent);
+                cell.Init(View.ScrollRect, m_commonDictionaries);
                 cell.OnSelect.Subscribe(OnCellClick).AddTo(Disposables);
                 m_cells.Add(cell);
             }
 
-            foreach (var pageButton in View.PagesButton)
+            foreach (KeyValuePair<InventoryPageType, InventoryButton> pageButton in View.PagesButton)
                 pageButton.Value.Button.OnClickAsObservable()
                     .Subscribe(_ => OpenPage(pageButton.Key))
                     .AddTo(Disposables);
@@ -96,8 +95,8 @@ namespace City.Panels.Inventories
 
         private void OpenResources()
         {
-            var allObjects = new List<BaseObject>();
-            foreach (var resource in m_resourceStorageController.Resources)
+            List<BaseObject> allObjects = new List<BaseObject>();
+            foreach (KeyValuePair<ResourceType, GameResource> resource in m_resourceStorageController.Resources)
             {
                 if (View.BannedResourceTypes.Contains(resource.Key))
                     continue;
@@ -124,11 +123,11 @@ namespace City.Panels.Inventories
         private void OpenItemsByType<T>()
             where T : BaseObject
         {
-            var items = new List<T>();
+            List<T> items = new List<T>();
 
             m_gameInventory.GetObjectByType(items);
 
-            var allObjects = new List<BaseObject>();
+            List<BaseObject> allObjects = new List<BaseObject>();
 
             allObjects.AddRange(items);
 
@@ -166,13 +165,13 @@ namespace City.Panels.Inventories
 
         public void ShowAll()
         {
-            var items = new List<GameItem>();
-            var splinters = new List<GameSplinter>();
+            List<GameItem> items = new List<GameItem>();
+            List<GameSplinter> splinters = new List<GameSplinter>();
 
             m_gameInventory.GetObjectByType(items);
             m_gameInventory.GetObjectByType(splinters);
 
-            var allObjects = new List<BaseObject>();
+            List<BaseObject> allObjects = new List<BaseObject>();
 
             allObjects.AddRange(items);
             allObjects.AddRange(splinters);
@@ -184,9 +183,9 @@ namespace City.Panels.Inventories
 
         private void ShowItems<T>(List<T> list) where T : BaseObject
         {
-            for (var i = 0; i < list.Count; i++) m_cells[i].SetData(list[i]);
+            for (int i = 0; i < list.Count; i++) m_cells[i].SetData(list[i]);
 
-            for (var i = list.Count; i < m_cells.Count; i++) m_cells[i].Clear();
+            for (int i = list.Count; i < m_cells.Count; i++) m_cells[i].Clear();
         }
 
         public override void OnHide()
@@ -202,7 +201,7 @@ namespace City.Panels.Inventories
 
         public void Add<T>(List<T> list) where T : BaseObject
         {
-            foreach (var item in list) m_gameInventory.Add(item);
+            foreach (T item in list) m_gameInventory.Add(item);
         }
 
         public void Remove<T>(T obj) where T : BaseObject
@@ -212,18 +211,18 @@ namespace City.Panels.Inventories
 
         public void Remove<T>(List<T> list) where T : BaseObject
         {
-            foreach (var item in list) m_gameInventory.Remove(item);
+            foreach (T item in list) m_gameInventory.Remove(item);
         }
 
         public void Open(ItemType typeItems, HeroItemCellController cellItem = null)
         {
             View.ControllerPanel.SetActive(false);
             OpenWindow();
-            
-            m_gameInventory.GetItemByType(typeItems, out var items);
+
+            m_gameInventory.GetItemByType(typeItems, out List<GameItem> items);
             if (cellItem?.Item != null)
             {
-                var equalsItem = items.Find(item => item.Id.Equals(cellItem.Item.Id));
+                GameItem equalsItem = items.Find(item => item.Id.Equals(cellItem.Item.Id));
                 if (equalsItem != null)
                     items.Remove(equalsItem);
             }
@@ -233,14 +232,12 @@ namespace City.Panels.Inventories
 
         private void OpenWindow()
         {
-            m_isOpen = true;
             MessagesPublisher.OpenWindowPublisher.OpenWindow<InventoryPanelController>(openType: OpenType.Additive);
         }
 
         protected override void Close()
         {
             m_inventoryChangeDisposable?.Dispose();
-            m_isOpen = false;
             base.Close();
         }
     }

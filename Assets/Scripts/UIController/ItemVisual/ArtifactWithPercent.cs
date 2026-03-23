@@ -1,24 +1,49 @@
+using Common.Db.CommonDictionaries;
+using Models;
 using TMPro;
-using UIController.GameSystems;
+using UIController.Inventory;
+using UiExtensions.Misc;
 using UnityEngine;
+using UnityEngine.UI;
+using Utils.DataCheckUtils;
 
 namespace UIController.ItemVisual
 {
-    public class ArtifactWithPercent : MonoBehaviour
+    public class ArtifactWithPercent : ScrollableUiView<GameRandomSplinterData>
     {
-        public SubjectCell artifactInfo;
-        public TextMeshProUGUI textPercent;
+        [SerializeField] private SubjectCell m_artifactInfo;
+        [SerializeField] private  TMP_Text m_textPercent;
 
-        public void SetData(string ID, float percent)
+        private ScrollRect m_scrollRect;
+        private CommonDictionaries m_dictionaries;
+        
+        public void Init(ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
-            //artifactInfo.SetItem(ArtifactSystem.Instance.GetArtifact(ID));
-            textPercent.text = string.Concat(percent.ToString(), "%");
-            gameObject.SetActive(true);
+            m_scrollRect = scrollRect.ThrowIfArgumentNull();
+            m_dictionaries = dictionaries.ThrowIfArgumentNull();
         }
 
-        public void Hide()
+        protected override void OnSetData()
         {
-            gameObject.SetActive(false);
+            float percent = Data.Percentage * 100;
+            string number = percent switch
+            {
+                > 10 => percent.ToString("N1"),
+                > 1 => percent.ToString("N2"),
+                _ => percent.ToString("N3")
+            };
+
+            m_textPercent.text = string.Concat(number, "%");
+            
+            m_artifactInfo.Init(m_scrollRect, m_dictionaries);
+            
+            if (m_dictionaries.Items.TryGetValue(Data.Model.ModelId, out ItemModel artifact))
+            {
+                GameItem gameItem = new(artifact);
+                m_artifactInfo.SetData(gameItem);
+            }
+
+            base.OnSetData();
         }
     }
 }

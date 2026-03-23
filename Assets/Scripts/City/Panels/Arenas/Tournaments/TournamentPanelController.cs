@@ -1,5 +1,5 @@
 ﻿using City.Panels.Arenas.Tournaments;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 
 namespace City.Panels.Arenas
 {

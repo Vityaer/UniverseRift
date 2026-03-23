@@ -1,9 +1,11 @@
 ﻿using Network.DataServer.Models;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 
 namespace City.Buildings.Guild.AvailableGuildsPanels
 {
@@ -13,10 +15,11 @@ namespace City.Buildings.Guild.AvailableGuildsPanels
         [SerializeField] private TMP_Text _recruitCount;
         [SerializeField] private TMP_Text _level;
 
-        public override void SetData(GuildData data, ScrollRect scrollRect)
+        public override void SetData(GuildData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
-            Data = data;
-            Scroll = scrollRect;
+            Data = data.ThrowIfArgumentNull();
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
             Button.interactable = true;
             UpdateUi();
         }

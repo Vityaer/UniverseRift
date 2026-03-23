@@ -4,6 +4,7 @@ using System.Collections;
 using Cysharp.Threading.Tasks;
 using Fight.Common.Grid;
 using Fight.Common.Misc;
+using Fight.Grid;
 using UniRx;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Fight.Common.HeroControllers.Generals.Movements
     {
         protected Animator Animator;
 
-        protected HeroController Hero;
+        protected Fight.HeroControllers.Generals.HeroController Hero;
         protected GridController GridController;
         protected HexagonCell MyPlace;
         protected Tween MoveTween;
@@ -24,7 +25,7 @@ namespace Fight.Common.HeroControllers.Generals.Movements
         public IObservable<CellDirectionType> MoveDirection => _moveDirection;
         public IObservable<HexagonCell> OnChangePlace => _onChangePlace;
 
-        public void Init(GridController gridController, HeroController hero, HexagonCell place, Animator animator)
+        public void Init(GridController gridController, Fight.HeroControllers.Generals.HeroController hero, HexagonCell place, Animator animator)
         {
             GridController = gridController;
             Hero = hero;

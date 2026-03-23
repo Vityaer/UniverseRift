@@ -10,6 +10,7 @@ using VContainerUi.Messages;
 using Common;
 using VContainer.Unity;
 using City.Buildings.UiBuildings;
+using Plugins.VContainerUi.Runtime.Abstraction;
 
 namespace UiExtensions.MainPages
 {

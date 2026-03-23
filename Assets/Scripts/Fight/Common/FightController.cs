@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Fight.Common;
 using City.TrainCamp.HeroInstances;
 using Cysharp.Threading.Tasks;
@@ -11,8 +12,10 @@ using Fight.Common.HeroControllers.Generals;
 using Fight.Common.Misc;
 using Fight.Common.UI;
 using Fight.Common.WarTable;
+using Fight.Grid;
 using LocalizationSystems;
 using Models.Fights.Campaign;
+using Plugins.VContainerUi.Runtime.Abstraction;
 using UI.Utils.Localizations.Extensions;
 using UIController.FightUI;
 using UniRx;
@@ -23,6 +26,7 @@ using VContainerUi.Abstraction;
 using VContainerUi.Messages;
 using VContainerUi.Model;
 using VContainerUi.Services;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Fight.Common
 {
@@ -41,32 +45,36 @@ namespace Fight.Common
         [Inject] private readonly FightDirectionController m_fightDirectionController;
         [Inject] private readonly HeroInstancesController m_heroInstancesController;
         [Inject] private readonly ILocalizationSystem m_localizationSystem;
+        
         private FightPanelController m_fightPanelController;
 
-        public List<Warrior> m_leftTeam = new();
-        public List<Warrior> m_rightTeam = new();
+        private readonly List<Warrior> m_leftTeam = new();
+        private readonly List<Warrior> m_rightTeam = new();
+        
         private readonly List<HeroController> m_listInitiative = new();
         private readonly List<HeroController> m_listHeroesWithAction = new();
 
-        public ReactiveCommand<LocalizedString> OnChangeFightUiText = new();
-        public ReactiveCommand OnEndRound = new();
-        public ReactiveCommand OnStartFight = new();
-        public ReactiveCommand OnFinishFight = new();
-        public ReactiveCommand OnPlayerFinishFight = new();
-        public ReactiveCommand AfterCreateFight = new();
+        public readonly ReactiveCommand<LocalizedString> OnChangeFightUiText = new();
+        public readonly ReactiveCommand OnEndRound = new();
+        public readonly ReactiveCommand OnStartFight = new();
+        public readonly ReactiveCommand OnFinishFight = new();
+        public readonly ReactiveCommand OnPlayerFinishFight = new();
+        public readonly ReactiveCommand AfterCreateFight = new();
 
-        private bool m_isFightFinish = false;
+        private bool m_isFightFinish;
         private int m_currentHeroIndex = -1;
         private int m_round = 1;
         private readonly ReactiveCommand<FightResultType> m_onFightResult = new();
 
+        public bool IsFastFight { get; private set; }
         public List<Warrior> GetLeftTeam => m_leftTeam;
         public List<Warrior> GetRightTeam => m_rightTeam;
         public IObservable<FightResultType> OnFightResult => m_onFightResult;
-        public bool IsFastFight { get; private set; }
 
+        public List<HeroController> ListInitiative => m_listInitiative;
+        
         public HeroController GetCurrentHero() => m_listInitiative[m_currentHeroIndex];
-
+        
         public void SetControllerUi(FightPanelController fightPanelController)
         {
             m_fightPanelController = fightPanelController;
@@ -81,7 +89,7 @@ namespace Fight.Common
             m_messagesPublisher.OpenWindowPublisher.OpenWindow<FightWindow>(openType: OpenType.Exclusive);
             m_isFightFinish = false;
             //View.LocationController.OpenLocation(mission.Location);
-            m_heroInstancesController.HideLight();
+            // m_heroInstancesController.HideLight();
             m_gridController.OpenGrid();
             CreateTeams(leftWarriorPlace, rightWarriorPlace);
         }
@@ -147,7 +155,7 @@ namespace Fight.Common
         }
 
         //Fight loop    	
-        public void StartFight()
+        private void StartFight()
         {
             NextHero();
         }
@@ -234,17 +242,30 @@ namespace Fight.Common
         {
             m_listInitiative.Clear();
 
-            for (var i = 0; i < m_leftTeam.Count; i++)
-                if (m_leftTeam[i].heroController != null)
-                    m_listInitiative.Add(m_leftTeam[i].heroController);
+            foreach (Warrior t in m_leftTeam)
+            {
+                if (t.heroController == null)
+                {
+                    Debug.LogError("left team hero null");
+                }
                 else
-                    Debug.Log("left team hero null");
+                {
+                    m_listInitiative.Add(t.heroController);
+                }
+            }
 
-            for (var i = 0; i < m_rightTeam.Count; i++)
-                if (m_rightTeam[i].heroController != null)
-                    m_listInitiative.Add(m_rightTeam[i].heroController);
+            foreach (Warrior t in m_rightTeam)
+            {
+                if (t.heroController == null)
+                {
+                    Debug.LogError("Right team hero null");
+                }
                 else
-                    Debug.Log("Right team hero null");
+                {
+                    m_listInitiative.Add(t.heroController);
+                }
+
+            }
 
             m_listInitiative.Sort(new HeroInitiativeComparer());
         }
@@ -294,7 +315,7 @@ namespace Fight.Common
         {
             if (!IsFastFight) m_gridController.FinishFight();
 
-            m_heroInstancesController.OpenLight();
+            // m_heroInstancesController.OpenLight();
             DeleteTeam(m_rightTeam);
             DeleteTeam(m_leftTeam);
             m_listInitiative.Clear();
@@ -305,7 +326,11 @@ namespace Fight.Common
 
         private void DeleteTeam(List<Warrior> team)
         {
-            for (var i = 0; i < team.Count; i++) team[i].heroController.DeleteHero();
+            foreach (Warrior t in team.Where(t => t.heroController != null))
+            {
+                t.heroController.DeleteHero();
+            }
+
             team.Clear();
         }
 
@@ -353,7 +378,7 @@ namespace Fight.Common
             View.gameObject.SetActive(false);
             m_isFightFinish = false;
 
-            m_heroInstancesController.HideLight();
+            // m_heroInstancesController.HideLight();
             CreateTeam(m_gridController.GetLeftTeamPos, leftWarriorPlace, Side.Left, m_leftTeam);
             CreateTeam(m_gridController.GetRightTeamPos, rightWarriorPlace, Side.Right, m_rightTeam);
             AfterCreateFight.Execute();

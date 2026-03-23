@@ -1,4 +1,5 @@
-﻿using Common.Players;
+﻿using Common.Db.CommonDictionaries;
+using Common.Players;
 using Models.Arenas;
 using Models.Data.Players;
 using TMPro;
@@ -6,6 +7,7 @@ using UController.Other;
 using UiExtensions.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.DataCheckUtils;
 using VContainer;
 
 namespace City.Buildings.Arena
@@ -28,10 +30,11 @@ namespace City.Buildings.Arena
             _playersStorage = playersStorage;
         }
 
-        public override void SetData(ArenaPlayerData data, ScrollRect scrollRect)
+        public override void SetData(ArenaPlayerData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
             Data = data;
-            Scroll = scrollRect;
+            Scroll = scrollRect.ThrowIfArgumentNull();
+            CommonDataDictionaries = dictionaries.ThrowIfArgumentNull();
             UpdateUI();
         }
 

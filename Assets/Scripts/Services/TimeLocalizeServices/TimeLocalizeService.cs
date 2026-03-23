@@ -9,12 +9,12 @@ namespace Services.TimeLocalizeServices
 {
     public class TimeLocalizeService : IInitializable
     {
-        private readonly ILocalizationSystem _localizationSystem;
-        private Dictionary<PartTimeType, LocalizedString> _partTimeLocalizes = new();
+        private readonly ILocalizationSystem m_localizationSystem;
+        private readonly Dictionary<PartTimeType, LocalizedString> m_partTimeLocalizes = new();
 
         public TimeLocalizeService(ILocalizationSystem localizationSystem)
         {
-            _localizationSystem = localizationSystem;
+            m_localizationSystem = localizationSystem;
         }
 
         public void Initialize()
@@ -25,14 +25,14 @@ namespace Services.TimeLocalizeServices
 
         private void TryLoadLocalizes()
         {
-            if (_partTimeLocalizes.Count == 0)
+            if (m_partTimeLocalizes.Count == 0)
                 foreach (var partType in (PartTimeType[])Enum.GetValues(typeof(PartTimeType)))
                     AddTimePartLocalize(partType);
         }
 
         private void AddTimePartLocalize(PartTimeType partType)
         {
-            _partTimeLocalizes.Add(partType, _localizationSystem.GetLocalizedContainer($"Time{partType}Counter"));
+            m_partTimeLocalizes.Add(partType, m_localizationSystem.GetLocalizedContainer($"Time{partType}Counter"));
         }
 
         public string TimeSpanConvertToSmallString(TimeSpan interval)
@@ -72,7 +72,7 @@ namespace Services.TimeLocalizeServices
                     requireSpace = true;
                 }
 
-                var localizePartTime = _partTimeLocalizes[part.Key]
+                var localizePartTime = m_partTimeLocalizes[part.Key]
                     .WithArguments(new List<object> { part.Value })
                     .GetLocalizedString();
 

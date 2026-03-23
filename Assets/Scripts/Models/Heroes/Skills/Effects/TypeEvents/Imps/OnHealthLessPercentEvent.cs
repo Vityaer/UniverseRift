@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Models.Heroes.Skills.Effects.TypeEvents.Imps
 {

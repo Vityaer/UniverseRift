@@ -11,6 +11,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.AsyncUtils;
+using Utils.DataCheckUtils;
 
 namespace UIController
 {
@@ -21,39 +22,47 @@ namespace UIController
 
         public Transform panelRewards;
         public GameObject btnAllReward;
-        private GameReward _reward;
+        private GameReward m_reward;
 
-        private CancellationTokenSource _cancellationTokenSource;
-        private CompositeDisposable _disposables = new();
+        private ScrollRect m_scrollRect;
+        private CommonDictionaries m_commonDictionaries;
+        private CancellationTokenSource m_cancellationTokenSource;
+        private readonly CompositeDisposable m_disposables = new();
 
         public void SetDetailsController(SubjectDetailController subjectDetailController)
         {
-            foreach (var cell in Cells)
-                cell.OnSelect.Subscribe(cell => subjectDetailController.ShowData(cell.Subject)).AddTo(_disposables);
+            subjectDetailController.ThrowIfArgumentNull();
+            foreach (SubjectCell cell in Cells)
+                cell.OnSelect.Subscribe(cell => subjectDetailController.ShowData(cell.Subject)).AddTo(m_disposables);
         }
 
         public void ShowReward(RewardModel rewardData, CommonDictionaries commonDictionaries)
         {
-            _reward = new GameReward(rewardData, commonDictionaries);
-            ShowReward(_reward);
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_reward = new GameReward(rewardData, commonDictionaries);
+            ShowReward(m_reward, commonDictionaries);
         }
 
         public void ShowAutoReward(AutoRewardData autoReward, CommonDictionaries commonDictionaries)
         {
-            _reward = new GameReward(autoReward, commonDictionaries);
-            ShowReward(_reward);
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_reward = new GameReward(autoReward, commonDictionaries);
+            ShowReward(m_reward, commonDictionaries);
         }
 
-        public void SetScroll(ScrollRect scrollRect)
+        public void Init(ScrollRect scrollRect, CommonDictionaries commonDictionaries)
         {
-            foreach (var cell in Cells)
-                cell.SetScroll(scrollRect);
+            m_scrollRect = scrollRect;
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            foreach (SubjectCell cell in Cells)
+                cell.Init(scrollRect, m_commonDictionaries);
         }
 
-        public void ShowReward(GameReward reward, bool lengthReward = false, bool fast = true)
+        public void ShowReward(GameReward reward, CommonDictionaries commonDictionaries, bool lengthReward = false, bool fast = true)
         {
-            _reward = reward;
-            var count = 0;
+            m_commonDictionaries = commonDictionaries.ThrowIfArgumentNull();
+            m_reward = reward;
+            int count = 0;
 
             if (lengthReward)
                 count = reward.Objects.Count;
@@ -63,22 +72,26 @@ namespace UIController
             if (btnAllReward != null)
                 btnAllReward.SetActive(reward.Objects.Count > 4 && lengthReward == false);
 
-            _cancellationTokenSource.TryCancel();
+            m_cancellationTokenSource.TryCancel();
 
             if (fast)
             {
-                for (var i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
+                {
+                    Cells[i].Init(m_scrollRect, m_commonDictionaries);
                     Cells[i].SetData(reward.Objects[i]);
+                }
 
-                for (var i = reward.Objects.Count; i < Cells.Count; i++)
+
+                for (int i = reward.Objects.Count; i < Cells.Count; i++)
                     Cells[i].Disable();
 
                 panelRewards.gameObject.SetActive(reward.Objects.Count > 0);
             }
             else
             {
-                _cancellationTokenSource = new();
-                LazyRewardShow(count, _cancellationTokenSource.Token).Forget();
+                m_cancellationTokenSource = new();
+                LazyRewardShow(count, m_cancellationTokenSource.Token).Forget();
             }
         }
 
@@ -86,9 +99,9 @@ namespace UIController
         {
             Cells.ForEach(cell => cell.Disable());
 
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                Cells[i].SetData(_reward.Objects[i]);
+                Cells[i].SetData(m_reward.Objects[i]);
                 await UniTask.Delay(Mathf.RoundToInt(_delayCell * 1000), cancellationToken: token);
             }
         }
@@ -110,8 +123,8 @@ namespace UIController
 
         private void OnDestroy()
         {
-            _disposables?.Dispose();
-            _cancellationTokenSource.TryCancel();
+            m_disposables?.Dispose();
+            m_cancellationTokenSource.TryCancel();
         }
     }
 }

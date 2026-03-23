@@ -1,6 +1,6 @@
 ﻿using City.Panels.SubjectPanels.Common;
 using Common.Rewards;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using VContainer;
 
 namespace City.Panels.BoxRewards

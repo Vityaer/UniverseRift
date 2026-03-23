@@ -6,7 +6,7 @@ using Models.Misc.Avatars;
 using Network.DataServer;
 using Network.DataServer.Messages.Players;
 using System;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
 using VContainer;
 using VContainer.Unity;

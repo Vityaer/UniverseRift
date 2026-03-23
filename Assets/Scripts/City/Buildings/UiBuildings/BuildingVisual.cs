@@ -13,14 +13,12 @@ namespace City.Buildings.UiBuildings
     public class BuildingVisual : MonoBehaviour
     {
         public GameObject News;
-        public SpriteRenderer ViewRenderer;
         public Button BuildingButton;
         public RectTransform TextBackground;
         public RectTransform TextRect;
         public Vector2 BackgroundOffset;
-        public LocalizeStringEvent BuildingName;
 
-        private CompositeDisposable _disposables = new();
+        private CompositeDisposable m_disposables = new();
 
         private void Start()
         {
@@ -28,7 +26,7 @@ namespace City.Buildings.UiBuildings
             LocalizationSettings.SelectedLocaleChanged += ChangeLocale;
             TextRect.OnRectTransformDimensionsChangeAsObservable()
                 .Subscribe(_ => CheckTextBackgroundSize())
-                .AddTo(_disposables);
+                .AddTo(m_disposables);
         }
 
         private void ChangeLocale(Locale locale)
@@ -52,9 +50,9 @@ namespace City.Buildings.UiBuildings
             News.SetActive(false);
         }
 
-        public void SubscribeOnNews<V>(V buildingController) where V : IPopUp
+        public void SubscribeOnNews<TV>(TV buildingController) where TV : IPopUp
         {
-            buildingController.OnNewsStatusChange.Subscribe(OnChangeNews).AddTo(_disposables);
+            buildingController.OnNewsStatusChange.Subscribe(OnChangeNews).AddTo(m_disposables);
         }
 
         private void OnChangeNews(bool flag)
@@ -72,7 +70,7 @@ namespace City.Buildings.UiBuildings
         private void OnDestroy()
         {
             LocalizationSettings.SelectedLocaleChanged -= ChangeLocale;
-            _disposables.Dispose();
+            m_disposables.Dispose();
         }
     }
 }

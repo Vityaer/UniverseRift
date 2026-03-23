@@ -1,4 +1,4 @@
-﻿using UiExtensions.Scroll.Interfaces;
+﻿using UiExtensions.Panels;
 
 namespace City.Buildings.PageCycleEvent.MonthlyEvents.TaskboardTasksPanel
 {

@@ -1,5 +1,5 @@
 using Hero;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 

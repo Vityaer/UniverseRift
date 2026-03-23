@@ -1,4 +1,5 @@
 ﻿using MainPages.Events;
+using MainPages.MenuButtons;
 using MainPages.MenuHud;
 using Ui.MainMenu.MenuButtons;
 using VContainer;

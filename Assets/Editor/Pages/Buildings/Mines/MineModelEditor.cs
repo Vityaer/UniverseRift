@@ -14,7 +14,7 @@ namespace Editor.Pages.City.Mines
     {
         public MineModelEditor(MineModel model)
         {
-            _model = model;
+            m_model = model;
         }
 
         [ShowInInspector]
@@ -23,8 +23,8 @@ namespace Editor.Pages.City.Mines
         [LabelWidth(150)]
         public string Id
         {
-            get => _model.Id;
-            set => _model.Id = value;
+            get => m_model.Id;
+            set => m_model.Id = value;
         }
 
         private Sprite _sprite;
@@ -39,7 +39,7 @@ namespace Editor.Pages.City.Mines
             {
                 if (_sprite == null)
                 {
-                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_model.SpritePath);
+                    _sprite = AssetDatabase.LoadAssetAtPath<Sprite>(m_model.SpritePath);
                 }
 
                 return _sprite;
@@ -48,7 +48,7 @@ namespace Editor.Pages.City.Mines
             {
                 _sprite = value;
                 var path = AssetDatabase.GetAssetPath(_sprite);
-                _model.SpritePath = path;
+                m_model.SpritePath = path;
             }
         }
 
@@ -58,8 +58,8 @@ namespace Editor.Pages.City.Mines
         [LabelWidth(150)]
         public CostLevelUpContainer IncomesContainer
         {
-            get => _model.IncomesContainer;
-            set => _model.IncomesContainer = value;
+            get => m_model.IncomesContainer;
+            set => m_model.IncomesContainer = value;
         }
 
         [ShowInInspector]
@@ -68,8 +68,8 @@ namespace Editor.Pages.City.Mines
         [LabelWidth(150)]
         public CostLevelUpContainer CostLevelUpContainer
         {
-            get => _model.CostLevelUpContainer;
-            set => _model.CostLevelUpContainer = value;
+            get => m_model.CostLevelUpContainer;
+            set => m_model.CostLevelUpContainer = value;
         }
 
         [ShowInInspector]
@@ -78,8 +78,8 @@ namespace Editor.Pages.City.Mines
         [LabelWidth(150)]
         public List<ResourceData> CreateCost
         {
-            get => _model.CreateCost;
-            set => _model.CreateCost = value;
+            get => m_model.CreateCost;
+            set => m_model.CreateCost = value;
         }
     }
 }

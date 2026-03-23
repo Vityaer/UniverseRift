@@ -1,4 +1,5 @@
-﻿using Common.Players;
+﻿using Common.Db.CommonDictionaries;
+using Common.Players;
 using Models.Common.BigDigits;
 using Models.Data.Players;
 using Network.DataServer.Models.Guilds;
@@ -17,19 +18,19 @@ namespace City.Buildings.Guild.RecruitViews
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _result;
 
-        private PlayersStorage _playersStorage;
-        private PlayerData _playerData;
+        private PlayersStorage m_playersStorage;
+        private PlayerData m_playerData;
 
         [Inject]
         private void Construct(PlayersStorage playersStorage)
         {
-            _playersStorage = playersStorage;
+            m_playersStorage = playersStorage;
         }
 
-        public override void SetData(RecruitData data, ScrollRect scrollRect)
+        public override void SetData(RecruitData data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
-            base.SetData(data, scrollRect);
-            _playerData = _playersStorage.GetPlayerData(data.PlayerId);
+            base.SetData(data, scrollRect, dictionaries);
+            m_playerData = m_playersStorage.GetPlayerData(data.PlayerId);
             UpdateUi();
         }
 
@@ -39,7 +40,7 @@ namespace City.Buildings.Guild.RecruitViews
                 return;
 
             _numPlace.text = $"{transform.GetSiblingIndex() + 1}";
-            _name.text = $"{_playerData.Name}";
+            _name.text = $"{m_playerData.Name}";
 
             var damage = new BigDigit(Data.ResultMantissa, Data.ResultE10);
             _result.text = $"{damage}";

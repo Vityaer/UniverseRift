@@ -62,7 +62,10 @@ namespace UIController
                 Debug.LogError("You forgot inject this!", gameObject);
             }
 
-            OnChangeStorageResource(m_resourceStorageController.Resources[m_cost.Type]);
+            if (m_resourceStorageController.Resources.ContainsKey(m_cost.Type))
+            {
+                OnChangeStorageResource(m_resourceStorageController.Resources[m_cost.Type]);
+            }
             CheckResource(m_cost);
             TrySubscribe();
         }
@@ -89,7 +92,7 @@ namespace UIController
         {
             if (m_disable == false)
             {
-                if (m_cost.Amount.Mantissa > 0)
+                if (!m_cost.Amount.EqualsZero())
                 {
                     if (_mainImage != null)
                     {
@@ -121,7 +124,6 @@ namespace UIController
             if (m_disable)
                 return;
 
-            var result = m_resourceStorageController.CheckResource(res);
             _button.interactable = m_resourceStorageController.CheckResource(res);
         }
 

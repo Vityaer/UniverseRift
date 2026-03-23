@@ -6,6 +6,6 @@ namespace Fight.Common.HeroControllers.Generals.Attacks
     public interface IAttackable
     {
         void MakeDamage();
-        UniTask Attacking(HeroController target, int bonus);
+        UniTask Attacking(Fight.HeroControllers.Generals.HeroController target, int bonus);
     }
 }

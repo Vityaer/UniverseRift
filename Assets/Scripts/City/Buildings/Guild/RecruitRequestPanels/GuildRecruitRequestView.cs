@@ -3,6 +3,7 @@ using Common.Players;
 using Models.Data.Players;
 using Network.DataServer.Models.Guilds;
 using System;
+using Common.Db.CommonDictionaries;
 using TMPro;
 using UiExtensions.Misc;
 using UniRx;
@@ -23,8 +24,8 @@ namespace City.Buildings.Guild.RecruitRequestPanels
         protected ReactiveCommand<GuildRecruitRequestView> _onAccept = new();
         protected ReactiveCommand<GuildRecruitRequestView> _onDecline = new();
 
-        private PlayersStorage _playersStorage;
-        private PlayerData _playerData;
+        private PlayersStorage m_playersStorage;
+        private PlayerData m_playerData;
 
         public IObservable<GuildRecruitRequestView> OnAccept => _onAccept;
         public IObservable<GuildRecruitRequestView> OnDecline => _onDecline;
@@ -32,7 +33,7 @@ namespace City.Buildings.Guild.RecruitRequestPanels
         [Inject]
         private void Construct(PlayersStorage playersStorage)
         {
-            _playersStorage = playersStorage;
+            m_playersStorage = playersStorage;
         }
 
         protected override void Start()
@@ -41,10 +42,10 @@ namespace City.Buildings.Guild.RecruitRequestPanels
             _declineButton.OnClickAsObservable().Subscribe(_ => _onDecline.Execute(this)).AddTo(Disposable);
         }
 
-        public override void SetData(GuildPlayerRequest data, ScrollRect scrollRect)
+        public override void SetData(GuildPlayerRequest data, ScrollRect scrollRect, CommonDictionaries dictionaries)
         {
-            base.SetData(data, scrollRect);
-            _playerData = _playersStorage.GetPlayerData(data.PlayerId);
+            base.SetData(data, scrollRect, dictionaries);
+            m_playerData = m_playersStorage.GetPlayerData(data.PlayerId);
             UpdateUi();
         }
 
@@ -53,8 +54,8 @@ namespace City.Buildings.Guild.RecruitRequestPanels
             if (Data == null)
                 return;
 
-            _playerAvatarView.SetData(_playerData);
-            _name.text = $"{_playerData.Name}";
+            _playerAvatarView.SetData(m_playerData);
+            _name.text = $"{m_playerData.Name}";
         }
     }
 }

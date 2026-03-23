@@ -3,25 +3,29 @@ using Models.Misc;
 using Network.DataServer;
 using Network.DataServer.Messages.Friendships;
 using System;
+using Common.Db.CommonDictionaries;
 using UiExtensions.Misc;
-using UiExtensions.Scroll.Interfaces;
+using UiExtensions.Panels;
 using UniRx;
+using VContainer;
 
 namespace City.Buildings.Friends.Panels.FriendRequests
 {
     public class FriendRequestsPanelController : UiPanelController<FriendRequestsPanelView>
     {
-        private DynamicUiList<RequestFriendView, FriendshipRequest> _requestsWrapper;
-        private ReactiveCommand<FriendshipRequest> _onAgreeRequestFriendship = new();
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
+        
+        private DynamicUiList<RequestFriendView, FriendshipRequest> m_requestsWrapper;
+        private readonly ReactiveCommand<FriendshipRequest> m_onAgreeRequestFriendship = new();
 
-        public IObservable<FriendshipRequest> OnAgreeRequestFriendship => _onAgreeRequestFriendship;
+        public IObservable<FriendshipRequest> OnAgreeRequestFriendship => m_onAgreeRequestFriendship;
 
         protected override void OnLoadGame()
         {
-            _requestsWrapper = new(View.RequestPrefab, View.Content, View.Scroll, onCreate: OnCreateRequestFriendshipView);
-            _requestsWrapper.ShowDatas(CommonGameData.CommunicationData.FriendshipRequests);
+            m_requestsWrapper = new(View.RequestPrefab, View.Content, View.Scroll, m_commonDictionaries, onCreate: OnCreateRequestFriendshipView);
+            m_requestsWrapper.ShowDatas(CommonGameData.CommunicationData.FriendshipRequests);
 
-            foreach (var view in _requestsWrapper.Views)
+            foreach (var view in m_requestsWrapper.Views)
             {
                 var data = view.GetData;
                 view.SetData(CommonGameData.CommunicationData.PlayersData[data.SenderPlayerId]);
@@ -48,7 +52,7 @@ namespace City.Buildings.Friends.Panels.FriendRequests
 
             if (!string.IsNullOrEmpty(result))
             {
-                _requestsWrapper.RemoveElement(view);
+                m_requestsWrapper.RemoveElement(view);
             }
         }
 
@@ -64,8 +68,8 @@ namespace City.Buildings.Friends.Panels.FriendRequests
 
             if (!string.IsNullOrEmpty(result))
             {
-                _requestsWrapper.RemoveElement(view);
-                _onAgreeRequestFriendship.Execute(view.GetData);
+                m_requestsWrapper.RemoveElement(view);
+                m_onAgreeRequestFriendship.Execute(view.GetData);
             }
         }
     }

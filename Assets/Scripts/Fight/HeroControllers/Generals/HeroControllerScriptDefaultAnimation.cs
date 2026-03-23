@@ -1,13 +1,11 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Fight.Common.Strikes;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
-namespace Fight.Common.HeroControllers.Generals
+namespace Fight.HeroControllers.Generals
 {
     public partial class HeroController : MonoBehaviour
     {
@@ -28,37 +26,27 @@ namespace Fight.Common.HeroControllers.Generals
         {
             if (!IsFastFight)
             {
-                if (withRecord == true)
+                if (withRecord)
                     AddFightRecordActionMe();
 
                 _flagAnimFinish = false;
                 if (CheckExistAnimation(nameAnimation))
                 {
-                    Animator.Play(nameAnimation);
-                }
-                else
-                {
-                    //if (defaultAnimation != null)
-                    //    defaultAnimation();
+                    ViewAnimator.Play(nameAnimation);
                 }
 
-                var state = Animator.GetCurrentAnimatorStateInfo(0);
+                AnimatorStateInfo state = ViewAnimator.GetCurrentAnimatorStateInfo(0);
                 await UniTask.Delay(TimeSpan.FromSeconds(state.length));
-                onAnimationFinish?.Invoke();
-
-                if (withRecord)
-                    RemoveFightRecordActionMe();
             }
             else
             {
-                if (withRecord == true)
-                    AddFightRecordActionMe();
-                
-                onAnimationFinish?.Invoke();
-                
                 if (withRecord)
-                    RemoveFightRecordActionMe();
+                    AddFightRecordActionMe();
             }
+
+            onAnimationFinish?.Invoke();
+            if (withRecord)
+                RemoveFightRecordActionMe();
         }
 
         protected bool CheckExistAnimation(int nameHash)
@@ -70,7 +58,7 @@ namespace Fight.Common.HeroControllers.Generals
             }
             else
             {
-                bool animExist = Animator.HasState(0, nameHash);
+                bool animExist = ViewAnimator.HasState(0, nameHash);
                 _animationsExist.Add(nameHash, animExist);
                 result = animExist;
             }

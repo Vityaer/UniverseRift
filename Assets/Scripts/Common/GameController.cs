@@ -9,8 +9,8 @@ namespace Common
 {
     public class GameController : IStartable
     {
-        [Inject] private readonly CommonGameData _сommonGameData;
-        [Inject] private readonly CommonDictionaries _commonDictionaries;
+        [Inject] private readonly CommonGameData m_сommonGameData;
+        [Inject] private readonly CommonDictionaries m_commonDictionaries;
 
         public ReactiveCommand OnLoadedGameData = new ReactiveCommand();
         public ReactiveCommand OnGameSave = new ReactiveCommand();
@@ -22,7 +22,7 @@ namespace Common
 
         private async UniTaskVoid WaitGameDataInit()
         {
-            await UniTask.WaitUntil(() => _сommonGameData.IsInited && _commonDictionaries.Inited);
+            await UniTask.WaitUntil(() => m_сommonGameData.IsInited && m_commonDictionaries.Inited);
             OnloadGame();
         }
 

@@ -2,6 +2,7 @@
 using City.Buildings.Friends;
 using City.Buildings.Mails;
 using City.Buildings.WorldMaps;
+using Plugins.VContainerUi.Runtime;
 using UIController.LoadingUI;
 using UnityEngine;
 using VContainer;

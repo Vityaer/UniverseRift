@@ -1,5 +1,4 @@
-﻿using City.Buildings.CityButtons.EventAgent;
-using City.Buildings.Requirement;
+﻿using City.Buildings.Requirements;
 using City.Panels.Widgets.Particles;
 using Ui.Misc.Widgets;
 using UIController.ItemVisual;

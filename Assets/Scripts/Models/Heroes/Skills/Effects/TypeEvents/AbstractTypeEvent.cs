@@ -1,6 +1,7 @@
 ﻿using Fight.Common.HeroControllers.Generals;
 using Newtonsoft.Json;
 using UniRx;
+using HeroController = Fight.HeroControllers.Generals.HeroController;
 
 namespace Models.Heroes.Skills.Effects.TypeEvents
 {
